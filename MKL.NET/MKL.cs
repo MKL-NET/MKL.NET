@@ -11,11 +11,11 @@ namespace MKLNET
         {
             Blas = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Environment.Is64BitProcess ? (IBlas)new BlasWin64() : new BlasWin86()
                  : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && Environment.Is64BitProcess ? (IBlas)new BlasLinux()
-                 : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess ? new BlasOSX()
+                 : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess ? new BlasLinux()
                  : throw new PlatformNotSupportedException();
             Lapack = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Environment.Is64BitProcess ? (ILapack)new LapackWin64() : new LapackWin86()
                  : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && Environment.Is64BitProcess ? (ILapack)new LapackLinux()
-                 : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess ? new LapackOSX()
+                 : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess ? new LapackLinux()
                  : throw new PlatformNotSupportedException();
         }
     }
