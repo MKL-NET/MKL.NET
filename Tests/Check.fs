@@ -1,5 +1,4 @@
-﻿[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Test
+﻿module Check
 
 open System.Diagnostics
 

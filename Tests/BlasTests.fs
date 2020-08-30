@@ -12,6 +12,6 @@ let all =
             MKL.Blas.dgemm(Order.RowMajor, Transpose.No, Transpose.No,
                                    3, 2, 3, 1.0, a, 3, b, 2, 1.0, c, 2)
             for i = 0 to c.Length - 1 do
-                Test.equal c.[i] expected.[i]
+                Check.equal c.[i] expected.[i]
         }
     }

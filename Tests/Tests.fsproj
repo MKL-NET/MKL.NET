@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Tests.fs" />
+    <Compile Include="TestFramework.fs" />
     <Compile Include="Gen.fs" />
-    <Compile Include="Test.fs" />
+    <Compile Include="Check.fs" />
     <Compile Include="BlasTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
