@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MKLNET\MKLNET.csproj" />
+    <PackageReference Include="MKL.NET" Version="0.1.0" />
+    <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />
   </ItemGroup>
 
 </Project>
