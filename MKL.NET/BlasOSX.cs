@@ -7,7 +7,7 @@ namespace MKLNET
     [SuppressUnmanagedCodeSecurity]
     internal class BlasOSX : IBlas
     {
-        const string DLL = "mkl_rt.dll";
+        const string DLL = "libmkl_rt.dylib";
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, SetLastError = true)]
         public static extern void cblas_dgemm(Order order, Transpose transA, Transpose transB, int m, int n, int k,
