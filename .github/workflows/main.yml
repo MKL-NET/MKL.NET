@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      run: ./build.ps1
+      shell: powershell
+      env:
+        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+        DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    - name: Test
+      run: dotnet run -p Tests -c Release
+      env:
+        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+        DOTNET_CLI_TELEMETRY_OPTOUT: 1
