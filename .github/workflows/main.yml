@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build
-      run: build.ps1
+      run: ./build
       shell: pwsh
     - name: Test
       run: dotnet run -p Tests -c Release --nost --wait 300
