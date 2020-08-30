@@ -2,7 +2,7 @@ Push-Location $PSScriptRoot
 
 function CopyPackageItem([string]$name, [string]$version, [string]$source, [string]$destination)
 {
-    $filename = "$PSScriptRoot/packages/$name.$version.zip"
+    $filename = "$PSScriptRoot/packages/$name.$version.nupkg"
     if(!(Test-Path $filename))
     {
         $wc = New-Object System.Net.WebClient
