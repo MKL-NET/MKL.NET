@@ -9,17 +9,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest, macOS-latest]
+    env:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
     steps:
     - uses: actions/checkout@v1
     - name: Build
-      run: ./build.ps1
+      run: build.ps1
       shell: pwsh
-      env:
-        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-        DOTNET_CLI_TELEMETRY_OPTOUT: 1
     - name: Test
       run: dotnet run -p Tests -c Release --nost --wait 300
-      env:
-        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-        DOTNET_CLI_TELEMETRY_OPTOUT: 1
