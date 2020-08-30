@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+  <NoWarn>IDE1006</NoWarn>
   </PropertyGroup>
     <ItemGroup>
-        <None Include="runtimes/**" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="runtimes" />
+        <Content Include="runtimes/**" Pack="true" PackagePath="runtimes" />
     </ItemGroup>
 </Project>

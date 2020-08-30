@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
-    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Calc\Calc.csproj" />
-    <ProjectReference Include="..\MKL\MKL.csproj" />
+    <ProjectReference Include="..\MKLNET\MKLNET.csproj" />
   </ItemGroup>
 
 </Project>
