@@ -19,7 +19,7 @@ jobs:
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
         DOTNET_CLI_TELEMETRY_OPTOUT: 1
     - name: Test
-      run: dotnet run -p Tests -c Release
+      run: dotnet run -p Tests -c Release --nost --wait 300
       env:
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
         DOTNET_CLI_TELEMETRY_OPTOUT: 1
