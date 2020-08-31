@@ -5,6 +5,7 @@ open System
 let all =
     test null {
         BlasTests.all
+        LapackTests.all
     }
 
 [<EntryPoint>]

@@ -9,10 +9,10 @@ namespace MKLNET
     {
         const string DLL = "libmkl_rt.so";
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, SetLastError = true)]
-        public static extern void cblas_dgemm(Order order, Transpose transA, Transpose transB, int m, int n, int k,
-                                   double alpha, double[] a, int lda, double[] b, int ldb,
-                                   double beta, double[] c, int ldc);
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void cblas_dgemm(Order order, Transpose transA, Transpose transB, int m, int n, int k,
+            double alpha, double[] a, int lda, double[] b, int ldb,
+            double beta, double[] c, int ldc);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void dgemm(Order order, Transpose transA, Transpose transB, int m, int n, int k,

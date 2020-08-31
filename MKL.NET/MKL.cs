@@ -9,14 +9,30 @@ namespace MKLNET
         public static readonly ILapack Lapack;
         static MKL()
         {
-            Blas = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Environment.Is64BitProcess ? (IBlas)new BlasWin64() : new BlasWin86()
-                 : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && Environment.Is64BitProcess ? (IBlas)new BlasLinux()
-                 : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess ? new BlasOSX()
-                 : throw new PlatformNotSupportedException();
-            Lapack = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Environment.Is64BitProcess ? (ILapack)new LapackWin64() : new LapackWin86()
-                 : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && Environment.Is64BitProcess ? (ILapack)new LapackLinux()
-                 : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess ? new LapackOSX()
-                 : throw new PlatformNotSupportedException();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (Environment.Is64BitProcess)
+                {
+                    Blas = new BlasWin64();
+                    Lapack = new LapackWin64();
+                }
+                else
+                {
+                    Blas = new BlasWin86();
+                    Lapack = new LapackWin86();
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && Environment.Is64BitProcess)
+            {
+                Blas = new BlasLinux();
+                Lapack = new LapackLinux();
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess)
+            {
+                Blas = new BlasOSX();
+                Lapack = new LapackOSX();
+            }
+            else throw new PlatformNotSupportedException();
         }
     }
 }
