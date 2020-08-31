@@ -28,4 +28,26 @@
         Lower = (byte)'L',
         Upper = (byte)'U',
     }
+
+    unsafe internal struct MKLVersion_
+    {
+        public int MajorVersion;
+        public int MinorVersion;
+        public int UpdateVersion;
+        public sbyte* ProductStatus;
+        public sbyte* Build;
+        public sbyte* Processor;
+        public sbyte* Platform;
+    }
+
+    public struct MKLVersion
+    {
+        public int MajorVersion;
+        public int MinorVersion;
+        public int UpdateVersion;
+        public string ProductStatus;
+        public string Build;
+        public string Processor;
+        public string Platform;
+    }
 }

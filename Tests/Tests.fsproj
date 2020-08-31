@@ -9,6 +9,7 @@
     <Compile Include="TestFramework.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="Check.fs" />
+    <Compile Include="GeneralTests.fs" />
     <Compile Include="BlasTests.fs" />
     <Compile Include="LapackTests.fs" />
     <Compile Include="Main.fs" />

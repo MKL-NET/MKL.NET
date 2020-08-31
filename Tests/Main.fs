@@ -4,6 +4,7 @@ open System
 
 let all =
     test null {
+        GeneralTests.all
         BlasTests.all
         LapackTests.all
     }
