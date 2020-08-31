@@ -19,4 +19,4 @@ jobs:
       run: ./build
       shell: pwsh
     - name: Test
-      run: dotnet run -p Tests -c Release --info --nost --wait 300
+      run: dotnet run -p Tests -c Release --info --nost --time 60 --wait 300
