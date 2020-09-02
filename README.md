@@ -8,12 +8,12 @@ Exposing functions from MKL for double data types, keeping the syntax as close t
 
 Multiple packages to optimise size e.g.
 
+MKL.NET.nupkg -- Win, Linux, and OSX, x64 and x86  
+MKL.NET.x64.nupkg -- Win, Linux, and OSX, x64  
+MKL.NET.x86.nupkg -- Win, Linux, and OSX, x86  
 MKL.NET.Win.Linux.nupkg -- Win and Linux, x64 and x86  
 MKL.NET.Win.Linux.x64.nupkg -- Win and Linux, x64  
 MKL.NET.Win.Linux.x86.nupkg -- Win and Linux, x86  
-MKL.NET.Win.Linux.OSX.nupkg -- Win, Linux, and OSX, x64 and x86  
-MKL.NET.Win.Linux.OSX.x64.nupkg -- Win, Linux, and OSX, x64  
-MKL.NET.Win.Linux.OSX.x86.nupkg -- Win, Linux, and OSX, x86  
 
 Open source rationale:
 
