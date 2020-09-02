@@ -4,7 +4,7 @@ A simple cross platform .NET API for Intel MKL.
 
 Reference the package and use the static MKL functions. The correct native libraries will be included and loaded at runtime.
 
-Exposing functions from mkl for double data types keeping the syntax as close to the [c developer reference](https://software.intel.com/content/www/us/en/develop/documentation/mkl-developer-reference-c/top.html) as possible.
+Exposing functions from MKL for double data types, keeping the syntax as close to the [c developer reference](https://software.intel.com/content/www/us/en/develop/documentation/mkl-developer-reference-c/top.html) as possible.
 
 Multiple packages to optimise size e.g.
 
