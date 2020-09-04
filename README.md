@@ -2,18 +2,18 @@
 
 A simple cross platform .NET API for Intel MKL.
 
-Reference the package and use the static MKL functions. The correct native libraries will be included and loaded at runtime.
+Exposing functions from MKL keeping the syntax as close to the
+[c developer reference](https://software.intel.com/content/www/us/en/develop/documentation/mkl-developer-reference-c/top.html) as possible.
 
-Exposing functions from MKL for double data types, keeping the syntax as close to the [c developer reference](https://software.intel.com/content/www/us/en/develop/documentation/mkl-developer-reference-c/top.html) as possible.
+Reference the MKL.NET package and required runtime packages and use the static MKL functions.
+The correct native libraries will be included and loaded at runtime.
 
-Multiple packages to optimise size e.g.
-
-MKL.NET.nupkg -- Win, Linux, and OSX, x64 and x86  
-MKL.NET.x64.nupkg -- Win, Linux, and OSX, x64  
-MKL.NET.x86.nupkg -- Win, Linux, and OSX, x86  
-MKL.NET.Win.Linux.nupkg -- Win and Linux, x64 and x86  
-MKL.NET.Win.Linux.x64.nupkg -- Win and Linux, x64  
-MKL.NET.Win.Linux.x86.nupkg -- Win and Linux, x86  
+MKL.NET.nupkg  
+MKL.NET.win-x64.nupkg  
+MKL.NET.win-x86.nupkg  
+MKL.NET.linux-x64.nupkg  
+MKL.NET.linux-x86.nupkg  
+MKL.NET.osx-x64.nupkg  
 
 Open source rationale:
 

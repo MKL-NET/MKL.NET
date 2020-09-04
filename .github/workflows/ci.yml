@@ -15,8 +15,5 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
     steps:
     - uses: actions/checkout@v1
-    - name: Build
-      run: ./build
-      shell: pwsh
     - name: Test
       run: dotnet run -p Tests -c Release --info --nost --time 60 --wait 300

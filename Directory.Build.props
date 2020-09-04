@@ -1,5 +1,20 @@
 <Project>
-  <PropertyGroup>
-    <Version>0.1.0-preview</Version>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Authors>Anthony Lloyd</Authors>
+        <Owners>Anthony Lloyd</Owners>
+        <Copyright>Copyright 2020</Copyright>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageProjectUrl>http://github.com/AnthonyLloyd/MKL.NET</PackageProjectUrl>
+        <PackageIcon>matrix.png</PackageIcon>
+        <PackageTags>mkl matrix linear algebra fft rng math numerics</PackageTags>
+        <Description>
+A simple cross platform .NET API for Intel MKL.
+
+Reference the MKL.NET package and required runtime packages and use the static MKL functions. The correct native libraries will be included and loaded at runtime.
+
+Exposing functions from MKL keeping the syntax as close to the c developer reference as possible:
+
+https://software.intel.com/content/www/us/en/develop/documentation/mkl-developer-reference-c/top.html
+        </Description>
+    </PropertyGroup>
 </Project>

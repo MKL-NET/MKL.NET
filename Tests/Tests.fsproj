@@ -4,8 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MKL.NET" Version="$(Version)" />
-    <!--<ProjectReference Include="../MKL.NET/MKL.NET.csproj" />-->
+    <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
+    <PackageReference Include="MKL.NET.win-x64" Version="2020.1.216" />
+    <PackageReference Include="MKL.NET.linux-x64" Version="2020.1.217" />
+    <PackageReference Include="MKL.NET.osx-x64" Version="2020.1.216" />
     <Compile Include="TestFramework.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="Check.fs" />

@@ -4,8 +4,12 @@
     <RootNamespace>MKLNET</RootNamespace>
     <NoWarn>IDE1006</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageReleaseNotes>
+POC
+    </PackageReleaseNotes>
+    <Version>0.2.0-preview</Version>
   </PropertyGroup>
-    <ItemGroup>
-        <Content Include="runtimes/**" Pack="true" PackagePath="runtimes" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Include="../matrix.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>
