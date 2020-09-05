@@ -84,9 +84,3 @@ let chiSquared (actual:int[]) (expected:int[]) =
         if abs SDs > 6.0 then
             Failure(Normal "chi-squared standard deviation = " + Numeric(SDs.ToString("0.0")))
         else Success
-
-let regression (actual:char seq) (expected:int) =
-    let mutable hash = -2128831035
-    for c in actual do hash <- (hash ^^^ int c) * 16777619
-    if hash = expected then Success
-    else Failure(Normal "hashCode " + Numeric(string hash) + " is not equal to " + Numeric expected + ".")

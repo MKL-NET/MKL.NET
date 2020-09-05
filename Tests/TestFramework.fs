@@ -34,7 +34,7 @@ type PCG =
         p.State <- p.State * 6364136223846793005UL + p.Inc
         let xorshifted = uint32(p.State ^^^ (p.State >>> 18) >>> 27)
         let rotate = int(p.State >>> 59)
-        BitOperations.RotateRight(xorshifted, rotate)
+        (xorshifted >>> rotate) ||| (xorshifted <<< (-rotate &&& 31))
     member i.ToString(state:uint64) =
         sprintf "%x%016x" (i.Inc >>> 1) state
     override i.ToString() =
@@ -667,13 +667,13 @@ type private Worker(pcg:PCG,nextTest:unit->TestData option,tc:RunCounts,skip,sto
                                 if skip && Option.isNone seed && List.exists (function |FasterAgg _ -> true | _ -> false) r |> not then
                                     if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
                                 t.Result <- Some(r,None)
-                    ThreadPool.UnsafeQueueUserWorkItem(worker, false) |> ignore
+                    ThreadPool.UnsafeQueueUserWorkItem(WaitCallback worker.Execute, false) |> ignore
                 )
             else
                 Interlocked.Increment &tc.Skipped |> ignore
                 run()
-    do ThreadPool.UnsafeQueueUserWorkItem(worker, false) |> ignore
-    interface IThreadPoolWorkItem with member _.Execute() = run()
+    do ThreadPool.UnsafeQueueUserWorkItem(WaitCallback worker.Execute, false) |> ignore
+    member _.Execute(_:obj) = run()
 
 module Tests =
 
@@ -698,10 +698,10 @@ module Tests =
             |> List.fold (fun (i,e) s -> if s.[0]='-' then i,s.Substring 1::e else s::i,e) ([],[])
         let ts =
             if List.isEmpty includes then tests
-            else List.collect (fun (f:string) -> List.where (fun (Test(n,_)) -> String.Join('.',n).Contains f) tests) includes
+            else List.collect (fun (f:string) -> List.where (fun (Test(n,_)) -> String.Join(".",n).Contains f) tests) includes
                  |> List.distinctBy (fun (Test(n,_)) -> n)
-        List.fold (fun l (e:string) -> List.where (fun (Test(n,_)) -> String.Join('.',n).Contains e |> not) l) ts excludes
-        |> List.map (fun (Test(n,f)) -> {Name=String.Join('.',n); Method=f; Skip=0; Result=None})
+        List.fold (fun l (e:string) -> List.where (fun (Test(n,_)) -> String.Join(".",n).Contains e |> not) l) ts excludes
+        |> List.map (fun (Test(n,f)) -> {Name=String.Join(".",n); Method=f; Skip=0; Result=None})
         |> List.toArray
 
     let private testResultWriteLine config =

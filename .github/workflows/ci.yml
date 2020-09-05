@@ -15,5 +15,8 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
     steps:
     - uses: actions/checkout@v1
-    - name: Test
+    - name: Test 64
       run: dotnet run -p Tests -c Release --info --nost --time 60 --wait 300
+    - name: Test 86
+      run: dotnet run -p Tests -c Release -r win-x86 --info --nost --time 60 --wait 300
+      if: matrix.os == 'windows-latest'
