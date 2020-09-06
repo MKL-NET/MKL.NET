@@ -1,43 +1,47 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace MKLNET
 {
     public static class MKL
     {
-        public static readonly IGeneral General;
-        public static readonly IBlas Blas;
-        public static readonly ILapack Lapack;
-        static MKL()
+#if LINUX
+        const string DLL = "libmkl_rt.so";
+#elif OSX
+        const string DLL = "libmkl_rt.dylib";
+#else
+        const string DLL = "mkl_rt.dll";
+#endif
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int mkl_get_version(ref MKLVersion_ version);
+        public static MKLVersion get_version()
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            var mklVer_ = new MKLVersion_();
+            mkl_get_version(ref mklVer_);
+            unsafe
             {
-                if (Environment.Is64BitProcess)
+                return new MKLVersion
                 {
-                    Blas = new BlasWin64();
-                    Lapack = new LapackWin64();
-                    General = new GeneralWin64();
-                }
-                else
-                {
-                    Blas = new BlasWin86();
-                    Lapack = new LapackWin86();
-                    General = new GeneralWin86();
-                }
+                    MajorVersion = mklVer_.MajorVersion,
+                    MinorVersion = mklVer_.MinorVersion,
+                    UpdateVersion = mklVer_.UpdateVersion,
+                    ProductStatus = new string(mklVer_.ProductStatus),
+                    Build = new string(mklVer_.Build),
+                    Processor = new string(mklVer_.Processor),
+                    Platform = new string(mklVer_.Platform),
+                };
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && Environment.Is64BitProcess)
-            {
-                Blas = new BlasLinux();
-                Lapack = new LapackLinux();
-                General = new GeneralLinux();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && Environment.Is64BitProcess)
-            {
-                Blas = new BlasOSX();
-                Lapack = new LapackOSX();
-                General = new GeneralOSX();
-            }
-            else throw new PlatformNotSupportedException();
         }
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void mkl_set_num_threads(int nt);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void set_num_threads(int nt) => mkl_set_num_threads(nt);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int mkl_get_max_threads();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int get_max_threads() => mkl_get_max_threads();
     }
 }

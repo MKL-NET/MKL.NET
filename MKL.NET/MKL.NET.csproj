@@ -4,12 +4,21 @@
     <RootNamespace>MKLNET</RootNamespace>
     <NoWarn>IDE1006</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoWarn>NU5128;NU5131</NoWarn>
+    <DefineConstants Condition=" '$(OS)' != '' ">$(DefineConstants);$(OS)</DefineConstants>
     <PackageReleaseNotes>
 POC
     </PackageReleaseNotes>
-    <Version>0.2.0-preview</Version>
+    <Version>0.2.3-preview</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />
+    <None Include="bin/Release/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="ref/netstandard2.0" />
+    <None Include="bin/Release/netstandard2.0/win-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x64/lib/netstandard2.0" />
+    <None Include="bin/Release/netstandard2.0/win-x86/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x86/lib/netstandard2.0" />
+    <None Include="bin/Release/netstandard2.0/linux-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/linux-x64/lib/netstandard2.0" />
+    <None Include="bin/Release/netstandard2.0/linux-x86/MKL.NET.dll" Pack="true" PackagePath="runtimes/linux-x86/lib/netstandard2.0" />
+    <None Include="bin/Release/netstandard2.0/osx-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/osx-x64/lib/netstandard2.0" />
   </ItemGroup>
 </Project>

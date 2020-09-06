@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
+    <!--<ProjectReference Include="../MKL.NET/MKL.NET.csproj" />-->
+    <PackageReference Include="MKL.NET" Version="0.2.3-preview" />
     <PackageReference Include="MKL.NET.win-x64" Version="2020.3.279" />
     <PackageReference Include="MKL.NET.win-x86" Version="2020.3.279" />
     <PackageReference Include="MKL.NET.linux-x64" Version="2020.3.279" />

@@ -9,8 +9,8 @@
 *.sln text eol=lf crlf=input
 .gitattributes text eol=lf crlf=input
 .gitignore text eol=lf crlf=input
-.props text eol=lf crlf=input
-.ps1 text eol=lf crlf=input
+*.props text eol=lf crlf=input
+*.ps1 text eol=lf crlf=input
 
 # These files should be treated as binary
 *.png binary

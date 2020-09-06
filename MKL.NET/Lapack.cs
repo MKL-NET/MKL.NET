@@ -5,14 +5,20 @@ using System.Runtime.CompilerServices;
 namespace MKLNET
 {
     [SuppressUnmanagedCodeSecurity]
-    internal class LapackWin86 : ILapack
+    public static class Lapack
     {
+#if LINUX
+        const string DLL = "libmkl_rt.so";
+#elif OSX
+        const string DLL = "libmkl_rt.dylib";
+#else
         const string DLL = "mkl_rt.dll";
+#endif
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpotrf(Order order, UpLo uplo, int n, double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int dpotrf(Order order, UpLo uplo, int n, double[] a, int lda)
+        public static int dpotrf(Order order, UpLo uplo, int n, double[] a, int lda)
         {
             return LAPACKE_dpotrf(order, uplo, n, a, lda);
         }
