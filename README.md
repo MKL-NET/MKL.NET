@@ -1,7 +1,7 @@
 # MKL.NET
 
 <p>
-<a href="https://github.com/AnthonyLloyd/MKL.NET/actions"><img src="https://github.com/AnthonyLloyd/MKL.NET/workflows/ci/badge.svg?branch=master"></a>
+<a href="https://github.com/AnthonyLloyd/MKL.NET/actions"><img src="https://github.com/AnthonyLloyd/MKL.NET/workflows/CI/badge.svg?branch=master"></a>
 </p>
 
 A simple cross platform .NET API for Intel MKL.
