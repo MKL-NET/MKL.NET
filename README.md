@@ -2,16 +2,7 @@
 
 <p>
 <a href="https://github.com/AnthonyLloyd/MKL.NET/actions"><img src="https://github.com/AnthonyLloyd/MKL.NET/workflows/ci/badge.svg?branch=master"></a>
-<a href="https://www.nuget.org/packages/MKL.NET"><img src="https://buildstats.info/nuget/MKL.NET?includePreReleases=true"></a>
 </p>
-<p>
-<a href="https://www.nuget.org/packages/MKL.NET.win-x64"><img src="https://buildstats.info/nuget/MKL.NET.win-x64?includePreReleases=true"></a>
-<a href="https://www.nuget.org/packages/MKL.NET.win-x86"><img src="https://buildstats.info/nuget/MKL.NET.win-x86?includePreReleases=true"></a>
-<a href="https://www.nuget.org/packages/MKL.NET.linux-x64"><img src="https://buildstats.info/nuget/MKL.NET.linux-x64?includePreReleases=true"></a>
-<a href="https://www.nuget.org/packages/MKL.NET.linux-x86"><img src="https://buildstats.info/nuget/MKL.NET.linux-x86?includePreReleases=true"></a>
-<a href="https://www.nuget.org/packages/MKL.NET.osx-x64"><img src="https://buildstats.info/nuget/MKL.NET.osx-x64?includePreReleases=true"></a>
-</p>
-
 
 A simple cross platform .NET API for Intel MKL.
 
@@ -21,12 +12,12 @@ Exposing functions from MKL keeping the syntax as close to the
 Reference the MKL.NET package and required runtime packages and use the static MKL functions.
 The correct native libraries will be included and loaded at runtime.
 
-MKL.NET.nupkg  
-MKL.NET.win-x64.nupkg  
-MKL.NET.win-x86.nupkg  
-MKL.NET.linux-x64.nupkg  
-MKL.NET.linux-x86.nupkg  
-MKL.NET.osx-x64.nupkg  
+<p>MKL.NET: <a href="https://www.nuget.org/packages/MKL.NET"><img src="https://buildstats.info/nuget/MKL.NET?includePreReleases=true" /></p>
+<p>MKL.NET.win-x64: <a href="https://www.nuget.org/packages/MKL.NET.win-x64"><img src="https://buildstats.info/nuget/MKL.NET.win-x64?includePreReleases=true" /></p>
+<p>MKL.NET.win-x86: <a href="https://www.nuget.org/packages/MKL.NET.win-x86"><img src="https://buildstats.info/nuget/MKL.NET.win-x86?includePreReleases=true" /></p>
+<p>MKL.NET.linux-x64: <a href="https://www.nuget.org/packages/MKL.NET.linux-x64"><img src="https://buildstats.info/nuget/MKL.NET.linux-x64?includePreReleases=true" /></p>
+<p>MKL.NET.linux-x86: <a href="https://www.nuget.org/packages/MKL.NET.linux-x86"><img src="https://buildstats.info/nuget/MKL.NET.linux-x86?includePreReleases=true" /></p>
+<p>MKL.NET.osx-x64: <a href="https://www.nuget.org/packages/MKL.NET.osx-x64"><img src="https://buildstats.info/nuget/MKL.NET.osx-x64?includePreReleases=true" /></p>
 
 Open source rationale:
 
