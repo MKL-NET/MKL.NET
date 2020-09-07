@@ -31,7 +31,7 @@ let lessThan (actual:'a) (expected:'a) =
         let e = (sprintf "%A" expected).Replace("\n","")
         Failure(Normal "actual is not less than expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
 
-let equal (actual:'a) (expected:'a) =
+let equal (expected:'a) (actual:'a) =
     match box actual, box expected with
     | a,e ->
         if a=e then Success
@@ -47,7 +47,7 @@ let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
         Failure(Normal "actual (" + Numeric actual + ") is greater than end (" + Numeric endInclusive + ").")
     else Success
 
-let faster (actual:unit->'a) (expected:unit->'a) =
+let faster (expected:unit->'a) (actual:unit->'a) =
     let t1 = Stopwatch.GetTimestamp()
     let aa,ta,ae,te =
         if t1 &&& 1L = 1L then
@@ -69,7 +69,7 @@ let faster (actual:unit->'a) (expected:unit->'a) =
     | fail -> fail
 
 /// Chi-squared test to 6 standard deviations.
-let chiSquared (actual:int[]) (expected:int[]) =
+let chiSquared (expected:int[]) (actual:int[]) =
     if actual.Length <> expected.Length then
         Failure(Normal "actual and expected need to be the same length.")
     elif Array.exists (fun i -> i<=5) expected then

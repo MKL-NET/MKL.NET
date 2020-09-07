@@ -16,9 +16,9 @@ namespace MKLNET
 #endif
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpotrf(Order order, UpLo uplo, int n, double[] a, int lda);
+        static extern int LAPACKE_dpotrf(Layout order, UpLo uplo, int n, double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpotrf(Order order, UpLo uplo, int n, double[] a, int lda)
+        public static int dpotrf(Layout order, UpLo uplo, int n, double[] a, int lda)
         {
             return LAPACKE_dpotrf(order, uplo, n, a, lda);
         }

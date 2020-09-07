@@ -15,9 +15,9 @@ let all =
                  3.0;   4.0;   0.0;
                  5.0;   6.0;   7.0;
             |]
-            let info = Lapack.dpotrf(Order.RowMajor, UpLo.Lower, 3, a, 3);
-            Check.equal info 0
+            let info = Lapack.dpotrf(Layout.RowMajor, UpLo.Lower, 3, a, 3);
+            Check.equal 0 info
             for i = 0 to a.Length - 1 do
-                Check.equal a.[i] expected.[i]
+                Check.equal expected.[i] a.[i]
         }
     }
