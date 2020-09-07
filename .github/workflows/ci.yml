@@ -27,8 +27,10 @@ jobs:
         DOTNET_CLI_TELEMETRY_OPTOUT: true
       steps:
       - uses: actions/checkout@v1
-      - name: Test 64
-        run: dotnet run -p Tests -c Release -f netcoreapp3.1 -p:OS=LINUX --info --nost --time 60 --wait 300
+      - name: Build
+        run: dotnet build Tests -c Release -f netcoreapp3.1 -p:OS=LINUX
+      - name: Test
+        run: dotnet run -p Tests -c Release -f netcoreapp3.1 --no-build --info --nost --time 60 --wait 300
   osx:
       runs-on: macOS-latest
       env:
@@ -36,5 +38,7 @@ jobs:
         DOTNET_CLI_TELEMETRY_OPTOUT: true
       steps:
       - uses: actions/checkout@v1
+      - name: Build
+        run: dotnet build Tests -c Release -f netcoreapp3.1 -p:OS=OSX
       - name: Test
-        run: dotnet run -p Tests -c Release -f netcoreapp3.1 -p:OS=OSX --info --nost --time 60 --wait 300
+        run: dotnet run -p Tests -c Release -f netcoreapp3.1 --no-build --info --nost --time 60 --wait 300
