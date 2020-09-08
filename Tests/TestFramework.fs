@@ -20,6 +20,17 @@ module Auto =
     let inline idiv64 (n:int64) (d:int64) =
         Math.Round(float n/float d) |> int64
 
+type Accuracy = { absolute: float; relative: float }
+
+module Accuracy =
+  let inline areCloseLhs a b = abs(a-b)
+  let inline areCloseRhs m a b = m.absolute + m.relative * max (abs a) (abs b)
+  let inline areClose m a b = areCloseLhs a b <= areCloseRhs m a b
+  let low = {absolute=1e-6; relative=1e-3}
+  let medium = {absolute=1e-8; relative=1e-5}
+  let high = {absolute=1e-10; relative=1e-7}
+  let veryHigh = {absolute=1e-12; relative=1e-9}
+
 type PCG =
     val Inc : uint64
     val mutable State : uint64

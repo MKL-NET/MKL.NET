@@ -1,5 +1,6 @@
 ﻿module Check
 
+open System
 open System.Diagnostics
 
 let info fmt =
@@ -46,6 +47,33 @@ let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
     elif actual > endInclusive then
         Failure(Normal "actual (" + Numeric actual + ") is greater than end (" + Numeric endInclusive + ").")
     else Success
+
+let close accuracy (expected:'a) (actual:'a) =
+    match box expected, box actual with
+    | (:? float as e), (:? float as a) ->
+        if Accuracy.areClose accuracy e a then Success
+        else
+            Failure(Normal "Expected difference to be less than "
+            + Numeric(Accuracy.areCloseRhs accuracy a e)
+            + Normal ", but was " + Numeric(Accuracy.areCloseLhs a e)
+            + Normal ". actual=" + Numeric a + Normal " expected=" + Numeric e
+            )
+    | (:? (float[]) as e), (:? (float[]) as a) ->
+        Array.fold2 (fun (i,s) e a ->
+            match s with
+            | Success ->
+                if Accuracy.areClose accuracy e a then i+1,Success
+                else
+                    i,Failure(
+                      Normal "Index: " + Numeric i + ". "
+                    + "Expected difference to be less than "
+                    + Numeric(Accuracy.areCloseRhs accuracy e a)
+                    + ", but was " + Numeric(Accuracy.areCloseLhs a e)
+                    + ". actual=" + Numeric a + " expected=" + Numeric e
+                    )
+            | f -> i,f
+        ) (0,Success) e a |> snd
+    | _ -> failwithf "Unknown type %s" typeof<'a>.Name
 
 let faster (expected:unit->'a) (actual:unit->'a) =
     let t1 = Stopwatch.GetTimestamp()

@@ -7,6 +7,7 @@ let all =
         GeneralTests.all
         BlasTests.all
         LapackTests.all
+        VslTests.all
     }
 
 [<EntryPoint>]
