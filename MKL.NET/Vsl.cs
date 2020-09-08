@@ -244,10 +244,10 @@ namespace MKLNET
             => viRngPoissonV(method, stream, n, r, lambda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslNewStream(out IntPtr stream, int brng, uint seed);
+        static extern int vslNewStream(ref IntPtr stream, int brng, uint seed);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int NewStream(out IntPtr stream, int brng, uint seed)
-            => vslNewStream(out stream, brng, seed);
+        public static int NewStream(ref IntPtr stream, int brng, uint seed)
+            => vslNewStream(ref stream, brng, seed);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslNewStreamEx(out IntPtr stream, int brng, uint seed, uint[] param);
