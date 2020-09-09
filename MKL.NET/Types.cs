@@ -219,4 +219,32 @@ namespace MKLNET
     {
         NBAR = 0,
     }
+
+    public enum MklThreading
+    {
+        INTEL      = 0,
+        SEQUENTIAL = 1,
+        PGI        = 2,
+        GNU        = 3,
+        TBB        = 4,
+    }
+
+    public enum MklCBWR
+    {
+        OFF           =  0,
+        BRANCH_OFF    =  1,
+        AUTO          =  2,
+        COMPATIBLE    =  3,
+        SSE2          =  4,
+        SSSE3         =  6,
+        SSE4_1        =  7,
+        SSE4_2        =  8,
+        AVX           =  9,
+        AVX2          = 10,
+        AVX512_MIC    = 11,
+        AVX512        = 12,
+        AVX512_MIC_E1 = 13,
+        AVX512_E1     = 14,
+        STRICT        = 0x10000,
+    }
 }

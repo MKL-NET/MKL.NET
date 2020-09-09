@@ -34,6 +34,19 @@ namespace MKLNET
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static unsafe extern void mkl_get_version_string(sbyte* buf, int len);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static string get_version_string()
+        {
+            const int len = 198;
+            fixed (sbyte* chars = new sbyte[len])
+            {
+                mkl_get_version_string(chars, len);
+                return new string(chars);
+            }
+        }
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void mkl_set_num_threads(int nt);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void set_num_threads(int nt) => mkl_set_num_threads(nt);
@@ -42,5 +55,23 @@ namespace MKLNET
         static extern int mkl_get_max_threads();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int get_max_threads() => mkl_get_max_threads();
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern MklThreading mkl_set_threading_layer(MklThreading required_threading);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MklThreading set_threading_layer(MklThreading required_threading)
+            => mkl_set_threading_layer(required_threading);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int mkl_cbwr_set(MklCBWR option);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int cbwr_set(MklCBWR option)
+            => mkl_cbwr_set(option);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern MklCBWR mkl_cbwr_get_auto_branch();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MklCBWR cbwr_get_auto_branch()
+            => mkl_cbwr_get_auto_branch();
     }
 }
