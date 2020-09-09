@@ -82,4 +82,141 @@ namespace MKLNET
     {
         readonly IntPtr Ptr;
     }
+
+    public enum VslBrng
+    {
+        MCG31         = (1 << 20),
+        R250          = (1 << 20) * 2,
+        MRG32K3A      = (1 << 20) * 3,
+        MCG59         = (1 << 20) * 4,
+        WH            = (1 << 20) * 5,
+        SOBOL         = (1 << 20) * 6,
+        NIEDERR       = (1 << 20) * 7,
+        MT19937       = (1 << 20) * 8,
+        MT2203        = (1 << 20) * 9,
+        IABSTRACT     = (1 << 20) * 10,
+        DABSTRACT     = (1 << 20) * 11,
+        SABSTRACT     = (1 << 20) * 12,
+        SFMT19937     = (1 << 20) * 13,
+        NONDETERM     = (1 << 20) * 14,
+        ARS5          = (1 << 20) * 15,
+        PHILOX4X32X10 = (1 << 20) * 16,
+    }
+
+    public enum VslMethodUniform
+    {
+        STD = 0,
+        STD_ACCURATE = 1<<30,
+    }
+
+    public enum VslMethodUniformBits
+    {
+        STD = 0,
+    }
+
+    public enum VslMethodGaussian
+    {
+        BOXMULLER = 0,
+        BOXMULLER2 = 1,
+        ICDF = 2,
+    }
+
+    public enum VslMethodExponential
+    {
+        ICDF = 0,
+        ICDF_ACCURATE = 1 << 30,
+    }
+
+    public enum VslMethodLaplace
+    {
+        ICDF = 0,
+    }
+
+    public enum VslMethodWeibull
+    {
+        ICDF = 0,
+        ICDF_ACCURATE = 1 << 30,
+    }
+
+    public enum VslMethodCauchy
+    {
+        ICDF = 0,
+    }
+
+    public enum VslMethodRayleigh
+    {
+        ICDF = 0,
+        ICDF_ACCURATE = 1 << 30,
+    }
+
+    public enum VslMethodLognormal
+    {
+        BOXMULLER2 = 0,
+        ICDF = 1,
+        BOXMULLER2_ACCURATE = 1 << 30,
+        ICDF_ACCURATE = (1 << 30) | 1,
+    }
+
+    public enum VslMethodGumbel
+    {
+        ICDF = 0,
+    }
+
+    public enum VslMethodGamma
+    {
+        ICDF = 0,
+        ICDF_ACCURATE = 1 << 30,
+    }
+
+    public enum VslMethodBeta
+    {
+        CJA = 0,
+        CJA_ACCURATE = 1 << 30,
+    }
+
+    public enum VslMethodChiSquare
+    {
+        CHI2GAMMA = 0,
+    }
+
+    public enum VslMethodBernoulli
+    {
+        ICDF = 0,
+    }
+
+    public enum VslMethodGeometric
+    {
+        ICDF = 0,
+    }
+
+    public enum VslMethodBinomial
+    {
+        BTPE = 0,
+    }
+
+    public enum VslMethodMultinomial
+    {
+        MULTPOISSON = 0,
+    }
+
+    public enum VslMethodHypergeometric
+    {
+        H2PE = 0,
+    }
+
+    public enum VslMethodPoisson
+    {
+        PTPE = 0,
+        POISNORM = 1,
+    }
+
+    public enum VslMethodPoissonV
+    {
+        POISNORM = 0,
+    }
+
+    public enum VslMethodNegBinomial
+    {
+        NBAR = 0,
+    }
 }

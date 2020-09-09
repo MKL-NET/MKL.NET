@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using System;
+using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
@@ -16,250 +17,254 @@ namespace MKLNET
 #endif
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngCauchy(int method, VslStream stream, int n, double[] r, double a, double beta);
+        static extern int vdRngCauchy(VslMethodCauchy method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngCauchy(int method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int dRngCauchy(VslMethodCauchy method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngCauchy(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngCauchy(int method, VslStream stream, int n, float[] r, float a, float beta);
+        static extern int vsRngCauchy(VslMethodCauchy method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngCauchy(int method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int sRngCauchy(VslMethodCauchy method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngCauchy(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngUniform(int method, VslStream stream, int n, double[] r, double a, double b);
+        static extern int vdRngUniform(VslMethodUniform method, VslStream stream, int n, double[] r, double a, double b);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngUniform(int method, VslStream stream, int n, double[] r, double a, double b)
+        public static int dRngUniform(VslMethodUniform method, VslStream stream, int n, double[] r, double a, double b)
             => vdRngUniform(method, stream, n, r, a, b);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngUniform(int method, VslStream stream, int n, float[] r, float a, float b);
+        static extern int vsRngUniform(VslMethodUniform method, VslStream stream, int n, float[] r, float a, float b);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngUniform(int method, VslStream stream, int n, float[] r, float a, float b)
+        public static int sRngUniform(VslMethodUniform method, VslStream stream, int n, float[] r, float a, float b)
             => vsRngUniform(method, stream, n, r, a, b);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngGaussian(int method, VslStream stream, int n, double[] r, double mean, double sigma);
+        static extern int vdRngGaussian(VslMethodGaussian method, VslStream stream, int n, double[] r, double mean, double sigma);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGaussian(int method, VslStream stream, int n, double[] r, double mean, double sigma)
+        public static int dRngGaussian(VslMethodGaussian method, VslStream stream, int n, double[] r, double mean, double sigma)
             => vdRngGaussian(method, stream, n, r, mean, sigma);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngGaussian(int method, VslStream stream, int n, float[] r, float mean, float sigma);
+        static extern int vsRngGaussian(VslMethodGaussian method, VslStream stream, int n, float[] r, float mean, float sigma);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGaussian(int method, VslStream stream, int n, float[] r, float mean, float sigma)
+        public static int sRngGaussian(VslMethodGaussian method, VslStream stream, int n, float[] r, float mean, float sigma)
             => vsRngGaussian(method, stream, n, r, mean, sigma);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngGaussianMV(int method, VslStream stream, int n, double[] r, int dimen, int mstorage, double[] a, double[] t);
+        static extern int vdRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, double[] r, int dimen, int mstorage, double[] a, double[] t);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGaussianMV(int method, VslStream stream, int n, double[] r, int dimen, int mstorage, double[] a, double[] t)
+        public static int dRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, double[] r, int dimen, int mstorage, double[] a, double[] t)
             => vdRngGaussianMV(method, stream, n, r, dimen, mstorage, a, t);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngGaussianMV(int method, VslStream stream, int n, float[] r, int dimen, int mstorage, float[] a, float[] t);
+        static extern int vsRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, float[] r, int dimen, int mstorage, float[] a, float[] t);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGaussianMV(int method, VslStream stream, int n, float[] r, int dimen, int mstorage, float[] a, float[] t)
+        public static int sRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, float[] r, int dimen, int mstorage, float[] a, float[] t)
             => vsRngGaussianMV(method, stream, n, r, dimen, mstorage, a, t);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngExponential(int method, VslStream stream, int n, double[] r, double a, double beta);
+        static extern int vdRngExponential(VslMethodExponential method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngExponential(int method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int dRngExponential(VslMethodExponential method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngExponential(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngExponential(int method, VslStream stream, int n, float[] r, float a, float beta);
+        static extern int vsRngExponential(VslMethodExponential method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngExponential(int method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int sRngExponential(VslMethodExponential method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngExponential(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngLaplace(int method, VslStream stream, int n, double[] r, double a, double beta);
+        static extern int vdRngLaplace(VslMethodLaplace method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngLaplace(int method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int dRngLaplace(VslMethodLaplace method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngLaplace(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngLaplace(int method, VslStream stream, int n, float[] r, float a, float beta);
+        static extern int vsRngLaplace(VslMethodLaplace method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngLaplace(int method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int sRngLaplace(VslMethodLaplace method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngLaplace(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngWeibull(int method, VslStream stream, int n, double[] r, double alpha, double a, double beta);
+        static extern int vdRngWeibull(VslMethodWeibull method, VslStream stream, int n, double[] r, double alpha, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngWeibull(int method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
+        public static int dRngWeibull(VslMethodWeibull method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
             => vdRngWeibull(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngWeibull(int method, VslStream stream, int n, float[] r, float alpha, float a, float beta);
+        static extern int vsRngWeibull(VslMethodWeibull method, VslStream stream, int n, float[] r, float alpha, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngWeibull(int method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
+        public static int sRngWeibull(VslMethodWeibull method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
             => vsRngWeibull(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngRayleigh(int method, VslStream stream, int n, double[] r, double a, double beta);
+        static extern int vdRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngRayleigh(int method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int dRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngRayleigh(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngRayleigh(int method, VslStream stream, int n, float[] r, float a, float beta);
+        static extern int vsRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngRayleigh(int method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int sRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngRayleigh(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngLognormal(int method, VslStream stream, int n, double[] r, double a, double sigma, double b, double beta);
+        static extern int vdRngLognormal(VslMethodLognormal method, VslStream stream, int n, double[] r, double a, double sigma, double b, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngLognormal(int method, VslStream stream, int n, double[] r, double a, double sigma, double b, double beta)
+        public static int dRngLognormal(VslMethodLognormal method, VslStream stream, int n, double[] r, double a, double sigma, double b, double beta)
             => vdRngLognormal(method, stream, n, r, a, sigma, b, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngLognormal(int method, VslStream stream, int n, float[] r, float a, float sigma, float b, float beta);
+        static extern int vsRngLognormal(VslMethodLognormal method, VslStream stream, int n, float[] r, float a, float sigma, float b, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngLognormal(int method, VslStream stream, int n, float[] r, float a, float sigma, float b, float beta)
+        public static int sRngLognormal(VslMethodLognormal method, VslStream stream, int n, float[] r, float a, float sigma, float b, float beta)
             => vsRngLognormal(method, stream, n, r, a, sigma, b, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngGumbel(int method, VslStream stream, int n, double[] r, double a, double beta);
+        static extern int vdRngGumbel(VslMethodGumbel method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGumbel(int method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int dRngGumbel(VslMethodGumbel method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngGumbel(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngGumbel(int method, VslStream stream, int n, float[] r, float a, float beta);
+        static extern int vsRngGumbel(VslMethodGumbel method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGumbel(int method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int sRngGumbel(VslMethodGumbel method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngGumbel(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngGamma(int method, VslStream stream, int n, double[] r, double alpha, double a, double beta);
+        static extern int vdRngGamma(VslMethodGamma method, VslStream stream, int n, double[] r, double alpha, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGamma(int method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
+        public static int dRngGamma(VslMethodGamma method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
             => vdRngGamma(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngGamma(int method, VslStream stream, int n, float[] r, float alpha, float a, float beta);
+        static extern int vsRngGamma(VslMethodGamma method, VslStream stream, int n, float[] r, float alpha, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGamma(int method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
+        public static int sRngGamma(VslMethodGamma method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
             => vsRngGamma(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngBeta(int method, VslStream stream, int n, double[] r, double p, double q, double a, double beta);
+        static extern int vdRngBeta(VslMethodBeta method, VslStream stream, int n, double[] r, double p, double q, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngBeta(int method, VslStream stream, int n, double[] r, double p, double q, double a, double beta)
+        public static int dRngBeta(VslMethodBeta method, VslStream stream, int n, double[] r, double p, double q, double a, double beta)
             => vdRngBeta(method, stream, n, r, p, q, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngBeta(int method, VslStream stream, int n, float[] r, float p, float q, float a, float beta);
+        static extern int vsRngBeta(VslMethodBeta method, VslStream stream, int n, float[] r, float p, float q, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngBeta(int method, VslStream stream, int n, float[] r, float p, float q, float a, float beta)
+        public static int sRngBeta(VslMethodBeta method, VslStream stream, int n, float[] r, float p, float q, float a, float beta)
             => vsRngBeta(method, stream, n, r, p, q, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vdRngChiSquare(int method, VslStream stream, int n, double[] r, int v);
+        static extern int vdRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, double[] r, int v);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngChiSquare(int method, VslStream stream, int n, double[] r, int v)
+        public static int dRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, double[] r, int v)
             => vdRngChiSquare(method, stream, n, r, v);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsRngChiSquare(int method, VslStream stream, int n, float[] r, int v);
+        static extern int vsRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, float[] r, int v);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngChiSquare(int method, VslStream stream, int n, float[] r, int v)
+        public static int sRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, float[] r, int v)
             => vsRngChiSquare(method, stream, n, r, v);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngBernoulli(int method, VslStream stream, int n, int[] r, double p);
+        static extern int viRngBernoulli(VslMethodBernoulli method, VslStream stream, int n, int[] r, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngBernoulli(int method, VslStream stream, int n, int[] r, double p)
+        public static int iRngBernoulli(VslMethodBernoulli method, VslStream stream, int n, int[] r, double p)
             => viRngBernoulli(method, stream, n, r, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngUniform(int method, VslStream stream, int n, int[] r, int a, int b);
+        static extern int viRngUniform(VslMethodUniform method, VslStream stream, int n, int[] r, int a, int b);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniform(int method, VslStream stream, int n, int[] r, int a, int b)
+        public static int iRngUniform(VslMethodUniform method, VslStream stream, int n, int[] r, int a, int b)
             => viRngUniform(method, stream, n, r, a, b);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngUniformBits(int method, VslStream stream, int n, uint[] r);
+        static extern int viRngUniformBits(VslMethodUniformBits method, VslStream stream, int n, uint[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniformBits(int method, VslStream stream, int n, uint[] r)
+        public static int iRngUniformBits(VslMethodUniformBits method, VslStream stream, int n, uint[] r)
             => viRngUniformBits(method, stream, n, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngUniformBits32(int method, VslStream stream, int n, uint[] r);
+        static extern int viRngUniformBits32(VslMethodUniformBits method, VslStream stream, int n, uint[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniformBits32(int method, VslStream stream, int n, uint[] r)
+        public static int iRngUniformBits32(VslMethodUniformBits method, VslStream stream, int n, uint[] r)
             => viRngUniformBits32(method, stream, n, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngUniformBits64(int method, VslStream stream, int n, ulong[] r);
+        static extern int viRngUniformBits64(VslMethodUniformBits method, VslStream stream, int n, ulong[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniformBits64(int method, VslStream stream, int n, ulong[] r)
+        public static int iRngUniformBits64(VslMethodUniformBits method, VslStream stream, int n, ulong[] r)
             => viRngUniformBits64(method, stream, n, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngGeometric(int method, VslStream stream, int n, int[] r, double p);
+        static extern int viRngGeometric(VslMethodGeometric method, VslStream stream, int n, int[] r, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngGeometric(int method, VslStream stream, int n, int[] r, double p)
+        public static int iRngGeometric(VslMethodGeometric method, VslStream stream, int n, int[] r, double p)
             => viRngGeometric(method, stream, n, r, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngBinomial(int method, VslStream stream, int n, int[] r, int ntrial, double p);
+        static extern int viRngBinomial(VslMethodBinomial method, VslStream stream, int n, int[] r, int ntrial, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngBinomial(int method, VslStream stream, int n, int[] r, int ntrial, double p)
+        public static int iRngBinomial(VslMethodBinomial method, VslStream stream, int n, int[] r, int ntrial, double p)
             => viRngBinomial(method, stream, n, r, ntrial, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngMultinomial(int method, VslStream stream, int n, int[] r, int ntrial, int k, double[] p);
+        static extern int viRngMultinomial(VslMethodMultinomial method, VslStream stream, int n, int[] r, int ntrial, int k, double[] p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngMultinomial(int method, VslStream stream, int n, int[] r, int ntrial, int k, double[] p)
+        public static int iRngMultinomial(VslMethodMultinomial method, VslStream stream, int n, int[] r, int ntrial, int k, double[] p)
             => viRngMultinomial(method, stream, n, r, ntrial, k, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngHypergeometric(int method, VslStream stream, int n, int[] r, int l, int s, int m);
+        static extern int viRngHypergeometric(VslMethodHypergeometric method, VslStream stream, int n, int[] r, int l, int s, int m);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngHypergeometric(int method, VslStream stream, int n, int[] r, int l, int s, int m)
+        public static int iRngHypergeometric(VslMethodHypergeometric method, VslStream stream, int n, int[] r, int l, int s, int m)
             => viRngHypergeometric(method, stream, n, r, l, s, m);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngNegBinomial(int method, VslStream stream, int n, int[] r, double a, double p);
+        static extern int viRngNegBinomial(VslMethodNegBinomial method, VslStream stream, int n, int[] r, double a, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngNegBinomial(int method, VslStream stream, int n, int[] r, double a, double p)
+        public static int iRngNegBinomial(VslMethodNegBinomial method, VslStream stream, int n, int[] r, double a, double p)
             => viRngNegBinomial(method, stream, n, r, a, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngPoisson(int method, VslStream stream, int n, int[] r, double lambda);
+        static extern int viRngPoisson(VslMethodPoisson method, VslStream stream, int n, int[] r, double lambda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngPoisson(int method, VslStream stream, int n, int[] r, double lambda)
+        public static int iRngPoisson(VslMethodPoisson method, VslStream stream, int n, int[] r, double lambda)
             => viRngPoisson(method, stream, n, r, lambda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int viRngPoissonV(int method, VslStream stream, int n, int[] r, double[] lambda);
+        static extern int viRngPoissonV(VslMethodPoissonV method, VslStream stream, int n, int[] r, double[] lambda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngPoissonV(int method, VslStream stream, int n, int[] r, double[] lambda)
+        public static int iRngPoissonV(VslMethodPoissonV method, VslStream stream, int n, int[] r, double[] lambda)
             => viRngPoissonV(method, stream, n, r, lambda);
 
-        static readonly object l = new object();
-
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslNewStream(out VslStream stream, int brng, int seed);
+        static extern int vslNewStream(out VslStream stream, VslBrng brng, uint seed);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int NewStream(out VslStream stream, int brng, int seed)
+        public static int NewStream(out VslStream stream, VslBrng brng, uint seed)
             => vslNewStream(out stream, brng, seed);
+        public static VslStream NewStream(VslBrng brng, uint seed)
+        {
+            int status = NewStream(out var stream, brng, seed);
+            if (status != 0) throw new Exception("Non zero status: " + status);
+            return stream;
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslNewStreamEx(out VslStream stream, int brng, uint seed, uint[] param);
+        static extern int vslNewStreamEx(out VslStream stream, VslBrng brng, uint seed, uint[] param);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int NewStreamEx(out VslStream stream, int brng, uint seed, uint[] param)
+        public static int NewStreamEx(out VslStream stream, VslBrng brng, uint seed, uint[] param)
             => vslNewStreamEx(out stream, brng, seed, param);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslDeleteStream(ref VslStream stream);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int DeleteStream(ref VslStream stream)
+        public static int DeleteStream(VslStream stream)
             => vslDeleteStream(ref stream);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
