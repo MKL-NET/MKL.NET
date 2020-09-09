@@ -1,4 +1,6 @@
-﻿namespace MKLNET
+﻿using System;
+
+namespace MKLNET
 {
     public enum Layout
     {
@@ -74,5 +76,10 @@
         public string Build;
         public string Processor;
         public string Platform;
+    }
+
+    public struct VslStream
+    {
+        readonly IntPtr Ptr;
     }
 }
