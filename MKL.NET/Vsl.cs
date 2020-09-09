@@ -43,12 +43,7 @@ namespace MKLNET
         static extern int vdRngGaussian(int method, IntPtr stream, int n, double[] r, double mean, double sigma);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dRngGaussian(int method, IntPtr stream, int n, double[] r, double mean, double sigma)
-        {
-            lock (l)
-            {
-                return vdRngGaussian(method, stream, n, r, mean, sigma);
-            }
-        }
+            => vdRngGaussian(method, stream, n, r, mean, sigma);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngGaussian(int method, IntPtr stream, int n, float[] r, float mean, float sigma);
@@ -248,18 +243,13 @@ namespace MKLNET
         public static int iRngPoissonV(int method, IntPtr stream, int n, int[] r, double[] lambda)
             => viRngPoissonV(method, stream, n, r, lambda);
 
-        static object l = new object();
+        static readonly object l = new object();
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslNewStream(out IntPtr stream, int brng, uint seed);
+        static extern int vslNewStream(out IntPtr stream, int brng, int seed);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int NewStream(out IntPtr stream, int brng, uint seed)
-        {
-            lock (l)
-            {
-              return vslNewStream(out stream, brng, seed);
-            }
-        }
+        public static int NewStream(out IntPtr stream, int brng, int seed)
+            => vslNewStream(out stream, brng, seed);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslNewStreamEx(out IntPtr stream, int brng, uint seed, uint[] param);
@@ -271,12 +261,7 @@ namespace MKLNET
         static extern int vslDeleteStream(ref IntPtr stream);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int DeleteStream(ref IntPtr stream)
-        {
-            lock (l)
-            {
-              return vslDeleteStream(ref stream);
-            }
-        }
+            => vslDeleteStream(ref stream);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslCopyStream(out IntPtr newstream, IntPtr srcstream);
