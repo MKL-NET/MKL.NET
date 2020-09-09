@@ -44,10 +44,10 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dRngGaussian(int method, IntPtr stream, int n, double[] r, double mean, double sigma)
         {
-            //lock (l)
-            //{
+            lock (l)
+            {
                 return vdRngGaussian(method, stream, n, r, mean, sigma);
-            //}
+            }
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -248,17 +248,17 @@ namespace MKLNET
         public static int iRngPoissonV(int method, IntPtr stream, int n, int[] r, double[] lambda)
             => viRngPoissonV(method, stream, n, r, lambda);
 
-        //static object l = new object();
+        static object l = new object();
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslNewStream(out IntPtr stream, int brng, uint seed);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int NewStream(out IntPtr stream, int brng, uint seed)
         {
-            //lock (l)
-            //{
-                return vslNewStream(out stream, brng, seed);
-            //}
+            lock (l)
+            {
+              return vslNewStream(out stream, brng, seed);
+            }
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -272,10 +272,10 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int DeleteStream(ref IntPtr stream)
         {
-            //lock (l)
-            //{
-                return vslDeleteStream(ref stream);
-            //}
+            lock (l)
+            {
+              return vslDeleteStream(ref stream);
+            }
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
