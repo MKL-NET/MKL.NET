@@ -78,6 +78,35 @@ namespace MKLNET
         public string Platform;
     }
 
+    public enum VmlMode : long // or uint?
+    {
+        LA               = 0x00000001,
+        HA               = 0x00000002,
+        EP               = 0x00000003,
+        ERRMODE_IGNORE   = 0x00000100,
+        ERRMODE_ERRNO    = 0x00000200,
+        ERRMODE_STDERR   = 0x00000400,
+        ERRMODE_EXCEPT   = 0x00000800,
+        ERRMODE_CALLBACK = 0x00001000,
+        ERRMODE_NOERR    = 0x00002000,
+        ERRMODE_DEFAULT  = ERRMODE_ERRNO | ERRMODE_CALLBACK | ERRMODE_EXCEPT,
+        FTZDAZ_ON        = 0x00280000,
+        FTZDAZ_OFF       = 0x00140000,
+    }
+
+    public enum VmlStatus
+    {
+        OK              = 0,
+        BADSIZE         =-1,
+        BADMEM          =-2,
+        ERRDOM          = 1,
+        SING            = 2,
+        OVERFLOW        = 3,
+        UNDERFLOW       = 4,
+        ACCURACYWARNING = 1000,
+
+    }
+
     public struct VslStream
     {
         readonly IntPtr Ptr;

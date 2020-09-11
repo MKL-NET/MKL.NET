@@ -7,6 +7,7 @@ let all =
         MKLTests.all
         BlasTests.all
         LapackTests.all
+        VmlTests.all
         VslTests.all
     }
 
