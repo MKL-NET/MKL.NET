@@ -19,228 +19,228 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngCauchy(VslMethodCauchy method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngCauchy(VslMethodCauchy method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int RngCauchy(VslMethodCauchy method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngCauchy(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngCauchy(VslMethodCauchy method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngCauchy(VslMethodCauchy method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int RngCauchy(VslMethodCauchy method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngCauchy(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngUniform(VslMethodUniform method, VslStream stream, int n, double[] r, double a, double b);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngUniform(VslMethodUniform method, VslStream stream, int n, double[] r, double a, double b)
+        public static int RngUniform(VslMethodUniform method, VslStream stream, int n, double[] r, double a, double b)
             => vdRngUniform(method, stream, n, r, a, b);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngUniform(VslMethodUniform method, VslStream stream, int n, float[] r, float a, float b);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngUniform(VslMethodUniform method, VslStream stream, int n, float[] r, float a, float b)
+        public static int RngUniform(VslMethodUniform method, VslStream stream, int n, float[] r, float a, float b)
             => vsRngUniform(method, stream, n, r, a, b);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngGaussian(VslMethodGaussian method, VslStream stream, int n, double[] r, double mean, double sigma);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGaussian(VslMethodGaussian method, VslStream stream, int n, double[] r, double mean, double sigma)
+        public static int RngGaussian(VslMethodGaussian method, VslStream stream, int n, double[] r, double mean, double sigma)
             => vdRngGaussian(method, stream, n, r, mean, sigma);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngGaussian(VslMethodGaussian method, VslStream stream, int n, float[] r, float mean, float sigma);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGaussian(VslMethodGaussian method, VslStream stream, int n, float[] r, float mean, float sigma)
+        public static int RngGaussian(VslMethodGaussian method, VslStream stream, int n, float[] r, float mean, float sigma)
             => vsRngGaussian(method, stream, n, r, mean, sigma);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, double[] r, int dimen, int mstorage, double[] a, double[] t);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, double[] r, int dimen, int mstorage, double[] a, double[] t)
+        public static int RngGaussianMV(VslMethodGaussian method, VslStream stream, int n, double[] r, int dimen, int mstorage, double[] a, double[] t)
             => vdRngGaussianMV(method, stream, n, r, dimen, mstorage, a, t);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, float[] r, int dimen, int mstorage, float[] a, float[] t);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGaussianMV(VslMethodGaussian method, VslStream stream, int n, float[] r, int dimen, int mstorage, float[] a, float[] t)
+        public static int RngGaussianMV(VslMethodGaussian method, VslStream stream, int n, float[] r, int dimen, int mstorage, float[] a, float[] t)
             => vsRngGaussianMV(method, stream, n, r, dimen, mstorage, a, t);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngExponential(VslMethodExponential method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngExponential(VslMethodExponential method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int RngExponential(VslMethodExponential method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngExponential(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngExponential(VslMethodExponential method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngExponential(VslMethodExponential method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int RngExponential(VslMethodExponential method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngExponential(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngLaplace(VslMethodLaplace method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngLaplace(VslMethodLaplace method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int RngLaplace(VslMethodLaplace method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngLaplace(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngLaplace(VslMethodLaplace method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngLaplace(VslMethodLaplace method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int RngLaplace(VslMethodLaplace method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngLaplace(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngWeibull(VslMethodWeibull method, VslStream stream, int n, double[] r, double alpha, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngWeibull(VslMethodWeibull method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
+        public static int RngWeibull(VslMethodWeibull method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
             => vdRngWeibull(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngWeibull(VslMethodWeibull method, VslStream stream, int n, float[] r, float alpha, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngWeibull(VslMethodWeibull method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
+        public static int RngWeibull(VslMethodWeibull method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
             => vsRngWeibull(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int RngRayleigh(VslMethodRayleigh method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngRayleigh(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngRayleigh(VslMethodRayleigh method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int RngRayleigh(VslMethodRayleigh method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngRayleigh(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngLognormal(VslMethodLognormal method, VslStream stream, int n, double[] r, double a, double sigma, double b, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngLognormal(VslMethodLognormal method, VslStream stream, int n, double[] r, double a, double sigma, double b, double beta)
+        public static int RngLognormal(VslMethodLognormal method, VslStream stream, int n, double[] r, double a, double sigma, double b, double beta)
             => vdRngLognormal(method, stream, n, r, a, sigma, b, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngLognormal(VslMethodLognormal method, VslStream stream, int n, float[] r, float a, float sigma, float b, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngLognormal(VslMethodLognormal method, VslStream stream, int n, float[] r, float a, float sigma, float b, float beta)
+        public static int RngLognormal(VslMethodLognormal method, VslStream stream, int n, float[] r, float a, float sigma, float b, float beta)
             => vsRngLognormal(method, stream, n, r, a, sigma, b, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngGumbel(VslMethodGumbel method, VslStream stream, int n, double[] r, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGumbel(VslMethodGumbel method, VslStream stream, int n, double[] r, double a, double beta)
+        public static int RngGumbel(VslMethodGumbel method, VslStream stream, int n, double[] r, double a, double beta)
             => vdRngGumbel(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngGumbel(VslMethodGumbel method, VslStream stream, int n, float[] r, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGumbel(VslMethodGumbel method, VslStream stream, int n, float[] r, float a, float beta)
+        public static int RngGumbel(VslMethodGumbel method, VslStream stream, int n, float[] r, float a, float beta)
             => vsRngGumbel(method, stream, n, r, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngGamma(VslMethodGamma method, VslStream stream, int n, double[] r, double alpha, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngGamma(VslMethodGamma method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
+        public static int RngGamma(VslMethodGamma method, VslStream stream, int n, double[] r, double alpha, double a, double beta)
             => vdRngGamma(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngGamma(VslMethodGamma method, VslStream stream, int n, float[] r, float alpha, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngGamma(VslMethodGamma method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
+        public static int RngGamma(VslMethodGamma method, VslStream stream, int n, float[] r, float alpha, float a, float beta)
             => vsRngGamma(method, stream, n, r, alpha, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngBeta(VslMethodBeta method, VslStream stream, int n, double[] r, double p, double q, double a, double beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngBeta(VslMethodBeta method, VslStream stream, int n, double[] r, double p, double q, double a, double beta)
+        public static int RngBeta(VslMethodBeta method, VslStream stream, int n, double[] r, double p, double q, double a, double beta)
             => vdRngBeta(method, stream, n, r, p, q, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngBeta(VslMethodBeta method, VslStream stream, int n, float[] r, float p, float q, float a, float beta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngBeta(VslMethodBeta method, VslStream stream, int n, float[] r, float p, float q, float a, float beta)
+        public static int RngBeta(VslMethodBeta method, VslStream stream, int n, float[] r, float p, float q, float a, float beta)
             => vsRngBeta(method, stream, n, r, p, q, a, beta);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vdRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, double[] r, int v);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, double[] r, int v)
+        public static int RngChiSquare(VslMethodChiSquare method, VslStream stream, int n, double[] r, int v)
             => vdRngChiSquare(method, stream, n, r, v);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, float[] r, int v);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sRngChiSquare(VslMethodChiSquare method, VslStream stream, int n, float[] r, int v)
+        public static int RngChiSquare(VslMethodChiSquare method, VslStream stream, int n, float[] r, int v)
             => vsRngChiSquare(method, stream, n, r, v);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngBernoulli(VslMethodBernoulli method, VslStream stream, int n, int[] r, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngBernoulli(VslMethodBernoulli method, VslStream stream, int n, int[] r, double p)
+        public static int RngBernoulli(VslMethodBernoulli method, VslStream stream, int n, int[] r, double p)
             => viRngBernoulli(method, stream, n, r, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngUniform(VslMethodUniform method, VslStream stream, int n, int[] r, int a, int b);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniform(VslMethodUniform method, VslStream stream, int n, int[] r, int a, int b)
+        public static int RngUniform(VslMethodUniform method, VslStream stream, int n, int[] r, int a, int b)
             => viRngUniform(method, stream, n, r, a, b);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngUniformBits(VslMethodUniformBits method, VslStream stream, int n, uint[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniformBits(VslMethodUniformBits method, VslStream stream, int n, uint[] r)
+        public static int RngUniformBits(VslMethodUniformBits method, VslStream stream, int n, uint[] r)
             => viRngUniformBits(method, stream, n, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngUniformBits32(VslMethodUniformBits method, VslStream stream, int n, uint[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniformBits32(VslMethodUniformBits method, VslStream stream, int n, uint[] r)
+        public static int RngUniformBits32(VslMethodUniformBits method, VslStream stream, int n, uint[] r)
             => viRngUniformBits32(method, stream, n, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngUniformBits64(VslMethodUniformBits method, VslStream stream, int n, ulong[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngUniformBits64(VslMethodUniformBits method, VslStream stream, int n, ulong[] r)
+        public static int RngUniformBits64(VslMethodUniformBits method, VslStream stream, int n, ulong[] r)
             => viRngUniformBits64(method, stream, n, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngGeometric(VslMethodGeometric method, VslStream stream, int n, int[] r, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngGeometric(VslMethodGeometric method, VslStream stream, int n, int[] r, double p)
+        public static int RngGeometric(VslMethodGeometric method, VslStream stream, int n, int[] r, double p)
             => viRngGeometric(method, stream, n, r, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngBinomial(VslMethodBinomial method, VslStream stream, int n, int[] r, int ntrial, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngBinomial(VslMethodBinomial method, VslStream stream, int n, int[] r, int ntrial, double p)
+        public static int RngBinomial(VslMethodBinomial method, VslStream stream, int n, int[] r, int ntrial, double p)
             => viRngBinomial(method, stream, n, r, ntrial, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngMultinomial(VslMethodMultinomial method, VslStream stream, int n, int[] r, int ntrial, int k, double[] p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngMultinomial(VslMethodMultinomial method, VslStream stream, int n, int[] r, int ntrial, int k, double[] p)
+        public static int RngMultinomial(VslMethodMultinomial method, VslStream stream, int n, int[] r, int ntrial, int k, double[] p)
             => viRngMultinomial(method, stream, n, r, ntrial, k, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngHypergeometric(VslMethodHypergeometric method, VslStream stream, int n, int[] r, int l, int s, int m);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngHypergeometric(VslMethodHypergeometric method, VslStream stream, int n, int[] r, int l, int s, int m)
+        public static int RngHypergeometric(VslMethodHypergeometric method, VslStream stream, int n, int[] r, int l, int s, int m)
             => viRngHypergeometric(method, stream, n, r, l, s, m);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngNegBinomial(VslMethodNegBinomial method, VslStream stream, int n, int[] r, double a, double p);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngNegBinomial(VslMethodNegBinomial method, VslStream stream, int n, int[] r, double a, double p)
+        public static int RngNegBinomial(VslMethodNegBinomial method, VslStream stream, int n, int[] r, double a, double p)
             => viRngNegBinomial(method, stream, n, r, a, p);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngPoisson(VslMethodPoisson method, VslStream stream, int n, int[] r, double lambda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngPoisson(VslMethodPoisson method, VslStream stream, int n, int[] r, double lambda)
+        public static int RngPoisson(VslMethodPoisson method, VslStream stream, int n, int[] r, double lambda)
             => viRngPoisson(method, stream, n, r, lambda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int viRngPoissonV(VslMethodPoissonV method, VslStream stream, int n, int[] r, double[] lambda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int iRngPoissonV(VslMethodPoissonV method, VslStream stream, int n, int[] r, double[] lambda)
+        public static int RngPoissonV(VslMethodPoissonV method, VslStream stream, int n, int[] r, double[] lambda)
             => viRngPoissonV(method, stream, n, r, lambda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -303,81 +303,556 @@ namespace MKLNET
         public static int GetStreamStateBrng(VslStream stream)
             => vslGetStreamStateBrng(stream);
 
-        //_Mkl_Api(int, vsldConvNewTask, (VSLConvTaskPtr*, int  , int  , int[], int[], int[]))
-        //_Mkl_Api(int, vslsConvNewTask, (VSLConvTaskPtr*, int  , int  , int[], int[], int[]))
-        //_Mkl_Api(int, vsldCorrNewTask, (VSLCorrTaskPtr*, int  , int  , int[], int[], int[]))
-        //_Mkl_Api(int, vslsCorrNewTask, (VSLCorrTaskPtr*, int  , int  , int[], int[], int[]))
-        //_Mkl_Api(int, vsldConvNewTask1D, (VSLConvTaskPtr*, int  , int  , int ,  int  ))
-        //_Mkl_Api(int, vslsConvNewTask1D, (VSLConvTaskPtr*, int  , int  , int ,  int  ))
-        //_Mkl_Api(int, vsldCorrNewTask1D, (VSLCorrTaskPtr*, int  , int  , int ,  int  ))
-        //_Mkl_Api(int, vslsCorrNewTask1D, (VSLCorrTaskPtr*, int  , int  , int ,  int  ))
-        //_Mkl_Api(int, vsldConvNewTaskX, (VSLConvTaskPtr*, int  , int  , int[], int[], int[], double[], int[]))
-        //_Mkl_Api(int, vslsConvNewTaskX, (VSLConvTaskPtr*, int  , int  , int[], int[], int[], float[],  int[]))
-        //_Mkl_Api(int, vsldCorrNewTaskX, (VSLCorrTaskPtr*, int  , int  , int[], int[], int[], double[], int[]))
-        //_Mkl_Api(int, vslsCorrNewTaskX, (VSLCorrTaskPtr*, int  , int  , int[], int[], int[], float[],  int[]))
-        //_Mkl_Api(int, vsldConvNewTaskX1D, (VSLConvTaskPtr*, int  , int  , int  , int  , double[], int  ))
-        //_Mkl_Api(int, vslsConvNewTaskX1D, (VSLConvTaskPtr*, int  , int  , int  , int  , float[],  int  ))
-        //_Mkl_Api(int, vsldCorrNewTaskX1D, (VSLCorrTaskPtr*, int  , int  , int  , int  , double[], int  ))
-        //_Mkl_Api(int, vslsCorrNewTaskX1D, (VSLCorrTaskPtr*, int  , int  , int  , int  , float[],  int  ))
-        //_Mkl_Api(int, vslConvDeleteTask, (VSLConvTaskPtr* ))
-        //_Mkl_Api(int, vslCorrDeleteTask, (VSLCorrTaskPtr* ))
-        //_Mkl_Api(int, vslConvCopyTask, (VSLConvTaskPtr*, VSLConvTaskPtr  ))
-        //_Mkl_Api(int, vslCorrCopyTask, (VSLCorrTaskPtr*, VSLCorrTaskPtr  ))
-        //_Mkl_Api(int, vslConvSetMode, (VSLConvTaskPtr, int  ))
-        //_Mkl_Api(int, vslCorrSetMode, (VSLCorrTaskPtr, int  ))
-        //_Mkl_Api(int, vslConvSetInternalPrecision, (VSLConvTaskPtr, int  ))
-        //_Mkl_Api(int, vslCorrSetInternalPrecision, (VSLCorrTaskPtr, int  ))
-        //_Mkl_Api(int, vslConvSetStart, (VSLConvTaskPtr, int[]))
-        //_Mkl_Api(int, vslCorrSetStart, (VSLCorrTaskPtr, int[]))
-        //_Mkl_Api(int, vslConvSetDecimation, (VSLConvTaskPtr, int[]))
-        //_Mkl_Api(int, vslCorrSetDecimation, (VSLCorrTaskPtr, int[]))
-        //_Mkl_Api(int, vsldConvExec, (VSLConvTaskPtr, double[], int[], double[], int[], double[], int[]))
-        //_Mkl_Api(int, vslsConvExec, (VSLConvTaskPtr, float[],  int[], float[],  int[], float[],  int[]))
-        //_Mkl_Api(int, vsldCorrExec, (VSLCorrTaskPtr, double[], int[], double[], int[], double[], int[]))
-        //_Mkl_Api(int, vslsCorrExec, (VSLCorrTaskPtr, float[],  int[], float[],  int[], float[],  int[]))
-        //_Mkl_Api(int, vsldConvExec1D, (VSLConvTaskPtr, double[], int  , double[], int  , double[], int  ))
-        //_Mkl_Api(int, vslsConvExec1D, (VSLConvTaskPtr, float[],  int  , float[],  int  , float[],  int  ))
-        //_Mkl_Api(int, vsldCorrExec1D, (VSLCorrTaskPtr, double[], int  , double[], int  , double[], int  ))
-        //_Mkl_Api(int, vslsCorrExec1D, (VSLCorrTaskPtr, float[],  int  , float[],  int  , float[],  int  ))
-        //_Mkl_Api(int, vsldConvExecX, (VSLConvTaskPtr, double[], int[], double[], int[]))
-        //_Mkl_Api(int, vslsConvExecX, (VSLConvTaskPtr, float[],  int[], float[],  int[]))
-        //_Mkl_Api(int, vsldCorrExecX, (VSLCorrTaskPtr, double[], int[], double[], int[]))
-        //_Mkl_Api(int, vslsCorrExecX, (VSLCorrTaskPtr, float[],  int[], float[],  int[]))
-        //_Mkl_Api(int, vsldConvExecX1D, (VSLConvTaskPtr, double[], int  , double[], int  ))
-        //_Mkl_Api(int, vslsConvExecX1D, (VSLConvTaskPtr, float[],  int  , float[],  int  ))
-        //_Mkl_Api(int, vsldCorrExecX1D, (VSLCorrTaskPtr, double[], int  , double[], int  ))
-        //_Mkl_Api(int, vslsCorrExecX1D, (VSLCorrTaskPtr, float[],  int  , float[],  int  ))
-        //_Mkl_Api(int, vsldSSNewTask, (VSLSSTaskPtr*, int* , int* , int* , double[], double[], int[]))
-        //_Mkl_Api(int, vslsSSNewTask, (VSLSSTaskPtr*, int* , int* , int* , float[], float[], int[]))
-        //_Mkl_Api(int, vsldSSEditTask, (VSLSSTaskPtr, int  , double* ))
-        //_Mkl_Api(int, vslsSSEditTask, (VSLSSTaskPtr, int  , float* ))
-        //_Mkl_Api(int, vsliSSEditTask, (VSLSSTaskPtr, int  , int* ))
-        //_Mkl_Api(int, vsldSSEditMoments, (VSLSSTaskPtr, double*, double*, double*, double*, double*, double*, double*))
-        //_Mkl_Api(int, vslsSSEditMoments, (VSLSSTaskPtr, float*, float*, float*, float*, float*, float*, float*))
-        //_Mkl_Api(int, vsldSSEditSums, (VSLSSTaskPtr, double*, double*, double*, double*, double*, double*, double*))
-        //_Mkl_Api(int, vslsSSEditSums, (VSLSSTaskPtr, float*, float*, float*, float*, float*, float*, float*))
-        //_Mkl_Api(int, vsldSSEditCovCor, (VSLSSTaskPtr, double*, double*,  int* , double* , int* ))
-        //_Mkl_Api(int, vslsSSEditCovCor, (VSLSSTaskPtr, float*, float*, int* , float* , int* ))
-        //_Mkl_Api(int, vsldSSEditCP, (VSLSSTaskPtr, double*, double*, double*, int* ))
-        //_Mkl_Api(int, vslsSSEditCP, (VSLSSTaskPtr, float*, float*, float*, int* ))
-        //_Mkl_Api(int, vsldSSEditPartialCovCor, (VSLSSTaskPtr, int[], double* , int* , double* , int* , double* , int* , double* , int* ))
-        //_Mkl_Api(int, vslsSSEditPartialCovCor, (VSLSSTaskPtr, int[], float* , int* , float* , int* , float* ,  int* , float* ,  int* ))
-        //_Mkl_Api(int, vsldSSEditQuantiles, (VSLSSTaskPtr, int* , double* , double* , double* , int* ))
-        //_Mkl_Api(int, vslsSSEditQuantiles, (VSLSSTaskPtr, int* , float* , float* , float* , int* ))
-        //_Mkl_Api(int, vsldSSEditStreamQuantiles, (VSLSSTaskPtr, int* , double* , double* , int* , double* ))
-        //_Mkl_Api(int, vslsSSEditStreamQuantiles, (VSLSSTaskPtr, int* , float* , float* , int* , float* ))
-        //_Mkl_Api(int, vsldSSEditPooledCovariance, (VSLSSTaskPtr, int* , double* , double* , int* , double* , double* ))
-        //_Mkl_Api(int, vslsSSEditPooledCovariance, (VSLSSTaskPtr, int* , float* , float* , int* , float* , float* ))
-        //_Mkl_Api(int, vsldSSEditRobustCovariance, (VSLSSTaskPtr, int* , int* ,  double* , double* , double* ))
-        //_Mkl_Api(int, vslsSSEditRobustCovariance, (VSLSSTaskPtr, int* , int* ,  float* , float* , float* ))
-        //_Mkl_Api(int, vsldSSEditOutliersDetection, (VSLSSTaskPtr, int* , double* , double* ))
-        //_Mkl_Api(int, vslsSSEditOutliersDetection, (VSLSSTaskPtr, int* , float* , float* ))
-        //_Mkl_Api(int, vsldSSEditMissingValues, (VSLSSTaskPtr, int* , double* , int* , double* , int* , double* , int* , double* , int* , double* ))
-        //_Mkl_Api(int, vslsSSEditMissingValues, (VSLSSTaskPtr, int* , float* , int* , float* , int* , float* , int* , float* , int* , float* ))
-        //_Mkl_Api(int, vsldSSEditCorParameterization, (VSLSSTaskPtr, double* , int* , double* , int* ))
-        //_Mkl_Api(int, vslsSSEditCorParameterization, (VSLSSTaskPtr, float* , int* , float* , int* ))
-        //_Mkl_Api(int, vsldSSCompute, (VSLSSTaskPtr, unsigned int64, int  ))
-        //_Mkl_Api(int, vslsSSCompute, (VSLSSTaskPtr, unsigned int64, int  ))
-        //_Mkl_Api(int, vslSSDeleteTask, (VSLSSTaskPtr* ))
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvNewTask(out VsldConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTask(out VsldConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape)
+            => vsldConvNewTask(out task, mode, dims, xshape, yshape, zshape);
+        
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvNewTask(out VslsConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTask(out VslsConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape)
+            => vslsConvNewTask(out task, mode, dims, xshape, yshape, zshape);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrNewTask(out VsldCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTask(out VsldCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape)
+            => vsldCorrNewTask(out task, mode, dims, xshape, yshape, zshape);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrNewTask(out VslsCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTask(out VslsCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape)
+            => vslsCorrNewTask(out task, mode, dims, xshape, yshape, zshape);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvNewTask1D(out VsldConvTask task, VslMode mode, int xshape, int yshape, int zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTask1D(out VsldConvTask task, VslMode mode, int xshape, int yshape, int zshape)
+            => vsldConvNewTask1D(out task, mode, xshape, yshape, zshape);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvNewTask1D(out VslsConvTask task, VslMode mode, int xshape, int yshape, int zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTask1D(out VslsConvTask task, VslMode mode, int xshape, int yshape, int zshape)
+            => vslsConvNewTask1D(out task, mode, xshape, yshape, zshape);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrNewTask1D(out VsldCorrTask task, VslMode mode, int xshape, int yshape, int zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTask1D(out VsldCorrTask task, VslMode mode, int xshape, int yshape, int zshape)
+            => vsldCorrNewTask1D(out task, mode, xshape, yshape, zshape);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrNewTask1D(out VslsCorrTask task, VslMode mode, int xshape, int yshape, int zshape);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTask1D(out VslsCorrTask task, VslMode mode, int xshape, int yshape, int zshape)
+            => vslsCorrNewTask1D(out task, mode, xshape, yshape, zshape);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvNewTaskX(out VsldConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, double[] x, int[] xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTaskX(out VsldConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, double[] x, int[] xstride)
+            => vsldConvNewTaskX(out task, mode, dims, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvNewTaskX(out VslsConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, float[] x, int[] xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTaskX(out VslsConvTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, float[] x, int[] xstride)
+            => vslsConvNewTaskX(out task, mode, dims, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrNewTaskX(out VsldCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, double[] x, int[] xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTaskX(out VsldCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, double[] x, int[] xstride)
+            => vsldCorrNewTaskX(out task, mode, dims, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrNewTaskX(out VslsCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, float[] x, int[] xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTaskX(out VslsCorrTask task, VslMode mode, int dims, int[] xshape, int[] yshape, int[] zshape, float[] x, int[] xstride)
+            => vslsCorrNewTaskX(out task, mode, dims, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvNewTaskX1D(out VsldConvTask task, VslMode mode, int xshape, int yshape, int zshape, double[] x, int xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTaskX1D(out VsldConvTask task, VslMode mode, int xshape, int yshape, int zshape, double[] x, int xstride)
+            => vsldConvNewTaskX1D(out task, mode, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvNewTaskX1D(out VslsConvTask task, VslMode mode, int xshape, int yshape, int zshape, float[] x, int xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvNewTaskX1D(out VslsConvTask task, VslMode mode, int xshape, int yshape, int zshape, float[] x, int xstride)
+            => vslsConvNewTaskX1D(out task, mode, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrNewTaskX1D(out VsldCorrTask task, VslMode mode, int xshape, int yshape, int zshape, double[] x, int xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTaskX1D(out VsldCorrTask task, VslMode mode, int xshape, int yshape, int zshape, double[] x, int xstride)
+            => vsldCorrNewTaskX1D(out task, mode, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrNewTaskX1D(out VslsCorrTask task, VslMode mode, int xshape, int yshape, int zshape, float[] x, int xstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrNewTaskX1D(out VslsCorrTask task, VslMode mode, int xshape, int yshape, int zshape, float[] x, int xstride)
+            => vslsCorrNewTaskX1D(out task, mode, xshape, yshape, zshape, x, xstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvDeleteTask(ref VsldConvTask task);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvDeleteTask(VsldConvTask task)
+            => vslConvDeleteTask(ref task);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvDeleteTask(ref VslsConvTask task);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvDeleteTask(VslsConvTask task)
+            => vslConvDeleteTask(ref task);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrDeleteTask(ref VsldCorrTask task);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrDeleteTask(VsldCorrTask task)
+            => vslCorrDeleteTask(ref task);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrDeleteTask(ref VslsCorrTask task);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrDeleteTask(VslsCorrTask task)
+            => vslCorrDeleteTask(ref task);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvCopyTask(out VsldConvTask newtask, VsldConvTask srctask);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvCopyTask(out VsldConvTask newtask, VsldConvTask srctask)
+            => vslConvCopyTask(out newtask, srctask);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvCopyTask(out VslsConvTask newtask, VslsConvTask srctask);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvCopyTask(out VslsConvTask newtask, VslsConvTask srctask)
+            => vslConvCopyTask(out newtask, srctask);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrCopyTask(out VsldCorrTask newtask, VsldCorrTask srctask);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrCopyTask(out VsldCorrTask newtask, VsldCorrTask srctask)
+            => vslCorrCopyTask(out newtask, srctask);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrCopyTask(out VslsCorrTask newtask, VslsCorrTask srctask);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrCopyTask(out VslsCorrTask newtask, VslsCorrTask srctask)
+            => vslCorrCopyTask(out newtask, srctask);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetMode(VsldConvTask task, VslMode newmode);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetMode(VsldConvTask task, VslMode newmode)
+            => vslConvSetMode(task, newmode);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetMode(VslsConvTask task, VslMode newmode);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetMode(VslsConvTask task, VslMode newmode)
+            => vslConvSetMode(task, newmode);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetMode(VsldCorrTask task, VslMode newmode);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetMode(VsldCorrTask task, VslMode newmode)
+            => vslCorrSetMode(task, newmode);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetMode(VslsCorrTask task, VslMode newmode);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetMode(VslsCorrTask task, VslMode newmode)
+            => vslCorrSetMode(task, newmode);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetInternalPrecision(VsldConvTask task, VslPrecision precision);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetInternalPrecision(VsldConvTask task, VslPrecision precision)
+            => vslConvSetInternalPrecision(task, precision);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetInternalPrecision(VslsConvTask task, VslPrecision precision);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetInternalPrecision(VslsConvTask task, VslPrecision precision)
+            => vslConvSetInternalPrecision(task, precision);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetInternalPrecision(VsldCorrTask task, VslPrecision precision);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetInternalPrecision(VsldCorrTask task, VslPrecision precision)
+            => vslCorrSetInternalPrecision(task, precision);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetInternalPrecision(VslsCorrTask task, VslPrecision precision);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetInternalPrecision(VslsCorrTask task, VslPrecision precision)
+            => vslCorrSetInternalPrecision(task, precision);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetStart(VsldConvTask task, int[] start);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetStart(VsldConvTask task, int[] start)
+            => vslConvSetStart(task, start);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetStart(VslsConvTask task, int[] start);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetStart(VslsConvTask task, int[] start)
+            => vslConvSetStart(task, start);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetStart(VsldCorrTask task, int[] start);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetStart(VsldCorrTask task, int[] start)
+            => vslCorrSetStart(task, start);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetStart(VslsCorrTask task, int[] start);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetStart(VslsCorrTask task, int[] start)
+            => vslCorrSetStart(task, start);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetDecimation(VsldConvTask task, int[] decimation);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetDecimation(VsldConvTask task, int[] decimation)
+            => vslConvSetDecimation(task, decimation);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslConvSetDecimation(VslsConvTask task, int[] decimation);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvSetDecimation(VslsConvTask task, int[] decimation)
+            => vslConvSetDecimation(task, decimation);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetDecimation(VsldCorrTask task, int[] decimation);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetDecimation(VsldCorrTask task, int[] decimation)
+            => vslCorrSetDecimation(task, decimation);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslCorrSetDecimation(VslsCorrTask task, int[] decimation);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrSetDecimation(VslsCorrTask task, int[] decimation)
+            => vslCorrSetDecimation(task, decimation);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvExec(VsldConvTask task, double[] x, int[] xstride, double[] y, int[] ystride, double[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExec(VsldConvTask task, double[] x, int[] xstride, double[] y, int[] ystride, double[] z, int[] zstride)
+            => vsldConvExec(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvExec(VslsConvTask task, float[] x, int[] xstride, float[] y, int[] ystride, float[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExec(VslsConvTask task, float[] x, int[] xstride, float[] y, int[] ystride, float[] z, int[] zstride)
+            => vslsConvExec(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrExec(VsldCorrTask task, double[] x, int[] xstride, double[] y, int[] ystride, double[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExec(VsldCorrTask task, double[] x, int[] xstride, double[] y, int[] ystride, double[] z, int[] zstride)
+            => vsldCorrExec(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrExec(VslsCorrTask task, float[] x, int[] xstride, float[] y, int[] ystride, float[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExec(VslsCorrTask task, float[] x, int[] xstride, float[] y, int[] ystride, float[] z, int[] zstride)
+            => vslsCorrExec(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvExec1D(VsldConvTask task, double[] x, int xstride, double[] y, int ystride, double[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExec1D(VsldConvTask task, double[] x, int xstride, double[] y, int ystride, double[] z, int zstride)
+            => vsldConvExec1D(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvExec1D(VslsConvTask task, float[] x, int xstride, float[] y, int ystride, float[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExec1D(VslsConvTask task, float[] x, int xstride, float[] y, int ystride, float[] z, int zstride)
+            => vslsConvExec1D(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrExec1D(VsldCorrTask task, double[] x, int xstride, double[] y, int ystride, double[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExec1D(VsldCorrTask task, double[] x, int xstride, double[] y, int ystride, double[] z, int zstride)
+            => vsldCorrExec1D(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrExec1D(VslsCorrTask task, float[] x, int xstride, float[] y, int ystride, float[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExec1D(VslsCorrTask task, float[] x, int xstride, float[] y, int ystride, float[] z, int zstride)
+            => vslsCorrExec1D(task, x, xstride, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvExecX(VsldConvTask task, double[] y, int[] ystride, double[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExecX(VsldConvTask task, double[] y, int[] ystride, double[] z, int[] zstride)
+            => vsldConvExecX(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvExecX(VslsConvTask task, float[] y, int[] ystride, float[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExecX(VslsConvTask task, float[] y, int[] ystride, float[] z, int[] zstride)
+            => vslsConvExecX(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrExecX(VsldCorrTask task, double[] y, int[] ystride, double[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExecX(VsldCorrTask task, double[] y, int[] ystride, double[] z, int[] zstride)
+            => vsldCorrExecX(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrExecX(VslsCorrTask task, float[] y, int[] ystride, float[] z, int[] zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExecX(VslsCorrTask task, float[] y, int[] ystride, float[] z, int[] zstride)
+            => vslsCorrExecX(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldConvExecX1D(VsldConvTask task, double[] y, int ystride, double[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExecX1D(VsldConvTask task, double[] y, int ystride, double[] z, int zstride)
+            => vsldConvExecX1D(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsConvExecX1D(VslsConvTask task, float[] y, int ystride, float[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvExecX1D(VslsConvTask task, float[] y, int ystride, float[] z, int zstride)
+            => vslsConvExecX1D(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldCorrExecX1D(VsldCorrTask task, double[] y, int ystride, double[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExecX1D(VsldCorrTask task, double[] y, int ystride, double[] z, int zstride)
+            => vsldCorrExecX1D(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsCorrExecX1D(VslsCorrTask task, float[] y, int ystride, float[] z, int zstride);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CorrExecX1D(VslsCorrTask task, float[] y, int ystride, float[] z, int zstride)
+            => vslsCorrExecX1D(task, y, ystride, z, zstride);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSNewTask(out VsldSSTask task, int p, int n, VslStorage xstorage, double[] x, double[] w, int[] indices);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSNewTask(out VsldSSTask task, int p, int n, VslStorage xstorage, double[] x, double[] w, int[] indices)
+            => vsldSSNewTask(out task, p, n, xstorage, x, w, indices);
+        public static VsldSSTask SSNewTask(int p, int n, VslStorage xstorage, double[] x, double[] w, int[] indices)
+        {
+            var status = vsldSSNewTask(out var task, p, n, xstorage, x, w, indices);
+            if (status != 0) throw new Exception("Non zero status: " + status);
+            return task;
+        }
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSNewTask(out VslsSSTask task, int p, int n, VslStorage xstorage, float[] x, float[] w, int[] indices);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSNewTask(out VslsSSTask task, int p, int n, VslStorage xstorage, float[] x, float[] w, int[] indices)
+            => vslsSSNewTask(out task, p, n, xstorage, x, w, indices);
+        public static VslsSSTask SSNewTask(int p, int n, VslStorage xstorage, float[] x, float[] w, int[] indices)
+        {
+            var status = vslsSSNewTask(out var task, p, n, xstorage, x, w, indices);
+            if (status != 0) throw new Exception("Non zero status: " + status);
+            return task;
+        }
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditTask(VsldSSTask task, int parameter, double[] value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditTask(VsldSSTask task, int parameter, double[] value)
+            => vsldSSEditTask(task, parameter, value);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditTask(VslsSSTask task, int parameter, float[] value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditTask(VslsSSTask task, int parameter, float[] value)
+            => vslsSSEditTask(task, parameter, value);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsliSSEditTask(VsliSSTask task, int parameter, int[] value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditTask(VsliSSTask task, int parameter, int[] value)
+            => vsliSSEditTask(task, parameter, value);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditMoments(VsldSSTask task, double[] mean, double[] r2m, double[] r3m, double[] r4m, double[] c2m, double[] c3m, double[] c4m);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditMoments(VsldSSTask task, double[] mean, double[] r2m, double[] r3m, double[] r4m, double[] c2m, double[] c3m, double[] c4m)
+            => vsldSSEditMoments(task, mean, r2m, r3m, r4m, c2m, c3m, c4m);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditMoments(VslsSSTask task, float[] mean, float[] r2m, float[] r3m, float[] r4m, float[] c2m, float[] c3m, float[] c4m);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditMoments(VslsSSTask task, float[] mean, float[] r2m, float[] r3m, float[] r4m, float[] c2m, float[] c3m, float[] c4m)
+            => vslsSSEditMoments(task, mean, r2m, r3m, r4m, c2m, c3m, c4m);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditSums(VsldSSTask task, double[] sum, double[] r2s, double[] r3s, double[] r4s, double[] c2s, double[] c3s, double[] c4s);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditSums(VsldSSTask task, double[] sum, double[] r2s, double[] r3s, double[] r4s, double[] c2s, double[] c3s, double[] c4s)
+            => vsldSSEditSums(task, sum, r2s, r3s, r4s, c2s, c3s, c4s);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditSums(VslsSSTask task, float[] sum, float[] r2s, float[] r3s, float[] r4s, float[] c2s, float[] c3s, float[] c4s);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditSums(VslsSSTask task, float[] sum, float[] r2s, float[] r3s, float[] r4s, float[] c2s, float[] c3s, float[] c4s)
+            => vslsSSEditSums(task, sum, r2s, r3s, r4s, c2s, c3s, c4s);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditCovCor(VsldSSTask task, double[] mean, double[] cov, VslFormat cov_storage, double[] cor, VslFormat cor_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditCovCor(VsldSSTask task, double[] mean, double[] cov, VslFormat cov_storage, double[] cor, VslFormat cor_storage)
+            => vsldSSEditCovCor(task, mean, cov, cov_storage, cor, cor_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditCovCor(VslsSSTask task, float[] mean, float[] cov, VslFormat cov_storage, float[] cor, VslFormat cor_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditCovCor(VslsSSTask task, float[] mean, float[] cov, VslFormat cov_storage, float[] cor, VslFormat cor_storage)
+            => vslsSSEditCovCor(task, mean, cov, cov_storage, cor, cor_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditCP(VsldSSTask task, double[] mean, double[] sum, double[] cp, VslFormat cp_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditCP(VsldSSTask task, double[] mean, double[] sum, double[] cp, VslFormat cp_storage)
+            => vsldSSEditCP(task, mean, sum, cp, cp_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditCP(VslsSSTask task, float[] mean, float[] sum, float[] cp, VslFormat cp_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditCP(VslsSSTask task, float[] mean, float[] sum, float[] cp, VslFormat cp_storage)
+            => vslsSSEditCP(task, mean, sum, cp, cp_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditPartialCovCor(VsldSSTask task, int[] p_idx_array, double[] cov, VslStorage cov_storage, double[] cor, VslStorage cor_storage, double[] p_cov, VslStorage p_cov_storage, double[] p_cor, VslStorage p_cor_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditPartialCovCor(VsldSSTask task, int[] p_idx_array, double[] cov, VslStorage cov_storage, double[] cor, VslStorage cor_storage, double[] p_cov, VslStorage p_cov_storage, double[] p_cor, VslStorage p_cor_storage)
+            => vsldSSEditPartialCovCor(task, p_idx_array, cov, cov_storage, cor, cor_storage, p_cov, p_cov_storage, p_cor, p_cor_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditPartialCovCor(VslsSSTask task, int[] p_idx_array, float[] cov, VslStorage cov_storage, float[] cor, VslStorage cor_storage, float[] p_cov, VslStorage p_cov_storage, float[] p_cor, VslStorage p_cor_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditPartialCovCor(VslsSSTask task, int[] p_idx_array, float[] cov, VslStorage cov_storage, float[] cor, VslStorage cor_storage, float[] p_cov, VslStorage p_cov_storage, float[] p_cor, VslStorage p_cor_storage)
+            => vslsSSEditPartialCovCor(task, p_idx_array, cov, cov_storage, cor, cor_storage, p_cov, p_cov_storage, p_cor, p_cor_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditQuantiles(VsldSSTask task, int quant_order_n, double[] quant_order, double[] quants, double[] order_stats, VslStorage order_stats_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditQuantiles(VsldSSTask task, int quant_order_n, double[] quant_order, double[] quants, double[] order_stats, VslStorage order_stats_storage)
+            => vsldSSEditQuantiles(task, quant_order_n, quant_order, quants, order_stats, order_stats_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditQuantiles(VslsSSTask task, int quant_order_n, float[] quant_order, float[] quants, float[] order_stats, VslStorage order_stats_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditQuantiles(VslsSSTask task, int quant_order_n, float[] quant_order, float[] quants, float[] order_stats, VslStorage order_stats_storage)
+            => vslsSSEditQuantiles(task, quant_order_n, quant_order, quants, order_stats, order_stats_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditStreamQuantiles(VsldSSTask task, int quant_order_n, double[] quant_order, double[] quants, int nparams, double[] vparams);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditStreamQuantiles(VsldSSTask task, int quant_order_n, double[] quant_order, double[] quants, int nparams, double[] vparams)
+            => vsldSSEditStreamQuantiles(task, quant_order_n, quant_order, quants, nparams, vparams);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditStreamQuantiles(VslsSSTask task, int quant_order_n, float[] quant_order, float[] quants, int nparams, float[] vparams);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditStreamQuantiles(VslsSSTask task, int quant_order_n, float[] quant_order, float[] quants, int nparams, float[] vparams)
+            => vslsSSEditStreamQuantiles(task, quant_order_n, quant_order, quants, nparams, vparams);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditPooledCovariance(VsldSSTask task, int[] grp_indices, double[] pld_mean, double[] pld_cov, int[] req_grp_indices, double[] grp_means, double[] grp_cov);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditPooledCovariance(VsldSSTask task, int[] grp_indices, double[] pld_mean, double[] pld_cov, int[] req_grp_indices, double[] grp_means, double[] grp_cov)
+            => vsldSSEditPooledCovariance(task, grp_indices, pld_mean, pld_cov, req_grp_indices, grp_means, grp_cov);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditPooledCovariance(VslsSSTask task, int[] grp_indices, float[] pld_mean, float[] pld_cov, int[] req_grp_indices, float[] grp_means, float[] grp_cov);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditPooledCovariance(VslsSSTask task, int[] grp_indices, float[] pld_mean, float[] pld_cov, int[] req_grp_indices, float[] grp_means, float[] grp_cov)
+            => vslsSSEditPooledCovariance(task, grp_indices, pld_mean, pld_cov, req_grp_indices, grp_means, grp_cov);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditRobustCovariance(VsldSSTask task, VslStorage rcov_storage, int nparams, double[] vparams, double[] rmean, double[] rcov);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditRobustCovariance(VsldSSTask task, VslStorage rcov_storage, int nparams, double[] vparams, double[] rmean, double[] rcov)
+            => vsldSSEditRobustCovariance(task, rcov_storage, nparams, vparams, rmean, rcov);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditRobustCovariance(VslsSSTask task, VslStorage rcov_storage, int nparams, float[] vparams, float[] rmean, float[] rcov);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditRobustCovariance(VslsSSTask task, VslStorage rcov_storage, int nparams, float[] vparams, float[] rmean, float[] rcov)
+            => vslsSSEditRobustCovariance(task, rcov_storage, nparams, vparams, rmean, rcov);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditOutliersDetection(VsldSSTask task, int nparams, double[] vparams, double[] w);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditOutliersDetection(VsldSSTask task, int nparams, double[] vparams, double[] w)
+            => vsldSSEditOutliersDetection(task, nparams, vparams, w);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditOutliersDetection(VslsSSTask task, int nparams, float[] vparams, float[] w);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditOutliersDetection(VslsSSTask task, int nparams, float[] vparams, float[] w)
+            => vslsSSEditOutliersDetection(task, nparams, vparams, w);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditMissingValues(VsldSSTask task, int nparams, double[] vparams, int init_estimates_n, double[] init_estimates, int prior_n, double[] prior, int simul_missing_vals_n, double[] simul_missing_vals, int estimates_n, double[] estimates);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditMissingValues(VsldSSTask task, int nparams, double[] vparams, int init_estimates_n, double[] init_estimates, int prior_n, double[] prior, int simul_missing_vals_n, double[] simul_missing_vals, int estimates_n, double[] estimates)
+            => vsldSSEditMissingValues(task, nparams, vparams, init_estimates_n, init_estimates, prior_n, prior, simul_missing_vals_n, simul_missing_vals, estimates_n, estimates);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditMissingValues(VslsSSTask task, int nparams, float[] vparams, int init_estimates_n, float[] init_estimates, int prior_n, float[] prior, int simul_missing_vals_n, float[] simul_missing_vals, int estimates_n, float[] estimates);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditMissingValues(VslsSSTask task, int nparams, float[] vparams, int init_estimates_n, float[] init_estimates, int prior_n, float[] prior, int simul_missing_vals_n, float[] simul_missing_vals, int estimates_n, float[] estimates)
+            => vslsSSEditMissingValues(task, nparams, vparams, init_estimates_n, init_estimates, prior_n, prior, simul_missing_vals_n, simul_missing_vals, estimates_n, estimates);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSEditCorParameterization(VsldSSTask task, double[] cor, VslStorage cor_storage, double[] pcor, VslStorage pcor_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditCorParameterization(VsldSSTask task, double[] cor, VslStorage cor_storage, double[] pcor, VslStorage pcor_storage)
+            => vsldSSEditCorParameterization(task, cor, cor_storage, pcor, pcor_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditCorParameterization(VslsSSTask task, float[] cor, VslStorage cor_storage, float[] pcor, VslStorage pcor_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditCorParameterization(VslsSSTask task, float[] cor, VslStorage cor_storage, float[] pcor, VslStorage pcor_storage)
+            => vslsSSEditCorParameterization(task, cor, cor_storage, pcor, pcor_storage);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vsldSSCompute(VsldSSTask task, VslEstimate estimates, VslMethod method);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSCompute(VsldSSTask task, VslEstimate estimates, VslMethod method)
+            => vsldSSCompute(task, estimates, method);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSCompute(VslsSSTask task, VslEstimate estimates, VslMethod method);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSCompute(VslsSSTask task, VslEstimate estimates, VslMethod method)
+            => vslsSSCompute(task, estimates, method);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslSSDeleteTask(ref VsldSSTask task);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSDeleteTask(VsldSSTask task)
+            => vslSSDeleteTask(ref task);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslSSDeleteTask(ref VslsSSTask task);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSDeleteTask(VslsSSTask task)
+            => vslSSDeleteTask(ref task);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslSSDeleteTask(ref VsliSSTask task);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSDeleteTask(VsliSSTask task)
+            => vslSSDeleteTask(ref task);
     }
 }

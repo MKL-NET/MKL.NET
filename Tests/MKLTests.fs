@@ -1,10 +1,10 @@
-﻿module GeneralTests
+﻿module MKLTests
 
 open System
 open MKLNET
 
 let all =
-    test "General" {
+    test "MKL" {
 
         test "get_version" {
             let v = MKL.get_version()
