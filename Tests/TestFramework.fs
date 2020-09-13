@@ -1,12 +1,12 @@
 ﻿namespace global
 
 open System
-open System.Numerics
 open System.Threading
 open System.Diagnostics
 open System.Globalization
 open System.Runtime.CompilerServices
 open System.Runtime.InteropServices
+open CsCheck
 
 [<AutoOpen>]
 module Auto =
@@ -30,53 +30,6 @@ module Accuracy =
   let medium = {absolute=1e-8; relative=1e-5}
   let high = {absolute=1e-10; relative=1e-7}
   let veryHigh = {absolute=1e-12; relative=1e-9}
-
-type PCG =
-    val Inc : uint64
-    val mutable State : uint64
-    private new(inc:uint64,state:uint64) = { Inc = inc; State = state }
-    new(stream:int,seed:uint64) =
-        let inc = (uint64 stream <<< 1) ||| 1UL
-        PCG(inc, inc + seed)
-    new(stream:int) =
-        PCG(stream, uint64(Stopwatch.GetTimestamp()))
-    member i.Stream = int(i.Inc >>> 1)
-    member p.Next() =
-        p.State <- p.State * 6364136223846793005UL + p.Inc
-        let xorshifted = uint32(p.State ^^^ (p.State >>> 18) >>> 27)
-        let rotate = int(p.State >>> 59)
-        (xorshifted >>> rotate) ||| (xorshifted <<< (-rotate &&& 31))
-    member i.ToString(state:uint64) =
-        sprintf "%x%016x" (i.Inc >>> 1) state
-    override i.ToString() =
-        sprintf "%x%016x" (i.Inc >>> 1) i.State
-    static member TryParse(s:string) =
-        let l = s.Length
-        let mutable stream = Unchecked.defaultof<_>
-        let mutable state = Unchecked.defaultof<_>
-        if  l>=17
-         && Int32.TryParse(s.Substring(0,l-16), NumberStyles.HexNumber, null, &stream)
-         && UInt64.TryParse(s.Substring(l-16,16), NumberStyles.HexNumber, null, &state) then
-            Some(PCG((uint64 stream <<< 1) ||| 1UL,state))
-        else None
-    member p.Next64() =
-        (uint64 (p.Next()) <<< 32) + uint64 (p.Next())
-    member p.Next(maxExclusive:int) =
-        let bound = uint32 maxExclusive
-        let threshold = uint32(-maxExclusive) % bound
-        let rec find() =
-            let r = p.Next()
-            if r >= threshold then int(r % bound)
-            else find()
-        find()
-    member p.Next64(maxExclusive:int64) =
-        let bound = uint64 maxExclusive
-        let threshold = uint64(-maxExclusive) % bound
-        let rec find() =
-            let r = p.Next64()
-            if r >= threshold then int64(r % bound)
-            else find()
-        find()
 
 type MedianEstimator =
     val mutable N : int
@@ -311,44 +264,6 @@ type MapSlim<'k,'v when 'k : equality and 'k :> IEquatable<'k>> =
     member m.Key i : 'k =
         m.entries.[i].key
 
-[<AllowNullLiteral>]
-type Size =
-    val I : uint64
-    val L : Size list
-    new(i,l) = {I=i;L=l}
-    override x.Equals y =
-        x.I = (y :?> Size).I && x.L = (y :?> Size).L
-    override x.GetHashCode() =
-        int x.I
-    interface IComparable<Size> with
-        member x.CompareTo y =
-            let rec compare (x:Size) (y:Size) =
-                let i = int64 x.I - int64 y.I
-                if i <> 0L then i
-                else List.fold2 (fun s x y -> s + compare x y) 0L x.L y.L
-            compare x y |> sign
-    interface IComparable with
-        member x.CompareTo y =
-            (x :> IComparable<Size>).CompareTo (y :?> Size)
-    static member zero = Size(0UL,[])
-
-type Gen<'a> = abstract member Gen : PCG -> 'a * Size
-
-type GenRange<'a,'b> =
-    inherit Gen<'b>
-    abstract member GetSlice : 'a option * 'a option -> Gen<'b>
-
-type GenBuilder() =
-    member inline _.Zero() =
-        let g = (), Size.zero
-        { new Gen<_> with member _.Gen _ = g }
-    member inline _.Bind(ga:Gen<'a>,f:'a->Gen<'b>) =
-        { new Gen<_> with
-            member _.Gen r =
-                let gb = ga.Gen r |> fst |> f
-                gb.Gen r
-        }
-
 type TestText =
     | Normal of string
     | Minor of string
@@ -464,9 +379,9 @@ type TestBuilder(name:string) =
     member _.Bind(g:#Gen<'a>,f:'a->Test,
       [<CallerLineNumberAttribute;Optional;DefaultParameterValue 0>]line:int) =
         Test(nameList, fun p c ->
-            let a,s = g.Gen p
+            let struct (a,s) = g.Generate p
             match sizeMins.GetOption line with
-            | ValueSome v when s > v -> c None
+            | ValueSome v when v.IsLessThan s -> c None
             | _ ->
                 let (Test(_,tf)) = f a
                 tf p (function
@@ -475,7 +390,7 @@ type TestBuilder(name:string) =
                             if TestResult.hasErrs r then
                                 //lock sizeMins (fun () ->
                                     let m = &sizeMins.GetRef line
-                                    if isNull m || s <= m then
+                                    if isNull m || not(m.IsLessThan s) then
                                         m <- s
                                         Some r
                                     else None
@@ -508,7 +423,6 @@ type TestBuilder(name:string) =
 [<AutoOpen>]
 module TestAutoOpen =
     let test name = TestBuilder name
-    let gen = GenBuilder()
 
 type Config =
     | Filt of string list
@@ -553,6 +467,11 @@ module Config =
                 | Some i -> Ok(case i), l-1
                 | None -> Error("Cannot parse parameter '" + args.[i] + "'"), l-1
 
+    let inline private parseExact parseFn case : Parser<'a> =
+        fun (args, i, l) ->
+            if l = 0 then Error "requires a parameter", 0
+            else parseFn args.[i] |> case |> Ok, l-1
+
     let inline tryParse (s: string) =
         let mutable r = Unchecked.defaultof<_>
         if (^a : (static member TryParse: string * ^a byref -> bool) (s, &r))
@@ -569,7 +488,7 @@ module Config =
     let private options = [
         "--filt", "Test name filters (switch not required if first argument).", list string Filt
         "--para", "Number of parallel threads.", number Para
-        "--seed", "First thread starts with this seed.", parseWith PCG.TryParse Seed
+        "--seed", "First thread starts with this seed.", parseExact PCG.Parse Seed
         "--iter", "Run tests randomly for this number of iterations (defaults to 1).", number Iter
         "--time", "Run tests randomly for this time in seconds.", number Time
         "--memo", "Memory limit in MB (defaults to 100 MB).", number Memo
@@ -647,10 +566,10 @@ type private RunCounts = {
     mutable Skipped : int64
 }
 
-type private Worker(pcg:PCG,nextTest:unit->TestData option,tc:RunCounts,skip,stopOnError) as worker =
+type private Worker(pcg:PCG option,nextTest:unit->TestData option,tc:RunCounts,skip,stopOnError) as worker =
     [<DefaultValue>]
     val mutable Running : TestData option
-    let rec run() =
+    let rec run (pcg:PCG) =
         match nextTest() with
         | None ->
             worker.Running <- None
@@ -682,9 +601,11 @@ type private Worker(pcg:PCG,nextTest:unit->TestData option,tc:RunCounts,skip,sto
                 )
             else
                 Interlocked.Increment &tc.Skipped |> ignore
-                run()
+                run pcg
     do ThreadPool.UnsafeQueueUserWorkItem(WaitCallback worker.Execute, false) |> ignore
-    member _.Execute(_:obj) = run()
+    member _.Execute(_:obj) =
+        let pcg = match pcg with Some p -> p | None -> PCG.ThreadPCG
+        run pcg
 
 module Tests =
 
@@ -812,7 +733,7 @@ module Tests =
                         else
                             if tests.[i].Skip=0 && t=0 then Some i
                             else loop (i+1) (if t=0 then t else t-1)
-                    match loop 0 (pcg.Next c) with
+                    match loop 0 (int(pcg.Next(uint32 c))) with
                     | Some test -> Some test
                     | None -> randomTest pcg
             let workers, progress =
@@ -827,9 +748,9 @@ module Tests =
                                     else List.tryPick (function Para s -> Some s | _ -> None) config
                                          |> Option.defaultWith Environment.get_ProcessorCount
                     counts.Threads.Reset noThreads
-                    let workers = Array.init noThreads (fun i ->
-                        let pcg = PCG(i+noThreads)
-                        Worker((match i,seed with 0,Some p -> p | i,_ -> PCG i),
+                    let workers = Array.init noThreads (fun _ ->
+                        let pcg = PCG.ThreadPCG
+                        Worker(seed,
                             (fun () -> if Stopwatch.GetTimestamp() > endTime then None
                                        else randomTest pcg |> Option.map (Array.get tests)),
                             counts, skip, stopOnError)
@@ -846,9 +767,9 @@ module Tests =
                     counts.Threads.Reset noThreads
                     let testRunCount = Array.zeroCreate<int> tests.Length
                     let mutable testsLeft = tests.Length * iters
-                    let workers = Array.init noThreads (fun i ->
-                        let pcg = PCG(i+noThreads)
-                        Worker((match i,seed with 0,Some p -> p | i,_ -> PCG i),
+                    let workers = Array.init noThreads (fun _ ->
+                        let pcg = PCG.ThreadPCG
+                        Worker(seed,
                             (fun () ->
                                 let tl = Interlocked.Decrement &testsLeft
                                 if tl = 0 then timeout <- Stopwatch.GetTimestamp() + wait * Stopwatch.Frequency / 1000L

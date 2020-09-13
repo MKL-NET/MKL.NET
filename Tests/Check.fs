@@ -32,14 +32,53 @@ let lessThan (actual:'a) (expected:'a) =
         let e = (sprintf "%A" expected).Replace("\n","")
         Failure(Normal "actual is not less than expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
 
-let equal (expected:'a) (actual:'a) =
-    match box actual, box expected with
-    | a,e ->
+let rec private equalInner (expected:obj) (actual:obj) =
+    match actual, expected with
+    | (:? (float[]) as a), (:? (float[]) as e) ->
+        if a.Length = e.Length then
+            Array.fold2 (fun (i,s) a e ->
+                match s with
+                | Success ->
+                    i+1, equalInner e a
+                | f -> i,f
+            ) (-1,Success) e a
+            |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
+                        | _, r -> r
+        else
+            Failure(Normal "Length differs. actual: " + Numeric a + " expected: " + Numeric e)
+    | (:? (float32[]) as a), (:? (float32[]) as e) ->
+        if a.Length = e.Length then
+            Array.fold2 (fun (i,s) a e ->
+                match s with
+                | Success ->
+                    i+1, equalInner e a
+                | f -> i,f
+            ) (-1,Success) e a
+            |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
+                        | _, r -> r
+        else
+            Failure(Normal "Length differs. actual: " + Numeric a + " expected: " + Numeric e)
+    | (:? float as a), (:? float as e) ->
+        if a=e || Double.IsNaN a && Double.IsNaN e then Success
+        else
+            let a = (sprintf "%A" actual).Replace("\n","")
+            let e = (sprintf "%A" expected).Replace("\n","")
+            Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
+    | (:? float32 as a), (:? float32 as e) ->
+        if a=e || Single.IsNaN a && Single.IsNaN e then Success
+        else
+            let a = (sprintf "%A" actual).Replace("\n","")
+            let e = (sprintf "%A" expected).Replace("\n","")
+            Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
+    | a, e ->
         if a=e then Success
         else
             let a = (sprintf "%A" actual).Replace("\n","")
             let e = (sprintf "%A" expected).Replace("\n","")
             Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
+
+let equal (expected:'a) (actual:'a) =
+    equalInner (box expected) (box actual)
 
 let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
     if actual < startInclusive then

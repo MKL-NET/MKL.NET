@@ -1,17 +1,60 @@
 ﻿module VmlTests
 
 open MKLNET
+open CsCheck
 
 let all =
     test "Vml" {
 
         test "Add" {
-            let r = Array.zeroCreate 3
-            Vml.Add(3,
-                [| 1.0; 2.0; 3.0 |],
-                [| 4.0; 5.0; 6.0 |],
-                r
-                )
-            Check.equal [| 5.0; 7.0; 9.0 |] r
+            let! a = Gen.Double.Array.[0,3]
+            let! b = Gen.Double.Array.[a.Length]
+            let actual = Array.zeroCreate a.Length
+            Vml.Add(a.Length,a,b,actual)
+            let expected = Array.map2 (+) a b
+            Check.equal expected actual
+        }
+
+        test "Add_inplace" {
+            let! a = Gen.Double.Array.[0,3]
+            let! b = Gen.Double.Array.[a.Length]
+            let expected = Array.map2 (+) a b
+            Vml.Add(a.Length,a,b,a)
+            Check.equal expected a
+        }
+
+        test "Add_mode" {
+            let! a = Gen.Double.Array.[0,3]
+            let! b = Gen.Double.Array.[a.Length]
+            let actual = Array.zeroCreate a.Length
+            Vml.Add(a.Length,a,b,actual,VmlMode.EP)
+            let expected = Array.map2 (+) a b
+            Check.equal expected actual
+        }
+
+        test "Add_single" {
+            let! a = Gen.Single.Array.[0,3]
+            let! b = Gen.Single.Array.[a.Length]
+            let actual = Array.zeroCreate a.Length
+            Vml.Add(a.Length,a,b,actual)
+            let expected = Array.map2 (+) a b
+            Check.equal expected actual
+        }
+
+        test "Add_inplace_single" {
+            let! a = Gen.Single.Array.[0,3]
+            let! b = Gen.Single.Array.[a.Length]
+            let expected = Array.map2 (+) a b
+            Vml.Add(a.Length,a,b,a)
+            Check.equal expected a
+        }
+
+        test "Add_mode_single" {
+            let! a = Gen.Single.Array.[0,3]
+            let! b = Gen.Single.Array.[a.Length]
+            let actual = Array.zeroCreate a.Length
+            Vml.Add(a.Length,a,b,actual,VmlMode.EP)
+            let expected = Array.map2 (+) a b
+            Check.equal expected actual
         }
     }
