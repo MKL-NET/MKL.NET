@@ -92,6 +92,8 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, int config_value)
             => DftiSetValue(handle, config_param, config_value);
+        public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, DftiConfigValue config_value)
+            => DftiSetValue(handle, config_param, (int)config_value);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiSetValue(DftiDescriptor handle, DftiConfigParam config_param, float config_value);
@@ -128,6 +130,12 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out int config_value)
             => DftiGetValue(handle, config_param, out config_value);
+        public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out DftiConfigValue config_value)
+        {
+            var status = GetValue(handle, config_param, out int config_value_int);
+            config_value = (DftiConfigValue)config_value_int;
+            return status;
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out float config_value);

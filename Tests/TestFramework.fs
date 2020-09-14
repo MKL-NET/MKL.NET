@@ -31,54 +31,6 @@ module Accuracy =
   let high = {absolute=1e-10; relative=1e-7}
   let veryHigh = {absolute=1e-12; relative=1e-9}
 
-type MedianEstimator =
-    val mutable N : int
-    val mutable private n2 : int
-    val mutable private n3 : int
-    val mutable private n4 : int
-    val mutable private q1 : float
-    val mutable private q2 : float
-    val mutable private q3 : float
-    val mutable private q4 : float
-    val mutable private q5 : float
-    new() = {N=0; n2=2; n3=3; n4=4; q1=0.0; q2=0.0; q3=0.0; q4=0.0; q5=0.0}
-    member m.Median = m.q3
-    member m.MADless = m.q3 - m.q2
-    member m.MADmore = m.q4 - m.q3
-    member m.Add (s:float) =
-        m.N <- m.N + 1
-        if m.N > 5 then
-            if s < m.q1 then m.q1 <- s
-            if s < m.q2 then m.n2 <- m.n2 + 1
-            if s < m.q3 then m.n3 <- m.n3 + 1
-            if s < m.q4 then m.n4 <- m.n4 + 1
-            if s > m.q5 then m.q5 <- s
-            let inline adjust n p n1 n2 n3 q1 q2 q3 =
-                let d = float n * p - float n2
-                if  (d >= 1.0 && n3 - n2 > 1) || (d <= -1.0 && n1 - n2 < -1) then
-                    let d = sign d
-                    let q = q2 + float d/float(n3-n1)*(float(n2-n1+d)*(q3-q2)/float(n3-n2) + float(n3-n2-d)*(q2-q1)/float(n2-n1))
-                    let q = if q1 < q && q < q3 then q
-                            elif d = 1 then q2 + (q3-q2)/float(n3-n2)
-                            else q2 - (q1-q2)/float(n1-n2)
-                    Some(n2+d,q)
-                else None
-            adjust m.N 0.25 1 m.n2 m.n3 m.q1 m.q2 m.q3 |> Option.iter (fun (n,q) -> m.n2 <- n; m.q2 <- q)
-            adjust m.N 0.5 m.n2 m.n3 m.n4 m.q2 m.q3 m.q4 |> Option.iter (fun (n,q) -> m.n3 <- n; m.q3 <- q)
-            adjust m.N 0.75 m.n3 m.n4 m.N m.q3 m.q4 m.q5 |> Option.iter (fun (n,q) -> m.n4 <- n; m.q4 <- q)
-        elif m.N = 5 then
-            let a = [|m.q1;m.q2;m.q3;m.q4;s|]
-            Array.sortInPlace a
-            m.q1 <- a.[0]
-            m.q2 <- a.[1]
-            m.q3 <- a.[2]
-            m.q4 <- a.[3]
-            m.q5 <- a.[4]
-        elif m.N = 4 then m.q4 <- s
-        elif m.N = 3 then m.q3 <- s
-        elif m.N = 2 then m.q2 <- s
-        else m.q1 <- s
-
 module private Result =
     let traverse f list =
         List.fold (fun s i ->
@@ -334,7 +286,7 @@ type TestBuilder(name:string) =
                 let fa = &faster.GetRef line
                 if isNull fa then fa <- FasterAggregation m
                 if fa.Error |> not then
-                    fa.Median.Add s
+                    fa.Median.Add(float32 s)
                     if s>0.0 then fa.Faster <- fa.Faster + 1
                     elif s<0.0 then fa.Slower <- fa.Slower + 1
                     if fa.Faster < fa.Slower && fa.Variance > 36.0 then fa.Error <- true
@@ -696,7 +648,7 @@ module Tests =
                         t.Method <- fun p c ->
                                         let t = Stopwatch.GetTimestamp()
                                         f p (fun r ->
-                                            me.Add(float(Stopwatch.GetTimestamp() - t))
+                                            me.Add(float32(Stopwatch.GetTimestamp() - t))
                                             c r
                                         )
                     ) tests
