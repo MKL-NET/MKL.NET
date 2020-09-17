@@ -381,19 +381,19 @@ let trigonometric =
             (fun i -> Math.Sin(Math.PI*float i) |> float32)
             (fun a r -> Vml.Sinpi(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tanpi_double" Gen.Double.[-1000.0,1000.0]
+        testUnary "Tanpi_double" Gen.Double.[-100.0,100.0]
             (fun i -> Math.Tan(Math.PI*i))
             (fun a r -> Vml.Tanpi(a.Length,a,r))
 
-        testUnary "Tanpi_mode_double" Gen.Double.[-1000.0,1000.0]
+        testUnary "Tanpi_mode_double" Gen.Double.[-100.0,100.0]
             (fun i -> Math.Tan(Math.PI*i))
             (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tanpi_single" Gen.Single.[-1000.0f,1000.0f]
+        testUnary "Tanpi_single" Gen.Single.[-100.0f,100.0f]
             (fun i -> Math.Tan(Math.PI*float i) |> float32)
             (fun a r -> Vml.Tanpi(a.Length,a,r))
 
-        testUnary "Tanpi_mode_single" Gen.Single.[-1000.0f,1000.0f]
+        testUnary "Tanpi_mode_single" Gen.Single.[-100.0f,100.0f]
             (fun i -> Math.Tan(Math.PI*float i) |> float32)
             (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
 
