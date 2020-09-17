@@ -262,9 +262,9 @@ namespace MKLNET
             => vsExp2(n, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void Exp2(int n, double[] a, double[] r);
+        static extern void vdExp2(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void vdExp2(int n, double[] a, double[] r)
+        public static void Exp2(int n, double[] a, double[] r)
             => vdExp2(n, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
