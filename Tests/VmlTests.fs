@@ -423,129 +423,129 @@ let trigonometric =
             (fun i -> Math.Sin(Math.PI/180.0*i))
             (fun a r -> Vml.Sind(a.Length,a,r))
 
-        //testUnary "Sind_mode_double" Gen.Double.[-65536.0,65536.0]
-        //    (fun i -> Math.Sin(Math.PI/180.0*i))
-        //    (fun a r -> Vml.Sind(a.Length,a,r,VmlMode.HA))
+        testUnary "Sind_mode_double" Gen.Double.[-65536.0,65536.0]
+            (fun i -> Math.Sin(Math.PI/180.0*i))
+            (fun a r -> Vml.Sind(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Sind_single" Gen.Single.[-4194304.0f,4194304.0f]
-        //    (fun i -> Math.Sin(Math.PI/180.0*float i) |> float32)
-        //    (fun a r -> Vml.Sind(a.Length,a,r))
+        testUnary "Sind_single" Gen.Single.[-4194304.0f,4194304.0f]
+            (fun i -> Math.Sin(Math.PI/180.0*float i) |> float32)
+            (fun a r -> Vml.Sind(a.Length,a,r))
 
-        //testUnary "Sind_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
-        //    (fun i -> Math.Sin(Math.PI/180.0*float i) |> float32)
-        //    (fun a r -> Vml.Sind(a.Length,a,r,VmlMode.HA))
+        testUnary "Sind_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+            (fun i -> Math.Sin(Math.PI/180.0*float i) |> float32)
+            (fun a r -> Vml.Sind(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Tand_double" Gen.Double.[-1000.0,1000.0]
-        //    (fun i -> Math.Tan(Math.PI/180.0*i))
-        //    (fun a r -> Vml.Tand(a.Length,a,r))
+        testUnary "Tand_double" Gen.Double.[-1000.0,1000.0]
+            (fun i -> Math.Tan(Math.PI/180.0*i))
+            (fun a r -> Vml.Tand(a.Length,a,r))
 
-        //testUnary "Tand_mode_double" Gen.Double.[-1000.0,1000.0]
-        //    (fun i -> Math.Tan(Math.PI/180.0*i))
-        //    (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
+        testUnary "Tand_mode_double" Gen.Double.[-1000.0,1000.0]
+            (fun i -> Math.Tan(Math.PI/180.0*i))
+            (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Tand_single" Gen.Single.[-4194304.0f,4194304.0f]
-        //    (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
-        //    (fun a r -> Vml.Tand(a.Length,a,r))
+        testUnary "Tand_single" Gen.Single.[-4194304.0f,4194304.0f]
+            (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
+            (fun a r -> Vml.Tand(a.Length,a,r))
 
-        //testUnary "Tand_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
-        //    (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
-        //    (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
+        testUnary "Tand_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+            (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
+            (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Cosh_double" Gen.Double
-        //    Math.Cosh
-        //    (fun a r -> Vml.Cosh(a.Length,a,r))
+        testUnary "Cosh_double" Gen.Double
+            Math.Cosh
+            (fun a r -> Vml.Cosh(a.Length,a,r))
 
-        //testUnary "Cosh_mode_double" Gen.Double
-        //    Math.Cosh
-        //    (fun a r -> Vml.Cosh(a.Length,a,r,VmlMode.HA))
+        testUnary "Cosh_mode_double" Gen.Double
+            Math.Cosh
+            (fun a r -> Vml.Cosh(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Cosh_single" Gen.Single
-        //    (float >> Math.Cosh >> float32)
-        //    (fun a r -> Vml.Cosh(a.Length,a,r))
+        testUnary "Cosh_single" Gen.Single
+            (float >> Math.Cosh >> float32)
+            (fun a r -> Vml.Cosh(a.Length,a,r))
 
-        //testUnary "Cosh_mode_single" Gen.Single
-        //    (float >> Math.Cosh >> float32)
-        //    (fun a r -> Vml.Cosh(a.Length,a,r,VmlMode.HA))
+        testUnary "Cosh_mode_single" Gen.Single
+            (float >> Math.Cosh >> float32)
+            (fun a r -> Vml.Cosh(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Sinh_double" Gen.Double
-        //    Math.Sinh
-        //    (fun a r -> Vml.Sinh(a.Length,a,r))
+        testUnary "Sinh_double" Gen.Double
+            Math.Sinh
+            (fun a r -> Vml.Sinh(a.Length,a,r))
 
-        //testUnary "Sinh_mode_double" Gen.Double
-        //    Math.Sinh
-        //    (fun a r -> Vml.Sinh(a.Length,a,r,VmlMode.HA))
+        testUnary "Sinh_mode_double" Gen.Double
+            Math.Sinh
+            (fun a r -> Vml.Sinh(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Sinh_single" Gen.Single
-        //    (float >> Math.Sinh >> float32)
-        //    (fun a r -> Vml.Sinh(a.Length,a,r))
+        testUnary "Sinh_single" Gen.Single
+            (float >> Math.Sinh >> float32)
+            (fun a r -> Vml.Sinh(a.Length,a,r))
 
-        //testUnary "Sinh_mode_single" Gen.Single
-        //    (float >> Math.Sinh >> float32)
-        //    (fun a r -> Vml.Sinh(a.Length,a,r,VmlMode.HA))
+        testUnary "Sinh_mode_single" Gen.Single
+            (float >> Math.Sinh >> float32)
+            (fun a r -> Vml.Sinh(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Tanh_double" Gen.Double
-        //    Math.Tanh
-        //    (fun a r -> Vml.Tanh(a.Length,a,r))
+        testUnary "Tanh_double" Gen.Double
+            Math.Tanh
+            (fun a r -> Vml.Tanh(a.Length,a,r))
 
-        //testUnary "Tanh_mode_double" Gen.Double
-        //    Math.Tanh
-        //    (fun a r -> Vml.Tanh(a.Length,a,r,VmlMode.HA))
+        testUnary "Tanh_mode_double" Gen.Double
+            Math.Tanh
+            (fun a r -> Vml.Tanh(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Tanh_single" Gen.Single
-        //    (float >> Math.Tanh >> float32)
-        //    (fun a r -> Vml.Tanh(a.Length,a,r))
+        testUnary "Tanh_single" Gen.Single
+            (float >> Math.Tanh >> float32)
+            (fun a r -> Vml.Tanh(a.Length,a,r))
 
-        //testUnary "Tanh_mode_single" Gen.Single
-        //    (float >> Math.Tanh >> float32)
-        //    (fun a r -> Vml.Tanh(a.Length,a,r,VmlMode.HA))
+        testUnary "Tanh_mode_single" Gen.Single
+            (float >> Math.Tanh >> float32)
+            (fun a r -> Vml.Tanh(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Acos_double" Gen.Double.[-1.0,1.0]
-        //    Math.Acos
-        //    (fun a r -> Vml.Acos(a.Length,a,r))
+        testUnary "Acos_double" Gen.Double.[-1.0,1.0]
+            Math.Acos
+            (fun a r -> Vml.Acos(a.Length,a,r))
 
-        //testUnary "Acos_mode_double" Gen.Double.[-1.0,1.0]
-        //    Math.Acos
-        //    (fun a r -> Vml.Acos(a.Length,a,r,VmlMode.HA))
+        testUnary "Acos_mode_double" Gen.Double.[-1.0,1.0]
+            Math.Acos
+            (fun a r -> Vml.Acos(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Acos_single" Gen.Single.[-1.0f,1.0f]
-        //    (float >> Math.Acos >> float32)
-        //    (fun a r -> Vml.Acos(a.Length,a,r))
+        testUnary "Acos_single" Gen.Single.[-1.0f,1.0f]
+            (float >> Math.Acos >> float32)
+            (fun a r -> Vml.Acos(a.Length,a,r))
 
-        //testUnary "Acos_mode_single" Gen.Single.[-1.0f,1.0f]
-        //    (float >> Math.Acos >> float32)
-        //    (fun a r -> Vml.Acos(a.Length,a,r,VmlMode.HA))
+        testUnary "Acos_mode_single" Gen.Single.[-1.0f,1.0f]
+            (float >> Math.Acos >> float32)
+            (fun a r -> Vml.Acos(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Asin_double" Gen.Double.[-1.0,1.0]
-        //    Math.Asin
-        //    (fun a r -> Vml.Asin(a.Length,a,r))
+        testUnary "Asin_double" Gen.Double.[-1.0,1.0]
+            Math.Asin
+            (fun a r -> Vml.Asin(a.Length,a,r))
 
-        //testUnary "Asin_mode_double" Gen.Double.[-1.0,1.0]
-        //    Math.Asin
-        //    (fun a r -> Vml.Asin(a.Length,a,r,VmlMode.HA))
+        testUnary "Asin_mode_double" Gen.Double.[-1.0,1.0]
+            Math.Asin
+            (fun a r -> Vml.Asin(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Asin_single" Gen.Single.[-1.0f,1.0f]
-        //    (float >> Math.Asin >> float32)
-        //    (fun a r -> Vml.Asin(a.Length,a,r))
+        testUnary "Asin_single" Gen.Single.[-1.0f,1.0f]
+            (float >> Math.Asin >> float32)
+            (fun a r -> Vml.Asin(a.Length,a,r))
 
-        //testUnary "Asin_mode_single" Gen.Single.[-1.0f,1.0f]
-        //    (float >> Math.Asin >> float32)
-        //    (fun a r -> Vml.Asin(a.Length,a,r,VmlMode.HA))
+        testUnary "Asin_mode_single" Gen.Single.[-1.0f,1.0f]
+            (float >> Math.Asin >> float32)
+            (fun a r -> Vml.Asin(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Atan_double" Gen.Double
-        //    Math.Atan
-        //    (fun a r -> Vml.Atan(a.Length,a,r))
+        testUnary "Atan_double" Gen.Double
+            Math.Atan
+            (fun a r -> Vml.Atan(a.Length,a,r))
 
-        //testUnary "Atan_mode_double" Gen.Double
-        //    Math.Atan
-        //    (fun a r -> Vml.Atan(a.Length,a,r,VmlMode.HA))
+        testUnary "Atan_mode_double" Gen.Double
+            Math.Atan
+            (fun a r -> Vml.Atan(a.Length,a,r,VmlMode.HA))
 
-        //testUnary "Atan_single" Gen.Single
-        //    (float >> Math.Atan >> float32)
-        //    (fun a r -> Vml.Atan(a.Length,a,r))
+        testUnary "Atan_single" Gen.Single
+            (float >> Math.Atan >> float32)
+            (fun a r -> Vml.Atan(a.Length,a,r))
 
-        //testUnary "Atan_mode_single" Gen.Single
-        //    (float >> Math.Atan >> float32)
-        //    (fun a r -> Vml.Atan(a.Length,a,r,VmlMode.HA))
+        testUnary "Atan_mode_single" Gen.Single
+            (float >> Math.Atan >> float32)
+            (fun a r -> Vml.Atan(a.Length,a,r,VmlMode.HA))
     }
 
 let all =
