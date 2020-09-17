@@ -339,21 +339,21 @@ let trigonometric =
             (float >> Math.Sin >> float32)
             (fun a r -> Vml.Sin(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tan_double" Gen.Double.[-65536.0,65536.0]
-            Math.Tan
-            (fun a r -> Vml.Tan(a.Length,a,r))
+        //testUnary "Tan_double" Gen.Double.[-65536.0,65536.0]
+        //    Math.Tan
+        //    (fun a r -> Vml.Tan(a.Length,a,r))
 
-        testUnary "Tan_mode_double" Gen.Double.[-65536.0,65536.0]
-            Math.Tan
-            (fun a r -> Vml.Tan(a.Length,a,r,VmlMode.HA))
+        //testUnary "Tan_mode_double" Gen.Double.[-65536.0,65536.0]
+        //    Math.Tan
+        //    (fun a r -> Vml.Tan(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tan_single" Gen.Single.[-8192.0f,8192.0f]
-            (float >> Math.Tan >> float32)
-            (fun a r -> Vml.Tan(a.Length,a,r))
+        //testUnary "Tan_single" Gen.Single.[-8192.0f,8192.0f]
+        //    (float >> Math.Tan >> float32)
+        //    (fun a r -> Vml.Tan(a.Length,a,r))
 
-        testUnary "Tan_mode_single" Gen.Single.[-8192.0f,8192.0f]
-            (float >> Math.Tan >> float32)
-            (fun a r -> Vml.Tan(a.Length,a,r,VmlMode.HA))
+        //testUnary "Tan_mode_single" Gen.Single.[-8192.0f,8192.0f]
+        //    (float >> Math.Tan >> float32)
+        //    (fun a r -> Vml.Tan(a.Length,a,r,VmlMode.HA))
 
         testUnary "Cospi_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> Math.Cos(Math.PI*i))
@@ -387,21 +387,21 @@ let trigonometric =
             (fun i -> Math.Sin(Math.PI*float i) |> float32)
             (fun a r -> Vml.Sinpi(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tanpi_double" Gen.Double.[-100.0,100.0]
-            (fun i -> Math.Tan(Math.PI*i))
-            (fun a r -> Vml.Tanpi(a.Length,a,r))
+        //testUnary "Tanpi_double" Gen.Double.[-100.0,100.0]
+        //    (fun i -> Math.Tan(Math.PI*i))
+        //    (fun a r -> Vml.Tanpi(a.Length,a,r))
 
-        testUnary "Tanpi_mode_double" Gen.Double.[-100.0,100.0]
-            (fun i -> Math.Tan(Math.PI*i))
-            (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
+        //testUnary "Tanpi_mode_double" Gen.Double.[-100.0,100.0]
+        //    (fun i -> Math.Tan(Math.PI*i))
+        //    (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tanpi_single" Gen.Single.[-100.0f,100.0f]
-            (fun i -> Math.Tan(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Tanpi(a.Length,a,r))
+        //testUnary "Tanpi_single" Gen.Single.[-100.0f,100.0f]
+        //    (fun i -> Math.Tan(Math.PI*float i) |> float32)
+        //    (fun a r -> Vml.Tanpi(a.Length,a,r))
 
-        testUnary "Tanpi_mode_single" Gen.Single.[-100.0f,100.0f]
-            (fun i -> Math.Tan(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
+        //testUnary "Tanpi_mode_single" Gen.Single.[-100.0f,100.0f]
+        //    (fun i -> Math.Tan(Math.PI*float i) |> float32)
+        //    (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
 
         testUnary "Cosd_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> Math.Cos(Math.PI/180.0*i))
@@ -435,21 +435,21 @@ let trigonometric =
             (fun i -> Math.Sin(Math.PI/180.0*float i) |> float32)
             (fun a r -> Vml.Sind(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tand_double" Gen.Double.[-1000.0,1000.0]
-            (fun i -> Math.Tan(Math.PI/180.0*i))
-            (fun a r -> Vml.Tand(a.Length,a,r))
+        //testUnary "Tand_double" Gen.Double.[-1000.0,1000.0]
+        //    (fun i -> Math.Tan(Math.PI/180.0*i))
+        //    (fun a r -> Vml.Tand(a.Length,a,r))
 
-        testUnary "Tand_mode_double" Gen.Double.[-1000.0,1000.0]
-            (fun i -> Math.Tan(Math.PI/180.0*i))
-            (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
+        //testUnary "Tand_mode_double" Gen.Double.[-1000.0,1000.0]
+        //    (fun i -> Math.Tan(Math.PI/180.0*i))
+        //    (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tand_single" Gen.Single.[-4194304.0f,4194304.0f]
-            (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Tand(a.Length,a,r))
+        //testUnary "Tand_single" Gen.Single.[-4194304.0f,4194304.0f]
+        //    (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
+        //    (fun a r -> Vml.Tand(a.Length,a,r))
 
-        testUnary "Tand_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
-            (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
+        //testUnary "Tand_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+        //    (fun i -> Math.Tan(Math.PI/180.0*float i) |> float32)
+        //    (fun a r -> Vml.Tand(a.Length,a,r,VmlMode.HA))
 
         testUnary "Cosh_double" Gen.Double
             Math.Cosh
