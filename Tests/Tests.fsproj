@@ -4,9 +4,9 @@
     <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CsCheck" Version="0.9.3" />
+    <PackageReference Include="CsCheck" Version="0.9.4" />
     <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
-    <!--<PackageReference Include="MKL.NET" Version="0.5.0" />-->
+    <!--<PackageReference Include="MKL.NET" Version="0.6.0" />-->
     <PackageReference Include="MKL.NET.win-x64" Version="2020.3.279" />
     <PackageReference Include="MKL.NET.win-x86" Version="2020.3.279" />
     <PackageReference Include="MKL.NET.linux-x64" Version="2020.3.279" />

@@ -303,7 +303,7 @@ type TestBuilder(name:string) =
                 let fa = &faster.GetRef line
                 if isNull fa then fa <- FasterAggregation m
                 if fa.Error |> not then
-                    fa.Median.Add(float32 s)
+                    fa.Median.Add s
                     if s>0.0 then fa.Faster <- fa.Faster + 1
                     elif s<0.0 then fa.Slower <- fa.Slower + 1
                     if fa.Faster < fa.Slower && fa.Variance > 36.0 then fa.Error <- true
@@ -665,7 +665,7 @@ module Tests =
                         t.Method <- fun p c ->
                                         let t = Stopwatch.GetTimestamp()
                                         f p (fun r ->
-                                            me.Add(float32(Stopwatch.GetTimestamp() - t))
+                                            me.Add(float(Stopwatch.GetTimestamp() - t))
                                             c r
                                         )
                     ) tests
