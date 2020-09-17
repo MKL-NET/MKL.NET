@@ -25,60 +25,37 @@ let isFalse (actual:bool) =
     if actual then Failure(Normal "actual is true.")
     else Success
 
-let lessThan (actual:'a) (expected:'a) =
-    if actual < expected then Success
-    else
-        let a = (sprintf "%A" actual).Replace("\n","")
-        let e = (sprintf "%A" expected).Replace("\n","")
-        Failure(Normal "actual is not less than expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
-
-let rec private equalInner (expected:obj) (actual:obj) =
-    match actual, expected with
-    | (:? (float[]) as a), (:? (float[]) as e) ->
-        if a.Length = e.Length then
-            Array.fold2 (fun (i,s) a e ->
-                match s with
-                | Success ->
-                    i+1, equalInner e a
-                | f -> i,f
-            ) (-1,Success) e a
-            |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
-                        | _, r -> r
-        else
-            Failure(Normal "Length differs. actual: " + Numeric a + " expected: " + Numeric e)
-    | (:? (float32[]) as a), (:? (float32[]) as e) ->
-        if a.Length = e.Length then
-            Array.fold2 (fun (i,s) a e ->
-                match s with
-                | Success ->
-                    i+1, equalInner e a
-                | f -> i,f
-            ) (-1,Success) e a
-            |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
-                        | _, r -> r
-        else
-            Failure(Normal "Length differs. actual: " + Numeric a + " expected: " + Numeric e)
-    | (:? float as a), (:? float as e) ->
-        if a=e || Double.IsNaN a && Double.IsNaN e then Success
-        else
-            let a = (sprintf "%A" actual).Replace("\n","")
-            let e = (sprintf "%A" expected).Replace("\n","")
-            Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
-    | (:? float32 as a), (:? float32 as e) ->
-        if a=e || Single.IsNaN a && Single.IsNaN e then Success
-        else
-            let a = (sprintf "%A" actual).Replace("\n","")
-            let e = (sprintf "%A" expected).Replace("\n","")
-            Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
-    | a, e ->
-        if a=e then Success
-        else
-            let a = (sprintf "%A" actual).Replace("\n","")
-            let e = (sprintf "%A" expected).Replace("\n","")
-            Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
-
 let equal (expected:'a) (actual:'a) =
-    equalInner (box expected) (box actual)
+    let rec equal (expected:obj) (actual:obj) =
+        let equalArray (e:'b[]) (a:'b[]) =
+            if e.Length = a.Length then
+                Array.fold2 (fun (i,s) e a ->
+                    match s with
+                    | Success ->
+                        i+1, equal e a
+                    | f -> i,f
+                ) (-1,Success) e a
+                |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
+                            | _, r -> r
+            else
+                Failure(Normal "Length differs. expected: " + Numeric e + " actual: " + Numeric a)
+        let equalDefault (e:'b) (a:'b) =
+            let e = (string e).Replace("\n","")
+            let a = (string a).Replace("\n","")
+            Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
+        match expected, actual with
+        | (:? float as e), (:? float as a) ->
+            if e=a || Double.IsNaN a && Double.IsNaN e then Success
+            else equalDefault e a
+        | (:? float32 as e), (:? float32 as a) ->
+            if e=a || Single.IsNaN a && Single.IsNaN e then Success
+            else equalDefault e a
+        | (:? (float[]) as e), (:? (float[]) as a) -> equalArray e a
+        | (:? (float32[]) as e), (:? (float32[]) as a) -> equalArray e a
+        | e, a ->
+            if a=e then Success
+            else equalDefault e a
+    equal expected actual
 
 let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
     if actual < startInclusive then
@@ -88,31 +65,44 @@ let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
     else Success
 
 let close accuracy (expected:'a) (actual:'a) =
-    match box expected, box actual with
-    | (:? float as e), (:? float as a) ->
-        if Accuracy.areClose accuracy e a then Success
-        else
+    let rec close (expected:obj) (actual:obj) =
+        let closeArray (e:'b[]) (a:'b[]) =
+            if e.Length = a.Length then
+                Array.fold2 (fun (i,s) e a ->
+                    match s with
+                    | Success ->
+                        i+1, close e a
+                    | f -> i,f
+                ) (-1,Success) e a
+                |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
+                            | _, r -> r
+            else
+                Failure(Normal "Length differs. expected: " + Numeric e + " actual: " + Numeric a)
+        let inline closeDefault (e:'b) (a:'b) =
             Failure(Normal "Expected difference to be less than "
             + Numeric(Accuracy.areCloseRhs accuracy a e)
             + Normal ", but was " + Numeric(Accuracy.areCloseLhs a e)
             + Normal ". actual=" + Numeric a + Normal " expected=" + Numeric e
             )
-    | (:? (float[]) as e), (:? (float[]) as a) ->
-        Array.fold2 (fun (i,s) e a ->
-            match s with
-            | Success ->
-                if Accuracy.areClose accuracy e a then i+1,Success
-                else
-                    i,Failure(
-                      Normal "Index: " + Numeric i + ". "
-                    + "Expected difference to be less than "
-                    + Numeric(Accuracy.areCloseRhs accuracy e a)
-                    + ", but was " + Numeric(Accuracy.areCloseLhs a e)
-                    + ". actual=" + Numeric a + " expected=" + Numeric e
-                    )
-            | f -> i,f
-        ) (0,Success) e a |> snd
-    | _ -> failwithf "Unknown type %s" typeof<'a>.Name
+        match expected, actual with
+        | (:? float as e), (:? float as a) ->
+            if Accuracy.areClose accuracy e a
+             || Double.IsNaN a && Double.IsNaN e
+             || Double.IsPositiveInfinity a && Double.IsPositiveInfinity e
+             || Double.IsNegativeInfinity a && Double.IsNegativeInfinity e
+             then Success
+            else closeDefault e a
+        | (:? float32 as e), (:? float32 as a) ->
+            if Accuracy.areClose accuracy e a
+             || Single.IsNaN a && Single.IsNaN e
+             || Single.IsPositiveInfinity a && Single.IsPositiveInfinity e
+             || Single.IsNegativeInfinity a && Single.IsNegativeInfinity e
+             then Success
+            else closeDefault e a
+        | (:? (float[]) as e), (:? (float[]) as a) -> closeArray e a
+        | (:? (float32[]) as e), (:? (float32[]) as a) -> closeArray e a
+        | _ -> failwithf "Unknown type %s" (actual.GetType().Name)
+    close expected actual
 
 let faster (expected:unit->'a) (actual:unit->'a) =
     let t1 = Stopwatch.GetTimestamp()

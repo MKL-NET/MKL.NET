@@ -78,7 +78,7 @@ namespace MKLNET
         public string Platform;
     }
 
-    public enum VmlMode : long // or uint?
+    public enum VmlMode : long
     {
         LA               = 0x00000001,
         HA               = 0x00000002,

@@ -12,6 +12,6 @@ let all =
             |> Check.equal 0
             Vsl.DeleteStream(stream) |> Check.equal 0
             let expected = [| 2.197108196; 0.1405333963; -0.4023745985 |]
-            Check.close Accuracy.high expected r
+            Check.close High expected r
         }
     }

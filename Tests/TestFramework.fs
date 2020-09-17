@@ -20,16 +20,33 @@ module Auto =
     let inline idiv64 (n:int64) (d:int64) =
         Math.Round(float n/float d) |> int64
 
-type Accuracy = { absolute: float; relative: float }
+type Accuracy =
+    | Low
+    | Medium
+    | High
+    | VeryHigh
+    static member ($) (m:Accuracy,_:float) =
+        match m with
+        | Low -> fun a b -> 1e-6 + 1e-3 * max (abs a) (abs b)
+        | Medium -> fun a b -> 1e-8 + 1e-5 * max (abs a) (abs b)
+        | High -> fun a b -> 1e-10 + 1e-7 * max (abs a) (abs b)
+        | VeryHigh -> fun a b -> 1e-12 + 1e-9 * max (abs a) (abs b)
+    static member ($) (m:Accuracy,_:float32) =
+        match m with
+        | Low -> fun a b -> 1e-4f + 1e-1f * max (abs a) (abs b)
+        | Medium -> fun a b -> 1e-6f + 1e-3f * max (abs a) (abs b)
+        | High -> fun a b -> 1e-8f + 1e-5f * max (abs a) (abs b)
+        | VeryHigh -> fun a b -> 1e-10f + 1e-7f * max (abs a) (abs b)
+
+
 
 module Accuracy =
-  let inline areCloseLhs a b = abs(a-b)
-  let inline areCloseRhs m a b = m.absolute + m.relative * max (abs a) (abs b)
-  let inline areClose m a b = areCloseLhs a b <= areCloseRhs m a b
-  let low = {absolute=1e-6; relative=1e-3}
-  let medium = {absolute=1e-8; relative=1e-5}
-  let high = {absolute=1e-10; relative=1e-7}
-  let veryHigh = {absolute=1e-12; relative=1e-9}
+    let inline areCloseLhs (a:'a) (b:'a) = abs(a-b)
+    let inline areCloseRhs (m:Accuracy) : ('a -> 'a -> 'a) =
+        m $ Unchecked.defaultof<'a>
+    let inline areClose (m:Accuracy) =
+        let rhs = areCloseRhs m
+        fun a b -> areCloseLhs a b <= rhs a b
 
 module private Result =
     let traverse f list =
