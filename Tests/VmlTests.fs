@@ -545,5 +545,5 @@ let trigonometric =
 let all =
     test "Vml" {
         arithmetic
-        trigonometric
+        //trigonometric
     }
