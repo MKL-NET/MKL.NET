@@ -281,19 +281,19 @@ let arithmetic =
             (fun a r -> Vml.Log1p(a.Length,a,r,VmlMode.HA))
 
 #if NETCOREAPP // No Math.ILogB in .NET framework
-        testUnary "Logb_double" Gen.Double
+        testUnary "Logb_double" Gen.Double.[0.0,Double.MaxValue]
             (fun i -> Math.ILogB(i) |> float)
             (fun a r -> Vml.Logb(a.Length,a,r))
 
-        testUnary "Logb_mode_double" Gen.Double
+        testUnary "Logb_mode_double" Gen.Double.[0.0,Double.MaxValue]
             (fun i -> Math.ILogB(i) |> float)
             (fun a r -> Vml.Logb(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Logb_single" Gen.Single
+        testUnary "Logb_single" Gen.Single.[0.0f,Single.MaxValue]
             (fun i -> Math.ILogB(float i) |> float32)
             (fun a r -> Vml.Logb(a.Length,a,r))
 
-        testUnary "Logb_mode_single" Gen.Single
+        testUnary "Logb_mode_single" Gen.Single.[0.0f,Single.MaxValue]
             (fun i -> Math.ILogB(float i) |> float32)
             (fun a r -> Vml.Logb(a.Length,a,r,VmlMode.HA))
 #endif
@@ -389,11 +389,11 @@ let trigonometric =
             (fun i -> Math.Tan(Math.PI*i))
             (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
 
-        testUnary "Tanpi_single" Gen.Single.[-4194304.0f,4194304.0f]
+        testUnary "Tanpi_single" Gen.Single.[-1000.0f,1000.0f]
             (fun i -> Math.Tan(Math.PI*float i) |> float32)
             (fun a r -> Vml.Tanpi(a.Length,a,r))
 
-        testUnary "Tanpi_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+        testUnary "Tanpi_mode_single" Gen.Single.[-1000.0f,1000.0f]
             (fun i -> Math.Tan(Math.PI*float i) |> float32)
             (fun a r -> Vml.Tanpi(a.Length,a,r,VmlMode.HA))
 
