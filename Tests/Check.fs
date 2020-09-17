@@ -39,7 +39,7 @@ let equal (expected:'a) (actual:'a) =
                             | _, r -> r
             else
                 Failure(Normal "Length differs. expected: " + Numeric e + " actual: " + Numeric a)
-        let equalDefault (e:'b) (a:'b) =
+        let inline equalDefault (e:'b) (a:'b) =
             let e = (string e).Replace("\n","")
             let a = (string a).Replace("\n","")
             Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
