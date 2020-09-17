@@ -114,6 +114,7 @@ let all =
             (float >> (/) 1.0 >> Math.Sqrt >> float32)
             (fun a r -> Vml.InvSqrt(a.Length,a,r,VmlMode.HA))
 
+#if NETCOREAPP
         testUnary "Cbrt_double" Gen.Double Math.Cbrt
             (fun a r -> Vml.Cbrt(a.Length,a,r))
 
@@ -143,4 +144,5 @@ let all =
         testUnary "InvCbrt_mode_single" Gen.Single
             (float >> (/) 1.0 >> Math.Cbrt >> float32)
             (fun a r -> Vml.InvCbrt(a.Length,a,r,VmlMode.HA))
+#endif
     }
