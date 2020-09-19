@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace MKLNET
 {
     [SuppressUnmanagedCodeSecurity]
-    public static class Vml
+    public unsafe static class Vml
     {
 #if LINUX
         const string DLL = "libmkl_rt.so";
@@ -1864,10 +1864,16 @@ namespace MKLNET
             => vmdExpInt1(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAbsI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAbsI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAbsI(n, a, inca, r, incr);
+        public static void AbsI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+            {
+                vsAbsI(n, ap, inca, rp, incr);
+            }
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAbsI(int n, double[] a, int inca, double[] r, int incr);

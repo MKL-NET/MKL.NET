@@ -284,19 +284,19 @@ let power =
             (fun a b -> Math.Pow(float a,float b) |> float32)
             (fun a b r -> Vml.Pow(a,b,r,VmlMode.HA))
 
-        testBinary "Powr_double" Gen.Double.[0.0,Double.MaxValue]
+        testBinary "Powr_double" Gen.Double.[0.01,100.0]
             (fun a b -> Math.Pow(a,b))
             (fun a b r -> Vml.Powr(a,b,r))
 
-        testBinary "Powr_mode_double" Gen.Double.[0.0,Double.MaxValue]
+        testBinary "Powr_mode_double" Gen.Double.[0.01,100.0]
             (fun a b -> Math.Pow(a,b))
             (fun a b r -> Vml.Powr(a,b,r,VmlMode.HA))
 
-        testBinary "Powr_single" Gen.Single.[0.0f,Single.MaxValue]
+        testBinary "Powr_single" Gen.Single.[0.01f,100.0f]
             (fun a b -> Math.Pow(float a,float b) |> float32)
             (fun a b r -> Vml.Powr(a,b,r))
 
-        testBinary "Powr_mode_single" Gen.Single.[0.0f,Single.MaxValue]
+        testBinary "Powr_mode_single" Gen.Single.[0.01f,100.0f]
             (fun a b -> Math.Pow(float a,float b) |> float32)
             (fun a b r -> Vml.Powr(a,b,r,VmlMode.HA))
     }
