@@ -18,1850 +18,1850 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAbs(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Abs(int n, float[] a, float[] r)
-            => vsAbs(n, a, r);
+        public static void Abs(float[] a, float[] r)
+            => vsAbs(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAbs(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Abs(int n, double[] a, double[] r)
-            => vdAbs(n, a, r);
+        public static void Abs(double[] a, double[] r)
+            => vdAbs(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAbs(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Abs(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAbs(n, a, r, mode);
+        public static void Abs(float[] a, float[] r, VmlMode mode)
+            => vmsAbs(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAbs(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Abs(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAbs(n, a, r, mode);
+        public static void Abs(double[] a, double[] r, VmlMode mode)
+            => vmdAbs(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAdd(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Add(int n, float[] a, float[] b, float[] r)
-            => vsAdd(n, a, b, r);
+        public static void Add(float[] a, float[] b, float[] r)
+            => vsAdd(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAdd(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Add(int n, double[] a, double[] b, double[] r)
-            => vdAdd(n, a, b, r);
+        public static void Add(double[] a, double[] b, double[] r)
+            => vdAdd(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAdd(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Add(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsAdd(n, a, b, r, mode);
+        public static void Add(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsAdd(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAdd(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Add(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdAdd(n, a, b, r, mode);
+        public static void Add(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdAdd(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSub(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sub(int n, float[] a, float[] b, float[] r)
-            => vsSub(n, a, b, r);
+        public static void Sub(float[] a, float[] b, float[] r)
+            => vsSub(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSub(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sub(int n, double[] a, double[] b, double[] r)
-            => vdSub(n, a, b, r);
+        public static void Sub(double[] a, double[] b, double[] r)
+            => vdSub(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSub(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sub(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsSub(n, a, b, r, mode);
+        public static void Sub(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsSub(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSub(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sub(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdSub(n, a, b, r, mode);
+        public static void Sub(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdSub(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsInv(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Inv(int n, float[] a, float[] r)
-            => vsInv(n, a, r);
+        public static void Inv(float[] a, float[] r)
+            => vsInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdInv(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Inv(int n, double[] a, double[] r)
-            => vdInv(n, a, r);
+        public static void Inv(double[] a, double[] r)
+            => vdInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsInv(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Inv(int n, float[] a, float[] r, VmlMode mode)
-            => vmsInv(n, a, r, mode);
+        public static void Inv(float[] a, float[] r, VmlMode mode)
+            => vmsInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdInv(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Inv(int n, double[] a, double[] r, VmlMode mode)
-            => vmdInv(n, a, r, mode);
+        public static void Inv(double[] a, double[] r, VmlMode mode)
+            => vmdInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSqrt(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqrt(int n, float[] a, float[] r)
-            => vsSqrt(n, a, r);
+        public static void Sqrt(float[] a, float[] r)
+            => vsSqrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSqrt(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqrt(int n, double[] a, double[] r)
-            => vdSqrt(n, a, r);
+        public static void Sqrt(double[] a, double[] r)
+            => vdSqrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSqrt(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqrt(int n, float[] a, float[] r, VmlMode mode)
-            => vmsSqrt(n, a, r, mode);
+        public static void Sqrt(float[] a, float[] r, VmlMode mode)
+            => vmsSqrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSqrt(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqrt(int n, double[] a, double[] r, VmlMode mode)
-            => vmdSqrt(n, a, r, mode);
+        public static void Sqrt(double[] a, double[] r, VmlMode mode)
+            => vmdSqrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsInvSqrt(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrt(int n, float[] a, float[] r)
-            => vsInvSqrt(n, a, r);
+        public static void InvSqrt(float[] a, float[] r)
+            => vsInvSqrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdInvSqrt(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrt(int n, double[] a, double[] r)
-            => vdInvSqrt(n, a, r);
+        public static void InvSqrt(double[] a, double[] r)
+            => vdInvSqrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsInvSqrt(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrt(int n, float[] a, float[] r, VmlMode mode)
-            => vmsInvSqrt(n, a, r, mode);
+        public static void InvSqrt(float[] a, float[] r, VmlMode mode)
+            => vmsInvSqrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdInvSqrt(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrt(int n, double[] a, double[] r, VmlMode mode)
-            => vmdInvSqrt(n, a, r, mode);
+        public static void InvSqrt(double[] a, double[] r, VmlMode mode)
+            => vmdInvSqrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCbrt(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cbrt(int n, float[] a, float[] r)
-            => vsCbrt(n, a, r);
+        public static void Cbrt(float[] a, float[] r)
+            => vsCbrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCbrt(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cbrt(int n, double[] a, double[] r)
-            => vdCbrt(n, a, r);
+        public static void Cbrt(double[] a, double[] r)
+            => vdCbrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCbrt(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cbrt(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCbrt(n, a, r, mode);
+        public static void Cbrt(float[] a, float[] r, VmlMode mode)
+            => vmsCbrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCbrt(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cbrt(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCbrt(n, a, r, mode);
+        public static void Cbrt(double[] a, double[] r, VmlMode mode)
+            => vmdCbrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsInvCbrt(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrt(int n, float[] a, float[] r)
-            => vsInvCbrt(n, a, r);
+        public static void InvCbrt(float[] a, float[] r)
+            => vsInvCbrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdInvCbrt(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrt(int n, double[] a, double[] r)
-            => vdInvCbrt(n, a, r);
+        public static void InvCbrt(double[] a, double[] r)
+            => vdInvCbrt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsInvCbrt(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrt(int n, float[] a, float[] r, VmlMode mode)
-            => vmsInvCbrt(n, a, r, mode);
+        public static void InvCbrt(float[] a, float[] r, VmlMode mode)
+            => vmsInvCbrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdInvCbrt(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrt(int n, double[] a, double[] r, VmlMode mode)
-            => vmdInvCbrt(n, a, r, mode);
+        public static void InvCbrt(double[] a, double[] r, VmlMode mode)
+            => vmdInvCbrt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSqr(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqr(int n, float[] a, float[] r)
-            => vsSqr(n, a, r);
+        public static void Sqr(float[] a, float[] r)
+            => vsSqr(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSqr(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqr(int n, double[] a, double[] r)
-            => vdSqr(n, a, r);
+        public static void Sqr(double[] a, double[] r)
+            => vdSqr(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSqr(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqr(int n, float[] a, float[] r, VmlMode mode)
-            => vmsSqr(n, a, r, mode);
+        public static void Sqr(float[] a, float[] r, VmlMode mode)
+            => vmsSqr(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSqr(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sqr(int n, double[] a, double[] r, VmlMode mode)
-            => vmdSqr(n, a, r, mode);
+        public static void Sqr(double[] a, double[] r, VmlMode mode)
+            => vmdSqr(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExp(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp(int n, float[] a, float[] r)
-            => vsExp(n, a, r);
+        public static void Exp(float[] a, float[] r)
+            => vsExp(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExp(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp(int n, double[] a, double[] r)
-            => vdExp(n, a, r);
+        public static void Exp(double[] a, double[] r)
+            => vdExp(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExp(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp(int n, float[] a, float[] r, VmlMode mode)
-            => vmsExp(n, a, r, mode);
+        public static void Exp(float[] a, float[] r, VmlMode mode)
+            => vmsExp(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExp(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp(int n, double[] a, double[] r, VmlMode mode)
-            => vmdExp(n, a, r, mode);
+        public static void Exp(double[] a, double[] r, VmlMode mode)
+            => vmdExp(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExp2(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2(int n, float[] a, float[] r)
-            => vsExp2(n, a, r);
+        public static void Exp2(float[] a, float[] r)
+            => vsExp2(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExp2(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2(int n, double[] a, double[] r)
-            => vdExp2(n, a, r);
+        public static void Exp2(double[] a, double[] r)
+            => vdExp2(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExp2(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2(int n, float[] a, float[] r, VmlMode mode)
-            => vmsExp2(n, a, r, mode);
+        public static void Exp2(float[] a, float[] r, VmlMode mode)
+            => vmsExp2(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExp2(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2(int n, double[] a, double[] r, VmlMode mode)
-            => vmdExp2(n, a, r, mode);
+        public static void Exp2(double[] a, double[] r, VmlMode mode)
+            => vmdExp2(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExp10(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10(int n, float[] a, float[] r)
-            => vsExp10(n, a, r);
+        public static void Exp10(float[] a, float[] r)
+            => vsExp10(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExp10(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10(int n, double[] a, double[] r)
-            => vdExp10(n, a, r);
+        public static void Exp10(double[] a, double[] r)
+            => vdExp10(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExp10(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10(int n, float[] a, float[] r, VmlMode mode)
-            => vmsExp10(n, a, r, mode);
+        public static void Exp10(float[] a, float[] r, VmlMode mode)
+            => vmsExp10(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExp10(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10(int n, double[] a, double[] r, VmlMode mode)
-            => vmdExp10(n, a, r, mode);
+        public static void Exp10(double[] a, double[] r, VmlMode mode)
+            => vmdExp10(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExpm1(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1(int n, float[] a, float[] r)
-            => vsExpm1(n, a, r);
+        public static void Expm1(float[] a, float[] r)
+            => vsExpm1(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExpm1(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1(int n, double[] a, double[] r)
-            => vdExpm1(n, a, r);
+        public static void Expm1(double[] a, double[] r)
+            => vdExpm1(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExpm1(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1(int n, float[] a, float[] r, VmlMode mode)
-            => vmsExpm1(n, a, r, mode);
+        public static void Expm1(float[] a, float[] r, VmlMode mode)
+            => vmsExpm1(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExpm1(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1(int n, double[] a, double[] r, VmlMode mode)
-            => vmdExpm1(n, a, r, mode);
+        public static void Expm1(double[] a, double[] r, VmlMode mode)
+            => vmdExpm1(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLn(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ln(int n, float[] a, float[] r)
-            => vsLn(n, a, r);
+        public static void Ln(float[] a, float[] r)
+            => vsLn(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLn(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ln(int n, double[] a, double[] r)
-            => vdLn(n, a, r);
+        public static void Ln(double[] a, double[] r)
+            => vdLn(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLn(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ln(int n, float[] a, float[] r, VmlMode mode)
-            => vmsLn(n, a, r, mode);
+        public static void Ln(float[] a, float[] r, VmlMode mode)
+            => vmsLn(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLn(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ln(int n, double[] a, double[] r, VmlMode mode)
-            => vmdLn(n, a, r, mode);
+        public static void Ln(double[] a, double[] r, VmlMode mode)
+            => vmdLn(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLog2(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2(int n, float[] a, float[] r)
-            => vsLog2(n, a, r);
+        public static void Log2(float[] a, float[] r)
+            => vsLog2(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLog2(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2(int n, double[] a, double[] r)
-            => vdLog2(n, a, r);
+        public static void Log2(double[] a, double[] r)
+            => vdLog2(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLog2(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2(int n, float[] a, float[] r, VmlMode mode)
-            => vmsLog2(n, a, r, mode);
+        public static void Log2(float[] a, float[] r, VmlMode mode)
+            => vmsLog2(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLog2(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2(int n, double[] a, double[] r, VmlMode mode)
-            => vmdLog2(n, a, r, mode);
+        public static void Log2(double[] a, double[] r, VmlMode mode)
+            => vmdLog2(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLog10(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10(int n, float[] a, float[] r)
-            => vsLog10(n, a, r);
+        public static void Log10(float[] a, float[] r)
+            => vsLog10(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLog10(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10(int n, double[] a, double[] r)
-            => vdLog10(n, a, r);
+        public static void Log10(double[] a, double[] r)
+            => vdLog10(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLog10(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10(int n, float[] a, float[] r, VmlMode mode)
-            => vmsLog10(n, a, r, mode);
+        public static void Log10(float[] a, float[] r, VmlMode mode)
+            => vmsLog10(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLog10(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10(int n, double[] a, double[] r, VmlMode mode)
-            => vmdLog10(n, a, r, mode);
+        public static void Log10(double[] a, double[] r, VmlMode mode)
+            => vmdLog10(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLog1p(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1p(int n, float[] a, float[] r)
-            => vsLog1p(n, a, r);
+        public static void Log1p(float[] a, float[] r)
+            => vsLog1p(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLog1p(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1p(int n, double[] a, double[] r)
-            => vdLog1p(n, a, r);
+        public static void Log1p(double[] a, double[] r)
+            => vdLog1p(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLog1p(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1p(int n, float[] a, float[] r, VmlMode mode)
-            => vmsLog1p(n, a, r, mode);
+        public static void Log1p(float[] a, float[] r, VmlMode mode)
+            => vmsLog1p(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLog1p(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1p(int n, double[] a, double[] r, VmlMode mode)
-            => vmdLog1p(n, a, r, mode);
+        public static void Log1p(double[] a, double[] r, VmlMode mode)
+            => vmdLog1p(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLogb(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Logb(int n, float[] a, float[] r)
-            => vsLogb(n, a, r);
+        public static void Logb(float[] a, float[] r)
+            => vsLogb(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLogb(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Logb(int n, double[] a, double[] r)
-            => vdLogb(n, a, r);
+        public static void Logb(double[] a, double[] r)
+            => vdLogb(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLogb(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Logb(int n, float[] a, float[] r, VmlMode mode)
-            => vmsLogb(n, a, r, mode);
+        public static void Logb(float[] a, float[] r, VmlMode mode)
+            => vmsLogb(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLogb(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Logb(int n, double[] a, double[] r, VmlMode mode)
-            => vmdLogb(n, a, r, mode);
+        public static void Logb(double[] a, double[] r, VmlMode mode)
+            => vmdLogb(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCos(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cos(int n, float[] a, float[] r)
-            => vsCos(n, a, r);
+        public static void Cos(float[] a, float[] r)
+            => vsCos(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCos(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cos(int n, double[] a, double[] r)
-            => vdCos(n, a, r);
+        public static void Cos(double[] a, double[] r)
+            => vdCos(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCos(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cos(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCos(n, a, r, mode);
+        public static void Cos(float[] a, float[] r, VmlMode mode)
+            => vmsCos(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCos(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cos(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCos(n, a, r, mode);
+        public static void Cos(double[] a, double[] r, VmlMode mode)
+            => vmdCos(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSin(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sin(int n, float[] a, float[] r)
-            => vsSin(n, a, r);
+        public static void Sin(float[] a, float[] r)
+            => vsSin(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSin(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sin(int n, double[] a, double[] r)
-            => vdSin(n, a, r);
+        public static void Sin(double[] a, double[] r)
+            => vdSin(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSin(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sin(int n, float[] a, float[] r, VmlMode mode)
-            => vmsSin(n, a, r, mode);
+        public static void Sin(float[] a, float[] r, VmlMode mode)
+            => vmsSin(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSin(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sin(int n, double[] a, double[] r, VmlMode mode)
-            => vmdSin(n, a, r, mode);
+        public static void Sin(double[] a, double[] r, VmlMode mode)
+            => vmdSin(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTan(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tan(int n, float[] a, float[] r)
-            => vsTan(n, a, r);
+        public static void Tan(float[] a, float[] r)
+            => vsTan(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTan(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tan(int n, double[] a, double[] r)
-            => vdTan(n, a, r);
+        public static void Tan(double[] a, double[] r)
+            => vdTan(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTan(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tan(int n, float[] a, float[] r, VmlMode mode)
-            => vmsTan(n, a, r, mode);
+        public static void Tan(float[] a, float[] r, VmlMode mode)
+            => vmsTan(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTan(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tan(int n, double[] a, double[] r, VmlMode mode)
-            => vmdTan(n, a, r, mode);
+        public static void Tan(double[] a, double[] r, VmlMode mode)
+            => vmdTan(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCospi(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cospi(int n, float[] a, float[] r)
-            => vsCospi(n, a, r);
+        public static void Cospi(float[] a, float[] r)
+            => vsCospi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCospi(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cospi(int n, double[] a, double[] r)
-            => vdCospi(n, a, r);
+        public static void Cospi(double[] a, double[] r)
+            => vdCospi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCospi(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cospi(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCospi(n, a, r, mode);
+        public static void Cospi(float[] a, float[] r, VmlMode mode)
+            => vmsCospi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCospi(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cospi(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCospi(n, a, r, mode);
+        public static void Cospi(double[] a, double[] r, VmlMode mode)
+            => vmdCospi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSinpi(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinpi(int n, float[] a, float[] r)
-            => vsSinpi(n, a, r);
+        public static void Sinpi(float[] a, float[] r)
+            => vsSinpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSinpi(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinpi(int n, double[] a, double[] r)
-            => vdSinpi(n, a, r);
+        public static void Sinpi(double[] a, double[] r)
+            => vdSinpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSinpi(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinpi(int n, float[] a, float[] r, VmlMode mode)
-            => vmsSinpi(n, a, r, mode);
+        public static void Sinpi(float[] a, float[] r, VmlMode mode)
+            => vmsSinpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSinpi(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinpi(int n, double[] a, double[] r, VmlMode mode)
-            => vmdSinpi(n, a, r, mode);
+        public static void Sinpi(double[] a, double[] r, VmlMode mode)
+            => vmdSinpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTanpi(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanpi(int n, float[] a, float[] r)
-            => vsTanpi(n, a, r);
+        public static void Tanpi(float[] a, float[] r)
+            => vsTanpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTanpi(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanpi(int n, double[] a, double[] r)
-            => vdTanpi(n, a, r);
+        public static void Tanpi(double[] a, double[] r)
+            => vdTanpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTanpi(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanpi(int n, float[] a, float[] r, VmlMode mode)
-            => vmsTanpi(n, a, r, mode);
+        public static void Tanpi(float[] a, float[] r, VmlMode mode)
+            => vmsTanpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTanpi(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanpi(int n, double[] a, double[] r, VmlMode mode)
-            => vmdTanpi(n, a, r, mode);
+        public static void Tanpi(double[] a, double[] r, VmlMode mode)
+            => vmdTanpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCosd(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosd(int n, float[] a, float[] r)
-            => vsCosd(n, a, r);
+        public static void Cosd(float[] a, float[] r)
+            => vsCosd(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCosd(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosd(int n, double[] a, double[] r)
-            => vdCosd(n, a, r);
+        public static void Cosd(double[] a, double[] r)
+            => vdCosd(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCosd(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosd(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCosd(n, a, r, mode);
+        public static void Cosd(float[] a, float[] r, VmlMode mode)
+            => vmsCosd(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCosd(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosd(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCosd(n, a, r, mode);
+        public static void Cosd(double[] a, double[] r, VmlMode mode)
+            => vmdCosd(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSind(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sind(int n, float[] a, float[] r)
-            => vsSind(n, a, r);
+        public static void Sind(float[] a, float[] r)
+            => vsSind(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSind(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sind(int n, double[] a, double[] r)
-            => vdSind(n, a, r);
+        public static void Sind(double[] a, double[] r)
+            => vdSind(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSind(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sind(int n, float[] a, float[] r, VmlMode mode)
-            => vmsSind(n, a, r, mode);
+        public static void Sind(float[] a, float[] r, VmlMode mode)
+            => vmsSind(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSind(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sind(int n, double[] a, double[] r, VmlMode mode)
-            => vmdSind(n, a, r, mode);
+        public static void Sind(double[] a, double[] r, VmlMode mode)
+            => vmdSind(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTand(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tand(int n, float[] a, float[] r)
-            => vsTand(n, a, r);
+        public static void Tand(float[] a, float[] r)
+            => vsTand(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTand(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tand(int n, double[] a, double[] r)
-            => vdTand(n, a, r);
+        public static void Tand(double[] a, double[] r)
+            => vdTand(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTand(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tand(int n, float[] a, float[] r, VmlMode mode)
-            => vmsTand(n, a, r, mode);
+        public static void Tand(float[] a, float[] r, VmlMode mode)
+            => vmsTand(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTand(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tand(int n, double[] a, double[] r, VmlMode mode)
-            => vmdTand(n, a, r, mode);
+        public static void Tand(double[] a, double[] r, VmlMode mode)
+            => vmdTand(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCosh(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosh(int n, float[] a, float[] r)
-            => vsCosh(n, a, r);
+        public static void Cosh(float[] a, float[] r)
+            => vsCosh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCosh(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosh(int n, double[] a, double[] r)
-            => vdCosh(n, a, r);
+        public static void Cosh(double[] a, double[] r)
+            => vdCosh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCosh(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosh(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCosh(n, a, r, mode);
+        public static void Cosh(float[] a, float[] r, VmlMode mode)
+            => vmsCosh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCosh(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cosh(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCosh(n, a, r, mode);
+        public static void Cosh(double[] a, double[] r, VmlMode mode)
+            => vmdCosh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSinh(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinh(int n, float[] a, float[] r)
-            => vsSinh(n, a, r);
+        public static void Sinh(float[] a, float[] r)
+            => vsSinh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSinh(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinh(int n, double[] a, double[] r)
-            => vdSinh(n, a, r);
+        public static void Sinh(double[] a, double[] r)
+            => vdSinh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSinh(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinh(int n, float[] a, float[] r, VmlMode mode)
-            => vmsSinh(n, a, r, mode);
+        public static void Sinh(float[] a, float[] r, VmlMode mode)
+            => vmsSinh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSinh(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Sinh(int n, double[] a, double[] r, VmlMode mode)
-            => vmdSinh(n, a, r, mode);
+        public static void Sinh(double[] a, double[] r, VmlMode mode)
+            => vmdSinh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTanh(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanh(int n, float[] a, float[] r)
-            => vsTanh(n, a, r);
+        public static void Tanh(float[] a, float[] r)
+            => vsTanh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTanh(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanh(int n, double[] a, double[] r)
-            => vdTanh(n, a, r);
+        public static void Tanh(double[] a, double[] r)
+            => vdTanh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTanh(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanh(int n, float[] a, float[] r, VmlMode mode)
-            => vmsTanh(n, a, r, mode);
+        public static void Tanh(float[] a, float[] r, VmlMode mode)
+            => vmsTanh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTanh(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tanh(int n, double[] a, double[] r, VmlMode mode)
-            => vmdTanh(n, a, r, mode);
+        public static void Tanh(double[] a, double[] r, VmlMode mode)
+            => vmdTanh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAcos(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acos(int n, float[] a, float[] r)
-            => vsAcos(n, a, r);
+        public static void Acos(float[] a, float[] r)
+            => vsAcos(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAcos(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acos(int n, double[] a, double[] r)
-            => vdAcos(n, a, r);
+        public static void Acos(double[] a, double[] r)
+            => vdAcos(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAcos(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acos(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAcos(n, a, r, mode);
+        public static void Acos(float[] a, float[] r, VmlMode mode)
+            => vmsAcos(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAcos(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acos(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAcos(n, a, r, mode);
+        public static void Acos(double[] a, double[] r, VmlMode mode)
+            => vmdAcos(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAsin(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asin(int n, float[] a, float[] r)
-            => vsAsin(n, a, r);
+        public static void Asin(float[] a, float[] r)
+            => vsAsin(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAsin(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asin(int n, double[] a, double[] r)
-            => vdAsin(n, a, r);
+        public static void Asin(double[] a, double[] r)
+            => vdAsin(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAsin(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asin(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAsin(n, a, r, mode);
+        public static void Asin(float[] a, float[] r, VmlMode mode)
+            => vmsAsin(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAsin(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asin(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAsin(n, a, r, mode);
+        public static void Asin(double[] a, double[] r, VmlMode mode)
+            => vmdAsin(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtan(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan(int n, float[] a, float[] r)
-            => vsAtan(n, a, r);
+        public static void Atan(float[] a, float[] r)
+            => vsAtan(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtan(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan(int n, double[] a, double[] r)
-            => vdAtan(n, a, r);
+        public static void Atan(double[] a, double[] r)
+            => vdAtan(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtan(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAtan(n, a, r, mode);
+        public static void Atan(float[] a, float[] r, VmlMode mode)
+            => vmsAtan(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtan(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAtan(n, a, r, mode);
+        public static void Atan(double[] a, double[] r, VmlMode mode)
+            => vmdAtan(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAcospi(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acospi(int n, float[] a, float[] r)
-            => vsAcospi(n, a, r);
+        public static void Acospi(float[] a, float[] r)
+            => vsAcospi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAcospi(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acospi(int n, double[] a, double[] r)
-            => vdAcospi(n, a, r);
+        public static void Acospi(double[] a, double[] r)
+            => vdAcospi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAcospi(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acospi(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAcospi(n, a, r, mode);
+        public static void Acospi(float[] a, float[] r, VmlMode mode)
+            => vmsAcospi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAcospi(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acospi(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAcospi(n, a, r, mode);
+        public static void Acospi(double[] a, double[] r, VmlMode mode)
+            => vmdAcospi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAsinpi(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinpi(int n, float[] a, float[] r)
-            => vsAsinpi(n, a, r);
+        public static void Asinpi(float[] a, float[] r)
+            => vsAsinpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAsinpi(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinpi(int n, double[] a, double[] r)
-            => vdAsinpi(n, a, r);
+        public static void Asinpi(double[] a, double[] r)
+            => vdAsinpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAsinpi(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinpi(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAsinpi(n, a, r, mode);
+        public static void Asinpi(float[] a, float[] r, VmlMode mode)
+            => vmsAsinpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAsinpi(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinpi(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAsinpi(n, a, r, mode);
+        public static void Asinpi(double[] a, double[] r, VmlMode mode)
+            => vmdAsinpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtanpi(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanpi(int n, float[] a, float[] r)
-            => vsAtanpi(n, a, r);
+        public static void Atanpi(float[] a, float[] r)
+            => vsAtanpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtanpi(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanpi(int n, double[] a, double[] r)
-            => vdAtanpi(n, a, r);
+        public static void Atanpi(double[] a, double[] r)
+            => vdAtanpi(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtanpi(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanpi(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAtanpi(n, a, r, mode);
+        public static void Atanpi(float[] a, float[] r, VmlMode mode)
+            => vmsAtanpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtanpi(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanpi(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAtanpi(n, a, r, mode);
+        public static void Atanpi(double[] a, double[] r, VmlMode mode)
+            => vmdAtanpi(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAcosh(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acosh(int n, float[] a, float[] r)
-            => vsAcosh(n, a, r);
+        public static void Acosh(float[] a, float[] r)
+            => vsAcosh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAcosh(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acosh(int n, double[] a, double[] r)
-            => vdAcosh(n, a, r);
+        public static void Acosh(double[] a, double[] r)
+            => vdAcosh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAcosh(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acosh(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAcosh(n, a, r, mode);
+        public static void Acosh(float[] a, float[] r, VmlMode mode)
+            => vmsAcosh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAcosh(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Acosh(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAcosh(n, a, r, mode);
+        public static void Acosh(double[] a, double[] r, VmlMode mode)
+            => vmdAcosh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAsinh(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinh(int n, float[] a, float[] r)
-            => vsAsinh(n, a, r);
+        public static void Asinh(float[] a, float[] r)
+            => vsAsinh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAsinh(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinh(int n, double[] a, double[] r)
-            => vdAsinh(n, a, r);
+        public static void Asinh(double[] a, double[] r)
+            => vdAsinh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAsinh(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinh(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAsinh(n, a, r, mode);
+        public static void Asinh(float[] a, float[] r, VmlMode mode)
+            => vmsAsinh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAsinh(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Asinh(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAsinh(n, a, r, mode);
+        public static void Asinh(double[] a, double[] r, VmlMode mode)
+            => vmdAsinh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtanh(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanh(int n, float[] a, float[] r)
-            => vsAtanh(n, a, r);
+        public static void Atanh(float[] a, float[] r)
+            => vsAtanh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtanh(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanh(int n, double[] a, double[] r)
-            => vdAtanh(n, a, r);
+        public static void Atanh(double[] a, double[] r)
+            => vdAtanh(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtanh(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanh(int n, float[] a, float[] r, VmlMode mode)
-            => vmsAtanh(n, a, r, mode);
+        public static void Atanh(float[] a, float[] r, VmlMode mode)
+            => vmsAtanh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtanh(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atanh(int n, double[] a, double[] r, VmlMode mode)
-            => vmdAtanh(n, a, r, mode);
+        public static void Atanh(double[] a, double[] r, VmlMode mode)
+            => vmdAtanh(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErf(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erf(int n, float[] a, float[] r)
-            => vsErf(n, a, r);
+        public static void Erf(float[] a, float[] r)
+            => vsErf(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErf(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erf(int n, double[] a, double[] r)
-            => vdErf(n, a, r);
+        public static void Erf(double[] a, double[] r)
+            => vdErf(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErf(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erf(int n, float[] a, float[] r, VmlMode mode)
-            => vmsErf(n, a, r, mode);
+        public static void Erf(float[] a, float[] r, VmlMode mode)
+            => vmsErf(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErf(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erf(int n, double[] a, double[] r, VmlMode mode)
-            => vmdErf(n, a, r, mode);
+        public static void Erf(double[] a, double[] r, VmlMode mode)
+            => vmdErf(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErfInv(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInv(int n, float[] a, float[] r)
-            => vsErfInv(n, a, r);
+        public static void ErfInv(float[] a, float[] r)
+            => vsErfInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErfInv(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInv(int n, double[] a, double[] r)
-            => vdErfInv(n, a, r);
+        public static void ErfInv(double[] a, double[] r)
+            => vdErfInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErfInv(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInv(int n, float[] a, float[] r, VmlMode mode)
-            => vmsErfInv(n, a, r, mode);
+        public static void ErfInv(float[] a, float[] r, VmlMode mode)
+            => vmsErfInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErfInv(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInv(int n, double[] a, double[] r, VmlMode mode)
-            => vmdErfInv(n, a, r, mode);
+        public static void ErfInv(double[] a, double[] r, VmlMode mode)
+            => vmdErfInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsHypot(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Hypot(int n, float[] a, float[] b, float[] r)
-            => vsHypot(n, a, b, r);
+        public static void Hypot(float[] a, float[] b, float[] r)
+            => vsHypot(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdHypot(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Hypot(int n, double[] a, double[] b, double[] r)
-            => vdHypot(n, a, b, r);
+        public static void Hypot(double[] a, double[] b, double[] r)
+            => vdHypot(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsHypot(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Hypot(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsHypot(n, a, b, r, mode);
+        public static void Hypot(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsHypot(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdHypot(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Hypot(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdHypot(n, a, b, r, mode);
+        public static void Hypot(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdHypot(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErfc(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erfc(int n, float[] a, float[] r)
-            => vsErfc(n, a, r);
+        public static void Erfc(float[] a, float[] r)
+            => vsErfc(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErfc(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erfc(int n, double[] a, double[] r)
-            => vdErfc(n, a, r);
+        public static void Erfc(double[] a, double[] r)
+            => vdErfc(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErfc(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erfc(int n, float[] a, float[] r, VmlMode mode)
-            => vmsErfc(n, a, r, mode);
+        public static void Erfc(float[] a, float[] r, VmlMode mode)
+            => vmsErfc(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErfc(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Erfc(int n, double[] a, double[] r, VmlMode mode)
-            => vmdErfc(n, a, r, mode);
+        public static void Erfc(double[] a, double[] r, VmlMode mode)
+            => vmdErfc(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErfcInv(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInv(int n, float[] a, float[] r)
-            => vsErfcInv(n, a, r);
+        public static void ErfcInv(float[] a, float[] r)
+            => vsErfcInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErfcInv(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInv(int n, double[] a, double[] r)
-            => vdErfcInv(n, a, r);
+        public static void ErfcInv(double[] a, double[] r)
+            => vdErfcInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErfcInv(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInv(int n, float[] a, float[] r, VmlMode mode)
-            => vmsErfcInv(n, a, r, mode);
+        public static void ErfcInv(float[] a, float[] r, VmlMode mode)
+            => vmsErfcInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErfcInv(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInv(int n, double[] a, double[] r, VmlMode mode)
-            => vmdErfcInv(n, a, r, mode);
+        public static void ErfcInv(double[] a, double[] r, VmlMode mode)
+            => vmdErfcInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCdfNorm(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNorm(int n, float[] a, float[] r)
-            => vsCdfNorm(n, a, r);
+        public static void CdfNorm(float[] a, float[] r)
+            => vsCdfNorm(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCdfNorm(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNorm(int n, double[] a, double[] r)
-            => vdCdfNorm(n, a, r);
+        public static void CdfNorm(double[] a, double[] r)
+            => vdCdfNorm(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCdfNorm(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNorm(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCdfNorm(n, a, r, mode);
+        public static void CdfNorm(float[] a, float[] r, VmlMode mode)
+            => vmsCdfNorm(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCdfNorm(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNorm(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCdfNorm(n, a, r, mode);
+        public static void CdfNorm(double[] a, double[] r, VmlMode mode)
+            => vmdCdfNorm(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCdfNormInv(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInv(int n, float[] a, float[] r)
-            => vsCdfNormInv(n, a, r);
+        public static void CdfNormInv(float[] a, float[] r)
+            => vsCdfNormInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCdfNormInv(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInv(int n, double[] a, double[] r)
-            => vdCdfNormInv(n, a, r);
+        public static void CdfNormInv(double[] a, double[] r)
+            => vdCdfNormInv(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCdfNormInv(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInv(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCdfNormInv(n, a, r, mode);
+        public static void CdfNormInv(float[] a, float[] r, VmlMode mode)
+            => vmsCdfNormInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCdfNormInv(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInv(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCdfNormInv(n, a, r, mode);
+        public static void CdfNormInv(double[] a, double[] r, VmlMode mode)
+            => vmdCdfNormInv(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLGamma(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGamma(int n, float[] a, float[] r)
-            => vsLGamma(n, a, r);
+        public static void LGamma(float[] a, float[] r)
+            => vsLGamma(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLGamma(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGamma(int n, double[] a, double[] r)
-            => vdLGamma(n, a, r);
+        public static void LGamma(double[] a, double[] r)
+            => vdLGamma(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLGamma(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGamma(int n, float[] a, float[] r, VmlMode mode)
-            => vmsLGamma(n, a, r, mode);
+        public static void LGamma(float[] a, float[] r, VmlMode mode)
+            => vmsLGamma(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLGamma(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGamma(int n, double[] a, double[] r, VmlMode mode)
-            => vmdLGamma(n, a, r, mode);
+        public static void LGamma(double[] a, double[] r, VmlMode mode)
+            => vmdLGamma(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTGamma(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGamma(int n, float[] a, float[] r)
-            => vsTGamma(n, a, r);
+        public static void TGamma(float[] a, float[] r)
+            => vsTGamma(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTGamma(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGamma(int n, double[] a, double[] r)
-            => vdTGamma(n, a, r);
+        public static void TGamma(double[] a, double[] r)
+            => vdTGamma(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTGamma(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGamma(int n, float[] a, float[] r, VmlMode mode)
-            => vmsTGamma(n, a, r, mode);
+        public static void TGamma(float[] a, float[] r, VmlMode mode)
+            => vmsTGamma(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTGamma(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGamma(int n, double[] a, double[] r, VmlMode mode)
-            => vmdTGamma(n, a, r, mode);
+        public static void TGamma(double[] a, double[] r, VmlMode mode)
+            => vmdTGamma(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtan2(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2(int n, float[] a, float[] b, float[] r)
-            => vsAtan2(n, a, b, r);
+        public static void Atan2(float[] a, float[] b, float[] r)
+            => vsAtan2(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtan2(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2(int n, double[] a, double[] b, double[] r)
-            => vdAtan2(n, a, b, r);
+        public static void Atan2(double[] a, double[] b, double[] r)
+            => vdAtan2(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtan2(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsAtan2(n, a, b, r, mode);
+        public static void Atan2(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsAtan2(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtan2(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdAtan2(n, a, b, r, mode);
+        public static void Atan2(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdAtan2(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtan2pi(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2pi(int n, float[] a, float[] b, float[] r)
-            => vsAtan2pi(n, a, b, r);
+        public static void Atan2pi(float[] a, float[] b, float[] r)
+            => vsAtan2pi(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtan2pi(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2pi(int n, double[] a, double[] b, double[] r)
-            => vdAtan2pi(n, a, b, r);
+        public static void Atan2pi(double[] a, double[] b, double[] r)
+            => vdAtan2pi(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtan2pi(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2pi(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsAtan2pi(n, a, b, r, mode);
+        public static void Atan2pi(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsAtan2pi(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtan2pi(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2pi(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdAtan2pi(n, a, b, r, mode);
+        public static void Atan2pi(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdAtan2pi(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsMul(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Mul(int n, float[] a, float[] b, float[] r)
-            => vsMul(n, a, b, r);
+        public static void Mul(float[] a, float[] b, float[] r)
+            => vsMul(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdMul(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Mul(int n, double[] a, double[] b, double[] r)
-            => vdMul(n, a, b, r);
+        public static void Mul(double[] a, double[] b, double[] r)
+            => vdMul(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsMul(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Mul(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsMul(n, a, b, r, mode);
+        public static void Mul(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsMul(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdMul(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Mul(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdMul(n, a, b, r, mode);
+        public static void Mul(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdMul(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsDiv(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Div(int n, float[] a, float[] b, float[] r)
-            => vsDiv(n, a, b, r);
+        public static void Div(float[] a, float[] b, float[] r)
+            => vsDiv(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdDiv(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Div(int n, double[] a, double[] b, double[] r)
-            => vdDiv(n, a, b, r);
+        public static void Div(double[] a, double[] b, double[] r)
+            => vdDiv(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsDiv(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Div(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsDiv(n, a, b, r, mode);
+        public static void Div(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsDiv(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdDiv(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Div(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdDiv(n, a, b, r, mode);
+        public static void Div(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdDiv(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPow(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow(int n, float[] a, float[] b, float[] r)
-            => vsPow(n, a, b, r);
+        public static void Pow(float[] a, float[] b, float[] r)
+            => vsPow(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPow(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow(int n, double[] a, double[] b, double[] r)
-            => vdPow(n, a, b, r);
+        public static void Pow(double[] a, double[] b, double[] r)
+            => vdPow(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPow(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsPow(n, a, b, r, mode);
+        public static void Pow(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsPow(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPow(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdPow(n, a, b, r, mode);
+        public static void Pow(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdPow(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPow3o2(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2(int n, float[] a, float[] r)
-            => vsPow3o2(n, a, r);
+        public static void Pow3o2(float[] a, float[] r)
+            => vsPow3o2(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPow3o2(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2(int n, double[] a, double[] r)
-            => vdPow3o2(n, a, r);
+        public static void Pow3o2(double[] a, double[] r)
+            => vdPow3o2(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPow3o2(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2(int n, float[] a, float[] r, VmlMode mode)
-            => vmsPow3o2(n, a, r, mode);
+        public static void Pow3o2(float[] a, float[] r, VmlMode mode)
+            => vmsPow3o2(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPow3o2(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2(int n, double[] a, double[] r, VmlMode mode)
-            => vmdPow3o2(n, a, r, mode);
+        public static void Pow3o2(double[] a, double[] r, VmlMode mode)
+            => vmdPow3o2(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPow2o3(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3(int n, float[] a, float[] r)
-            => vsPow2o3(n, a, r);
+        public static void Pow2o3(float[] a, float[] r)
+            => vsPow2o3(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPow2o3(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3(int n, double[] a, double[] r)
-            => vdPow2o3(n, a, r);
+        public static void Pow2o3(double[] a, double[] r)
+            => vdPow2o3(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPow2o3(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3(int n, float[] a, float[] r, VmlMode mode)
-            => vmsPow2o3(n, a, r, mode);
+        public static void Pow2o3(float[] a, float[] r, VmlMode mode)
+            => vmsPow2o3(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPow2o3(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3(int n, double[] a, double[] r, VmlMode mode)
-            => vmdPow2o3(n, a, r, mode);
+        public static void Pow2o3(double[] a, double[] r, VmlMode mode)
+            => vmdPow2o3(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPowx(int n, float[] a, float b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powx(int n, float[] a, float b, float[] r)
-            => vsPowx(n, a, b, r);
+        public static void Powx(float[] a, float b, float[] r)
+            => vsPowx(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPowx(int n, double[] a, double b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powx(int n, double[] a, double b, double[] r)
-            => vdPowx(n, a, b, r);
+        public static void Powx(double[] a, double b, double[] r)
+            => vdPowx(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPowx(int n, float[] a, float b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powx(int n, float[] a, float b, float[] r, VmlMode mode)
-            => vmsPowx(n, a, b, r, mode);
+        public static void Powx(float[] a, float b, float[] r, VmlMode mode)
+            => vmsPowx(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPowx(int n, double[] a, double b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powx(int n, double[] a, double b, double[] r, VmlMode mode)
-            => vmdPowx(n, a, b, r, mode);
+        public static void Powx(double[] a, double b, double[] r, VmlMode mode)
+            => vmdPowx(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPowr(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powr(int n, float[] a, float[] b, float[] r)
-            => vsPowr(n, a, b, r);
+        public static void Powr(float[] a, float[] b, float[] r)
+            => vsPowr(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPowr(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powr(int n, double[] a, double[] b, double[] r)
-            => vdPowr(n, a, b, r);
+        public static void Powr(double[] a, double[] b, double[] r)
+            => vdPowr(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPowr(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powr(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsPowr(n, a, b, r, mode);
+        public static void Powr(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsPowr(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPowr(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Powr(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdPowr(n, a, b, r, mode);
+        public static void Powr(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdPowr(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSinCos(int n, float[] a, float[] r1, float[] r2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCos(int n, float[] a, float[] r1, float[] r2)
-            => vsSinCos(n, a, r1, r2);
+        public static void SinCos(float[] a, float[] r1, float[] r2)
+            => vsSinCos(a.Length, a, r1, r2);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSinCos(int n, double[] a, double[] r1, double[] r2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCos(int n, double[] a, double[] r1, double[] r2)
-            => vdSinCos(n, a, r1, r2);
+        public static void SinCos(double[] a, double[] r1, double[] r2)
+            => vdSinCos(a.Length, a, r1, r2);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSinCos(int n, float[] a, float[] r1, float[] r2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCos(int n, float[] a, float[] r1, float[] r2, VmlMode mode)
-            => vmsSinCos(n, a, r1, r2, mode);
+        public static void SinCos(float[] a, float[] r1, float[] r2, VmlMode mode)
+            => vmsSinCos(a.Length, a, r1, r2, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSinCos(int n, double[] a, double[] r1, double[] r2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCos(int n, double[] a, double[] r1, double[] r2, VmlMode mode)
-            => vmdSinCos(n, a, r1, r2, mode);
+        public static void SinCos(double[] a, double[] r1, double[] r2, VmlMode mode)
+            => vmdSinCos(a.Length, a, r1, r2, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLinearFrac(int n, float[] a, float[] b, float scalea, float shifta, float scaleb, float shiftb, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFrac(int n, float[] a, float[] b, float scalea, float shifta, float scaleb, float shiftb, float[] r)
-            => vsLinearFrac(n, a, b, scalea, shifta, scaleb, shiftb, r);
+        public static void LinearFrac(float[] a, float[] b, float scalea, float shifta, float scaleb, float shiftb, float[] r)
+            => vsLinearFrac(a.Length, a, b, scalea, shifta, scaleb, shiftb, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLinearFrac(int n, double[] a, double[] b, double scalea, double shifta, double scaleb, double shiftb, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFrac(int n, double[] a, double[] b, double scalea, double shifta, double scaleb, double shiftb, double[] r)
-            => vdLinearFrac(n, a, b, scalea, shifta, scaleb, shiftb, r);
+        public static void LinearFrac(double[] a, double[] b, double scalea, double shifta, double scaleb, double shiftb, double[] r)
+            => vdLinearFrac(a.Length, a, b, scalea, shifta, scaleb, shiftb, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLinearFrac(int n, float[] a, float[] b, float scalea, float shifta, float scaleb, float shiftb, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFrac(int n, float[] a, float[] b, float scalea, float shifta, float scaleb, float shiftb, float[] r, VmlMode mode)
-            => vmsLinearFrac(n, a, b, scalea, shifta, scaleb, shiftb, r, mode);
+        public static void LinearFrac(float[] a, float[] b, float scalea, float shifta, float scaleb, float shiftb, float[] r, VmlMode mode)
+            => vmsLinearFrac(a.Length, a, b, scalea, shifta, scaleb, shiftb, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLinearFrac(int n, double[] a, double[] b, double scalea, double shifta, double scaleb, double shiftb, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFrac(int n, double[] a, double[] b, double scalea, double shifta, double scaleb, double shiftb, double[] r, VmlMode mode)
-            => vmdLinearFrac(n, a, b, scalea, shifta, scaleb, shiftb, r, mode);
+        public static void LinearFrac(double[] a, double[] b, double scalea, double shifta, double scaleb, double shiftb, double[] r, VmlMode mode)
+            => vmdLinearFrac(a.Length, a, b, scalea, shifta, scaleb, shiftb, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCeil(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ceil(int n, float[] a, float[] r)
-            => vsCeil(n, a, r);
+        public static void Ceil(float[] a, float[] r)
+            => vsCeil(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCeil(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ceil(int n, double[] a, double[] r)
-            => vdCeil(n, a, r);
+        public static void Ceil(double[] a, double[] r)
+            => vdCeil(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCeil(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ceil(int n, float[] a, float[] r, VmlMode mode)
-            => vmsCeil(n, a, r, mode);
+        public static void Ceil(float[] a, float[] r, VmlMode mode)
+            => vmsCeil(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCeil(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Ceil(int n, double[] a, double[] r, VmlMode mode)
-            => vmdCeil(n, a, r, mode);
+        public static void Ceil(double[] a, double[] r, VmlMode mode)
+            => vmdCeil(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFloor(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Floor(int n, float[] a, float[] r)
-            => vsFloor(n, a, r);
+        public static void Floor(float[] a, float[] r)
+            => vsFloor(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFloor(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Floor(int n, double[] a, double[] r)
-            => vdFloor(n, a, r);
+        public static void Floor(double[] a, double[] r)
+            => vdFloor(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFloor(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Floor(int n, float[] a, float[] r, VmlMode mode)
-            => vmsFloor(n, a, r, mode);
+        public static void Floor(float[] a, float[] r, VmlMode mode)
+            => vmsFloor(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFloor(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Floor(int n, double[] a, double[] r, VmlMode mode)
-            => vmdFloor(n, a, r, mode);
+        public static void Floor(double[] a, double[] r, VmlMode mode)
+            => vmdFloor(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFrac(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Frac(int n, float[] a, float[] r)
-            => vsFrac(n, a, r);
+        public static void Frac(float[] a, float[] r)
+            => vsFrac(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFrac(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Frac(int n, double[] a, double[] r)
-            => vdFrac(n, a, r);
+        public static void Frac(double[] a, double[] r)
+            => vdFrac(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFrac(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Frac(int n, float[] a, float[] r, VmlMode mode)
-            => vmsFrac(n, a, r, mode);
+        public static void Frac(float[] a, float[] r, VmlMode mode)
+            => vmsFrac(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFrac(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Frac(int n, double[] a, double[] r, VmlMode mode)
-            => vmdFrac(n, a, r, mode);
+        public static void Frac(double[] a, double[] r, VmlMode mode)
+            => vmdFrac(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsModf(int n, float[] a, float[] r1, float[] r2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Modf(int n, float[] a, float[] r1, float[] r2)
-            => vsModf(n, a, r1, r2);
+        public static void Modf(float[] a, float[] r1, float[] r2)
+            => vsModf(a.Length, a, r1, r2);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdModf(int n, double[] a, double[] r1, double[] r2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Modf(int n, double[] a, double[] r1, double[] r2)
-            => vdModf(n, a, r1, r2);
+        public static void Modf(double[] a, double[] r1, double[] r2)
+            => vdModf(a.Length, a, r1, r2);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsModf(int n, float[] a, float[] r1, float[] r2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Modf(int n, float[] a, float[] r1, float[] r2, VmlMode mode)
-            => vmsModf(n, a, r1, r2, mode);
+        public static void Modf(float[] a, float[] r1, float[] r2, VmlMode mode)
+            => vmsModf(a.Length, a, r1, r2, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdModf(int n, double[] a, double[] r1, double[] r2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Modf(int n, double[] a, double[] r1, double[] r2, VmlMode mode)
-            => vmdModf(n, a, r1, r2, mode);
+        public static void Modf(double[] a, double[] r1, double[] r2, VmlMode mode)
+            => vmdModf(a.Length, a, r1, r2, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFmod(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmod(int n, float[] a, float[] b, float[] r)
-            => vsFmod(n, a, b, r);
+        public static void Fmod(float[] a, float[] b, float[] r)
+            => vsFmod(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFmod(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmod(int n, double[] a, double[] b, double[] r)
-            => vdFmod(n, a, b, r);
+        public static void Fmod(double[] a, double[] b, double[] r)
+            => vdFmod(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFmod(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmod(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsFmod(n, a, b, r, mode);
+        public static void Fmod(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsFmod(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFmod(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmod(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdFmod(n, a, b, r, mode);
+        public static void Fmod(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdFmod(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsRemainder(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Remainder(int n, float[] a, float[] b, float[] r)
-            => vsRemainder(n, a, b, r);
+        public static void Remainder(float[] a, float[] b, float[] r)
+            => vsRemainder(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdRemainder(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Remainder(int n, double[] a, double[] b, double[] r)
-            => vdRemainder(n, a, b, r);
+        public static void Remainder(double[] a, double[] b, double[] r)
+            => vdRemainder(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsRemainder(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Remainder(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsRemainder(n, a, b, r, mode);
+        public static void Remainder(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsRemainder(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdRemainder(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Remainder(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdRemainder(n, a, b, r, mode);
+        public static void Remainder(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdRemainder(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsNextAfter(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfter(int n, float[] a, float[] b, float[] r)
-            => vsNextAfter(n, a, b, r);
+        public static void NextAfter(float[] a, float[] b, float[] r)
+            => vsNextAfter(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdNextAfter(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfter(int n, double[] a, double[] b, double[] r)
-            => vdNextAfter(n, a, b, r);
+        public static void NextAfter(double[] a, double[] b, double[] r)
+            => vdNextAfter(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsNextAfter(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfter(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsNextAfter(n, a, b, r, mode);
+        public static void NextAfter(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsNextAfter(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdNextAfter(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfter(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdNextAfter(n, a, b, r, mode);
+        public static void NextAfter(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdNextAfter(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCopySign(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySign(int n, float[] a, float[] b, float[] r)
-            => vsCopySign(n, a, b, r);
+        public static void CopySign(float[] a, float[] b, float[] r)
+            => vsCopySign(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCopySign(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySign(int n, double[] a, double[] b, double[] r)
-            => vdCopySign(n, a, b, r);
+        public static void CopySign(double[] a, double[] b, double[] r)
+            => vdCopySign(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCopySign(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySign(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsCopySign(n, a, b, r, mode);
+        public static void CopySign(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsCopySign(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCopySign(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySign(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdCopySign(n, a, b, r, mode);
+        public static void CopySign(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdCopySign(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFdim(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fdim(int n, float[] a, float[] b, float[] r)
-            => vsFdim(n, a, b, r);
+        public static void Fdim(float[] a, float[] b, float[] r)
+            => vsFdim(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFdim(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fdim(int n, double[] a, double[] b, double[] r)
-            => vdFdim(n, a, b, r);
+        public static void Fdim(double[] a, double[] b, double[] r)
+            => vdFdim(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFdim(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fdim(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsFdim(n, a, b, r, mode);
+        public static void Fdim(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsFdim(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFdim(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fdim(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdFdim(n, a, b, r, mode);
+        public static void Fdim(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdFdim(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFmax(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmax(int n, float[] a, float[] b, float[] r)
-            => vsFmax(n, a, b, r);
+        public static void Fmax(float[] a, float[] b, float[] r)
+            => vsFmax(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFmax(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmax(int n, double[] a, double[] b, double[] r)
-            => vdFmax(n, a, b, r);
+        public static void Fmax(double[] a, double[] b, double[] r)
+            => vdFmax(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFmax(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmax(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsFmax(n, a, b, r, mode);
+        public static void Fmax(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsFmax(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFmax(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmax(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdFmax(n, a, b, r, mode);
+        public static void Fmax(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdFmax(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFmin(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmin(int n, float[] a, float[] b, float[] r)
-            => vsFmin(n, a, b, r);
+        public static void Fmin(float[] a, float[] b, float[] r)
+            => vsFmin(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFmin(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmin(int n, double[] a, double[] b, double[] r)
-            => vdFmin(n, a, b, r);
+        public static void Fmin(double[] a, double[] b, double[] r)
+            => vdFmin(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFmin(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmin(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsFmin(n, a, b, r, mode);
+        public static void Fmin(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsFmin(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFmin(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Fmin(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdFmin(n, a, b, r, mode);
+        public static void Fmin(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdFmin(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsMaxMag(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMag(int n, float[] a, float[] b, float[] r)
-            => vsMaxMag(n, a, b, r);
+        public static void MaxMag(float[] a, float[] b, float[] r)
+            => vsMaxMag(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdMaxMag(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMag(int n, double[] a, double[] b, double[] r)
-            => vdMaxMag(n, a, b, r);
+        public static void MaxMag(double[] a, double[] b, double[] r)
+            => vdMaxMag(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsMaxMag(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMag(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsMaxMag(n, a, b, r, mode);
+        public static void MaxMag(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsMaxMag(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdMaxMag(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMag(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdMaxMag(n, a, b, r, mode);
+        public static void MaxMag(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdMaxMag(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsMinMag(int n, float[] a, float[] b, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMag(int n, float[] a, float[] b, float[] r)
-            => vsMinMag(n, a, b, r);
+        public static void MinMag(float[] a, float[] b, float[] r)
+            => vsMinMag(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdMinMag(int n, double[] a, double[] b, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMag(int n, double[] a, double[] b, double[] r)
-            => vdMinMag(n, a, b, r);
+        public static void MinMag(double[] a, double[] b, double[] r)
+            => vdMinMag(a.Length, a, b, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsMinMag(int n, float[] a, float[] b, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMag(int n, float[] a, float[] b, float[] r, VmlMode mode)
-            => vmsMinMag(n, a, b, r, mode);
+        public static void MinMag(float[] a, float[] b, float[] r, VmlMode mode)
+            => vmsMinMag(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdMinMag(int n, double[] a, double[] b, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMag(int n, double[] a, double[] b, double[] r, VmlMode mode)
-            => vmdMinMag(n, a, b, r, mode);
+        public static void MinMag(double[] a, double[] b, double[] r, VmlMode mode)
+            => vmdMinMag(a.Length, a, b, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsNearbyInt(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyInt(int n, float[] a, float[] r)
-            => vsNearbyInt(n, a, r);
+        public static void NearbyInt(float[] a, float[] r)
+            => vsNearbyInt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdNearbyInt(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyInt(int n, double[] a, double[] r)
-            => vdNearbyInt(n, a, r);
+        public static void NearbyInt(double[] a, double[] r)
+            => vdNearbyInt(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsNearbyInt(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyInt(int n, float[] a, float[] r, VmlMode mode)
-            => vmsNearbyInt(n, a, r, mode);
+        public static void NearbyInt(float[] a, float[] r, VmlMode mode)
+            => vmsNearbyInt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdNearbyInt(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyInt(int n, double[] a, double[] r, VmlMode mode)
-            => vmdNearbyInt(n, a, r, mode);
+        public static void NearbyInt(double[] a, double[] r, VmlMode mode)
+            => vmdNearbyInt(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsRint(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Rint(int n, float[] a, float[] r)
-            => vsRint(n, a, r);
+        public static void Rint(float[] a, float[] r)
+            => vsRint(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdRint(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Rint(int n, double[] a, double[] r)
-            => vdRint(n, a, r);
+        public static void Rint(double[] a, double[] r)
+            => vdRint(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsRint(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Rint(int n, float[] a, float[] r, VmlMode mode)
-            => vmsRint(n, a, r, mode);
+        public static void Rint(float[] a, float[] r, VmlMode mode)
+            => vmsRint(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdRint(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Rint(int n, double[] a, double[] r, VmlMode mode)
-            => vmdRint(n, a, r, mode);
+        public static void Rint(double[] a, double[] r, VmlMode mode)
+            => vmdRint(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsRound(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Round(int n, float[] a, float[] r)
-            => vsRound(n, a, r);
+        public static void Round(float[] a, float[] r)
+            => vsRound(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdRound(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Round(int n, double[] a, double[] r)
-            => vdRound(n, a, r);
+        public static void Round(double[] a, double[] r)
+            => vdRound(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsRound(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Round(int n, float[] a, float[] r, VmlMode mode)
-            => vmsRound(n, a, r, mode);
+        public static void Round(float[] a, float[] r, VmlMode mode)
+            => vmsRound(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdRound(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Round(int n, double[] a, double[] r, VmlMode mode)
-            => vmdRound(n, a, r, mode);
+        public static void Round(double[] a, double[] r, VmlMode mode)
+            => vmdRound(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTrunc(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Trunc(int n, float[] a, float[] r)
-            => vsTrunc(n, a, r);
+        public static void Trunc(float[] a, float[] r)
+            => vsTrunc(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTrunc(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Trunc(int n, double[] a, double[] r)
-            => vdTrunc(n, a, r);
+        public static void Trunc(double[] a, double[] r)
+            => vdTrunc(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTrunc(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Trunc(int n, float[] a, float[] r, VmlMode mode)
-            => vmsTrunc(n, a, r, mode);
+        public static void Trunc(float[] a, float[] r, VmlMode mode)
+            => vmsTrunc(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTrunc(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Trunc(int n, double[] a, double[] r, VmlMode mode)
-            => vmdTrunc(n, a, r, mode);
+        public static void Trunc(double[] a, double[] r, VmlMode mode)
+            => vmdTrunc(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExpInt1(int n, float[] a, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1(int n, float[] a, float[] r)
-            => vsExpInt1(n, a, r);
+        public static void ExpInt1(float[] a, float[] r)
+            => vsExpInt1(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExpInt1(int n, double[] a, double[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1(int n, double[] a, double[] r)
-            => vdExpInt1(n, a, r);
+        public static void ExpInt1(double[] a, double[] r)
+            => vdExpInt1(a.Length, a, r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExpInt1(int n, float[] a, float[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1(int n, float[] a, float[] r, VmlMode mode)
-            => vmsExpInt1(n, a, r, mode);
+        public static void ExpInt1(float[] a, float[] r, VmlMode mode)
+            => vmsExpInt1(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExpInt1(int n, double[] a, double[] r, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1(int n, double[] a, double[] r, VmlMode mode)
-            => vmdExpInt1(n, a, r, mode);
+        public static void ExpInt1(double[] a, double[] r, VmlMode mode)
+            => vmdExpInt1(a.Length, a, r, mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAbsI(int n, float[] a, int inca, float[] r, int incr);
