@@ -4,12 +4,14 @@ open System
 open MKLNET
 open CsCheck
 
+let ARRAY_SIZE_MAX = 5
+
 let testUnary name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
         (factual:'a[] -> 'a[] -> unit) =
     test name {
         let gena = GenArray gen
-        let! a = gena.[0,5]
+        let! a = gena.[0,ARRAY_SIZE_MAX]
         let actual = Array.zeroCreate a.Length
         factual a actual
         let expected = Array.map fexpected a
@@ -23,7 +25,7 @@ let testBinary name (gen:Gen<'a>)
         (factual:'a[] -> 'a[] -> 'a[] -> unit) =
     test name {
         let gena = GenArray gen
-        let! a = gena.[0,5]
+        let! a = gena.[0,ARRAY_SIZE_MAX]
         let! b = gena.[a.Length]
         let actual = Array.zeroCreate a.Length
         factual a b actual
@@ -128,7 +130,45 @@ let arithmetic =
             (fun a b -> float a - Math.Round(float a/float b) * float b |> float32)
             (fun a b r -> Vml.Remainder(a.Length,a,b,r,VmlMode.HA))
 
-        // LinearFrac
+        test "LinearFrac_double" {
+            let! a = Gen.Double.[0.01,100.0].Array.[0,ARRAY_SIZE_MAX]
+            let! b = Gen.Double.[0.01,100.0].Array.[a.Length]
+            let! scalea = Gen.Double.[0.01,100.0]
+            let! shifta = Gen.Double.[0.01,100.0]
+            let! scaleb = Gen.Double.[0.01,100.0]
+            let! shiftb = Gen.Double.[0.01,100.0]
+            let expected =
+                Array.map2
+                    (fun a b -> (a*scalea + shifta)/(b*scaleb + shiftb))
+                    a b
+            let actual = Array.zeroCreate a.Length
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual)
+            Check.close High expected actual
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual,VmlMode.HA)
+            Check.close High expected actual |> Check.message "mode"
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,a)
+            Check.close High expected a |> Check.message "inplace"
+        }
+
+        test "LinearFrac_single" {
+            let! a = Gen.Single.[0.01f,100.0f].Array.[0,ARRAY_SIZE_MAX]
+            let! b = Gen.Single.[0.01f,100.0f].Array.[a.Length]
+            let! scalea = Gen.Single.[0.01f,100.0f]
+            let! shifta = Gen.Single.[0.01f,100.0f]
+            let! scaleb = Gen.Single.[0.01f,100.0f]
+            let! shiftb = Gen.Single.[0.01f,100.0f]
+            let expected =
+                Array.map2
+                    (fun a b -> (a*scalea + shifta)/(b*scaleb + shiftb))
+                    a b
+            let actual = Array.zeroCreate a.Length
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual)
+            Check.close High expected actual
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual,VmlMode.HA)
+            Check.close High expected actual |> Check.message "mode"
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,a)
+            Check.close High expected a |> Check.message "inplace"
+        }
     }
 
 let power =
