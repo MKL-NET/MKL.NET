@@ -129,46 +129,6 @@ let arithmetic =
         testBinary "Remainder_mode_single" Gen.Single.[0.01f,10000.0f]
             (fun a b -> float a - Math.Round(float a/float b) * float b |> float32)
             (fun a b r -> Vml.Remainder(a.Length,a,b,r,VmlMode.HA))
-
-        test "LinearFrac_double" {
-            let! a = Gen.Double.[0.01,100.0].Array.[0,ARRAY_SIZE_MAX]
-            let! b = Gen.Double.[0.01,100.0].Array.[a.Length]
-            let! scalea = Gen.Double.[0.01,100.0]
-            let! shifta = Gen.Double.[0.01,100.0]
-            let! scaleb = Gen.Double.[0.01,100.0]
-            let! shiftb = Gen.Double.[0.01,100.0]
-            let expected =
-                Array.map2
-                    (fun a b -> (a*scalea + shifta)/(b*scaleb + shiftb))
-                    a b
-            let actual = Array.zeroCreate a.Length
-            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual)
-            Check.close High expected actual
-            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual,VmlMode.HA)
-            Check.close High expected actual |> Check.message "mode"
-            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,a)
-            Check.close High expected a |> Check.message "inplace"
-        }
-
-        test "LinearFrac_single" {
-            let! a = Gen.Single.[0.01f,100.0f].Array.[0,ARRAY_SIZE_MAX]
-            let! b = Gen.Single.[0.01f,100.0f].Array.[a.Length]
-            let! scalea = Gen.Single.[0.01f,100.0f]
-            let! shifta = Gen.Single.[0.01f,100.0f]
-            let! scaleb = Gen.Single.[0.01f,100.0f]
-            let! shiftb = Gen.Single.[0.01f,100.0f]
-            let expected =
-                Array.map2
-                    (fun a b -> (a*scalea + shifta)/(b*scaleb + shiftb))
-                    a b
-            let actual = Array.zeroCreate a.Length
-            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual)
-            Check.close High expected actual
-            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual,VmlMode.HA)
-            Check.close High expected actual |> Check.message "mode"
-            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,a)
-            Check.close High expected a |> Check.message "inplace"
-        }
     }
 
 let power =
@@ -339,32 +299,6 @@ let power =
         testBinary "Powr_mode_single" Gen.Single.[0.0f,Single.MaxValue]
             (fun a b -> Math.Pow(float a,float b) |> float32)
             (fun a b r -> Vml.Powr(a.Length,a,b,r,VmlMode.HA))
-
-        test "Powx_double" {
-            let! a = Gen.Double.[0.0,Double.MaxValue].Array.[0,ARRAY_SIZE_MAX]
-            let! b = Gen.Double
-            let expected = Array.map (fun a -> Math.Pow(a,b)) a
-            let actual = Array.zeroCreate a.Length
-            Vml.Powx(a.Length,a,b,actual)
-            Check.close High expected actual
-            Vml.Powx(a.Length,a,b,actual,VmlMode.HA)
-            Check.close High expected actual |> Check.message "mode"
-            Vml.Powx(a.Length,a,b,a)
-            Check.close High expected a |> Check.message "inplace"
-        }
-
-        test "Powx_single" {
-            let! a = Gen.Single.[0.0f,Single.MaxValue].Array.[0,ARRAY_SIZE_MAX]
-            let! b = Gen.Single
-            let expected = Array.map (fun a -> Math.Pow(float a,float b) |> float32) a
-            let actual = Array.zeroCreate a.Length
-            Vml.Powx(a.Length,a,b,actual)
-            Check.close High expected actual
-            Vml.Powx(a.Length,a,b,actual,VmlMode.HA)
-            Check.close High expected actual |> Check.message "mode"
-            Vml.Powx(a.Length,a,b,a)
-            Check.close High expected a |> Check.message "inplace"
-        }
     }
 
 let exponential =
@@ -491,7 +425,7 @@ let exponential =
             (fun i -> log(float i+1.0) |> float32)
             (fun a r -> Vml.Log1p(a.Length,a,r,VmlMode.HA))
 
-#if NETCOREAPP // No Math.ILogB in .NET framework
+#if NETCOREAPP
         testUnary "Logb_double" Gen.Double.[0.0,Double.MaxValue]
             (fun i -> Math.ILogB(i) |> float)
             (fun a r -> Vml.Logb(a.Length,a,r))
@@ -783,38 +717,6 @@ let trigonometric =
         testBinary "Atan2pi_mode_single" Gen.Single
             (fun a b -> atan2 (float a) (float b) / Math.PI |> float32)
             (fun a b r -> Vml.Atan2pi(a.Length,a,b,r,VmlMode.HA))
-
-        test "SinCos_double" {
-            let! a = Gen.Double.[-65536.0,65536.0].Array.[0,ARRAY_SIZE_MAX]
-            let expected1 = Array.map sin a
-            let expected2 = Array.map cos a
-            let actual1 = Array.zeroCreate a.Length
-            let actual2 = Array.zeroCreate a.Length
-            Vml.SinCos(a.Length,a,actual1,actual2)
-            Check.close High expected1 actual1 |> Check.message "sin"
-            Check.close High expected2 actual2 |> Check.message "sin"
-            Vml.SinCos(a.Length,a,actual1,actual2,VmlMode.HA)
-            Check.close High expected1 actual1 |> Check.message "mode_sin"
-            Check.close High expected2 actual2 |> Check.message "mode_sin"
-            Vml.SinCos(a.Length,a,a,actual2)
-            Check.close High expected1 a |> Check.message "inplace"
-        }
-
-        test "SinCos_single" {
-            let! a = Gen.Single.[-8192.0f,8192.0f].Array.[0,ARRAY_SIZE_MAX]
-            let expected1 = Array.map sin a
-            let expected2 = Array.map cos a
-            let actual1 = Array.zeroCreate a.Length
-            let actual2 = Array.zeroCreate a.Length
-            Vml.SinCos(a.Length,a,actual1,actual2)
-            Check.close High expected1 actual1 |> Check.message "sin"
-            Check.close High expected2 actual2 |> Check.message "sin"
-            Vml.SinCos(a.Length,a,actual1,actual2,VmlMode.HA)
-            Check.close High expected1 actual1 |> Check.message "mode_sin"
-            Check.close High expected2 actual2 |> Check.message "mode_sin"
-            Vml.SinCos(a.Length,a,a,actual2)
-            Check.close High expected1 a |> Check.message "inplace"
-        }
     }
 
 let hyperbolic =
@@ -1046,38 +948,6 @@ let rounding =
         testUnary "Rint_mode_single" Gen.Single
             (fun a -> Math.Round(float a, MidpointRounding.ToEven) |> float32)
             (fun a r -> Vml.Rint(a.Length,a,r,VmlMode.HA))
-
-        test "Modf_double" {
-            let! a = Gen.Double.Array.[0,ARRAY_SIZE_MAX]
-            let expected1 = Array.map truncate a
-            let expected2 = Array.map (fun a -> a - truncate a) a
-            let actual1 = Array.zeroCreate a.Length
-            let actual2 = Array.zeroCreate a.Length
-            Vml.Modf(a.Length,a,actual1,actual2)
-            Check.close High expected1 actual1 |> Check.message "int"
-            Check.close High expected2 actual2 |> Check.message "fra"
-            Vml.Modf(a.Length,a,actual1,actual2,VmlMode.HA)
-            Check.close High expected1 actual1 |> Check.message "mode_int"
-            Check.close High expected2 actual2 |> Check.message "mode_fra"
-            Vml.Modf(a.Length,a,a,actual2)
-            Check.close High expected1 a |> Check.message "inplace"
-        }
-
-        test "Modf_single" {
-            let! a = Gen.Single.Array.[0,ARRAY_SIZE_MAX]
-            let expected1 = Array.map truncate a
-            let expected2 = Array.map (fun a -> a - truncate a) a
-            let actual1 = Array.zeroCreate a.Length
-            let actual2 = Array.zeroCreate a.Length
-            Vml.Modf(a.Length,a,actual1,actual2)
-            Check.close High expected1 actual1 |> Check.message "int"
-            Check.close High expected2 actual2 |> Check.message "fra"
-            Vml.Modf(a.Length,a,actual1,actual2,VmlMode.HA)
-            Check.close High expected1 actual1 |> Check.message "mode_int"
-            Check.close High expected2 actual2 |> Check.message "mode_fra"
-            Vml.Modf(a.Length,a,a,actual2)
-            Check.close High expected1 a |> Check.message "inplace"
-        }
     }
 
 let miscellaneous =
@@ -1219,6 +1089,140 @@ let miscellaneous =
 #endif
     }
 
+let bespoke =
+    test "bespoke" {
+
+        test "Powx_double" {
+            let! a = Gen.Double.[0.0,Double.MaxValue].Array.[0,ARRAY_SIZE_MAX]
+            let! b = Gen.Double
+            let expected = Array.map (fun a -> Math.Pow(a,b)) a
+            let actual = Array.zeroCreate a.Length
+            Vml.Powx(a.Length,a,b,actual)
+            Check.close High expected actual
+            Vml.Powx(a.Length,a,b,actual,VmlMode.HA)
+            Check.close High expected actual |> Check.message "mode"
+            Vml.Powx(a.Length,a,b,a)
+            Check.close High expected a |> Check.message "inplace"
+        }
+
+        test "Powx_single" {
+            let! a = Gen.Single.[0.0f,Single.MaxValue].Array.[0,ARRAY_SIZE_MAX]
+            let! b = Gen.Single
+            let expected = Array.map (fun a -> Math.Pow(float a,float b) |> float32) a
+            let actual = Array.zeroCreate a.Length
+            Vml.Powx(a.Length,a,b,actual)
+            Check.close High expected actual
+            Vml.Powx(a.Length,a,b,actual,VmlMode.HA)
+            Check.close High expected actual |> Check.message "mode"
+            Vml.Powx(a.Length,a,b,a)
+            Check.close High expected a |> Check.message "inplace"
+        }
+
+        test "SinCos_double" {
+            let! a = Gen.Double.[-65536.0,65536.0].Array.[0,ARRAY_SIZE_MAX]
+            let expected1 = Array.map sin a
+            let expected2 = Array.map cos a
+            let actual1 = Array.zeroCreate a.Length
+            let actual2 = Array.zeroCreate a.Length
+            Vml.SinCos(a.Length,a,actual1,actual2)
+            Check.close High expected1 actual1 |> Check.message "sin"
+            Check.close High expected2 actual2 |> Check.message "sin"
+            Vml.SinCos(a.Length,a,actual1,actual2,VmlMode.HA)
+            Check.close High expected1 actual1 |> Check.message "mode_sin"
+            Check.close High expected2 actual2 |> Check.message "mode_sin"
+            Vml.SinCos(a.Length,a,a,actual2)
+            Check.close High expected1 a |> Check.message "inplace"
+        }
+
+        test "SinCos_single" {
+            let! a = Gen.Single.[-8192.0f,8192.0f].Array.[0,ARRAY_SIZE_MAX]
+            let expected1 = Array.map sin a
+            let expected2 = Array.map cos a
+            let actual1 = Array.zeroCreate a.Length
+            let actual2 = Array.zeroCreate a.Length
+            Vml.SinCos(a.Length,a,actual1,actual2)
+            Check.close High expected1 actual1 |> Check.message "sin"
+            Check.close High expected2 actual2 |> Check.message "sin"
+            Vml.SinCos(a.Length,a,actual1,actual2,VmlMode.HA)
+            Check.close High expected1 actual1 |> Check.message "mode_sin"
+            Check.close High expected2 actual2 |> Check.message "mode_sin"
+            Vml.SinCos(a.Length,a,a,actual2)
+            Check.close High expected1 a |> Check.message "inplace"
+        }
+
+        test "Modf_double" {
+            let! a = Gen.Double.Array.[0,ARRAY_SIZE_MAX]
+            let expected1 = Array.map truncate a
+            let expected2 = Array.map (fun a -> a - truncate a) a
+            let actual1 = Array.zeroCreate a.Length
+            let actual2 = Array.zeroCreate a.Length
+            Vml.Modf(a.Length,a,actual1,actual2)
+            Check.close High expected1 actual1 |> Check.message "int"
+            Check.close High expected2 actual2 |> Check.message "fra"
+            Vml.Modf(a.Length,a,actual1,actual2,VmlMode.HA)
+            Check.close High expected1 actual1 |> Check.message "mode_int"
+            Check.close High expected2 actual2 |> Check.message "mode_fra"
+            Vml.Modf(a.Length,a,a,actual2)
+            Check.close High expected1 a |> Check.message "inplace"
+        }
+
+        test "Modf_single" {
+            let! a = Gen.Single.Array.[0,ARRAY_SIZE_MAX]
+            let expected1 = Array.map truncate a
+            let expected2 = Array.map (fun a -> a - truncate a) a
+            let actual1 = Array.zeroCreate a.Length
+            let actual2 = Array.zeroCreate a.Length
+            Vml.Modf(a.Length,a,actual1,actual2)
+            Check.close High expected1 actual1 |> Check.message "int"
+            Check.close High expected2 actual2 |> Check.message "fra"
+            Vml.Modf(a.Length,a,actual1,actual2,VmlMode.HA)
+            Check.close High expected1 actual1 |> Check.message "mode_int"
+            Check.close High expected2 actual2 |> Check.message "mode_fra"
+            Vml.Modf(a.Length,a,a,actual2)
+            Check.close High expected1 a |> Check.message "inplace"
+        }
+
+        test "LinearFrac_double" {
+            let! a = Gen.Double.[0.01,100.0].Array.[0,ARRAY_SIZE_MAX]
+            let! b = Gen.Double.[0.01,100.0].Array.[a.Length]
+            let! scalea = Gen.Double.[0.01,100.0]
+            let! shifta = Gen.Double.[0.01,100.0]
+            let! scaleb = Gen.Double.[0.01,100.0]
+            let! shiftb = Gen.Double.[0.01,100.0]
+            let expected =
+                Array.map2
+                    (fun a b -> (a*scalea + shifta)/(b*scaleb + shiftb))
+                    a b
+            let actual = Array.zeroCreate a.Length
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual)
+            Check.close High expected actual
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual,VmlMode.HA)
+            Check.close High expected actual |> Check.message "mode"
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,a)
+            Check.close High expected a |> Check.message "inplace"
+        }
+
+        test "LinearFrac_single" {
+            let! a = Gen.Single.[0.01f,100.0f].Array.[0,ARRAY_SIZE_MAX]
+            let! b = Gen.Single.[0.01f,100.0f].Array.[a.Length]
+            let! scalea = Gen.Single.[0.01f,100.0f]
+            let! shifta = Gen.Single.[0.01f,100.0f]
+            let! scaleb = Gen.Single.[0.01f,100.0f]
+            let! shiftb = Gen.Single.[0.01f,100.0f]
+            let expected =
+                Array.map2
+                    (fun a b -> (a*scalea + shifta)/(b*scaleb + shiftb))
+                    a b
+            let actual = Array.zeroCreate a.Length
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual)
+            Check.close High expected actual
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,actual,VmlMode.HA)
+            Check.close High expected actual |> Check.message "mode"
+            Vml.LinearFrac(a.Length,a,b,scalea,shifta,scaleb,shiftb,a)
+            Check.close High expected a |> Check.message "inplace"
+        }
+    }
+
 let all =
     test "Vml" {
         arithmetic
@@ -1229,4 +1233,5 @@ let all =
         special
         rounding
         miscellaneous
+        bespoke
     }
