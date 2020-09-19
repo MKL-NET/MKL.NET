@@ -83,6 +83,52 @@ let arithmetic =
             
         testUnary "Sqr_mode_single" Gen.Single (fun i -> i * i)
             (fun a r -> Vml.Sqr(a.Length,a,r,VmlMode.HA))
+
+        testBinary "Mul_double" Gen.Double (*)
+            (fun a b r -> Vml.Mul(a.Length,a,b,r))
+
+        testBinary "Mul_mode_double" Gen.Double (*)
+            (fun a b r -> Vml.Mul(a.Length,a,b,r,VmlMode.HA))
+
+        testBinary "Mul_single" Gen.Single (*)
+            (fun a b r -> Vml.Mul(a.Length,a,b,r))
+
+        testBinary "Mul_mode_single" Gen.Single (*)
+            (fun a b r -> Vml.Mul(a.Length,a,b,r,VmlMode.HA))
+
+        testBinary "Fmod_double" Gen.Double.[0.01,10000.0]
+            (fun a b -> a - Math.Truncate(a/b) * b)
+            (fun a b r -> Vml.Fmod(a.Length,a,b,r))
+
+        testBinary "Fmod_mode_double" Gen.Double.[0.01,10000.0]
+            (fun a b -> a - Math.Truncate(a/b) * b)
+            (fun a b r -> Vml.Fmod(a.Length,a,b,r,VmlMode.HA))
+        
+        testBinary "Fmod_single" Gen.Single.[0.01f,10000.0f]
+            (fun a b -> float a - Math.Truncate(float a/float b) * float b |> float32)
+            (fun a b r -> Vml.Fmod(a.Length,a,b,r))
+        
+        testBinary "Fmod_mode_single" Gen.Single.[0.01f,10000.0f]
+            (fun a b -> float a - Math.Truncate(float a/float b) * float b |> float32)
+            (fun a b r -> Vml.Fmod(a.Length,a,b,r,VmlMode.HA))
+
+        testBinary "Remainder_double" Gen.Double.[0.01,10000.0]
+            (fun a b -> a - Math.Round(a/b) * b)
+            (fun a b r -> Vml.Remainder(a.Length,a,b,r))
+
+        testBinary "Remainder_mode_double" Gen.Double.[0.01,10000.0]
+            (fun a b -> a - Math.Round(a/b) * b)
+            (fun a b r -> Vml.Remainder(a.Length,a,b,r,VmlMode.HA))
+        
+        testBinary "Remainder_single" Gen.Single.[0.01f,10000.0f]
+            (fun a b -> float a - Math.Round(float a/float b) * float b |> float32)
+            (fun a b r -> Vml.Remainder(a.Length,a,b,r))
+        
+        testBinary "Remainder_mode_single" Gen.Single.[0.01f,10000.0f]
+            (fun a b -> float a - Math.Round(float a/float b) * float b |> float32)
+            (fun a b r -> Vml.Remainder(a.Length,a,b,r,VmlMode.HA))
+
+        // LinearFrac
     }
 
 let power =
@@ -175,6 +221,24 @@ let power =
         testBinary "Hypot_mode_single" Gen.Single
             (fun a b -> sqrt(a*a+b*b))
             (fun a b r -> Vml.Hypot(a.Length,a,b,r,VmlMode.HA))
+
+        testBinary "Div_double" Gen.Double (/)
+            (fun a b r -> Vml.Div(a.Length,a,b,r))
+
+        testBinary "Div_mode_double" Gen.Double (/)
+            (fun a b r -> Vml.Div(a.Length,a,b,r,VmlMode.HA))
+
+        testBinary "Div_single" Gen.Single (/)
+            (fun a b r -> Vml.Div(a.Length,a,b,r))
+
+        testBinary "Div_mode_single" Gen.Single (/)
+            (fun a b r -> Vml.Div(a.Length,a,b,r,VmlMode.HA))
+
+        // Pow2o3
+        // Pow3o2
+        // Pow
+        // Powx
+        // Powr
     }
 
 let exponential =
@@ -561,6 +625,10 @@ let trigonometric =
         testUnary "Atanpi_mode_single" Gen.Single
             (fun i -> Math.Atan(float i) / Math.PI |> float32)
             (fun a r -> Vml.Atanpi(a.Length,a,r,VmlMode.HA))
+
+        // SinCos
+        // ATan2
+        // ATan2pi
     }
 
 let hyperbolic =
@@ -667,6 +735,15 @@ let hyperbolic =
 let special =
     test "special" {
         ()
+        // Erf
+        // Erfc
+        // CdfNorm
+        // ErfInv
+        // ErfcInv
+        // CdfNormInv
+        // LGamma
+        // TGamma
+        // ExpInt1
     }
 
 let rounding =
@@ -687,6 +764,59 @@ let rounding =
         testUnary "Floor_mode_single" Gen.Single
             (float >> Math.Floor >> float32)
             (fun a r -> Vml.Floor(a.Length,a,r,VmlMode.HA))
+
+        testUnary "Ceil_double" Gen.Double
+            Math.Ceiling
+            (fun a r -> Vml.Ceil(a.Length,a,r))
+
+        testUnary "Ceil_mode_double" Gen.Double
+            Math.Ceiling
+            (fun a r -> Vml.Ceil(a.Length,a,r,VmlMode.HA))
+
+        testUnary "Ceil_single" Gen.Single
+            (float >> Math.Ceiling >> float32)
+            (fun a r -> Vml.Ceil(a.Length,a,r))
+
+        testUnary "Ceil_mode_single" Gen.Single
+            (float >> Math.Ceiling >> float32)
+            (fun a r -> Vml.Ceil(a.Length,a,r,VmlMode.HA))
+
+        testUnary "Trunc_double" Gen.Double
+            Math.Truncate
+            (fun a r -> Vml.Trunc(a.Length,a,r))
+
+        testUnary "Trunc_mode_double" Gen.Double
+            Math.Truncate
+            (fun a r -> Vml.Trunc(a.Length,a,r,VmlMode.HA))
+
+        testUnary "Trunc_single" Gen.Single
+            (float >> Math.Truncate >> float32)
+            (fun a r -> Vml.Trunc(a.Length,a,r))
+
+        testUnary "Trunc_mode_single" Gen.Single
+            (float >> Math.Truncate >> float32)
+            (fun a r -> Vml.Trunc(a.Length,a,r,VmlMode.HA))
+
+        testUnary "Round_double" Gen.Double
+            (fun a -> Math.Round(a, MidpointRounding.AwayFromZero))
+            (fun a r -> Vml.Round(a.Length,a,r))
+
+        testUnary "Round_mode_double" Gen.Double
+            (fun a -> Math.Round(a, MidpointRounding.AwayFromZero))
+            (fun a r -> Vml.Round(a.Length,a,r,VmlMode.HA))
+
+        testUnary "Round_single" Gen.Single
+            (fun a -> Math.Round(float a, MidpointRounding.AwayFromZero) |> float32)
+            (fun a r -> Vml.Round(a.Length,a,r))
+
+        testUnary "Round_mode_single" Gen.Single
+            (fun a -> Math.Round(float a, MidpointRounding.AwayFromZero) |> float32)
+            (fun a r -> Vml.Round(a.Length,a,r,VmlMode.HA))
+
+        // NearbyInt
+        // Rint
+        // Modf
+        // Frac
     }
 
 let miscellaneous =
@@ -711,6 +841,12 @@ let miscellaneous =
 #else
         ()
 #endif
+        // NextAfter
+        // Fdim
+        // Fmax
+        // Fmin
+        // MaxMag
+        // MinMag
     }
 
 let all =
