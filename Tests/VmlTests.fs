@@ -11,7 +11,7 @@ let testUnary name (gen:Gen<'a>)
         (factual:'a[] -> 'a[] -> unit) =
     test name {
         let gena = GenArray gen
-        let! a = gena.[0,ARRAY_SIZE_MAX]
+        let! a = gena.[1,ARRAY_SIZE_MAX]
         let actual = Array.zeroCreate a.Length
         factual a actual
         let expected = Array.map fexpected a
@@ -25,7 +25,7 @@ let testBinary name (gen:Gen<'a>)
         (factual:'a[] -> 'a[] -> 'a[] -> unit) =
     test name {
         let gena = GenArray gen
-        let! a = gena.[0,ARRAY_SIZE_MAX]
+        let! a = gena.[1,ARRAY_SIZE_MAX]
         let! b = gena.[a.Length]
         let actual = Array.zeroCreate a.Length
         factual a b actual
@@ -35,8 +35,26 @@ let testBinary name (gen:Gen<'a>)
         Check.close High expected a |> Check.message "inplace"
     }
 
+let testUnaryI name (gen:Gen<'a>)
+        (fexpected:'a -> 'a)
+        (factual:(int*'a[]*int*int*'a[]*int*int) -> unit) =
+    test name {
+        let! cols = Gen.Int.[1,3]
+        let! ini = Gen.Int.[0,cols-1]
+        let! rows = Gen.Int.[1,ARRAY_SIZE_MAX]
+        let! a = (GenArray gen).[rows*cols]
+        let actual = Array.copy a
+        factual(a.Length/cols,a,ini,cols,actual,ini,cols)
+        let expected = Array.mapi (fun i a -> if i % cols = ini then fexpected a else a) a
+        Check.close High expected actual
+        factual(a.Length/cols,a,ini,cols,a,ini,cols)
+        Check.close High expected a |> Check.message "inplace"
+    }
+
 let arithmetic =
     test "arithmetic" {
+
+        testUnaryI "AbsI_double" Gen.Single abs Vml.AbsI
 
         testUnary "Abs_double" Gen.Double abs
             (fun a r -> Vml.Abs(a,r))

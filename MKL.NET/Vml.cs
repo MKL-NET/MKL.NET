@@ -1870,1953 +1870,3305 @@ namespace MKLNET
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
-            {
                 vsAbsI(n, ap, inca, rp, incr);
-            }
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAbsI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAbsI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAbsI(n, a, inca, r, incr);
+        public static void AbsI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAbsI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAbsI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAbsI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAbsI(n, a, inca, r, incr, mode);
+        public static void AbsI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAbsI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAbsI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAbsI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAbsI(n, a, inca, r, incr, mode);
+        public static void AbsI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAbsI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAddI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsAddI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsAddI(n, a, inca, b, incb, r, incr);
+        public static void AddI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &a[inib])
+            fixed (float* rp = &r[inir])
+                vsAddI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAddI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdAddI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdAddI(n, a, inca, b, incb, r, incr);
+        public static void AddI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &a[inib])
+            fixed (double* rp = &r[inir])
+                vdAddI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAddI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsAddI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsAddI(n, a, inca, b, incb, r, incr, mode);
+        public static void AddI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &a[inib])
+            fixed (float* rp = &r[inir])
+                vmsAddI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAddI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdAddI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdAddI(n, a, inca, b, incb, r, incr, mode);
+        public static void AddI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &a[inib])
+            fixed (double* rp = &r[inir])
+                vmdAddI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSubI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsSubI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsSubI(n, a, inca, b, incb, r, incr);
+        public static void SubI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &a[inib])
+            fixed (float* rp = &r[inir])
+                vsSubI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSubI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdSubI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdSubI(n, a, inca, b, incb, r, incr);
+        public static void SubI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &a[inib])
+            fixed (double* rp = &r[inir])
+                vdSubI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSubI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsSubI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsSubI(n, a, inca, b, incb, r, incr, mode);
+        public static void SubI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &a[inib])
+            fixed (float* rp = &r[inir])
+                vmsSubI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSubI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdSubI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdSubI(n, a, inca, b, incb, r, incr, mode);
+        public static void SubI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &a[inib])
+            fixed (double* rp = &r[inir])
+                vmdSubI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsInvI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, float[] a, int inca, float[] r, int incr)
-            => vsInvI(n, a, inca, r, incr);
+        public static void InvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdInvI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, double[] a, int inca, double[] r, int incr)
-            => vdInvI(n, a, inca, r, incr);
+        public static void InvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsInvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsInvI(n, a, inca, r, incr, mode);
+        public static void InvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdInvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdInvI(n, a, inca, r, incr, mode);
+        public static void InvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSqrtI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsSqrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, float[] a, int inca, float[] r, int incr)
-            => vsSqrtI(n, a, inca, r, incr);
+        public static void SqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsSqrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSqrtI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdSqrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, double[] a, int inca, double[] r, int incr)
-            => vdSqrtI(n, a, inca, r, incr);
+        public static void SqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdSqrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSqrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsSqrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsSqrtI(n, a, inca, r, incr, mode);
+        public static void SqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsSqrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSqrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdSqrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdSqrtI(n, a, inca, r, incr, mode);
+        public static void SqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdSqrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsInvSqrtI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsInvSqrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, float[] a, int inca, float[] r, int incr)
-            => vsInvSqrtI(n, a, inca, r, incr);
+        public static void InvSqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsInvSqrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdInvSqrtI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdInvSqrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, double[] a, int inca, double[] r, int incr)
-            => vdInvSqrtI(n, a, inca, r, incr);
+        public static void InvSqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdInvSqrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsInvSqrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsInvSqrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsInvSqrtI(n, a, inca, r, incr, mode);
+        public static void InvSqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsInvSqrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdInvSqrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdInvSqrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdInvSqrtI(n, a, inca, r, incr, mode);
+        public static void InvSqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdInvSqrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCbrtI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCbrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCbrtI(n, a, inca, r, incr);
+        public static void CbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCbrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCbrtI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCbrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCbrtI(n, a, inca, r, incr);
+        public static void CbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCbrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCbrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCbrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCbrtI(n, a, inca, r, incr, mode);
+        public static void CbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCbrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCbrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCbrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCbrtI(n, a, inca, r, incr, mode);
+        public static void CbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCbrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsInvCbrtI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsInvCbrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, float[] a, int inca, float[] r, int incr)
-            => vsInvCbrtI(n, a, inca, r, incr);
+        public static void InvCbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsInvCbrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdInvCbrtI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdInvCbrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, double[] a, int inca, double[] r, int incr)
-            => vdInvCbrtI(n, a, inca, r, incr);
+        public static void InvCbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdInvCbrtI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsInvCbrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsInvCbrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsInvCbrtI(n, a, inca, r, incr, mode);
+        public static void InvCbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsInvCbrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdInvCbrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdInvCbrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdInvCbrtI(n, a, inca, r, incr, mode);
+        public static void InvCbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdInvCbrtI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSqrI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsSqrI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, float[] a, int inca, float[] r, int incr)
-            => vsSqrI(n, a, inca, r, incr);
+        public static void SqrI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsSqrI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSqrI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdSqrI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, double[] a, int inca, double[] r, int incr)
-            => vdSqrI(n, a, inca, r, incr);
+        public static void SqrI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdSqrI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSqrI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsSqrI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsSqrI(n, a, inca, r, incr, mode);
+        public static void SqrI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsSqrI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSqrI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdSqrI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdSqrI(n, a, inca, r, incr, mode);
+        public static void SqrI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdSqrI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsExpI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsExpI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, float[] a, int inca, float[] r, int incr)
-            => vsExpI(n, a, inca, r, incr);
+        public static void ExpI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsExpI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdExpI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdExpI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, double[] a, int inca, double[] r, int incr)
-            => vdExpI(n, a, inca, r, incr);
+        public static void ExpI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdExpI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsExpI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsExpI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsExpI(n, a, inca, r, incr, mode);
+        public static void ExpI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsExpI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdExpI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdExpI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdExpI(n, a, inca, r, incr, mode);
+        public static void ExpI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdExpI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsExp2I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsExp2I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, float[] a, int inca, float[] r, int incr)
-            => vsExp2I(n, a, inca, r, incr);
+        public static void Exp2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsExp2I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdExp2I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdExp2I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, double[] a, int inca, double[] r, int incr)
-            => vdExp2I(n, a, inca, r, incr);
+        public static void Exp2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdExp2I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsExp2I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsExp2I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsExp2I(n, a, inca, r, incr, mode);
+        public static void Exp2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsExp2I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdExp2I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdExp2I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdExp2I(n, a, inca, r, incr, mode);
+        public static void Exp2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdExp2I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsExp10I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsExp10I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, float[] a, int inca, float[] r, int incr)
-            => vsExp10I(n, a, inca, r, incr);
+        public static void Exp10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsExp10I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdExp10I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdExp10I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, double[] a, int inca, double[] r, int incr)
-            => vdExp10I(n, a, inca, r, incr);
+        public static void Exp10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdExp10I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsExp10I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsExp10I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsExp10I(n, a, inca, r, incr, mode);
+        public static void Exp10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsExp10I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdExp10I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdExp10I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdExp10I(n, a, inca, r, incr, mode);
+        public static void Exp10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdExp10I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsExpm1I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsExpm1I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, float[] a, int inca, float[] r, int incr)
-            => vsExpm1I(n, a, inca, r, incr);
+        public static void Expm1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsExpm1I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdExpm1I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdExpm1I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, double[] a, int inca, double[] r, int incr)
-            => vdExpm1I(n, a, inca, r, incr);
+        public static void Expm1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdExpm1I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsExpm1I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsExpm1I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsExpm1I(n, a, inca, r, incr, mode);
+        public static void Expm1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsExpm1I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdExpm1I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdExpm1I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdExpm1I(n, a, inca, r, incr, mode);
+        public static void Expm1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdExpm1I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsLnI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsLnI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, float[] a, int inca, float[] r, int incr)
-            => vsLnI(n, a, inca, r, incr);
+        public static void LnI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsLnI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdLnI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdLnI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, double[] a, int inca, double[] r, int incr)
-            => vdLnI(n, a, inca, r, incr);
+        public static void LnI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdLnI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsLnI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsLnI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsLnI(n, a, inca, r, incr, mode);
+        public static void LnI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsLnI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdLnI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdLnI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdLnI(n, a, inca, r, incr, mode);
+        public static void LnI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdLnI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsLog10I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsLog10I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, float[] a, int inca, float[] r, int incr)
-            => vsLog10I(n, a, inca, r, incr);
+        public static void Log10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsLog10I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdLog10I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdLog10I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, double[] a, int inca, double[] r, int incr)
-            => vdLog10I(n, a, inca, r, incr);
+        public static void Log10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdLog10I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsLog10I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsLog10I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsLog10I(n, a, inca, r, incr, mode);
+        public static void Log10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsLog10I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdLog10I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdLog10I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdLog10I(n, a, inca, r, incr, mode);
+        public static void Log10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdLog10I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsLog2I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsLog2I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, float[] a, int inca, float[] r, int incr)
-            => vsLog2I(n, a, inca, r, incr);
+        public static void Log2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsLog2I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdLog2I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdLog2I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, double[] a, int inca, double[] r, int incr)
-            => vdLog2I(n, a, inca, r, incr);
+        public static void Log2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdLog2I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsLog2I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsLog2I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsLog2I(n, a, inca, r, incr, mode);
+        public static void Log2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsLog2I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdLog2I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdLog2I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdLog2I(n, a, inca, r, incr, mode);
+        public static void Log2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdLog2I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsLog1pI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsLog1pI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, float[] a, int inca, float[] r, int incr)
-            => vsLog1pI(n, a, inca, r, incr);
+        public static void Log1pI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsLog1pI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdLog1pI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdLog1pI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, double[] a, int inca, double[] r, int incr)
-            => vdLog1pI(n, a, inca, r, incr);
+        public static void Log1pI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdLog1pI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsLog1pI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsLog1pI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsLog1pI(n, a, inca, r, incr, mode);
+        public static void Log1pI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsLog1pI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdLog1pI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdLog1pI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdLog1pI(n, a, inca, r, incr, mode);
+        public static void Log1pI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdLog1pI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsLogbI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsLogbI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, float[] a, int inca, float[] r, int incr)
-            => vsLogbI(n, a, inca, r, incr);
+        public static void LogbI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsLogbI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdLogbI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdLogbI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, double[] a, int inca, double[] r, int incr)
-            => vdLogbI(n, a, inca, r, incr);
+        public static void LogbI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdLogbI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsLogbI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsLogbI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsLogbI(n, a, inca, r, incr, mode);
+        public static void LogbI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsLogbI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdLogbI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdLogbI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdLogbI(n, a, inca, r, incr, mode);
+        public static void LogbI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdLogbI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCosI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCosI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCosI(n, a, inca, r, incr);
+        public static void CosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCosI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCosI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCosI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCosI(n, a, inca, r, incr);
+        public static void CosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCosI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCosI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCosI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCosI(n, a, inca, r, incr, mode);
+        public static void CosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCosI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCosI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCosI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCosI(n, a, inca, r, incr, mode);
+        public static void CosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCosI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSinI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsSinI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, float[] a, int inca, float[] r, int incr)
-            => vsSinI(n, a, inca, r, incr);
+        public static void SinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsSinI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSinI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdSinI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, double[] a, int inca, double[] r, int incr)
-            => vdSinI(n, a, inca, r, incr);
+        public static void SinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdSinI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSinI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsSinI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsSinI(n, a, inca, r, incr, mode);
+        public static void SinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsSinI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSinI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdSinI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdSinI(n, a, inca, r, incr, mode);
+        public static void SinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdSinI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsTanI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsTanI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, float[] a, int inca, float[] r, int incr)
-            => vsTanI(n, a, inca, r, incr);
+        public static void TanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsTanI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdTanI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdTanI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, double[] a, int inca, double[] r, int incr)
-            => vdTanI(n, a, inca, r, incr);
+        public static void TanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdTanI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsTanI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsTanI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsTanI(n, a, inca, r, incr, mode);
+        public static void TanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsTanI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdTanI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdTanI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdTanI(n, a, inca, r, incr, mode);
+        public static void TanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdTanI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCoshI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCoshI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCoshI(n, a, inca, r, incr);
+        public static void CoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCoshI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCoshI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCoshI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCoshI(n, a, inca, r, incr);
+        public static void CoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCoshI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCoshI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCoshI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCoshI(n, a, inca, r, incr, mode);
+        public static void CoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCoshI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCoshI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCoshI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCoshI(n, a, inca, r, incr, mode);
+        public static void CoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCoshI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCosdI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCosdI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCosdI(n, a, inca, r, incr);
+        public static void CosdI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCosdI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCosdI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCosdI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCosdI(n, a, inca, r, incr);
+        public static void CosdI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCosdI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCosdI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCosdI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCosdI(n, a, inca, r, incr, mode);
+        public static void CosdI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCosdI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCosdI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCosdI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCosdI(n, a, inca, r, incr, mode);
+        public static void CosdI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCosdI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCospiI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCospiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCospiI(n, a, inca, r, incr);
+        public static void CospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCospiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCospiI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCospiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCospiI(n, a, inca, r, incr);
+        public static void CospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCospiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCospiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCospiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCospiI(n, a, inca, r, incr, mode);
+        public static void CospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCospiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCospiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCospiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCospiI(n, a, inca, r, incr, mode);
+        public static void CospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCospiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSinhI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsSinhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, float[] a, int inca, float[] r, int incr)
-            => vsSinhI(n, a, inca, r, incr);
+        public static void SinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsSinhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSinhI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdSinhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, double[] a, int inca, double[] r, int incr)
-            => vdSinhI(n, a, inca, r, incr);
+        public static void SinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdSinhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSinhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsSinhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsSinhI(n, a, inca, r, incr, mode);
+        public static void SinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsSinhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSinhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdSinhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdSinhI(n, a, inca, r, incr, mode);
+        public static void SinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdSinhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSindI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsSindI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, float[] a, int inca, float[] r, int incr)
-            => vsSindI(n, a, inca, r, incr);
+        public static void SindI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsSindI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSindI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdSindI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, double[] a, int inca, double[] r, int incr)
-            => vdSindI(n, a, inca, r, incr);
+        public static void SindI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdSindI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSindI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsSindI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsSindI(n, a, inca, r, incr, mode);
+        public static void SindI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsSindI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSindI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdSindI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdSindI(n, a, inca, r, incr, mode);
+        public static void SindI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdSindI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSinpiI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsSinpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, float[] a, int inca, float[] r, int incr)
-            => vsSinpiI(n, a, inca, r, incr);
+        public static void SinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsSinpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSinpiI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdSinpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, double[] a, int inca, double[] r, int incr)
-            => vdSinpiI(n, a, inca, r, incr);
+        public static void SinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdSinpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSinpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsSinpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsSinpiI(n, a, inca, r, incr, mode);
+        public static void SinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsSinpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSinpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdSinpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdSinpiI(n, a, inca, r, incr, mode);
+        public static void SinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdSinpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsTanhI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsTanhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, float[] a, int inca, float[] r, int incr)
-            => vsTanhI(n, a, inca, r, incr);
+        public static void TanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsTanhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdTanhI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdTanhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, double[] a, int inca, double[] r, int incr)
-            => vdTanhI(n, a, inca, r, incr);
+        public static void TanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdTanhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsTanhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsTanhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsTanhI(n, a, inca, r, incr, mode);
+        public static void TanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsTanhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdTanhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdTanhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdTanhI(n, a, inca, r, incr, mode);
+        public static void TanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdTanhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsTandI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsTandI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, float[] a, int inca, float[] r, int incr)
-            => vsTandI(n, a, inca, r, incr);
+        public static void TandI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsTandI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdTandI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdTandI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, double[] a, int inca, double[] r, int incr)
-            => vdTandI(n, a, inca, r, incr);
+        public static void TandI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdTandI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsTandI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsTandI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsTandI(n, a, inca, r, incr, mode);
+        public static void TandI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsTandI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdTandI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdTandI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdTandI(n, a, inca, r, incr, mode);
+        public static void TandI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdTandI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsTanpiI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsTanpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, float[] a, int inca, float[] r, int incr)
-            => vsTanpiI(n, a, inca, r, incr);
+        public static void TanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsTanpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdTanpiI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdTanpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, double[] a, int inca, double[] r, int incr)
-            => vdTanpiI(n, a, inca, r, incr);
+        public static void TanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdTanpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsTanpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsTanpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsTanpiI(n, a, inca, r, incr, mode);
+        public static void TanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsTanpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdTanpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdTanpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdTanpiI(n, a, inca, r, incr, mode);
+        public static void TanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdTanpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAcosI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAcosI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAcosI(n, a, inca, r, incr);
+        public static void AcosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAcosI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAcosI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAcosI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAcosI(n, a, inca, r, incr);
+        public static void AcosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAcosI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAcosI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAcosI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAcosI(n, a, inca, r, incr, mode);
+        public static void AcosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAcosI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAcosI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAcosI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAcosI(n, a, inca, r, incr, mode);
+        public static void AcosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAcosI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAcospiI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAcospiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAcospiI(n, a, inca, r, incr);
+        public static void AcospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAcospiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAcospiI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAcospiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAcospiI(n, a, inca, r, incr);
+        public static void AcospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAcospiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAcospiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAcospiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAcospiI(n, a, inca, r, incr, mode);
+        public static void AcospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAcospiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAcospiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAcospiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAcospiI(n, a, inca, r, incr, mode);
+        public static void AcospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAcospiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAsinI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAsinI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAsinI(n, a, inca, r, incr);
+        public static void AsinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAsinI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAsinI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAsinI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAsinI(n, a, inca, r, incr);
+        public static void AsinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAsinI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAsinI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAsinI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAsinI(n, a, inca, r, incr, mode);
+        public static void AsinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAsinI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAsinI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAsinI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAsinI(n, a, inca, r, incr, mode);
+        public static void AsinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAsinI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAsinpiI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAsinpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAsinpiI(n, a, inca, r, incr);
+        public static void AsinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAsinpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAsinpiI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAsinpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAsinpiI(n, a, inca, r, incr);
+        public static void AsinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAsinpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAsinpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAsinpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAsinpiI(n, a, inca, r, incr, mode);
+        public static void AsinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAsinpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAsinpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAsinpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAsinpiI(n, a, inca, r, incr, mode);
+        public static void AsinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAsinpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAtanI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAtanI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAtanI(n, a, inca, r, incr);
+        public static void AtanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAtanI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAtanI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAtanI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAtanI(n, a, inca, r, incr);
+        public static void AtanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAtanI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAtanI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAtanI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAtanI(n, a, inca, r, incr, mode);
+        public static void AtanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAtanI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAtanI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAtanI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAtanI(n, a, inca, r, incr, mode);
+        public static void AtanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAtanI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAtanpiI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAtanpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAtanpiI(n, a, inca, r, incr);
+        public static void AtanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAtanpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAtanpiI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAtanpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAtanpiI(n, a, inca, r, incr);
+        public static void AtanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAtanpiI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAtanpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAtanpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAtanpiI(n, a, inca, r, incr, mode);
+        public static void AtanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAtanpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAtanpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAtanpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAtanpiI(n, a, inca, r, incr, mode);
+        public static void AtanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAtanpiI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAcoshI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAcoshI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAcoshI(n, a, inca, r, incr);
+        public static void AcoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAcoshI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAcoshI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAcoshI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAcoshI(n, a, inca, r, incr);
+        public static void AcoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAcoshI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAcoshI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAcoshI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAcoshI(n, a, inca, r, incr, mode);
+        public static void AcoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAcoshI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAcoshI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAcoshI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAcoshI(n, a, inca, r, incr, mode);
+        public static void AcoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAcoshI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAsinhI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAsinhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAsinhI(n, a, inca, r, incr);
+        public static void AsinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAsinhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAsinhI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAsinhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAsinhI(n, a, inca, r, incr);
+        public static void AsinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAsinhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAsinhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAsinhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAsinhI(n, a, inca, r, incr, mode);
+        public static void AsinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAsinhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAsinhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAsinhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAsinhI(n, a, inca, r, incr, mode);
+        public static void AsinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAsinhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAtanhI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsAtanhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, float[] a, int inca, float[] r, int incr)
-            => vsAtanhI(n, a, inca, r, incr);
+        public static void AtanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsAtanhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAtanhI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdAtanhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, double[] a, int inca, double[] r, int incr)
-            => vdAtanhI(n, a, inca, r, incr);
+        public static void AtanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdAtanhI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAtanhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsAtanhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsAtanhI(n, a, inca, r, incr, mode);
+        public static void AtanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsAtanhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAtanhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdAtanhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdAtanhI(n, a, inca, r, incr, mode);
+        public static void AtanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdAtanhI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsErfI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsErfI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, float[] a, int inca, float[] r, int incr)
-            => vsErfI(n, a, inca, r, incr);
+        public static void ErfI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsErfI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdErfI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdErfI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, double[] a, int inca, double[] r, int incr)
-            => vdErfI(n, a, inca, r, incr);
+        public static void ErfI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdErfI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsErfI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsErfI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsErfI(n, a, inca, r, incr, mode);
+        public static void ErfI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsErfI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdErfI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdErfI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdErfI(n, a, inca, r, incr, mode);
+        public static void ErfI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdErfI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsErfInvI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsErfInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, float[] a, int inca, float[] r, int incr)
-            => vsErfInvI(n, a, inca, r, incr);
+        public static void ErfInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsErfInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdErfInvI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdErfInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, double[] a, int inca, double[] r, int incr)
-            => vdErfInvI(n, a, inca, r, incr);
+        public static void ErfInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdErfInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsErfInvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsErfInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsErfInvI(n, a, inca, r, incr, mode);
+        public static void ErfInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsErfInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdErfInvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdErfInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdErfInvI(n, a, inca, r, incr, mode);
+        public static void ErfInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdErfInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsHypotI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsHypotI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsHypotI(n, a, inca, b, incb, r, incr);
+        public static void HypotI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsHypotI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdHypotI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdHypotI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdHypotI(n, a, inca, b, incb, r, incr);
+        public static void HypotI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdHypotI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsHypotI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsHypotI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsHypotI(n, a, inca, b, incb, r, incr, mode);
+        public static void HypotI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsHypotI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdHypotI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdHypotI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdHypotI(n, a, inca, b, incb, r, incr, mode);
+        public static void HypotI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdHypotI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsErfcI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsErfcI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, float[] a, int inca, float[] r, int incr)
-            => vsErfcI(n, a, inca, r, incr);
+        public static void ErfcI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsErfcI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdErfcI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdErfcI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, double[] a, int inca, double[] r, int incr)
-            => vdErfcI(n, a, inca, r, incr);
+        public static void ErfcI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdErfcI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsErfcI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsErfcI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsErfcI(n, a, inca, r, incr, mode);
+        public static void ErfcI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsErfcI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdErfcI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdErfcI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdErfcI(n, a, inca, r, incr, mode);
+        public static void ErfcI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdErfcI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsErfcInvI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsErfcInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, float[] a, int inca, float[] r, int incr)
-            => vsErfcInvI(n, a, inca, r, incr);
+        public static void ErfcInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsErfcInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdErfcInvI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdErfcInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, double[] a, int inca, double[] r, int incr)
-            => vdErfcInvI(n, a, inca, r, incr);
+        public static void ErfcInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdErfcInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsErfcInvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsErfcInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsErfcInvI(n, a, inca, r, incr, mode);
+        public static void ErfcInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsErfcInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdErfcInvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdErfcInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdErfcInvI(n, a, inca, r, incr, mode);
+        public static void ErfcInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdErfcInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCdfNormI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCdfNormI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCdfNormI(n, a, inca, r, incr);
+        public static void CdfNormI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCdfNormI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCdfNormI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCdfNormI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCdfNormI(n, a, inca, r, incr);
+        public static void CdfNormI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCdfNormI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCdfNormI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCdfNormI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCdfNormI(n, a, inca, r, incr, mode);
+        public static void CdfNormI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCdfNormI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCdfNormI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCdfNormI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCdfNormI(n, a, inca, r, incr, mode);
+        public static void CdfNormI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCdfNormI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCdfNormInvI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCdfNormInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCdfNormInvI(n, a, inca, r, incr);
+        public static void CdfNormInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCdfNormInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCdfNormInvI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCdfNormInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCdfNormInvI(n, a, inca, r, incr);
+        public static void CdfNormInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCdfNormInvI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCdfNormInvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCdfNormInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCdfNormInvI(n, a, inca, r, incr, mode);
+        public static void CdfNormInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCdfNormInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCdfNormInvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCdfNormInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCdfNormInvI(n, a, inca, r, incr, mode);
+        public static void CdfNormInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCdfNormInvI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsLGammaI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsLGammaI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, float[] a, int inca, float[] r, int incr)
-            => vsLGammaI(n, a, inca, r, incr);
+        public static void LGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsLGammaI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdLGammaI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdLGammaI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, double[] a, int inca, double[] r, int incr)
-            => vdLGammaI(n, a, inca, r, incr);
+        public static void LGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdLGammaI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsLGammaI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsLGammaI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsLGammaI(n, a, inca, r, incr, mode);
+        public static void LGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsLGammaI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdLGammaI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdLGammaI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdLGammaI(n, a, inca, r, incr, mode);
+        public static void LGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdLGammaI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsTGammaI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsTGammaI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, float[] a, int inca, float[] r, int incr)
-            => vsTGammaI(n, a, inca, r, incr);
+        public static void TGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsTGammaI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdTGammaI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdTGammaI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, double[] a, int inca, double[] r, int incr)
-            => vdTGammaI(n, a, inca, r, incr);
+        public static void TGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdTGammaI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsTGammaI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsTGammaI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsTGammaI(n, a, inca, r, incr, mode);
+        public static void TGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsTGammaI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdTGammaI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdTGammaI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdTGammaI(n, a, inca, r, incr, mode);
+        public static void TGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdTGammaI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAtan2I(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsAtan2I(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsAtan2I(n, a, inca, b, incb, r, incr);
+        public static void Atan2I(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsAtan2I(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAtan2I(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdAtan2I(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdAtan2I(n, a, inca, b, incb, r, incr);
+        public static void Atan2I(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdAtan2I(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAtan2I(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsAtan2I(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsAtan2I(n, a, inca, b, incb, r, incr, mode);
+        public static void Atan2I(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsAtan2I(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAtan2I(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdAtan2I(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdAtan2I(n, a, inca, b, incb, r, incr, mode);
+        public static void Atan2I(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdAtan2I(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsAtan2piI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsAtan2piI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsAtan2piI(n, a, inca, b, incb, r, incr);
+        public static void Atan2piI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsAtan2piI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdAtan2piI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdAtan2piI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdAtan2piI(n, a, inca, b, incb, r, incr);
+        public static void Atan2piI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdAtan2piI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsAtan2piI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsAtan2piI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsAtan2piI(n, a, inca, b, incb, r, incr, mode);
+        public static void Atan2piI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsAtan2piI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdAtan2piI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdAtan2piI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdAtan2piI(n, a, inca, b, incb, r, incr, mode);
+        public static void Atan2piI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdAtan2piI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsMulI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsMulI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsMulI(n, a, inca, b, incb, r, incr);
+        public static void MulI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsMulI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdMulI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdMulI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdMulI(n, a, inca, b, incb, r, incr);
+        public static void MulI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdMulI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsMulI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsMulI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsMulI(n, a, inca, b, incb, r, incr, mode);
+        public static void MulI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsMulI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdMulI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdMulI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdMulI(n, a, inca, b, incb, r, incr, mode);
+        public static void MulI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdMulI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsDivI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsDivI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsDivI(n, a, inca, b, incb, r, incr);
+        public static void DivI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsDivI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdDivI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdDivI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdDivI(n, a, inca, b, incb, r, incr);
+        public static void DivI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdDivI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsDivI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsDivI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsDivI(n, a, inca, b, incb, r, incr, mode);
+        public static void DivI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsDivI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdDivI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdDivI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdDivI(n, a, inca, b, incb, r, incr, mode);
+        public static void DivI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdDivI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsFdimI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsFdimI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsFdimI(n, a, inca, b, incb, r, incr);
+        public static void FdimI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsFdimI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdFdimI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdFdimI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdFdimI(n, a, inca, b, incb, r, incr);
+        public static void FdimI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdFdimI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsFdimI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsFdimI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsFdimI(n, a, inca, b, incb, r, incr, mode);
+        public static void FdimI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsFdimI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdFdimI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdFdimI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdFdimI(n, a, inca, b, incb, r, incr, mode);
+        public static void FdimI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdFdimI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsFmodI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsFmodI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsFmodI(n, a, inca, b, incb, r, incr);
+        public static void FmodI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsFmodI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdFmodI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdFmodI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdFmodI(n, a, inca, b, incb, r, incr);
+        public static void FmodI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdFmodI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsFmodI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsFmodI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsFmodI(n, a, inca, b, incb, r, incr, mode);
+        public static void FmodI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsFmodI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdFmodI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdFmodI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdFmodI(n, a, inca, b, incb, r, incr, mode);
+        public static void FmodI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdFmodI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsFmaxI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsFmaxI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsFmaxI(n, a, inca, b, incb, r, incr);
+        public static void FmaxI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsFmaxI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdFmaxI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdFmaxI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdFmaxI(n, a, inca, b, incb, r, incr);
+        public static void FmaxI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdFmaxI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsFmaxI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsFmaxI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsFmaxI(n, a, inca, b, incb, r, incr, mode);
+        public static void FmaxI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsFmaxI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdFmaxI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdFmaxI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdFmaxI(n, a, inca, b, incb, r, incr, mode);
+        public static void FmaxI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdFmaxI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsFminI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsFminI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsFminI(n, a, inca, b, incb, r, incr);
+        public static void FminI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsFminI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdFminI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdFminI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdFminI(n, a, inca, b, incb, r, incr);
+        public static void FminI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdFminI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsFminI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsFminI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsFminI(n, a, inca, b, incb, r, incr, mode);
+        public static void FminI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsFminI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdFminI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdFminI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdFminI(n, a, inca, b, incb, r, incr, mode);
+        public static void FminI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdFminI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsPowI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsPowI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsPowI(n, a, inca, b, incb, r, incr);
+        public static void PowI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsPowI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdPowI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdPowI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdPowI(n, a, inca, b, incb, r, incr);
+        public static void PowI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdPowI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsPowI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsPowI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsPowI(n, a, inca, b, incb, r, incr, mode);
+        public static void PowI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsPowI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdPowI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdPowI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdPowI(n, a, inca, b, incb, r, incr, mode);
+        public static void PowI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdPowI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsPowrI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsPowrI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsPowrI(n, a, inca, b, incb, r, incr);
+        public static void PowrI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsPowrI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdPowrI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdPowrI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdPowrI(n, a, inca, b, incb, r, incr);
+        public static void PowrI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdPowrI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsPowrI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsPowrI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsPowrI(n, a, inca, b, incb, r, incr, mode);
+        public static void PowrI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsPowrI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdPowrI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdPowrI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdPowrI(n, a, inca, b, incb, r, incr, mode);
+        public static void PowrI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdPowrI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsPow3o2I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsPow3o2I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, float[] a, int inca, float[] r, int incr)
-            => vsPow3o2I(n, a, inca, r, incr);
+        public static void Pow3o2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsPow3o2I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdPow3o2I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdPow3o2I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, double[] a, int inca, double[] r, int incr)
-            => vdPow3o2I(n, a, inca, r, incr);
+        public static void Pow3o2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdPow3o2I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsPow3o2I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsPow3o2I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsPow3o2I(n, a, inca, r, incr, mode);
+        public static void Pow3o2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsPow3o2I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdPow3o2I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdPow3o2I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdPow3o2I(n, a, inca, r, incr, mode);
+        public static void Pow3o2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdPow3o2I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsPow2o3I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsPow2o3I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, float[] a, int inca, float[] r, int incr)
-            => vsPow2o3I(n, a, inca, r, incr);
+        public static void Pow2o3I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsPow2o3I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdPow2o3I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdPow2o3I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, double[] a, int inca, double[] r, int incr)
-            => vdPow2o3I(n, a, inca, r, incr);
+        public static void Pow2o3I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdPow2o3I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsPow2o3I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsPow2o3I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsPow2o3I(n, a, inca, r, incr, mode);
+        public static void Pow2o3I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsPow2o3I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdPow2o3I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdPow2o3I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdPow2o3I(n, a, inca, r, incr, mode);
+        public static void Pow2o3I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdPow2o3I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsPowxI(int n, float[] a, int inca, float b, float[] r, int incr);
+        static extern void vsPowxI(int n, float* a, int inca, float b, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, float[] a, int inca, float b, float[] r, int incr)
-            => vsPowxI(n, a, inca, b, r, incr);
+        public static void PowxI(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsPowxI(n, ap, inca, b, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdPowxI(int n, double[] a, int inca, double b, double[] r, int incr);
+        static extern void vdPowxI(int n, double* a, int inca, double b, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, double[] a, int inca, double b, double[] r, int incr)
-            => vdPowxI(n, a, inca, b, r, incr);
+        public static void PowxI(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdPowxI(n, ap, inca, b, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsPowxI(int n, float[] a, int inca, float b, float[] r, int incr, VmlMode mode);
+        static extern void vmsPowxI(int n, float* a, int inca, float b, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, float[] a, int inca, float b, float[] r, int incr, VmlMode mode)
-            => vmsPowxI(n, a, inca, b, r, incr, mode);
+        public static void PowxI(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsPowxI(n, ap, inca, b, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdPowxI(int n, double[] a, int inca, double b, double[] r, int incr, VmlMode mode);
+        static extern void vmdPowxI(int n, double* a, int inca, double b, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, double[] a, int inca, double b, double[] r, int incr, VmlMode mode)
-            => vmdPowxI(n, a, inca, b, r, incr, mode);
+        public static void PowxI(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdPowxI(n, ap, inca, b, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsSinCosI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2);
+        static extern void vsSinCosI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2)
-            => vsSinCosI(n, a, inca, r1, incr1, r2, incr2);
+        public static void SinCosI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* r1p = &r1[inir1])
+            fixed (float* r2p = &r2[inir2])
+                vsSinCosI(n, ap, inca, r1p, incr1, r2p, incr2);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdSinCosI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2);
+        static extern void vdSinCosI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2)
-            => vdSinCosI(n, a, inca, r1, incr1, r2, incr2);
+        public static void SinCosI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* r1p = &r1[inir1])
+            fixed (double* r2p = &r2[inir2])
+                vdSinCosI(n, ap, inca, r1p, incr1, r2p, incr2);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsSinCosI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2, VmlMode mode);
+        static extern void vmsSinCosI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2, VmlMode mode)
-            => vmsSinCosI(n, a, inca, r1, incr1, r2, incr2, mode);
+        public static void SinCosI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* r1p = &r1[inir1])
+            fixed (float* r2p = &r2[inir2])
+                vmsSinCosI(n, ap, inca, r1p, incr1, r2p, incr2, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdSinCosI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2, VmlMode mode);
+        static extern void vmdSinCosI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2, VmlMode mode)
-            => vmdSinCosI(n, a, inca, r1, incr1, r2, incr2, mode);
+        public static void SinCosI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* r1p = &r1[inir1])
+            fixed (double* r2p = &r2[inir2])
+                vmdSinCosI(n, ap, inca, r1p, incr1, r2p, incr2, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsLinearFracI(int n, float[] a, int inca, float[] b, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int incr);
+        static extern void vsLinearFracI(int n, float* a, int inca, float* b, int incb, float scalea, float shifta, float scaleb, float shiftb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, float[] a, int inca, float[] b, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int incr)
-            => vsLinearFracI(n, a, inca, b, incb, scalea, shifta, scaleb, shiftb, r, incr);
+        public static void LinearFracI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsLinearFracI(n, ap, inca, bp, incb, scalea, shifta, scaleb, shiftb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdLinearFracI(int n, double[] a, int inca, double[] b, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int incr);
+        static extern void vdLinearFracI(int n, double* a, int inca, double* b, int incb, double scalea, double shifta, double scaleb, double shiftb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, double[] a, int inca, double[] b, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int incr)
-            => vdLinearFracI(n, a, inca, b, incb, scalea, shifta, scaleb, shiftb, r, incr);
+        public static void LinearFracI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdLinearFracI(n, ap, inca, bp, incb, scalea, shifta, scaleb, shiftb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsLinearFracI(int n, float[] a, int inca, float[] b, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int incr, VmlMode mode);
+        static extern void vmsLinearFracI(int n, float* a, int inca, float* b, int incb, float scalea, float shifta, float scaleb, float shiftb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, float[] a, int inca, float[] b, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int incr, VmlMode mode)
-            => vmsLinearFracI(n, a, inca, b, incb, scalea, shifta, scaleb, shiftb, r, incr, mode);
+        public static void LinearFracI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsLinearFracI(n, ap, inca, bp, incb, scalea, shifta, scaleb, shiftb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdLinearFracI(int n, double[] a, int inca, double[] b, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int incr, VmlMode mode);
+        static extern void vmdLinearFracI(int n, double* a, int inca, double* b, int incb, double scalea, double shifta, double scaleb, double shiftb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, double[] a, int inca, double[] b, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int incr, VmlMode mode)
-            => vmdLinearFracI(n, a, inca, b, incb, scalea, shifta, scaleb, shiftb, r, incr, mode);
+        public static void LinearFracI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdLinearFracI(n, ap, inca, bp, incb, scalea, shifta, scaleb, shiftb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCeilI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsCeilI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, float[] a, int inca, float[] r, int incr)
-            => vsCeilI(n, a, inca, r, incr);
+        public static void CeilI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsCeilI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCeilI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdCeilI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, double[] a, int inca, double[] r, int incr)
-            => vdCeilI(n, a, inca, r, incr);
+        public static void CeilI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdCeilI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCeilI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsCeilI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsCeilI(n, a, inca, r, incr, mode);
+        public static void CeilI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsCeilI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCeilI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdCeilI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdCeilI(n, a, inca, r, incr, mode);
+        public static void CeilI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdCeilI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsFloorI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsFloorI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, float[] a, int inca, float[] r, int incr)
-            => vsFloorI(n, a, inca, r, incr);
+        public static void FloorI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsFloorI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdFloorI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdFloorI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, double[] a, int inca, double[] r, int incr)
-            => vdFloorI(n, a, inca, r, incr);
+        public static void FloorI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdFloorI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsFloorI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsFloorI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsFloorI(n, a, inca, r, incr, mode);
+        public static void FloorI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsFloorI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdFloorI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdFloorI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdFloorI(n, a, inca, r, incr, mode);
+        public static void FloorI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdFloorI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsFracI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsFracI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, float[] a, int inca, float[] r, int incr)
-            => vsFracI(n, a, inca, r, incr);
+        public static void FracI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsFracI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdFracI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdFracI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, double[] a, int inca, double[] r, int incr)
-            => vdFracI(n, a, inca, r, incr);
+        public static void FracI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdFracI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsFracI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsFracI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsFracI(n, a, inca, r, incr, mode);
+        public static void FracI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsFracI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdFracI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdFracI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdFracI(n, a, inca, r, incr, mode);
+        public static void FracI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdFracI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsModfI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2);
+        static extern void vsModfI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2)
-            => vsModfI(n, a, inca, r1, incr1, r2, incr2);
+        public static void ModfI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* r1p = &r1[inir1])
+            fixed (float* r2p = &r2[inir2])
+                vsModfI(n, ap, inca, r1p, incr1, r2p, incr2);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdModfI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2);
+        static extern void vdModfI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2)
-            => vdModfI(n, a, inca, r1, incr1, r2, incr2);
+        public static void ModfI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* r1p = &r1[inir1])
+            fixed (double* r2p = &r2[inir2])
+                vdModfI(n, ap, inca, r1p, incr1, r2p, incr2);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsModfI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2, VmlMode mode);
+        static extern void vmsModfI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, float[] a, int inca, float[] r1, int incr1, float[] r2, int incr2, VmlMode mode)
-            => vmsModfI(n, a, inca, r1, incr1, r2, incr2, mode);
+        public static void ModfI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* r1p = &r1[inir1])
+            fixed (float* r2p = &r2[inir2])
+                vmsModfI(n, ap, inca, r1p, incr1, r2p, incr2, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdModfI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2, VmlMode mode);
+        static extern void vmdModfI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, double[] a, int inca, double[] r1, int incr1, double[] r2, int incr2, VmlMode mode)
-            => vmdModfI(n, a, inca, r1, incr1, r2, incr2, mode);
+        public static void ModfI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* r1p = &r1[inir1])
+            fixed (double* r2p = &r2[inir2])
+                vmdModfI(n, ap, inca, r1p, incr1, r2p, incr2, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsNearbyIntI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsNearbyIntI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, float[] a, int inca, float[] r, int incr)
-            => vsNearbyIntI(n, a, inca, r, incr);
+        public static void NearbyIntI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsNearbyIntI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdNearbyIntI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdNearbyIntI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, double[] a, int inca, double[] r, int incr)
-            => vdNearbyIntI(n, a, inca, r, incr);
+        public static void NearbyIntI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdNearbyIntI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsNearbyIntI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsNearbyIntI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsNearbyIntI(n, a, inca, r, incr, mode);
+        public static void NearbyIntI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsNearbyIntI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdNearbyIntI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdNearbyIntI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdNearbyIntI(n, a, inca, r, incr, mode);
+        public static void NearbyIntI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdNearbyIntI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsNextAfterI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsNextAfterI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsNextAfterI(n, a, inca, b, incb, r, incr);
+        public static void NextAfterI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsNextAfterI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdNextAfterI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdNextAfterI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdNextAfterI(n, a, inca, b, incb, r, incr);
+        public static void NextAfterI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdNextAfterI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsNextAfterI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsNextAfterI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsNextAfterI(n, a, inca, b, incb, r, incr, mode);
+        public static void NextAfterI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsNextAfterI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdNextAfterI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdNextAfterI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdNextAfterI(n, a, inca, b, incb, r, incr, mode);
+        public static void NextAfterI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdNextAfterI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsMinMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsMinMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsMinMagI(n, a, inca, b, incb, r, incr);
+        public static void MinMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsMinMagI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdMinMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdMinMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdMinMagI(n, a, inca, b, incb, r, incr);
+        public static void MinMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdMinMagI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsMinMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsMinMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsMinMagI(n, a, inca, b, incb, r, incr, mode);
+        public static void MinMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsMinMagI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdMinMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdMinMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdMinMagI(n, a, inca, b, incb, r, incr, mode);
+        public static void MinMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdMinMagI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsMaxMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsMaxMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsMaxMagI(n, a, inca, b, incb, r, incr);
+        public static void MaxMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsMaxMagI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdMaxMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdMaxMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdMaxMagI(n, a, inca, b, incb, r, incr);
+        public static void MaxMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdMaxMagI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsMaxMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsMaxMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsMaxMagI(n, a, inca, b, incb, r, incr, mode);
+        public static void MaxMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsMaxMagI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdMaxMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdMaxMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdMaxMagI(n, a, inca, b, incb, r, incr, mode);
+        public static void MaxMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdMaxMagI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsRintI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsRintI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, float[] a, int inca, float[] r, int incr)
-            => vsRintI(n, a, inca, r, incr);
+        public static void RintI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsRintI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdRintI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdRintI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, double[] a, int inca, double[] r, int incr)
-            => vdRintI(n, a, inca, r, incr);
+        public static void RintI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdRintI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsRintI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsRintI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsRintI(n, a, inca, r, incr, mode);
+        public static void RintI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsRintI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdRintI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdRintI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdRintI(n, a, inca, r, incr, mode);
+        public static void RintI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdRintI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsRoundI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsRoundI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, float[] a, int inca, float[] r, int incr)
-            => vsRoundI(n, a, inca, r, incr);
+        public static void RoundI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsRoundI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdRoundI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdRoundI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, double[] a, int inca, double[] r, int incr)
-            => vdRoundI(n, a, inca, r, incr);
+        public static void RoundI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdRoundI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsRoundI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsRoundI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsRoundI(n, a, inca, r, incr, mode);
+        public static void RoundI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsRoundI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdRoundI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdRoundI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdRoundI(n, a, inca, r, incr, mode);
+        public static void RoundI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdRoundI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsTruncI(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsTruncI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, float[] a, int inca, float[] r, int incr)
-            => vsTruncI(n, a, inca, r, incr);
+        public static void TruncI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsTruncI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdTruncI(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdTruncI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, double[] a, int inca, double[] r, int incr)
-            => vdTruncI(n, a, inca, r, incr);
+        public static void TruncI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdTruncI(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsTruncI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsTruncI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsTruncI(n, a, inca, r, incr, mode);
+        public static void TruncI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsTruncI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdTruncI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdTruncI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdTruncI(n, a, inca, r, incr, mode);
+        public static void TruncI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdTruncI(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsExpInt1I(int n, float[] a, int inca, float[] r, int incr);
+        static extern void vsExpInt1I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, float[] a, int inca, float[] r, int incr)
-            => vsExpInt1I(n, a, inca, r, incr);
+        public static void ExpInt1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vsExpInt1I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdExpInt1I(int n, double[] a, int inca, double[] r, int incr);
+        static extern void vdExpInt1I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, double[] a, int inca, double[] r, int incr)
-            => vdExpInt1I(n, a, inca, r, incr);
+        public static void ExpInt1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdExpInt1I(n, ap, inca, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsExpInt1I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode);
+        static extern void vmsExpInt1I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, float[] a, int inca, float[] r, int incr, VmlMode mode)
-            => vmsExpInt1I(n, a, inca, r, incr, mode);
+        public static void ExpInt1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                vmsExpInt1I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdExpInt1I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode);
+        static extern void vmdExpInt1I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, double[] a, int inca, double[] r, int incr, VmlMode mode)
-            => vmdExpInt1I(n, a, inca, r, incr, mode);
+        public static void ExpInt1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vmdExpInt1I(n, ap, inca, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsCopySignI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsCopySignI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsCopySignI(n, a, inca, b, incb, r, incr);
+        public static void CopySignI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsCopySignI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdCopySignI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdCopySignI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdCopySignI(n, a, inca, b, incb, r, incr);
+        public static void CopySignI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdCopySignI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsCopySignI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsCopySignI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsCopySignI(n, a, inca, b, incb, r, incr, mode);
+        public static void CopySignI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsCopySignI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdCopySignI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdCopySignI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdCopySignI(n, a, inca, b, incb, r, incr, mode);
+        public static void CopySignI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdCopySignI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsRemainderI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr);
+        static extern void vsRemainderI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr)
-            => vsRemainderI(n, a, inca, b, incb, r, incr);
+        public static void RemainderI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vsRemainderI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdRemainderI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr);
+        static extern void vdRemainderI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr)
-            => vdRemainderI(n, a, inca, b, incb, r, incr);
+        public static void RemainderI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vdRemainderI(n, ap, inca, bp, incb, rp, incr);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmsRemainderI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode);
+        static extern void vmsRemainderI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, float[] a, int inca, float[] b, int incb, float[] r, int incr, VmlMode mode)
-            => vmsRemainderI(n, a, inca, b, incb, r, incr, mode);
+        public static void RemainderI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* bp = &b[inib])
+            fixed (float* rp = &r[inir])
+                vmsRemainderI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vmdRemainderI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode);
+        static extern void vmdRemainderI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, double[] a, int inca, double[] b, int incb, double[] r, int incr, VmlMode mode)
-            => vmdRemainderI(n, a, inca, b, incb, r, incr, mode);
+        public static void RemainderI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* bp = &b[inib])
+            fixed (double* rp = &r[inir])
+                vmdRemainderI(n, ap, inca, bp, incb, rp, incr, mode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsPackI(int n, float[] a, int incra, float[] y);
+        static extern void vsPackI(int n, float* a, int incra, float* y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PackI(int n, float[] a, int incra, float[] y)
-            => vsPackI(n, a, incra, y);
+        public static void PackI(int n, float[] a, int inia, int incra, float[] y, int iniy)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* yp = &y[iniy])
+                vsPackI(n, ap, incra, yp);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdPackI(int n, double[] a, int incra, double[] y);
+        static extern void vdPackI(int n, double* a, int incra, double* y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PackI(int n, double[] a, int incra, double[] y)
-            => vdPackI(n, a, incra, y);
+        public static void PackI(int n, double[] a, int inia, int incra, double[] y, int iniy)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* yp = &y[iniy])
+                vdPackI(n, ap, incra, yp);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPackV(int n, float[] a, int[] ia, float[] y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void PackV(int n, float[] a, int[] ia, float[] y)
-            => vsPackV(n, a, ia, y);
+        {
+            vsPackV(n, a, ia, y);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPackV(int n, double[] a, int[] ia, double[] y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void PackV(int n, double[] a, int[] ia, double[] y)
-            => vdPackV(n, a, ia, y);
+        {
+            vdPackV(n, a, ia, y);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPackM(int n, float[] a, int[] ma, float[] y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void PackM(int n, float[] a, int[] ma, float[] y)
-            => vsPackM(n, a, ma, y);
+        {
+            vsPackM(n, a, ma, y);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPackM(int n, double[] a, int[] ma, double[] y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void PackM(int n, double[] a, int[] ma, double[] y)
-            => vdPackM(n, a, ma, y);
+        {
+            vdPackM(n, a, ma, y);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vsUnpackI(int n, float[] a, float[] y, int incry);
+        static extern void vsUnpackI(int n, float* a, float* y, int incry);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnpackI(int n, float[] a, float[] y, int incry)
-            => vsUnpackI(n, a, y, incry);
+        public static void UnpackI(int n, float[] a, int inia, float[] y, int iniy, int incry)
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* yp = &y[iniy])
+                vsUnpackI(n, ap, yp, incry);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void vdUnpackI(int n, double[] a, double[] y, int incry);
+        static extern void vdUnpackI(int n, double* a, double* y, int incry);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnpackI(int n, double[] a, double[] y, int incry)
-            => vdUnpackI(n, a, y, incry);
+        public static void UnpackI(int n, double[] a, int inia, double[] y, int iniy, int incry)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* yp = &y[iniy])
+                vdUnpackI(n, ap, yp, incry);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsUnpackV(int n, float[] a, float[] y, int[] iy);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UnpackV(int n, float[] a, float[] y, int[] iy)
-            => vsUnpackV(n, a, y, iy);
+        {
+            vsUnpackV(n, a, y, iy);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdUnpackV(int n, double[] a, double[] y, int[] iy);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UnpackV(int n, double[] a, double[] y, int[] iy)
-            => vdUnpackV(n, a, y, iy);
+        {
+            vdUnpackV(n, a, y, iy);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsUnpackM(int n, float[] a, float[] y, int[] my);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UnpackM(int n, float[] a, float[] y, int[] my)
-            => vsUnpackM(n, a, y, my);
+        {
+            vsUnpackM(n, a, y, my);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdUnpackM(int n, double[] a, double[] y, int[] my);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UnpackM(int n, double[] a, double[] y, int[] my)
-            => vdUnpackM(n, a, y, my);
+        {
+            vdUnpackM(n, a, y, my);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern VmlStatus vmlSetErrStatus(VmlStatus status);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VmlStatus SetErrStatus(VmlStatus status)
-            => vmlSetErrStatus(status);
+        {
+            return vmlSetErrStatus(status);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern VmlStatus vmlGetErrStatus();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VmlStatus GetErrStatus()
-            => vmlGetErrStatus();
+        {
+            return vmlGetErrStatus();
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern VmlStatus vmlClearErrStatus();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VmlStatus ClearErrStatus()
-            => vmlClearErrStatus();
+        {
+            return vmlClearErrStatus();
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern VmlMode vmlSetMode(VmlMode newmode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VmlMode SetMode(VmlMode newmode)
-            => vmlSetMode(newmode);
+        {
+            return vmlSetMode(newmode);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern VmlMode vmlGetMode();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VmlMode GetMode()
-            => vmlGetMode();
+        {
+            return vmlGetMode();
+        }
     }
 }
