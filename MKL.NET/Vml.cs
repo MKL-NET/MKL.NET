@@ -1866,7 +1866,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAbsI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Abs(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -1876,7 +1876,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAbsI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Abs(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -1886,7 +1886,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAbsI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Abs(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -1896,7 +1896,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAbsI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AbsI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Abs(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -1906,10 +1906,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAddI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Add(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
-            fixed (float* bp = &a[inib])
+            fixed (float* bp = &b[inib])
             fixed (float* rp = &r[inir])
                 vsAddI(n, ap, inca, bp, incb, rp, incr);
         }
@@ -1917,10 +1917,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAddI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Add(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
-            fixed (double* bp = &a[inib])
+            fixed (double* bp = &b[inib])
             fixed (double* rp = &r[inir])
                 vdAddI(n, ap, inca, bp, incb, rp, incr);
         }
@@ -1928,10 +1928,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAddI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Add(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
-            fixed (float* bp = &a[inib])
+            fixed (float* bp = &b[inib])
             fixed (float* rp = &r[inir])
                 vmsAddI(n, ap, inca, bp, incb, rp, incr, mode);
         }
@@ -1939,10 +1939,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAddI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Add(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
-            fixed (double* bp = &a[inib])
+            fixed (double* bp = &b[inib])
             fixed (double* rp = &r[inir])
                 vmdAddI(n, ap, inca, bp, incb, rp, incr, mode);
         }
@@ -1950,10 +1950,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSubI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Sub(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
-            fixed (float* bp = &a[inib])
+            fixed (float* bp = &b[inib])
             fixed (float* rp = &r[inir])
                 vsSubI(n, ap, inca, bp, incb, rp, incr);
         }
@@ -1961,10 +1961,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSubI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Sub(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
-            fixed (double* bp = &a[inib])
+            fixed (double* bp = &b[inib])
             fixed (double* rp = &r[inir])
                 vdSubI(n, ap, inca, bp, incb, rp, incr);
         }
@@ -1972,10 +1972,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSubI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Sub(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
-            fixed (float* bp = &a[inib])
+            fixed (float* bp = &b[inib])
             fixed (float* rp = &r[inir])
                 vmsSubI(n, ap, inca, bp, incb, rp, incr, mode);
         }
@@ -1983,10 +1983,10 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSubI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SubI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Sub(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
-            fixed (double* bp = &a[inib])
+            fixed (double* bp = &b[inib])
             fixed (double* rp = &r[inir])
                 vmdSubI(n, ap, inca, bp, incb, rp, incr, mode);
         }
@@ -1994,7 +1994,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Inv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2004,7 +2004,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Inv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2014,7 +2014,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Inv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2024,7 +2024,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Inv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2034,7 +2034,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSqrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Sqrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2044,7 +2044,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSqrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Sqrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2054,7 +2054,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSqrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Sqrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2064,7 +2064,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSqrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Sqrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2074,7 +2074,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsInvSqrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void InvSqrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2084,7 +2084,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdInvSqrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void InvSqrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2094,7 +2094,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsInvSqrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void InvSqrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2104,7 +2104,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdInvSqrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvSqrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void InvSqrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2114,7 +2114,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCbrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Cbrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2124,7 +2124,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCbrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Cbrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2134,7 +2134,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCbrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Cbrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2144,7 +2144,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCbrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Cbrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2154,7 +2154,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsInvCbrtI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void InvCbrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2164,7 +2164,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdInvCbrtI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void InvCbrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2174,7 +2174,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsInvCbrtI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void InvCbrt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2184,7 +2184,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdInvCbrtI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvCbrtI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void InvCbrt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2194,7 +2194,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSqrI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Sqr(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2204,7 +2204,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSqrI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Sqr(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2214,7 +2214,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSqrI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Sqr(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2224,7 +2224,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSqrI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SqrI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Sqr(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2234,7 +2234,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExpI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Exp(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2244,7 +2244,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExpI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Exp(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2254,7 +2254,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExpI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Exp(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2264,7 +2264,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExpI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Exp(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2274,7 +2274,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExp2I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Exp2(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2284,7 +2284,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExp2I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Exp2(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2294,7 +2294,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExp2I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Exp2(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2304,7 +2304,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExp2I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Exp2(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2314,7 +2314,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExp10I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Exp10(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2324,7 +2324,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExp10I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Exp10(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2334,7 +2334,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExp10I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Exp10(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2344,7 +2344,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExp10I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Exp10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Exp10(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2354,7 +2354,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExpm1I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Expm1(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2364,7 +2364,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExpm1I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Expm1(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2374,7 +2374,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExpm1I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Expm1(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2384,7 +2384,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExpm1I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Expm1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Expm1(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2394,7 +2394,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLnI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Ln(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2404,7 +2404,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLnI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Ln(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2414,7 +2414,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLnI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Ln(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2424,7 +2424,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLnI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LnI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Ln(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2434,7 +2434,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLog10I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Log10(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2444,7 +2444,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLog10I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Log10(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2454,7 +2454,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLog10I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Log10(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2464,7 +2464,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLog10I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log10I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Log10(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2474,7 +2474,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLog2I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Log2(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2484,7 +2484,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLog2I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Log2(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2494,7 +2494,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLog2I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Log2(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2504,7 +2504,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLog2I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Log2(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2514,7 +2514,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLog1pI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Log1p(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2524,7 +2524,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLog1pI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Log1p(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2534,7 +2534,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLog1pI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Log1p(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2544,7 +2544,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLog1pI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log1pI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Log1p(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2554,7 +2554,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLogbI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Logb(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2564,7 +2564,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLogbI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Logb(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2574,7 +2574,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLogbI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Logb(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2584,7 +2584,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLogbI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LogbI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Logb(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2594,7 +2594,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCosI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Cos(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2604,7 +2604,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCosI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Cos(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2614,7 +2614,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCosI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Cos(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2624,7 +2624,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCosI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Cos(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2634,7 +2634,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSinI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Sin(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2644,7 +2644,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSinI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Sin(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2654,7 +2654,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSinI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Sin(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2664,7 +2664,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSinI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Sin(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2674,7 +2674,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTanI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Tan(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2684,7 +2684,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTanI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Tan(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2694,7 +2694,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTanI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Tan(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2704,7 +2704,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTanI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Tan(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2714,7 +2714,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCoshI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Cosh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2724,7 +2724,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCoshI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Cosh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2734,7 +2734,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCoshI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Cosh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2744,7 +2744,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCoshI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Cosh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2754,7 +2754,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCosdI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Cosd(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2764,7 +2764,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCosdI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Cosd(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2774,7 +2774,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCosdI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Cosd(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2784,7 +2784,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCosdI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CosdI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Cosd(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2794,7 +2794,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCospiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Cospi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2804,7 +2804,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCospiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Cospi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2814,7 +2814,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCospiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Cospi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2824,7 +2824,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCospiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Cospi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2834,7 +2834,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSinhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Sinh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2844,7 +2844,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSinhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Sinh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2854,7 +2854,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSinhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Sinh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2864,7 +2864,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSinhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Sinh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2874,7 +2874,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSindI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Sind(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2884,7 +2884,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSindI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Sind(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2894,7 +2894,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSindI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Sind(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2904,7 +2904,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSindI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SindI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Sind(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2914,7 +2914,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSinpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Sinpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2924,7 +2924,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSinpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Sinpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2934,7 +2934,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSinpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Sinpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2944,7 +2944,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSinpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Sinpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2954,7 +2954,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTanhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Tanh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2964,7 +2964,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTanhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Tanh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2974,7 +2974,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTanhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Tanh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -2984,7 +2984,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTanhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Tanh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -2994,7 +2994,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTandI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Tand(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3004,7 +3004,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTandI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Tand(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3014,7 +3014,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTandI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Tand(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3024,7 +3024,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTandI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TandI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Tand(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3034,7 +3034,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTanpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Tanpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3044,7 +3044,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTanpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Tanpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3054,7 +3054,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTanpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Tanpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3064,7 +3064,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTanpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Tanpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3074,7 +3074,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAcosI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Acos(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3084,7 +3084,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAcosI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Acos(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3094,7 +3094,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAcosI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Acos(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3104,7 +3104,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAcosI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcosI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Acos(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3114,7 +3114,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAcospiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Acospi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3124,7 +3124,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAcospiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Acospi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3134,7 +3134,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAcospiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Acospi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3144,7 +3144,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAcospiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcospiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Acospi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3154,7 +3154,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAsinI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Asin(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3164,7 +3164,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAsinI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Asin(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3174,7 +3174,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAsinI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Asin(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3184,7 +3184,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAsinI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Asin(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3194,7 +3194,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAsinpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Asinpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3204,7 +3204,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAsinpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Asinpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3214,7 +3214,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAsinpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Asinpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3224,7 +3224,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAsinpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Asinpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3234,7 +3234,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtanI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Atan(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3244,7 +3244,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtanI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Atan(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3254,7 +3254,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtanI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Atan(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3264,7 +3264,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtanI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Atan(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3274,7 +3274,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtanpiI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Atanpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3284,7 +3284,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtanpiI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Atanpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3294,7 +3294,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtanpiI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Atanpi(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3304,7 +3304,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtanpiI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanpiI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Atanpi(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3314,7 +3314,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAcoshI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Acosh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3324,7 +3324,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAcoshI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Acosh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3334,7 +3334,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAcoshI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Acosh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3344,7 +3344,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAcoshI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AcoshI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Acosh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3354,7 +3354,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAsinhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Asinh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3364,7 +3364,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAsinhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Asinh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3374,7 +3374,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAsinhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Asinh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3384,7 +3384,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAsinhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AsinhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Asinh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3394,7 +3394,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtanhI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Atanh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3404,7 +3404,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtanhI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Atanh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3414,7 +3414,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtanhI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Atanh(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3424,7 +3424,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtanhI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AtanhI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Atanh(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3434,7 +3434,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErfI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Erf(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3444,7 +3444,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErfI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Erf(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3454,7 +3454,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErfI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Erf(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3464,7 +3464,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErfI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Erf(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3474,7 +3474,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErfInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void ErfInv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3484,7 +3484,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErfInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void ErfInv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3494,7 +3494,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErfInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void ErfInv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3504,7 +3504,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErfInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void ErfInv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3514,7 +3514,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsHypotI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Hypot(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3525,7 +3525,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdHypotI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Hypot(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3536,7 +3536,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsHypotI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Hypot(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3547,7 +3547,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdHypotI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HypotI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Hypot(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3558,7 +3558,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErfcI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Erfc(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3568,7 +3568,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErfcI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Erfc(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3578,7 +3578,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErfcI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Erfc(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3588,7 +3588,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErfcI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Erfc(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3598,7 +3598,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsErfcInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void ErfcInv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3608,7 +3608,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdErfcInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void ErfcInv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3618,7 +3618,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsErfcInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void ErfcInv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3628,7 +3628,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdErfcInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ErfcInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void ErfcInv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3638,7 +3638,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCdfNormI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void CdfNorm(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3648,7 +3648,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCdfNormI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void CdfNorm(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3658,7 +3658,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCdfNormI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void CdfNorm(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3668,7 +3668,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCdfNormI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void CdfNorm(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3678,7 +3678,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCdfNormInvI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void CdfNormInv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3688,7 +3688,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCdfNormInvI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void CdfNormInv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3698,7 +3698,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCdfNormInvI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void CdfNormInv(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3708,7 +3708,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCdfNormInvI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CdfNormInvI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void CdfNormInv(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3718,7 +3718,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLGammaI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void LGamma(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3728,7 +3728,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLGammaI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void LGamma(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3738,7 +3738,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLGammaI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void LGamma(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3748,7 +3748,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLGammaI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void LGamma(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3758,7 +3758,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTGammaI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void TGamma(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3768,7 +3768,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTGammaI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void TGamma(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3778,7 +3778,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTGammaI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void TGamma(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -3788,7 +3788,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTGammaI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TGammaI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void TGamma(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -3798,7 +3798,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtan2I(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Atan2(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3809,7 +3809,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtan2I(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Atan2(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3820,7 +3820,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtan2I(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Atan2(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3831,7 +3831,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtan2I(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2I(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Atan2(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3842,7 +3842,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsAtan2piI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Atan2pi(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3853,7 +3853,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdAtan2piI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Atan2pi(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3864,7 +3864,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsAtan2piI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Atan2pi(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3875,7 +3875,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdAtan2piI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Atan2piI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Atan2pi(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3886,7 +3886,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsMulI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Mul(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3897,7 +3897,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdMulI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Mul(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3908,7 +3908,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsMulI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Mul(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3919,7 +3919,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdMulI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MulI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Mul(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3930,7 +3930,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsDivI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Div(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3941,7 +3941,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdDivI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Div(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3952,7 +3952,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsDivI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Div(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3963,7 +3963,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdDivI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DivI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Div(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3974,7 +3974,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFdimI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Fdim(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -3985,7 +3985,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFdimI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Fdim(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -3996,7 +3996,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFdimI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Fdim(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4007,7 +4007,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFdimI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FdimI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Fdim(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4018,7 +4018,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFmodI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Fmod(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4029,7 +4029,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFmodI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Fmod(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4040,7 +4040,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFmodI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Fmod(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4051,7 +4051,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFmodI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmodI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Fmod(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4062,7 +4062,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFmaxI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Fmax(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4073,7 +4073,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFmaxI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Fmax(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4084,7 +4084,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFmaxI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Fmax(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4095,7 +4095,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFmaxI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FmaxI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Fmax(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4106,7 +4106,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFminI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Fmin(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4117,7 +4117,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFminI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Fmin(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4128,7 +4128,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFminI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Fmin(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4139,7 +4139,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFminI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FminI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Fmin(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4150,7 +4150,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPowI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Pow(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4161,7 +4161,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPowI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Pow(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4172,7 +4172,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPowI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Pow(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4183,7 +4183,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPowI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Pow(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4194,7 +4194,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPowrI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Powr(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4205,7 +4205,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPowrI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Powr(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4216,7 +4216,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPowrI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Powr(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4227,7 +4227,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPowrI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowrI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Powr(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4238,7 +4238,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPow3o2I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Pow3o2(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4248,7 +4248,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPow3o2I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Pow3o2(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4258,7 +4258,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPow3o2I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Pow3o2(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4268,7 +4268,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPow3o2I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow3o2I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Pow3o2(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4278,7 +4278,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPow2o3I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Pow2o3(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4288,7 +4288,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPow2o3I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Pow2o3(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4298,7 +4298,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPow2o3I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Pow2o3(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4308,7 +4308,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPow2o3I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Pow2o3I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Pow2o3(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4318,7 +4318,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPowxI(int n, float* a, int inca, float b, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr)
+        public static void Powx(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4328,7 +4328,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPowxI(int n, double* a, int inca, double b, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr)
+        public static void Powx(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4338,7 +4338,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsPowxI(int n, float* a, int inca, float b, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr, VmlMode mode)
+        public static void Powx(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4348,7 +4348,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdPowxI(int n, double* a, int inca, double b, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PowxI(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr, VmlMode mode)
+        public static void Powx(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4358,7 +4358,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsSinCosI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2)
+        public static void SinCos(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2)
         {
             fixed (float* ap = &a[inia])
             fixed (float* r1p = &r1[inir1])
@@ -4369,7 +4369,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdSinCosI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2)
+        public static void SinCos(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2)
         {
             fixed (double* ap = &a[inia])
             fixed (double* r1p = &r1[inir1])
@@ -4380,7 +4380,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsSinCosI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2, VmlMode mode)
+        public static void SinCos(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* r1p = &r1[inir1])
@@ -4391,7 +4391,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdSinCosI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SinCosI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2, VmlMode mode)
+        public static void SinCos(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* r1p = &r1[inir1])
@@ -4402,7 +4402,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsLinearFracI(int n, float* a, int inca, float* b, int incb, float scalea, float shifta, float scaleb, float shiftb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int inir, int incr)
+        public static void LinearFrac(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4413,7 +4413,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdLinearFracI(int n, double* a, int inca, double* b, int incb, double scalea, double shifta, double scaleb, double shiftb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int inir, int incr)
+        public static void LinearFrac(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4424,7 +4424,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsLinearFracI(int n, float* a, int inca, float* b, int incb, float scalea, float shifta, float scaleb, float shiftb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int inir, int incr, VmlMode mode)
+        public static void LinearFrac(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float scalea, float shifta, float scaleb, float shiftb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4435,7 +4435,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdLinearFracI(int n, double* a, int inca, double* b, int incb, double scalea, double shifta, double scaleb, double shiftb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void LinearFracI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int inir, int incr, VmlMode mode)
+        public static void LinearFrac(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double scalea, double shifta, double scaleb, double shiftb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4446,7 +4446,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCeilI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Ceil(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4456,7 +4456,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCeilI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Ceil(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4466,7 +4466,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCeilI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Ceil(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4476,7 +4476,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCeilI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CeilI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Ceil(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4486,7 +4486,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFloorI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Floor(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4496,7 +4496,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFloorI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Floor(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4506,7 +4506,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFloorI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Floor(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4516,7 +4516,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFloorI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FloorI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Floor(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4526,7 +4526,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsFracI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Frac(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4536,7 +4536,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdFracI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Frac(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4546,7 +4546,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFracI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Frac(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4556,7 +4556,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdFracI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void FracI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Frac(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4566,7 +4566,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsModfI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2)
+        public static void Modf(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2)
         {
             fixed (float* ap = &a[inia])
             fixed (float* r1p = &r1[inir1])
@@ -4577,7 +4577,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdModfI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2)
+        public static void Modf(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2)
         {
             fixed (double* ap = &a[inia])
             fixed (double* r1p = &r1[inir1])
@@ -4588,7 +4588,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsModfI(int n, float* a, int inca, float* r1, int incr1, float* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2, VmlMode mode)
+        public static void Modf(int n, float[] a, int inia, int inca, float[] r1, int inir1, int incr1, float[] r2, int inir2, int incr2, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* r1p = &r1[inir1])
@@ -4599,7 +4599,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdModfI(int n, double* a, int inca, double* r1, int incr1, double* r2, int incr2, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ModfI(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2, VmlMode mode)
+        public static void Modf(int n, double[] a, int inia, int inca, double[] r1, int inir1, int incr1, double[] r2, int inir2, int incr2, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* r1p = &r1[inir1])
@@ -4610,7 +4610,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsNearbyIntI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void NearbyInt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4620,7 +4620,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdNearbyIntI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void NearbyInt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4630,7 +4630,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsNearbyIntI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void NearbyInt(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4640,7 +4640,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdNearbyIntI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NearbyIntI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void NearbyInt(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4650,7 +4650,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsNextAfterI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void NextAfter(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4661,7 +4661,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdNextAfterI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void NextAfter(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4672,7 +4672,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsNextAfterI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void NextAfter(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4683,7 +4683,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdNextAfterI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextAfterI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void NextAfter(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4694,7 +4694,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsMinMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void MinMag(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4705,7 +4705,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdMinMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void MinMag(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4716,7 +4716,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsMinMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void MinMag(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4727,7 +4727,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdMinMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MinMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void MinMag(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4738,7 +4738,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsMaxMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void MaxMag(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4749,7 +4749,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdMaxMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void MaxMag(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4760,7 +4760,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsMaxMagI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void MaxMag(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4771,7 +4771,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdMaxMagI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MaxMagI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void MaxMag(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4782,7 +4782,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsRintI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Rint(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4792,7 +4792,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdRintI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Rint(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4802,7 +4802,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsRintI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Rint(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4812,7 +4812,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdRintI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RintI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Rint(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4822,7 +4822,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsRoundI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Round(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4832,7 +4832,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdRoundI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Round(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4842,7 +4842,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsRoundI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Round(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4852,7 +4852,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdRoundI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RoundI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Round(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4862,7 +4862,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsTruncI(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void Trunc(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4872,7 +4872,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdTruncI(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void Trunc(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4882,7 +4882,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsTruncI(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void Trunc(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4892,7 +4892,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdTruncI(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void TruncI(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void Trunc(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4902,7 +4902,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsExpInt1I(int n, float* a, int inca, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
+        public static void ExpInt1(int n, float[] a, int inia, int inca, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4912,7 +4912,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdExpInt1I(int n, double* a, int inca, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
+        public static void ExpInt1(int n, double[] a, int inia, int inca, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4922,7 +4922,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsExpInt1I(int n, float* a, int inca, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
+        public static void ExpInt1(int n, float[] a, int inia, int inca, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* rp = &r[inir])
@@ -4932,7 +4932,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdExpInt1I(int n, double* a, int inca, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ExpInt1I(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
+        public static void ExpInt1(int n, double[] a, int inia, int inca, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
@@ -4942,7 +4942,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsCopySignI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void CopySign(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4953,7 +4953,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdCopySignI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void CopySign(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4964,7 +4964,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsCopySignI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void CopySign(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4975,7 +4975,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdCopySignI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CopySignI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void CopySign(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -4986,7 +4986,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsRemainderI(int n, float* a, int inca, float* b, int incb, float* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
+        public static void Remainder(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -4997,7 +4997,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdRemainderI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
+        public static void Remainder(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -5008,7 +5008,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsRemainderI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
+        public static void Remainder(int n, float[] a, int inia, int inca, float[] b, int inib, int incb, float[] r, int inir, int incr, VmlMode mode)
         {
             fixed (float* ap = &a[inia])
             fixed (float* bp = &b[inib])
@@ -5019,7 +5019,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmdRemainderI(int n, double* a, int inca, double* b, int incb, double* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemainderI(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
+        public static void Remainder(int n, double[] a, int inia, int inca, double[] b, int inib, int incb, double[] r, int inir, int incr, VmlMode mode)
         {
             fixed (double* ap = &a[inia])
             fixed (double* bp = &b[inib])
@@ -5030,7 +5030,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsPackI(int n, float* a, int incra, float* y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PackI(int n, float[] a, int inia, int incra, float[] y, int iniy)
+        public static void Pack(int n, float[] a, int inia, int incra, float[] y, int iniy)
         {
             fixed (float* ap = &a[inia])
             fixed (float* yp = &y[iniy])
@@ -5040,7 +5040,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdPackI(int n, double* a, int incra, double* y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void PackI(int n, double[] a, int inia, int incra, double[] y, int iniy)
+        public static void Pack(int n, double[] a, int inia, int incra, double[] y, int iniy)
         {
             fixed (double* ap = &a[inia])
             fixed (double* yp = &y[iniy])
@@ -5082,7 +5082,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vsUnpackI(int n, float* a, float* y, int incry);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnpackI(int n, float[] a, int inia, float[] y, int iniy, int incry)
+        public static void Unpack(int n, float[] a, int inia, float[] y, int iniy, int incry)
         {
             fixed (float* ap = &a[inia])
             fixed (float* yp = &y[iniy])
@@ -5092,7 +5092,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vdUnpackI(int n, double* a, double* y, int incry);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnpackI(int n, double[] a, int inia, double[] y, int iniy, int incry)
+        public static void Unpack(int n, double[] a, int inia, double[] y, int iniy, int incry)
         {
             fixed (double* ap = &a[inia])
             fixed (double* yp = &y[iniy])

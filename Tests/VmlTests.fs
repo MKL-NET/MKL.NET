@@ -4,36 +4,48 @@ open System
 open MKLNET
 open CsCheck
 
-let ARRAY_SIZE_MAX = 5
+let ROWS_MAX = 5
 
 let testUnary name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
-        (factual:'a[] -> 'a[] -> unit) =
+        (factual:'a[]*'a[] -> unit) =
     test name {
         let gena = GenArray gen
-        let! a = gena.[1,ARRAY_SIZE_MAX]
+        let! a = gena.[1,ROWS_MAX]
         let actual = Array.zeroCreate a.Length
-        factual a actual
+        factual(a,actual)
         let expected = Array.map fexpected a
         Check.close High expected actual
-        factual a a
+        factual(a,a)
         Check.close High expected a |> Check.message "inplace"
     }
 
+let testUnaryM name (gen:Gen<'a>)
+        (fexpected:'a -> 'a)
+        (factual:'a[]*'a[]*VmlMode -> unit) =
+    testUnary name gen fexpected
+        (fun (a,r) -> factual(a,r,VmlMode.HA))
+
 let testBinary name (gen:Gen<'a>)
         (fexpected:'a -> 'a -> 'a)
-        (factual:'a[] -> 'a[] -> 'a[] -> unit) =
+        (factual:'a[]*'a[]*'a[] -> unit) =
     test name {
         let gena = GenArray gen
-        let! a = gena.[1,ARRAY_SIZE_MAX]
+        let! a = gena.[1,ROWS_MAX]
         let! b = gena.[a.Length]
         let actual = Array.zeroCreate a.Length
-        factual a b actual
+        factual(a,b,actual)
         let expected = Array.map2 fexpected a b
         Check.close High expected actual
-        factual a b a
+        factual(a,b,a)
         Check.close High expected a |> Check.message "inplace"
     }
+
+let testBinaryM name (gen:Gen<'a>)
+    (fexpected:'a -> 'a -> 'a)
+    (factual:'a[]*'a[]*'a[]*VmlMode -> unit) =
+    testBinary name gen fexpected
+        (fun (a,b,r) -> factual(a,b,r,VmlMode.HA))
 
 let testUnaryI name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
@@ -41,7 +53,7 @@ let testUnaryI name (gen:Gen<'a>)
     test name {
         let! cols = Gen.Int.[1,3]
         let! ini = Gen.Int.[0,cols-1]
-        let! rows = Gen.Int.[1,ARRAY_SIZE_MAX]
+        let! rows = Gen.Int.[1,ROWS_MAX]
         let! a = (GenArray gen).[rows*cols]
         let actual = Array.copy a
         factual(a.Length/cols,a,ini,cols,actual,ini,cols)
@@ -51,414 +63,427 @@ let testUnaryI name (gen:Gen<'a>)
         Check.close High expected a |> Check.message "inplace"
     }
 
+let testUnaryIM name (gen:Gen<'a>)
+        (fexpected:'a -> 'a)
+        (factual:(int*'a[]*int*int*'a[]*int*int*VmlMode) -> unit) =
+    testUnaryI name gen fexpected
+        (fun (n,a,ia,sa,r,ir,sr) -> factual(n,a,ia,sa,r,ir,sr,VmlMode.HA))
+
+let testUnaryX name (gen:Gen<'a>)
+        (factual:'a[]*'a[] -> unit)
+        (factualM:'a[]*'a[]*VmlMode -> unit)
+        (factualI:(int*'a[]*int*int*'a[]*int*int) -> unit)
+        (factualIM:(int*'a[]*int*int*'a[]*int*int*VmlMode) -> unit)
+        (fexpected:'a -> 'a)
+        =
+        test name {
+            testUnary "N" gen fexpected factual
+            testUnaryM "M" gen fexpected factualM
+            testUnaryI "I" gen fexpected factualI
+            testUnaryIM "IM" gen fexpected factualIM
+        }
+
+
+let testBinaryI name (gen:Gen<'a>)
+        (fexpected:'a -> 'a -> 'a)
+        (factual:(int*'a[]*int*int*'a[]*int*int*'a[]*int*int) -> unit) =
+    test name {
+        let gena = GenArray gen
+        let! cols = Gen.Int.[1,3]
+        let! ini = Gen.Int.[0,cols-1]
+        let! rows = Gen.Int.[1,ROWS_MAX]
+        let! a = gena.[rows*cols]
+        let! b = gena.[a.Length]
+        let actual = Array.copy a
+        factual(a.Length/cols,a,ini,cols,b,ini,cols,actual,ini,cols)
+        let expected = Array.mapi2 (fun i a b -> if i % cols = ini then fexpected a b else a) a b
+        Check.close High expected actual
+        factual(a.Length/cols,a,ini,cols,b,ini,cols,a,ini,cols)
+        Check.close High expected a |> Check.message "inplace"
+    }
+
+let testBinaryIM name (gen:Gen<'a>)
+        (fexpected:'a -> 'a -> 'a)
+        (factual:(int*'a[]*int*int*'a[]*int*int*'a[]*int*int*VmlMode) -> unit) =
+    testBinaryI name gen fexpected
+        (fun (n,a,ia,sa,b,ib,sb,r,ir,sr) -> factual(n,a,ia,sa,b,ib,sb,r,ir,sr,VmlMode.HA))
+
+let testBinaryX name (gen:Gen<'a>)
+    (factualN:'a[]*'a[]*'a[] -> unit)
+    (factualM:'a[]*'a[]*'a[]*VmlMode -> unit)
+    (factualI:(int*'a[]*int*int*'a[]*int*int*'a[]*int*int) -> unit)
+    (factualB:(int*'a[]*int*int*'a[]*int*int*'a[]*int*int*VmlMode) -> unit)
+    (fexpected:'a -> 'a -> 'a)
+    =
+    test name {
+        testBinary "N" gen fexpected factualN
+        testBinaryM "M" gen fexpected factualM
+        testBinaryI "I" gen fexpected factualI
+        testBinaryIM "B" gen fexpected factualB
+    }
+
 let arithmetic =
     test "arithmetic" {
 
-        testUnaryI "AbsI_double" Gen.Single abs Vml.AbsI
+        testUnaryX "Abs_double" Gen.Double
+            Vml.Abs Vml.Abs Vml.Abs Vml.Abs
+            abs
 
-        testUnary "Abs_double" Gen.Double abs
-            (fun a r -> Vml.Abs(a,r))
+        testUnaryX "Abs_single" Gen.Single
+            Vml.Abs Vml.Abs Vml.Abs Vml.Abs
+            abs
 
-        testUnary "Abs_mode_double" Gen.Double abs
-            (fun a r -> Vml.Abs(a,r,VmlMode.HA))
+        testBinaryX "Add_double" Gen.Double
+            Vml.Add Vml.Add Vml.Add Vml.Add
+            (+)
 
-        testUnary "Abs_single" Gen.Single abs
-            (fun a r -> Vml.Abs(a,r))
+        testBinaryX "Add_single" Gen.Single
+            Vml.Add Vml.Add Vml.Add Vml.Add
+            (+)
 
-        testUnary "Abs_mode_single" Gen.Single abs
-            (fun a r -> Vml.Abs(a,r,VmlMode.HA))
+        testBinaryX "Sub_double" Gen.Double
+            Vml.Sub Vml.Sub Vml.Sub Vml.Sub
+            (-)
 
-        testBinary "Add_double" Gen.Double (+)
-            (fun a b r -> Vml.Add(a,b,r))
+        testBinaryX "Sub_single" Gen.Single
+            Vml.Sub Vml.Sub Vml.Sub Vml.Sub
+            (-)
 
-        testBinary "Add_mode_double" Gen.Double (+)
-            (fun a b r -> Vml.Add(a,b,r,VmlMode.HA))
+        testUnaryX "Sqr_double" Gen.Double
+            Vml.Sqr Vml.Sqr Vml.Sqr Vml.Sqr
+            (fun i -> i * i)
 
-        testBinary "Add_single" Gen.Single (+)
-            (fun a b r -> Vml.Add(a,b,r))
+        testUnaryX "Sqr_single" Gen.Single
+            Vml.Sqr Vml.Sqr Vml.Sqr Vml.Sqr
+            (fun i -> i * i)
 
-        testBinary "Add_mode_single" Gen.Single (+)
-            (fun a b r -> Vml.Add(a,b,r,VmlMode.HA))
+        testBinaryX "Mul_double" Gen.Double
+            Vml.Mul Vml.Mul Vml.Mul Vml.Mul
+            (*)
 
-        testBinary "Sub_double" Gen.Double (-)
-            (fun a b r -> Vml.Sub(a,b,r))
+        testBinaryX "Mul_single" Gen.Single
+            Vml.Mul Vml.Mul Vml.Mul Vml.Mul
+            (*)
 
-        testBinary "Sub_mode_double" Gen.Double (-)
-            (fun a b r -> Vml.Sub(a,b,r,VmlMode.HA))
-
-        testBinary "Sub_single" Gen.Single (-)
-            (fun a b r -> Vml.Sub(a,b,r))
-
-        testBinary "Sub_mode_single" Gen.Single (-)
-            (fun a b r -> Vml.Sub(a,b,r,VmlMode.HA))
-
-        testUnary "Sqr_double" Gen.Double (fun i -> i * i)
-            (fun a r -> Vml.Sqr(a,r))
-            
-        testUnary "Sqr_mode_double" Gen.Double (fun i -> i * i)
-            (fun a r -> Vml.Sqr(a,r,VmlMode.HA))
-            
-        testUnary "Sqr_single" Gen.Single (fun i -> i * i)
-            (fun a r -> Vml.Sqr(a,r))
-            
-        testUnary "Sqr_mode_single" Gen.Single (fun i -> i * i)
-            (fun a r -> Vml.Sqr(a,r,VmlMode.HA))
-
-        testBinary "Mul_double" Gen.Double (*)
-            (fun a b r -> Vml.Mul(a,b,r))
-
-        testBinary "Mul_mode_double" Gen.Double (*)
-            (fun a b r -> Vml.Mul(a,b,r,VmlMode.HA))
-
-        testBinary "Mul_single" Gen.Single (*)
-            (fun a b r -> Vml.Mul(a,b,r))
-
-        testBinary "Mul_mode_single" Gen.Single (*)
-            (fun a b r -> Vml.Mul(a,b,r,VmlMode.HA))
-
-        testBinary "Fmod_double" Gen.Double.[0.01,10000.0]
+        testBinaryX "Fmod_double" Gen.Double.[0.01,10000.0]
+            Vml.Fmod Vml.Fmod Vml.Fmod Vml.Fmod
             (fun a b -> a - Math.Truncate(a/b) * b)
-            (fun a b r -> Vml.Fmod(a,b,r))
 
-        testBinary "Fmod_mode_double" Gen.Double.[0.01,10000.0]
-            (fun a b -> a - Math.Truncate(a/b) * b)
-            (fun a b r -> Vml.Fmod(a,b,r,VmlMode.HA))
-        
-        testBinary "Fmod_single" Gen.Single.[0.01f,10000.0f]
+        testBinaryX "Fmod_single" Gen.Single.[0.01f,10000.0f]
+            Vml.Fmod Vml.Fmod Vml.Fmod Vml.Fmod
             (fun a b -> float a - Math.Truncate(float a/float b) * float b |> float32)
-            (fun a b r -> Vml.Fmod(a,b,r))
-        
-        testBinary "Fmod_mode_single" Gen.Single.[0.01f,10000.0f]
-            (fun a b -> float a - Math.Truncate(float a/float b) * float b |> float32)
-            (fun a b r -> Vml.Fmod(a,b,r,VmlMode.HA))
 
-        testBinary "Remainder_double" Gen.Double.[0.01,10000.0]
+        testBinaryX "Remainder_double" Gen.Double.[0.01,10000.0]
+            Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
             (fun a b -> a - Math.Round(a/b) * b)
-            (fun a b r -> Vml.Remainder(a,b,r))
 
-        testBinary "Remainder_mode_double" Gen.Double.[0.01,10000.0]
-            (fun a b -> a - Math.Round(a/b) * b)
-            (fun a b r -> Vml.Remainder(a,b,r,VmlMode.HA))
-        
-        testBinary "Remainder_single" Gen.Single.[0.01f,10000.0f]
+        testBinaryX "Remainder_single" Gen.Single.[0.01f,10000.0f]
+            Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
             (fun a b -> float a - Math.Round(float a/float b) * float b |> float32)
-            (fun a b r -> Vml.Remainder(a,b,r))
-        
-        testBinary "Remainder_mode_single" Gen.Single.[0.01f,10000.0f]
-            (fun a b -> float a - Math.Round(float a/float b) * float b |> float32)
-            (fun a b r -> Vml.Remainder(a,b,r,VmlMode.HA))
     }
 
 let power =
     test "power" {
-        testUnary "Inv_double" Gen.Double ((/) 1.0)
-            (fun a r -> Vml.Inv(a,r))
+        testUnary "Inv_double" Gen.Double ((/) 1.0) Vml.Inv
 
-        testUnary "Inv_mode_double" Gen.Double ((/) 1.0)
-            (fun a r -> Vml.Inv(a,r,VmlMode.HA))
+        testUnaryM "Inv_mode_double" Gen.Double ((/) 1.0) Vml.Inv
 
-        testUnary "Inv_single" Gen.Single ((/) 1.0f)
-            (fun a r -> Vml.Inv(a,r))
+        testUnary "Inv_single" Gen.Single ((/) 1.0f) Vml.Inv
 
-        testUnary "Inv_mode_single" Gen.Single ((/) 1.0f)
-            (fun a r -> Vml.Inv(a,r,VmlMode.HA))
+        testUnaryM "Inv_mode_single" Gen.Single ((/) 1.0f) Vml.Inv
 
-        testUnary "Sqrt_double" Gen.Double sqrt
-            (fun a r -> Vml.Sqrt(a,r))
+        testUnary "Sqrt_double" Gen.Double sqrt Vml.Sqrt
 
-        testUnary "Sqrt_mode_double" Gen.Double sqrt
-            (fun a r -> Vml.Sqrt(a,r,VmlMode.HA))
+        testUnaryM "Sqrt_mode_double" Gen.Double sqrt Vml.Sqrt
 
         testUnary "Sqrt_single" Gen.Single
             (float >> sqrt >> float32)
-            (fun a r -> Vml.Sqrt(a,r))
+            Vml.Sqrt
 
-        testUnary "Sqrt_mode_single" Gen.Single
+        testUnaryM "Sqrt_mode_single" Gen.Single
             (float >> sqrt >> float32)
-            (fun a r -> Vml.Sqrt(a,r,VmlMode.HA))
+            Vml.Sqrt
 
         testUnary "InvSqrt_double" Gen.Double
             ((/) 1.0 >> sqrt)
-            (fun a r -> Vml.InvSqrt(a,r))
+            Vml.InvSqrt
 
-        testUnary "InvSqrt_mode_double" Gen.Double
+        testUnaryM "InvSqrt_mode_double" Gen.Double
             ((/) 1.0 >> sqrt)
-            (fun a r -> Vml.InvSqrt(a,r,VmlMode.HA))
+            Vml.InvSqrt
 
         testUnary "InvSqrt_single" Gen.Single
             (float >> (/) 1.0 >> sqrt >> float32)
-            (fun a r -> Vml.InvSqrt(a,r))
+            Vml.InvSqrt
 
-        testUnary "InvSqrt_mode_single" Gen.Single
+        testUnaryM "InvSqrt_mode_single" Gen.Single
             (float >> (/) 1.0 >> sqrt >> float32)
-            (fun a r -> Vml.InvSqrt(a,r,VmlMode.HA))
+            Vml.InvSqrt
 
 #if NETCOREAPP
         testUnary "Cbrt_double" Gen.Double Math.Cbrt
-            (fun a r -> Vml.Cbrt(a,r))
+            Vml.Cbrt
 
-        testUnary "Cbrt_mode_double" Gen.Double Math.Cbrt
-            (fun a r -> Vml.Cbrt(a,r,VmlMode.HA))
+        testUnaryM "Cbrt_mode_double" Gen.Double Math.Cbrt
+            Vml.Cbrt
 
         testUnary "Cbrt_single" Gen.Single
             (float >> Math.Cbrt >> float32)
-            (fun a r -> Vml.Cbrt(a,r))
+            Vml.Cbrt
 
-        testUnary "Cbrt_mode_single" Gen.Single
+        testUnaryM "Cbrt_mode_single" Gen.Single
             (float >> Math.Cbrt >> float32)
-            (fun a r -> Vml.Cbrt(a,r,VmlMode.HA))
+            Vml.Cbrt
 
         testUnary "InvCbrt_double" Gen.Double
             ((/) 1.0 >> Math.Cbrt)
-            (fun a r -> Vml.InvCbrt(a,r))
+            Vml.InvCbrt
 
-        testUnary "InvCbrt_mode_double" Gen.Double
+        testUnaryM "InvCbrt_mode_double" Gen.Double
             ((/) 1.0 >> Math.Cbrt)
-            (fun a r -> Vml.InvCbrt(a,r,VmlMode.HA))
+            Vml.InvCbrt
 
         testUnary "InvCbrt_single" Gen.Single
             (float >> (/) 1.0 >> Math.Cbrt >> float32)
-            (fun a r -> Vml.InvCbrt(a,r))
+            Vml.InvCbrt
 
-        testUnary "InvCbrt_mode_single" Gen.Single
+        testUnaryM "InvCbrt_mode_single" Gen.Single
             (float >> (/) 1.0 >> Math.Cbrt >> float32)
-            (fun a r -> Vml.InvCbrt(a,r,VmlMode.HA))
+            Vml.InvCbrt
 #endif
         testBinary "Hypot_double" Gen.Double
             (fun a b -> sqrt(a*a+b*b))
-            (fun a b r -> Vml.Hypot(a,b,r))
+            Vml.Hypot
 
-        testBinary "Hypot_mode_double" Gen.Double
+        testBinaryM "Hypot_mode_double" Gen.Double
             (fun a b -> sqrt(a*a+b*b))
-            (fun a b r -> Vml.Hypot(a,b,r,VmlMode.HA))
+            Vml.Hypot
 
         testBinary "Hypot_single" Gen.Single
             (fun a b -> sqrt(a*a+b*b))
-            (fun a b r -> Vml.Hypot(a,b,r))
+            Vml.Hypot
 
-        testBinary "Hypot_mode_single" Gen.Single
+        testBinaryM "Hypot_mode_single" Gen.Single
             (fun a b -> sqrt(a*a+b*b))
-            (fun a b r -> Vml.Hypot(a,b,r,VmlMode.HA))
+            Vml.Hypot
 
         testBinary "Div_double" Gen.Double (/)
-            (fun a b r -> Vml.Div(a,b,r))
+            Vml.Div
 
-        testBinary "Div_mode_double" Gen.Double (/)
-            (fun a b r -> Vml.Div(a,b,r,VmlMode.HA))
+        testBinaryM "Div_mode_double" Gen.Double (/)
+            Vml.Div
 
         testBinary "Div_single" Gen.Single (/)
-            (fun a b r -> Vml.Div(a,b,r))
+            Vml.Div
 
-        testBinary "Div_mode_single" Gen.Single (/)
-            (fun a b r -> Vml.Div(a,b,r,VmlMode.HA))
+        testBinaryM "Div_mode_single" Gen.Single (/)
+            Vml.Div
 
 #if NETCOREAPP
         testUnary "Pow2o3_double" Gen.Double
             (fun a -> Math.Cbrt(a*a))
-            (fun a r -> Vml.Pow2o3(a,r))
+            Vml.Pow2o3
 
-        testUnary "Pow2o3_mode_double" Gen.Double
+        testUnaryM "Pow2o3_mode_double" Gen.Double
             (fun a -> Math.Cbrt(a*a))
-            (fun a r -> Vml.Pow2o3(a,r,VmlMode.HA))
+            Vml.Pow2o3
 
         testUnary "Pow2o3_single" Gen.Single
             (fun a -> Math.Cbrt(float a*float a) |> float32)
-            (fun a r -> Vml.Pow2o3(a,r))
+            Vml.Pow2o3
 
-        testUnary "Pow2o3_mode_single" Gen.Single
+        testUnaryM "Pow2o3_mode_single" Gen.Single
             (fun a -> Math.Cbrt(float a*float a) |> float32)
-            (fun a r -> Vml.Pow2o3(a,r,VmlMode.HA))
+            Vml.Pow2o3
 #endif
 
         testUnary "Pow3o2_double" Gen.Double.[0.0,Double.MaxValue]
             (fun a -> sqrt(a*a*a))
-            (fun a r -> Vml.Pow3o2(a,r))
+            Vml.Pow3o2
 
-        testUnary "Pow3o2_mode_double" Gen.Double.[0.0,Double.MaxValue]
+        testUnaryM "Pow3o2_mode_double" Gen.Double.[0.0,Double.MaxValue]
             (fun a -> sqrt(a*a*a))
-            (fun a r -> Vml.Pow3o2(a,r,VmlMode.HA))
+            Vml.Pow3o2
 
         testUnary "Pow3o2_single" Gen.Single.[0.0f,Single.MaxValue]
             (fun a -> sqrt(a*a*a))
-            (fun a r -> Vml.Pow3o2(a,r))
+            Vml.Pow3o2
 
-        testUnary "Pow3o2_mode_single" Gen.Single.[0.0f,Single.MaxValue]
+        testUnaryM "Pow3o2_mode_single" Gen.Single.[0.0f,Single.MaxValue]
             (fun a -> sqrt(a*a*a))
-            (fun a r -> Vml.Pow3o2(a,r,VmlMode.HA))
+            Vml.Pow3o2
 
         testBinary "Pow_double" Gen.Double
             (fun a b -> Math.Pow(a,b))
-            (fun a b r -> Vml.Pow(a,b,r))
+            Vml.Pow
 
-        testBinary "Pow_mode_double" Gen.Double
+        testBinaryM "Pow_mode_double" Gen.Double
             (fun a b -> Math.Pow(a,b))
-            (fun a b r -> Vml.Pow(a,b,r,VmlMode.HA))
+            Vml.Pow
 
         testBinary "Pow_single" Gen.Single
             (fun a b -> Math.Pow(float a,float b) |> float32)
-            (fun a b r -> Vml.Pow(a,b,r))
+            Vml.Pow
 
-        testBinary "Pow_mode_single" Gen.Single
+        testBinaryM "Pow_mode_single" Gen.Single
             (fun a b -> Math.Pow(float a,float b) |> float32)
-            (fun a b r -> Vml.Pow(a,b,r,VmlMode.HA))
+            Vml.Pow
 
         testBinary "Powr_double" Gen.Double.[0.01,100.0]
             (fun a b -> Math.Pow(a,b))
-            (fun a b r -> Vml.Powr(a,b,r))
+            Vml.Powr
 
-        testBinary "Powr_mode_double" Gen.Double.[0.01,100.0]
+        testBinaryM "Powr_mode_double" Gen.Double.[0.01,100.0]
             (fun a b -> Math.Pow(a,b))
-            (fun a b r -> Vml.Powr(a,b,r,VmlMode.HA))
+            Vml.Powr
 
         testBinary "Powr_single" Gen.Single.[0.01f,100.0f]
             (fun a b -> Math.Pow(float a,float b) |> float32)
-            (fun a b r -> Vml.Powr(a,b,r))
+            Vml.Powr
 
-        testBinary "Powr_mode_single" Gen.Single.[0.01f,100.0f]
+        testBinaryM "Powr_mode_single" Gen.Single.[0.01f,100.0f]
             (fun a b -> Math.Pow(float a,float b) |> float32)
-            (fun a b r -> Vml.Powr(a,b,r,VmlMode.HA))
+            Vml.Powr
     }
 
 let exponential =
     test "exponential" {
-        testUnary "Exp_double" Gen.Double exp
-            (fun a r -> Vml.Exp(a,r))
+        testUnary "Exp_double" Gen.Double exp Vml.Exp
 
-        testUnary "Exp_mode_double" Gen.Double exp
-            (fun a r -> Vml.Exp(a,r,VmlMode.HA))
+        testUnaryM "Exp_mode_double" Gen.Double exp Vml.Exp
 
         testUnary "Exp_single" Gen.Single
             (float >> exp >> float32)
-            (fun a r -> Vml.Exp(a,r))
+            Vml.Exp
 
-        testUnary "Exp_mode_single" Gen.Single
+        testUnaryM "Exp_mode_single" Gen.Single
             (float >> exp >> float32)
-            (fun a r -> Vml.Exp(a,r,VmlMode.HA))
+            Vml.Exp
 
         testUnary "Exp2_double" Gen.Double
             (fun i -> Math.Pow(2.0,i))
-            (fun a r -> Vml.Exp2(a,r))
+            Vml.Exp2
 
-        testUnary "Exp2_mode_double" Gen.Double
+        testUnaryM "Exp2_mode_double" Gen.Double
             (fun i -> Math.Pow(2.0,i))
-            (fun a r -> Vml.Exp2(a,r,VmlMode.HA))
+            Vml.Exp2
 
         testUnary "Exp2_single" Gen.Single
             (fun i -> Math.Pow(2.0,float i) |> float32)
-            (fun a r -> Vml.Exp2(a,r))
+            Vml.Exp2
 
-        testUnary "Exp2_mode_single" Gen.Single
+        testUnaryM "Exp2_mode_single" Gen.Single
             (fun i -> Math.Pow(2.0,float i) |> float32)
-            (fun a r -> Vml.Exp2(a,r,VmlMode.HA))
+            Vml.Exp2
 
         testUnary "Exp10_double" Gen.Double
             (fun i -> Math.Pow(10.0,i))
-            (fun a r -> Vml.Exp10(a,r))
+            Vml.Exp10
 
-        testUnary "Exp10_mode_double" Gen.Double
+        testUnaryM "Exp10_mode_double" Gen.Double
             (fun i -> Math.Pow(10.0,i))
-            (fun a r -> Vml.Exp10(a,r,VmlMode.HA))
+            Vml.Exp10
 
         testUnary "Exp10_single" Gen.Single
             (fun i -> Math.Pow(10.0,float i) |> float32)
-            (fun a r -> Vml.Exp10(a,r))
+            Vml.Exp10
 
-        testUnary "Exp10_mode_single" Gen.Single
+        testUnaryM "Exp10_mode_single" Gen.Single
             (fun i -> Math.Pow(10.0,float i) |> float32)
-            (fun a r -> Vml.Exp10(a,r,VmlMode.HA))
+            Vml.Exp10
 
         testUnary "Expm1_double" Gen.Double
             (fun i -> exp i-1.0)
-            (fun a r -> Vml.Expm1(a,r))
+            Vml.Expm1
 
-        testUnary "Expm1_mode_double" Gen.Double
+        testUnaryM "Expm1_mode_double" Gen.Double
             (fun i -> exp i-1.0)
-            (fun a r -> Vml.Expm1(a,r,VmlMode.HA))
+            Vml.Expm1
 
         testUnary "Expm1_single" Gen.Single
             (fun i -> exp(float i)-1.0 |> float32)
-            (fun a r -> Vml.Expm1(a,r))
+            Vml.Expm1
 
-        testUnary "Expm1_mode_single" Gen.Single
+        testUnaryM "Expm1_mode_single" Gen.Single
             (fun i -> exp(float i)-1.0 |> float32)
-            (fun a r -> Vml.Expm1(a,r,VmlMode.HA))
+            Vml.Expm1
 
         testUnary "Ln_double" Gen.Double log
-            (fun a r -> Vml.Ln(a,r))
+            Vml.Ln
 
-        testUnary "Ln_mode_double" Gen.Double log
-            (fun a r -> Vml.Ln(a,r,VmlMode.HA))
+        testUnaryM "Ln_mode_double" Gen.Double log
+            Vml.Ln
 
         testUnary "Ln_single" Gen.Single
             (float >> log >> float32)
-            (fun a r -> Vml.Ln(a,r))
+            Vml.Ln
 
-        testUnary "Ln_mode_single" Gen.Single
+        testUnaryM "Ln_mode_single" Gen.Single
             (float >> log >> float32)
-            (fun a r -> Vml.Ln(a,r,VmlMode.HA))
+            Vml.Ln
 
 #if NETCOREAPP
         testUnary "Log2_double" Gen.Double Math.Log2
-            (fun a r -> Vml.Log2(a,r))
+            Vml.Log2
 
-        testUnary "Log2_mode_double" Gen.Double Math.Log2
-            (fun a r -> Vml.Log2(a,r,VmlMode.HA))
+        testUnaryM "Log2_mode_double" Gen.Double Math.Log2
+            Vml.Log2
 
         testUnary "Log2_single" Gen.Single
             (float >> Math.Log2 >> float32)
-            (fun a r -> Vml.Log2(a,r))
+            Vml.Log2
 
-        testUnary "Log2_mode_single" Gen.Single
+        testUnaryM "Log2_mode_single" Gen.Single
             (float >> Math.Log2 >> float32)
-            (fun a r -> Vml.Log2(a,r,VmlMode.HA))
+            Vml.Log2
 #endif
 
         testUnary "Log10_double" Gen.Double log10
-            (fun a r -> Vml.Log10(a,r))
+            Vml.Log10
 
-        testUnary "Log10_mode_double" Gen.Double log10
-            (fun a r -> Vml.Log10(a,r,VmlMode.HA))
+        testUnaryM "Log10_mode_double" Gen.Double log10
+            Vml.Log10
 
         testUnary "Log10_single" Gen.Single
             (float >> log10 >> float32)
-            (fun a r -> Vml.Log10(a,r))
+            Vml.Log10
 
-        testUnary "Log10_mode_single" Gen.Single
+        testUnaryM "Log10_mode_single" Gen.Single
             (float >> log10 >> float32)
-            (fun a r -> Vml.Log10(a,r,VmlMode.HA))
+            Vml.Log10
 
         testUnary "Log1p_double" Gen.Double
             (fun i -> log(i+1.0))
-            (fun a r -> Vml.Log1p(a,r))
+            Vml.Log1p
 
-        testUnary "Log1p_mode_double" Gen.Double
+        testUnaryM "Log1p_mode_double" Gen.Double
             (fun i -> log(i+1.0))
-            (fun a r -> Vml.Log1p(a,r,VmlMode.HA))
+            Vml.Log1p
 
         testUnary "Log1p_single" Gen.Single
             (fun i -> log(float i+1.0) |> float32)
-            (fun a r -> Vml.Log1p(a,r))
+            Vml.Log1p
 
-        testUnary "Log1p_mode_single" Gen.Single
+        testUnaryM "Log1p_mode_single" Gen.Single
             (fun i -> log(float i+1.0) |> float32)
-            (fun a r -> Vml.Log1p(a,r,VmlMode.HA))
+            Vml.Log1p
 
 #if NETCOREAPP
         testUnary "Logb_double" Gen.Double.[0.0,Double.MaxValue]
             (fun i -> Math.ILogB(i) |> float)
-            (fun a r -> Vml.Logb(a,r))
+            Vml.Logb
 
-        testUnary "Logb_mode_double" Gen.Double.[0.0,Double.MaxValue]
+        testUnaryM "Logb_mode_double" Gen.Double.[0.0,Double.MaxValue]
             (fun i -> Math.ILogB(i) |> float)
-            (fun a r -> Vml.Logb(a,r,VmlMode.HA))
+            Vml.Logb
 
         testUnary "Logb_single" Gen.Single.[0.0f,Single.MaxValue]
             (fun i -> Math.ILogB(float i) |> float32)
-            (fun a r -> Vml.Logb(a,r))
+            Vml.Logb
 
-        testUnary "Logb_mode_single" Gen.Single.[0.0f,Single.MaxValue]
+        testUnaryM "Logb_mode_single" Gen.Single.[0.0f,Single.MaxValue]
             (fun i -> Math.ILogB(float i) |> float32)
-            (fun a r -> Vml.Logb(a,r,VmlMode.HA))
+            Vml.Logb
 #endif
     }
 
@@ -466,375 +491,375 @@ let trigonometric =
     test "trigonometric" {
         testUnary "Cos_double" Gen.Double.[-65536.0,65536.0]
             cos
-            (fun a r -> Vml.Cos(a,r))
+            Vml.Cos
 
-        testUnary "Cos_mode_double" Gen.Double.[-65536.0,65536.0]
+        testUnaryM "Cos_mode_double" Gen.Double.[-65536.0,65536.0]
             cos
-            (fun a r -> Vml.Cos(a,r,VmlMode.HA))
+            Vml.Cos
 
         testUnary "Cos_single" Gen.Single.[-8192.0f,8192.0f]
             (float >> cos >> float32)
-            (fun a r -> Vml.Cos(a,r))
+            Vml.Cos
 
-        testUnary "Cos_mode_single" Gen.Single.[-8192.0f,8192.0f]
+        testUnaryM "Cos_mode_single" Gen.Single.[-8192.0f,8192.0f]
             (float >> cos >> float32)
-            (fun a r -> Vml.Cos(a,r,VmlMode.HA))
+            Vml.Cos
 
         testUnary "Sin_double" Gen.Double.[-65536.0,65536.0]
             sin
-            (fun a r -> Vml.Sin(a,r))
+            Vml.Sin
 
-        testUnary "Sin_mode_double" Gen.Double.[-65536.0,65536.0]
+        testUnaryM "Sin_mode_double" Gen.Double.[-65536.0,65536.0]
             sin
-            (fun a r -> Vml.Sin(a,r,VmlMode.HA))
+            Vml.Sin
 
         testUnary "Sin_single" Gen.Single.[-8192.0f,8192.0f]
             (float >> sin >> float32)
-            (fun a r -> Vml.Sin(a,r))
+            Vml.Sin
 
-        testUnary "Sin_mode_single" Gen.Single.[-8192.0f,8192.0f]
+        testUnaryM "Sin_mode_single" Gen.Single.[-8192.0f,8192.0f]
             (float >> sin >> float32)
-            (fun a r -> Vml.Sin(a,r,VmlMode.HA))
+            Vml.Sin
 
         testUnary "Tan_double" Gen.Double.[-1.0,1.0]
             tan
-            (fun a r -> Vml.Tan(a,r))
+            Vml.Tan
 
-        testUnary "Tan_mode_double" Gen.Double.[-1.0,1.0]
+        testUnaryM "Tan_mode_double" Gen.Double.[-1.0,1.0]
             tan
-            (fun a r -> Vml.Tan(a,r,VmlMode.HA))
+            Vml.Tan
 
         testUnary "Tan_single" Gen.Single.[-1.0f,1.0f]
             (float >> tan >> float32)
-            (fun a r -> Vml.Tan(a,r))
+            Vml.Tan
 
-        testUnary "Tan_mode_single" Gen.Single.[-1.0f,1.0f]
+        testUnaryM "Tan_mode_single" Gen.Single.[-1.0f,1.0f]
             (float >> tan >> float32)
-            (fun a r -> Vml.Tan(a,r,VmlMode.HA))
+            Vml.Tan
 
         testUnary "Cospi_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> cos(Math.PI*i))
-            (fun a r -> Vml.Cospi(a,r))
+            Vml.Cospi
 
-        testUnary "Cospi_mode_double" Gen.Double.[-65536.0,65536.0]
+        testUnaryM "Cospi_mode_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> cos(Math.PI*i))
-            (fun a r -> Vml.Cospi(a,r,VmlMode.HA))
+            Vml.Cospi
 
         testUnary "Cospi_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> cos(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Cospi(a,r))
+            Vml.Cospi
 
-        testUnary "Cospi_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+        testUnaryM "Cospi_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> cos(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Cospi(a,r,VmlMode.HA))
+            Vml.Cospi
 
         testUnary "Sinpi_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> sin(Math.PI*i))
-            (fun a r -> Vml.Sinpi(a,r))
+            Vml.Sinpi
 
-        testUnary "Sinpi_mode_double" Gen.Double.[-65536.0,65536.0]
+        testUnaryM "Sinpi_mode_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> sin(Math.PI*i))
-            (fun a r -> Vml.Sinpi(a,r,VmlMode.HA))
+            Vml.Sinpi
 
         testUnary "Sinpi_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> sin(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Sinpi(a,r))
+            Vml.Sinpi
 
-        testUnary "Sinpi_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+        testUnaryM "Sinpi_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> sin(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Sinpi(a,r,VmlMode.HA))
+            Vml.Sinpi
 
         testUnary "Tanpi_double" Gen.Double.[-0.3,0.3]
             (fun i -> tan(Math.PI*i))
-            (fun a r -> Vml.Tanpi(a,r))
+            Vml.Tanpi
 
-        testUnary "Tanpi_mode_double" Gen.Double.[-0.3,0.3]
+        testUnaryM "Tanpi_mode_double" Gen.Double.[-0.3,0.3]
             (fun i -> tan(Math.PI*i))
-            (fun a r -> Vml.Tanpi(a,r,VmlMode.HA))
+            Vml.Tanpi
 
         testUnary "Tanpi_single" Gen.Single.[-0.3f,0.3f]
             (fun i -> tan(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Tanpi(a,r))
+            Vml.Tanpi
 
-        testUnary "Tanpi_mode_single" Gen.Single.[-0.3f,0.3f]
+        testUnaryM "Tanpi_mode_single" Gen.Single.[-0.3f,0.3f]
             (fun i -> tan(Math.PI*float i) |> float32)
-            (fun a r -> Vml.Tanpi(a,r,VmlMode.HA))
+            Vml.Tanpi
 
         testUnary "Cosd_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> cos(Math.PI/180.0*i))
-            (fun a r -> Vml.Cosd(a,r))
+            Vml.Cosd
 
-        testUnary "Cosd_mode_double" Gen.Double.[-65536.0,65536.0]
+        testUnaryM "Cosd_mode_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> cos(Math.PI/180.0*i))
-            (fun a r -> Vml.Cosd(a,r,VmlMode.HA))
+            Vml.Cosd
 
         testUnary "Cosd_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> cos(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Cosd(a,r))
+            Vml.Cosd
 
-        testUnary "Cosd_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+        testUnaryM "Cosd_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> cos(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Cosd(a,r,VmlMode.HA))
+            Vml.Cosd
 
         testUnary "Sind_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> sin(Math.PI/180.0*i))
-            (fun a r -> Vml.Sind(a,r))
+            Vml.Sind
 
-        testUnary "Sind_mode_double" Gen.Double.[-65536.0,65536.0]
+        testUnaryM "Sind_mode_double" Gen.Double.[-65536.0,65536.0]
             (fun i -> sin(Math.PI/180.0*i))
-            (fun a r -> Vml.Sind(a,r,VmlMode.HA))
+            Vml.Sind
 
         testUnary "Sind_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> sin(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Sind(a,r))
+            Vml.Sind
 
-        testUnary "Sind_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
+        testUnaryM "Sind_mode_single" Gen.Single.[-4194304.0f,4194304.0f]
             (fun i -> sin(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Sind(a,r,VmlMode.HA))
+            Vml.Sind
 
         testUnary "Tand_double" Gen.Double.[-57.0,57.0]
             (fun i -> tan(Math.PI/180.0*i))
-            (fun a r -> Vml.Tand(a,r))
+            Vml.Tand
 
-        testUnary "Tand_mode_double" Gen.Double.[-57.0,57.0]
+        testUnaryM "Tand_mode_double" Gen.Double.[-57.0,57.0]
             (fun i -> tan(Math.PI/180.0*i))
-            (fun a r -> Vml.Tand(a,r,VmlMode.HA))
+            Vml.Tand
 
         testUnary "Tand_single" Gen.Single.[-57.0f,57.0f]
             (fun i -> tan(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Tand(a,r))
+            Vml.Tand
 
-        testUnary "Tand_mode_single" Gen.Single.[-57.0f,57.0f]
+        testUnaryM "Tand_mode_single" Gen.Single.[-57.0f,57.0f]
             (fun i -> tan(Math.PI/180.0*float i) |> float32)
-            (fun a r -> Vml.Tand(a,r,VmlMode.HA))
+            Vml.Tand
 
         testUnary "Acos_double" Gen.Double.[-1.0,1.0]
             acos
-            (fun a r -> Vml.Acos(a,r))
+            Vml.Acos
 
-        testUnary "Acos_mode_double" Gen.Double.[-1.0,1.0]
+        testUnaryM "Acos_mode_double" Gen.Double.[-1.0,1.0]
             acos
-            (fun a r -> Vml.Acos(a,r,VmlMode.HA))
+            Vml.Acos
 
         testUnary "Acos_single" Gen.Single.[-1.0f,1.0f]
             (float >> acos >> float32)
-            (fun a r -> Vml.Acos(a,r))
+            Vml.Acos
 
-        testUnary "Acos_mode_single" Gen.Single.[-1.0f,1.0f]
+        testUnaryM "Acos_mode_single" Gen.Single.[-1.0f,1.0f]
             (float >> acos >> float32)
-            (fun a r -> Vml.Acos(a,r,VmlMode.HA))
+            Vml.Acos
 
         testUnary "Asin_double" Gen.Double.[-1.0,1.0]
             asin
-            (fun a r -> Vml.Asin(a,r))
+            Vml.Asin
 
-        testUnary "Asin_mode_double" Gen.Double.[-1.0,1.0]
+        testUnaryM "Asin_mode_double" Gen.Double.[-1.0,1.0]
             asin
-            (fun a r -> Vml.Asin(a,r,VmlMode.HA))
+            Vml.Asin
 
         testUnary "Asin_single" Gen.Single.[-1.0f,1.0f]
             (float >> asin >> float32)
-            (fun a r -> Vml.Asin(a,r))
+            Vml.Asin
 
-        testUnary "Asin_mode_single" Gen.Single.[-1.0f,1.0f]
+        testUnaryM "Asin_mode_single" Gen.Single.[-1.0f,1.0f]
             (float >> asin >> float32)
-            (fun a r -> Vml.Asin(a,r,VmlMode.HA))
+            Vml.Asin
 
         testUnary "Atan_double" Gen.Double
             atan
-            (fun a r -> Vml.Atan(a,r))
+            Vml.Atan
 
-        testUnary "Atan_mode_double" Gen.Double
+        testUnaryM "Atan_mode_double" Gen.Double
             atan
-            (fun a r -> Vml.Atan(a,r,VmlMode.HA))
+            Vml.Atan
 
         testUnary "Atan_single" Gen.Single
             (float >> atan >> float32)
-            (fun a r -> Vml.Atan(a,r))
+            Vml.Atan
 
-        testUnary "Atan_mode_single" Gen.Single
+        testUnaryM "Atan_mode_single" Gen.Single
             (float >> atan >> float32)
-            (fun a r -> Vml.Atan(a,r,VmlMode.HA))
+            Vml.Atan
 
         testUnary "Acospi_double" Gen.Double.[-1.0,1.0]
             (fun i -> acos(i) / Math.PI)
-            (fun a r -> Vml.Acospi(a,r))
+            Vml.Acospi
 
-        testUnary "Acospi_mode_double" Gen.Double.[-1.0,1.0]
+        testUnaryM "Acospi_mode_double" Gen.Double.[-1.0,1.0]
             (fun i -> acos(i) / Math.PI)
-            (fun a r -> Vml.Acospi(a,r,VmlMode.HA))
+            Vml.Acospi
 
         testUnary "Acospi_single" Gen.Single.[-1.0f,1.0f]
             (fun i -> acos(float i) / Math.PI |> float32)
-            (fun a r -> Vml.Acospi(a,r))
+            Vml.Acospi
 
-        testUnary "Acospi_mode_single" Gen.Single.[-1.0f,1.0f]
+        testUnaryM "Acospi_mode_single" Gen.Single.[-1.0f,1.0f]
             (fun i -> acos(float i) / Math.PI |> float32)
-            (fun a r -> Vml.Acospi(a,r,VmlMode.HA))
+            Vml.Acospi
 
         testUnary "Asinpi_double" Gen.Double.[-1.0,1.0]
             (fun i -> asin(i) / Math.PI)
-            (fun a r -> Vml.Asinpi(a,r))
+            Vml.Asinpi
 
-        testUnary "Asinpi_mode_double" Gen.Double.[-1.0,1.0]
+        testUnaryM "Asinpi_mode_double" Gen.Double.[-1.0,1.0]
             (fun i -> asin(i) / Math.PI)
-            (fun a r -> Vml.Asinpi(a,r,VmlMode.HA))
+            Vml.Asinpi
 
         testUnary "Asinpi_single" Gen.Single.[-1.0f,1.0f]
             (fun i -> asin(float i) / Math.PI |> float32)
-            (fun a r -> Vml.Asinpi(a,r))
+            Vml.Asinpi
 
-        testUnary "Asinpi_mode_single" Gen.Single.[-1.0f,1.0f]
+        testUnaryM "Asinpi_mode_single" Gen.Single.[-1.0f,1.0f]
             (fun i -> asin(float i) / Math.PI |> float32)
-            (fun a r -> Vml.Asinpi(a,r,VmlMode.HA))
+            Vml.Asinpi
 
         testUnary "Atanpi_double" Gen.Double
             (fun i -> atan(i) / Math.PI)
-            (fun a r -> Vml.Atanpi(a,r))
+            Vml.Atanpi
 
-        testUnary "Atanpi_mode_double" Gen.Double
+        testUnaryM "Atanpi_mode_double" Gen.Double
             (fun i -> atan(i) / Math.PI)
-            (fun a r -> Vml.Atanpi(a,r,VmlMode.HA))
+            Vml.Atanpi
 
         testUnary "Atanpi_single" Gen.Single
             (fun i -> atan(float i) / Math.PI |> float32)
-            (fun a r -> Vml.Atanpi(a,r))
+            Vml.Atanpi
 
-        testUnary "Atanpi_mode_single" Gen.Single
+        testUnaryM "Atanpi_mode_single" Gen.Single
             (fun i -> atan(float i) / Math.PI |> float32)
-            (fun a r -> Vml.Atanpi(a,r,VmlMode.HA))
+            Vml.Atanpi
 
         testBinary "Atan2_double" Gen.Double
             atan2
-            (fun a b r -> Vml.Atan2(a,b,r))
+            Vml.Atan2
 
-        testBinary "Atan2_mode_double" Gen.Double
+        testBinaryM "Atan2_mode_double" Gen.Double
             atan2
-            (fun a b r -> Vml.Atan2(a,b,r,VmlMode.HA))
+            Vml.Atan2
 
         testBinary "Atan2_single" Gen.Single
             (fun a b -> atan2 (float a) (float b) |> float32)
-            (fun a b r -> Vml.Atan2(a,b,r))
+            Vml.Atan2
 
-        testBinary "Atan2_mode_single" Gen.Single
+        testBinaryM "Atan2_mode_single" Gen.Single
             (fun a b -> atan2 (float a) (float b) |> float32)
-            (fun a b r -> Vml.Atan2(a,b,r,VmlMode.HA))
+            Vml.Atan2
 
         testBinary "Atan2pi_double" Gen.Double
             (fun a b -> atan2 a b / Math.PI)
-            (fun a b r -> Vml.Atan2pi(a,b,r))
+            Vml.Atan2pi
 
-        testBinary "Atan2pi_mode_double" Gen.Double
+        testBinaryM "Atan2pi_mode_double" Gen.Double
             (fun a b -> atan2 a b / Math.PI)
-            (fun a b r -> Vml.Atan2pi(a,b,r,VmlMode.HA))
+            Vml.Atan2pi
 
         testBinary "Atan2pi_single" Gen.Single
             (fun a b -> atan2 (float a) (float b) / Math.PI |> float32)
-            (fun a b r -> Vml.Atan2pi(a,b,r))
+            Vml.Atan2pi
 
-        testBinary "Atan2pi_mode_single" Gen.Single
+        testBinaryM "Atan2pi_mode_single" Gen.Single
             (fun a b -> atan2 (float a) (float b) / Math.PI |> float32)
-            (fun a b r -> Vml.Atan2pi(a,b,r,VmlMode.HA))
+            Vml.Atan2pi
     }
 
 let hyperbolic =
     test "hyperbolic" {
         testUnary "Cosh_double" Gen.Double
             cosh
-            (fun a r -> Vml.Cosh(a,r))
+            Vml.Cosh
 
-        testUnary "Cosh_mode_double" Gen.Double
+        testUnaryM "Cosh_mode_double" Gen.Double
             cosh
-            (fun a r -> Vml.Cosh(a,r,VmlMode.HA))
+            Vml.Cosh
 
         testUnary "Cosh_single" Gen.Single
             (float >> cosh >> float32)
-            (fun a r -> Vml.Cosh(a,r))
+            Vml.Cosh
 
-        testUnary "Cosh_mode_single" Gen.Single
+        testUnaryM "Cosh_mode_single" Gen.Single
             (float >> cosh >> float32)
-            (fun a r -> Vml.Cosh(a,r,VmlMode.HA))
+            Vml.Cosh
 
         testUnary "Sinh_double" Gen.Double
             sinh
-            (fun a r -> Vml.Sinh(a,r))
+            Vml.Sinh
 
-        testUnary "Sinh_mode_double" Gen.Double
+        testUnaryM "Sinh_mode_double" Gen.Double
             sinh
-            (fun a r -> Vml.Sinh(a,r,VmlMode.HA))
+            Vml.Sinh
 
         testUnary "Sinh_single" Gen.Single
             (float >> sinh >> float32)
-            (fun a r -> Vml.Sinh(a,r))
+            Vml.Sinh
 
-        testUnary "Sinh_mode_single" Gen.Single
+        testUnaryM "Sinh_mode_single" Gen.Single
             (float >> sinh >> float32)
-            (fun a r -> Vml.Sinh(a,r,VmlMode.HA))
+            Vml.Sinh
 
         testUnary "Tanh_double" Gen.Double
             tanh
-            (fun a r -> Vml.Tanh(a,r))
+            Vml.Tanh
 
-        testUnary "Tanh_mode_double" Gen.Double
+        testUnaryM "Tanh_mode_double" Gen.Double
             tanh
-            (fun a r -> Vml.Tanh(a,r,VmlMode.HA))
+            Vml.Tanh
 
         testUnary "Tanh_single" Gen.Single
             (float >> tanh >> float32)
-            (fun a r -> Vml.Tanh(a,r))
+            Vml.Tanh
 
-        testUnary "Tanh_mode_single" Gen.Single
+        testUnaryM "Tanh_mode_single" Gen.Single
             (float >> tanh >> float32)
-            (fun a r -> Vml.Tanh(a,r,VmlMode.HA))
+            Vml.Tanh
 
 #if NETCOREAPP
         testUnary "Acosh_double" Gen.Double.[1.0,Double.MaxValue]
             Math.Acosh
-            (fun a r -> Vml.Acosh(a,r))
+            Vml.Acosh
 
-        testUnary "Acosh_mode_double" Gen.Double.[1.0,Double.MaxValue]
+        testUnaryM "Acosh_mode_double" Gen.Double.[1.0,Double.MaxValue]
             Math.Acosh
-            (fun a r -> Vml.Acosh(a,r,VmlMode.HA))
+            Vml.Acosh
 
         testUnary "Acosh_single" Gen.Single.[1.0f,Single.MaxValue]
             (float >> Math.Acosh >> float32)
-            (fun a r -> Vml.Acosh(a,r))
+            Vml.Acosh
 
-        testUnary "Acosh_mode_single" Gen.Single.[1.0f,Single.MaxValue]
+        testUnaryM "Acosh_mode_single" Gen.Single.[1.0f,Single.MaxValue]
             (float >> Math.Acosh >> float32)
-            (fun a r -> Vml.Acosh(a,r,VmlMode.HA))
+            Vml.Acosh
 
         testUnary "Asinh_double" Gen.Double
             Math.Asinh
-            (fun a r -> Vml.Asinh(a,r))
+            Vml.Asinh
 
-        testUnary "Asinh_mode_double" Gen.Double
+        testUnaryM "Asinh_mode_double" Gen.Double
             Math.Asinh
-            (fun a r -> Vml.Asinh(a,r,VmlMode.HA))
+            Vml.Asinh
 
         testUnary "Asinh_single" Gen.Single
             (float >> Math.Asinh >> float32)
-            (fun a r -> Vml.Asinh(a,r))
+            Vml.Asinh
 
-        testUnary "Asinh_mode_single" Gen.Single
+        testUnaryM "Asinh_mode_single" Gen.Single
             (float >> Math.Asinh >> float32)
-            (fun a r -> Vml.Asinh(a,r,VmlMode.HA))
+            Vml.Asinh
 
         testUnary "Atanh_double" Gen.Double.[-1.0,1.0]
             Math.Atanh
-            (fun a r -> Vml.Atanh(a,r))
+            Vml.Atanh
 
-        testUnary "Atanh_mode_double" Gen.Double.[-1.0,1.0]
+        testUnaryM "Atanh_mode_double" Gen.Double.[-1.0,1.0]
             Math.Atanh
-            (fun a r -> Vml.Atanh(a,r,VmlMode.HA))
+            Vml.Atanh
 
         testUnary "Atanh_single" Gen.Single.[-1.0f,1.0f]
             (float >> Math.Atanh >> float32)
-            (fun a r -> Vml.Atanh(a,r))
+            Vml.Atanh
 
-        testUnary "Atanh_mode_single" Gen.Single.[-1.0f,1.0f]
+        testUnaryM "Atanh_mode_single" Gen.Single.[-1.0f,1.0f]
             (float >> Math.Atanh >> float32)
-            (fun a r -> Vml.Atanh(a,r,VmlMode.HA))
+            Vml.Atanh
 #endif
     }
 
@@ -857,115 +882,115 @@ let rounding =
 
         testUnary "Floor_double" Gen.Double
             floor
-            (fun a r -> Vml.Floor(a,r))
+            Vml.Floor
 
-        testUnary "Floor_mode_double" Gen.Double
+        testUnaryM "Floor_mode_double" Gen.Double
             floor
-            (fun a r -> Vml.Floor(a,r,VmlMode.HA))
+            Vml.Floor
 
         testUnary "Floor_single" Gen.Single
             (float >> floor >> float32)
-            (fun a r -> Vml.Floor(a,r))
+            Vml.Floor
 
-        testUnary "Floor_mode_single" Gen.Single
+        testUnaryM "Floor_mode_single" Gen.Single
             (float >> floor >> float32)
-            (fun a r -> Vml.Floor(a,r,VmlMode.HA))
+            Vml.Floor
 
         testUnary "Ceil_double" Gen.Double
             ceil
-            (fun a r -> Vml.Ceil(a,r))
+            Vml.Ceil
 
-        testUnary "Ceil_mode_double" Gen.Double
+        testUnaryM "Ceil_mode_double" Gen.Double
             ceil
-            (fun a r -> Vml.Ceil(a,r,VmlMode.HA))
+            Vml.Ceil
 
         testUnary "Ceil_single" Gen.Single
             (float >> ceil >> float32)
-            (fun a r -> Vml.Ceil(a,r))
+            Vml.Ceil
 
-        testUnary "Ceil_mode_single" Gen.Single
+        testUnaryM "Ceil_mode_single" Gen.Single
             (float >> ceil >> float32)
-            (fun a r -> Vml.Ceil(a,r,VmlMode.HA))
+            Vml.Ceil
 
         testUnary "Trunc_double" Gen.Double
             truncate
-            (fun a r -> Vml.Trunc(a,r))
+            Vml.Trunc
 
-        testUnary "Trunc_mode_double" Gen.Double
+        testUnaryM "Trunc_mode_double" Gen.Double
             truncate
-            (fun a r -> Vml.Trunc(a,r,VmlMode.HA))
+            Vml.Trunc
 
         testUnary "Trunc_single" Gen.Single
             truncate
-            (fun a r -> Vml.Trunc(a,r))
+            Vml.Trunc
 
-        testUnary "Trunc_mode_single" Gen.Single
+        testUnaryM "Trunc_mode_single" Gen.Single
             truncate
-            (fun a r -> Vml.Trunc(a,r,VmlMode.HA))
+            Vml.Trunc
 
         testUnary "Round_double" Gen.Double
             (fun a -> Math.Round(a, MidpointRounding.AwayFromZero))
-            (fun a r -> Vml.Round(a,r))
+            Vml.Round
 
-        testUnary "Round_mode_double" Gen.Double
+        testUnaryM "Round_mode_double" Gen.Double
             (fun a -> Math.Round(a, MidpointRounding.AwayFromZero))
-            (fun a r -> Vml.Round(a,r,VmlMode.HA))
+            Vml.Round
 
         testUnary "Round_single" Gen.Single
             (fun a -> Math.Round(float a, MidpointRounding.AwayFromZero) |> float32)
-            (fun a r -> Vml.Round(a,r))
+            Vml.Round
 
-        testUnary "Round_mode_single" Gen.Single
+        testUnaryM "Round_mode_single" Gen.Single
             (fun a -> Math.Round(float a, MidpointRounding.AwayFromZero) |> float32)
-            (fun a r -> Vml.Round(a,r,VmlMode.HA))
+            Vml.Round
 
         testUnary "Frac_double" Gen.Double
             (fun a -> a - truncate a)
-            (fun a r -> Vml.Frac(a,r))
+            Vml.Frac
 
-        testUnary "Frac_mode_double" Gen.Double
+        testUnaryM "Frac_mode_double" Gen.Double
             (fun a -> a - truncate a)
-            (fun a r -> Vml.Frac(a,r,VmlMode.HA))
+            Vml.Frac
 
         testUnary "Frac_single" Gen.Single
             (fun a -> a - truncate a)
-            (fun a r -> Vml.Frac(a,r))
+            Vml.Frac
 
-        testUnary "Frac_mode_single" Gen.Single
+        testUnaryM "Frac_mode_single" Gen.Single
             (fun a -> a - truncate a)
-            (fun a r -> Vml.Frac(a,r,VmlMode.HA))
+            Vml.Frac
 
         testUnary "NearbyInt_double" Gen.Double
             (fun a -> Math.Round(a, MidpointRounding.ToEven))
-            (fun a r -> Vml.NearbyInt(a,r))
+            Vml.NearbyInt
 
-        testUnary "NearbyInt_mode_double" Gen.Double
+        testUnaryM "NearbyInt_mode_double" Gen.Double
             (fun a -> Math.Round(a, MidpointRounding.ToEven))
-            (fun a r -> Vml.NearbyInt(a,r,VmlMode.HA))
+            Vml.NearbyInt
 
         testUnary "NearbyInt_single" Gen.Single
             (fun a -> Math.Round(float a, MidpointRounding.ToEven) |> float32)
-            (fun a r -> Vml.NearbyInt(a,r))
+            Vml.NearbyInt
 
-        testUnary "NearbyInt_mode_single" Gen.Single
+        testUnaryM "NearbyInt_mode_single" Gen.Single
             (fun a -> Math.Round(float a, MidpointRounding.ToEven) |> float32)
-            (fun a r -> Vml.NearbyInt(a,r,VmlMode.HA))
+            Vml.NearbyInt
 
         testUnary "Rint_double" Gen.Double
             (fun a -> Math.Round(a, MidpointRounding.ToEven))
-            (fun a r -> Vml.Rint(a,r))
+            Vml.Rint
 
-        testUnary "Rint_mode_double" Gen.Double
+        testUnaryM "Rint_mode_double" Gen.Double
             (fun a -> Math.Round(a, MidpointRounding.ToEven))
-            (fun a r -> Vml.Rint(a,r,VmlMode.HA))
+            Vml.Rint
 
         testUnary "Rint_single" Gen.Single
             (fun a -> Math.Round(float a, MidpointRounding.ToEven) |> float32)
-            (fun a r -> Vml.Rint(a,r))
+            Vml.Rint
 
-        testUnary "Rint_mode_single" Gen.Single
+        testUnaryM "Rint_mode_single" Gen.Single
             (fun a -> Math.Round(float a, MidpointRounding.ToEven) |> float32)
-            (fun a r -> Vml.Rint(a,r,VmlMode.HA))
+            Vml.Rint
     }
 
 let miscellaneous =
@@ -973,137 +998,137 @@ let miscellaneous =
 #if NETCOREAPP
         testBinary "CopySign_double" Gen.Double
             (fun a b -> Math.CopySign(a,b))
-            (fun a b r -> Vml.CopySign(a,b,r))
+            Vml.CopySign
 
-        testBinary "CopySign_mode_double" Gen.Double
+        testBinaryM "CopySign_mode_double" Gen.Double
             (fun a b -> Math.CopySign(a,b))
-            (fun a b r -> Vml.CopySign(a,b,r,VmlMode.HA))
+            Vml.CopySign
 
         testBinary "CopySign_single" Gen.Single
             (fun a b -> Math.CopySign(float a, float b) |> float32)
-            (fun a b r -> Vml.CopySign(a,b,r))
+            Vml.CopySign
 
-        testBinary "CopySign_mode_single" Gen.Single
+        testBinaryM "CopySign_mode_single" Gen.Single
             (fun a b -> Math.CopySign(float a, float b) |> float32)
-            (fun a b r -> Vml.CopySign(a,b,r,VmlMode.HA))
+            Vml.CopySign
 #endif
 
         testBinary "Fmax_double" Gen.Double.Normal
             (fun a b -> Math.Max(a,b))
-            (fun a b r -> Vml.Fmax(a,b,r))
+            Vml.Fmax
 
-        testBinary "Fmax_mode_double" Gen.Double.Normal
+        testBinaryM "Fmax_mode_double" Gen.Double.Normal
             (fun a b -> Math.Max(a,b))
-            (fun a b r -> Vml.Fmax(a,b,r,VmlMode.HA))
+            Vml.Fmax
 
         testBinary "Fmax_single" Gen.Single.Normal
             (fun a b -> Math.Max(a,b))
-            (fun a b r -> Vml.Fmax(a,b,r))
+            Vml.Fmax
 
-        testBinary "Fmax_mode_single" Gen.Single.Normal
+        testBinaryM "Fmax_mode_single" Gen.Single.Normal
             (fun a b -> Math.Max(a,b))
-            (fun a b r -> Vml.Fmax(a,b,r,VmlMode.HA))
+            Vml.Fmax
 
         testBinary "Fmin_double" Gen.Double.Normal
             (fun a b -> Math.Min(a,b))
-            (fun a b r -> Vml.Fmin(a,b,r))
+            Vml.Fmin
 
-        testBinary "Fmin_mode_double" Gen.Double.Normal
+        testBinaryM "Fmin_mode_double" Gen.Double.Normal
             (fun a b -> Math.Min(a,b))
-            (fun a b r -> Vml.Fmin(a,b,r,VmlMode.HA))
+            Vml.Fmin
 
         testBinary "Fmin_single" Gen.Single.Normal
             (fun a b -> Math.Min(a,b))
-            (fun a b r -> Vml.Fmin(a,b,r))
+            Vml.Fmin
 
-        testBinary "Fmin_mode_single" Gen.Single.Normal
+        testBinaryM "Fmin_mode_single" Gen.Single.Normal
             (fun a b -> Math.Min(a,b))
-            (fun a b r -> Vml.Fmin(a,b,r,VmlMode.HA))
+            Vml.Fmin
 
         testBinary "Fdim_double" Gen.Double.Normal
             (fun a b -> max (a-b) 0.0)
-            (fun a b r -> Vml.Fdim(a,b,r))
+            Vml.Fdim
 
-        testBinary "Fdim_mode_double" Gen.Double.Normal
+        testBinaryM "Fdim_mode_double" Gen.Double.Normal
             (fun a b -> max (a-b) 0.0)
-            (fun a b r -> Vml.Fdim(a,b,r,VmlMode.HA))
+            Vml.Fdim
 
         testBinary "Fdim_single" Gen.Single.Normal
             (fun a b -> max (a-b) 0.0f)
-            (fun a b r -> Vml.Fdim(a,b,r))
+            Vml.Fdim
 
-        testBinary "Fdim_mode_single" Gen.Single.Normal
+        testBinaryM "Fdim_mode_single" Gen.Single.Normal
             (fun a b -> max (a-b) 0.0f)
-            (fun a b r -> Vml.Fdim(a,b,r,VmlMode.HA))
+            Vml.Fdim
 
         testBinary "MaxMag_double" Gen.Double.Normal
             (fun a b -> if abs a > abs b then a
                         elif abs a < abs b then b
                         else max a b)
-            (fun a b r -> Vml.MaxMag(a,b,r))
+            Vml.MaxMag
 
-        testBinary "MaxMag_mode_double" Gen.Double.Normal
+        testBinaryM "MaxMag_mode_double" Gen.Double.Normal
             (fun a b -> if abs a > abs b then a
                         elif abs a < abs b then b
                         else max a b)
-            (fun a b r -> Vml.MaxMag(a,b,r,VmlMode.HA))
+            Vml.MaxMag
 
         testBinary "MaxMag_single" Gen.Single.Normal
             (fun a b -> if abs a > abs b then a
                         elif abs a < abs b then b
                         else max a b)
-            (fun a b r -> Vml.MaxMag(a,b,r))
+            Vml.MaxMag
 
-        testBinary "MaxMag_mode_single" Gen.Single.Normal
+        testBinaryM "MaxMag_mode_single" Gen.Single.Normal
             (fun a b -> if abs a > abs b then a
                         elif abs a < abs b then b
                         else max a b)
-            (fun a b r -> Vml.MaxMag(a,b,r,VmlMode.HA))
+            Vml.MaxMag
 
         testBinary "MinMag_double" Gen.Double.Normal
             (fun a b -> if abs a < abs b then a
                         elif abs a > abs b then b
                         else min a b)
-            (fun a b r -> Vml.MinMag(a,b,r))
+            Vml.MinMag
 
-        testBinary "MinMag_mode_double" Gen.Double.Normal
+        testBinaryM "MinMag_mode_double" Gen.Double.Normal
             (fun a b -> if abs a < abs b then a
                         elif abs a > abs b then b
                         else min a b)
-            (fun a b r -> Vml.MinMag(a,b,r,VmlMode.HA))
+            Vml.MinMag
 
         testBinary "MinMag_single" Gen.Single.Normal
             (fun a b -> if abs a < abs b then a
                         elif abs a > abs b then b
                         else min a b)
-            (fun a b r -> Vml.MinMag(a,b,r))
+            Vml.MinMag
 
-        testBinary "MinMag_mode_single" Gen.Single.Normal
+        testBinaryM "MinMag_mode_single" Gen.Single.Normal
             (fun a b -> if abs a < abs b then a
                         elif abs a > abs b then b
                         else min a b)
-            (fun a b r -> Vml.MinMag(a,b,r,VmlMode.HA))
+            Vml.MinMag
 
 #if NETCOREAPP
         testBinary "NextAfter_double" Gen.Double.Normal
             (fun a b -> if b > 0.0 then Math.BitIncrement(a)
                                    else Math.BitDecrement(a))
-            (fun a b r -> Vml.NextAfter(a,b,r))
+            Vml.NextAfter
 
-        testBinary "NextAfter_mode_double" Gen.Double.Normal
+        testBinaryM "NextAfter_mode_double" Gen.Double.Normal
             (fun a b -> if b > 0.0 then Math.BitIncrement(a)
                                    else Math.BitDecrement(a))
-            (fun a b r -> Vml.NextAfter(a,b,r,VmlMode.HA))
+            Vml.NextAfter
 
         testBinary "NextAfter_single" Gen.Single.Normal
             (fun a b -> if b > 0.0f then Math.BitIncrement(float a) |> float32
                                     else Math.BitDecrement(float a) |> float32)
-            (fun a b r -> Vml.NextAfter(a,b,r))
+            Vml.NextAfter
 
-        testBinary "NextAfter_mode_single" Gen.Single.Normal
+        testBinaryM "NextAfter_mode_single" Gen.Single.Normal
             (fun a b -> if b > 0.0f then Math.BitIncrement(float a) |> float32
                                     else Math.BitDecrement(float a) |> float32)
-            (fun a b r -> Vml.NextAfter(a,b,r,VmlMode.HA))
+            Vml.NextAfter
 #endif
     }
 
@@ -1111,7 +1136,7 @@ let bespoke =
     test "bespoke" {
 
         test "Powx_double" {
-            let! a = Gen.Double.[0.0,Double.MaxValue].Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Double.[0.0,Double.MaxValue].Array.[0,ROWS_MAX]
             let! b = Gen.Double
             let expected = Array.map (fun a -> Math.Pow(a,b)) a
             let actual = Array.zeroCreate a.Length
@@ -1124,7 +1149,7 @@ let bespoke =
         }
 
         test "Powx_single" {
-            let! a = Gen.Single.[0.0f,Single.MaxValue].Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Single.[0.0f,Single.MaxValue].Array.[0,ROWS_MAX]
             let! b = Gen.Single
             let expected = Array.map (fun a -> Math.Pow(float a,float b) |> float32) a
             let actual = Array.zeroCreate a.Length
@@ -1137,7 +1162,7 @@ let bespoke =
         }
 
         test "SinCos_double" {
-            let! a = Gen.Double.[-65536.0,65536.0].Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Double.[-65536.0,65536.0].Array.[0,ROWS_MAX]
             let expected1 = Array.map sin a
             let expected2 = Array.map cos a
             let actual1 = Array.zeroCreate a.Length
@@ -1153,7 +1178,7 @@ let bespoke =
         }
 
         test "SinCos_single" {
-            let! a = Gen.Single.[-8192.0f,8192.0f].Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Single.[-8192.0f,8192.0f].Array.[0,ROWS_MAX]
             let expected1 = Array.map sin a
             let expected2 = Array.map cos a
             let actual1 = Array.zeroCreate a.Length
@@ -1169,7 +1194,7 @@ let bespoke =
         }
 
         test "Modf_double" {
-            let! a = Gen.Double.Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Double.Array.[0,ROWS_MAX]
             let expected1 = Array.map truncate a
             let expected2 = Array.map (fun a -> a - truncate a) a
             let actual1 = Array.zeroCreate a.Length
@@ -1185,7 +1210,7 @@ let bespoke =
         }
 
         test "Modf_single" {
-            let! a = Gen.Single.Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Single.Array.[0,ROWS_MAX]
             let expected1 = Array.map truncate a
             let expected2 = Array.map (fun a -> a - truncate a) a
             let actual1 = Array.zeroCreate a.Length
@@ -1201,7 +1226,7 @@ let bespoke =
         }
 
         test "LinearFrac_double" {
-            let! a = Gen.Double.[0.01,100.0].Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Double.[0.01,100.0].Array.[0,ROWS_MAX]
             let! b = Gen.Double.[0.01,100.0].Array.[a.Length]
             let! scalea = Gen.Double.[0.01,100.0]
             let! shifta = Gen.Double.[0.01,100.0]
@@ -1221,7 +1246,7 @@ let bespoke =
         }
 
         test "LinearFrac_single" {
-            let! a = Gen.Single.[0.01f,100.0f].Array.[0,ARRAY_SIZE_MAX]
+            let! a = Gen.Single.[0.01f,100.0f].Array.[0,ROWS_MAX]
             let! b = Gen.Single.[0.01f,100.0f].Array.[a.Length]
             let! scalea = Gen.Single.[0.01f,100.0f]
             let! shifta = Gen.Single.[0.01f,100.0f]
