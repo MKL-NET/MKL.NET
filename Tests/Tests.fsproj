@@ -14,12 +14,12 @@
     <PackageReference Include="MKL.NET.osx-x64" Version="2020.3.279" />
     <Compile Include="TestFramework.fs" />
     <Compile Include="Check.fs" />
-    <Compile Include="MKLTests.fs" />
-    <Compile Include="BlasTests.fs" />
-    <Compile Include="LapackTests.fs" />
     <Compile Include="Math.fs" />
     <Compile Include="VmlTests.fs" />
     <Compile Include="VslTests.fs" />
+    <Compile Include="BlasTests.fs" />
+    <Compile Include="LapackTests.fs" />
+    <Compile Include="MKLTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 </Project>

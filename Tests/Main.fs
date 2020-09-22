@@ -4,11 +4,11 @@ open System
 
 let all =
     test null {
-        MKLTests.all
-        BlasTests.all
-        LapackTests.all
         VmlTests.all
         VslTests.all
+        BlasTests.all
+        LapackTests.all
+        MKLTests.all
     }
 
 [<EntryPoint>]

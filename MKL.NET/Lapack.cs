@@ -22,12 +22,6 @@ namespace MKLNET
             => LAPACKE_dlamch(cmach);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double LAPACKE_dlamch_work(char cmach);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dlamch_work(char cmach)
-            => LAPACKE_dlamch_work(cmach);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern double LAPACKE_dlange(Layout layout, Norm norm, int m,
             int n, double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -40,7 +34,7 @@ namespace MKLNET
             int n, double[] a, int lda,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dlange_work(Layout layout, Norm norm, int m,
+        public static double dlange(Layout layout, Norm norm, int m,
             int n, double[] a, int lda,
             double[] work)
             => LAPACKE_dlange_work(layout, norm, m, n, a, lda, work);
@@ -58,7 +52,7 @@ namespace MKLNET
             int n, double[] a, int lda,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dlansy_work(Layout layout, Norm norm, UpLo uplo,
+        public static double dlansy(Layout layout, Norm norm, UpLo uplo,
             int n, double[] a, int lda,
             double[] work)
             => LAPACKE_dlansy_work(layout, norm, uplo, n, a, lda, work);
@@ -78,7 +72,7 @@ namespace MKLNET
             DiagChar diag, int m, int n,
             double[] a, int lda, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dlantr_work(Layout layout, Norm norm, UpLo uplo,
+        public static double dlantr(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int m, int n,
             double[] a, int lda, double[] work)
             => LAPACKE_dlantr_work(layout, norm, uplo, diag, m, n, a, lda, work);
@@ -90,34 +84,16 @@ namespace MKLNET
             => LAPACKE_dlapy2(x, y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double LAPACKE_dlapy2_work(double x, double y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dlapy2_work(double x, double y)
-            => LAPACKE_dlapy2_work(x, y);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern double LAPACKE_dlapy3(double x, double y, double z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double dlapy3(double x, double y, double z)
             => LAPACKE_dlapy3(x, y, z);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double LAPACKE_dlapy3_work(double x, double y, double z);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dlapy3_work(double x, double y, double z)
-            => LAPACKE_dlapy3_work(x, y, z);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern float LAPACKE_slamch(char cmach);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float slamch(char cmach)
             => LAPACKE_slamch(cmach);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern float LAPACKE_slamch_work(char cmach);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float slamch_work(char cmach)
-            => LAPACKE_slamch_work(cmach);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern float LAPACKE_slange(Layout layout, Norm norm, int m,
@@ -132,7 +108,7 @@ namespace MKLNET
             int n, float[] a, int lda,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float slange_work(Layout layout, Norm norm, int m,
+        public static float slange(Layout layout, Norm norm, int m,
             int n, float[] a, int lda,
             float[] work)
             => LAPACKE_slange_work(layout, norm, m, n, a, lda, work);
@@ -150,7 +126,7 @@ namespace MKLNET
             int n, float[] a, int lda,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float slansy_work(Layout layout, Norm norm, UpLo uplo,
+        public static float slansy(Layout layout, Norm norm, UpLo uplo,
             int n, float[] a, int lda,
             float[] work)
             => LAPACKE_slansy_work(layout, norm, uplo, n, a, lda, work);
@@ -170,7 +146,7 @@ namespace MKLNET
             DiagChar diag, int m, int n,
             float[] a, int lda, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float slantr_work(Layout layout, Norm norm, UpLo uplo,
+        public static float slantr(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int m, int n,
             float[] a, int lda, float[] work)
             => LAPACKE_slantr_work(layout, norm, uplo, diag, m, n, a, lda, work);
@@ -182,22 +158,10 @@ namespace MKLNET
             => LAPACKE_slapy2(x, y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern float LAPACKE_slapy2_work(float x, float y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float slapy2_work(float x, float y)
-            => LAPACKE_slapy2_work(x, y);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern float LAPACKE_slapy3(float x, float y, float z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float slapy3(float x, float y, float z)
             => LAPACKE_slapy3(x, y, z);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern float LAPACKE_slapy3_work(float x, float y, float z);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float slapy3_work(float x, float y, float z)
-            => LAPACKE_slapy3_work(x, y, z);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dbbcsd(Layout layout, char jobu1, char jobu2,
@@ -240,7 +204,7 @@ namespace MKLNET
             double[] b21e, double[] b22d, double[] b22e,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dbbcsd_work(Layout layout, char jobu1, char jobu2,
+        public static int dbbcsd(Layout layout, char jobu1, char jobu2,
             char jobv1t, char jobv2t, TransChar trans,
             int m, int p, int q,
             double[] theta, double[] phi, double[] u1,
@@ -283,7 +247,7 @@ namespace MKLNET
             double[] q, int[] iq, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dbdsdc_work(Layout layout, UpLo uplo, char compq,
+        public static int dbdsdc(Layout layout, UpLo uplo, char compq,
             int n, double[] d, double[] e, double[] u,
             int ldu, double[] vt, int ldvt,
             double[] q, int[] iq, double[] work,
@@ -315,7 +279,7 @@ namespace MKLNET
             int ldvt, double[] u, int ldu,
             double[] c, int ldc, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dbdsqr_work(Layout layout, UpLo uplo, int n,
+        public static int dbdsqr(Layout layout, UpLo uplo, int n,
             int ncvt, int nru, int ncc,
             double[] d, double[] e, double[] vt,
             int ldvt, double[] u, int ldu,
@@ -346,7 +310,7 @@ namespace MKLNET
             double[] s, double[] z, int ldz,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dbdsvdx_work(Layout layout, UpLo uplo, char jobz, char range,
+        public static int dbdsvdx(Layout layout, UpLo uplo, char jobz, char range,
             int n, double[] d, double[] e,
             double vl, double vu,
             int il, int iu, int[] ns,
@@ -361,14 +325,6 @@ namespace MKLNET
         public static int ddisna(char job, int m, int n,
             double[] d, double[] sep)
             => LAPACKE_ddisna(job, m, n, d, sep);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ddisna_work(char job, int m, int n,
-            double[] d, double[] sep);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ddisna_work(char job, int m, int n,
-            double[] d, double[] sep)
-            => LAPACKE_ddisna_work(job, m, n, d, sep);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgbbrd(Layout layout, char vect, int m,
@@ -399,7 +355,7 @@ namespace MKLNET
             double[] pt, int ldpt, double[] c,
             int ldc, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbbrd_work(Layout layout, char vect, int m,
+        public static int dgbbrd(Layout layout, char vect, int m,
             int n, int ncc, int kl,
             int ku, double[] ab, int ldab,
             double[] d, double[] e, double[] q, int ldq,
@@ -434,7 +390,7 @@ namespace MKLNET
             double anorm, double[] rcond, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbcon_work(Layout layout, Norm norm, int n,
+        public static int dgbcon(Layout layout, Norm norm, int n,
             int kl, int ku, double[] ab,
             int ldab, int[] ipiv,
             double anorm, double[] rcond, double[] work,
@@ -461,21 +417,6 @@ namespace MKLNET
                 rowcnd, colcnd, amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgbequ_work(Layout layout, int m, int n,
-            int kl, int ku, double[] ab,
-            int ldab, double[] r, double[] c,
-            double[] rowcnd, double[] colcnd, double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbequ_work(Layout layout, int m, int n,
-            int kl, int ku, double[] ab,
-            int ldab, double[] r, double[] c,
-            double[] rowcnd, double[] colcnd, double[] amax)
-            => LAPACKE_dgbequ_work(layout, m, n,
-                kl, ku, ab,
-                ldab, r, c,
-                rowcnd, colcnd, amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgbequb(Layout layout, int m, int n,
             int kl, int ku, double[] ab,
             int ldab, double[] r, double[] c,
@@ -486,21 +427,6 @@ namespace MKLNET
             int ldab, double[] r, double[] c,
             double[] rowcnd, double[] colcnd, double[] amax)
             => LAPACKE_dgbequb(layout, m, n,
-                kl, ku, ab,
-                ldab, r, c,
-                rowcnd, colcnd, amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgbequb_work(Layout layout, int m, int n,
-            int kl, int ku, double[] ab,
-            int ldab, double[] r, double[] c,
-            double[] rowcnd, double[] colcnd, double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbequb_work(Layout layout, int m, int n,
-            int kl, int ku, double[] ab,
-            int ldab, double[] r, double[] c,
-            double[] rowcnd, double[] colcnd, double[] amax)
-            => LAPACKE_dgbequb_work(layout, m, n,
                 kl, ku, ab,
                 ldab, r, c,
                 rowcnd, colcnd, amax);
@@ -536,7 +462,7 @@ namespace MKLNET
             double[] ferr, double[] berr, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbrfs_work(Layout layout, TransChar trans, int n,
+        public static int dgbrfs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
             double[] ab, int ldab,
             double[] afb, int ldafb,
@@ -600,7 +526,7 @@ namespace MKLNET
             double[] aparams, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbrfsx_work(Layout layout, TransChar trans, char equed,
+        public static int dgbrfsx(Layout layout, TransChar trans, char equed,
             int n, int kl, int ku,
             int nrhs, double[] ab,
             int ldab, double[] afb,
@@ -636,21 +562,6 @@ namespace MKLNET
             int ldab, int[] ipiv, double[] b,
             int ldb)
             => LAPACKE_dgbsv(layout, n, kl,
-                ku, nrhs, ab,
-                ldab, ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgbsv_work(Layout layout, int n, int kl,
-            int ku, int nrhs, double[] ab,
-            int ldab, int[] ipiv, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbsv_work(Layout layout, int n, int kl,
-            int ku, int nrhs, double[] ab,
-            int ldab, int[] ipiv, double[] b,
-            int ldb)
-            => LAPACKE_dgbsv_work(layout, n, kl,
                 ku, nrhs, ab,
                 ldab, ipiv, b,
                 ldb);
@@ -692,7 +603,7 @@ namespace MKLNET
             double[] rcond, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbsvx_work(Layout layout, char fact, TransChar trans,
+        public static int dgbsvx(Layout layout, char fact, TransChar trans,
             int n, int kl, int ku,
             int nrhs, double[] ab, int ldab,
             double[] afb, int ldafb, int[] ipiv,
@@ -756,7 +667,7 @@ namespace MKLNET
             double[] aparams, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbsvxx_work(Layout layout, char fact, TransChar trans,
+        public static int dgbsvxx(Layout layout, char fact, TransChar trans,
             int n, int kl, int ku,
             int nrhs, double[] ab, int ldab,
             double[] afb, int ldafb,
@@ -794,18 +705,6 @@ namespace MKLNET
                 ldab, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgbtrf_work(Layout layout, int m, int n,
-            int kl, int ku, double[] ab,
-            int ldab, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbtrf_work(Layout layout, int m, int n,
-            int kl, int ku, double[] ab,
-            int ldab, int[] ipiv)
-            => LAPACKE_dgbtrf_work(layout, m, n,
-                kl, ku, ab,
-                ldab, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgbtrs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
             double[] ab, int ldab,
@@ -821,24 +720,6 @@ namespace MKLNET
                 ipiv, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgbtrs_work(Layout layout, TransChar trans, int n,
-            int kl, int ku, int nrhs,
-            double[] ab, int ldab,
-            int[] ipiv, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgbtrs_work(Layout layout, TransChar trans, int n,
-            int kl, int ku, int nrhs,
-            double[] ab, int ldab,
-            int[] ipiv, double[] b,
-            int ldb)
-            => LAPACKE_dgbtrs_work(layout, trans, n,
-                kl, ku, nrhs,
-                ab, ldab,
-                ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgebak(Layout layout, char job, char side, int n,
             int ilo, int ihi, double[] scale,
             int m, double[] v, int ldv);
@@ -851,21 +732,6 @@ namespace MKLNET
                 m, v, ldv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgebak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            double[] scale, int m, double[] v,
-            int ldv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgebak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            double[] scale, int m, double[] v,
-            int ldv)
-            => LAPACKE_dgebak_work(layout, job, side,
-                n, ilo, ihi,
-                scale, m, v,
-                ldv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgebal(Layout layout, char job, int n, double[] a,
             int lda, int[] ilo, int[] ihi,
             double[] scale);
@@ -876,18 +742,6 @@ namespace MKLNET
             => LAPACKE_dgebal(layout, job, n, a,
                 lda, ilo, ihi,
                 scale);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgebal_work(Layout layout, char job, int n,
-            double[] a, int lda, int[] ilo,
-            int[] ihi, double[] scale);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgebal_work(Layout layout, char job, int n,
-            double[] a, int lda, int[] ilo,
-            int[] ihi, double[] scale)
-            => LAPACKE_dgebal_work(layout, job, n,
-                a, lda, ilo,
-                ihi, scale);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgebrd(Layout layout, int m, int n,
@@ -907,7 +761,7 @@ namespace MKLNET
             double[] tauq, double[] taup, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgebrd_work(Layout layout, int m, int n,
+        public static int dgebrd(Layout layout, int m, int n,
             double[] a, int lda, double[] d, double[] e,
             double[] tauq, double[] taup, double[] work,
             int lwork)
@@ -933,7 +787,7 @@ namespace MKLNET
             double[] a, int lda, double anorm,
             double[] rcond, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgecon_work(Layout layout, Norm norm, int n,
+        public static int dgecon(Layout layout, Norm norm, int n,
             double[] a, int lda, double anorm,
             double[] rcond, double[] work, int[] iwork)
             => LAPACKE_dgecon_work(layout, norm, n,
@@ -956,21 +810,6 @@ namespace MKLNET
                 amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgeequ_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] r,
-            double[] c, double[] rowcnd, double[] colcnd,
-            double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeequ_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] r,
-            double[] c, double[] rowcnd, double[] colcnd,
-            double[] amax)
-            => LAPACKE_dgeequ_work(layout, m, n,
-                a, lda, r,
-                c, rowcnd, colcnd,
-                amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgeequb(Layout layout, int m, int n,
             double[] a, int lda, double[] r,
             double[] c, double[] rowcnd, double[] colcnd,
@@ -981,21 +820,6 @@ namespace MKLNET
             double[] c, double[] rowcnd, double[] colcnd,
             double[] amax)
             => LAPACKE_dgeequb(layout, m, n,
-                a, lda, r,
-                c, rowcnd, colcnd,
-                amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgeequb_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] r,
-            double[] c, double[] rowcnd, double[] colcnd,
-            double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeequb_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] r,
-            double[] c, double[] rowcnd, double[] colcnd,
-            double[] amax)
-            => LAPACKE_dgeequb_work(layout, m, n,
                 a, lda, r,
                 c, rowcnd, colcnd,
                 amax);
@@ -1022,7 +846,7 @@ namespace MKLNET
             int ldvl, double[] vr, int ldvr,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeev_work(Layout layout, char jobvl, char jobvr,
+        public static int dgeev(Layout layout, char jobvl, char jobvr,
             int n, double[] a, int lda,
             double[] wr, double[] wi, double[] vl,
             int ldvl, double[] vr, int ldvr,
@@ -1064,7 +888,7 @@ namespace MKLNET
             double[] rconde, double[] rcondv, double[] work,
             int lwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeevx_work(Layout layout, char balanc, char jobvl,
+        public static int dgeevx(Layout layout, char balanc, char jobvl,
             char jobvr, char sense, int n, double[] a,
             int lda, double[] wr, double[] wi,
             double[] vl, int ldvl, double[] vr,
@@ -1098,7 +922,7 @@ namespace MKLNET
             int ihi, double[] a, int lda,
             double[] tau, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgehrd_work(Layout layout, int n, int ilo,
+        public static int dgehrd(Layout layout, int n, int ilo,
             int ihi, double[] a, int lda,
             double[] tau, double[] work, int lwork)
             => LAPACKE_dgehrd_work(layout, n, ilo,
@@ -1132,7 +956,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgejsv_work(Layout layout, char joba, char jobu,
+        public static int dgejsv(Layout layout, char joba, char jobu,
             char jobv, char jobr, char jobt, char jobp,
             int m, int n, double[] a,
             int lda, double[] sva, double[] u,
@@ -1161,7 +985,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgelq2_work(Layout layout, int m, int n,
+        public static int dgelq2(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work)
             => LAPACKE_dgelq2_work(layout, m, n,
@@ -1182,7 +1006,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgelqf_work(Layout layout, int m, int n,
+        public static int dgelqf(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work, int lwork)
             => LAPACKE_dgelqf_work(layout, m, n,
@@ -1207,7 +1031,7 @@ namespace MKLNET
             int lda, double[] b, int ldb,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgels_work(Layout layout, TransChar trans, int m,
+        public static int dgels(Layout layout, TransChar trans, int m,
             int n, int nrhs, double[] a,
             int lda, double[] b, int ldb,
             double[] work, int lwork)
@@ -1238,7 +1062,7 @@ namespace MKLNET
             double rcond, int[] rank, double[] work,
             int lwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgelsd_work(Layout layout, int m, int n,
+        public static int dgelsd(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s,
             double rcond, int[] rank, double[] work,
@@ -1271,7 +1095,7 @@ namespace MKLNET
             double rcond, int[] rank, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgelss_work(Layout layout, int m, int n,
+        public static int dgelss(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s,
             double rcond, int[] rank, double[] work,
@@ -1304,7 +1128,7 @@ namespace MKLNET
             double rcond, int[] rank, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgelsy_work(Layout layout, int m, int n,
+        public static int dgelsy(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, int[] jpvt,
             double rcond, int[] rank, double[] work,
@@ -1340,7 +1164,7 @@ namespace MKLNET
             double[] t, int ldt, double[] c,
             int ldc, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgemqrt_work(Layout layout, char side, TransChar trans,
+        public static int dgemqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             int nb, double[] v, int ldv,
             double[] t, int ldt, double[] c,
@@ -1365,7 +1189,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqlf_work(Layout layout, int m, int n,
+        public static int dgeqlf(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work, int lwork)
             => LAPACKE_dgeqlf_work(layout, m, n,
@@ -1389,7 +1213,7 @@ namespace MKLNET
             double[] a, int lda, int[] jpvt,
             double[] tau, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqp3_work(Layout layout, int m, int n,
+        public static int dgeqp3(Layout layout, int m, int n,
             double[] a, int lda, int[] jpvt,
             double[] tau, double[] work, int lwork)
             => LAPACKE_dgeqp3_work(layout, m, n,
@@ -1413,7 +1237,7 @@ namespace MKLNET
             double[] a, int lda, int[] jpvt,
             double[] tau, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqpf_work(Layout layout, int m, int n,
+        public static int dgeqpf(Layout layout, int m, int n,
             double[] a, int lda, int[] jpvt,
             double[] tau, double[] work)
             => LAPACKE_dgeqpf_work(layout, m, n,
@@ -1434,7 +1258,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqr2_work(Layout layout, int m, int n,
+        public static int dgeqr2(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work)
             => LAPACKE_dgeqr2_work(layout, m, n,
@@ -1455,7 +1279,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqrf_work(Layout layout, int m, int n,
+        public static int dgeqrf(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work, int lwork)
             => LAPACKE_dgeqrf_work(layout, m, n,
@@ -1476,7 +1300,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqrfp_work(Layout layout, int m, int n,
+        public static int dgeqrfp(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work, int lwork)
             => LAPACKE_dgeqrfp_work(layout, m, n,
@@ -1508,18 +1332,6 @@ namespace MKLNET
                 ldt);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgeqrt2_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] t,
-            int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqrt2_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] t,
-            int ldt)
-            => LAPACKE_dgeqrt2_work(layout, m, n,
-                a, lda, t,
-                ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgeqrt3(Layout layout, int m, int n,
             double[] a, int lda, double[] t,
             int ldt);
@@ -1532,23 +1344,11 @@ namespace MKLNET
                 ldt);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgeqrt3_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] t,
-            int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqrt3_work(Layout layout, int m, int n,
-            double[] a, int lda, double[] t,
-            int ldt)
-            => LAPACKE_dgeqrt3_work(layout, m, n,
-                a, lda, t,
-                ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgeqrt_work(Layout layout, int m, int n,
             int nb, double[] a, int lda,
             double[] t, int ldt, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqrt_work(Layout layout, int m, int n,
+        public static int dgeqrt(Layout layout, int m, int n,
             int nb, double[] a, int lda,
             double[] t, int ldt, double[] work)
             => LAPACKE_dgeqrt_work(layout, m, n,
@@ -1585,7 +1385,7 @@ namespace MKLNET
             int ldx, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgerfs_work(Layout layout, TransChar trans, int n,
+        public static int dgerfs(Layout layout, TransChar trans, int n,
             int nrhs, double[] a,
             int lda, double[] af,
             int ldaf, int[] ipiv,
@@ -1643,7 +1443,7 @@ namespace MKLNET
             double[] aparams, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgerfsx_work(Layout layout, TransChar trans, char equed,
+        public static int dgerfsx(Layout layout, TransChar trans, char equed,
             int n, int nrhs, double[] a,
             int lda, double[] af,
             int ldaf, int[] ipiv,
@@ -1680,7 +1480,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgerqf_work(Layout layout, int m, int n,
+        public static int dgerqf(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work, int lwork)
             => LAPACKE_dgerqf_work(layout, m, n,
@@ -1709,7 +1509,7 @@ namespace MKLNET
             double[] vt, int ldvt, double[] work,
             int lwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgesdd_work(Layout layout, char jobz, int m,
+        public static int dgesdd(Layout layout, char jobz, int m,
             int n, double[] a, int lda,
             double[] s, double[] u, int ldu,
             double[] vt, int ldvt, double[] work,
@@ -1729,18 +1529,6 @@ namespace MKLNET
             double[] a, int lda, int[] ipiv,
             double[] b, int ldb)
             => LAPACKE_dgesv(layout, n, nrhs,
-                a, lda, ipiv,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgesv_work(Layout layout, int n, int nrhs,
-            double[] a, int lda, int[] ipiv,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgesv_work(Layout layout, int n, int nrhs,
-            double[] a, int lda, int[] ipiv,
-            double[] b, int ldb)
-            => LAPACKE_dgesv_work(layout, n, nrhs,
                 a, lda, ipiv,
                 b, ldb);
 
@@ -1766,7 +1554,7 @@ namespace MKLNET
             int ldu, double[] vt, int ldvt,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgesvd_work(Layout layout, char jobu, char jobvt,
+        public static int dgesvd(Layout layout, char jobu, char jobvt,
             int m, int n, double[] a,
             int lda, double[] s, double[] u,
             int ldu, double[] vt, int ldvt,
@@ -1810,7 +1598,7 @@ namespace MKLNET
             double[] vt, int ldvt,
             double[] work, int lwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgesvdx_work(Layout layout, char jobu, char jobvt, char range,
+        public static int dgesvdx(Layout layout, char jobu, char jobvt, char range,
             int m, int n, double[] a,
             int lda, double vl, double vu,
             int il, int iu, int[] ns,
@@ -1847,7 +1635,7 @@ namespace MKLNET
             int mv, double[] v, int ldv,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgesvj_work(Layout layout, char joba, char jobu,
+        public static int dgesvj(Layout layout, char joba, char jobu,
             char jobv, int m, int n,
             double[] a, int lda, double[] sva,
             int mv, double[] v, int ldv,
@@ -1891,7 +1679,7 @@ namespace MKLNET
             int ldx, double[] rcond, double[] ferr,
             double[] berr, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgesvx_work(Layout layout, char fact, TransChar trans,
+        public static int dgesvx(Layout layout, char fact, TransChar trans,
             int n, int nrhs, double[] a,
             int lda, double[] af, int ldaf,
             int[] ipiv, char[] equed, double[] r,
@@ -1949,7 +1737,7 @@ namespace MKLNET
             double[] aparams, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgesvxx_work(Layout layout, char fact, TransChar trans,
+        public static int dgesvxx(Layout layout, char fact, TransChar trans,
             int n, int nrhs, double[] a,
             int lda, double[] af, int ldaf,
             int[] ipiv, char[] equed, double[] r,
@@ -1982,15 +1770,6 @@ namespace MKLNET
                 a, lda, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgetf2_work(Layout layout, int m, int n,
-            double[] a, int lda, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgetf2_work(Layout layout, int m, int n,
-            double[] a, int lda, int[] ipiv)
-            => LAPACKE_dgetf2_work(layout, m, n,
-                a, lda, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgetrf(Layout layout, int m, int n,
             double[] a, int lda, int[] ipiv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2009,24 +1788,6 @@ namespace MKLNET
                 a, lda, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgetrf2_work(Layout layout, int m, int n,
-            double[] a, int lda, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgetrf2_work(Layout layout, int m, int n,
-            double[] a, int lda, int[] ipiv)
-            => LAPACKE_dgetrf2_work(layout, m, n,
-                a, lda, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgetrf_work(Layout layout, int m, int n,
-            double[] a, int lda, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgetrf_work(Layout layout, int m, int n,
-            double[] a, int lda, int[] ipiv)
-            => LAPACKE_dgetrf_work(layout, m, n,
-                a, lda, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgetri(Layout layout, int n, double[] a,
             int lda, int[] ipiv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2040,7 +1801,7 @@ namespace MKLNET
             int lda, int[] ipiv,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgetri_work(Layout layout, int n, double[] a,
+        public static int dgetri(Layout layout, int n, double[] a,
             int lda, int[] ipiv,
             double[] work, int lwork)
             => LAPACKE_dgetri_work(layout, n, a,
@@ -2060,21 +1821,6 @@ namespace MKLNET
                 ipiv, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgetrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, double[] a,
-            int lda, int[] ipiv,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgetrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, double[] a,
-            int lda, int[] ipiv,
-            double[] b, int ldb)
-            => LAPACKE_dgetrs_work(layout, trans, n,
-                nrhs, a,
-                lda, ipiv,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dggbak(Layout layout, char job, char side, int n,
             int ilo, int ihi, double[] lscale,
             double[] rscale, int m, double[] v,
@@ -2088,21 +1834,6 @@ namespace MKLNET
                 ilo, ihi, lscale,
                 rscale, m, v,
                 ldv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dggbak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            double[] lscale, double[] rscale,
-            int m, double[] v, int ldv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggbak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            double[] lscale, double[] rscale,
-            int m, double[] v, int ldv)
-            => LAPACKE_dggbak_work(layout, job, side,
-                n, ilo, ihi,
-                lscale, rscale,
-                m, v, ldv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dggbal(Layout layout, char job, int n, double[] a,
@@ -2126,7 +1857,7 @@ namespace MKLNET
             int[] ihi, double[] lscale, double[] rscale,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggbal_work(Layout layout, char job, int n,
+        public static int dggbal(Layout layout, char job, int n,
             double[] a, int lda, double[] b,
             int ldb, int[] ilo,
             int[] ihi, double[] lscale, double[] rscale,
@@ -2187,7 +1918,7 @@ namespace MKLNET
             int ldvl, double[] vr, int ldvr,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggev3_work(Layout layout, char jobvl, char jobvr,
+        public static int dggev3(Layout layout, char jobvl, char jobvr,
             int n, double[] a, int lda,
             double[] b, int ldb, double[] alphar,
             double[] alphai, double[] beta, double[] vl,
@@ -2208,7 +1939,7 @@ namespace MKLNET
             int ldvl, double[] vr, int ldvr,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggev_work(Layout layout, char jobvl, char jobvr,
+        public static int dggev(Layout layout, char jobvl, char jobvr,
             int n, double[] a, int lda,
             double[] b, int ldb, double[] alphar,
             double[] alphai, double[] beta, double[] vl,
@@ -2260,7 +1991,7 @@ namespace MKLNET
             double[] rcondv, double[] work, int lwork,
             int[] iwork, int[] bwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggevx_work(Layout layout, char balanc, char jobvl,
+        public static int dggevx(Layout layout, char balanc, char jobvl,
             char jobvr, char sense, int n, double[] a,
             int lda, double[] b, int ldb,
             double[] alphar, double[] alphai, double[] beta,
@@ -2299,7 +2030,7 @@ namespace MKLNET
             double[] b, int ldb, double[] d, double[] x,
             double[] y, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggglm_work(Layout layout, int n, int m,
+        public static int dggglm(Layout layout, int n, int m,
             int p, double[] a, int lda,
             double[] b, int ldb, double[] d, double[] x,
             double[] y, double[] work, int lwork)
@@ -2337,7 +2068,7 @@ namespace MKLNET
             double[] z, int ldz, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgghd3_work(Layout layout, char compq, char compz,
+        public static int dgghd3(Layout layout, char compq, char compz,
             int n, int ilo, int ihi,
             double[] a, int lda, double[] b,
             int ldb, double[] q, int ldq,
@@ -2369,24 +2100,6 @@ namespace MKLNET
                 ldz);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgghrd_work(Layout layout, char compq, char compz,
-            int n, int ilo, int ihi,
-            double[] a, int lda, double[] b,
-            int ldb, double[] q, int ldq,
-            double[] z, int ldz);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgghrd_work(Layout layout, char compq, char compz,
-            int n, int ilo, int ihi,
-            double[] a, int lda, double[] b,
-            int ldb, double[] q, int ldq,
-            double[] z, int ldz)
-            => LAPACKE_dgghrd_work(layout, compq, compz,
-                n, ilo, ihi,
-                a, lda, b,
-                ldb, q, ldq,
-                z, ldz);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgglse(Layout layout, int m, int n,
             int p, double[] a, int lda, double[] b,
             int ldb, double[] c, double[] d, double[] x);
@@ -2404,7 +2117,7 @@ namespace MKLNET
             double[] b, int ldb, double[] c, double[] d,
             double[] x, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgglse_work(Layout layout, int m, int n,
+        public static int dgglse(Layout layout, int m, int n,
             int p, double[] a, int lda,
             double[] b, int ldb, double[] c, double[] d,
             double[] x, double[] work, int lwork)
@@ -2434,7 +2147,7 @@ namespace MKLNET
             double[] taua, double[] b, int ldb,
             double[] taub, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggqrf_work(Layout layout, int n, int m,
+        public static int dggqrf(Layout layout, int n, int m,
             int p, double[] a, int lda,
             double[] taua, double[] b, int ldb,
             double[] taub, double[] work, int lwork)
@@ -2464,7 +2177,7 @@ namespace MKLNET
             double[] taua, double[] b, int ldb,
             double[] taub, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggrqf_work(Layout layout, int m, int p,
+        public static int dggrqf(Layout layout, int m, int p,
             int n, double[] a, int lda,
             double[] taua, double[] b, int ldb,
             double[] taub, double[] work, int lwork)
@@ -2532,7 +2245,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggsvd3_work(Layout layout, char jobu, char jobv,
+        public static int dggsvd3(Layout layout, char jobu, char jobv,
             char jobq, int m, int n,
             int p, int[] k, int[] l,
             double[] a, int lda, double[] b,
@@ -2561,7 +2274,7 @@ namespace MKLNET
             int ldv, double[] q, int ldq,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggsvd_work(Layout layout, char jobu, char jobv,
+        public static int dggsvd(Layout layout, char jobu, char jobv,
             char jobq, int m, int n,
             int p, int[] k, int[] l,
             double[] a, int lda, double[] b,
@@ -2631,7 +2344,7 @@ namespace MKLNET
             int[] iwork, double[] tau, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggsvp3_work(Layout layout, char jobu, char jobv,
+        public static int dggsvp3(Layout layout, char jobu, char jobv,
             char jobq, int m, int p,
             int n, double[] a, int lda,
             double[] b, int ldb, double tola,
@@ -2660,7 +2373,7 @@ namespace MKLNET
             int ldv, double[] q, int ldq,
             int[] iwork, double[] tau, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dggsvp_work(Layout layout, char jobu, char jobv,
+        public static int dggsvp(Layout layout, char jobu, char jobv,
             char jobq, int m, int p,
             int n, double[] a, int lda,
             double[] b, int ldb, double tola,
@@ -2696,7 +2409,7 @@ namespace MKLNET
             double anorm, double[] rcond, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgtcon_work(Norm norm, int n, double[] dl,
+        public static int dgtcon(Norm norm, int n, double[] dl,
             double[] d, double[] du,
             double[] du2, int[] ipiv,
             double anorm, double[] rcond, double[] work,
@@ -2742,7 +2455,7 @@ namespace MKLNET
             double[] ferr, double[] berr, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgtrfs_work(Layout layout, TransChar trans, int n,
+        public static int dgtrfs(Layout layout, TransChar trans, int n,
             int nrhs, double[] dl,
             double[] d, double[] du,
             double[] dlf, double[] df,
@@ -2770,18 +2483,6 @@ namespace MKLNET
             double[] dl, double[] d, double[] du, double[] b,
             int ldb)
             => LAPACKE_dgtsv(layout, n, nrhs,
-                dl, d, du, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgtsv_work(Layout layout, int n, int nrhs,
-            double[] dl, double[] d, double[] du, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgtsv_work(Layout layout, int n, int nrhs,
-            double[] dl, double[] d, double[] du, double[] b,
-            int ldb)
-            => LAPACKE_dgtsv_work(layout, n, nrhs,
                 dl, d, du, b,
                 ldb);
 
@@ -2819,7 +2520,7 @@ namespace MKLNET
             double[] rcond, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgtsvx_work(Layout layout, char fact, TransChar trans,
+        public static int dgtsvx(Layout layout, char fact, TransChar trans,
             int n, int nrhs, double[] dl,
             double[] d, double[] du, double[] dlf,
             double[] df, double[] duf, double[] du2,
@@ -2846,15 +2547,6 @@ namespace MKLNET
                 du2, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgttrf_work(int n, double[] dl, double[] d, double[] du,
-            double[] du2, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgttrf_work(int n, double[] dl, double[] d, double[] du,
-            double[] du2, int[] ipiv)
-            => LAPACKE_dgttrf_work(n, dl, d, du,
-                du2, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgttrs(Layout layout, TransChar trans, int n,
             int nrhs, double[] dl, double[] d,
             double[] du, double[] du2,
@@ -2868,24 +2560,6 @@ namespace MKLNET
                 nrhs, dl, d,
                 du, du2,
                 ipiv, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dgttrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, double[] dl,
-            double[] d, double[] du,
-            double[] du2, int[] ipiv,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgttrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, double[] dl,
-            double[] d, double[] du,
-            double[] du2, int[] ipiv,
-            double[] b, int ldb)
-            => LAPACKE_dgttrs_work(layout, trans, n,
-                nrhs, dl,
-                d, du,
-                du2, ipiv,
-                b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dhgeqz(Layout layout, char job, char compq, char compz,
@@ -2917,7 +2591,7 @@ namespace MKLNET
             int ldq, double[] z, int ldz,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dhgeqz_work(Layout layout, char job, char compq,
+        public static int dhgeqz(Layout layout, char job, char compq,
             char compz, int n, int ilo,
             int ihi, double[] h, int ldh,
             double[] t, int ldt, double[] alphar,
@@ -2965,7 +2639,7 @@ namespace MKLNET
             int mm, int[] m, double[] work,
             int[] ifaill, int[] ifailr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dhsein_work(Layout layout, char job, char eigsrc,
+        public static int dhsein(Layout layout, char job, char eigsrc,
             char initv, int[] select,
             int n, double[] h, int ldh,
             double[] wr, double[] wi, double[] vl,
@@ -3002,7 +2676,7 @@ namespace MKLNET
             double[] wi, double[] z, int ldz,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dhseqr_work(Layout layout, char job, char compz,
+        public static int dhseqr(Layout layout, char job, char compz,
             int n, int ilo, int ihi,
             double[] h, int ldh, double[] wr,
             double[] wi, double[] z, int ldz,
@@ -3023,18 +2697,6 @@ namespace MKLNET
                 est, kase, isave);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlacn2_work(int n, double[] v, double[] x,
-            int[] isgn, double[] est, int[] kase,
-            int[] isave);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlacn2_work(int n, double[] v, double[] x,
-            int[] isgn, double[] est, int[] kase,
-            int[] isave)
-            => LAPACKE_dlacn2_work(n, v, x,
-                isgn, est, kase,
-                isave);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlacpy(Layout layout, UpLo uplo, int m,
             int n, double[] a, int lda,
             double[] b, int ldb);
@@ -3047,18 +2709,6 @@ namespace MKLNET
                 b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlacpy_work(Layout layout, UpLo uplo, int m,
-            int n, double[] a, int lda,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlacpy_work(Layout layout, UpLo uplo, int m,
-            int n, double[] a, int lda,
-            double[] b, int ldb)
-            => LAPACKE_dlacpy_work(layout, uplo, m,
-                n, a, lda,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlag2s(Layout layout, int m, int n,
             double[] a, int lda, float[] sa,
             int ldsa);
@@ -3067,18 +2717,6 @@ namespace MKLNET
             double[] a, int lda, float[] sa,
             int ldsa)
             => LAPACKE_dlag2s(layout, m, n,
-                a, lda, sa,
-                ldsa);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlag2s_work(Layout layout, int m, int n,
-            double[] a, int lda, float[] sa,
-            int ldsa);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlag2s_work(Layout layout, int m, int n,
-            double[] a, int lda, float[] sa,
-            int ldsa)
-            => LAPACKE_dlag2s_work(layout, m, n,
                 a, lda, sa,
                 ldsa);
 
@@ -3100,7 +2738,7 @@ namespace MKLNET
             double[] a, int lda, int[] iseed,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlagge_work(Layout layout, int m, int n,
+        public static int dlagge(Layout layout, int m, int n,
             int kl, int ku, double[] d,
             double[] a, int lda, int[] iseed,
             double[] work)
@@ -3126,7 +2764,7 @@ namespace MKLNET
             double[] d, double[] a, int lda,
             int[] iseed, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlagsy_work(Layout layout, int n, int k,
+        public static int dlagsy(Layout layout, int n, int k,
             double[] d, double[] a, int lda,
             int[] iseed, double[] work)
             => LAPACKE_dlagsy_work(layout, n, k,
@@ -3146,18 +2784,6 @@ namespace MKLNET
                 ldx, k);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlapmr_work(Layout layout, int forwrd,
-            int m, int n, double[] x,
-            int ldx, int[] k);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlapmr_work(Layout layout, int forwrd,
-            int m, int n, double[] x,
-            int ldx, int[] k)
-            => LAPACKE_dlapmr_work(layout, forwrd,
-                m, n, x,
-                ldx, k);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlapmt(Layout layout, int forwrd,
             int m, int n, double[] x,
             int ldx, int[] k);
@@ -3166,18 +2792,6 @@ namespace MKLNET
             int m, int n, double[] x,
             int ldx, int[] k)
             => LAPACKE_dlapmt(layout, forwrd,
-                m, n, x,
-                ldx, k);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlapmt_work(Layout layout, int forwrd,
-            int m, int n, double[] x,
-            int ldx, int[] k);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlapmt_work(Layout layout, int forwrd,
-            int m, int n, double[] x,
-            int ldx, int[] k)
-            => LAPACKE_dlapmt_work(layout, forwrd,
                 m, n, x,
                 ldx, k);
 
@@ -3207,7 +2821,7 @@ namespace MKLNET
             double[] c, int ldc, double[] work,
             int ldwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlarfb_work(Layout layout, char side, TransChar trans,
+        public static int dlarfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
             int n, int k, double[] v,
             int ldv, double[] t, int ldt,
@@ -3230,15 +2844,6 @@ namespace MKLNET
                 incx, tau);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlarfg_work(int n, double[] alpha, double[] x,
-            int incx, double[] tau);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlarfg_work(int n, double[] alpha, double[] x,
-            int incx, double[] tau)
-            => LAPACKE_dlarfg_work(n, alpha, x,
-                incx, tau);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlarft(Layout layout, char direct, char storev,
             int n, int k, double[] v,
             int ldv, double[] tau, double[] t,
@@ -3249,21 +2854,6 @@ namespace MKLNET
             int ldv, double[] tau, double[] t,
             int ldt)
             => LAPACKE_dlarft(layout, direct, storev,
-                n, k, v,
-                ldv, tau, t,
-                ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlarft_work(Layout layout, char direct, char storev,
-            int n, int k, double[] v,
-            int ldv, double[] tau, double[] t,
-            int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlarft_work(Layout layout, char direct, char storev,
-            int n, int k, double[] v,
-            int ldv, double[] tau, double[] t,
-            int ldt)
-            => LAPACKE_dlarft_work(layout, direct, storev,
                 n, k, v,
                 ldv, tau, t,
                 ldt);
@@ -3281,18 +2871,6 @@ namespace MKLNET
                 ldc, work);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlarfx_work(Layout layout, char side, int m,
-            int n, double[] v, double tau,
-            double[] c, int ldc, double[] work);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlarfx_work(Layout layout, char side, int m,
-            int n, double[] v, double tau,
-            double[] c, int ldc, double[] work)
-            => LAPACKE_dlarfx_work(layout, side, m,
-                n, v, tau,
-                c, ldc, work);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlarnv(int idist, int[] iseed, int n,
             double[] x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3300,15 +2878,6 @@ namespace MKLNET
             double[] x)
             => LAPACKE_dlarnv(idist, iseed, n,
                 x);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlarnv_work(int idist, int[] iseed,
-            int n, double[] x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlarnv_work(int idist, int[] iseed,
-            int n, double[] x)
-            => LAPACKE_dlarnv_work(idist, iseed,
-                n, x);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlartgp(double f, double g, double[] cs, double[] sn,
@@ -3320,30 +2889,12 @@ namespace MKLNET
                 r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlartgp_work(double f, double g, double[] cs, double[] sn,
-            double[] r);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlartgp_work(double f, double g, double[] cs, double[] sn,
-            double[] r)
-            => LAPACKE_dlartgp_work(f, g, cs, sn,
-                r);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlartgs(double x, double y, double sigma, double[] cs,
             double[] sn);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dlartgs(double x, double y, double sigma, double[] cs,
             double[] sn)
             => LAPACKE_dlartgs(x, y, sigma, cs,
-                sn);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlartgs_work(double x, double y, double sigma, double[] cs,
-            double[] sn);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlartgs_work(double x, double y, double sigma, double[] cs,
-            double[] sn)
-            => LAPACKE_dlartgs_work(x, y, sigma, cs,
                 sn);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -3362,21 +2913,6 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlascl_work(Layout layout, char type, int kl,
-            int ku, double cfrom, double cto,
-            int m, int n, double[] a,
-            int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlascl_work(Layout layout, char type, int kl,
-            int ku, double cfrom, double cto,
-            int m, int n, double[] a,
-            int lda)
-            => LAPACKE_dlascl_work(layout, type, kl,
-                ku, cfrom, cto,
-                m, n, a,
-                lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlaset(Layout layout, UpLo uplo, int m,
             int n, double alpha, double beta, double[] a,
             int lda);
@@ -3389,28 +2925,10 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlaset_work(Layout layout, UpLo uplo, int m,
-            int n, double alpha, double beta,
-            double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlaset_work(Layout layout, UpLo uplo, int m,
-            int n, double alpha, double beta,
-            double[] a, int lda)
-            => LAPACKE_dlaset_work(layout, uplo, m,
-                n, alpha, beta,
-                a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlasrt(char id, int n, double[] d);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dlasrt(char id, int n, double[] d)
             => LAPACKE_dlasrt(id, n, d);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlasrt_work(char id, int n, double[] d);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlasrt_work(char id, int n, double[] d)
-            => LAPACKE_dlasrt_work(id, n, d);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dlaswp(Layout layout, int n, double[] a,
@@ -3421,18 +2939,6 @@ namespace MKLNET
             int lda, int k1, int k2,
             int[] ipiv, int incx)
             => LAPACKE_dlaswp(layout, n, a,
-                lda, k1, k2,
-                ipiv, incx);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlaswp_work(Layout layout, int n, double[] a,
-            int lda, int k1, int k2,
-            int[] ipiv, int incx);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlaswp_work(Layout layout, int n, double[] a,
-            int lda, int k1, int k2,
-            int[] ipiv, int incx)
-            => LAPACKE_dlaswp_work(layout, n, a,
                 lda, k1, k2,
                 ipiv, incx);
 
@@ -3462,7 +2968,7 @@ namespace MKLNET
             char pack, double[] a, int lda,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlatms_work(Layout layout, int m, int n,
+        public static int dlatms(Layout layout, int m, int n,
             char dist, int[] iseed, char sym,
             double[] d, int mode, double cond,
             double dmax, int kl, int ku,
@@ -3485,15 +2991,6 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dlauum_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dlauum_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda)
-            => LAPACKE_dlauum_work(layout, uplo, n,
-                a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dopgtr(Layout layout, UpLo uplo, int n,
             double[] ap, double[] tau, double[] q,
             int ldq);
@@ -3510,7 +3007,7 @@ namespace MKLNET
             double[] ap, double[] tau, double[] q,
             int ldq, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dopgtr_work(Layout layout, UpLo uplo, int n,
+        public static int dopgtr(Layout layout, UpLo uplo, int n,
             double[] ap, double[] tau, double[] q,
             int ldq, double[] work)
             => LAPACKE_dopgtr_work(layout, uplo, n,
@@ -3535,7 +3032,7 @@ namespace MKLNET
             double[] ap, double[] tau, double[] c,
             int ldc, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dopmtr_work(Layout layout, char side, UpLo uplo,
+        public static int dopmtr(Layout layout, char side, UpLo uplo,
             TransChar trans, int m, int n,
             double[] ap, double[] tau, double[] c,
             int ldc, double[] work)
@@ -3578,7 +3075,7 @@ namespace MKLNET
             double[] tauq1, double[] tauq2, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorbdb_work(Layout layout, TransChar trans, char signs,
+        public static int dorbdb(Layout layout, TransChar trans, char signs,
             int m, int p, int q,
             double[] x11, int ldx11, double[] x12,
             int ldx12, double[] x21, int ldx21,
@@ -3653,7 +3150,7 @@ namespace MKLNET
             int ldv1t, double[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorcsd2by1_work(Layout layout, char jobu1, char jobu2,
+        public static int dorcsd2by1(Layout layout, char jobu1, char jobu2,
             char jobv1t, int m, int p,
             int q, double[] x11, int ldx11,
             double[] x21, int ldx21,
@@ -3683,7 +3180,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorcsd_work(Layout layout, char jobu1, char jobu2,
+        public static int dorcsd(Layout layout, char jobu1, char jobu2,
             char jobv1t, char jobv2t, TransChar trans,
             char signs, int m, int p,
             int q, double[] x11, int ldx11,
@@ -3724,7 +3221,7 @@ namespace MKLNET
             int lda, double[] tau, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorgbr_work(Layout layout, char vect, int m,
+        public static int dorgbr(Layout layout, char vect, int m,
             int n, int k, double[] a,
             int lda, double[] tau, double[] work,
             int lwork)
@@ -3751,7 +3248,7 @@ namespace MKLNET
             double[] tau, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorghr_work(Layout layout, int n, int ilo,
+        public static int dorghr(Layout layout, int n, int ilo,
             int ihi, double[] a, int lda,
             double[] tau, double[] work,
             int lwork)
@@ -3778,7 +3275,7 @@ namespace MKLNET
             double[] tau, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorglq_work(Layout layout, int m, int n,
+        public static int dorglq(Layout layout, int m, int n,
             int k, double[] a, int lda,
             double[] tau, double[] work,
             int lwork)
@@ -3805,7 +3302,7 @@ namespace MKLNET
             double[] tau, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorgql_work(Layout layout, int m, int n,
+        public static int dorgql(Layout layout, int m, int n,
             int k, double[] a, int lda,
             double[] tau, double[] work,
             int lwork)
@@ -3832,7 +3329,7 @@ namespace MKLNET
             double[] tau, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorgqr_work(Layout layout, int m, int n,
+        public static int dorgqr(Layout layout, int m, int n,
             int k, double[] a, int lda,
             double[] tau, double[] work,
             int lwork)
@@ -3859,7 +3356,7 @@ namespace MKLNET
             double[] tau, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorgrq_work(Layout layout, int m, int n,
+        public static int dorgrq(Layout layout, int m, int n,
             int k, double[] a, int lda,
             double[] tau, double[] work,
             int lwork)
@@ -3882,7 +3379,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dorgtr_work(Layout layout, UpLo uplo, int n,
+        public static int dorgtr(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] tau,
             double[] work, int lwork)
             => LAPACKE_dorgtr_work(layout, uplo, n,
@@ -3911,7 +3408,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormbr_work(Layout layout, char vect, char side,
+        public static int dormbr(Layout layout, char vect, char side,
             TransChar trans, int m, int n,
             int k, double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -3944,7 +3441,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormhr_work(Layout layout, char side, TransChar trans,
+        public static int dormhr(Layout layout, char side, TransChar trans,
             int m, int n, int ilo,
             int ihi, double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -3977,7 +3474,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormlq_work(Layout layout, char side, TransChar trans,
+        public static int dormlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -4010,7 +3507,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormql_work(Layout layout, char side, TransChar trans,
+        public static int dormql(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -4043,7 +3540,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormqr_work(Layout layout, char side, TransChar trans,
+        public static int dormqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -4076,7 +3573,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormrq_work(Layout layout, char side, TransChar trans,
+        public static int dormrq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -4109,7 +3606,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormrz_work(Layout layout, char side, TransChar trans,
+        public static int dormrz(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             int l, double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -4142,7 +3639,7 @@ namespace MKLNET
             double[] tau, double[] c, int ldc,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dormtr_work(Layout layout, char side, UpLo uplo,
+        public static int dormtr(Layout layout, char side, UpLo uplo,
             TransChar trans, int m, int n,
             double[] a, int lda,
             double[] tau, double[] c, int ldc,
@@ -4171,7 +3668,7 @@ namespace MKLNET
             int ldab, double anorm, double[] rcond,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbcon_work(Layout layout, UpLo uplo, int n,
+        public static int dpbcon(Layout layout, UpLo uplo, int n,
             int kd, double[] ab,
             int ldab, double anorm, double[] rcond,
             double[] work, int[] iwork)
@@ -4191,21 +3688,6 @@ namespace MKLNET
             => LAPACKE_dpbequ(layout, uplo, n,
                 kd, ab, ldab,
                 s, scond, amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpbequ_work(Layout layout, UpLo uplo, int n,
-            int kd, double[] ab,
-            int ldab, double[] s, double[] scond,
-            double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbequ_work(Layout layout, UpLo uplo, int n,
-            int kd, double[] ab,
-            int ldab, double[] s, double[] scond,
-            double[] amax)
-            => LAPACKE_dpbequ_work(layout, uplo, n,
-                kd, ab,
-                ldab, s, scond,
-                amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpbrfs(Layout layout, UpLo uplo, int n,
@@ -4234,7 +3716,7 @@ namespace MKLNET
             int ldx, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbrfs_work(Layout layout, UpLo uplo, int n,
+        public static int dpbrfs(Layout layout, UpLo uplo, int n,
             int kd, int nrhs,
             double[] ab, int ldab,
             double[] afb, int ldafb,
@@ -4259,15 +3741,6 @@ namespace MKLNET
                 kb, bb, ldbb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpbstf_work(Layout layout, UpLo uplo, int n,
-            int kb, double[] bb, int ldbb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbstf_work(Layout layout, UpLo uplo, int n,
-            int kb, double[] bb, int ldbb)
-            => LAPACKE_dpbstf_work(layout, uplo, n,
-                kb, bb, ldbb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpbsv(Layout layout, UpLo uplo, int n,
             int kd, int nrhs, double[] ab,
             int ldab, double[] b, int ldb);
@@ -4276,18 +3749,6 @@ namespace MKLNET
             int kd, int nrhs, double[] ab,
             int ldab, double[] b, int ldb)
             => LAPACKE_dpbsv(layout, uplo, n,
-                kd, nrhs, ab,
-                ldab, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpbsv_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs, double[] ab,
-            int ldab, double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbsv_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs, double[] ab,
-            int ldab, double[] b, int ldb)
-            => LAPACKE_dpbsv_work(layout, uplo, n,
                 kd, nrhs, ab,
                 ldab, b, ldb);
 
@@ -4321,7 +3782,7 @@ namespace MKLNET
             int ldx, double[] rcond, double[] ferr,
             double[] berr, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbsvx_work(Layout layout, char fact, UpLo uplo,
+        public static int dpbsvx(Layout layout, char fact, UpLo uplo,
             int n, int kd, int nrhs,
             double[] ab, int ldab, double[] afb,
             int ldafb, char[] equed, double[] s,
@@ -4346,15 +3807,6 @@ namespace MKLNET
                 kd, ab, ldab);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpbtrf_work(Layout layout, UpLo uplo, int n,
-            int kd, double[] ab, int ldab);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbtrf_work(Layout layout, UpLo uplo, int n,
-            int kd, double[] ab, int ldab)
-            => LAPACKE_dpbtrf_work(layout, uplo, n,
-                kd, ab, ldab);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpbtrs(Layout layout, UpLo uplo, int n,
             int kd, int nrhs, double[] ab,
             int ldab, double[] b, int ldb);
@@ -4367,36 +3819,12 @@ namespace MKLNET
                 ldab, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpbtrs_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs,
-            double[] ab, int ldab, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpbtrs_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs,
-            double[] ab, int ldab, double[] b,
-            int ldb)
-            => LAPACKE_dpbtrs_work(layout, uplo, n,
-                kd, nrhs,
-                ab, ldab, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpftrf(Layout layout, TransChar transr, UpLo uplo,
             int n, double[] a);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dpftrf(Layout layout, TransChar transr, UpLo uplo,
             int n, double[] a)
             => LAPACKE_dpftrf(layout, transr, uplo,
-                n, a);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpftrf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] a);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpftrf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] a)
-            => LAPACKE_dpftrf_work(layout, transr, uplo,
                 n, a);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -4409,15 +3837,6 @@ namespace MKLNET
                 n, a);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpftri_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] a);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpftri_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] a)
-            => LAPACKE_dpftri_work(layout, transr, uplo,
-                n, a);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpftrs(Layout layout, TransChar transr, UpLo uplo,
             int n, int nrhs, double[] a,
             double[] b, int ldb);
@@ -4426,18 +3845,6 @@ namespace MKLNET
             int n, int nrhs, double[] a,
             double[] b, int ldb)
             => LAPACKE_dpftrs(layout, transr, uplo,
-                n, nrhs, a,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpftrs_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, int nrhs, double[] a,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpftrs_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, int nrhs, double[] a,
-            double[] b, int ldb)
-            => LAPACKE_dpftrs_work(layout, transr, uplo,
                 n, nrhs, a,
                 b, ldb);
 
@@ -4458,7 +3865,7 @@ namespace MKLNET
             double[] a, int lda, double anorm,
             double[] rcond, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpocon_work(Layout layout, UpLo uplo, int n,
+        public static int dpocon(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double anorm,
             double[] rcond, double[] work, int[] iwork)
             => LAPACKE_dpocon_work(layout, uplo, n,
@@ -4478,18 +3885,6 @@ namespace MKLNET
                 amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpoequ_work(Layout layout, int n, double[] a,
-            int lda, double[] s, double[] scond,
-            double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpoequ_work(Layout layout, int n, double[] a,
-            int lda, double[] s, double[] scond,
-            double[] amax)
-            => LAPACKE_dpoequ_work(layout, n, a,
-                lda, s, scond,
-                amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpoequb(Layout layout, int n, double[] a,
             int lda, double[] s, double[] scond,
             double[] amax);
@@ -4500,18 +3895,6 @@ namespace MKLNET
             => LAPACKE_dpoequb(layout, n, a,
                 lda, s, scond,
                 amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpoequb_work(Layout layout, int n,
-            double[] a, int lda, double[] s,
-            double[] scond, double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpoequb_work(Layout layout, int n,
-            double[] a, int lda, double[] s,
-            double[] scond, double[] amax)
-            => LAPACKE_dpoequb_work(layout, n,
-                a, lda, s,
-                scond, amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dporfs(Layout layout, UpLo uplo, int n,
@@ -4540,7 +3923,7 @@ namespace MKLNET
             double[] ferr, double[] berr, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dporfs_work(Layout layout, UpLo uplo, int n,
+        public static int dporfs(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a,
             int lda, double[] af,
             int ldaf, double[] b,
@@ -4594,7 +3977,7 @@ namespace MKLNET
             double[] aparams, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dporfsx_work(Layout layout, UpLo uplo, char equed,
+        public static int dporfsx(Layout layout, UpLo uplo, char equed,
             int n, int nrhs, double[] a,
             int lda, double[] af,
             int ldaf, double[] s,
@@ -4628,18 +4011,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dposv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a, int lda,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dposv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a, int lda,
-            double[] b, int ldb)
-            => LAPACKE_dposv_work(layout, uplo, n,
-                nrhs, a, lda,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dposvx(Layout layout, char fact, UpLo uplo, int n,
             int nrhs, double[] a, int lda,
             double[] af, int ldaf, char[] equed, double[] s,
@@ -4666,7 +4037,7 @@ namespace MKLNET
             double[] rcond, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dposvx_work(Layout layout, char fact, UpLo uplo,
+        public static int dposvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, double[] a,
             int lda, double[] af, int ldaf,
             char[] equed, double[] s, double[] b,
@@ -4720,7 +4091,7 @@ namespace MKLNET
             double[] aparams, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dposvxx_work(Layout layout, char fact, UpLo uplo,
+        public static int dposvxx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, double[] a,
             int lda, double[] af, int ldaf,
             char[] equed, double[] s, double[] b,
@@ -4759,24 +4130,6 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpotrf2_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpotrf2_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda)
-            => LAPACKE_dpotrf2_work(layout, uplo, n,
-                a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpotrf_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpotrf_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda)
-            => LAPACKE_dpotrf_work(layout, uplo, n,
-                a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpotri(Layout layout, UpLo uplo, int n, double[] a,
             int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4784,15 +4137,6 @@ namespace MKLNET
             int lda)
             => LAPACKE_dpotri(layout, uplo, n, a,
                 lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpotri_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpotri_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda)
-            => LAPACKE_dpotri_work(layout, uplo, n,
-                a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpotrs(Layout layout, UpLo uplo, int n,
@@ -4805,18 +4149,6 @@ namespace MKLNET
             => LAPACKE_dpotrs(layout, uplo, n,
                 nrhs, a, lda,
                 b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpotrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpotrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, double[] b, int ldb)
-            => LAPACKE_dpotrs_work(layout, uplo, n,
-                nrhs, a,
-                lda, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dppcon(Layout layout, UpLo uplo, int n,
@@ -4832,7 +4164,7 @@ namespace MKLNET
             double[] ap, double anorm, double[] rcond,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dppcon_work(Layout layout, UpLo uplo, int n,
+        public static int dppcon(Layout layout, UpLo uplo, int n,
             double[] ap, double anorm, double[] rcond,
             double[] work, int[] iwork)
             => LAPACKE_dppcon_work(layout, uplo, n,
@@ -4848,18 +4180,6 @@ namespace MKLNET
             double[] ap, double[] s, double[] scond,
             double[] amax)
             => LAPACKE_dppequ(layout, uplo, n,
-                ap, s, scond,
-                amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dppequ_work(Layout layout, UpLo uplo, int n,
-            double[] ap, double[] s, double[] scond,
-            double[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dppequ_work(Layout layout, UpLo uplo, int n,
-            double[] ap, double[] s, double[] scond,
-            double[] amax)
-            => LAPACKE_dppequ_work(layout, uplo, n,
                 ap, s, scond,
                 amax);
 
@@ -4886,7 +4206,7 @@ namespace MKLNET
             double[] ferr, double[] berr, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpprfs_work(Layout layout, UpLo uplo, int n,
+        public static int dpprfs(Layout layout, UpLo uplo, int n,
             int nrhs, double[] ap,
             double[] afp, double[] b,
             int ldb, double[] x, int ldx,
@@ -4908,18 +4228,6 @@ namespace MKLNET
             int nrhs, double[] ap, double[] b,
             int ldb)
             => LAPACKE_dppsv(layout, uplo, n,
-                nrhs, ap, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dppsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dppsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap, double[] b,
-            int ldb)
-            => LAPACKE_dppsv_work(layout, uplo, n,
                 nrhs, ap, b,
                 ldb);
 
@@ -4949,7 +4257,7 @@ namespace MKLNET
             double[] rcond, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dppsvx_work(Layout layout, char fact, UpLo uplo,
+        public static int dppsvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, double[] ap,
             double[] afp, char[] equed, double[] s, double[] b,
             int ldb, double[] x, int ldx,
@@ -4972,30 +4280,12 @@ namespace MKLNET
                 ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpptrf_work(Layout layout, UpLo uplo, int n,
-            double[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpptrf_work(Layout layout, UpLo uplo, int n,
-            double[] ap)
-            => LAPACKE_dpptrf_work(layout, uplo, n,
-                ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpptri(Layout layout, UpLo uplo, int n,
             double[] ap);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dpptri(Layout layout, UpLo uplo, int n,
             double[] ap)
             => LAPACKE_dpptri(layout, uplo, n,
-                ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpptri_work(Layout layout, UpLo uplo, int n,
-            double[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpptri_work(Layout layout, UpLo uplo, int n,
-            double[] ap)
-            => LAPACKE_dpptri_work(layout, uplo, n,
                 ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -5007,18 +4297,6 @@ namespace MKLNET
             int nrhs, double[] ap, double[] b,
             int ldb)
             => LAPACKE_dpptrs(layout, uplo, n,
-                nrhs, ap, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap, double[] b,
-            int ldb)
-            => LAPACKE_dpptrs_work(layout, uplo, n,
                 nrhs, ap, b,
                 ldb);
 
@@ -5039,7 +4317,7 @@ namespace MKLNET
             double[] a, int lda, int[] piv,
             int[] rank, double tol, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpstrf_work(Layout layout, UpLo uplo, int n,
+        public static int dpstrf(Layout layout, UpLo uplo, int n,
             double[] a, int lda, int[] piv,
             int[] rank, double tol, double[] work)
             => LAPACKE_dpstrf_work(layout, uplo, n,
@@ -5059,7 +4337,7 @@ namespace MKLNET
         static extern int LAPACKE_dptcon_work(int n, double[] d, double[] e,
             double anorm, double[] rcond, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dptcon_work(int n, double[] d, double[] e,
+        public static int dptcon(int n, double[] d, double[] e,
             double anorm, double[] rcond, double[] work)
             => LAPACKE_dptcon_work(n, d, e,
                 anorm, rcond, work);
@@ -5078,7 +4356,7 @@ namespace MKLNET
             double[] d, double[] e, double[] z, int ldz,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpteqr_work(Layout layout, char compz, int n,
+        public static int dpteqr(Layout layout, char compz, int n,
             double[] d, double[] e, double[] z, int ldz,
             double[] work)
             => LAPACKE_dpteqr_work(layout, compz, n,
@@ -5111,7 +4389,7 @@ namespace MKLNET
             int ldx, double[] ferr, double[] berr,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dptrfs_work(Layout layout, int n, int nrhs,
+        public static int dptrfs(Layout layout, int n, int nrhs,
             double[] d, double[] e,
             double[] df, double[] ef,
             double[] b, int ldb, double[] x,
@@ -5131,15 +4409,6 @@ namespace MKLNET
         public static int dptsv(Layout layout, int n, int nrhs,
             double[] d, double[] e, double[] b, int ldb)
             => LAPACKE_dptsv(layout, n, nrhs,
-                d, e, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dptsv_work(Layout layout, int n, int nrhs,
-            double[] d, double[] e, double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dptsv_work(Layout layout, int n, int nrhs,
-            double[] d, double[] e, double[] b, int ldb)
-            => LAPACKE_dptsv_work(layout, n, nrhs,
                 d, e, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -5168,7 +4437,7 @@ namespace MKLNET
             int ldx, double[] rcond, double[] ferr,
             double[] berr, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dptsvx_work(Layout layout, char fact, int n,
+        public static int dptsvx(Layout layout, char fact, int n,
             int nrhs, double[] d,
             double[] e, double[] df, double[] ef,
             double[] b, int ldb, double[] x,
@@ -5188,12 +4457,6 @@ namespace MKLNET
             => LAPACKE_dpttrf(n, d, e);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpttrf_work(int n, double[] d, double[] e);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpttrf_work(int n, double[] d, double[] e)
-            => LAPACKE_dpttrf_work(n, d, e);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpttrs(Layout layout, int n, int nrhs,
             double[] d, double[] e, double[] b,
             int ldb);
@@ -5202,18 +4465,6 @@ namespace MKLNET
             double[] d, double[] e, double[] b,
             int ldb)
             => LAPACKE_dpttrs(layout, n, nrhs,
-                d, e, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dpttrs_work(Layout layout, int n, int nrhs,
-            double[] d, double[] e, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dpttrs_work(Layout layout, int n, int nrhs,
-            double[] d, double[] e, double[] b,
-            int ldb)
-            => LAPACKE_dpttrs_work(layout, n, nrhs,
                 d, e, b,
                 ldb);
 
@@ -5235,7 +4486,7 @@ namespace MKLNET
             int ldab, double[] w, double[] z,
             int ldz, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbev_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsbev(Layout layout, char jobz, UpLo uplo,
             int n, int kd, double[] ab,
             int ldab, double[] w, double[] z,
             int ldz, double[] work)
@@ -5263,7 +4514,7 @@ namespace MKLNET
             int ldz, double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbevd_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsbevd(Layout layout, char jobz, UpLo uplo,
             int n, int kd, double[] ab,
             int ldab, double[] w, double[] z,
             int ldz, double[] work, int lwork,
@@ -5305,7 +4556,7 @@ namespace MKLNET
             int ldz, double[] work, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbevx_work(Layout layout, char jobz, char range,
+        public static int dsbevx(Layout layout, char jobz, char range,
             UpLo uplo, int n, int kd,
             double[] ab, int ldab, double[] q,
             int ldq, double vl, double vu,
@@ -5344,7 +4595,7 @@ namespace MKLNET
             int ldbb, double[] x, int ldx,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbgst_work(Layout layout, char vect, UpLo uplo,
+        public static int dsbgst(Layout layout, char vect, UpLo uplo,
             int n, int ka, int kb,
             double[] ab, int ldab, double[] bb,
             int ldbb, double[] x, int ldx,
@@ -5377,7 +4628,7 @@ namespace MKLNET
             int ldbb, double[] w, double[] z,
             int ldz, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbgv_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsbgv(Layout layout, char jobz, UpLo uplo,
             int n, int ka, int kb,
             double[] ab, int ldab, double[] bb,
             int ldbb, double[] w, double[] z,
@@ -5411,7 +4662,7 @@ namespace MKLNET
             int ldz, double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbgvd_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsbgvd(Layout layout, char jobz, UpLo uplo,
             int n, int ka, int kb,
             double[] ab, int ldab, double[] bb,
             int ldbb, double[] w, double[] z,
@@ -5459,7 +4710,7 @@ namespace MKLNET
             int ldz, double[] work, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbgvx_work(Layout layout, char jobz, char range,
+        public static int dsbgvx(Layout layout, char jobz, char range,
             UpLo uplo, int n, int ka,
             int kb, double[] ab, int ldab,
             double[] bb, int ldbb, double[] q,
@@ -5496,7 +4747,7 @@ namespace MKLNET
             int ldab, double[] d, double[] e,
             double[] q, int ldq, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbtrd_work(Layout layout, char vect, UpLo uplo,
+        public static int dsbtrd(Layout layout, char vect, UpLo uplo,
             int n, int kd, double[] ab,
             int ldab, double[] d, double[] e,
             double[] q, int ldq, double[] work)
@@ -5521,21 +4772,6 @@ namespace MKLNET
                 c);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsfrk_work(Layout layout, TransChar transr, UpLo uplo,
-            TransChar trans, int n, int k,
-            double alpha, double[] a, int lda,
-            double beta, double[] c);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsfrk_work(Layout layout, TransChar transr, UpLo uplo,
-            TransChar trans, int n, int k,
-            double alpha, double[] a, int lda,
-            double beta, double[] c)
-            => LAPACKE_dsfrk_work(layout, transr, uplo,
-                trans, n, k,
-                alpha, a, lda,
-                beta, c);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dsgesv(Layout layout, int n, int nrhs,
             double[] a, int lda, int[] ipiv,
             double[] b, int ldb, double[] x, int ldx,
@@ -5557,7 +4793,7 @@ namespace MKLNET
             int ldx, double[] work, float[] swork,
             int[] iter);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsgesv_work(Layout layout, int n, int nrhs,
+        public static int dsgesv(Layout layout, int n, int nrhs,
             double[] a, int lda, int[] ipiv,
             double[] b, int ldb, double[] x,
             int ldx, double[] work, float[] swork,
@@ -5586,7 +4822,7 @@ namespace MKLNET
             double anorm, double[] rcond, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspcon_work(Layout layout, UpLo uplo, int n,
+        public static int dspcon(Layout layout, UpLo uplo, int n,
             double[] ap, int[] ipiv,
             double anorm, double[] rcond, double[] work,
             int[] iwork)
@@ -5609,7 +4845,7 @@ namespace MKLNET
             int n, double[] ap, double[] w, double[] z,
             int ldz, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspev_work(Layout layout, char jobz, UpLo uplo,
+        public static int dspev(Layout layout, char jobz, UpLo uplo,
             int n, double[] ap, double[] w, double[] z,
             int ldz, double[] work)
             => LAPACKE_dspev_work(layout, jobz, uplo,
@@ -5631,7 +4867,7 @@ namespace MKLNET
             int ldz, double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspevd_work(Layout layout, char jobz, UpLo uplo,
+        public static int dspevd(Layout layout, char jobz, UpLo uplo,
             int n, double[] ap, double[] w, double[] z,
             int ldz, double[] work, int lwork,
             int[] iwork, int liwork)
@@ -5666,7 +4902,7 @@ namespace MKLNET
             double[] z, int ldz, double[] work,
             int[] iwork, int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspevx_work(Layout layout, char jobz, char range,
+        public static int dspevx(Layout layout, char jobz, char range,
             UpLo uplo, int n, double[] ap, double vl,
             double vu, int il, int iu,
             double abstol, int[] m, double[] w,
@@ -5689,15 +4925,6 @@ namespace MKLNET
                 n, ap, bp);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dspgst_work(Layout layout, int itype, UpLo uplo,
-            int n, double[] ap, double[] bp);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspgst_work(Layout layout, int itype, UpLo uplo,
-            int n, double[] ap, double[] bp)
-            => LAPACKE_dspgst_work(layout, itype, uplo,
-                n, ap, bp);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dspgv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, double[] ap, double[] bp,
             double[] w, double[] z, int ldz);
@@ -5715,7 +4942,7 @@ namespace MKLNET
             double[] w, double[] z, int ldz,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspgv_work(Layout layout, int itype, char jobz,
+        public static int dspgv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, double[] ap, double[] bp,
             double[] w, double[] z, int ldz,
             double[] work)
@@ -5743,7 +4970,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspgvd_work(Layout layout, int itype, char jobz,
+        public static int dspgvd(Layout layout, int itype, char jobz,
             UpLo uplo, int n, double[] ap, double[] bp,
             double[] w, double[] z, int ldz,
             double[] work, int lwork,
@@ -5784,7 +5011,7 @@ namespace MKLNET
             double[] work, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspgvx_work(Layout layout, int itype, char jobz,
+        public static int dspgvx(Layout layout, int itype, char jobz,
             char range, UpLo uplo, int n, double[] ap,
             double[] bp, double vl, double vu, int il,
             int iu, double abstol, int[] m,
@@ -5821,7 +5048,7 @@ namespace MKLNET
             int ldx, double[] work, float[] swork,
             int[] iter);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsposv_work(Layout layout, UpLo uplo, int n,
+        public static int dsposv(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] x,
             int ldx, double[] work, float[] swork,
@@ -5858,7 +5085,7 @@ namespace MKLNET
             int ldx, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsprfs_work(Layout layout, UpLo uplo, int n,
+        public static int dsprfs(Layout layout, UpLo uplo, int n,
             int nrhs, double[] ap,
             double[] afp, int[] ipiv,
             double[] b, int ldb, double[] x,
@@ -5880,18 +5107,6 @@ namespace MKLNET
             int nrhs, double[] ap, int[] ipiv,
             double[] b, int ldb)
             => LAPACKE_dspsv(layout, uplo, n,
-                nrhs, ap, ipiv,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dspsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap, int[] ipiv,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap, int[] ipiv,
-            double[] b, int ldb)
-            => LAPACKE_dspsv_work(layout, uplo, n,
                 nrhs, ap, ipiv,
                 b, ldb);
 
@@ -5921,7 +5136,7 @@ namespace MKLNET
             double[] rcond, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dspsvx_work(Layout layout, char fact, UpLo uplo,
+        public static int dspsvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, double[] ap,
             double[] afp, int[] ipiv, double[] b,
             int ldb, double[] x, int ldx,
@@ -5944,30 +5159,12 @@ namespace MKLNET
                 ap, d, e, tau);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsptrd_work(Layout layout, UpLo uplo, int n,
-            double[] ap, double[] d, double[] e, double[] tau);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsptrd_work(Layout layout, UpLo uplo, int n,
-            double[] ap, double[] d, double[] e, double[] tau)
-            => LAPACKE_dsptrd_work(layout, uplo, n,
-                ap, d, e, tau);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dsptrf(Layout layout, UpLo uplo, int n,
             double[] ap, int[] ipiv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dsptrf(Layout layout, UpLo uplo, int n,
             double[] ap, int[] ipiv)
             => LAPACKE_dsptrf(layout, uplo, n,
-                ap, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsptrf_work(Layout layout, UpLo uplo, int n,
-            double[] ap, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsptrf_work(Layout layout, UpLo uplo, int n,
-            double[] ap, int[] ipiv)
-            => LAPACKE_dsptrf_work(layout, uplo, n,
                 ap, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -5984,7 +5181,7 @@ namespace MKLNET
             double[] ap, int[] ipiv,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsptri_work(Layout layout, UpLo uplo, int n,
+        public static int dsptri(Layout layout, UpLo uplo, int n,
             double[] ap, int[] ipiv,
             double[] work)
             => LAPACKE_dsptri_work(layout, uplo, n,
@@ -6002,21 +5199,6 @@ namespace MKLNET
             => LAPACKE_dsptrs(layout, uplo, n,
                 nrhs, ap,
                 ipiv, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap,
-            int[] ipiv, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] ap,
-            int[] ipiv, double[] b,
-            int ldb)
-            => LAPACKE_dsptrs_work(layout, uplo, n,
-                nrhs, ap,
-                ipiv, b,
-                ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dstebz(char range, char order, int n, double vl,
@@ -6044,7 +5226,7 @@ namespace MKLNET
             int[] iblock, int[] isplit,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstebz_work(char range, char order, int n, double vl,
+        public static int dstebz(char range, char order, int n, double vl,
             double vu, int il, int iu,
             double abstol, double[] d, double[] e,
             int[] m, int[] nsplit, double[] w,
@@ -6072,7 +5254,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstedc_work(Layout layout, char compz, int n,
+        public static int dstedc(Layout layout, char compz, int n,
             double[] d, double[] e, double[] z, int ldz,
             double[] work, int lwork,
             int[] iwork, int liwork)
@@ -6108,7 +5290,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstegr_work(Layout layout, char jobz, char range,
+        public static int dstegr(Layout layout, char jobz, char range,
             int n, double[] d, double[] e, double vl,
             double vu, int il, int iu,
             double abstol, int[] m, double[] w,
@@ -6146,7 +5328,7 @@ namespace MKLNET
             int ldz, double[] work, int[] iwork,
             int[] ifailv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstein_work(Layout layout, int n, double[] d,
+        public static int dstein(Layout layout, int n, double[] d,
             double[] e, int m, double[] w,
             int[] iblock,
             int[] isplit, double[] z,
@@ -6190,7 +5372,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstemr_work(Layout layout, char jobz, char range,
+        public static int dstemr(Layout layout, char jobz, char range,
             int n, double[] d, double[] e, double vl,
             double vu, int il, int iu,
             int[] m, double[] w, double[] z,
@@ -6221,7 +5403,7 @@ namespace MKLNET
             double[] d, double[] e, double[] z, int ldz,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsteqr_work(Layout layout, char compz, int n,
+        public static int dsteqr(Layout layout, char compz, int n,
             double[] d, double[] e, double[] z, int ldz,
             double[] work)
             => LAPACKE_dsteqr_work(layout, compz, n,
@@ -6233,12 +5415,6 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dsterf(int n, double[] d, double[] e)
             => LAPACKE_dsterf(n, d, e);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsterf_work(int n, double[] d, double[] e);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsterf_work(int n, double[] d, double[] e)
-            => LAPACKE_dsterf_work(n, d, e);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dstev(Layout layout, char jobz, int n, double[] d,
@@ -6254,7 +5430,7 @@ namespace MKLNET
             double[] d, double[] e, double[] z, int ldz,
             double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstev_work(Layout layout, char jobz, int n,
+        public static int dstev(Layout layout, char jobz, int n,
             double[] d, double[] e, double[] z, int ldz,
             double[] work)
             => LAPACKE_dstev_work(layout, jobz, n,
@@ -6276,7 +5452,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstevd_work(Layout layout, char jobz, int n,
+        public static int dstevd(Layout layout, char jobz, int n,
             double[] d, double[] e, double[] z, int ldz,
             double[] work, int lwork,
             int[] iwork, int liwork)
@@ -6312,7 +5488,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstevr_work(Layout layout, char jobz, char range,
+        public static int dstevr(Layout layout, char jobz, char range,
             int n, double[] d, double[] e, double vl,
             double vu, int il, int iu,
             double abstol, int[] m, double[] w,
@@ -6353,7 +5529,7 @@ namespace MKLNET
             double[] z, int ldz, double[] work,
             int[] iwork, int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dstevx_work(Layout layout, char jobz, char range,
+        public static int dstevx(Layout layout, char jobz, char range,
             int n, double[] d, double[] e, double vl,
             double vu, int il, int iu,
             double abstol, int[] m, double[] w,
@@ -6384,7 +5560,7 @@ namespace MKLNET
             int[] ipiv, double anorm,
             double[] rcond, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsycon_work(Layout layout, UpLo uplo, int n,
+        public static int dsycon(Layout layout, UpLo uplo, int n,
             double[] a, int lda,
             int[] ipiv, double anorm,
             double[] rcond, double[] work, int[] iwork)
@@ -6406,18 +5582,6 @@ namespace MKLNET
                 e);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsyconv_work(Layout layout, UpLo uplo, char way,
-            int n, double[] a, int lda,
-            int[] ipiv, double[] e);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyconv_work(Layout layout, UpLo uplo, char way,
-            int n, double[] a, int lda,
-            int[] ipiv, double[] e)
-            => LAPACKE_dsyconv_work(layout, uplo, way,
-                n, a, lda,
-                ipiv, e);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dsyequb(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] s,
             double[] scond, double[] amax);
@@ -6434,7 +5598,7 @@ namespace MKLNET
             double[] a, int lda, double[] s,
             double[] scond, double[] amax, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyequb_work(Layout layout, UpLo uplo, int n,
+        public static int dsyequb(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] s,
             double[] scond, double[] amax, double[] work)
             => LAPACKE_dsyequb_work(layout, uplo, n,
@@ -6455,7 +5619,7 @@ namespace MKLNET
             int n, double[] a, int lda,
             double[] w, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyev_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsyev(Layout layout, char jobz, UpLo uplo,
             int n, double[] a, int lda,
             double[] w, double[] work, int lwork)
             => LAPACKE_dsyev_work(layout, jobz, uplo,
@@ -6477,7 +5641,7 @@ namespace MKLNET
             double[] w, double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyevd_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsyevd(Layout layout, char jobz, UpLo uplo,
             int n, double[] a, int lda,
             double[] w, double[] work, int lwork,
             int[] iwork, int liwork)
@@ -6514,7 +5678,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyevr_work(Layout layout, char jobz, char range,
+        public static int dsyevr(Layout layout, char jobz, char range,
             UpLo uplo, int n, double[] a,
             int lda, double vl, double vu,
             int il, int iu, double abstol,
@@ -6558,7 +5722,7 @@ namespace MKLNET
             int ldz, double[] work, int lwork,
             int[] iwork, int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyevx_work(Layout layout, char jobz, char range,
+        public static int dsyevx(Layout layout, char jobz, char range,
             UpLo uplo, int n, double[] a,
             int lda, double vl, double vu,
             int il, int iu, double abstol,
@@ -6586,18 +5750,6 @@ namespace MKLNET
                 b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsygst_work(Layout layout, int itype, UpLo uplo,
-            int n, double[] a, int lda,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsygst_work(Layout layout, int itype, UpLo uplo,
-            int n, double[] a, int lda,
-            double[] b, int ldb)
-            => LAPACKE_dsygst_work(layout, itype, uplo,
-                n, a, lda,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dsygv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, double[] a, int lda,
             double[] b, int ldb, double[] w);
@@ -6615,7 +5767,7 @@ namespace MKLNET
             int lda, double[] b, int ldb,
             double[] w, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsygv_work(Layout layout, int itype, char jobz,
+        public static int dsygv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, double[] a,
             int lda, double[] b, int ldb,
             double[] w, double[] work, int lwork)
@@ -6643,7 +5795,7 @@ namespace MKLNET
             double[] w, double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsygvd_work(Layout layout, int itype, char jobz,
+        public static int dsygvd(Layout layout, int itype, char jobz,
             UpLo uplo, int n, double[] a,
             int lda, double[] b, int ldb,
             double[] w, double[] work, int lwork,
@@ -6685,7 +5837,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsygvx_work(Layout layout, int itype, char jobz,
+        public static int dsygvx(Layout layout, int itype, char jobz,
             char range, UpLo uplo, int n, double[] a,
             int lda, double[] b, int ldb,
             double vl, double vu, int il,
@@ -6732,7 +5884,7 @@ namespace MKLNET
             int ldx, double[] ferr, double[] berr,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyrfs_work(Layout layout, UpLo uplo, int n,
+        public static int dsyrfs(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a,
             int lda, double[] af,
             int ldaf, int[] ipiv,
@@ -6790,7 +5942,7 @@ namespace MKLNET
             double[] aparams, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyrfsx_work(Layout layout, UpLo uplo, char equed,
+        public static int dsyrfsx(Layout layout, UpLo uplo, char equed,
             int n, int nrhs, double[] a,
             int lda, double[] af,
             int ldaf, int[] ipiv,
@@ -6843,7 +5995,7 @@ namespace MKLNET
             int[] ipiv, double[] b, int ldb,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsysv_rook_work(Layout layout, UpLo uplo, int n,
+        public static int dsysv_rook(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a, int lda,
             int[] ipiv, double[] b, int ldb,
             double[] work, int lwork)
@@ -6858,7 +6010,7 @@ namespace MKLNET
             int[] ipiv, double[] b, int ldb,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsysv_work(Layout layout, UpLo uplo, int n,
+        public static int dsysv(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a, int lda,
             int[] ipiv, double[] b, int ldb,
             double[] work, int lwork)
@@ -6898,7 +6050,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsysvx_work(Layout layout, char fact, UpLo uplo,
+        public static int dsysvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, double[] a,
             int lda, double[] af, int ldaf,
             int[] ipiv, double[] b,
@@ -6957,7 +6109,7 @@ namespace MKLNET
             int nparams, double[] aparams,
             double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsysvxx_work(Layout layout, char fact, UpLo uplo,
+        public static int dsysvxx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, double[] a,
             int lda, double[] af, int ldaf,
             int[] ipiv, char[] equed, double[] s,
@@ -6988,18 +6140,6 @@ namespace MKLNET
                 a, lda, i1, i2);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsyswapr_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda,
-            int i1, int i2);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyswapr_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda,
-            int i1, int i2)
-            => LAPACKE_dsyswapr_work(layout, uplo, n,
-                a, lda,
-                i1, i2);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dsytrd(Layout layout, UpLo uplo, int n, double[] a,
             int lda, double[] d, double[] e, double[] tau);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -7013,7 +6153,7 @@ namespace MKLNET
             double[] a, int lda, double[] d, double[] e,
             double[] tau, double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrd_work(Layout layout, UpLo uplo, int n,
+        public static int dsytrd(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] d, double[] e,
             double[] tau, double[] work, int lwork)
             => LAPACKE_dsytrd_work(layout, uplo, n,
@@ -7043,7 +6183,7 @@ namespace MKLNET
             double[] a, int lda, int[] ipiv,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrf_rook_work(Layout layout, UpLo uplo, int n,
+        public static int dsytrf_rook(Layout layout, UpLo uplo, int n,
             double[] a, int lda, int[] ipiv,
             double[] work, int lwork)
             => LAPACKE_dsytrf_rook_work(layout, uplo, n,
@@ -7055,7 +6195,7 @@ namespace MKLNET
             double[] a, int lda, int[] ipiv,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrf_work(Layout layout, UpLo uplo, int n,
+        public static int dsytrf(Layout layout, UpLo uplo, int n,
             double[] a, int lda, int[] ipiv,
             double[] work, int lwork)
             => LAPACKE_dsytrf_work(layout, uplo, n,
@@ -7086,7 +6226,7 @@ namespace MKLNET
             int[] ipiv,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytri2_work(Layout layout, UpLo uplo, int n,
+        public static int dsytri2(Layout layout, UpLo uplo, int n,
             double[] a, int lda,
             int[] ipiv,
             double[] work, int lwork)
@@ -7113,7 +6253,7 @@ namespace MKLNET
             int[] ipiv, double[] work,
             int nb);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytri2x_work(Layout layout, UpLo uplo, int n,
+        public static int dsytri2x(Layout layout, UpLo uplo, int n,
             double[] a, int lda,
             int[] ipiv, double[] work,
             int nb)
@@ -7127,7 +6267,7 @@ namespace MKLNET
             double[] a, int lda,
             int[] ipiv, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytri_work(Layout layout, UpLo uplo, int n,
+        public static int dsytri(Layout layout, UpLo uplo, int n,
             double[] a, int lda,
             int[] ipiv, double[] work)
             => LAPACKE_dsytri_work(layout, uplo, n,
@@ -7164,7 +6304,7 @@ namespace MKLNET
             int lda, int[] ipiv,
             double[] b, int ldb, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrs2_work(Layout layout, UpLo uplo, int n,
+        public static int dsytrs2(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a,
             int lda, int[] ipiv,
             double[] b, int ldb, double[] work)
@@ -7186,36 +6326,6 @@ namespace MKLNET
                 ipiv, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsytrs_rook_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, int[] ipiv,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrs_rook_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, int[] ipiv,
-            double[] b, int ldb)
-            => LAPACKE_dsytrs_rook_work(layout, uplo, n,
-                nrhs, a,
-                lda, ipiv,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsytrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, int[] ipiv,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, int[] ipiv,
-            double[] b, int ldb)
-            => LAPACKE_dsytrs_work(layout, uplo, n,
-                nrhs, a,
-                lda, ipiv,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtbcon(Layout layout, Norm norm, UpLo uplo, DiagChar diag,
             int n, int kd, double[] ab,
             int ldab, double[] rcond);
@@ -7233,7 +6343,7 @@ namespace MKLNET
             double[] ab, int ldab,
             double[] rcond, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtbcon_work(Layout layout, Norm norm, UpLo uplo,
+        public static int dtbcon(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int n, int kd,
             double[] ab, int ldab,
             double[] rcond, double[] work, int[] iwork)
@@ -7269,7 +6379,7 @@ namespace MKLNET
             double[] ferr, double[] berr, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtbrfs_work(Layout layout, UpLo uplo, TransChar trans,
+        public static int dtbrfs(Layout layout, UpLo uplo, TransChar trans,
             DiagChar diag, int n, int kd,
             int nrhs, double[] ab,
             int ldab, double[] b,
@@ -7300,21 +6410,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtbtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int kd,
-            int nrhs, double[] ab,
-            int ldab, double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtbtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int kd,
-            int nrhs, double[] ab,
-            int ldab, double[] b, int ldb)
-            => LAPACKE_dtbtrs_work(layout, uplo, trans,
-                diag, n, kd,
-                nrhs, ab,
-                ldab, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtfsm(Layout layout, TransChar transr, char side, UpLo uplo,
             TransChar trans, DiagChar diag, int m, int n,
             double alpha, double[] a, double[] b,
@@ -7330,21 +6425,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtfsm_work(Layout layout, TransChar transr, char side,
-            UpLo uplo, TransChar trans, DiagChar diag, int m,
-            int n, double alpha, double[] a,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtfsm_work(Layout layout, TransChar transr, char side,
-            UpLo uplo, TransChar trans, DiagChar diag, int m,
-            int n, double alpha, double[] a,
-            double[] b, int ldb)
-            => LAPACKE_dtfsm_work(layout, transr, side,
-                uplo, trans, diag, m,
-                n, alpha, a,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtftri(Layout layout, TransChar transr, UpLo uplo, DiagChar diag,
             int n, double[] a);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -7352,15 +6432,6 @@ namespace MKLNET
             int n, double[] a)
             => LAPACKE_dtftri(layout, transr, uplo, diag,
                 n, a);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtftri_work(Layout layout, TransChar transr, UpLo uplo,
-            DiagChar diag, int n, double[] a);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtftri_work(Layout layout, TransChar transr, UpLo uplo,
-            DiagChar diag, int n, double[] a)
-            => LAPACKE_dtftri_work(layout, transr, uplo,
-                diag, n, a);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtfttp(Layout layout, TransChar transr, UpLo uplo,
@@ -7372,15 +6443,6 @@ namespace MKLNET
                 n, arf, ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtfttp_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] arf, double[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtfttp_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] arf, double[] ap)
-            => LAPACKE_dtfttp_work(layout, transr, uplo,
-                n, arf, ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtfttr(Layout layout, TransChar transr, UpLo uplo,
             int n, double[] arf, double[] a,
             int lda);
@@ -7389,18 +6451,6 @@ namespace MKLNET
             int n, double[] arf, double[] a,
             int lda)
             => LAPACKE_dtfttr(layout, transr, uplo,
-                n, arf, a,
-                lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtfttr_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] arf, double[] a,
-            int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtfttr_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] arf, double[] a,
-            int lda)
-            => LAPACKE_dtfttr_work(layout, transr, uplo,
                 n, arf, a,
                 lda);
 
@@ -7433,7 +6483,7 @@ namespace MKLNET
             int ldvl, double[] vr, int ldvr,
             int mm, int[] m, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtgevc_work(Layout layout, char side, char howmny,
+        public static int dtgevc(Layout layout, char side, char howmny,
             int[] select, int n,
             double[] s, int lds,
             double[] p, int ldp, double[] vl,
@@ -7473,7 +6523,7 @@ namespace MKLNET
             int[] ilst, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtgexc_work(Layout layout, int wantq,
+        public static int dtgexc(Layout layout, int wantq,
             int wantz, int n, double[] a,
             int lda, double[] b, int ldb,
             double[] q, int ldq, double[] z,
@@ -7524,7 +6574,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtgsen_work(Layout layout, int ijob,
+        public static int dtgsen(Layout layout, int ijob,
             int wantq, int wantz,
             int[] select, int n,
             double[] a, int lda, double[] b,
@@ -7583,7 +6633,7 @@ namespace MKLNET
             double[] q, int ldq, double[] work,
             int[] ncycle);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtgsja_work(Layout layout, char jobu, char jobv,
+        public static int dtgsja(Layout layout, char jobu, char jobv,
             char jobq, int m, int p,
             int n, int k, int l,
             double[] a, int lda, double[] b,
@@ -7634,7 +6684,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtgsna_work(Layout layout, char job, char howmny,
+        public static int dtgsna(Layout layout, char job, char howmny,
             int[] select, int n,
             double[] a, int lda,
             double[] b, int ldb,
@@ -7687,7 +6737,7 @@ namespace MKLNET
             double[] dif, double[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtgsyl_work(Layout layout, TransChar trans, int ijob,
+        public static int dtgsyl(Layout layout, TransChar trans, int ijob,
             int m, int n, double[] a,
             int lda, double[] b, int ldb,
             double[] c, int ldc, double[] d,
@@ -7718,7 +6768,7 @@ namespace MKLNET
             DiagChar diag, int n, double[] ap,
             double[] rcond, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtpcon_work(Layout layout, Norm norm, UpLo uplo,
+        public static int dtpcon(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int n, double[] ap,
             double[] rcond, double[] work, int[] iwork)
             => LAPACKE_dtpcon_work(layout, norm, uplo,
@@ -7754,7 +6804,7 @@ namespace MKLNET
             int ldt, double[] a, int lda,
             double[] b, int ldb, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtpmqrt_work(Layout layout, char side, TransChar trans,
+        public static int dtpmqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             int l, int nb, double[] v,
             int ldv, double[] t,
@@ -7795,24 +6845,12 @@ namespace MKLNET
                 ldb, t, ldt);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtpqrt2_work(Layout layout, int m, int n,
-            int l, double[] a, int lda, double[] b,
-            int ldb, double[] t, int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtpqrt2_work(Layout layout, int m, int n,
-            int l, double[] a, int lda, double[] b,
-            int ldb, double[] t, int ldt)
-            => LAPACKE_dtpqrt2_work(layout, m, n,
-                l, a, lda, b,
-                ldb, t, ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtpqrt_work(Layout layout, int m, int n,
             int l, int nb, double[] a,
             int lda, double[] b, int ldb,
             double[] t, int ldt, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtpqrt_work(Layout layout, int m, int n,
+        public static int dtpqrt(Layout layout, int m, int n,
             int l, int nb, double[] a,
             int lda, double[] b, int ldb,
             double[] t, int ldt, double[] work)
@@ -7848,7 +6886,7 @@ namespace MKLNET
             int lda, double[] b, int ldb,
             double[] work, int ldwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtprfb_work(Layout layout, char side, TransChar trans,
+        public static int dtprfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
             int n, int k, int l,
             double[] v, int ldv,
@@ -7886,7 +6924,7 @@ namespace MKLNET
             double[] ferr, double[] berr, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtprfs_work(Layout layout, UpLo uplo, TransChar trans,
+        public static int dtprfs(Layout layout, UpLo uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
             double[] ap, double[] b,
             int ldb, double[] x, int ldx,
@@ -7909,15 +6947,6 @@ namespace MKLNET
                 ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtptri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, double[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtptri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, double[] ap)
-            => LAPACKE_dtptri_work(layout, uplo, diag,
-                n, ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtptrs(Layout layout, UpLo uplo, TransChar trans, DiagChar diag,
             int n, int nrhs, double[] ap,
             double[] b, int ldb);
@@ -7930,18 +6959,6 @@ namespace MKLNET
                 b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtptrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            double[] ap, double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtptrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            double[] ap, double[] b, int ldb)
-            => LAPACKE_dtptrs_work(layout, uplo, trans,
-                diag, n, nrhs,
-                ap, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtpttf(Layout layout, TransChar transr, UpLo uplo,
             int n, double[] ap, double[] arf);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -7951,30 +6968,12 @@ namespace MKLNET
                 n, ap, arf);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtpttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] ap, double[] arf);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtpttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] ap, double[] arf)
-            => LAPACKE_dtpttf_work(layout, transr, uplo,
-                n, ap, arf);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtpttr(Layout layout, UpLo uplo, int n,
             double[] ap, double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dtpttr(Layout layout, UpLo uplo, int n,
             double[] ap, double[] a, int lda)
             => LAPACKE_dtpttr(layout, uplo, n,
-                ap, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtpttr_work(Layout layout, UpLo uplo, int n,
-            double[] ap, double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtpttr_work(Layout layout, UpLo uplo, int n,
-            double[] ap, double[] a, int lda)
-            => LAPACKE_dtpttr_work(layout, uplo, n,
                 ap, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -7995,7 +6994,7 @@ namespace MKLNET
             int lda, double[] rcond, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrcon_work(Layout layout, Norm norm, UpLo uplo,
+        public static int dtrcon(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int n, double[] a,
             int lda, double[] rcond, double[] work,
             int[] iwork)
@@ -8029,7 +7028,7 @@ namespace MKLNET
             int ldvl, double[] vr, int ldvr,
             int mm, int[] m, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrevc_work(Layout layout, char side, char howmny,
+        public static int dtrevc(Layout layout, char side, char howmny,
             int[] select, int n,
             double[] t, int ldt, double[] vl,
             int ldvl, double[] vr, int ldvr,
@@ -8058,7 +7057,7 @@ namespace MKLNET
             int ldq, int[] ifst,
             int[] ilst, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrexc_work(Layout layout, char compq, int n,
+        public static int dtrexc(Layout layout, char compq, int n,
             double[] t, int ldt, double[] q,
             int ldq, int[] ifst,
             int[] ilst, double[] work)
@@ -8093,7 +7092,7 @@ namespace MKLNET
             double[] x, int ldx, double[] ferr,
             double[] berr, double[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrrfs_work(Layout layout, UpLo uplo, TransChar trans,
+        public static int dtrrfs(Layout layout, UpLo uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
             double[] a, int lda,
             double[] b, int ldb,
@@ -8133,7 +7132,7 @@ namespace MKLNET
             double[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrsen_work(Layout layout, char job, char compq,
+        public static int dtrsen(Layout layout, char job, char compq,
             int[] select, int n,
             double[] t, int ldt, double[] q,
             int ldq, double[] wr, double[] wi,
@@ -8179,7 +7178,7 @@ namespace MKLNET
             double[] work, int ldwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrsna_work(Layout layout, char job, char howmny,
+        public static int dtrsna(Layout layout, char job, char howmny,
             int[] select, int n,
             double[] t, int ldt,
             double[] vl, int ldvl,
@@ -8215,24 +7214,6 @@ namespace MKLNET
                 scale);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtrsyl_work(Layout layout, char trana, char tranb,
-            int isgn, int m, int n,
-            double[] a, int lda,
-            double[] b, int ldb, double[] c,
-            int ldc, double[] scale);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrsyl_work(Layout layout, char trana, char tranb,
-            int isgn, int m, int n,
-            double[] a, int lda,
-            double[] b, int ldb, double[] c,
-            int ldc, double[] scale)
-            => LAPACKE_dtrsyl_work(layout, trana, tranb,
-                isgn, m, n,
-                a, lda,
-                b, ldb, c,
-                ldc, scale);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtrtri(Layout layout, UpLo uplo, DiagChar diag, int n,
             double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -8240,15 +7221,6 @@ namespace MKLNET
             double[] a, int lda)
             => LAPACKE_dtrtri(layout, uplo, diag, n,
                 a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtrtri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrtri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, double[] a, int lda)
-            => LAPACKE_dtrtri_work(layout, uplo, diag,
-                n, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtrtrs(Layout layout, UpLo uplo, TransChar trans, DiagChar diag,
@@ -8263,21 +7235,6 @@ namespace MKLNET
                 lda, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtrtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            double[] a, int lda, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            double[] a, int lda, double[] b,
-            int ldb)
-            => LAPACKE_dtrtrs_work(layout, uplo, trans,
-                diag, n, nrhs,
-                a, lda, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtrttf(Layout layout, TransChar transr, UpLo uplo,
             int n, double[] a, int lda,
             double[] arf);
@@ -8290,33 +7247,12 @@ namespace MKLNET
                 arf);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtrttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] a, int lda,
-            double[] arf);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, double[] a, int lda,
-            double[] arf)
-            => LAPACKE_dtrttf_work(layout, transr, uplo,
-                n, a, lda,
-                arf);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dtrttp(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] ap);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dtrttp(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] ap)
             => LAPACKE_dtrttp(layout, uplo, n,
-                a, lda, ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dtrttp_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda, double[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtrttp_work(Layout layout, UpLo uplo, int n,
-            double[] a, int lda, double[] ap)
-            => LAPACKE_dtrttp_work(layout, uplo, n,
                 a, lda, ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -8333,7 +7269,7 @@ namespace MKLNET
             double[] a, int lda, double[] tau,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dtzrzf_work(Layout layout, int m, int n,
+        public static int dtzrzf(Layout layout, int m, int n,
             double[] a, int lda, double[] tau,
             double[] work, int lwork)
             => LAPACKE_dtzrzf_work(layout, m, n,
@@ -8350,15 +7286,6 @@ namespace MKLNET
                 nfact, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_dgetrfnpi_work(Layout layout, int m, int n,
-            int nfact, double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dgetrfnpi_work(Layout layout, int m, int n,
-            int nfact, double[] a, int lda)
-            => LAPACKE_mkl_dgetrfnpi_work(layout, m, n,
-                nfact, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_mkl_dtppack(Layout layout, UpLo uplo, TransChar trans, int n,
             double[] ap, int i, int j, int rows,
             int cols, double[] a, int lda);
@@ -8367,18 +7294,6 @@ namespace MKLNET
             double[] ap, int i, int j, int rows,
             int cols, double[] a, int lda)
             => LAPACKE_mkl_dtppack(layout, uplo, trans, n,
-                ap, i, j, rows,
-                cols, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_dtppack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            double[] ap, int i, int j, int rows,
-            int cols, double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dtppack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            double[] ap, int i, int j, int rows,
-            int cols, double[] a, int lda)
-            => LAPACKE_mkl_dtppack_work(layout, uplo, trans, n,
                 ap, i, j, rows,
                 cols, a, lda);
 
@@ -8395,33 +7310,12 @@ namespace MKLNET
                 cols, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_dtpunpack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            double[] ap, int i, int j, int rows,
-            int cols, double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dtpunpack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            double[] ap, int i, int j, int rows,
-            int cols, double[] a, int lda)
-            => LAPACKE_mkl_dtpunpack_work(layout, uplo, trans, n,
-                ap, i, j, rows,
-                cols, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_mkl_sgetrfnpi(Layout layout, int m, int n,
             int nfact, float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int mkl_sgetrfnpi(Layout layout, int m, int n,
             int nfact, float[] a, int lda)
             => LAPACKE_mkl_sgetrfnpi(layout, m, n,
-                nfact, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_sgetrfnpi_work(Layout layout, int m, int n,
-            int nfact, float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_sgetrfnpi_work(Layout layout, int m, int n,
-            int nfact, float[] a, int lda)
-            => LAPACKE_mkl_sgetrfnpi_work(layout, m, n,
                 nfact, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -8437,18 +7331,6 @@ namespace MKLNET
                 cols, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_stppack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            float[] ap, int i, int j, int rows,
-            int cols, float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_stppack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            float[] ap, int i, int j, int rows,
-            int cols, float[] a, int lda)
-            => LAPACKE_mkl_stppack_work(layout, uplo, trans, n,
-                ap, i, j, rows,
-                cols, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_mkl_stpunpack(Layout layout, UpLo uplo, TransChar trans, int n,
             float[] ap, int i, int j, int rows,
             int cols, float[] a, int lda);
@@ -8457,18 +7339,6 @@ namespace MKLNET
             float[] ap, int i, int j, int rows,
             int cols, float[] a, int lda)
             => LAPACKE_mkl_stpunpack(layout, uplo, trans, n,
-                ap, i, j, rows,
-                cols, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_stpunpack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            float[] ap, int i, int j, int rows,
-            int cols, float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_stpunpack_work(Layout layout, UpLo uplo, TransChar trans, int n,
-            float[] ap, int i, int j, int rows,
-            int cols, float[] a, int lda)
-            => LAPACKE_mkl_stpunpack_work(layout, uplo, trans, n,
                 ap, i, j, rows,
                 cols, a, lda);
 
@@ -8511,7 +7381,7 @@ namespace MKLNET
             float[] b21e, float[] b22d, float[] b22e,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sbbcsd_work(Layout layout, char jobu1, char jobu2,
+        public static int sbbcsd(Layout layout, char jobu1, char jobu2,
             char jobv1t, char jobv2t, TransChar trans,
             int m, int p, int q,
             float[] theta, float[] phi, float[] u1,
@@ -8554,7 +7424,7 @@ namespace MKLNET
             float[] q, int[] iq, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sbdsdc_work(Layout layout, UpLo uplo, char compq,
+        public static int sbdsdc(Layout layout, UpLo uplo, char compq,
             int n, float[] d, float[] e, float[] u,
             int ldu, float[] vt, int ldvt,
             float[] q, int[] iq, float[] work,
@@ -8587,7 +7457,7 @@ namespace MKLNET
             float[] u, int ldu, float[] c,
             int ldc, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sbdsqr_work(Layout layout, UpLo uplo, int n,
+        public static int sbdsqr(Layout layout, UpLo uplo, int n,
             int ncvt, int nru, int ncc,
             float[] d, float[] e, float[] vt, int ldvt,
             float[] u, int ldu, float[] c,
@@ -8627,7 +7497,7 @@ namespace MKLNET
             float[] s, float[] z, int ldz,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sbdsvdx_work(Layout layout, UpLo uplo, char jobz, char range,
+        public static int sbdsvdx(Layout layout, UpLo uplo, char jobz, char range,
             int n, float[] d, float[] e,
             float vl, float vu,
             int il, int iu, int[] ns,
@@ -8648,15 +7518,6 @@ namespace MKLNET
             float[] sep)
             => LAPACKE_sdisna(job, m, n, d,
                 sep);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sdisna_work(char job, int m, int n,
-            float[] d, float[] sep);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sdisna_work(char job, int m, int n,
-            float[] d, float[] sep)
-            => LAPACKE_sdisna_work(job, m, n,
-                d, sep);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgbbrd(Layout layout, char vect, int m,
@@ -8684,7 +7545,7 @@ namespace MKLNET
             float[] pt, int ldpt, float[] c,
             int ldc, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbbrd_work(Layout layout, char vect, int m,
+        public static int sgbbrd(Layout layout, char vect, int m,
             int n, int ncc, int kl,
             int ku, float[] ab, int ldab,
             float[] d, float[] e, float[] q, int ldq,
@@ -8719,7 +7580,7 @@ namespace MKLNET
             float anorm, float[] rcond, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbcon_work(Layout layout, Norm norm, int n,
+        public static int sgbcon(Layout layout, Norm norm, int n,
             int kl, int ku, float[] ab,
             int ldab, int[] ipiv,
             float anorm, float[] rcond, float[] work,
@@ -8746,21 +7607,6 @@ namespace MKLNET
                 colcnd, amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgbequ_work(Layout layout, int m, int n,
-            int kl, int ku, float[] ab,
-            int ldab, float[] r, float[] c,
-            float[] rowcnd, float[] colcnd, float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbequ_work(Layout layout, int m, int n,
-            int kl, int ku, float[] ab,
-            int ldab, float[] r, float[] c,
-            float[] rowcnd, float[] colcnd, float[] amax)
-            => LAPACKE_sgbequ_work(layout, m, n,
-                kl, ku, ab,
-                ldab, r, c,
-                rowcnd, colcnd, amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgbequb(Layout layout, int m, int n,
             int kl, int ku, float[] ab,
             int ldab, float[] r, float[] c, float[] rowcnd,
@@ -8774,21 +7620,6 @@ namespace MKLNET
                 kl, ku, ab,
                 ldab, r, c, rowcnd,
                 colcnd, amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgbequb_work(Layout layout, int m, int n,
-            int kl, int ku, float[] ab,
-            int ldab, float[] r, float[] c,
-            float[] rowcnd, float[] colcnd, float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbequb_work(Layout layout, int m, int n,
-            int kl, int ku, float[] ab,
-            int ldab, float[] r, float[] c,
-            float[] rowcnd, float[] colcnd, float[] amax)
-            => LAPACKE_sgbequb_work(layout, m, n,
-                kl, ku, ab,
-                ldab, r, c,
-                rowcnd, colcnd, amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgbrfs(Layout layout, TransChar trans, int n,
@@ -8821,7 +7652,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbrfs_work(Layout layout, TransChar trans, int n,
+        public static int sgbrfs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
             float[] ab, int ldab,
             float[] afb, int ldafb,
@@ -8884,7 +7715,7 @@ namespace MKLNET
             float[] err_bnds_comp, int nparams,
             float[] aparams, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbrfsx_work(Layout layout, TransChar trans, char equed,
+        public static int sgbrfsx(Layout layout, TransChar trans, char equed,
             int n, int kl, int ku,
             int nrhs, float[] ab,
             int ldab, float[] afb,
@@ -8918,21 +7749,6 @@ namespace MKLNET
             int ldab, int[] ipiv, float[] b,
             int ldb)
             => LAPACKE_sgbsv(layout, n, kl,
-                ku, nrhs, ab,
-                ldab, ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgbsv_work(Layout layout, int n, int kl,
-            int ku, int nrhs, float[] ab,
-            int ldab, int[] ipiv, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbsv_work(Layout layout, int n, int kl,
-            int ku, int nrhs, float[] ab,
-            int ldab, int[] ipiv, float[] b,
-            int ldb)
-            => LAPACKE_sgbsv_work(layout, n, kl,
                 ku, nrhs, ab,
                 ldab, ipiv, b,
                 ldb);
@@ -8974,7 +7790,7 @@ namespace MKLNET
             float[] rcond, float[] ferr, float[] berr,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbsvx_work(Layout layout, char fact, TransChar trans,
+        public static int sgbsvx(Layout layout, char fact, TransChar trans,
             int n, int kl, int ku,
             int nrhs, float[] ab, int ldab,
             float[] afb, int ldafb, int[] ipiv,
@@ -9036,7 +7852,7 @@ namespace MKLNET
             float[] err_bnds_comp, int nparams,
             float[] aparams, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbsvxx_work(Layout layout, char fact, TransChar trans,
+        public static int sgbsvxx(Layout layout, char fact, TransChar trans,
             int n, int kl, int ku,
             int nrhs, float[] ab, int ldab,
             float[] afb, int ldafb, int[] ipiv,
@@ -9070,18 +7886,6 @@ namespace MKLNET
                 ldab, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgbtrf_work(Layout layout, int m, int n,
-            int kl, int ku, float[] ab,
-            int ldab, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbtrf_work(Layout layout, int m, int n,
-            int kl, int ku, float[] ab,
-            int ldab, int[] ipiv)
-            => LAPACKE_sgbtrf_work(layout, m, n,
-                kl, ku, ab,
-                ldab, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgbtrs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
             float[] ab, int ldab,
@@ -9097,24 +7901,6 @@ namespace MKLNET
                 ipiv, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgbtrs_work(Layout layout, TransChar trans, int n,
-            int kl, int ku, int nrhs,
-            float[] ab, int ldab,
-            int[] ipiv, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgbtrs_work(Layout layout, TransChar trans, int n,
-            int kl, int ku, int nrhs,
-            float[] ab, int ldab,
-            int[] ipiv, float[] b,
-            int ldb)
-            => LAPACKE_sgbtrs_work(layout, trans, n,
-                kl, ku, nrhs,
-                ab, ldab,
-                ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgebak(Layout layout, char job, char side, int n,
             int ilo, int ihi, float[] scale,
             int m, float[] v, int ldv);
@@ -9127,21 +7913,6 @@ namespace MKLNET
                 m, v, ldv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgebak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            float[] scale, int m, float[] v,
-            int ldv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgebak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            float[] scale, int m, float[] v,
-            int ldv)
-            => LAPACKE_sgebak_work(layout, job, side,
-                n, ilo, ihi,
-                scale, m, v,
-                ldv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgebal(Layout layout, char job, int n, float[] a,
             int lda, int[] ilo, int[] ihi,
             float[] scale);
@@ -9152,18 +7923,6 @@ namespace MKLNET
             => LAPACKE_sgebal(layout, job, n, a,
                 lda, ilo, ihi,
                 scale);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgebal_work(Layout layout, char job, int n,
-            float[] a, int lda, int[] ilo,
-            int[] ihi, float[] scale);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgebal_work(Layout layout, char job, int n,
-            float[] a, int lda, int[] ilo,
-            int[] ihi, float[] scale)
-            => LAPACKE_sgebal_work(layout, job, n,
-                a, lda, ilo,
-                ihi, scale);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgebrd(Layout layout, int m, int n,
@@ -9183,7 +7942,7 @@ namespace MKLNET
             float[] tauq, float[] taup, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgebrd_work(Layout layout, int m, int n,
+        public static int sgebrd(Layout layout, int m, int n,
             float[] a, int lda, float[] d, float[] e,
             float[] tauq, float[] taup, float[] work,
             int lwork)
@@ -9209,7 +7968,7 @@ namespace MKLNET
             float[] a, int lda, float anorm,
             float[] rcond, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgecon_work(Layout layout, Norm norm, int n,
+        public static int sgecon(Layout layout, Norm norm, int n,
             float[] a, int lda, float anorm,
             float[] rcond, float[] work, int[] iwork)
             => LAPACKE_sgecon_work(layout, norm, n,
@@ -9229,21 +7988,6 @@ namespace MKLNET
                 rowcnd, colcnd, amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgeequ_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] r,
-            float[] c, float[] rowcnd, float[] colcnd,
-            float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeequ_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] r,
-            float[] c, float[] rowcnd, float[] colcnd,
-            float[] amax)
-            => LAPACKE_sgeequ_work(layout, m, n,
-                a, lda, r,
-                c, rowcnd, colcnd,
-                amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgeequb(Layout layout, int m, int n,
             float[] a, int lda, float[] r, float[] c,
             float[] rowcnd, float[] colcnd, float[] amax);
@@ -9254,21 +7998,6 @@ namespace MKLNET
             => LAPACKE_sgeequb(layout, m, n,
                 a, lda, r, c,
                 rowcnd, colcnd, amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgeequb_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] r,
-            float[] c, float[] rowcnd, float[] colcnd,
-            float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeequb_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] r,
-            float[] c, float[] rowcnd, float[] colcnd,
-            float[] amax)
-            => LAPACKE_sgeequb_work(layout, m, n,
-                a, lda, r,
-                c, rowcnd, colcnd,
-                amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgeev(Layout layout, char jobvl, char jobvr,
@@ -9292,7 +8021,7 @@ namespace MKLNET
             float[] vr, int ldvr, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeev_work(Layout layout, char jobvl, char jobvr,
+        public static int sgeev(Layout layout, char jobvl, char jobvr,
             int n, float[] a, int lda,
             float[] wr, float[] wi, float[] vl, int ldvl,
             float[] vr, int ldvr, float[] work,
@@ -9334,7 +8063,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeevx_work(Layout layout, char balanc, char jobvl,
+        public static int sgeevx(Layout layout, char balanc, char jobvl,
             char jobvr, char sense, int n, float[] a,
             int lda, float[] wr, float[] wi, float[] vl,
             int ldvl, float[] vr, int ldvr,
@@ -9368,7 +8097,7 @@ namespace MKLNET
             int ihi, float[] a, int lda,
             float[] tau, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgehrd_work(Layout layout, int n, int ilo,
+        public static int sgehrd(Layout layout, int n, int ilo,
             int ihi, float[] a, int lda,
             float[] tau, float[] work, int lwork)
             => LAPACKE_sgehrd_work(layout, n, ilo,
@@ -9402,7 +8131,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgejsv_work(Layout layout, char joba, char jobu,
+        public static int sgejsv(Layout layout, char joba, char jobu,
             char jobv, char jobr, char jobt, char jobp,
             int m, int n, float[] a,
             int lda, float[] sva, float[] u,
@@ -9431,7 +8160,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgelq2_work(Layout layout, int m, int n,
+        public static int sgelq2(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work)
             => LAPACKE_sgelq2_work(layout, m, n,
@@ -9452,7 +8181,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgelqf_work(Layout layout, int m, int n,
+        public static int sgelqf(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work, int lwork)
             => LAPACKE_sgelqf_work(layout, m, n,
@@ -9477,7 +8206,7 @@ namespace MKLNET
             int lda, float[] b, int ldb,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgels_work(Layout layout, TransChar trans, int m,
+        public static int sgels(Layout layout, TransChar trans, int m,
             int n, int nrhs, float[] a,
             int lda, float[] b, int ldb,
             float[] work, int lwork)
@@ -9508,7 +8237,7 @@ namespace MKLNET
             int[] rank, float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgelsd_work(Layout layout, int m, int n,
+        public static int sgelsd(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, float[] s, float rcond,
             int[] rank, float[] work, int lwork,
@@ -9541,7 +8270,7 @@ namespace MKLNET
             int[] rank, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgelss_work(Layout layout, int m, int n,
+        public static int sgelss(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, float[] s, float rcond,
             int[] rank, float[] work,
@@ -9574,7 +8303,7 @@ namespace MKLNET
             float rcond, int[] rank, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgelsy_work(Layout layout, int m, int n,
+        public static int sgelsy(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, int[] jpvt,
             float rcond, int[] rank, float[] work,
@@ -9610,7 +8339,7 @@ namespace MKLNET
             float[] t, int ldt, float[] c,
             int ldc, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgemqrt_work(Layout layout, char side, TransChar trans,
+        public static int sgemqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             int nb, float[] v, int ldv,
             float[] t, int ldt, float[] c,
@@ -9635,7 +8364,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqlf_work(Layout layout, int m, int n,
+        public static int sgeqlf(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work, int lwork)
             => LAPACKE_sgeqlf_work(layout, m, n,
@@ -9659,7 +8388,7 @@ namespace MKLNET
             float[] a, int lda, int[] jpvt,
             float[] tau, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqp3_work(Layout layout, int m, int n,
+        public static int sgeqp3(Layout layout, int m, int n,
             float[] a, int lda, int[] jpvt,
             float[] tau, float[] work, int lwork)
             => LAPACKE_sgeqp3_work(layout, m, n,
@@ -9683,7 +8412,7 @@ namespace MKLNET
             float[] a, int lda, int[] jpvt,
             float[] tau, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqpf_work(Layout layout, int m, int n,
+        public static int sgeqpf(Layout layout, int m, int n,
             float[] a, int lda, int[] jpvt,
             float[] tau, float[] work)
             => LAPACKE_sgeqpf_work(layout, m, n,
@@ -9704,7 +8433,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqr2_work(Layout layout, int m, int n,
+        public static int sgeqr2(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work)
             => LAPACKE_sgeqr2_work(layout, m, n,
@@ -9725,7 +8454,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqrf_work(Layout layout, int m, int n,
+        public static int sgeqrf(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work, int lwork)
             => LAPACKE_sgeqrf_work(layout, m, n,
@@ -9746,7 +8475,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqrfp_work(Layout layout, int m, int n,
+        public static int sgeqrfp(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work, int lwork)
             => LAPACKE_sgeqrfp_work(layout, m, n,
@@ -9775,18 +8504,6 @@ namespace MKLNET
                 a, lda, t, ldt);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgeqrt2_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] t,
-            int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqrt2_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] t,
-            int ldt)
-            => LAPACKE_sgeqrt2_work(layout, m, n,
-                a, lda, t,
-                ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgeqrt3(Layout layout, int m, int n,
             float[] a, int lda, float[] t, int ldt);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -9796,23 +8513,11 @@ namespace MKLNET
                 a, lda, t, ldt);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgeqrt3_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] t,
-            int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqrt3_work(Layout layout, int m, int n,
-            float[] a, int lda, float[] t,
-            int ldt)
-            => LAPACKE_sgeqrt3_work(layout, m, n,
-                a, lda, t,
-                ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgeqrt_work(Layout layout, int m, int n,
             int nb, float[] a, int lda,
             float[] t, int ldt, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqrt_work(Layout layout, int m, int n,
+        public static int sgeqrt(Layout layout, int m, int n,
             int nb, float[] a, int lda,
             float[] t, int ldt, float[] work)
             => LAPACKE_sgeqrt_work(layout, m, n,
@@ -9849,7 +8554,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgerfs_work(Layout layout, TransChar trans, int n,
+        public static int sgerfs(Layout layout, TransChar trans, int n,
             int nrhs, float[] a, int lda,
             float[] af, int ldaf,
             int[] ipiv, float[] b,
@@ -9906,7 +8611,7 @@ namespace MKLNET
             float[] err_bnds_comp, int nparams,
             float[] aparams, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgerfsx_work(Layout layout, TransChar trans, char equed,
+        public static int sgerfsx(Layout layout, TransChar trans, char equed,
             int n, int nrhs, float[] a,
             int lda, float[] af,
             int ldaf, int[] ipiv,
@@ -9941,7 +8646,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgerqf_work(Layout layout, int m, int n,
+        public static int sgerqf(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work, int lwork)
             => LAPACKE_sgerqf_work(layout, m, n,
@@ -9970,7 +8675,7 @@ namespace MKLNET
             int ldvt, float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgesdd_work(Layout layout, char jobz, int m,
+        public static int sgesdd(Layout layout, char jobz, int m,
             int n, float[] a, int lda,
             float[] s, float[] u, int ldu, float[] vt,
             int ldvt, float[] work, int lwork,
@@ -9994,18 +8699,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgesv_work(Layout layout, int n, int nrhs,
-            float[] a, int lda, int[] ipiv,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgesv_work(Layout layout, int n, int nrhs,
-            float[] a, int lda, int[] ipiv,
-            float[] b, int ldb)
-            => LAPACKE_sgesv_work(layout, n, nrhs,
-                a, lda, ipiv,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgesvd(Layout layout, char jobu, char jobvt,
             int m, int n, float[] a, int lda,
             float[] s, float[] u, int ldu, float[] vt,
@@ -10027,7 +8720,7 @@ namespace MKLNET
             int ldu, float[] vt, int ldvt,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgesvd_work(Layout layout, char jobu, char jobvt,
+        public static int sgesvd(Layout layout, char jobu, char jobvt,
             int m, int n, float[] a,
             int lda, float[] s, float[] u,
             int ldu, float[] vt, int ldvt,
@@ -10071,7 +8764,7 @@ namespace MKLNET
             float[] vt, int ldvt,
             float[] work, int lwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgesvdx_work(Layout layout, char jobu, char jobvt, char range,
+        public static int sgesvdx(Layout layout, char jobu, char jobvt, char range,
             int m, int n, float[] a,
             int lda, float vl, float vu,
             int il, int iu, int[] ns,
@@ -10108,7 +8801,7 @@ namespace MKLNET
             float[] v, int ldv, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgesvj_work(Layout layout, char joba, char jobu,
+        public static int sgesvj(Layout layout, char joba, char jobu,
             char jobv, int m, int n, float[] a,
             int lda, float[] sva, int mv,
             float[] v, int ldv, float[] work,
@@ -10152,7 +8845,7 @@ namespace MKLNET
             int ldx, float[] rcond, float[] ferr,
             float[] berr, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgesvx_work(Layout layout, char fact, TransChar trans,
+        public static int sgesvx(Layout layout, char fact, TransChar trans,
             int n, int nrhs, float[] a,
             int lda, float[] af, int ldaf,
             int[] ipiv, char[] equed, float[] r,
@@ -10209,7 +8902,7 @@ namespace MKLNET
             int nparams, float[] aparams, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgesvxx_work(Layout layout, char fact, TransChar trans,
+        public static int sgesvxx(Layout layout, char fact, TransChar trans,
             int n, int nrhs, float[] a,
             int lda, float[] af, int ldaf,
             int[] ipiv, char[] equed, float[] r,
@@ -10240,15 +8933,6 @@ namespace MKLNET
                 a, lda, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgetf2_work(Layout layout, int m, int n,
-            float[] a, int lda, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgetf2_work(Layout layout, int m, int n,
-            float[] a, int lda, int[] ipiv)
-            => LAPACKE_sgetf2_work(layout, m, n,
-                a, lda, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgetrf(Layout layout, int m, int n,
             float[] a, int lda, int[] ipiv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -10267,24 +8951,6 @@ namespace MKLNET
                 a, lda, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgetrf2_work(Layout layout, int m, int n,
-            float[] a, int lda, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgetrf2_work(Layout layout, int m, int n,
-            float[] a, int lda, int[] ipiv)
-            => LAPACKE_sgetrf2_work(layout, m, n,
-                a, lda, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgetrf_work(Layout layout, int m, int n,
-            float[] a, int lda, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgetrf_work(Layout layout, int m, int n,
-            float[] a, int lda, int[] ipiv)
-            => LAPACKE_sgetrf_work(layout, m, n,
-                a, lda, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgetri(Layout layout, int n, float[] a,
             int lda, int[] ipiv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -10298,7 +8964,7 @@ namespace MKLNET
             int lda, int[] ipiv,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgetri_work(Layout layout, int n, float[] a,
+        public static int sgetri(Layout layout, int n, float[] a,
             int lda, int[] ipiv,
             float[] work, int lwork)
             => LAPACKE_sgetri_work(layout, n, a,
@@ -10318,21 +8984,6 @@ namespace MKLNET
                 ipiv, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgetrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, float[] a, int lda,
-            int[] ipiv, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgetrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, float[] a, int lda,
-            int[] ipiv, float[] b,
-            int ldb)
-            => LAPACKE_sgetrs_work(layout, trans, n,
-                nrhs, a, lda,
-                ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sggbak(Layout layout, char job, char side, int n,
             int ilo, int ihi, float[] lscale,
             float[] rscale, int m, float[] v,
@@ -10346,21 +8997,6 @@ namespace MKLNET
                 ilo, ihi, lscale,
                 rscale, m, v,
                 ldv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sggbak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            float[] lscale, float[] rscale,
-            int m, float[] v, int ldv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggbak_work(Layout layout, char job, char side,
-            int n, int ilo, int ihi,
-            float[] lscale, float[] rscale,
-            int m, float[] v, int ldv)
-            => LAPACKE_sggbak_work(layout, job, side,
-                n, ilo, ihi,
-                lscale, rscale,
-                m, v, ldv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sggbal(Layout layout, char job, int n, float[] a,
@@ -10384,7 +9020,7 @@ namespace MKLNET
             int[] ihi, float[] lscale, float[] rscale,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggbal_work(Layout layout, char job, int n,
+        public static int sggbal(Layout layout, char job, int n,
             float[] a, int lda, float[] b,
             int ldb, int[] ilo,
             int[] ihi, float[] lscale, float[] rscale,
@@ -10441,7 +9077,7 @@ namespace MKLNET
             float[] vr, int ldvr,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggev3_work(Layout layout,
+        public static int sggev3(Layout layout,
             char jobvl, char jobvr, int n,
             float[] a, int lda,
             float[] b, int ldb,
@@ -10466,7 +9102,7 @@ namespace MKLNET
             float[] vr, int ldvr, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggev_work(Layout layout, char jobvl, char jobvr,
+        public static int sggev(Layout layout, char jobvl, char jobvr,
             int n, float[] a, int lda, float[] b,
             int ldb, float[] alphar, float[] alphai,
             float[] beta, float[] vl, int ldvl,
@@ -10518,7 +9154,7 @@ namespace MKLNET
             float[] rcondv, float[] work, int lwork,
             int[] iwork, int[] bwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggevx_work(Layout layout, char balanc, char jobvl,
+        public static int sggevx(Layout layout, char balanc, char jobvl,
             char jobvr, char sense, int n, float[] a,
             int lda, float[] b, int ldb,
             float[] alphar, float[] alphai, float[] beta,
@@ -10557,7 +9193,7 @@ namespace MKLNET
             float[] b, int ldb, float[] d, float[] x,
             float[] y, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggglm_work(Layout layout, int n, int m,
+        public static int sggglm(Layout layout, int n, int m,
             int p, float[] a, int lda,
             float[] b, int ldb, float[] d, float[] x,
             float[] y, float[] work, int lwork)
@@ -10589,7 +9225,7 @@ namespace MKLNET
             float[] z, int ldz, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgghd3_work(Layout layout, char compq, char compz,
+        public static int sgghd3(Layout layout, char compq, char compz,
             int n, int ilo, int ihi,
             float[] a, int lda, float[] b,
             int ldb, float[] q, int ldq,
@@ -10618,24 +9254,6 @@ namespace MKLNET
                 q, ldq, z, ldz);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgghrd_work(Layout layout, char compq, char compz,
-            int n, int ilo, int ihi,
-            float[] a, int lda, float[] b,
-            int ldb, float[] q, int ldq,
-            float[] z, int ldz);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgghrd_work(Layout layout, char compq, char compz,
-            int n, int ilo, int ihi,
-            float[] a, int lda, float[] b,
-            int ldb, float[] q, int ldq,
-            float[] z, int ldz)
-            => LAPACKE_sgghrd_work(layout, compq, compz,
-                n, ilo, ihi,
-                a, lda, b,
-                ldb, q, ldq,
-                z, ldz);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgglse(Layout layout, int m, int n,
             int p, float[] a, int lda, float[] b,
             int ldb, float[] c, float[] d, float[] x);
@@ -10653,7 +9271,7 @@ namespace MKLNET
             float[] b, int ldb, float[] c, float[] d,
             float[] x, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgglse_work(Layout layout, int m, int n,
+        public static int sgglse(Layout layout, int m, int n,
             int p, float[] a, int lda,
             float[] b, int ldb, float[] c, float[] d,
             float[] x, float[] work, int lwork)
@@ -10680,7 +9298,7 @@ namespace MKLNET
             float[] taua, float[] b, int ldb,
             float[] taub, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggqrf_work(Layout layout, int n, int m,
+        public static int sggqrf(Layout layout, int n, int m,
             int p, float[] a, int lda,
             float[] taua, float[] b, int ldb,
             float[] taub, float[] work, int lwork)
@@ -10707,7 +9325,7 @@ namespace MKLNET
             float[] taua, float[] b, int ldb,
             float[] taub, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggrqf_work(Layout layout, int m, int p,
+        public static int sggrqf(Layout layout, int m, int p,
             int n, float[] a, int lda,
             float[] taua, float[] b, int ldb,
             float[] taub, float[] work, int lwork)
@@ -10775,7 +9393,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggsvd3_work(Layout layout, char jobu, char jobv,
+        public static int sggsvd3(Layout layout, char jobu, char jobv,
             char jobq, int m, int n,
             int p, int[] k, int[] l,
             float[] a, int lda, float[] b,
@@ -10804,7 +9422,7 @@ namespace MKLNET
             int ldv, float[] q, int ldq,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggsvd_work(Layout layout, char jobu, char jobv,
+        public static int sggsvd(Layout layout, char jobu, char jobv,
             char jobq, int m, int n,
             int p, int[] k, int[] l,
             float[] a, int lda, float[] b,
@@ -10874,7 +9492,7 @@ namespace MKLNET
             int[] iwork, float[] tau, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggsvp3_work(Layout layout, char jobu, char jobv,
+        public static int sggsvp3(Layout layout, char jobu, char jobv,
             char jobq, int m, int p,
             int n, float[] a, int lda,
             float[] b, int ldb, float tola,
@@ -10903,7 +9521,7 @@ namespace MKLNET
             int ldv, float[] q, int ldq,
             int[] iwork, float[] tau, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sggsvp_work(Layout layout, char jobu, char jobv,
+        public static int sggsvp(Layout layout, char jobu, char jobv,
             char jobq, int m, int p,
             int n, float[] a, int lda,
             float[] b, int ldb, float tola,
@@ -10939,7 +9557,7 @@ namespace MKLNET
             float anorm, float[] rcond, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgtcon_work(Norm norm, int n, float[] dl,
+        public static int sgtcon(Norm norm, int n, float[] dl,
             float[] d, float[] du,
             float[] du2, int[] ipiv,
             float anorm, float[] rcond, float[] work,
@@ -10985,7 +9603,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgtrfs_work(Layout layout, TransChar trans, int n,
+        public static int sgtrfs(Layout layout, TransChar trans, int n,
             int nrhs, float[] dl,
             float[] d, float[] du,
             float[] dlf, float[] df,
@@ -11013,18 +9631,6 @@ namespace MKLNET
             float[] dl, float[] d, float[] du, float[] b,
             int ldb)
             => LAPACKE_sgtsv(layout, n, nrhs,
-                dl, d, du, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgtsv_work(Layout layout, int n, int nrhs,
-            float[] dl, float[] d, float[] du, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgtsv_work(Layout layout, int n, int nrhs,
-            float[] dl, float[] d, float[] du, float[] b,
-            int ldb)
-            => LAPACKE_sgtsv_work(layout, n, nrhs,
                 dl, d, du, b,
                 ldb);
 
@@ -11062,7 +9668,7 @@ namespace MKLNET
             float[] rcond, float[] ferr, float[] berr,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgtsvx_work(Layout layout, char fact, TransChar trans,
+        public static int sgtsvx(Layout layout, char fact, TransChar trans,
             int n, int nrhs, float[] dl,
             float[] d, float[] du, float[] dlf,
             float[] df, float[] duf, float[] du2,
@@ -11089,15 +9695,6 @@ namespace MKLNET
                 du2, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgttrf_work(int n, float[] dl, float[] d, float[] du,
-            float[] du2, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgttrf_work(int n, float[] dl, float[] d, float[] du,
-            float[] du2, int[] ipiv)
-            => LAPACKE_sgttrf_work(n, dl, d, du,
-                du2, ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgttrs(Layout layout, TransChar trans, int n,
             int nrhs, float[] dl, float[] d,
             float[] du, float[] du2,
@@ -11111,24 +9708,6 @@ namespace MKLNET
                 nrhs, dl, d,
                 du, du2,
                 ipiv, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sgttrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, float[] dl,
-            float[] d, float[] du,
-            float[] du2, int[] ipiv,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgttrs_work(Layout layout, TransChar trans, int n,
-            int nrhs, float[] dl,
-            float[] d, float[] du,
-            float[] du2, int[] ipiv,
-            float[] b, int ldb)
-            => LAPACKE_sgttrs_work(layout, trans, n,
-                nrhs, dl,
-                d, du,
-                du2, ipiv,
-                b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_shgeqz(Layout layout, char job, char compq, char compz,
@@ -11157,7 +9736,7 @@ namespace MKLNET
             int ldq, float[] z, int ldz,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int shgeqz_work(Layout layout, char job, char compq,
+        public static int shgeqz(Layout layout, char job, char compq,
             char compz, int n, int ilo,
             int ihi, float[] h, int ldh,
             float[] t, int ldt, float[] alphar,
@@ -11202,7 +9781,7 @@ namespace MKLNET
             int mm, int[] m, float[] work,
             int[] ifaill, int[] ifailr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int shsein_work(Layout layout, char job, char eigsrc,
+        public static int shsein(Layout layout, char job, char eigsrc,
             char initv, int[] select,
             int n, float[] h, int ldh,
             float[] wr, float[] wi, float[] vl,
@@ -11239,7 +9818,7 @@ namespace MKLNET
             float[] z, int ldz, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int shseqr_work(Layout layout, char job, char compz,
+        public static int shseqr(Layout layout, char job, char compz,
             int n, int ilo, int ihi,
             float[] h, int ldh, float[] wr, float[] wi,
             float[] z, int ldz, float[] work,
@@ -11260,18 +9839,6 @@ namespace MKLNET
                 est, kase, isave);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slacn2_work(int n, float[] v, float[] x,
-            int[] isgn, float[] est, int[] kase,
-            int[] isave);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slacn2_work(int n, float[] v, float[] x,
-            int[] isgn, float[] est, int[] kase,
-            int[] isave)
-            => LAPACKE_slacn2_work(n, v, x,
-                isgn, est, kase,
-                isave);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slacpy(Layout layout, UpLo uplo, int m,
             int n, float[] a, int lda,
             float[] b, int ldb);
@@ -11284,18 +9851,6 @@ namespace MKLNET
                 b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slacpy_work(Layout layout, UpLo uplo, int m,
-            int n, float[] a, int lda,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slacpy_work(Layout layout, UpLo uplo, int m,
-            int n, float[] a, int lda,
-            float[] b, int ldb)
-            => LAPACKE_slacpy_work(layout, uplo, m,
-                n, a, lda,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slag2d(Layout layout, int m, int n,
             float[] sa, int ldsa, double[] a,
             int lda);
@@ -11304,18 +9859,6 @@ namespace MKLNET
             float[] sa, int ldsa, double[] a,
             int lda)
             => LAPACKE_slag2d(layout, m, n,
-                sa, ldsa, a,
-                lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slag2d_work(Layout layout, int m, int n,
-            float[] sa, int ldsa, double[] a,
-            int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slag2d_work(Layout layout, int m, int n,
-            float[] sa, int ldsa, double[] a,
-            int lda)
-            => LAPACKE_slag2d_work(layout, m, n,
                 sa, ldsa, a,
                 lda);
 
@@ -11337,7 +9880,7 @@ namespace MKLNET
             float[] a, int lda, int[] iseed,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slagge_work(Layout layout, int m, int n,
+        public static int slagge(Layout layout, int m, int n,
             int kl, int ku, float[] d,
             float[] a, int lda, int[] iseed,
             float[] work)
@@ -11363,7 +9906,7 @@ namespace MKLNET
             float[] d, float[] a, int lda,
             int[] iseed, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slagsy_work(Layout layout, int n, int k,
+        public static int slagsy(Layout layout, int n, int k,
             float[] d, float[] a, int lda,
             int[] iseed, float[] work)
             => LAPACKE_slagsy_work(layout, n, k,
@@ -11383,18 +9926,6 @@ namespace MKLNET
                 k);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slapmr_work(Layout layout, int forwrd,
-            int m, int n, float[] x,
-            int ldx, int[] k);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slapmr_work(Layout layout, int forwrd,
-            int m, int n, float[] x,
-            int ldx, int[] k)
-            => LAPACKE_slapmr_work(layout, forwrd,
-                m, n, x,
-                ldx, k);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slapmt(Layout layout, int forwrd,
             int m, int n, float[] x, int ldx,
             int[] k);
@@ -11405,18 +9936,6 @@ namespace MKLNET
             => LAPACKE_slapmt(layout, forwrd,
                 m, n, x, ldx,
                 k);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slapmt_work(Layout layout, int forwrd,
-            int m, int n, float[] x,
-            int ldx, int[] k);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slapmt_work(Layout layout, int forwrd,
-            int m, int n, float[] x,
-            int ldx, int[] k)
-            => LAPACKE_slapmt_work(layout, forwrd,
-                m, n, x,
-                ldx, k);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slarfb(Layout layout, char side, TransChar trans, char direct,
@@ -11444,7 +9963,7 @@ namespace MKLNET
             float[] c, int ldc, float[] work,
             int ldwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slarfb_work(Layout layout, char side, TransChar trans,
+        public static int slarfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
             int n, int k, float[] v,
             int ldv, float[] t, int ldt,
@@ -11467,15 +9986,6 @@ namespace MKLNET
                 incx, tau);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slarfg_work(int n, float[] alpha, float[] x,
-            int incx, float[] tau);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slarfg_work(int n, float[] alpha, float[] x,
-            int incx, float[] tau)
-            => LAPACKE_slarfg_work(n, alpha, x,
-                incx, tau);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slarft(Layout layout, char direct, char storev,
             int n, int k, float[] v,
             int ldv, float[] tau, float[] t,
@@ -11486,21 +9996,6 @@ namespace MKLNET
             int ldv, float[] tau, float[] t,
             int ldt)
             => LAPACKE_slarft(layout, direct, storev,
-                n, k, v,
-                ldv, tau, t,
-                ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slarft_work(Layout layout, char direct, char storev,
-            int n, int k, float[] v,
-            int ldv, float[] tau, float[] t,
-            int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slarft_work(Layout layout, char direct, char storev,
-            int n, int k, float[] v,
-            int ldv, float[] tau, float[] t,
-            int ldt)
-            => LAPACKE_slarft_work(layout, direct, storev,
                 n, k, v,
                 ldv, tau, t,
                 ldt);
@@ -11518,18 +10013,6 @@ namespace MKLNET
                 ldc, work);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slarfx_work(Layout layout, char side, int m,
-            int n, float[] v, float tau,
-            float[] c, int ldc, float[] work);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slarfx_work(Layout layout, char side, int m,
-            int n, float[] v, float tau,
-            float[] c, int ldc, float[] work)
-            => LAPACKE_slarfx_work(layout, side, m,
-                n, v, tau,
-                c, ldc, work);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slarnv(int idist, int[] iseed, int n,
             float[] x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -11539,28 +10022,10 @@ namespace MKLNET
                 x);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slarnv_work(int idist, int[] iseed,
-            int n, float[] x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slarnv_work(int idist, int[] iseed,
-            int n, float[] x)
-            => LAPACKE_slarnv_work(idist, iseed,
-                n, x);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slartgp(float f, float g, float[] cs, float[] sn, float[] r);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int slartgp(float f, float g, float[] cs, float[] sn, float[] r)
             => LAPACKE_slartgp(f, g, cs, sn, r);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slartgp_work(float f, float g, float[] cs, float[] sn,
-            float[] r);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slartgp_work(float f, float g, float[] cs, float[] sn,
-            float[] r)
-            => LAPACKE_slartgp_work(f, g, cs, sn,
-                r);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slartgs(float x, float y, float sigma, float[] cs,
@@ -11569,15 +10034,6 @@ namespace MKLNET
         public static int slartgs(float x, float y, float sigma, float[] cs,
             float[] sn)
             => LAPACKE_slartgs(x, y, sigma, cs,
-                sn);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slartgs_work(float x, float y, float sigma, float[] cs,
-            float[] sn);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slartgs_work(float x, float y, float sigma, float[] cs,
-            float[] sn)
-            => LAPACKE_slartgs_work(x, y, sigma, cs,
                 sn);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -11596,21 +10052,6 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slascl_work(Layout layout, char type, int kl,
-            int ku, float cfrom, float cto,
-            int m, int n, float[] a,
-            int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slascl_work(Layout layout, char type, int kl,
-            int ku, float cfrom, float cto,
-            int m, int n, float[] a,
-            int lda)
-            => LAPACKE_slascl_work(layout, type, kl,
-                ku, cfrom, cto,
-                m, n, a,
-                lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slaset(Layout layout, UpLo uplo, int m,
             int n, float alpha, float beta, float[] a,
             int lda);
@@ -11623,28 +10064,10 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slaset_work(Layout layout, UpLo uplo, int m,
-            int n, float alpha, float beta, float[] a,
-            int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slaset_work(Layout layout, UpLo uplo, int m,
-            int n, float alpha, float beta, float[] a,
-            int lda)
-            => LAPACKE_slaset_work(layout, uplo, m,
-                n, alpha, beta, a,
-                lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slasrt(char id, int n, float[] d);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int slasrt(char id, int n, float[] d)
             => LAPACKE_slasrt(id, n, d);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slasrt_work(char id, int n, float[] d);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slasrt_work(char id, int n, float[] d)
-            => LAPACKE_slasrt_work(id, n, d);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_slaswp(Layout layout, int n, float[] a,
@@ -11655,18 +10078,6 @@ namespace MKLNET
             int lda, int k1, int k2,
             int[] ipiv, int incx)
             => LAPACKE_slaswp(layout, n, a,
-                lda, k1, k2,
-                ipiv, incx);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slaswp_work(Layout layout, int n, float[] a,
-            int lda, int k1, int k2,
-            int[] ipiv, int incx);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slaswp_work(Layout layout, int n, float[] a,
-            int lda, int k1, int k2,
-            int[] ipiv, int incx)
-            => LAPACKE_slaswp_work(layout, n, a,
                 lda, k1, k2,
                 ipiv, incx);
 
@@ -11696,7 +10107,7 @@ namespace MKLNET
             char pack, float[] a, int lda,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slatms_work(Layout layout, int m, int n,
+        public static int slatms(Layout layout, int m, int n,
             char dist, int[] iseed, char sym,
             float[] d, int mode, float cond,
             float dmax, int kl, int ku,
@@ -11719,15 +10130,6 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_slauum_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int slauum_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda)
-            => LAPACKE_slauum_work(layout, uplo, n,
-                a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sopgtr(Layout layout, UpLo uplo, int n,
             float[] ap, float[] tau, float[] q,
             int ldq);
@@ -11744,7 +10146,7 @@ namespace MKLNET
             float[] ap, float[] tau, float[] q,
             int ldq, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sopgtr_work(Layout layout, UpLo uplo, int n,
+        public static int sopgtr(Layout layout, UpLo uplo, int n,
             float[] ap, float[] tau, float[] q,
             int ldq, float[] work)
             => LAPACKE_sopgtr_work(layout, uplo, n,
@@ -11769,7 +10171,7 @@ namespace MKLNET
             float[] ap, float[] tau, float[] c,
             int ldc, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sopmtr_work(Layout layout, char side, UpLo uplo,
+        public static int sopmtr(Layout layout, char side, UpLo uplo,
             TransChar trans, int m, int n,
             float[] ap, float[] tau, float[] c,
             int ldc, float[] work)
@@ -11812,7 +10214,7 @@ namespace MKLNET
             float[] tauq1, float[] tauq2, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorbdb_work(Layout layout, TransChar trans, char signs,
+        public static int sorbdb(Layout layout, TransChar trans, char signs,
             int m, int p, int q,
             float[] x11, int ldx11, float[] x12,
             int ldx12, float[] x21, int ldx21,
@@ -11887,7 +10289,7 @@ namespace MKLNET
             int ldv1t, float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorcsd2by1_work(Layout layout, char jobu1, char jobu2,
+        public static int sorcsd2by1(Layout layout, char jobu1, char jobu2,
             char jobv1t, int m, int p,
             int q, float[] x11, int ldx11,
             float[] x21, int ldx21,
@@ -11917,7 +10319,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorcsd_work(Layout layout, char jobu1, char jobu2,
+        public static int sorcsd(Layout layout, char jobu1, char jobu2,
             char jobv1t, char jobv2t, TransChar trans,
             char signs, int m, int p,
             int q, float[] x11, int ldx11,
@@ -11958,7 +10360,7 @@ namespace MKLNET
             int lda, float[] tau, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorgbr_work(Layout layout, char vect, int m,
+        public static int sorgbr(Layout layout, char vect, int m,
             int n, int k, float[] a,
             int lda, float[] tau, float[] work,
             int lwork)
@@ -11985,7 +10387,7 @@ namespace MKLNET
             float[] tau, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorghr_work(Layout layout, int n, int ilo,
+        public static int sorghr(Layout layout, int n, int ilo,
             int ihi, float[] a, int lda,
             float[] tau, float[] work,
             int lwork)
@@ -12012,7 +10414,7 @@ namespace MKLNET
             float[] tau, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorglq_work(Layout layout, int m, int n,
+        public static int sorglq(Layout layout, int m, int n,
             int k, float[] a, int lda,
             float[] tau, float[] work,
             int lwork)
@@ -12039,7 +10441,7 @@ namespace MKLNET
             float[] tau, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorgql_work(Layout layout, int m, int n,
+        public static int sorgql(Layout layout, int m, int n,
             int k, float[] a, int lda,
             float[] tau, float[] work,
             int lwork)
@@ -12066,7 +10468,7 @@ namespace MKLNET
             float[] tau, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorgqr_work(Layout layout, int m, int n,
+        public static int sorgqr(Layout layout, int m, int n,
             int k, float[] a, int lda,
             float[] tau, float[] work,
             int lwork)
@@ -12093,7 +10495,7 @@ namespace MKLNET
             float[] tau, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorgrq_work(Layout layout, int m, int n,
+        public static int sorgrq(Layout layout, int m, int n,
             int k, float[] a, int lda,
             float[] tau, float[] work,
             int lwork)
@@ -12116,7 +10518,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sorgtr_work(Layout layout, UpLo uplo, int n,
+        public static int sorgtr(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] tau,
             float[] work, int lwork)
             => LAPACKE_sorgtr_work(layout, uplo, n,
@@ -12145,7 +10547,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormbr_work(Layout layout, char vect, char side,
+        public static int sormbr(Layout layout, char vect, char side,
             TransChar trans, int m, int n,
             int k, float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12178,7 +10580,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormhr_work(Layout layout, char side, TransChar trans,
+        public static int sormhr(Layout layout, char side, TransChar trans,
             int m, int n, int ilo,
             int ihi, float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12211,7 +10613,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormlq_work(Layout layout, char side, TransChar trans,
+        public static int sormlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12244,7 +10646,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormql_work(Layout layout, char side, TransChar trans,
+        public static int sormql(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12277,7 +10679,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormqr_work(Layout layout, char side, TransChar trans,
+        public static int sormqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12310,7 +10712,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormrq_work(Layout layout, char side, TransChar trans,
+        public static int sormrq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12343,7 +10745,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormrz_work(Layout layout, char side, TransChar trans,
+        public static int sormrz(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             int l, float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12376,7 +10778,7 @@ namespace MKLNET
             float[] tau, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sormtr_work(Layout layout, char side, UpLo uplo,
+        public static int sormtr(Layout layout, char side, UpLo uplo,
             TransChar trans, int m, int n,
             float[] a, int lda,
             float[] tau, float[] c, int ldc,
@@ -12405,7 +10807,7 @@ namespace MKLNET
             float anorm, float[] rcond, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbcon_work(Layout layout, UpLo uplo, int n,
+        public static int spbcon(Layout layout, UpLo uplo, int n,
             int kd, float[] ab, int ldab,
             float anorm, float[] rcond, float[] work,
             int[] iwork)
@@ -12423,18 +10825,6 @@ namespace MKLNET
             int kd, float[] ab, int ldab,
             float[] s, float[] scond, float[] amax)
             => LAPACKE_spbequ(layout, uplo, n,
-                kd, ab, ldab,
-                s, scond, amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spbequ_work(Layout layout, UpLo uplo, int n,
-            int kd, float[] ab, int ldab,
-            float[] s, float[] scond, float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbequ_work(Layout layout, UpLo uplo, int n,
-            int kd, float[] ab, int ldab,
-            float[] s, float[] scond, float[] amax)
-            => LAPACKE_spbequ_work(layout, uplo, n,
                 kd, ab, ldab,
                 s, scond, amax);
 
@@ -12465,7 +10855,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbrfs_work(Layout layout, UpLo uplo, int n,
+        public static int spbrfs(Layout layout, UpLo uplo, int n,
             int kd, int nrhs, float[] ab,
             int ldab, float[] afb,
             int ldafb, float[] b,
@@ -12490,15 +10880,6 @@ namespace MKLNET
                 kb, bb, ldbb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spbstf_work(Layout layout, UpLo uplo, int n,
-            int kb, float[] bb, int ldbb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbstf_work(Layout layout, UpLo uplo, int n,
-            int kb, float[] bb, int ldbb)
-            => LAPACKE_spbstf_work(layout, uplo, n,
-                kb, bb, ldbb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spbsv(Layout layout, UpLo uplo, int n,
             int kd, int nrhs, float[] ab,
             int ldab, float[] b, int ldb);
@@ -12507,18 +10888,6 @@ namespace MKLNET
             int kd, int nrhs, float[] ab,
             int ldab, float[] b, int ldb)
             => LAPACKE_spbsv(layout, uplo, n,
-                kd, nrhs, ab,
-                ldab, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spbsv_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs, float[] ab,
-            int ldab, float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbsv_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs, float[] ab,
-            int ldab, float[] b, int ldb)
-            => LAPACKE_spbsv_work(layout, uplo, n,
                 kd, nrhs, ab,
                 ldab, b, ldb);
 
@@ -12552,7 +10921,7 @@ namespace MKLNET
             int ldx, float[] rcond, float[] ferr,
             float[] berr, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbsvx_work(Layout layout, char fact, UpLo uplo,
+        public static int spbsvx(Layout layout, char fact, UpLo uplo,
             int n, int kd, int nrhs,
             float[] ab, int ldab, float[] afb,
             int ldafb, char[] equed, float[] s,
@@ -12577,15 +10946,6 @@ namespace MKLNET
                 kd, ab, ldab);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spbtrf_work(Layout layout, UpLo uplo, int n,
-            int kd, float[] ab, int ldab);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbtrf_work(Layout layout, UpLo uplo, int n,
-            int kd, float[] ab, int ldab)
-            => LAPACKE_spbtrf_work(layout, uplo, n,
-                kd, ab, ldab);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spbtrs(Layout layout, UpLo uplo, int n,
             int kd, int nrhs, float[] ab,
             int ldab, float[] b, int ldb);
@@ -12594,18 +10954,6 @@ namespace MKLNET
             int kd, int nrhs, float[] ab,
             int ldab, float[] b, int ldb)
             => LAPACKE_spbtrs(layout, uplo, n,
-                kd, nrhs, ab,
-                ldab, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spbtrs_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs, float[] ab,
-            int ldab, float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spbtrs_work(Layout layout, UpLo uplo, int n,
-            int kd, int nrhs, float[] ab,
-            int ldab, float[] b, int ldb)
-            => LAPACKE_spbtrs_work(layout, uplo, n,
                 kd, nrhs, ab,
                 ldab, b, ldb);
 
@@ -12619,30 +10967,12 @@ namespace MKLNET
                 n, a);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spftrf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] a);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spftrf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] a)
-            => LAPACKE_spftrf_work(layout, transr, uplo,
-                n, a);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spftri(Layout layout, TransChar transr, UpLo uplo,
             int n, float[] a);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int spftri(Layout layout, TransChar transr, UpLo uplo,
             int n, float[] a)
             => LAPACKE_spftri(layout, transr, uplo,
-                n, a);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spftri_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] a);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spftri_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] a)
-            => LAPACKE_spftri_work(layout, transr, uplo,
                 n, a);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -12654,18 +10984,6 @@ namespace MKLNET
             int n, int nrhs, float[] a,
             float[] b, int ldb)
             => LAPACKE_spftrs(layout, transr, uplo,
-                n, nrhs, a,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spftrs_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, int nrhs, float[] a,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spftrs_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, int nrhs, float[] a,
-            float[] b, int ldb)
-            => LAPACKE_spftrs_work(layout, transr, uplo,
                 n, nrhs, a,
                 b, ldb);
 
@@ -12686,7 +11004,7 @@ namespace MKLNET
             float[] a, int lda, float anorm,
             float[] rcond, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spocon_work(Layout layout, UpLo uplo, int n,
+        public static int spocon(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float anorm,
             float[] rcond, float[] work, int[] iwork)
             => LAPACKE_spocon_work(layout, uplo, n,
@@ -12703,18 +11021,6 @@ namespace MKLNET
                 lda, s, scond, amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spoequ_work(Layout layout, int n, float[] a,
-            int lda, float[] s, float[] scond,
-            float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spoequ_work(Layout layout, int n, float[] a,
-            int lda, float[] s, float[] scond,
-            float[] amax)
-            => LAPACKE_spoequ_work(layout, n, a,
-                lda, s, scond,
-                amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spoequb(Layout layout, int n, float[] a,
             int lda, float[] s, float[] scond,
             float[] amax);
@@ -12725,18 +11031,6 @@ namespace MKLNET
             => LAPACKE_spoequb(layout, n, a,
                 lda, s, scond,
                 amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spoequb_work(Layout layout, int n,
-            float[] a, int lda, float[] s,
-            float[] scond, float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spoequb_work(Layout layout, int n,
-            float[] a, int lda, float[] s,
-            float[] scond, float[] amax)
-            => LAPACKE_spoequb_work(layout, n,
-                a, lda, s,
-                scond, amax);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sporfs(Layout layout, UpLo uplo, int n,
@@ -12765,7 +11059,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sporfs_work(Layout layout, UpLo uplo, int n,
+        public static int sporfs(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a,
             int lda, float[] af,
             int ldaf, float[] b,
@@ -12819,7 +11113,7 @@ namespace MKLNET
             float[] aparams, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sporfsx_work(Layout layout, UpLo uplo, char equed,
+        public static int sporfsx(Layout layout, UpLo uplo, char equed,
             int n, int nrhs, float[] a,
             int lda, float[] af,
             int ldaf, float[] s,
@@ -12853,18 +11147,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sposv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a, int lda,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sposv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a, int lda,
-            float[] b, int ldb)
-            => LAPACKE_sposv_work(layout, uplo, n,
-                nrhs, a, lda,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sposvx(Layout layout, char fact, UpLo uplo, int n,
             int nrhs, float[] a, int lda, float[] af,
             int ldaf, char[] equed, float[] s, float[] b,
@@ -12891,7 +11173,7 @@ namespace MKLNET
             float[] rcond, float[] ferr, float[] berr,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sposvx_work(Layout layout, char fact, UpLo uplo,
+        public static int sposvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, float[] a,
             int lda, float[] af, int ldaf,
             char[] equed, float[] s, float[] b,
@@ -12945,7 +11227,7 @@ namespace MKLNET
             float[] aparams, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sposvxx_work(Layout layout, char fact, UpLo uplo,
+        public static int sposvxx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, float[] a,
             int lda, float[] af, int ldaf,
             char[] equed, float[] s, float[] b,
@@ -12985,24 +11267,6 @@ namespace MKLNET
                 lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spotrf2_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spotrf2_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda)
-            => LAPACKE_spotrf2_work(layout, uplo, n,
-                a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spotrf_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spotrf_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda)
-            => LAPACKE_spotrf_work(layout, uplo, n,
-                a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spotri(Layout layout, UpLo uplo, int n, float[] a,
             int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -13010,15 +11274,6 @@ namespace MKLNET
             int lda)
             => LAPACKE_spotri(layout, uplo, n, a,
                 lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spotri_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spotri_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda)
-            => LAPACKE_spotri_work(layout, uplo, n,
-                a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spotrs(Layout layout, UpLo uplo, int n,
@@ -13031,18 +11286,6 @@ namespace MKLNET
             => LAPACKE_spotrs(layout, uplo, n,
                 nrhs, a, lda,
                 b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spotrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a,
-            int lda, float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spotrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a,
-            int lda, float[] b, int ldb)
-            => LAPACKE_spotrs_work(layout, uplo, n,
-                nrhs, a,
-                lda, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sppcon(Layout layout, UpLo uplo, int n,
@@ -13058,7 +11301,7 @@ namespace MKLNET
             float[] ap, float anorm, float[] rcond,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sppcon_work(Layout layout, UpLo uplo, int n,
+        public static int sppcon(Layout layout, UpLo uplo, int n,
             float[] ap, float anorm, float[] rcond,
             float[] work, int[] iwork)
             => LAPACKE_sppcon_work(layout, uplo, n,
@@ -13074,18 +11317,6 @@ namespace MKLNET
             float[] ap, float[] s, float[] scond,
             float[] amax)
             => LAPACKE_sppequ(layout, uplo, n,
-                ap, s, scond,
-                amax);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sppequ_work(Layout layout, UpLo uplo, int n,
-            float[] ap, float[] s, float[] scond,
-            float[] amax);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sppequ_work(Layout layout, UpLo uplo, int n,
-            float[] ap, float[] s, float[] scond,
-            float[] amax)
-            => LAPACKE_sppequ_work(layout, uplo, n,
                 ap, s, scond,
                 amax);
 
@@ -13112,7 +11343,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spprfs_work(Layout layout, UpLo uplo, int n,
+        public static int spprfs(Layout layout, UpLo uplo, int n,
             int nrhs, float[] ap,
             float[] afp, float[] b,
             int ldb, float[] x, int ldx,
@@ -13133,18 +11364,6 @@ namespace MKLNET
             int nrhs, float[] ap, float[] b, int ldb)
             => LAPACKE_sppsv(layout, uplo, n,
                 nrhs, ap, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sppsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sppsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap, float[] b,
-            int ldb)
-            => LAPACKE_sppsv_work(layout, uplo, n,
-                nrhs, ap, b,
-                ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sppsvx(Layout layout, char fact, UpLo uplo, int n,
@@ -13172,7 +11391,7 @@ namespace MKLNET
             float[] rcond, float[] ferr, float[] berr,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sppsvx_work(Layout layout, char fact, UpLo uplo,
+        public static int sppsvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, float[] ap,
             float[] afp, char[] equed, float[] s, float[] b,
             int ldb, float[] x, int ldx,
@@ -13195,30 +11414,12 @@ namespace MKLNET
                 ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spptrf_work(Layout layout, UpLo uplo, int n,
-            float[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spptrf_work(Layout layout, UpLo uplo, int n,
-            float[] ap)
-            => LAPACKE_spptrf_work(layout, uplo, n,
-                ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spptri(Layout layout, UpLo uplo, int n,
             float[] ap);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int spptri(Layout layout, UpLo uplo, int n,
             float[] ap)
             => LAPACKE_spptri(layout, uplo, n,
-                ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spptri_work(Layout layout, UpLo uplo, int n,
-            float[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spptri_work(Layout layout, UpLo uplo, int n,
-            float[] ap)
-            => LAPACKE_spptri_work(layout, uplo, n,
                 ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -13230,18 +11431,6 @@ namespace MKLNET
             int nrhs, float[] ap, float[] b,
             int ldb)
             => LAPACKE_spptrs(layout, uplo, n,
-                nrhs, ap, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap, float[] b,
-            int ldb)
-            => LAPACKE_spptrs_work(layout, uplo, n,
                 nrhs, ap, b,
                 ldb);
 
@@ -13262,7 +11451,7 @@ namespace MKLNET
             float[] a, int lda, int[] piv,
             int[] rank, float tol, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spstrf_work(Layout layout, UpLo uplo, int n,
+        public static int spstrf(Layout layout, UpLo uplo, int n,
             float[] a, int lda, int[] piv,
             int[] rank, float tol, float[] work)
             => LAPACKE_spstrf_work(layout, uplo, n,
@@ -13282,7 +11471,7 @@ namespace MKLNET
         static extern int LAPACKE_sptcon_work(int n, float[] d, float[] e,
             float anorm, float[] rcond, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sptcon_work(int n, float[] d, float[] e,
+        public static int sptcon(int n, float[] d, float[] e,
             float anorm, float[] rcond, float[] work)
             => LAPACKE_sptcon_work(n, d, e,
                 anorm, rcond, work);
@@ -13301,7 +11490,7 @@ namespace MKLNET
             float[] d, float[] e, float[] z, int ldz,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spteqr_work(Layout layout, char compz, int n,
+        public static int spteqr(Layout layout, char compz, int n,
             float[] d, float[] e, float[] z, int ldz,
             float[] work)
             => LAPACKE_spteqr_work(layout, compz, n,
@@ -13330,7 +11519,7 @@ namespace MKLNET
             float[] x, int ldx, float[] ferr,
             float[] berr, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sptrfs_work(Layout layout, int n, int nrhs,
+        public static int sptrfs(Layout layout, int n, int nrhs,
             float[] d, float[] e, float[] df,
             float[] ef, float[] b, int ldb,
             float[] x, int ldx, float[] ferr,
@@ -13348,15 +11537,6 @@ namespace MKLNET
         public static int sptsv(Layout layout, int n, int nrhs,
             float[] d, float[] e, float[] b, int ldb)
             => LAPACKE_sptsv(layout, n, nrhs,
-                d, e, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sptsv_work(Layout layout, int n, int nrhs,
-            float[] d, float[] e, float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sptsv_work(Layout layout, int n, int nrhs,
-            float[] d, float[] e, float[] b, int ldb)
-            => LAPACKE_sptsv_work(layout, n, nrhs,
                 d, e, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -13385,7 +11565,7 @@ namespace MKLNET
             float[] rcond, float[] ferr, float[] berr,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sptsvx_work(Layout layout, char fact, int n,
+        public static int sptsvx(Layout layout, char fact, int n,
             int nrhs, float[] d, float[] e,
             float[] df, float[] ef, float[] b,
             int ldb, float[] x, int ldx,
@@ -13405,12 +11585,6 @@ namespace MKLNET
             => LAPACKE_spttrf(n, d, e);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spttrf_work(int n, float[] d, float[] e);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spttrf_work(int n, float[] d, float[] e)
-            => LAPACKE_spttrf_work(n, d, e);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spttrs(Layout layout, int n, int nrhs,
             float[] d, float[] e, float[] b,
             int ldb);
@@ -13419,18 +11593,6 @@ namespace MKLNET
             float[] d, float[] e, float[] b,
             int ldb)
             => LAPACKE_spttrs(layout, n, nrhs,
-                d, e, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_spttrs_work(Layout layout, int n, int nrhs,
-            float[] d, float[] e, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int spttrs_work(Layout layout, int n, int nrhs,
-            float[] d, float[] e, float[] b,
-            int ldb)
-            => LAPACKE_spttrs_work(layout, n, nrhs,
                 d, e, b,
                 ldb);
 
@@ -13452,7 +11614,7 @@ namespace MKLNET
             int ldab, float[] w, float[] z,
             int ldz, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbev_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssbev(Layout layout, char jobz, UpLo uplo,
             int n, int kd, float[] ab,
             int ldab, float[] w, float[] z,
             int ldz, float[] work)
@@ -13480,7 +11642,7 @@ namespace MKLNET
             int ldz, float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbevd_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssbevd(Layout layout, char jobz, UpLo uplo,
             int n, int kd, float[] ab,
             int ldab, float[] w, float[] z,
             int ldz, float[] work, int lwork,
@@ -13522,7 +11684,7 @@ namespace MKLNET
             int ldz, float[] work, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbevx_work(Layout layout, char jobz, char range,
+        public static int ssbevx(Layout layout, char jobz, char range,
             UpLo uplo, int n, int kd,
             float[] ab, int ldab, float[] q,
             int ldq, float vl, float vu,
@@ -13561,7 +11723,7 @@ namespace MKLNET
             int ldbb, float[] x, int ldx,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbgst_work(Layout layout, char vect, UpLo uplo,
+        public static int ssbgst(Layout layout, char vect, UpLo uplo,
             int n, int ka, int kb,
             float[] ab, int ldab, float[] bb,
             int ldbb, float[] x, int ldx,
@@ -13594,7 +11756,7 @@ namespace MKLNET
             int ldbb, float[] w, float[] z,
             int ldz, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbgv_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssbgv(Layout layout, char jobz, UpLo uplo,
             int n, int ka, int kb,
             float[] ab, int ldab, float[] bb,
             int ldbb, float[] w, float[] z,
@@ -13628,7 +11790,7 @@ namespace MKLNET
             int ldz, float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbgvd_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssbgvd(Layout layout, char jobz, UpLo uplo,
             int n, int ka, int kb,
             float[] ab, int ldab, float[] bb,
             int ldbb, float[] w, float[] z,
@@ -13676,7 +11838,7 @@ namespace MKLNET
             int ldz, float[] work, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbgvx_work(Layout layout, char jobz, char range,
+        public static int ssbgvx(Layout layout, char jobz, char range,
             UpLo uplo, int n, int ka,
             int kb, float[] ab, int ldab,
             float[] bb, int ldbb, float[] q,
@@ -13713,7 +11875,7 @@ namespace MKLNET
             int ldab, float[] d, float[] e, float[] q,
             int ldq, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbtrd_work(Layout layout, char vect, UpLo uplo,
+        public static int ssbtrd(Layout layout, char vect, UpLo uplo,
             int n, int kd, float[] ab,
             int ldab, float[] d, float[] e, float[] q,
             int ldq, float[] work)
@@ -13735,21 +11897,6 @@ namespace MKLNET
                 a, lda, beta, c);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssfrk_work(Layout layout, TransChar transr, UpLo uplo,
-            TransChar trans, int n, int k,
-            float alpha, float[] a, int lda,
-            float beta, float[] c);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssfrk_work(Layout layout, TransChar transr, UpLo uplo,
-            TransChar trans, int n, int k,
-            float alpha, float[] a, int lda,
-            float beta, float[] c)
-            => LAPACKE_ssfrk_work(layout, transr, uplo,
-                trans, n, k,
-                alpha, a, lda,
-                beta, c);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sspcon(Layout layout, UpLo uplo, int n,
             float[] ap, int[] ipiv, float anorm,
             float[] rcond);
@@ -13767,7 +11914,7 @@ namespace MKLNET
             float anorm, float[] rcond, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspcon_work(Layout layout, UpLo uplo, int n,
+        public static int sspcon(Layout layout, UpLo uplo, int n,
             float[] ap, int[] ipiv,
             float anorm, float[] rcond, float[] work,
             int[] iwork)
@@ -13790,7 +11937,7 @@ namespace MKLNET
             int n, float[] ap, float[] w, float[] z,
             int ldz, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspev_work(Layout layout, char jobz, UpLo uplo,
+        public static int sspev(Layout layout, char jobz, UpLo uplo,
             int n, float[] ap, float[] w, float[] z,
             int ldz, float[] work)
             => LAPACKE_sspev_work(layout, jobz, uplo,
@@ -13812,7 +11959,7 @@ namespace MKLNET
             int ldz, float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspevd_work(Layout layout, char jobz, UpLo uplo,
+        public static int sspevd(Layout layout, char jobz, UpLo uplo,
             int n, float[] ap, float[] w, float[] z,
             int ldz, float[] work, int lwork,
             int[] iwork, int liwork)
@@ -13847,7 +11994,7 @@ namespace MKLNET
             int ldz, float[] work, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspevx_work(Layout layout, char jobz, char range,
+        public static int sspevx(Layout layout, char jobz, char range,
             UpLo uplo, int n, float[] ap, float vl,
             float vu, int il, int iu,
             float abstol, int[] m, float[] w, float[] z,
@@ -13870,15 +12017,6 @@ namespace MKLNET
                 n, ap, bp);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sspgst_work(Layout layout, int itype, UpLo uplo,
-            int n, float[] ap, float[] bp);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspgst_work(Layout layout, int itype, UpLo uplo,
-            int n, float[] ap, float[] bp)
-            => LAPACKE_sspgst_work(layout, itype, uplo,
-                n, ap, bp);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sspgv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, float[] ap, float[] bp,
             float[] w, float[] z, int ldz);
@@ -13895,7 +12033,7 @@ namespace MKLNET
             UpLo uplo, int n, float[] ap, float[] bp,
             float[] w, float[] z, int ldz, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspgv_work(Layout layout, int itype, char jobz,
+        public static int sspgv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, float[] ap, float[] bp,
             float[] w, float[] z, int ldz, float[] work)
             => LAPACKE_sspgv_work(layout, itype, jobz,
@@ -13921,7 +12059,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspgvd_work(Layout layout, int itype, char jobz,
+        public static int sspgvd(Layout layout, int itype, char jobz,
             UpLo uplo, int n, float[] ap, float[] bp,
             float[] w, float[] z, int ldz, float[] work,
             int lwork, int[] iwork,
@@ -13958,7 +12096,7 @@ namespace MKLNET
             float[] w, float[] z, int ldz, float[] work,
             int[] iwork, int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspgvx_work(Layout layout, int itype, char jobz,
+        public static int sspgvx(Layout layout, int itype, char jobz,
             char range, UpLo uplo, int n, float[] ap,
             float[] bp, float vl, float vu, int il,
             int iu, float abstol, int[] m,
@@ -13997,7 +12135,7 @@ namespace MKLNET
             int ldx, float[] ferr, float[] berr,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssprfs_work(Layout layout, UpLo uplo, int n,
+        public static int ssprfs(Layout layout, UpLo uplo, int n,
             int nrhs, float[] ap,
             float[] afp, int[] ipiv,
             float[] b, int ldb, float[] x,
@@ -14019,18 +12157,6 @@ namespace MKLNET
             int nrhs, float[] ap, int[] ipiv,
             float[] b, int ldb)
             => LAPACKE_sspsv(layout, uplo, n,
-                nrhs, ap, ipiv,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_sspsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap, int[] ipiv,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspsv_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap, int[] ipiv,
-            float[] b, int ldb)
-            => LAPACKE_sspsv_work(layout, uplo, n,
                 nrhs, ap, ipiv,
                 b, ldb);
 
@@ -14060,7 +12186,7 @@ namespace MKLNET
             float[] rcond, float[] ferr, float[] berr,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sspsvx_work(Layout layout, char fact, UpLo uplo,
+        public static int sspsvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, float[] ap,
             float[] afp, int[] ipiv, float[] b,
             int ldb, float[] x, int ldx,
@@ -14083,15 +12209,6 @@ namespace MKLNET
                 d, e, tau);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssptrd_work(Layout layout, UpLo uplo, int n,
-            float[] ap, float[] d, float[] e, float[] tau);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssptrd_work(Layout layout, UpLo uplo, int n,
-            float[] ap, float[] d, float[] e, float[] tau)
-            => LAPACKE_ssptrd_work(layout, uplo, n,
-                ap, d, e, tau);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_ssptrf(Layout layout, UpLo uplo, int n, float[] ap,
             int[] ipiv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -14099,15 +12216,6 @@ namespace MKLNET
             int[] ipiv)
             => LAPACKE_ssptrf(layout, uplo, n, ap,
                 ipiv);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssptrf_work(Layout layout, UpLo uplo, int n,
-            float[] ap, int[] ipiv);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssptrf_work(Layout layout, UpLo uplo, int n,
-            float[] ap, int[] ipiv)
-            => LAPACKE_ssptrf_work(layout, uplo, n,
-                ap, ipiv);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_ssptri(Layout layout, UpLo uplo, int n, float[] ap,
@@ -14122,7 +12230,7 @@ namespace MKLNET
         static extern int LAPACKE_ssptri_work(Layout layout, UpLo uplo, int n,
             float[] ap, int[] ipiv, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssptri_work(Layout layout, UpLo uplo, int n,
+        public static int ssptri(Layout layout, UpLo uplo, int n,
             float[] ap, int[] ipiv, float[] work)
             => LAPACKE_ssptri_work(layout, uplo, n,
                 ap, ipiv, work);
@@ -14138,21 +12246,6 @@ namespace MKLNET
             => LAPACKE_ssptrs(layout, uplo, n,
                 nrhs, ap,
                 ipiv, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap,
-            int[] ipiv, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssptrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] ap,
-            int[] ipiv, float[] b,
-            int ldb)
-            => LAPACKE_ssptrs_work(layout, uplo, n,
-                nrhs, ap,
-                ipiv, b,
-                ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sstebz(char range, char order, int n, float vl,
@@ -14180,7 +12273,7 @@ namespace MKLNET
             int[] iblock, int[] isplit,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstebz_work(char range, char order, int n, float vl,
+        public static int sstebz(char range, char order, int n, float vl,
             float vu, int il, int iu,
             float abstol, float[] d, float[] e,
             int[] m, int[] nsplit, float[] w,
@@ -14208,7 +12301,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstedc_work(Layout layout, char compz, int n,
+        public static int sstedc(Layout layout, char compz, int n,
             float[] d, float[] e, float[] z, int ldz,
             float[] work, int lwork,
             int[] iwork, int liwork)
@@ -14244,7 +12337,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstegr_work(Layout layout, char jobz, char range,
+        public static int sstegr(Layout layout, char jobz, char range,
             int n, float[] d, float[] e, float vl,
             float vu, int il, int iu,
             float abstol, int[] m, float[] w, float[] z,
@@ -14282,7 +12375,7 @@ namespace MKLNET
             int ldz, float[] work, int[] iwork,
             int[] ifailv);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstein_work(Layout layout, int n, float[] d,
+        public static int sstein(Layout layout, int n, float[] d,
             float[] e, int m, float[] w,
             int[] iblock,
             int[] isplit, float[] z,
@@ -14323,7 +12416,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstemr_work(Layout layout, char jobz, char range,
+        public static int sstemr(Layout layout, char jobz, char range,
             int n, float[] d, float[] e, float vl,
             float vu, int il, int iu,
             int[] m, float[] w, float[] z,
@@ -14354,7 +12447,7 @@ namespace MKLNET
             float[] d, float[] e, float[] z, int ldz,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssteqr_work(Layout layout, char compz, int n,
+        public static int ssteqr(Layout layout, char compz, int n,
             float[] d, float[] e, float[] z, int ldz,
             float[] work)
             => LAPACKE_ssteqr_work(layout, compz, n,
@@ -14366,12 +12459,6 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ssterf(int n, float[] d, float[] e)
             => LAPACKE_ssterf(n, d, e);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssterf_work(int n, float[] d, float[] e);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssterf_work(int n, float[] d, float[] e)
-            => LAPACKE_ssterf_work(n, d, e);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sstev(Layout layout, char jobz, int n, float[] d,
@@ -14387,7 +12474,7 @@ namespace MKLNET
             float[] d, float[] e, float[] z, int ldz,
             float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstev_work(Layout layout, char jobz, int n,
+        public static int sstev(Layout layout, char jobz, int n,
             float[] d, float[] e, float[] z, int ldz,
             float[] work)
             => LAPACKE_sstev_work(layout, jobz, n,
@@ -14409,7 +12496,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstevd_work(Layout layout, char jobz, int n,
+        public static int sstevd(Layout layout, char jobz, int n,
             float[] d, float[] e, float[] z, int ldz,
             float[] work, int lwork,
             int[] iwork, int liwork)
@@ -14445,7 +12532,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstevr_work(Layout layout, char jobz, char range,
+        public static int sstevr(Layout layout, char jobz, char range,
             int n, float[] d, float[] e, float vl,
             float vu, int il, int iu,
             float abstol, int[] m, float[] w, float[] z,
@@ -14486,7 +12573,7 @@ namespace MKLNET
             int ldz, float[] work, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sstevx_work(Layout layout, char jobz, char range,
+        public static int sstevx(Layout layout, char jobz, char range,
             int n, float[] d, float[] e, float vl,
             float vu, int il, int iu,
             float abstol, int[] m, float[] w, float[] z,
@@ -14517,7 +12604,7 @@ namespace MKLNET
             int[] ipiv, float anorm,
             float[] rcond, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssycon_work(Layout layout, UpLo uplo, int n,
+        public static int ssycon(Layout layout, UpLo uplo, int n,
             float[] a, int lda,
             int[] ipiv, float anorm,
             float[] rcond, float[] work, int[] iwork)
@@ -14539,18 +12626,6 @@ namespace MKLNET
                 e);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssyconv_work(Layout layout, UpLo uplo, char way,
-            int n, float[] a, int lda,
-            int[] ipiv, float[] e);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyconv_work(Layout layout, UpLo uplo, char way,
-            int n, float[] a, int lda,
-            int[] ipiv, float[] e)
-            => LAPACKE_ssyconv_work(layout, uplo, way,
-                n, a, lda,
-                ipiv, e);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_ssyequb(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] s,
             float[] scond, float[] amax);
@@ -14567,7 +12642,7 @@ namespace MKLNET
             float[] a, int lda, float[] s,
             float[] scond, float[] amax, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyequb_work(Layout layout, UpLo uplo, int n,
+        public static int ssyequb(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] s,
             float[] scond, float[] amax, float[] work)
             => LAPACKE_ssyequb_work(layout, uplo, n,
@@ -14588,7 +12663,7 @@ namespace MKLNET
             int n, float[] a, int lda, float[] w,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyev_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssyev(Layout layout, char jobz, UpLo uplo,
             int n, float[] a, int lda, float[] w,
             float[] work, int lwork)
             => LAPACKE_ssyev_work(layout, jobz, uplo,
@@ -14610,7 +12685,7 @@ namespace MKLNET
             float[] w, float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyevd_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssyevd(Layout layout, char jobz, UpLo uplo,
             int n, float[] a, int lda,
             float[] w, float[] work, int lwork,
             int[] iwork, int liwork)
@@ -14647,7 +12722,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyevr_work(Layout layout, char jobz, char range,
+        public static int ssyevr(Layout layout, char jobz, char range,
             UpLo uplo, int n, float[] a,
             int lda, float vl, float vu,
             int il, int iu, float abstol,
@@ -14691,7 +12766,7 @@ namespace MKLNET
             int ldz, float[] work, int lwork,
             int[] iwork, int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyevx_work(Layout layout, char jobz, char range,
+        public static int ssyevx(Layout layout, char jobz, char range,
             UpLo uplo, int n, float[] a,
             int lda, float vl, float vu,
             int il, int iu, float abstol,
@@ -14719,18 +12794,6 @@ namespace MKLNET
                 b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssygst_work(Layout layout, int itype, UpLo uplo,
-            int n, float[] a, int lda,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssygst_work(Layout layout, int itype, UpLo uplo,
-            int n, float[] a, int lda,
-            float[] b, int ldb)
-            => LAPACKE_ssygst_work(layout, itype, uplo,
-                n, a, lda,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_ssygv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, float[] a, int lda,
             float[] b, int ldb, float[] w);
@@ -14748,7 +12811,7 @@ namespace MKLNET
             int lda, float[] b, int ldb,
             float[] w, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssygv_work(Layout layout, int itype, char jobz,
+        public static int ssygv(Layout layout, int itype, char jobz,
             UpLo uplo, int n, float[] a,
             int lda, float[] b, int ldb,
             float[] w, float[] work, int lwork)
@@ -14776,7 +12839,7 @@ namespace MKLNET
             float[] w, float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssygvd_work(Layout layout, int itype, char jobz,
+        public static int ssygvd(Layout layout, int itype, char jobz,
             UpLo uplo, int n, float[] a,
             int lda, float[] b, int ldb,
             float[] w, float[] work, int lwork,
@@ -14818,7 +12881,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssygvx_work(Layout layout, int itype, char jobz,
+        public static int ssygvx(Layout layout, int itype, char jobz,
             char range, UpLo uplo, int n, float[] a,
             int lda, float[] b, int ldb,
             float vl, float vu, int il,
@@ -14865,7 +12928,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyrfs_work(Layout layout, UpLo uplo, int n,
+        public static int ssyrfs(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a, int lda,
             float[] af, int ldaf,
             int[] ipiv, float[] b,
@@ -14922,7 +12985,7 @@ namespace MKLNET
             int nparams, float[] aparams, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyrfsx_work(Layout layout, UpLo uplo, char equed,
+        public static int ssyrfsx(Layout layout, UpLo uplo, char equed,
             int n, int nrhs, float[] a,
             int lda, float[] af,
             int ldaf, int[] ipiv,
@@ -14973,7 +13036,7 @@ namespace MKLNET
             int[] ipiv, float[] b, int ldb,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssysv_rook_work(Layout layout, UpLo uplo, int n,
+        public static int ssysv_rook(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a, int lda,
             int[] ipiv, float[] b, int ldb,
             float[] work, int lwork)
@@ -14988,7 +13051,7 @@ namespace MKLNET
             int[] ipiv, float[] b, int ldb,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssysv_work(Layout layout, UpLo uplo, int n,
+        public static int ssysv(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a, int lda,
             int[] ipiv, float[] b, int ldb,
             float[] work, int lwork)
@@ -15028,7 +13091,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssysvx_work(Layout layout, char fact, UpLo uplo,
+        public static int ssysvx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, float[] a,
             int lda, float[] af, int ldaf,
             int[] ipiv, float[] b,
@@ -15087,7 +13150,7 @@ namespace MKLNET
             int nparams, float[] aparams, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssysvxx_work(Layout layout, char fact, UpLo uplo,
+        public static int ssysvxx(Layout layout, char fact, UpLo uplo,
             int n, int nrhs, float[] a,
             int lda, float[] af, int ldaf,
             int[] ipiv, char[] equed, float[] s,
@@ -15118,18 +13181,6 @@ namespace MKLNET
                 a, lda, i1, i2);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssyswapr_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda,
-            int i1, int i2);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyswapr_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda,
-            int i1, int i2)
-            => LAPACKE_ssyswapr_work(layout, uplo, n,
-                a, lda,
-                i1, i2);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_ssytrd(Layout layout, UpLo uplo, int n, float[] a,
             int lda, float[] d, float[] e, float[] tau);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -15143,7 +13194,7 @@ namespace MKLNET
             float[] a, int lda, float[] d, float[] e,
             float[] tau, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrd_work(Layout layout, UpLo uplo, int n,
+        public static int ssytrd(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] d, float[] e,
             float[] tau, float[] work, int lwork)
             => LAPACKE_ssytrd_work(layout, uplo, n,
@@ -15173,7 +13224,7 @@ namespace MKLNET
             float[] a, int lda, int[] ipiv,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrf_rook_work(Layout layout, UpLo uplo, int n,
+        public static int ssytrf_rook(Layout layout, UpLo uplo, int n,
             float[] a, int lda, int[] ipiv,
             float[] work, int lwork)
             => LAPACKE_ssytrf_rook_work(layout, uplo, n,
@@ -15185,7 +13236,7 @@ namespace MKLNET
             float[] a, int lda, int[] ipiv,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrf_work(Layout layout, UpLo uplo, int n,
+        public static int ssytrf(Layout layout, UpLo uplo, int n,
             float[] a, int lda, int[] ipiv,
             float[] work, int lwork)
             => LAPACKE_ssytrf_work(layout, uplo, n,
@@ -15216,7 +13267,7 @@ namespace MKLNET
             int[] ipiv,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytri2_work(Layout layout, UpLo uplo, int n,
+        public static int ssytri2(Layout layout, UpLo uplo, int n,
             float[] a, int lda,
             int[] ipiv,
             float[] work, int lwork)
@@ -15243,7 +13294,7 @@ namespace MKLNET
             int[] ipiv, float[] work,
             int nb);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytri2x_work(Layout layout, UpLo uplo, int n,
+        public static int ssytri2x(Layout layout, UpLo uplo, int n,
             float[] a, int lda,
             int[] ipiv, float[] work,
             int nb)
@@ -15257,7 +13308,7 @@ namespace MKLNET
             float[] a, int lda,
             int[] ipiv, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytri_work(Layout layout, UpLo uplo, int n,
+        public static int ssytri(Layout layout, UpLo uplo, int n,
             float[] a, int lda,
             int[] ipiv, float[] work)
             => LAPACKE_ssytri_work(layout, uplo, n,
@@ -15294,7 +13345,7 @@ namespace MKLNET
             int lda, int[] ipiv,
             float[] b, int ldb, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrs2_work(Layout layout, UpLo uplo, int n,
+        public static int ssytrs2(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a,
             int lda, int[] ipiv,
             float[] b, int ldb, float[] work)
@@ -15316,36 +13367,6 @@ namespace MKLNET
                 ipiv, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssytrs_rook_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a, int lda,
-            int[] ipiv, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrs_rook_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a, int lda,
-            int[] ipiv, float[] b,
-            int ldb)
-            => LAPACKE_ssytrs_rook_work(layout, uplo, n,
-                nrhs, a, lda,
-                ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssytrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a, int lda,
-            int[] ipiv, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrs_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a, int lda,
-            int[] ipiv, float[] b,
-            int ldb)
-            => LAPACKE_ssytrs_work(layout, uplo, n,
-                nrhs, a, lda,
-                ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stbcon(Layout layout, Norm norm, UpLo uplo, DiagChar diag,
             int n, int kd, float[] ab,
             int ldab, float[] rcond);
@@ -15363,7 +13384,7 @@ namespace MKLNET
             float[] ab, int ldab, float[] rcond,
             float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stbcon_work(Layout layout, Norm norm, UpLo uplo,
+        public static int stbcon(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int n, int kd,
             float[] ab, int ldab, float[] rcond,
             float[] work, int[] iwork)
@@ -15398,7 +13419,7 @@ namespace MKLNET
             float[] x, int ldx, float[] ferr,
             float[] berr, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stbrfs_work(Layout layout, UpLo uplo, TransChar trans,
+        public static int stbrfs(Layout layout, UpLo uplo, TransChar trans,
             DiagChar diag, int n, int kd,
             int nrhs, float[] ab,
             int ldab, float[] b, int ldb,
@@ -15427,21 +13448,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stbtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int kd,
-            int nrhs, float[] ab,
-            int ldab, float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stbtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int kd,
-            int nrhs, float[] ab,
-            int ldab, float[] b, int ldb)
-            => LAPACKE_stbtrs_work(layout, uplo, trans,
-                diag, n, kd,
-                nrhs, ab,
-                ldab, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stfsm(Layout layout, TransChar transr, char side, UpLo uplo,
             TransChar trans, DiagChar diag, int m, int n,
             float alpha, float[] a, float[] b,
@@ -15457,21 +13463,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stfsm_work(Layout layout, TransChar transr, char side,
-            UpLo uplo, TransChar trans, DiagChar diag, int m,
-            int n, float alpha, float[] a,
-            float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stfsm_work(Layout layout, TransChar transr, char side,
-            UpLo uplo, TransChar trans, DiagChar diag, int m,
-            int n, float alpha, float[] a,
-            float[] b, int ldb)
-            => LAPACKE_stfsm_work(layout, transr, side,
-                uplo, trans, diag, m,
-                n, alpha, a,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stftri(Layout layout, TransChar transr, UpLo uplo, DiagChar diag,
             int n, float[] a);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -15479,15 +13470,6 @@ namespace MKLNET
             int n, float[] a)
             => LAPACKE_stftri(layout, transr, uplo, diag,
                 n, a);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stftri_work(Layout layout, TransChar transr, UpLo uplo,
-            DiagChar diag, int n, float[] a);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stftri_work(Layout layout, TransChar transr, UpLo uplo,
-            DiagChar diag, int n, float[] a)
-            => LAPACKE_stftri_work(layout, transr, uplo,
-                diag, n, a);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stfttp(Layout layout, TransChar transr, UpLo uplo,
@@ -15499,15 +13481,6 @@ namespace MKLNET
                 n, arf, ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stfttp_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] arf, float[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stfttp_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] arf, float[] ap)
-            => LAPACKE_stfttp_work(layout, transr, uplo,
-                n, arf, ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stfttr(Layout layout, TransChar transr, UpLo uplo,
             int n, float[] arf, float[] a,
             int lda);
@@ -15516,18 +13489,6 @@ namespace MKLNET
             int n, float[] arf, float[] a,
             int lda)
             => LAPACKE_stfttr(layout, transr, uplo,
-                n, arf, a,
-                lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stfttr_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] arf, float[] a,
-            int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stfttr_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] arf, float[] a,
-            int lda)
-            => LAPACKE_stfttr_work(layout, transr, uplo,
                 n, arf, a,
                 lda);
 
@@ -15560,7 +13521,7 @@ namespace MKLNET
             float[] vr, int ldvr, int mm,
             int[] m, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stgevc_work(Layout layout, char side, char howmny,
+        public static int stgevc(Layout layout, char side, char howmny,
             int[] select, int n,
             float[] s, int lds, float[] p,
             int ldp, float[] vl, int ldvl,
@@ -15600,7 +13561,7 @@ namespace MKLNET
             int[] ilst, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stgexc_work(Layout layout, int wantq,
+        public static int stgexc(Layout layout, int wantq,
             int wantz, int n, float[] a,
             int lda, float[] b, int ldb,
             float[] q, int ldq, float[] z,
@@ -15651,7 +13612,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stgsen_work(Layout layout, int ijob,
+        public static int stgsen(Layout layout, int ijob,
             int wantq, int wantz,
             int[] select, int n,
             float[] a, int lda, float[] b,
@@ -15707,7 +13668,7 @@ namespace MKLNET
             float[] q, int ldq, float[] work,
             int[] ncycle);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stgsja_work(Layout layout, char jobu, char jobv,
+        public static int stgsja(Layout layout, char jobu, char jobv,
             char jobq, int m, int p,
             int n, int k, int l,
             float[] a, int lda, float[] b,
@@ -15757,7 +13718,7 @@ namespace MKLNET
             int mm, int[] m, float[] work,
             int lwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stgsna_work(Layout layout, char job, char howmny,
+        public static int stgsna(Layout layout, char job, char howmny,
             int[] select, int n,
             float[] a, int lda, float[] b,
             int ldb, float[] vl,
@@ -15805,7 +13766,7 @@ namespace MKLNET
             float[] dif, float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stgsyl_work(Layout layout, TransChar trans, int ijob,
+        public static int stgsyl(Layout layout, TransChar trans, int ijob,
             int m, int n, float[] a,
             int lda, float[] b, int ldb,
             float[] c, int ldc, float[] d,
@@ -15836,7 +13797,7 @@ namespace MKLNET
             DiagChar diag, int n, float[] ap,
             float[] rcond, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stpcon_work(Layout layout, Norm norm, UpLo uplo,
+        public static int stpcon(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int n, float[] ap,
             float[] rcond, float[] work, int[] iwork)
             => LAPACKE_stpcon_work(layout, norm, uplo,
@@ -15869,7 +13830,7 @@ namespace MKLNET
             float[] a, int lda, float[] b,
             int ldb, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stpmqrt_work(Layout layout, char side, TransChar trans,
+        public static int stpmqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             int l, int nb, float[] v,
             int ldv, float[] t, int ldt,
@@ -15913,24 +13874,12 @@ namespace MKLNET
                 t, ldt);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stpqrt2_work(Layout layout, int m, int n,
-            int l, float[] a, int lda, float[] b,
-            int ldb, float[] t, int ldt);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stpqrt2_work(Layout layout, int m, int n,
-            int l, float[] a, int lda, float[] b,
-            int ldb, float[] t, int ldt)
-            => LAPACKE_stpqrt2_work(layout, m, n,
-                l, a, lda, b,
-                ldb, t, ldt);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stpqrt_work(Layout layout, int m, int n,
             int l, int nb, float[] a,
             int lda, float[] b, int ldb,
             float[] t, int ldt, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stpqrt_work(Layout layout, int m, int n,
+        public static int stpqrt(Layout layout, int m, int n,
             int l, int nb, float[] a,
             int lda, float[] b, int ldb,
             float[] t, int ldt, float[] work)
@@ -15966,7 +13915,7 @@ namespace MKLNET
             float[] b, int ldb, float[] work,
             int ldwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stprfb_work(Layout layout, char side, TransChar trans,
+        public static int stprfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
             int n, int k, int l,
             float[] v, int ldv, float[] t,
@@ -16003,7 +13952,7 @@ namespace MKLNET
             float[] x, int ldx, float[] ferr,
             float[] berr, float[] work, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stprfs_work(Layout layout, UpLo uplo, TransChar trans,
+        public static int stprfs(Layout layout, UpLo uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
             float[] ap, float[] b, int ldb,
             float[] x, int ldx, float[] ferr,
@@ -16024,15 +13973,6 @@ namespace MKLNET
                 ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stptri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, float[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stptri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, float[] ap)
-            => LAPACKE_stptri_work(layout, uplo, diag,
-                n, ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stptrs(Layout layout, UpLo uplo, TransChar trans, DiagChar diag,
             int n, int nrhs, float[] ap,
             float[] b, int ldb);
@@ -16045,18 +13985,6 @@ namespace MKLNET
                 b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stptrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            float[] ap, float[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stptrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            float[] ap, float[] b, int ldb)
-            => LAPACKE_stptrs_work(layout, uplo, trans,
-                diag, n, nrhs,
-                ap, b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stpttf(Layout layout, TransChar transr, UpLo uplo,
             int n, float[] ap, float[] arf);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -16066,30 +13994,12 @@ namespace MKLNET
                 n, ap, arf);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stpttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] ap, float[] arf);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stpttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] ap, float[] arf)
-            => LAPACKE_stpttf_work(layout, transr, uplo,
-                n, ap, arf);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_stpttr(Layout layout, UpLo uplo, int n,
             float[] ap, float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int stpttr(Layout layout, UpLo uplo, int n,
             float[] ap, float[] a, int lda)
             => LAPACKE_stpttr(layout, uplo, n,
-                ap, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_stpttr_work(Layout layout, UpLo uplo, int n,
-            float[] ap, float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stpttr_work(Layout layout, UpLo uplo, int n,
-            float[] ap, float[] a, int lda)
-            => LAPACKE_stpttr_work(layout, uplo, n,
                 ap, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -16110,7 +14020,7 @@ namespace MKLNET
             int lda, float[] rcond, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strcon_work(Layout layout, Norm norm, UpLo uplo,
+        public static int strcon(Layout layout, Norm norm, UpLo uplo,
             DiagChar diag, int n, float[] a,
             int lda, float[] rcond, float[] work,
             int[] iwork)
@@ -16144,7 +14054,7 @@ namespace MKLNET
             int ldvl, float[] vr, int ldvr,
             int mm, int[] m, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strevc_work(Layout layout, char side, char howmny,
+        public static int strevc(Layout layout, char side, char howmny,
             int[] select, int n,
             float[] t, int ldt, float[] vl,
             int ldvl, float[] vr, int ldvr,
@@ -16173,7 +14083,7 @@ namespace MKLNET
             int ldq, int[] ifst,
             int[] ilst, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strexc_work(Layout layout, char compq, int n,
+        public static int strexc(Layout layout, char compq, int n,
             float[] t, int ldt, float[] q,
             int ldq, int[] ifst,
             int[] ilst, float[] work)
@@ -16208,7 +14118,7 @@ namespace MKLNET
             float[] ferr, float[] berr, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strrfs_work(Layout layout, UpLo uplo, TransChar trans,
+        public static int strrfs(Layout layout, UpLo uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
             float[] a, int lda, float[] b,
             int ldb, float[] x, int ldx,
@@ -16245,7 +14155,7 @@ namespace MKLNET
             float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strsen_work(Layout layout, char job, char compq,
+        public static int strsen(Layout layout, char job, char compq,
             int[] select, int n,
             float[] t, int ldt, float[] q,
             int ldq, float[] wr, float[] wi,
@@ -16287,7 +14197,7 @@ namespace MKLNET
             int mm, int[] m, float[] work,
             int ldwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strsna_work(Layout layout, char job, char howmny,
+        public static int strsna(Layout layout, char job, char howmny,
             int[] select, int n,
             float[] t, int ldt, float[] vl,
             int ldvl, float[] vr,
@@ -16321,24 +14231,6 @@ namespace MKLNET
                 scale);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_strsyl_work(Layout layout, char trana, char tranb,
-            int isgn, int m, int n,
-            float[] a, int lda, float[] b,
-            int ldb, float[] c, int ldc,
-            float[] scale);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strsyl_work(Layout layout, char trana, char tranb,
-            int isgn, int m, int n,
-            float[] a, int lda, float[] b,
-            int ldb, float[] c, int ldc,
-            float[] scale)
-            => LAPACKE_strsyl_work(layout, trana, tranb,
-                isgn, m, n,
-                a, lda, b,
-                ldb, c, ldc,
-                scale);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_strtri(Layout layout, UpLo uplo, DiagChar diag, int n,
             float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -16346,15 +14238,6 @@ namespace MKLNET
             float[] a, int lda)
             => LAPACKE_strtri(layout, uplo, diag, n,
                 a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_strtri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strtri_work(Layout layout, UpLo uplo, DiagChar diag,
-            int n, float[] a, int lda)
-            => LAPACKE_strtri_work(layout, uplo, diag,
-                n, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_strtrs(Layout layout, UpLo uplo, TransChar trans, DiagChar diag,
@@ -16369,21 +14252,6 @@ namespace MKLNET
                 lda, b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_strtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            float[] a, int lda, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strtrs_work(Layout layout, UpLo uplo, TransChar trans,
-            DiagChar diag, int n, int nrhs,
-            float[] a, int lda, float[] b,
-            int ldb)
-            => LAPACKE_strtrs_work(layout, uplo, trans,
-                diag, n, nrhs,
-                a, lda, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_strttf(Layout layout, TransChar transr, UpLo uplo,
             int n, float[] a, int lda,
             float[] arf);
@@ -16396,33 +14264,12 @@ namespace MKLNET
                 arf);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_strttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] a, int lda,
-            float[] arf);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strttf_work(Layout layout, TransChar transr, UpLo uplo,
-            int n, float[] a, int lda,
-            float[] arf)
-            => LAPACKE_strttf_work(layout, transr, uplo,
-                n, a, lda,
-                arf);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_strttp(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] ap);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int strttp(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] ap)
             => LAPACKE_strttp(layout, uplo, n,
-                a, lda, ap);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_strttp_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda, float[] ap);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int strttp_work(Layout layout, UpLo uplo, int n,
-            float[] a, int lda, float[] ap)
-            => LAPACKE_strttp_work(layout, uplo, n,
                 a, lda, ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -16439,7 +14286,7 @@ namespace MKLNET
             float[] a, int lda, float[] tau,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int stzrzf_work(Layout layout, int m, int n,
+        public static int stzrzf(Layout layout, int m, int n,
             float[] a, int lda, float[] tau,
             float[] work, int lwork)
             => LAPACKE_stzrzf_work(layout, m, n,
@@ -16464,7 +14311,7 @@ namespace MKLNET
             int[] ipiv, double[] b, int ldb,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsysv_aa_work(Layout layout, UpLo uplo, int n,
+        public static int dsysv_aa(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a, int lda,
             int[] ipiv, double[] b, int ldb,
             double[] work, int lwork)
@@ -16487,7 +14334,7 @@ namespace MKLNET
             double[] a, int lda, int[] ipiv,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrf_aa_work(Layout layout, UpLo uplo, int n,
+        public static int dsytrf_aa(Layout layout, UpLo uplo, int n,
             double[] a, int lda, int[] ipiv,
             double[] work, int lwork)
             => LAPACKE_dsytrf_aa_work(layout, uplo, n,
@@ -16516,7 +14363,7 @@ namespace MKLNET
             double[] b, int ldb, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrs_aa_work(Layout layout, UpLo uplo, int n,
+        public static int dsytrs_aa(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a,
             int lda, int[] ipiv,
             double[] b, int ldb, double[] work,
@@ -16545,7 +14392,7 @@ namespace MKLNET
             int[] ipiv, float[] b, int ldb,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssysv_aa_work(Layout layout, UpLo uplo, int n,
+        public static int ssysv_aa(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a, int lda,
             int[] ipiv, float[] b, int ldb,
             float[] work, int lwork)
@@ -16568,7 +14415,7 @@ namespace MKLNET
             float[] a, int lda, int[] ipiv,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrf_aa_work(Layout layout, UpLo uplo, int n,
+        public static int ssytrf_aa(Layout layout, UpLo uplo, int n,
             float[] a, int lda, int[] ipiv,
             float[] work, int lwork)
             => LAPACKE_ssytrf_aa_work(layout, uplo, n,
@@ -16597,7 +14444,7 @@ namespace MKLNET
             float[] b, int ldb, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrs_aa_work(Layout layout, UpLo uplo, int n,
+        public static int ssytrs_aa(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a,
             int lda, int[] ipiv,
             float[] b, int ldb, float[] work,
@@ -16634,7 +14481,7 @@ namespace MKLNET
             double[] c, int ldc, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgemqr_work(Layout layout, char side, TransChar trans,
+        public static int dgemqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             double[] a, int lda,
             double[] t, int tsize,
@@ -16665,7 +14512,7 @@ namespace MKLNET
             int tsize, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgeqr_work(Layout layout, int m, int n,
+        public static int dgeqr(Layout layout, int m, int n,
             double[] a, int lda, double[] t,
             int tsize, double[] work,
             int lwork)
@@ -16697,7 +14544,7 @@ namespace MKLNET
             float[] c, int ldc, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgemqr_work(Layout layout, char side, TransChar trans,
+        public static int sgemqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             float[] a, int lda,
             float[] t, int tsize,
@@ -16728,7 +14575,7 @@ namespace MKLNET
             int tsize, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgeqr_work(Layout layout, int m, int n,
+        public static int sgeqr(Layout layout, int m, int n,
             float[] a, int lda, float[] t,
             int tsize, float[] work,
             int lwork)
@@ -16755,7 +14602,7 @@ namespace MKLNET
             int tsize, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgelq_work(Layout layout, int m, int n,
+        public static int dgelq(Layout layout, int m, int n,
             double[] a, int lda, double[] t,
             int tsize, double[] work,
             int lwork)
@@ -16787,7 +14634,7 @@ namespace MKLNET
             int ldc, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgemlq_work(Layout layout, char side, TransChar trans,
+        public static int dgemlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             double[] a, int lda,
             double[] t, int tsize, double[] c,
@@ -16818,7 +14665,7 @@ namespace MKLNET
             int tsize, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgelq_work(Layout layout, int m, int n,
+        public static int sgelq(Layout layout, int m, int n,
             float[] a, int lda, float[] t,
             int tsize, float[] work,
             int lwork)
@@ -16849,7 +14696,7 @@ namespace MKLNET
             int tsize, float[] c, int ldc,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgemlq_work(Layout layout, char side, TransChar trans,
+        public static int sgemlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
             float[] a, int lda, float[] t,
             int tsize, float[] c, int ldc,
@@ -16878,7 +14725,7 @@ namespace MKLNET
             int lda, double[] b, int ldb,
             double[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dgetsls_work(Layout layout, TransChar trans, int m,
+        public static int dgetsls(Layout layout, TransChar trans, int m,
             int n, int nrhs, double[] a,
             int lda, double[] b, int ldb,
             double[] work, int lwork)
@@ -16905,7 +14752,7 @@ namespace MKLNET
             int lda, float[] b, int ldb,
             float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sgetsls_work(Layout layout, TransChar trans, int m,
+        public static int sgetsls(Layout layout, TransChar trans, int m,
             int n, int nrhs, float[] a,
             int lda, float[] b, int ldb,
             float[] work, int lwork)
@@ -16936,7 +14783,7 @@ namespace MKLNET
             double anorm, double[] rcond, double[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsycon_3_work(Layout layout, UpLo uplo, int n,
+        public static int dsycon_3(Layout layout, UpLo uplo, int n,
             double[] a, int lda,
             double[] e, int[] ipiv,
             double anorm, double[] rcond, double[] work,
@@ -16969,7 +14816,7 @@ namespace MKLNET
             int ldb, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsysv_rk_work(Layout layout, UpLo uplo, int n,
+        public static int dsysv_rk(Layout layout, UpLo uplo, int n,
             int nrhs, double[] a, int lda,
             double[] e, int[] ipiv, double[] b,
             int ldb, double[] work,
@@ -16998,7 +14845,7 @@ namespace MKLNET
             int[] ipiv, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrf_rk_work(Layout layout, UpLo uplo, int n,
+        public static int dsytrf_rk(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] e,
             int[] ipiv, double[] work,
             int lwork)
@@ -17025,7 +14872,7 @@ namespace MKLNET
             int[] ipiv, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytri_3_work(Layout layout, UpLo uplo, int n,
+        public static int dsytri_3(Layout layout, UpLo uplo, int n,
             double[] a, int lda, double[] e,
             int[] ipiv, double[] work,
             int lwork)
@@ -17050,24 +14897,6 @@ namespace MKLNET
                 b, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsytrs_3_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, double[] e,
-            int[] ipiv, double[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrs_3_work(Layout layout, UpLo uplo, int n,
-            int nrhs, double[] a,
-            int lda, double[] e,
-            int[] ipiv, double[] b,
-            int ldb)
-            => LAPACKE_dsytrs_3_work(layout, uplo, n,
-                nrhs, a,
-                lda, e,
-                ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_ssycon_3(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] e,
             int[] ipiv, float anorm,
@@ -17089,7 +14918,7 @@ namespace MKLNET
             float anorm, float[] rcond, float[] work,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssycon_3_work(Layout layout, UpLo uplo, int n,
+        public static int ssycon_3(Layout layout, UpLo uplo, int n,
             float[] a, int lda,
             float[] e, int[] ipiv,
             float anorm, float[] rcond, float[] work,
@@ -17122,7 +14951,7 @@ namespace MKLNET
             int ldb, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssysv_rk_work(Layout layout, UpLo uplo, int n,
+        public static int ssysv_rk(Layout layout, UpLo uplo, int n,
             int nrhs, float[] a, int lda,
             float[] e, int[] ipiv, float[] b,
             int ldb, float[] work,
@@ -17151,7 +14980,7 @@ namespace MKLNET
             int[] ipiv, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrf_rk_work(Layout layout, UpLo uplo, int n,
+        public static int ssytrf_rk(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] e,
             int[] ipiv, float[] work,
             int lwork)
@@ -17178,7 +15007,7 @@ namespace MKLNET
             int[] ipiv, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytri_3_work(Layout layout, UpLo uplo, int n,
+        public static int ssytri_3(Layout layout, UpLo uplo, int n,
             float[] a, int lda, float[] e,
             int[] ipiv, float[] work,
             int lwork)
@@ -17203,24 +15032,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssytrs_3_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a,
-            int lda, float[] e,
-            int[] ipiv, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrs_3_work(Layout layout, UpLo uplo, int n,
-            int nrhs, float[] a,
-            int lda, float[] e,
-            int[] ipiv, float[] b,
-            int ldb)
-            => LAPACKE_ssytrs_3_work(layout, uplo, n,
-                nrhs, a,
-                lda, e,
-                ipiv, b,
-                ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dsbev_2stage(Layout layout, char jobz, UpLo uplo,
             int n, int kd, double[] ab,
             int ldab, double[] w, double[] z,
@@ -17242,7 +15053,7 @@ namespace MKLNET
             int ldz, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbev_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsbev_2stage(Layout layout, char jobz, UpLo uplo,
             int n, int kd, double[] ab,
             int ldab, double[] w, double[] z,
             int ldz, double[] work,
@@ -17276,7 +15087,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbevd_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsbevd_2stage(Layout layout, char jobz, UpLo uplo,
             int n, int kd, double[] ab,
             int ldab, double[] w, double[] z,
             int ldz, double[] work,
@@ -17325,7 +15136,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsbevx_2stage_work(Layout layout, char jobz,
+        public static int dsbevx_2stage(Layout layout, char jobz,
             char range, UpLo uplo, int n,
             int kd, double[] ab,
             int ldab, double[] q,
@@ -17364,7 +15175,7 @@ namespace MKLNET
             double[] w, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyev_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsyev_2stage(Layout layout, char jobz, UpLo uplo,
             int n, double[] a, int lda,
             double[] w, double[] work,
             int lwork)
@@ -17392,7 +15203,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyevd_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int dsyevd_2stage(Layout layout, char jobz, UpLo uplo,
             int n, double[] a, int lda,
             double[] w, double[] work,
             int lwork, int[] iwork,
@@ -17435,7 +15246,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyevr_2stage_work(Layout layout, char jobz,
+        public static int dsyevr_2stage(Layout layout, char jobz,
             char range, UpLo uplo, int n,
             double[] a, int lda, double vl,
             double vu, int il, int iu,
@@ -17485,7 +15296,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsyevx_2stage_work(Layout layout, char jobz,
+        public static int dsyevx_2stage(Layout layout, char jobz,
             char range, UpLo uplo, int n,
             double[] a, int lda, double vl,
             double vu, int il, int iu,
@@ -17524,7 +15335,7 @@ namespace MKLNET
             int ldb, double[] w, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsygv_2stage_work(Layout layout, int itype,
+        public static int dsygv_2stage(Layout layout, int itype,
             char jobz, UpLo uplo, int n,
             double[] a, int lda, double[] b,
             int ldb, double[] w, double[] work,
@@ -17557,7 +15368,7 @@ namespace MKLNET
             int ldz, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbev_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssbev_2stage(Layout layout, char jobz, UpLo uplo,
             int n, int kd, float[] ab,
             int ldab, float[] w, float[] z,
             int ldz, float[] work,
@@ -17591,7 +15402,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbevd_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssbevd_2stage(Layout layout, char jobz, UpLo uplo,
             int n, int kd, float[] ab,
             int ldab, float[] w, float[] z,
             int ldz, float[] work,
@@ -17640,7 +15451,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssbevx_2stage_work(Layout layout, char jobz,
+        public static int ssbevx_2stage(Layout layout, char jobz,
             char range, UpLo uplo, int n,
             int kd, float[] ab,
             int ldab, float[] q,
@@ -17678,7 +15489,7 @@ namespace MKLNET
             int n, float[] a, int lda,
             float[] w, float[] work, int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyev_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssyev_2stage(Layout layout, char jobz, UpLo uplo,
             int n, float[] a, int lda,
             float[] w, float[] work, int lwork)
             => LAPACKE_ssyev_2stage_work(layout, jobz, uplo,
@@ -17703,7 +15514,7 @@ namespace MKLNET
             float[] w, float[] work, int lwork,
             int[] iwork, int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyevd_2stage_work(Layout layout, char jobz, UpLo uplo,
+        public static int ssyevd_2stage(Layout layout, char jobz, UpLo uplo,
             int n, float[] a, int lda,
             float[] w, float[] work, int lwork,
             int[] iwork, int liwork)
@@ -17744,7 +15555,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int liwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyevr_2stage_work(Layout layout, char jobz,
+        public static int ssyevr_2stage(Layout layout, char jobz,
             char range, UpLo uplo, int n,
             float[] a, int lda, float vl,
             float vu, int il, int iu,
@@ -17794,7 +15605,7 @@ namespace MKLNET
             int lwork, int[] iwork,
             int[] ifail);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssyevx_2stage_work(Layout layout, char jobz,
+        public static int ssyevx_2stage(Layout layout, char jobz,
             char range, UpLo uplo, int n,
             float[] a, int lda, float vl,
             float vu, int il, int iu,
@@ -17833,7 +15644,7 @@ namespace MKLNET
             int ldb, float[] w, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssygv_2stage_work(Layout layout, int itype,
+        public static int ssygv_2stage(Layout layout, int itype,
             char jobz, UpLo uplo, int n,
             float[] a, int lda, float[] b,
             int ldb, float[] w, float[] work,
@@ -17854,15 +15665,6 @@ namespace MKLNET
                 a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_dgetrfnp_work(Layout layout, int m,
-            int n, double[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dgetrfnp_work(Layout layout, int m,
-            int n, double[] a, int lda)
-            => LAPACKE_mkl_dgetrfnp_work(layout, m,
-                n, a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_mkl_sgetrfnp(Layout layout, int m, int n,
             float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -17870,15 +15672,6 @@ namespace MKLNET
             float[] a, int lda)
             => LAPACKE_mkl_sgetrfnp(layout, m, n,
                 a, lda);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_mkl_sgetrfnp_work(Layout layout, int m,
-            int n, float[] a, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_sgetrfnp_work(Layout layout, int m,
-            int n, float[] a, int lda)
-            => LAPACKE_mkl_sgetrfnp_work(layout, m,
-                n, a, lda);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_mkl_dgetrinp(Layout layout, int n, double[] a,
@@ -17894,7 +15687,7 @@ namespace MKLNET
             double[] a, int lda, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dgetrinp_work(Layout layout, int n,
+        public static int mkl_dgetrinp(Layout layout, int n,
             double[] a, int lda, double[] work,
             int lwork)
             => LAPACKE_mkl_dgetrinp_work(layout, n,
@@ -17915,7 +15708,7 @@ namespace MKLNET
             float[] a, int lda, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_sgetrinp_work(Layout layout, int n,
+        public static int mkl_sgetrinp(Layout layout, int n,
             float[] a, int lda, float[] work,
             int lwork)
             => LAPACKE_mkl_sgetrinp_work(layout, n,
@@ -17961,7 +15754,7 @@ namespace MKLNET
             int ldb, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsysv_aa_2stage_work(Layout layout, UpLo uplo,
+        public static int dsysv_aa_2stage(Layout layout, UpLo uplo,
             int n, int nrhs,
             double[] a, int lda, double[] tb,
             int ltb, int[] ipiv,
@@ -17999,7 +15792,7 @@ namespace MKLNET
             int[] ipiv2, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrf_aa_2stage_work(Layout layout, UpLo uplo,
+        public static int dsytrf_aa_2stage(Layout layout, UpLo uplo,
             int n, double[] a,
             int lda, double[] tb,
             int ltb, int[] ipiv,
@@ -18034,27 +15827,6 @@ namespace MKLNET
                 ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_dsytrs_aa_2stage_work(Layout layout, UpLo uplo,
-            int n, int nrhs,
-            double[] a, int lda,
-            double[] tb, int ltb,
-            int[] ipiv, int[] ipiv2,
-            double[] b, int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int dsytrs_aa_2stage_work(Layout layout, UpLo uplo,
-            int n, int nrhs,
-            double[] a, int lda,
-            double[] tb, int ltb,
-            int[] ipiv, int[] ipiv2,
-            double[] b, int ldb)
-            => LAPACKE_dsytrs_aa_2stage_work(layout, uplo,
-                n, nrhs,
-                a, lda,
-                tb, ltb,
-                ipiv, ipiv2,
-                b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_ssysv_aa_2stage(Layout layout, UpLo uplo,
             int n, int nrhs, float[] a,
             int lda, float[] tb, int ltb,
@@ -18081,7 +15853,7 @@ namespace MKLNET
             int ldb, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssysv_aa_2stage_work(Layout layout, UpLo uplo,
+        public static int ssysv_aa_2stage(Layout layout, UpLo uplo,
             int n, int nrhs,
             float[] a, int lda, float[] tb,
             int ltb, int[] ipiv,
@@ -18119,7 +15891,7 @@ namespace MKLNET
             int[] ipiv2, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrf_aa_2stage_work(Layout layout, UpLo uplo,
+        public static int ssytrf_aa_2stage(Layout layout, UpLo uplo,
             int n, float[] a,
             int lda, float[] tb,
             int ltb, int[] ipiv,
@@ -18149,26 +15921,5 @@ namespace MKLNET
                 lda, tb, ltb,
                 ipiv, ipiv2,
                 b, ldb);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int LAPACKE_ssytrs_aa_2stage_work(Layout layout, UpLo uplo,
-            int n, int nrhs,
-            float[] a, int lda, float[] tb,
-            int ltb, int[] ipiv,
-            int[] ipiv2, float[] b,
-            int ldb);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ssytrs_aa_2stage_work(Layout layout, UpLo uplo,
-            int n, int nrhs,
-            float[] a, int lda, float[] tb,
-            int ltb, int[] ipiv,
-            int[] ipiv2, float[] b,
-            int ldb)
-            => LAPACKE_ssytrs_aa_2stage_work(layout, uplo,
-                n, nrhs,
-                a, lda, tb,
-                ltb, ipiv,
-                ipiv2, b,
-                ldb);
     }
 }
