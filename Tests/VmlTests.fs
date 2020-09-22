@@ -12,7 +12,6 @@ let testUnaryN accuracy name (gen:Gen<'a>)
     test name {
         let gena = GenArray gen
         let! a = gena.[1,ROWS_MAX]
-        //Check.info "a0: %A" a.[0]
         let actual = Array.zeroCreate a.Length
         factual(a,actual)
         let expected = Array.map fexpected a
@@ -560,19 +559,19 @@ let special =
             Vml.Erfc Vml.Erfc Vml.Erfc Vml.Erfc
             (float >> erfc >> float32)
 
-        testUnary "ErfInv_double" Gen.Double.[-0.9,0.9]
+        testUnary "ErfInv_double" Gen.Double.[-0.999,0.999]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
             erfinv
 
-        testUnary "ErfInv_single" Gen.Single.[-0.9f,0.9f]
+        testUnary "ErfInv_single" Gen.Single.[-0.999f,0.999f]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
             (float >> erfinv >> float32)
 
-        testUnary "ErfcInv_double" Gen.Double.[0.1,1.9]
+        testUnary "ErfcInv_double" Gen.Double.[0.001,1.999]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
             erfcinv
 
-        testUnary "ErfcInv_single" Gen.Single.[0.1f,1.9f]
+        testUnary "ErfcInv_single" Gen.Single.[0.001f,1.999f]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
             (float >> erfcinv >> float32)
 
@@ -584,11 +583,11 @@ let special =
             Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm
             (float >> normcdf >> float32)
 
-        testUnary "CdfNormInv_double" Gen.Double.[0.0,1.0]
+        testUnary "CdfNormInv_double" Gen.Double.[0.001,0.999]
             Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
             normcdfinv
 
-        testUnary "CdfNormInv_single" Gen.Single.[0.0f,1.0f]
+        testUnary "CdfNormInv_single" Gen.Single.[0.001f,0.999f]
             Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
             (float >> normcdfinv >> float32)
 
