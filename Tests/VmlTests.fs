@@ -560,19 +560,19 @@ let special =
             Vml.Erfc Vml.Erfc Vml.Erfc Vml.Erfc
             (float >> erfc >> float32)
 
-        testUnary "ErfInv_double" Gen.Double.[-1.0,1.0]
+        testUnary "ErfInv_double" Gen.Double.[-0.9,0.9]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
             erfinv
 
-        testUnary "ErfInv_single" Gen.Single.[-1.0f,1.0f]
+        testUnary "ErfInv_single" Gen.Single.[-0.9f,0.9f]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
             (float >> erfinv >> float32)
 
-        testUnary "ErfcInv_double" Gen.Double.[0.0,2.0]
+        testUnary "ErfcInv_double" Gen.Double.[0.1,1.9]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
             erfcinv
 
-        testUnary "ErfcInv_single" Gen.Single.[0.0f,2.0f]
+        testUnary "ErfcInv_single" Gen.Single.[0.1f,1.9f]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
             (float >> erfcinv >> float32)
 
