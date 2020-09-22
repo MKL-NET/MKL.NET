@@ -17,6 +17,7 @@
     <Compile Include="MKLTests.fs" />
     <Compile Include="BlasTests.fs" />
     <Compile Include="LapackTests.fs" />
+    <Compile Include="Math.fs" />
     <Compile Include="VmlTests.fs" />
     <Compile Include="VslTests.fs" />
     <Compile Include="Main.fs" />

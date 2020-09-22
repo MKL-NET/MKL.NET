@@ -6,21 +6,22 @@ open CsCheck
 
 let ROWS_MAX = 5
 
-let testUnaryN name (gen:Gen<'a>)
+let testUnaryN accuracy name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
         (factual:'a[]*'a[] -> unit) =
     test name {
         let gena = GenArray gen
         let! a = gena.[1,ROWS_MAX]
+        //Check.info "a0: %A" a.[0]
         let actual = Array.zeroCreate a.Length
         factual(a,actual)
         let expected = Array.map fexpected a
-        Check.close High expected actual
+        Check.close accuracy expected actual
         factual(a,a)
-        Check.close High expected a |> Check.message "inplace"
+        Check.close accuracy expected a |> Check.message "inplace"
     }
 
-let testUnaryI name (gen:Gen<'a>)
+let testUnaryI accuracy name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
         (factual:(int*'a[]*int*int*'a[]*int*int) -> unit) =
     test name {
@@ -31,27 +32,34 @@ let testUnaryI name (gen:Gen<'a>)
         let actual = Array.copy a
         factual(a.Length/cols,a,ini,cols,actual,ini,cols)
         let expected = Array.mapi (fun i a -> if i % cols = ini then fexpected a else a) a
-        Check.close High expected actual
+        Check.close accuracy expected actual
         factual(a.Length/cols,a,ini,cols,a,ini,cols)
-        Check.close High expected a |> Check.message "inplace"
+        Check.close accuracy expected a |> Check.message "inplace"
     }
 
-let testUnary name (gen:Gen<'a>)
-        (factual:'a[]*'a[] -> unit)
+let testUnaryAccuracy accuracy name (gen:Gen<'a>)
+        (factualN:'a[]*'a[] -> unit)
         (factualM:'a[]*'a[]*VmlMode -> unit)
         (factualI:(int*'a[]*int*int*'a[]*int*int) -> unit)
-        (factualIM:(int*'a[]*int*int*'a[]*int*int*VmlMode) -> unit)
+        (factualB:(int*'a[]*int*int*'a[]*int*int*VmlMode) -> unit)
         (fexpected:'a -> 'a)
         =
         test name {
-            testUnaryN "N" gen fexpected factual
-            testUnaryN "M" gen fexpected
+            testUnaryN accuracy "N" gen fexpected factualN
+            testUnaryN accuracy "M" gen fexpected
                 (fun (a,r) -> factualM(a,r,VmlMode.HA))
-            testUnaryI "I" gen fexpected factualI
-            testUnaryI "B" gen fexpected
+            testUnaryI accuracy "I" gen fexpected factualI
+            testUnaryI accuracy "B" gen fexpected
                 (fun (n,a,ia,sa,r,ir,sr) ->
-                    factualIM(n,a,ia,sa,r,ir,sr,VmlMode.HA))
+                    factualB(n,a,ia,sa,r,ir,sr,VmlMode.HA))
         }
+
+let testUnary name gen
+    factualN factualM factualI factualB
+    fexpected
+    = testUnaryAccuracy High name gen
+        factualN factualM factualI factualB
+        fexpected
 
 let testBinaryN name (gen:Gen<'a>)
     (fexpected:'a -> 'a -> 'a)
@@ -535,16 +543,78 @@ let hyperbolic =
 
 let special =
     test "special" {
-        ()
-        // Erf
-        // Erfc
-        // CdfNorm
-        // ErfInv
-        // ErfcInv
-        // CdfNormInv
-        // LGamma
-        // TGamma
-        // ExpInt1
+
+        testUnary "Erf_double" Gen.Double
+            Vml.Erf Vml.Erf Vml.Erf Vml.Erf
+            erf
+
+        testUnary "Erf_single" Gen.Single
+            Vml.Erf Vml.Erf Vml.Erf Vml.Erf
+            (float >> erf >> float32)
+
+        testUnary "Erfc_double" Gen.Double
+            Vml.Erfc Vml.Erfc Vml.Erfc Vml.Erfc
+            erfc
+
+        testUnary "Erfc_single" Gen.Single
+            Vml.Erfc Vml.Erfc Vml.Erfc Vml.Erfc
+            (float >> erfc >> float32)
+
+        testUnary "ErfInv_double" Gen.Double.[-1.0,1.0]
+            Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
+            erfinv
+
+        testUnary "ErfInv_single" Gen.Single.[-1.0f,1.0f]
+            Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
+            (float >> erfinv >> float32)
+
+        testUnary "ErfcInv_double" Gen.Double.[0.0,2.0]
+            Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
+            erfcinv
+
+        testUnary "ErfcInv_single" Gen.Single.[0.0f,2.0f]
+            Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
+            (float >> erfcinv >> float32)
+
+        testUnary "CdfNorm_double" Gen.Double
+            Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm
+            normcdf
+
+        testUnary "CdfNorm_single" Gen.Single
+            Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm
+            (float >> normcdf >> float32)
+
+        testUnary "CdfNormInv_double" Gen.Double.[0.0,1.0]
+            Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
+            normcdfinv
+
+        testUnary "CdfNormInv_single" Gen.Single.[0.0f,1.0f]
+            Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
+            (float >> normcdfinv >> float32)
+
+        testUnary "LGamma_double" Gen.Double.[0.0,10000.0]
+            Vml.LGamma Vml.LGamma Vml.LGamma Vml.LGamma
+            lgamma
+
+        testUnary "LGamma_single" Gen.Single.[0.0f,10000.0f]
+            Vml.LGamma Vml.LGamma Vml.LGamma Vml.LGamma
+            (float >> lgamma >> float32)
+
+        testUnary "TGamma_double" Gen.Double.[0.0,100000.0]
+            Vml.TGamma Vml.TGamma Vml.TGamma Vml.TGamma
+            gamma
+
+        testUnary "TGamma_single" Gen.Single.[0.0f,100000.0f]
+            Vml.TGamma Vml.TGamma Vml.TGamma Vml.TGamma
+            (float >> gamma >> float32)
+
+        //testUnary "ExpInt1_double" Gen.Double.[0.0,100000.0]
+        //    Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
+        //    expint1
+
+        //testUnary "ExpInt1_single" Gen.Single.[0.0f,100000.0f]
+        //    Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
+        //    (float >> expint1 >> float32)
     }
 
 let rounding =
