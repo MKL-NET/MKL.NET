@@ -6,7 +6,7 @@ open CsCheck
 
 let ROWS_MAX = 5
 
-let testUnaryN accuracy name (gen:Gen<'a>)
+let testUnaryN name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
         (factual:'a[]*'a[] -> unit) =
     test name {
@@ -15,12 +15,12 @@ let testUnaryN accuracy name (gen:Gen<'a>)
         let actual = Array.zeroCreate a.Length
         factual(a,actual)
         let expected = Array.map fexpected a
-        Check.close accuracy expected actual
+        Check.close High expected actual
         factual(a,a)
-        Check.close accuracy expected a |> Check.message "inplace"
+        Check.close High expected a |> Check.message "inplace"
     }
 
-let testUnaryI accuracy name (gen:Gen<'a>)
+let testUnaryI name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
         (factual:(int*'a[]*int*int*'a[]*int*int) -> unit) =
     test name {
@@ -31,12 +31,12 @@ let testUnaryI accuracy name (gen:Gen<'a>)
         let actual = Array.copy a
         factual(a.Length/cols,a,ini,cols,actual,ini,cols)
         let expected = Array.mapi (fun i a -> if i % cols = ini then fexpected a else a) a
-        Check.close accuracy expected actual
+        Check.close High expected actual
         factual(a.Length/cols,a,ini,cols,a,ini,cols)
-        Check.close accuracy expected a |> Check.message "inplace"
+        Check.close High expected a |> Check.message "inplace"
     }
 
-let testUnaryAccuracy accuracy name (gen:Gen<'a>)
+let testUnary name (gen:Gen<'a>)
         (factualN:'a[]*'a[] -> unit)
         (factualM:'a[]*'a[]*VmlMode -> unit)
         (factualI:(int*'a[]*int*int*'a[]*int*int) -> unit)
@@ -44,21 +44,14 @@ let testUnaryAccuracy accuracy name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
         =
         test name {
-            testUnaryN accuracy "N" gen fexpected factualN
-            testUnaryN accuracy "M" gen fexpected
+            testUnaryN "N" gen fexpected factualN
+            testUnaryN "M" gen fexpected
                 (fun (a,r) -> factualM(a,r,VmlMode.HA))
-            testUnaryI accuracy "I" gen fexpected factualI
-            testUnaryI accuracy "B" gen fexpected
+            testUnaryI "I" gen fexpected factualI
+            testUnaryI "B" gen fexpected
                 (fun (n,a,ia,sa,r,ir,sr) ->
                     factualB(n,a,ia,sa,r,ir,sr,VmlMode.HA))
         }
-
-let testUnary name gen
-    factualN factualM factualI factualB
-    fexpected
-    = testUnaryAccuracy High name gen
-        factualN factualM factualI factualB
-        fexpected
 
 let testBinaryN name (gen:Gen<'a>)
     (fexpected:'a -> 'a -> 'a)
@@ -559,19 +552,19 @@ let special =
             Vml.Erfc Vml.Erfc Vml.Erfc Vml.Erfc
             (float >> erfc >> float32)
 
-        testUnary "ErfInv_double" Gen.Double.[-0.999,0.999]
+        testUnary "ErfInv_double" Gen.Double.[-0.9999,0.9999]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
             erfinv
 
-        testUnary "ErfInv_single" Gen.Single.[-0.999f,0.999f]
+        testUnary "ErfInv_single" Gen.Single.[-0.9999f,0.9999f]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
             (float >> erfinv >> float32)
 
-        testUnary "ErfcInv_double" Gen.Double.[0.001,1.999]
+        testUnary "ErfcInv_double" Gen.Double.[0.0001,1.9999]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
             erfcinv
 
-        testUnary "ErfcInv_single" Gen.Single.[0.001f,1.999f]
+        testUnary "ErfcInv_single" Gen.Single.[0.0001f,1.9999f]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
             (float >> erfcinv >> float32)
 
@@ -583,11 +576,11 @@ let special =
             Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm
             (float >> normcdf >> float32)
 
-        testUnary "CdfNormInv_double" Gen.Double.[0.001,0.999]
+        testUnary "CdfNormInv_double" Gen.Double.[0.0001,0.9999]
             Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
             normcdfinv
 
-        testUnary "CdfNormInv_single" Gen.Single.[0.001f,0.999f]
+        testUnary "CdfNormInv_single" Gen.Single.[0.0001f,0.9999f]
             Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
             (float >> normcdfinv >> float32)
 
