@@ -607,13 +607,13 @@ let special =
             Vml.TGamma Vml.TGamma Vml.TGamma Vml.TGamma
             (float >> gamma >> float32)
 
-        //testUnary "ExpInt1_double" Gen.Double.[0.0,100000.0]
-        //    Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
-        //    expint1
+        testUnary "ExpInt1_double" Gen.Double.[0.0,100000.0]
+            Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
+            (expint 1)
 
-        //testUnary "ExpInt1_single" Gen.Single.[0.0f,100000.0f]
-        //    Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
-        //    (float >> expint1 >> float32)
+        testUnary "ExpInt1_single" Gen.Single.[0.0f,100000.0f]
+            Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
+            (float >> (expint 1) >> float32)
     }
 
 let rounding =

@@ -12,7 +12,7 @@ let private cof = [| -1.3026537197817094; 6.4196979235649026e-1;
     -1.12708e-13;3.81e-16;7.106e-15;-1.523e-15;-9.4e-17;1.21e-16;-2.8e-17
 |]
 
-let erfccheb x =
+let private erfccheb x =
     let t = 2.0 / (2.0 + x)
     let ty = 4.0 * t - 2.0
     let mutable d,dd = 0.0,0.0
@@ -44,10 +44,10 @@ let erfcSinglePrecision x =
 [<Literal>]
 let private invnegsqrt2 = -0.707106781186547 // = -1.0 / sqrt 2.0
 
-/// Returns the standard normal cumulative distribution function value.
+/// Computes the standard normal cumulative distribution function value
 let normcdf t = erfc(t * invnegsqrt2) * 0.5
 
-/// Returns the inverse standard normal cumulative distribution function value.
+/// Computes the inverse standard normal cumulative distribution function value
 let normcdfinv x =
     let inline acklam p =  // http://home.online.no/~pjacklam/notes/invnorm/
         if p<0.02425 then
@@ -72,7 +72,7 @@ let private lgammacof = [|57.1562356658629235;-59.5979603554754912;
     0.844182239838527433e-4;-0.261908384015814087e-4;0.368991826595316234e-5
 |]
 
-/// Computes the natural logarithm of the gamma function.
+/// Computes the natural logarithm of the gamma function
 let lgamma x =
     let mutable y = x;
     let tmp = x + 5.2421875
@@ -86,40 +86,48 @@ let lgamma x =
 /// Computes the gamma function. n! = gamma(n+1)
 let gamma x = exp(lgamma x)
 
-//let private ei x =
-//    let MAXIT = 100
-//    let EULER = 0.577215664901533
-//    let EPS = 1e-14
-//    let FPMIN = Double.Epsilon / EPS
-//    if x < FPMIN then log x + EULER
-//    elif x <= -log EPS then
-//        let mutable sum = 0.0
-//        let mutable fact = 1.0
-//        let mutable k = 1
-//        let mutable check = true
-//        while k <= MAXIT && check do
-//            fact <- fact * x / float k
-//            let term = fact / float k
-//            sum <- sum + term
-//            k <- k + 1
-//            if term < EPS * sum then check <- false
-//        sum + log x + EULER
-//    else
-//        let mutable sum = 0.0
-//        let mutable term = 1.0
-//        let mutable k = 1
-//        let mutable check = true
-//        while k <= MAXIT && check do
-//            let prev = term
-//            term <- term * float k / x
-//            if term < EPS then
-//                check <- false
-//            elif term < prev then
-//                sum <- sum + term
-//            else
-//                sum <- sum - prev
-//                check <- false
-//        exp x * (1.0 - sum) / x
+[<Literal>]
+let private EULER = 0.577215664901533
 
-///// Exponential integral E1
-//let expint1 x = -ei -x
+/// Computes the exponential integral
+let expint n x =
+    let epsilon = 0.00000000000000001
+    let ndbl = float n
+    if n = 0 then exp -x / x
+    elif x = 0.0 then 1.0/(ndbl - 1.0)
+    elif x > 1.0 then
+        let nearDoubleMin = 1e-100
+        let mutable b = x + ndbl
+        let mutable c = 1.0/nearDoubleMin
+        let mutable d = 1.0/b
+        let mutable h = d
+        let mutable i = 1
+        let mutable check = true
+        while i <= 100 && check do
+            let a = -1.0 * (float i)*((ndbl - 1.0) + float i)
+            b <- b + 2.0
+            d <- 1.0/(a*d + b)
+            c <- b + a/c
+            let del = c*d
+            h <- h*del
+            i <- i + 1
+            if abs(del - 1.0) < epsilon then check <- false
+        h * exp -x
+    else
+        let mutable factorial = 1.0
+        let mutable result = if ndbl - 1.0 <> 0.0 then 1.0/(ndbl - 1.0) else -1.0*log x - EULER
+        let mutable i = 1
+        let mutable check = true
+        while i <= 100 && check do
+            factorial <- factorial * -1.0*x/(float i)
+            let del =
+                if float i <> ndbl - 1.0 then -factorial/(float i - (ndbl - 1.0))
+                else
+                    let mutable psi = -EULER
+                    for ii = 1 to int(floor(ndbl - 1.0)) do
+                        psi <- psi + 1.0 / float ii
+                    factorial*(-log x + psi)
+            result <- result + del
+            i <- i + 1
+            if abs del < abs result * epsilon then check <- false
+        result
