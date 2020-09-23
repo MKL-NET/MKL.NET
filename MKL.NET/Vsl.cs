@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace MKLNET
 {
     [SuppressUnmanagedCodeSecurity]
-    public static class Vsl
+    public unsafe static class Vsl
     {
 #if LINUX
         const string DLL = "libmkl_rt.so";
@@ -640,15 +640,35 @@ namespace MKLNET
             => vslsCorrExecX1D(task, y, ystride, z, zstride);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSNewTask(out VsldSSTask task, int p, int n, VslStorage xstorage, double[] x, double[] w, int[] indices);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SSNewTask(out VsldSSTask task, int p, int n, VslStorage xstorage, double[] x, double[] w, int[] indices)
-            => vsldSSNewTask(out task, p, n, xstorage, x, w, indices);
-        public static VsldSSTask SSNewTask(int p, int n, VslStorage xstorage, double[] x, double[] w, int[] indices)
+        static extern int vsldSSNewTask(IntPtr* task, IntPtr p, IntPtr n, IntPtr xstorage, IntPtr x, IntPtr w, IntPtr indices);
+        public static VsldSSTask SSNewTask(int p, int n, VslStorage storage, double[] x)
         {
-            var status = vsldSSNewTask(out var task, p, n, xstorage, x, w, indices);
+            var pp = Marshal.AllocHGlobal(sizeof(int) * 3);
+            Marshal.WriteInt32(pp, p);
+            var np = IntPtr.Add(pp, sizeof(int));
+            Marshal.WriteInt32(np, n);
+            var sp = IntPtr.Add(np, sizeof(int));
+            Marshal.WriteInt32(sp, (int)storage);
+            var xp = GCHandle.Alloc(x, GCHandleType.Pinned);
+            IntPtr task;
+            var status = vsldSSNewTask(&task, pp, np, sp, xp.AddrOfPinnedObject(), IntPtr.Zero, IntPtr.Zero);
             if (status != 0) throw new Exception("Non zero status: " + status);
-            return task;
+            return new VsldSSTask { Ptr = task, Allocated = pp, X = xp };
+        }
+        public static VsldSSTask SSNewTask(int p, int n, VslStorage storage, double[] x, double[] w)
+        {
+            var pp = Marshal.AllocHGlobal(sizeof(int) * 3);
+            Marshal.WriteInt32(pp, p);
+            var np = IntPtr.Add(pp, sizeof(int));
+            Marshal.WriteInt32(np, n);
+            var sp = IntPtr.Add(np, sizeof(int));
+            Marshal.WriteInt32(sp, (int)storage);
+            var xp = GCHandle.Alloc(x, GCHandleType.Pinned);
+            var wp = GCHandle.Alloc(w, GCHandleType.Pinned);
+            IntPtr task;
+            var status = vsldSSNewTask(&task, pp, np, sp, xp.AddrOfPinnedObject(), wp.AddrOfPinnedObject(), IntPtr.Zero);
+            if (status != 0) throw new Exception("Non zero status: " + status);
+            return new VsldSSTask { Ptr = task, Allocated = pp, X = xp, W = wp };
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -664,21 +684,25 @@ namespace MKLNET
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditTask(VsldSSTask task, int parameter, double[] value);
+        static extern int vsldSSEditTask(IntPtr task, VslEdit parameter, IntPtr value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SSEditTask(VsldSSTask task, int parameter, double[] value)
-            => vsldSSEditTask(task, parameter, value);
+        public static int SSEditTask(VsldSSTask task, VslEdit parameter, double[] value)
+        {
+            var p = GCHandle.Alloc(value, GCHandleType.Pinned);
+            task.Mean = p;
+            return vsldSSEditTask(task.Ptr, parameter, p.AddrOfPinnedObject());
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditTask(VslsSSTask task, int parameter, float[] value);
+        static extern int vslsSSEditTask(VslsSSTask task, VslEdit parameter, float[] value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SSEditTask(VslsSSTask task, int parameter, float[] value)
+        public static int SSEditTask(VslsSSTask task, VslEdit parameter, float[] value)
             => vslsSSEditTask(task, parameter, value);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsliSSEditTask(VsliSSTask task, int parameter, int[] value);
+        static extern int vsliSSEditTask(VsliSSTask task, VslEdit parameter, int[] value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SSEditTask(VsliSSTask task, int parameter, int[] value)
+        public static int SSEditTask(VsliSSTask task, VslEdit parameter, int[] value)
             => vsliSSEditTask(task, parameter, value);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -826,10 +850,12 @@ namespace MKLNET
             => vslsSSEditCorParameterization(task, cor, cor_storage, pcor, pcor_storage);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSCompute(VsldSSTask task, VslEstimate estimates, VslMethod method);
+        static extern int vsldSSCompute(IntPtr task, VslEstimate estimates, VslMethod method);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSCompute(VsldSSTask task, VslEstimate estimates, VslMethod method)
-            => vsldSSCompute(task, estimates, method);
+        {
+            return vsldSSCompute(task.Ptr, estimates, method);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslsSSCompute(VslsSSTask task, VslEstimate estimates, VslMethod method);
@@ -838,10 +864,17 @@ namespace MKLNET
             => vslsSSCompute(task, estimates, method);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslSSDeleteTask(ref VsldSSTask task);
+        static extern int vslSSDeleteTask(IntPtr* task);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSDeleteTask(VsldSSTask task)
-            => vslSSDeleteTask(ref task);
+        {
+            Marshal.FreeHGlobal(task.Allocated);
+            task.X.Free();
+            task.Mean.Free();
+            if (task.W.IsAllocated) task.W.Free();
+            var t = task.Ptr;
+            return vslSSDeleteTask(&t);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslSSDeleteTask(ref VslsSSTask task);
