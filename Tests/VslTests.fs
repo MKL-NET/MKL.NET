@@ -54,4 +54,28 @@ let all =
             )
             Check.close VeryHigh expected mean
         }
+
+        test "corr" {
+            let! x = Gen.Double.[0.0,100.0].Array.[1,100]
+            let! y = Gen.Double.[0.0,100.0].Array.[1,100]
+            let! lz = Gen.Int.[1,min x.Length y.Length]
+            let z = Array.zeroCreate lz
+            let mutable task = Unchecked.defaultof<VsldCorrTask>
+            Vsl.CorrNewTask1D(&task, VslMode.DIRECT, x.Length, y.Length, lz) |> Check.equal 0
+            Vsl.CorrSetStart(task, [|0|]) |> Check.equal 0
+            Vsl.CorrExec1D(task, x, 1, y, 1, z, 1) |> Check.equal 0
+            Array.sum z |> Check.greaterThan 0.0
+        }
+
+        test "conv" {
+            let! x = Gen.Double.[0.0,100.0].Array.[1,100]
+            let! y = Gen.Double.[0.0,100.0].Array.[1,100]
+            let! lz = Gen.Int.[1,min x.Length y.Length]
+            let z = Array.zeroCreate lz
+            let mutable task = Unchecked.defaultof<VsldConvTask>
+            Vsl.ConvNewTask1D(&task, VslMode.DIRECT, x.Length, y.Length, lz) |> Check.equal 0
+            Vsl.ConvSetStart(task, [|0|]) |> Check.equal 0
+            Vsl.ConvExec1D(task, x, 1, y, 1, z, 1) |> Check.equal 0
+            Array.sum z |> Check.greaterThan 0.0
+        }
     }

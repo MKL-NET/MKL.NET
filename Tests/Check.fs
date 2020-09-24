@@ -64,6 +64,10 @@ let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
         Failure(Normal "actual (" + Numeric actual + ") is greater than end (" + Numeric endInclusive + ").")
     else Success
 
+let greaterThan (expected:'a) (actual:'a) =
+    if actual > expected then Success
+    else Failure(Normal "actual (" + Numeric actual + ") is not greater than " + Numeric expected + ".")
+
 let close accuracy (expected:'a) (actual:'a) =
     let rec close (expected:obj) (actual:obj) =
         let closeArray (e:'b[]) (a:'b[]) =
