@@ -18,16 +18,16 @@ let all =
         test "mean" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
-            let! a = Gen.Double.[1.0,2.0].Array.[obvs*vars]
-            let mean = Array.zeroCreate vars
-            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, a)
+            let! x = Gen.Double.[1.0,2.0].Array.[obvs*vars]
+            let mean = Array.zeroCreate<float> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.MEAN, VslMethod.FAST) |> Check.equal 0
             Vsl.SSDeleteTask task |> Check.equal 0
             let expected = Array.init vars (fun i ->
                 let mutable total = 0.0
                 for j = 0 to obvs - 1 do
-                    total <- total + a.[i * obvs + j]
+                    total <- total + x.[i * obvs + j]
                 total / float obvs
             )
             Check.close VeryHigh expected mean
@@ -36,18 +36,21 @@ let all =
         test "mean_weight" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
-            let! a = Gen.Double.[1.0,2.0].Array.[obvs*vars]
-            let mean = Array.zeroCreate vars
-            let weight = Array.create obvs 1.0
-            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, a, weight)
+            let! x = Gen.Double.[1.0,2.0].Array.[obvs*vars]
+            let mean = Array.zeroCreate<float> vars
+            let weight = Array.init obvs (fun i -> float(i+1))
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x, weight)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.MEAN, VslMethod.FAST) |> Check.equal 0
             Vsl.SSDeleteTask task |> Check.equal 0
             let expected = Array.init vars (fun i ->
                 let mutable total = 0.0
+                let mutable totalWeight = 0.0
                 for j = 0 to obvs - 1 do
-                    total <- total + a.[i * obvs + j]
-                total / float obvs
+                    let w = weight.[j]
+                    totalWeight <- totalWeight + w
+                    total <- total + x.[i * obvs + j] * w
+                total / totalWeight
             )
             Check.close VeryHigh expected mean
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace MKLNET
@@ -133,23 +134,46 @@ namespace MKLNET
         readonly IntPtr Ptr;
     }
 
+    internal struct Pinned
+    {
+        int count;
+        GCHandle[] handles;
+        internal Pinned(int c)
+        {
+            count = 0;
+            handles = new GCHandle[c];
+        }
+        internal IntPtr Add(object o)
+        {
+            if(count == handles.Length)
+            {
+                var newHandles = new GCHandle[count * 2];
+                Array.Copy(handles, 0, newHandles, 0, count);
+                handles = newHandles;
+            }
+            var h = GCHandle.Alloc(o, GCHandleType.Pinned);
+            handles[count++] = h;
+            return h.AddrOfPinnedObject();
+        }
+        internal void Free()
+        {
+            for (int i = 0; i < count; i++)
+                handles[i].Free();
+        }
+    }
+
     public class VsldSSTask
     {
         internal IntPtr Ptr;
         internal IntPtr Allocated;
-        internal GCHandle X;
-        internal GCHandle W;
-        internal GCHandle Mean;
+        internal Pinned Pinned;
     }
 
     public struct VslsSSTask
     {
-        readonly IntPtr Ptr;
-    }
-
-    public struct VsliSSTask
-    {
-        readonly IntPtr Ptr;
+        internal IntPtr Ptr;
+        internal IntPtr Allocated;
+        internal Pinned Pinned;
     }
 
     public struct DftiDescriptor
