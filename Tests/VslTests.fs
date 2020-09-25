@@ -19,6 +19,18 @@ let all =
                 hash.Add(r, 10)
             }
 
+        let rngRegressionTestOffset name gen brng seed hash o =
+            let name = name + "_" + Enum.GetName(typeof<VslBrng>, brng)
+            test ("rng_"+name) {
+                let stream = Vsl.NewStream(brng, seed)
+                let r = Array.zeroCreate<double> 100
+                gen stream r |> Check.equal 0
+                Vsl.DeleteStream stream |> Check.equal 0
+                Array.sumBy abs r |> Check.notDefaultValue
+                use hash = Hash.Expected(Nullable hash,o,callerMemberName=name)
+                hash.Add(r, 10)
+            }
+
         let rng s r = Vsl.RngGaussian(VslMethodGaussian.ICDF, s, Array.length r, r, 0.0, 1.0)
         let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected
         rngRegTest VslBrng.MCG31         1009u 3798170
@@ -49,9 +61,9 @@ let all =
         //rngRegTest VslBrng.ARS5          2109u 1759601342
         //rngRegTest VslBrng.PHILOX4X32X10 2119u 176703846
 
-        //let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
-        //let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected
-        //rngRegTest VslBrng.MCG31         1009u 1875509389
+        let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
+        let rngRegTest brng seed expected = rngRegressionTestOffset "cauchy" rng brng seed expected 0.224409818649292
+        rngRegTest VslBrng.MCG31         1009u -503401159
         //rngRegTest VslBrng.R250          1019u 794383798
         //rngRegTest VslBrng.MRG32K3A      1029u 181047374
         //rngRegTest VslBrng.MCG59         1039u -2142079512
