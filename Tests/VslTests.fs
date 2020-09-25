@@ -50,8 +50,8 @@ let all =
         //rngRegTest VslBrng.PHILOX4X32X10 2119u 176703846
 
         let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
-        let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected 8
-        rngRegTest VslBrng.MCG31         1009u -1900894746
+        let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected 6
+        rngRegTest VslBrng.MCG31         1009u 244354581
         //rngRegTest VslBrng.R250          1019u 794383798
         //rngRegTest VslBrng.MRG32K3A      1029u 181047374
         //rngRegTest VslBrng.MCG59         1039u -2142079512
