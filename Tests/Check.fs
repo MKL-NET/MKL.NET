@@ -44,14 +44,14 @@ let equal (expected:'a) (actual:'a) =
             let a = (string a).Replace("\n","")
             Failure(Normal "actual is not equal to expected.\n     actual: " + Numeric a + "\n   expected: " + Numeric e)
         match expected, actual with
-        | (:? float as e), (:? float as a) ->
+        | (:? double as e), (:? double as a) ->
             if e=a || Double.IsNaN a && Double.IsNaN e then Success
             else equalDefault e a
-        | (:? float32 as e), (:? float32 as a) ->
+        | (:? single as e), (:? single as a) ->
             if e=a || Single.IsNaN a && Single.IsNaN e then Success
             else equalDefault e a
-        | (:? (float[]) as e), (:? (float[]) as a) -> equalArray e a
-        | (:? (float32[]) as e), (:? (float32[]) as a) -> equalArray e a
+        | (:? (double[]) as e), (:? (double[]) as a) -> equalArray e a
+        | (:? (single[]) as e), (:? (single[]) as a) -> equalArray e a
         | e, a ->
             if a=e then Success
             else equalDefault e a
@@ -89,22 +89,22 @@ let close accuracy (expected:'a) (actual:'a) =
             + Normal ". actual=" + Numeric a + Normal " expected=" + Numeric e
             )
         match expected, actual with
-        | (:? float as e), (:? float as a) ->
+        | (:? double as e), (:? double as a) ->
             if Accuracy.areClose accuracy e a
              || Double.IsNaN a && Double.IsNaN e
              || Double.IsPositiveInfinity a && Double.IsPositiveInfinity e
              || Double.IsNegativeInfinity a && Double.IsNegativeInfinity e
              then Success
             else closeDefault e a
-        | (:? float32 as e), (:? float32 as a) ->
+        | (:? single as e), (:? single as a) ->
             if Accuracy.areClose accuracy e a
              || Single.IsNaN a && Single.IsNaN e
              || Single.IsPositiveInfinity a && Single.IsPositiveInfinity e
              || Single.IsNegativeInfinity a && Single.IsNegativeInfinity e
              then Success
             else closeDefault e a
-        | (:? (float[]) as e), (:? (float[]) as a) -> closeArray e a
-        | (:? (float32[]) as e), (:? (float32[]) as a) -> closeArray e a
+        | (:? (double[]) as e), (:? (double[]) as a) -> closeArray e a
+        | (:? (single[]) as e), (:? (single[]) as a) -> closeArray e a
         | _ -> failwithf "Unknown type %s" (actual.GetType().Name)
     close expected actual
 
@@ -126,7 +126,7 @@ let faster (expected:unit->'a) (actual:unit->'a) =
             let t2 = Stopwatch.GetTimestamp() - t2
             aa,t2,ae,t1
     match equal aa ae with
-    | Success -> Faster("",if te>ta then float(te-ta)/float te else float(te-ta)/float ta)
+    | Success -> Faster("",if te>ta then double(te-ta)/double te else double(te-ta)/double ta)
     | fail -> fail
 
 /// Chi-squared test to 6 standard deviations.
@@ -137,9 +137,9 @@ let chiSquared (expected:int[]) (actual:int[]) =
         Failure(Normal "expected frequency for all buckets needs to be above 5.")
     else
         let chi = Array.fold2 (fun s a e ->
-            let d = float(a-e)
-            s+d*d/float e) 0.0 actual expected
-        let mean = float(expected.Length - 1)
+            let d = double(a-e)
+            s+d*d/double e) 0.0 actual expected
+        let mean = double(expected.Length - 1)
         let sdev = sqrt(2.0 * mean)
         let SDs = (chi - mean) / sdev
         if abs SDs > 6.0 then

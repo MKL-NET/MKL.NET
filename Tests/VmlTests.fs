@@ -152,7 +152,7 @@ let arithmetic =
 
         testBinary "Fmod_single" Gen.Single.[0.01f,10000.0f]
             Vml.Fmod Vml.Fmod Vml.Fmod Vml.Fmod
-            (fun a b -> float a - Math.Truncate(float a/float b) * float b |> float32)
+            (fun a b -> double a - Math.Truncate(double a/double b) * double b |> single)
 
         testBinary "Remainder_double" Gen.Double.[0.01,10000.0]
             Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
@@ -160,7 +160,7 @@ let arithmetic =
 
         testBinary "Remainder_single" Gen.Single.[0.01f,10000.0f]
             Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
-            (fun a b -> float a - Math.Round(float a/float b) * float b |> float32)
+            (fun a b -> double a - Math.Round(double a/double b) * double b |> single)
     }
 
 let power =
@@ -180,7 +180,7 @@ let power =
 
         testUnary "Sqrt_single" Gen.Single
             Vml.Sqrt Vml.Sqrt Vml.Sqrt Vml.Sqrt
-            (float >> sqrt >> float32)
+            (double >> sqrt >> single)
 
         testUnary "InvSqrt_double" Gen.Double
             Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt
@@ -188,7 +188,7 @@ let power =
 
         testUnary "InvSqrt_single" Gen.Single
             Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt
-            (float >> (/) 1.0 >> sqrt >> float32)
+            (double >> (/) 1.0 >> sqrt >> single)
 
 #if NETCOREAPP
         testUnary "Cbrt_double" Gen.Double
@@ -197,7 +197,7 @@ let power =
 
         testUnary "Cbrt_single" Gen.Single
             Vml.Cbrt Vml.Cbrt Vml.Cbrt Vml.Cbrt
-            (float >> Math.Cbrt >> float32)
+            (double >> Math.Cbrt >> single)
 
         testUnary "InvCbrt_double" Gen.Double
             Vml.InvCbrt Vml.InvCbrt Vml.InvCbrt Vml.InvCbrt
@@ -205,7 +205,7 @@ let power =
 
         testUnary "InvCbrt_single" Gen.Single
             Vml.InvCbrt Vml.InvCbrt Vml.InvCbrt Vml.InvCbrt
-            (float >> (/) 1.0 >> Math.Cbrt >> float32)
+            (double >> (/) 1.0 >> Math.Cbrt >> single)
 #endif
 
         testBinary "Hypot_double" Gen.Double
@@ -231,14 +231,14 @@ let power =
 
         testUnary "Pow2o3_single" Gen.Single
             Vml.Pow2o3 Vml.Pow2o3 Vml.Pow2o3 Vml.Pow2o3
-            (fun a -> Math.Cbrt(float a*float a) |> float32)
+            (fun a -> Math.Cbrt(double a*double a) |> single)
 #endif
 
-        testUnary "Pow3o2_double" Gen.Double.[0.0,Double.MaxValue]
+        testUnary "Pow3o2_double" Gen.Double.NonNegative
             Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2
             (fun a -> sqrt(a*a*a))
 
-        testUnary "Pow3o2_single" Gen.Single.[0.0f,Single.MaxValue]
+        testUnary "Pow3o2_single" Gen.Single.NonNegative
             Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2
             (fun a -> sqrt(a*a*a))
 
@@ -248,7 +248,7 @@ let power =
 
         testBinary "Pow_single" Gen.Single
             Vml.Pow Vml.Pow Vml.Pow Vml.Pow
-            (fun a b -> Math.Pow(float a,float b) |> float32)
+            (fun a b -> Math.Pow(double a,double b) |> single)
 
         testBinary "Powr_double" Gen.Double.[0.01,100.0]
             Vml.Powr Vml.Powr Vml.Powr Vml.Powr
@@ -256,7 +256,7 @@ let power =
 
         testBinary "Powr_single" Gen.Single.[0.01f,100.0f]
             Vml.Powr Vml.Powr Vml.Powr Vml.Powr
-            (fun a b -> Math.Pow(float a,float b) |> float32)
+            (fun a b -> Math.Pow(double a,double b) |> single)
     }
 
 let exponential =
@@ -268,7 +268,7 @@ let exponential =
 
         testUnary "Exp_single" Gen.Single
             Vml.Exp Vml.Exp Vml.Exp Vml.Exp
-            (float >> exp >> float32)
+            (double >> exp >> single)
 
         testUnary "Exp2_double" Gen.Double
             Vml.Exp2 Vml.Exp2 Vml.Exp2 Vml.Exp2
@@ -276,7 +276,7 @@ let exponential =
 
         testUnary "Exp2_single" Gen.Single
             Vml.Exp2 Vml.Exp2 Vml.Exp2 Vml.Exp2
-            (fun i -> Math.Pow(2.0,float i) |> float32)
+            (fun i -> Math.Pow(2.0,double i) |> single)
 
         testUnary "Exp10_double" Gen.Double
             Vml.Exp10 Vml.Exp10 Vml.Exp10 Vml.Exp10
@@ -284,7 +284,7 @@ let exponential =
 
         testUnary "Exp10_single" Gen.Single
             Vml.Exp10 Vml.Exp10 Vml.Exp10 Vml.Exp10
-            (fun i -> Math.Pow(10.0,float i) |> float32)
+            (fun i -> Math.Pow(10.0,double i) |> single)
 
         testUnary "Expm1_double" Gen.Double
             Vml.Expm1 Vml.Expm1 Vml.Expm1 Vml.Expm1
@@ -292,7 +292,7 @@ let exponential =
 
         testUnary "Expm1_single" Gen.Single
             Vml.Expm1 Vml.Expm1 Vml.Expm1 Vml.Expm1
-            (fun i -> exp(float i)-1.0 |> float32)
+            (fun i -> exp(double i)-1.0 |> single)
 
         testUnary "Ln_double" Gen.Double
             Vml.Ln Vml.Ln Vml.Ln Vml.Ln
@@ -300,7 +300,7 @@ let exponential =
 
         testUnary "Ln_single" Gen.Single
             Vml.Ln Vml.Ln Vml.Ln Vml.Ln
-            (float >> log >> float32)
+            (double >> log >> single)
 
 #if NETCOREAPP
         testUnary "Log2_double" Gen.Double
@@ -309,7 +309,7 @@ let exponential =
 
         testUnary "Log2_single" Gen.Single
             Vml.Log2 Vml.Log2 Vml.Log2 Vml.Log2
-            (float >> Math.Log2 >> float32)
+            (double >> Math.Log2 >> single)
 #endif
 
         testUnary "Log10_double" Gen.Double
@@ -318,7 +318,7 @@ let exponential =
 
         testUnary "Log10_single" Gen.Single
             Vml.Log10 Vml.Log10 Vml.Log10 Vml.Log10
-            (float >> log10 >> float32)
+            (double >> log10 >> single)
 
         testUnary "Log1p_double" Gen.Double
             Vml.Log1p Vml.Log1p Vml.Log1p Vml.Log1p
@@ -326,16 +326,16 @@ let exponential =
 
         testUnary "Log1p_single" Gen.Single
             Vml.Log1p Vml.Log1p Vml.Log1p Vml.Log1p
-            (fun i -> log(float i+1.0) |> float32)
+            (fun i -> log(double i+1.0) |> single)
 
 #if NETCOREAPP
-        testUnary "Logb_double" Gen.Double.[0.0,Double.MaxValue]
+        testUnary "Logb_double" Gen.Double.NormalNonNegative
             Vml.Logb Vml.Logb Vml.Logb Vml.Logb
-            (fun i -> Math.ILogB(i) |> float)
+            (fun i -> Math.ILogB(i) |> double)
 
-        testUnary "Logb_single" Gen.Single.[0.0f,Single.MaxValue]
+        testUnary "Logb_single" Gen.Single.NormalNonNegative
             Vml.Logb Vml.Logb Vml.Logb Vml.Logb
-            (fun i -> Math.ILogB(float i) |> float32)
+            (fun i -> Math.ILogB(double i) |> single)
 #endif
     }
 
@@ -348,7 +348,7 @@ let trigonometric =
 
         testUnary "Cos_single" Gen.Single.[-8192.0f,8192.0f]
             Vml.Cos Vml.Cos Vml.Cos Vml.Cos
-            (float >> cos >> float32)
+            (double >> cos >> single)
 
         testUnary "Sin_double" Gen.Double.[-65536.0,65536.0]
             Vml.Sin Vml.Sin Vml.Sin Vml.Sin
@@ -356,7 +356,7 @@ let trigonometric =
 
         testUnary "Sin_single" Gen.Single.[-8192.0f,8192.0f]
             Vml.Sin Vml.Sin Vml.Sin Vml.Sin
-            (float >> sin >> float32)
+            (double >> sin >> single)
 
         testUnary "Tan_double" Gen.Double.[-1.0,1.0]
             Vml.Tan Vml.Tan Vml.Tan Vml.Tan
@@ -364,7 +364,7 @@ let trigonometric =
 
         testUnary "Tan_single" Gen.Single.[-1.0f,1.0f]
             Vml.Tan Vml.Tan Vml.Tan Vml.Tan
-            (float >> tan >> float32)
+            (double >> tan >> single)
 
         testUnary "Cospi_double" Gen.Double.[-65536.0,65536.0]
             Vml.Cospi Vml.Cospi Vml.Cospi Vml.Cospi
@@ -372,7 +372,7 @@ let trigonometric =
 
         testUnary "Cospi_single" Gen.Single.[-4194304.0f,4194304.0f]
             Vml.Cospi Vml.Cospi Vml.Cospi Vml.Cospi
-            (fun i -> cos(Math.PI*float i) |> float32)
+            (fun i -> cos(Math.PI*double i) |> single)
 
         testUnary "Sinpi_double" Gen.Double.[-65536.0,65536.0]
             Vml.Sinpi Vml.Sinpi Vml.Sinpi Vml.Sinpi
@@ -380,7 +380,7 @@ let trigonometric =
 
         testUnary "Sinpi_single" Gen.Single.[-4194304.0f,4194304.0f]
             Vml.Sinpi Vml.Sinpi Vml.Sinpi Vml.Sinpi
-            (fun i -> sin(Math.PI*float i) |> float32)
+            (fun i -> sin(Math.PI*double i) |> single)
 
         testUnary "Tanpi_double" Gen.Double.[-0.3,0.3]
             Vml.Tanpi Vml.Tanpi Vml.Tanpi Vml.Tanpi
@@ -388,7 +388,7 @@ let trigonometric =
 
         testUnary "Tanpi_single" Gen.Single.[-0.3f,0.3f]
             Vml.Tanpi Vml.Tanpi Vml.Tanpi Vml.Tanpi
-            (fun i -> tan(Math.PI*float i) |> float32)
+            (fun i -> tan(Math.PI*double i) |> single)
 
         testUnary "Cosd_double" Gen.Double.[-65536.0,65536.0]
             Vml.Cosd Vml.Cosd Vml.Cosd Vml.Cosd
@@ -396,7 +396,7 @@ let trigonometric =
 
         testUnary "Cosd_single" Gen.Single.[-4194304.0f,4194304.0f]
             Vml.Cosd Vml.Cosd Vml.Cosd Vml.Cosd
-            (fun i -> cos(Math.PI/180.0*float i) |> float32)
+            (fun i -> cos(Math.PI/180.0*double i) |> single)
 
         testUnary "Sind_double" Gen.Double.[-65536.0,65536.0]
             Vml.Sind Vml.Sind Vml.Sind Vml.Sind
@@ -404,7 +404,7 @@ let trigonometric =
 
         testUnary "Sind_single" Gen.Single.[-4194304.0f,4194304.0f]
             Vml.Sind Vml.Sind Vml.Sind Vml.Sind
-            (fun i -> sin(Math.PI/180.0*float i) |> float32)
+            (fun i -> sin(Math.PI/180.0*double i) |> single)
 
         testUnary "Tand_double" Gen.Double.[-57.0,57.0]
             Vml.Tand Vml.Tand Vml.Tand Vml.Tand
@@ -412,7 +412,7 @@ let trigonometric =
 
         testUnary "Tand_single" Gen.Single.[-57.0f,57.0f]
             Vml.Tand Vml.Tand Vml.Tand Vml.Tand
-            (fun i -> tan(Math.PI/180.0*float i) |> float32)
+            (fun i -> tan(Math.PI/180.0*double i) |> single)
 
         testUnary "Acos_double" Gen.Double.[-1.0,1.0]
             Vml.Acos Vml.Acos Vml.Acos Vml.Acos
@@ -420,7 +420,7 @@ let trigonometric =
 
         testUnary "Acos_single" Gen.Single.[-1.0f,1.0f]
             Vml.Acos Vml.Acos Vml.Acos Vml.Acos
-            (float >> acos >> float32)
+            (double >> acos >> single)
 
         testUnary "Asin_double" Gen.Double.[-1.0,1.0]
             Vml.Asin Vml.Asin Vml.Asin Vml.Asin
@@ -428,7 +428,7 @@ let trigonometric =
 
         testUnary "Asin_single" Gen.Single.[-1.0f,1.0f]
             Vml.Asin Vml.Asin Vml.Asin Vml.Asin
-            (float >> asin >> float32)
+            (double >> asin >> single)
 
         testUnary "Atan_double" Gen.Double
             Vml.Atan Vml.Atan Vml.Atan Vml.Atan
@@ -436,7 +436,7 @@ let trigonometric =
 
         testUnary "Atan_single" Gen.Single
             Vml.Atan Vml.Atan Vml.Atan Vml.Atan
-            (float >> atan >> float32)
+            (double >> atan >> single)
 
         testUnary "Acospi_double" Gen.Double.[-1.0,1.0]
             Vml.Acospi Vml.Acospi Vml.Acospi Vml.Acospi
@@ -444,7 +444,7 @@ let trigonometric =
 
         testUnary "Acospi_single" Gen.Single.[-1.0f,1.0f]
             Vml.Acospi Vml.Acospi Vml.Acospi Vml.Acospi
-            (fun i -> acos(float i) / Math.PI |> float32)
+            (fun i -> acos(double i) / Math.PI |> single)
 
         testUnary "Asinpi_double" Gen.Double.[-1.0,1.0]
             Vml.Asinpi Vml.Asinpi Vml.Asinpi Vml.Asinpi
@@ -452,7 +452,7 @@ let trigonometric =
 
         testUnary "Asinpi_single" Gen.Single.[-1.0f,1.0f]
             Vml.Asinpi Vml.Asinpi Vml.Asinpi Vml.Asinpi
-            (fun i -> asin(float i) / Math.PI |> float32)
+            (fun i -> asin(double i) / Math.PI |> single)
 
         testUnary "Atanpi_double" Gen.Double
             Vml.Atanpi Vml.Atanpi Vml.Atanpi Vml.Atanpi
@@ -460,7 +460,7 @@ let trigonometric =
 
         testUnary "Atanpi_single" Gen.Single
             Vml.Atanpi Vml.Atanpi Vml.Atanpi Vml.Atanpi
-            (fun i -> atan(float i) / Math.PI |> float32)
+            (fun i -> atan(double i) / Math.PI |> single)
 
         testBinary "Atan2_double" Gen.Double
             Vml.Atan2 Vml.Atan2 Vml.Atan2 Vml.Atan2
@@ -468,7 +468,7 @@ let trigonometric =
 
         testBinary "Atan2_single" Gen.Single
             Vml.Atan2 Vml.Atan2 Vml.Atan2 Vml.Atan2
-            (fun a b -> atan2 (float a) (float b) |> float32)
+            (fun a b -> atan2 (double a) (double b) |> single)
 
         testBinary "Atan2pi_double" Gen.Double
             Vml.Atan2pi Vml.Atan2pi Vml.Atan2pi Vml.Atan2pi
@@ -476,7 +476,7 @@ let trigonometric =
 
         testBinary "Atan2pi_single" Gen.Single
             Vml.Atan2pi Vml.Atan2pi Vml.Atan2pi Vml.Atan2pi
-            (fun a b -> atan2 (float a) (float b) / Math.PI |> float32)
+            (fun a b -> atan2 (double a) (double b) / Math.PI |> single)
     }
 
 let hyperbolic =
@@ -488,7 +488,7 @@ let hyperbolic =
 
         testUnary "Cosh_single" Gen.Single
             Vml.Cosh Vml.Cosh Vml.Cosh Vml.Cosh
-            (float >> cosh >> float32)
+            (double >> cosh >> single)
 
         testUnary "Sinh_double" Gen.Double
             Vml.Sinh Vml.Sinh Vml.Sinh Vml.Sinh
@@ -496,7 +496,7 @@ let hyperbolic =
 
         testUnary "Sinh_single" Gen.Single
             Vml.Sinh Vml.Sinh Vml.Sinh Vml.Sinh
-            (float >> sinh >> float32)
+            (double >> sinh >> single)
 
         testUnary "Tanh_double" Gen.Double
             Vml.Tanh Vml.Tanh Vml.Tanh Vml.Tanh
@@ -504,7 +504,7 @@ let hyperbolic =
 
         testUnary "Tanh_single" Gen.Single
             Vml.Tanh Vml.Tanh Vml.Tanh Vml.Tanh
-            (float >> tanh >> float32)
+            (double >> tanh >> single)
 
 #if NETCOREAPP
         testUnary "Acosh_double" Gen.Double.[1.0,Double.MaxValue]
@@ -513,7 +513,7 @@ let hyperbolic =
 
         testUnary "Acosh_single" Gen.Single.[1.0f,Single.MaxValue]
             Vml.Acosh Vml.Acosh Vml.Acosh Vml.Acosh
-            (float >> Math.Acosh >> float32)
+            (double >> Math.Acosh >> single)
 
         testUnary "Asinh_double" Gen.Double
             Vml.Asinh Vml.Asinh Vml.Asinh Vml.Asinh
@@ -521,7 +521,7 @@ let hyperbolic =
 
         testUnary "Asinh_single" Gen.Single
             Vml.Asinh Vml.Asinh Vml.Asinh Vml.Asinh
-            (float >> Math.Asinh >> float32)
+            (double >> Math.Asinh >> single)
 
         testUnary "Atanh_double" Gen.Double.[-1.0,1.0]
             Vml.Atanh Vml.Atanh Vml.Atanh Vml.Atanh
@@ -529,7 +529,7 @@ let hyperbolic =
 
         testUnary "Atanh_single" Gen.Single.[-1.0f,1.0f]
             Vml.Atanh Vml.Atanh Vml.Atanh Vml.Atanh
-            (float >> Math.Atanh >> float32)
+            (double >> Math.Atanh >> single)
 #endif
     }
 
@@ -542,7 +542,7 @@ let special =
 
         testUnary "Erf_single" Gen.Single
             Vml.Erf Vml.Erf Vml.Erf Vml.Erf
-            (float >> erf >> float32)
+            (double >> erf >> single)
 
         testUnary "Erfc_double" Gen.Double
             Vml.Erfc Vml.Erfc Vml.Erfc Vml.Erfc
@@ -550,7 +550,7 @@ let special =
 
         testUnary "Erfc_single" Gen.Single
             Vml.Erfc Vml.Erfc Vml.Erfc Vml.Erfc
-            (float >> erfc >> float32)
+            (double >> erfc >> single)
 
         testUnary "ErfInv_double" Gen.Double.[-0.9999,0.9999]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
@@ -558,7 +558,7 @@ let special =
 
         testUnary "ErfInv_single" Gen.Single.[-0.9999f,0.9999f]
             Vml.ErfInv Vml.ErfInv Vml.ErfInv Vml.ErfInv
-            (float >> erfinv >> float32)
+            (double >> erfinv >> single)
 
         testUnary "ErfcInv_double" Gen.Double.[0.0001,1.9999]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
@@ -566,7 +566,7 @@ let special =
 
         testUnary "ErfcInv_single" Gen.Single.[0.0001f,1.9999f]
             Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv Vml.ErfcInv
-            (float >> erfcinv >> float32)
+            (double >> erfcinv >> single)
 
         testUnary "CdfNorm_double" Gen.Double
             Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm
@@ -574,7 +574,7 @@ let special =
 
         testUnary "CdfNorm_single" Gen.Single
             Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm Vml.CdfNorm
-            (float >> normcdf >> float32)
+            (double >> normcdf >> single)
 
         testUnary "CdfNormInv_double" Gen.Double.[0.0001,0.9999]
             Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
@@ -582,7 +582,7 @@ let special =
 
         testUnary "CdfNormInv_single" Gen.Single.[0.0001f,0.9999f]
             Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
-            (float >> normcdfinv >> float32)
+            (double >> normcdfinv >> single)
 
         testUnary "LGamma_double" Gen.Double.[0.0,10000.0]
             Vml.LGamma Vml.LGamma Vml.LGamma Vml.LGamma
@@ -590,7 +590,7 @@ let special =
 
         testUnary "LGamma_single" Gen.Single.[0.0f,10000.0f]
             Vml.LGamma Vml.LGamma Vml.LGamma Vml.LGamma
-            (float >> lgamma >> float32)
+            (double >> lgamma >> single)
 
         testUnary "TGamma_double" Gen.Double.[0.0,100000.0]
             Vml.TGamma Vml.TGamma Vml.TGamma Vml.TGamma
@@ -598,7 +598,7 @@ let special =
 
         testUnary "TGamma_single" Gen.Single.[0.0f,100000.0f]
             Vml.TGamma Vml.TGamma Vml.TGamma Vml.TGamma
-            (float >> gamma >> float32)
+            (double >> gamma >> single)
 
         testUnary "ExpInt1_double" Gen.Double.[0.0,100000.0]
             Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
@@ -606,7 +606,7 @@ let special =
 
         testUnary "ExpInt1_single" Gen.Single.[0.0f,100000.0f]
             Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
-            (float >> (expint 1) >> float32)
+            (double >> (expint 1) >> single)
     }
 
 let rounding =
@@ -618,7 +618,7 @@ let rounding =
 
         testUnary "Floor_single" Gen.Single
             Vml.Floor Vml.Floor Vml.Floor Vml.Floor
-            (float >> floor >> float32)
+            (double >> floor >> single)
 
         testUnary "Ceil_double" Gen.Double
             Vml.Ceil Vml.Ceil Vml.Ceil Vml.Ceil
@@ -626,7 +626,7 @@ let rounding =
 
         testUnary "Ceil_single" Gen.Single
             Vml.Ceil Vml.Ceil Vml.Ceil Vml.Ceil
-            (float >> ceil >> float32)
+            (double >> ceil >> single)
 
         testUnary "Trunc_double" Gen.Double
             Vml.Trunc Vml.Trunc Vml.Trunc Vml.Trunc
@@ -642,7 +642,7 @@ let rounding =
 
         testUnary "Round_single" Gen.Single
             Vml.Round Vml.Round Vml.Round Vml.Round
-            (fun a -> Math.Round(float a, MidpointRounding.AwayFromZero) |> float32)
+            (fun a -> Math.Round(double a, MidpointRounding.AwayFromZero) |> single)
 
         testUnary "Frac_double" Gen.Double
             Vml.Frac Vml.Frac Vml.Frac Vml.Frac
@@ -658,7 +658,7 @@ let rounding =
 
         testUnary "NearbyInt_single" Gen.Single
             Vml.NearbyInt Vml.NearbyInt Vml.NearbyInt Vml.NearbyInt
-            (fun a -> Math.Round(float a, MidpointRounding.ToEven) |> float32)
+            (fun a -> Math.Round(double a, MidpointRounding.ToEven) |> single)
 
         testUnary "Rint_double" Gen.Double
             Vml.Rint Vml.Rint Vml.Rint Vml.Rint
@@ -666,7 +666,7 @@ let rounding =
 
         testUnary "Rint_single" Gen.Single
             Vml.Rint Vml.Rint Vml.Rint Vml.Rint
-            (fun a -> Math.Round(float a, MidpointRounding.ToEven) |> float32)
+            (fun a -> Math.Round(double a, MidpointRounding.ToEven) |> single)
     }
 
 let miscellaneous =
@@ -678,7 +678,7 @@ let miscellaneous =
 
         testBinary "CopySign_single" Gen.Single
             Vml.CopySign Vml.CopySign Vml.CopySign Vml.CopySign
-            (fun a b -> Math.CopySign(float a, float b) |> float32)
+            (fun a b -> Math.CopySign(double a, double b) |> single)
 #endif
 
         testBinary "Fmax_double" Gen.Double.Normal
@@ -737,8 +737,8 @@ let miscellaneous =
 
         testBinary "NextAfter_single" Gen.Single.Normal
             Vml.NextAfter Vml.NextAfter Vml.NextAfter Vml.NextAfter
-            (fun a b -> if b > 0.0f then Math.BitIncrement(float a) |> float32
-                                    else Math.BitDecrement(float a) |> float32)
+            (fun a b -> if b > 0.0f then Math.BitIncrement(double a) |> single
+                                    else Math.BitDecrement(double a) |> single)
 #endif
     }
 
@@ -763,9 +763,9 @@ let bespoke =
         }
 
         test "Powx_single" {
-            let! a = Gen.Single.[0.0f,Single.MaxValue].Array.[1,ROWS_MAX]
+            let! a = Gen.Single.NonNegative.Array.[1,ROWS_MAX]
             let! b = Gen.Single
-            let expected = Array.map (fun a -> Math.Pow(float a,float b) |> float32) a
+            let expected = Array.map (fun a -> Math.Pow(double a,double b) |> single) a
             let actual = Array.zeroCreate a.Length
             Vml.Powx(a,b,actual)
             Check.close High expected actual

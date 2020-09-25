@@ -16,22 +16,22 @@ module Auto =
     let inline zigzag i =
         (i <<< 1) ^^^ (i >>> 31) |> uint32
     let inline idiv (n:int) (d:int) =
-        Math.Round(float n/float d) |> int
+        Math.Round(double n/double d) |> int
     let inline idiv64 (n:int64) (d:int64) =
-        Math.Round(float n/float d) |> int64
+        Math.Round(double n/double d) |> int64
 
 type Accuracy =
     | Low
     | Medium
     | High
     | VeryHigh
-    static member ($) (m:Accuracy,_:float) =
+    static member ($) (m:Accuracy,_:double) =
         match m with
         | Low -> fun a b -> 1e-6 + 1e-3 * max (abs a) (abs b)
         | Medium -> fun a b -> 1e-8 + 1e-5 * max (abs a) (abs b)
         | High -> fun a b -> 1e-10 + 1e-7 * max (abs a) (abs b)
         | VeryHigh -> fun a b -> 1e-12 + 1e-9 * max (abs a) (abs b)
-    static member ($) (m:Accuracy,_:float32) =
+    static member ($) (m:Accuracy,_:single) =
         match m with
         | Low -> fun a b -> 1e-4f + 1e-1f * max (abs a) (abs b)
         | Medium -> fun a b -> 1e-6f + 1e-3f * max (abs a) (abs b)
@@ -270,7 +270,7 @@ type FasterAggregation =
     val mutable Slower : int
     val mutable Error : bool
     new(message:string) = {Message=message;Median=MedianEstimator();Faster=0;Slower=0;Error=false}
-    member m.Variance = float(m.Faster-m.Slower) * float(m.Faster-m.Slower) / float(m.Faster+m.Slower)
+    member m.Variance = double(m.Faster-m.Slower) * double(m.Faster-m.Slower) / double(m.Faster+m.Slower)
     member m.Sigma = sqrt m.Variance
 
 type TestResult =
@@ -279,7 +279,7 @@ type TestResult =
     | Exception of exn
     | Information of string
     | Label of string
-    | Faster of message: string * sample: float
+    | Faster of message: string * sample: double
     | FasterAgg of FasterAggregation
     static member hasErrs (r:TestResult list) =
         List.exists (function | Failure _ | Exception _ -> true | FasterAgg fa when fa.Error -> true | _ -> false) r
@@ -398,9 +398,9 @@ type Config =
     | Para of int
     | Seed of PCG
     | Iter of int
-    | Time of float
-    | Memo of float
-    | Wait of float
+    | Time of double
+    | Memo of double
+    | Wait of double
     | Info
     | Skip
     | Stop
@@ -665,7 +665,7 @@ module Tests =
                         t.Method <- fun p c ->
                                         let t = Stopwatch.GetTimestamp()
                                         f p (fun r ->
-                                            me.Add(float(Stopwatch.GetTimestamp() - t))
+                                            me.Add(double(Stopwatch.GetTimestamp() - t))
                                             c r
                                         )
                     ) tests
@@ -675,9 +675,9 @@ module Tests =
                                 match t.Result with
                                 | None -> 0.0, None
                                 | Some(rs,seed) ->
-                                    let m = Message "Duration " + Numeric((1000.0*me.Median/float Stopwatch.Frequency).ToString("#0.000")) +
-                                            "ms[-" + Numeric((1000.0*me.MADless/float Stopwatch.Frequency).ToString("#0.000")) +
-                                            "..+" + Numeric((1000.0*me.MADmore/float Stopwatch.Frequency).ToString("#0.000")) + "]"
+                                    let m = Message "Duration " + Numeric((1000.0*me.Median/double Stopwatch.Frequency).ToString("#0.000")) +
+                                            "ms[-" + Numeric((1000.0*me.MADless/double Stopwatch.Frequency).ToString("#0.000")) +
+                                            "..+" + Numeric((1000.0*me.MADmore/double Stopwatch.Frequency).ToString("#0.000")) + "]"
                                     let time = TestText.toText m |> Text.toANSI |> Information
                                     me.Median, testResultWriteLine config t.Name (time::rs,seed)
                             ) tests mes
@@ -711,7 +711,7 @@ module Tests =
                 let seed = List.tryPick (function Seed s -> Some s | _ -> None) config
                 match List.tryPick (function Time t -> Some t | _ -> None) config with
                 | Some t -> // Time
-                    let endTime = startTime + int64(t * float Stopwatch.Frequency)
+                    let endTime = startTime + int64(t * double Stopwatch.Frequency)
                     timeout <- endTime + wait * Stopwatch.Frequency / 1000L
                     let noThreads = if tests.Length = 0 then 0
                                     else List.tryPick (function Para s -> Some s | _ -> None) config
@@ -758,7 +758,7 @@ module Tests =
                     "Running " + Numeric tests.Length + " (out of " +
                     Numeric allTestCount + ") tests for " + Numeric iters +
                     " iterations on " + Numeric noThreads + " threads." |> print
-                    workers, fun _ -> (1.0 - float testsLeft / float(tests.Length*iters)) * 100.0 |> int
+                    workers, fun _ -> (1.0 - double testsLeft / double(tests.Length*iters)) * 100.0 |> int
             let inline printThreads() =
                 workers |> Array.iteri (fun i w ->
                     Option.iter (fun t ->

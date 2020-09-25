@@ -7,27 +7,32 @@ open CsCheck
 let all =
     test "Vsl" {
 
-        let rngRegressionTest name brng seed hash gen =
+        let rngRegressionTest name gen brng seed hash =
+            let name = name + "_" + Enum.GetName(typeof<VslBrng>, brng)
             test name {
                 let stream = Vsl.NewStream(brng, seed)
                 let r = Array.zeroCreate<double> 100
                 gen stream r |> Check.equal 0
                 Vsl.DeleteStream stream |> Check.equal 0
+                Array.sumBy abs r |> Check.greaterThan 0.0
                 use hash = Hash.Expected(Nullable hash,callerMemberName=name)
                 hash.Add(r, 10)
             }
 
-        rngRegressionTest "gaussian_MRG32K3A" VslBrng.MRG32K3A 77u 1629126827
-            (fun s r -> Vsl.RngGaussian(VslMethodGaussian.ICDF, s, r.Length, r, 0.0, 1.0))
-
-        test "stream" {
-            let stream = Vsl.NewStream(VslBrng.MRG32K3A, 77u)
-            let r = Array.zeroCreate 3
-            Vsl.RngGaussian(VslMethodGaussian.ICDF, stream, r.Length, r, 0.0, 1.0) |> Check.equal 0
-            Vsl.DeleteStream stream |> Check.equal 0
-            let expected = [| 2.197108196; 0.1405333963; -0.4023745985 |]
-            Check.close VeryHigh expected r
-        }
+        let rng s r = Vsl.RngGaussian(VslMethodGaussian.ICDF, s, Array.length r, r, 0.0, 1.0)
+        let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected
+        rngRegTest VslBrng.MCG31         1009u 3798170
+        rngRegTest VslBrng.R250          1019u 1318477131
+        rngRegTest VslBrng.MRG32K3A      1029u -1770215917
+        rngRegTest VslBrng.MCG59         1039u -609587276
+        rngRegTest VslBrng.WH            1049u 988954032
+        rngRegTest VslBrng.SOBOL         1059u 64673350
+        rngRegTest VslBrng.NIEDERR       1069u 64673350
+        rngRegTest VslBrng.MT19937       1079u 2108214711
+        rngRegTest VslBrng.MT2203        1089u -1757665964
+        rngRegTest VslBrng.SFMT19937     1099u -1731241801
+        rngRegTest VslBrng.ARS5          1109u 860073583
+        rngRegTest VslBrng.PHILOX4X32X10 1119u 787349297
 
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
@@ -70,7 +75,7 @@ let all =
             let! vars = Gen.Int.[1,100]
             let! x = Gen.Double.[1.0,2.0].Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
-            let weight = Array.init obvs (fun i -> float(i+1))
+            let weight = Array.init obvs (fun i -> double(i+1))
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x, weight)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.MEAN, VslMethod.FAST) |> Check.equal 0

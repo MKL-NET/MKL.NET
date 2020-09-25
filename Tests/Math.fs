@@ -81,16 +81,16 @@ let private epsilon = 0.00000000000000001
 /// Computes the exponential integral
 let expint n x =
     if n = 0 then exp -x / x
-    elif x = 0.0 then 1.0/float(n-1)
+    elif x = 0.0 then 1.0/double(n-1)
     elif x > 1.0 then
-        let mutable b = x + float n
+        let mutable b = x + double n
         let mutable c = 1e100
         let mutable d = 1.0/b
         let mutable h = d
         let mutable i = 1
         let mutable check = true
         while i <= 100 && check do
-            let a = float((1-n-i)*i)
+            let a = double((1-n-i)*i)
             b <- b + 2.0
             d <- 1.0/(a*d + b)
             c <- b + a/c
@@ -101,18 +101,18 @@ let expint n x =
         h * exp -x
     else
         let mutable factorial = 1.0
-        let mutable result = if n = 1 then -log x - EULER else 1.0/float(n-1)
+        let mutable result = if n = 1 then -log x - EULER else 1.0/double(n-1)
         let mutable i = 1
         let mutable check = true
         while i <= 100 && check do
-            factorial <- factorial * x/(float -i)
+            factorial <- factorial * x/(double -i)
             let del = if i+1 = n then
                         let mutable psi = -EULER
                         for ii = 1 to n-1 do
-                            psi <- psi + 1.0 / float ii
+                            psi <- psi + 1.0 / double ii
                         factorial*(psi-log x)
                       else
-                        -factorial/float(i+1-n)
+                        -factorial/double(i+1-n)
             result <- result + del
             if abs del < abs result * epsilon then check <- false
             i <- i + 1
