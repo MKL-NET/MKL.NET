@@ -8,10 +8,9 @@
     <NoWarn>NU5128;NU5131;IDE1006</NoWarn>
     <DefineConstants Condition=" '$(OS)' != '' ">$(DefineConstants);$(OS)</DefineConstants>
     <PackageReleaseNotes>
-Vml API simplification.
-Vml complete set of tests.
+Vsl API simplification and memory management.
     </PackageReleaseNotes>
-    <Version>0.7.0</Version>
+    <Version>0.8.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />

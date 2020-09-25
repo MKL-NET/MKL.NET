@@ -1,10 +1,24 @@
 ﻿module VslTests
 
+open System
 open MKLNET
 open CsCheck
 
 let all =
     test "Vsl" {
+
+        let rngRegressionTest name brng seed hash gen =
+            test name {
+                let stream = Vsl.NewStream(brng, seed)
+                let r = Array.zeroCreate<double> 100
+                gen stream r |> Check.equal 0
+                Vsl.DeleteStream stream |> Check.equal 0
+                use hash = Hash.Expected(Nullable hash,callerMemberName=name)
+                hash.Add(r, 10)
+            }
+
+        rngRegressionTest "gaussian_MRG32K3A" VslBrng.MRG32K3A 77u 1629126827
+            (fun s r -> Vsl.RngGaussian(VslMethodGaussian.ICDF, s, r.Length, r, 0.0, 1.0))
 
         test "stream" {
             let stream = Vsl.NewStream(VslBrng.MRG32K3A, 77u)
@@ -19,7 +33,7 @@ let all =
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
             let! x = Gen.Double.[1.0,2.0].Array.[obvs*vars]
-            let mean = Array.zeroCreate<float> vars
+            let mean = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.MEAN, VslMethod.FAST) |> Check.equal 0
@@ -28,7 +42,7 @@ let all =
                 let mutable total = 0.0
                 for j = 0 to obvs - 1 do
                     total <- total + x.[i * obvs + j]
-                total / float obvs
+                total / double obvs
             )
             Check.close VeryHigh expected mean
         }
@@ -37,7 +51,7 @@ let all =
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
             let! x = Gen.Single.[1.0f,2.0f].Array.[obvs*vars]
-            let mean = Array.zeroCreate<float32> vars
+            let mean = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.MEAN, VslMethod.FAST) |> Check.equal 0
@@ -46,7 +60,7 @@ let all =
                 let mutable total = 0.0f
                 for j = 0 to obvs - 1 do
                     total <- total + x.[i * obvs + j]
-                total / float32 obvs
+                total / single obvs
             )
             Check.close High expected mean
         }
@@ -55,7 +69,7 @@ let all =
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
             let! x = Gen.Double.[1.0,2.0].Array.[obvs*vars]
-            let mean = Array.zeroCreate<float> vars
+            let mean = Array.zeroCreate<double> vars
             let weight = Array.init obvs (fun i -> float(i+1))
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x, weight)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
