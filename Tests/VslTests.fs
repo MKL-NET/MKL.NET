@@ -69,20 +69,20 @@ let all =
         rngRegTest VslBrng.ARS5          3109u 588225730
         rngRegTest VslBrng.PHILOX4X32X10 3119u 1201934039
 
-        //let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
-        //let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
-        //rngRegTest VslBrng.MCG31         1009u 2012264470
-        //rngRegTest VslBrng.R250          1019u -1880633538
-        //rngRegTest VslBrng.MRG32K3A      1029u 645848553
-        //rngRegTest VslBrng.MCG59         1039u -1304033450
-        //rngRegTest VslBrng.WH            1049u -1944734309
-        //rngRegTest VslBrng.SOBOL         1059u -1456066750
-        //rngRegTest VslBrng.NIEDERR       1069u -1456066750
-        //rngRegTest VslBrng.MT19937       1079u 92636278
-        //rngRegTest VslBrng.MT2203        1089u 1053279542
-        //rngRegTest VslBrng.SFMT19937     1099u 432958341
-        //rngRegTest VslBrng.ARS5          1109u -525086944
-        //rngRegTest VslBrng.PHILOX4X32X10 1119u -64858375
+        let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
+        let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
+        rngRegTest VslBrng.MCG31         1009u -477742185
+        rngRegTest VslBrng.R250          1019u 34019462
+        rngRegTest VslBrng.MRG32K3A      1029u 531787785
+        rngRegTest VslBrng.MCG59         1039u 305228422
+        rngRegTest VslBrng.WH            1049u -910026792
+        rngRegTest VslBrng.SOBOL         1059u 397983813
+        rngRegTest VslBrng.NIEDERR       1069u 397983813
+        rngRegTest VslBrng.MT19937       1079u -10815693
+        rngRegTest VslBrng.MT2203        1089u 322220006
+        rngRegTest VslBrng.SFMT19937     1099u -541654099
+        rngRegTest VslBrng.ARS5          1109u 1424906080
+        rngRegTest VslBrng.PHILOX4X32X10 1119u -313251387
 
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
