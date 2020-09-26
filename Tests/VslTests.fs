@@ -7,6 +7,11 @@ open CsCheck
 let all =
     test "Vsl" {
 
+        let Add9sfArray (hash:Hash) (ds:double[]) =
+            hash.Add(uint ds.Length)
+            for d in ds do
+                hash.Add((BitConverter.DoubleToInt64Bits d + 0x0000000000800000L) &&& 0xFFFFFFFFFF000000L)
+
         let rngRegressionTest name gen brng seed hash dp =
             let name = name + "_" + Enum.GetName(typeof<VslBrng>, brng)
             test ("rng_"+name) {
@@ -16,23 +21,23 @@ let all =
                 Vsl.DeleteStream stream |> Check.equal 0
                 Array.sumBy abs r |> Check.notDefaultValue
                 use hash = Hash.Expected(Nullable hash,callerMemberName=name)
-                hash.Add(r, dp)
+                Add9sfArray hash r
             }
 
         let rng s r = Vsl.RngGaussian(VslMethodGaussian.ICDF, s, Array.length r, r, 0.0, 1.0)
         let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected 10
-        rngRegTest VslBrng.MCG31         1009u 3798170
-        rngRegTest VslBrng.R250          1019u 1318477131
-        rngRegTest VslBrng.MRG32K3A      1029u -1770215917
-        rngRegTest VslBrng.MCG59         1039u -609587276
-        rngRegTest VslBrng.WH            1049u 988954032
-        rngRegTest VslBrng.SOBOL         1059u 64673350
-        rngRegTest VslBrng.NIEDERR       1069u 64673350
-        rngRegTest VslBrng.MT19937       1079u 2108214711
-        rngRegTest VslBrng.MT2203        1089u -1757665964
-        rngRegTest VslBrng.SFMT19937     1099u -1731241801
-        rngRegTest VslBrng.ARS5          1109u 860073583
-        rngRegTest VslBrng.PHILOX4X32X10 1119u 787349297
+        rngRegTest VslBrng.MCG31         1009u 730974004
+        rngRegTest VslBrng.R250          1019u -1506910460
+        rngRegTest VslBrng.MRG32K3A      1029u 1257949177
+        rngRegTest VslBrng.MCG59         1039u -393057874
+        rngRegTest VslBrng.WH            1049u 454380525
+        rngRegTest VslBrng.SOBOL         1059u -718029733
+        rngRegTest VslBrng.NIEDERR       1069u -718029733
+        rngRegTest VslBrng.MT19937       1079u 1216544141
+        rngRegTest VslBrng.MT2203        1089u 323110111
+        rngRegTest VslBrng.SFMT19937     1099u 2102531905
+        rngRegTest VslBrng.ARS5          1109u -1729091181
+        rngRegTest VslBrng.PHILOX4X32X10 1119u -585676813
 
         //let rng s r = Vsl.RngBeta(VslMethodBeta.CJA, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
         //let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected
@@ -49,9 +54,9 @@ let all =
         //rngRegTest VslBrng.ARS5          2109u 1759601342
         //rngRegTest VslBrng.PHILOX4X32X10 2119u 176703846
 
-        let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
-        let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected 4
-        rngRegTest VslBrng.MCG31         1009u 1369457983
+        //let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
+        //let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected 6
+        //rngRegTest VslBrng.MCG31         1009u 136
         //rngRegTest VslBrng.R250          1019u 794383798
         //rngRegTest VslBrng.MRG32K3A      1029u 181047374
         //rngRegTest VslBrng.MCG59         1039u -2142079512
