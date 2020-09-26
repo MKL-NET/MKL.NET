@@ -54,20 +54,20 @@ let all =
         //rngRegTest VslBrng.ARS5          2109u 1759601342
         //rngRegTest VslBrng.PHILOX4X32X10 2119u 176703846
 
-        //let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
-        //let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected 6
-        //rngRegTest VslBrng.MCG31         1009u 136
-        //rngRegTest VslBrng.R250          1019u 794383798
-        //rngRegTest VslBrng.MRG32K3A      1029u 181047374
-        //rngRegTest VslBrng.MCG59         1039u -2142079512
-        //rngRegTest VslBrng.WH            1049u -86618128
-        //rngRegTest VslBrng.SOBOL         1059u 331600171
-        //rngRegTest VslBrng.NIEDERR       1069u 331600171
-        //rngRegTest VslBrng.MT19937       1079u -621241490
-        //rngRegTest VslBrng.MT2203        1089u -1913958000
-        //rngRegTest VslBrng.SFMT19937     1099u -1570723122
-        //rngRegTest VslBrng.ARS5          1109u 761492270
-        //rngRegTest VslBrng.PHILOX4X32X10 1119u 17555386
+        let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
+        let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected 6
+        rngRegTest VslBrng.MCG31         3009u -383267335
+        rngRegTest VslBrng.R250          3019u -1017561946
+        rngRegTest VslBrng.MRG32K3A      3029u -152157734
+        rngRegTest VslBrng.MCG59         3039u 138733785
+        rngRegTest VslBrng.WH            3049u 1637269494
+        rngRegTest VslBrng.SOBOL         3059u -1968525683
+        rngRegTest VslBrng.NIEDERR       3069u -1968525683
+        rngRegTest VslBrng.MT19937       3079u 508455316
+        rngRegTest VslBrng.MT2203        3089u -279858221
+        rngRegTest VslBrng.SFMT19937     3099u 270656771
+        rngRegTest VslBrng.ARS5          3109u -1586008345
+        rngRegTest VslBrng.PHILOX4X32X10 3119u -180576990
 
         //let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
         //let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
