@@ -52,50 +52,68 @@ namespace MKLNET
             => cblas_ddoti(N, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double cblas_dsdot(int N, float[] X, int incX, float[] Y, int incY);
+        static extern double cblas_dsdot(int N, float* X, int incX, float* Y, int incY);
+        public static double sdot(int N, float[] X, int iniX, int incX, float[] Y, int iniY, int incY)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                return cblas_dsdot(N, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dsdot(int N, float[] X, int incX, float[] Y, int incY)
-            => cblas_dsdot(N, X, incX, Y, incY);
+        public static double sdot(float[] X, float[] Y)
+            => sdot(X.Length, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern float cblas_sdsdot(int N, float sb, float[] X, int incX, float[] Y, int incY);
+        static extern float cblas_sdsdot(int N, float sb, float* X, int incX, float* Y, int incY);
+        public static float sdot(int N, float sb, float[] X, int iniX, int incX, float[] Y, int iniY, int incY)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                return cblas_sdsdot(N, sb, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float sdsdot(int N, float sb, float[] X, int incX, float[] Y, int incY)
-            => cblas_sdsdot(N, sb, X, incX, Y, incY);
+        public static float sdot(float sb, float[] X, float[] Y)
+            => sdot(X.Length, sb, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern float cblas_snrm2(int N, float[] X, int incX);
+        static extern float cblas_snrm2(int N, float* X, int incX);
+        public static float nrm2(int N, float[] X, int iniX, int incX)
+        {
+            fixed(float * xp = &X[iniX])
+                return cblas_snrm2(N, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float snrm2(int N, float[] X, int incX)
-            => cblas_snrm2(N, X, incX);
+        public static float nrm2(float[] X)
+            => nrm2(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern float cblas_sasum(int N, float* X, int incX);
         public static float asum(int N, float[] X, int iniX, int incX)
         {
             fixed (float* xp = &X[iniX])
-            {
                 return cblas_sasum(N, xp, incX);
-            }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float asum(float[] X)
             => asum(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double cblas_dnrm2(int N, double[] X, int incX);
+        static extern double cblas_dnrm2(int N, double* X, int incX);
+        public static double nrm2(int N, double[] X, int iniX, int incX)
+        {
+            fixed (double* xp = &X[iniX])
+                return cblas_dnrm2(N, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double dnrm2(int N, double[] X, int incX)
-            => cblas_dnrm2(N, X, incX);
+        public static double nrm2(double[] X)
+            => nrm2(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern double cblas_dasum(int N, double* X, int incX);
         public static double asum(int N, double[] X, int iniX, int incX)
         {
             fixed (double* xp = &X[iniX])
-            {
                 return cblas_dasum(N, xp, incX);
-            }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double asum(double[] X)
@@ -265,10 +283,16 @@ namespace MKLNET
             => cblas_srotmg(d1, d2, b1, b2, P);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_srot(int N, float[] X, int incX, float[] Y, int incY, float c, float s);
+        static extern void cblas_srot(int N, float* X, int incX, float* Y, int incY, float c, float s);
+        public static void rot(int N, float[] X, int iniX, int incX, float[] Y, int iniY, int incY, float c, float s)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                cblas_srot(N, xp, incX, yp, incY, c, s);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void srot(int N, float[] X, int incX, float[] Y, int incY, float c, float s)
-            => cblas_srot(N, X, incX, Y, incY, c, s);
+        public static void rot(float[] X, float[] Y, float c, float s)
+            => rot(X.Length, X, 0, 1, Y, 0, 1, c, s);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sroti(int N, float[] X, int[] indx, float[] Y, float c, float s);
@@ -289,10 +313,16 @@ namespace MKLNET
             => cblas_drotmg(d1, d2, b1, b2, P);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_drot(int N, double[] X, int incX, double[] Y, int incY, double c, double s);
+        static extern void cblas_drot(int N, double* X, int incX, double* Y, int incY, double c, double s);
+        public static void rot(int N, double[] X, int iniX, int incX, double[] Y, int iniY, int incY, double c, double s)
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+                cblas_drot(N, xp, incX, yp, incY, c, s);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void drot(int N, double[] X, int incX, double[] Y, int incY, double c, double s)
-            => cblas_drot(N, X, incX, Y, incY, c, s);
+        public static void rot(double[] X, double[] Y, double c, double s)
+            => rot(X.Length, X, 0, 1, Y, 0, 1, c, s);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_drotm(int N, double[] X, int incX, double[] Y, int incY, double[] P);

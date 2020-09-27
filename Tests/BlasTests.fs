@@ -59,7 +59,7 @@ let all =
             let! y = Gen.Single.NonNegative.Array.[rows]
             let expected = Array.map2 (fun x y -> a*x + y) x y
             Blas.axpy(a,x,y)
-            Check.close Medium expected y
+            Check.close Low expected y
         }
 
         test "axpy_i_double" {
@@ -85,7 +85,7 @@ let all =
             let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + y.[r*cols+ini])
             Blas.axpy(rows,a,x,ini,cols,y,ini,cols)
             for i = 0 to rows-1 do
-                Check.close Medium expected.[i] y.[i*cols+ini]
+                Check.close Low expected.[i] y.[i*cols+ini]
         }
 
         test "copy_double" {
@@ -166,6 +166,148 @@ let all =
                 expected <- expected + x.[i*cols+ini]*y.[i*cols+ini]
             Blas.dot(rows,x,ini,cols,y,ini,cols)
             |> Check.close High expected
+        }
+
+        test "sdot" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Single.NonNegative.Array.[rows]
+            let! y = Gen.Single.NonNegative.Array.[rows]
+            let expected = Array.fold2 (fun s x y -> s + double x * double y) 0.0 x y
+            Blas.sdot(x,y)
+            |> Check.close High expected
+        }
+
+        test "sdot_sb" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! sb = Gen.Single.NonNegative
+            let! x = Gen.Single.NonNegative.Array.[rows]
+            let! y = Gen.Single.NonNegative.Array.[rows]
+            let expected = Array.fold2 (fun s x y -> s + double x * double y) (double sb) x y
+            Blas.sdot(sb,x,y)
+            |> Check.close High (single expected)
+        }
+
+        test "sdot_i" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.NonNegative.Array.[rows*cols]
+            let! y = Gen.Single.NonNegative.Array.[rows*cols]
+            let mutable expected = 0.0
+            for i = 0 to rows-1 do
+                expected <- expected + double x.[i*cols+ini] * double y.[i*cols+ini]
+            Blas.sdot(rows,x,ini,cols,y,ini,cols)
+            |> Check.close High expected
+        }
+
+        test "sdot_sb_i" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! sb = Gen.Single.NonNegative
+            let! x = Gen.Single.NonNegative.Array.[rows*cols]
+            let! y = Gen.Single.NonNegative.Array.[rows*cols]
+            let mutable expected = double sb
+            for i = 0 to rows-1 do
+                expected <- expected + (double x.[i*cols+ini] * double y.[i*cols+ini])
+            Blas.sdot(rows,sb,x,ini,cols,y,ini,cols)
+            |> Check.close High (single expected)
+        }
+
+        test "nrm2_double" {
+            let! x = Gen.Double.Array.[1,ROWS_MAX]
+            let expected = Array.sumBy (fun x -> x * x) x |> sqrt
+            Blas.nrm2 x |> Check.close High expected
+        }
+
+        test "nrm2_single" {
+            let! x = Gen.Single.Array.[1,ROWS_MAX]
+            let expected = Array.sumBy (fun x -> x * x) x |> sqrt
+            Blas.nrm2 x |> Check.close High expected
+        }
+
+        test "nrm2_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Array.[rows*cols]
+            let mutable expected = 0.0
+            for i = 0 to rows-1 do
+                let x = x.[i*cols+ini]
+                expected <- expected + x * x
+            Blas.nrm2(rows, x, ini, cols) |> Check.close High (sqrt expected)
+        }
+
+        test "nrm2_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Array.[rows*cols]
+            let mutable expected = 0.0f
+            for i = 0 to rows-1 do
+                let x = x.[i*cols+ini]
+                expected <- expected + x * x
+            Blas.nrm2(rows, x, ini, cols) |> Check.close High (sqrt expected)
+        }
+
+        test "rot_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Double.Unit.Array.[rows]
+            let! y = Gen.Double.Unit.Array.[rows]
+            let! c = Gen.Double.Unit
+            let! s = Gen.Double.Unit
+            let expectedx = Array.init rows (fun i -> c*x.[i] + s*y.[i])
+            let expectedy = Array.init rows (fun i -> c*y.[i] - s*x.[i])
+            Blas.rot(x,y,c,s)
+            for i = 0 to rows-1 do
+                Check.close High expectedx.[i] x.[i]
+                Check.close High expectedy.[i] y.[i]
+        }
+
+        test "rot_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Single.Unit.Array.[rows]
+            let! y = Gen.Single.Unit.Array.[rows]
+            let! c = Gen.Single.Unit
+            let! s = Gen.Single.Unit
+            let expectedx = Array.init rows (fun i -> c*x.[i] + s*y.[i])
+            let expectedy = Array.init rows (fun i -> c*y.[i] - s*x.[i])
+            Blas.rot(x,y,c,s)
+            for i = 0 to rows-1 do
+                Check.close Medium expectedx.[i] x.[i]
+                Check.close Medium expectedy.[i] y.[i]
+        }
+
+        test "rot_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Unit.Array.[rows*cols]
+            let! y = Gen.Double.Unit.Array.[rows*cols]
+            let! c = Gen.Double.Unit
+            let! s = Gen.Double.Unit
+            let expectedx = Array.init rows (fun r -> c*x.[r*cols+ini] + s*y.[r*cols+ini])
+            let expectedy = Array.init rows (fun r -> c*y.[r*cols+ini] - s*x.[r*cols+ini])
+            Blas.rot(rows,x,ini,cols,y,ini,cols,c,s)
+            for i = 0 to rows-1 do
+                Check.close High expectedx.[i] x.[i*cols+ini]
+                Check.close High expectedy.[i] y.[i*cols+ini]
+        }
+
+        test "rot_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Unit.Array.[rows*cols]
+            let! y = Gen.Single.Unit.Array.[rows*cols]
+            let! c = Gen.Single.Unit
+            let! s = Gen.Single.Unit
+            let expectedx = Array.init rows (fun r -> c*x.[r*cols+ini] + s*y.[r*cols+ini])
+            let expectedy = Array.init rows (fun r -> c*y.[r*cols+ini] - s*x.[r*cols+ini])
+            Blas.rot(rows,x,ini,cols,y,ini,cols,c,s)
+            for i = 0 to rows-1 do
+                Check.close Medium expectedx.[i] x.[i*cols+ini]
+                Check.close Medium expectedy.[i] y.[i*cols+ini]
         }
 
         test "sscal" {
