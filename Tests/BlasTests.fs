@@ -310,6 +310,148 @@ let all =
                 Check.close Medium expectedy.[i] y.[i*cols+ini]
         }
 
+        test "rotg_double" {
+            let! a = Gen.Double.Unit
+            let! b = Gen.Double.Unit
+            let mutable r,z,c,s = a,b,0.0,0.0
+            Blas.rotg(&r,&z,&c,&s)
+            Check.close High r (c*a+s*b)
+            Check.close High (c*b) (s*a)
+            let expectedz =
+                if abs a > abs b then s
+                elif c <> 0.0 then 1.0/c
+                else 1.0
+            Check.close High expectedz z
+        }
+
+        test "rotg_single" {
+            let! a = Gen.Single.Unit
+            let! b = Gen.Single.Unit
+            let mutable r,z,c,s = a,b,0.0f,0.0f
+            Blas.rotg(&r,&z,&c,&s)
+            Check.close High r (c*a+s*b)
+            Check.close High (c*b) (s*a)
+            let expectedz =
+                if abs a > abs b then s
+                elif c <> 0.0f then 1.0f/c
+                else 1.0f
+            Check.close High expectedz z
+        }
+
+        test "rotm_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Double.Unit.Array.[rows]
+            let! y = Gen.Double.Unit.Array.[rows]
+            let! h11 = Gen.Double.Unit
+            let! h12 = Gen.Double.Unit
+            let! h21 = Gen.Double.Unit
+            let! h22 = Gen.Double.Unit
+            let xactual = Array.copy x
+            let yactual = Array.copy y
+            Blas.rotm(xactual,yactual,[|-1.0;h11;h21;h12;h22|])
+            for i = 0 to rows-1 do
+                Check.close High (h11*x.[i]+h12*y.[i]) xactual.[i]
+                Check.close High (h21*x.[i]+h22*y.[i]) yactual.[i]
+        }
+
+        test "rotm_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Single.Unit.Array.[rows]
+            let! y = Gen.Single.Unit.Array.[rows]
+            let! h11 = Gen.Single.Unit
+            let! h12 = Gen.Single.Unit
+            let! h21 = Gen.Single.Unit
+            let! h22 = Gen.Single.Unit
+            let xactual = Array.copy x
+            let yactual = Array.copy y
+            Blas.rotm(xactual,yactual,[|-1.0f;h11;h21;h12;h22|])
+            for i = 0 to rows-1 do
+                Check.close High (h11*x.[i]+h12*y.[i]) xactual.[i]
+                Check.close High (h21*x.[i]+h22*y.[i]) yactual.[i]
+        }
+
+        test "rotm_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Unit.Array.[rows*cols]
+            let! y = Gen.Double.Unit.Array.[rows*cols]
+            let! h11 = Gen.Double.Unit
+            let! h12 = Gen.Double.Unit
+            let! h21 = Gen.Double.Unit
+            let! h22 = Gen.Double.Unit
+            let xactual = Array.copy x
+            let yactual = Array.copy y
+            Blas.rotm(rows,xactual,ini,cols,yactual,ini,cols,[|-1.0;h11;h21;h12;h22|])
+            for i = 0 to rows-1 do
+                Check.close High (h11*x.[i*cols+ini]+h12*y.[i*cols+ini]) xactual.[i*cols+ini]
+                Check.close High (h21*x.[i*cols+ini]+h22*y.[i*cols+ini]) yactual.[i*cols+ini]
+        }
+
+        test "rotm_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Unit.Array.[rows*cols]
+            let! y = Gen.Single.Unit.Array.[rows*cols]
+            let! h11 = Gen.Single.Unit
+            let! h12 = Gen.Single.Unit
+            let! h21 = Gen.Single.Unit
+            let! h22 = Gen.Single.Unit
+            let xactual = Array.copy x
+            let yactual = Array.copy y
+            Blas.rotm(rows,xactual,ini,cols,yactual,ini,cols,[|-1.0f;h11;h21;h12;h22|])
+            for i = 0 to rows-1 do
+                Check.close High (h11*x.[i*cols+ini]+h12*y.[i*cols+ini]) xactual.[i*cols+ini]
+                Check.close High (h21*x.[i*cols+ini]+h22*y.[i*cols+ini]) yactual.[i*cols+ini]
+        }
+
+        test "rotmg_double" {
+            let! x1 = Gen.Double.Unit
+            let! y1 = Gen.Double.Unit
+            let! d1 = Gen.Double.Unit
+            let! d2 = Gen.Double.Unit
+            let mutable d1',d2',x1' = d1,d2,x1
+            let param = Array.zeroCreate 5
+            Blas.rotmg(&d1',&d2',&x1',y1,param)
+            if param.[0] = 0.0 then
+                param.[1] <- 1.0
+                param.[4] <- 1.0
+            elif param.[0] = 1.0 then
+                param.[2] <- -1.0
+                param.[3] <- 1.0
+            elif param.[0] = -2.0 then
+                param.[1] <- 1.0
+                param.[2] <- 0.0
+                param.[3] <- 0.0
+                param.[4] <- 1.0
+            Check.close High x1' (param.[1]*x1+param.[3]*y1)
+            Check.close High (param.[2]*x1) (-param.[4]*y1)
+        }
+
+        test "rotmg_float" {
+            let! x1 = Gen.Float.Unit
+            let! y1 = Gen.Float.Unit
+            let! d1 = Gen.Float.Unit
+            let! d2 = Gen.Float.Unit
+            let mutable d1',d2',x1' = d1,d2,x1
+            let param = Array.zeroCreate 5
+            Blas.rotmg(&d1',&d2',&x1',y1,param)
+            if param.[0] = 0.0f then
+                param.[1] <- 1.0f
+                param.[4] <- 1.0f
+            elif param.[0] = 1.0f then
+                param.[2] <- -1.0f
+                param.[3] <- 1.0f
+            elif param.[0] = -2.0f then
+                param.[1] <- 1.0f
+                param.[2] <- 0.0f
+                param.[3] <- 0.0f
+                param.[4] <- 1.0f
+            Check.close High x1' (param.[1]*x1+param.[3]*y1)
+            Check.close High (param.[2]*x1) (-param.[4]*y1)
+        }
+
         test "sscal" {
             let x = [| 1.0f; 2.0f; 3.0f |]
             Blas.sscal(3, 2.0f, x, 1)
