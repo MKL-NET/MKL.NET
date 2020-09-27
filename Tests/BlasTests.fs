@@ -5,8 +5,8 @@ open CsCheck
 
 let ROWS_MAX = 5
 
-let all =
-    test "blas_1" {
+let blas_1 =
+    test "1" {
 
         test "asum_double" {
             let! x = Gen.Double.Array.[1,ROWS_MAX]
@@ -452,16 +452,90 @@ let all =
             Check.close High (param.[2]*x1) (-param.[4]*y1)
         }
 
-        test "sscal" {
-            let x = [| 1.0f; 2.0f; 3.0f |]
-            Blas.sscal(3, 2.0f, x, 1)
-            Check.equal [| 2.0f; 4.0f; 6.0f |] x
+        test "scal_double" {
+            let! x = Gen.Double.Array.[1,ROWS_MAX]
+            let! a = Gen.Double
+            let expected = Array.map ((*)a) x
+            Blas.scal(a,x)
+            Check.close High expected x
         }
 
-        test "dscal" {
-            let x = [| 1.0; 2.0; 3.0 |]
-            Blas.dscal(3, 2.0, x, 1)
-            Check.equal [| 2.0; 4.0; 6.0 |] x
+        test "scal_float" {
+            let! x = Gen.Single.Array.[1,ROWS_MAX]
+            let! a = Gen.Single
+            let expected = Array.map ((*)a) x
+            Blas.scal(a,x)
+            Check.close High expected x
+        }
+
+        test "scal_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Array.[rows*cols]
+            let! a = Gen.Double
+            let expected = Array.mapi (fun i x -> if i % cols = ini then a*x else x) x
+            Blas.scal(rows,a,x,ini,cols)
+            Check.close High expected x
+        }
+
+        test "scal_i_float" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Array.[rows*cols]
+            let! a = Gen.Single
+            let expected = Array.mapi (fun i x -> if i % cols = ini then a*x else x) x
+            Blas.scal(rows,a,x,ini,cols)
+            Check.close High expected x
+        }
+
+        test "swap_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Double.Array.[rows]
+            let! y = Gen.Double.Array.[rows]
+            let expectedx = Array.copy y
+            let expectedy = Array.copy x
+            Blas.swap(x,y)
+            Check.equal expectedx x
+            Check.equal expectedy y
+        }
+
+        test "swap_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Single.Array.[rows]
+            let! y = Gen.Single.Array.[rows]
+            let expectedx = Array.copy y
+            let expectedy = Array.copy x
+            Blas.swap(x,y)
+            Check.equal expectedx x
+            Check.equal expectedy y
+        }
+
+        test "swap_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Array.[rows*cols]
+            let! y = Gen.Double.Array.[rows*cols]
+            let expectedx = Array.mapi2 (fun i x y -> if i % cols = ini then y else x) x y
+            let expectedy = Array.mapi2 (fun i x y -> if i % cols = ini then x else y) x y
+            Blas.swap(rows,x,ini,cols,y,ini,cols)
+            Check.equal expectedx x
+            Check.equal expectedy y
+        }
+
+        test "swap_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Array.[rows*cols]
+            let! y = Gen.Single.Array.[rows*cols]
+            let expectedx = Array.mapi2 (fun i x y -> if i % cols = ini then y else x) x y
+            let expectedy = Array.mapi2 (fun i x y -> if i % cols = ini then x else y) x y
+            Blas.swap(rows,x,ini,cols,y,ini,cols)
+            Check.equal expectedx x
+            Check.equal expectedy y
         }
 
         test "isamax" {
@@ -483,6 +557,10 @@ let all =
             Blas.idamin(3, [| 1.0; 7.0; -3.0 |], 1)
             |> Check.equal 0
         }
+    }
+
+let blas_2 =
+    test "2" {
 
         test "sgemv" {
             let y = Array.zeroCreate 3
@@ -519,4 +597,10 @@ let all =
                 1.0, c, 2)
             Check.equal [| 60.0; 18.0; -10.0; 11.0; -15.0; -19.0 |] c
         }
+    }
+
+let all =
+    test "blas" {
+        blas_1
+        blas_2
     }

@@ -79,7 +79,7 @@ namespace MKLNET
         static extern float cblas_snrm2(int N, float* X, int incX);
         public static float nrm2(int N, float[] X, int iniX, int incX)
         {
-            fixed(float * xp = &X[iniX])
+            fixed (float* xp = &X[iniX])
                 return cblas_snrm2(N, xp, incX);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -144,10 +144,16 @@ namespace MKLNET
             => cblas_idamin(N, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_sswap(int N, float[] X, int incX, float[] Y, int incY);
+        static extern void cblas_sswap(int N, float* X, int incX, float* Y, int incY);
+        public static void swap(int N, float[] X, int iniX, int incX, float[] Y, int iniY, int incY)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                cblas_sswap(N, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sswap(int N, float[] X, int incX, float[] Y, int incY)
-            => cblas_sswap(N, X, incX, Y, incY);
+        public static void swap(float[] X, float[] Y)
+            => swap(X.Length, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_scopy(int N, float* X, int incX, float* Y, int incY);
@@ -211,10 +217,16 @@ namespace MKLNET
             => cblas_srotg(ref a, ref b, ref c, ref s);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dswap(int N, double[] X, int incX, double[] Y, int incY);
+        static extern void cblas_dswap(int N, double* X, int incX, double* Y, int incY);
+        public static void swap(int N, double[] X, int iniX, int incX, double[] Y, int iniY, int incY)
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+                cblas_dswap(N, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dswap(int N, double[] X, int incX, double[] Y, int incY)
-            => cblas_dswap(N, X, incX, Y, incY);
+        public static void swap(double[] X, double[] Y)
+            => swap(X.Length, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dcopy(int N, double* X, int incX, double* Y, int incY);
@@ -280,7 +292,7 @@ namespace MKLNET
         static extern void cblas_srotmg(ref float d1, ref float d2, ref float x1, float y1, float* param);
         public static void rotmg(ref float d1, ref float d2, ref float x1, float y1, float[] param)
         {
-            fixed(float* pp = &param[0])
+            fixed (float* pp = &param[0])
                 cblas_srotmg(ref d1, ref d2, ref x1, y1, pp);
         }
 
@@ -355,16 +367,26 @@ namespace MKLNET
             => cblas_droti(N, X, indx, Y, c, s);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_sscal(int N, float alpha, float[] X, int incX);
+        static extern void cblas_sscal(int N, float a, float* X, int incX);
+        public static void scal(int N, float a, float[] X, int iniX, int incX)
+        {
+            fixed (float* xp = &X[iniX])
+                cblas_sscal(N, a, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sscal(int N, float alpha, float[] X, int incX)
-            => cblas_sscal(N, alpha, X, incX);
+        public static void scal(float a, float[] X)
+            => scal(X.Length, a, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dscal(int N, double alpha, double[] X, int incX);
+        static extern void cblas_dscal(int N, double a, double* X, int incX);
+        public static void scal(int N, double a, double[] X, int iniX, int incX)
+        {
+            fixed (double* xp = &X[iniX])
+                cblas_dscal(N, a, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dscal(int N, double alpha, double[] X, int incX)
-            => cblas_dscal(N, alpha, X, incX);
+        public static void scal(double a, double[] X)
+            => scal(X.Length, a, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sgemv(Layout Layout,
