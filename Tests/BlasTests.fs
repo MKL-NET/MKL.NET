@@ -1,58 +1,171 @@
 ﻿module BlasTests
 
 open MKLNET
+open CsCheck
+
+let ROWS_MAX = 5
 
 let all =
-    test "Blas" {
+    test "blas_1" {
 
-        test "sasum" {
-            Blas.sasum(3, [| 1.0f; 0.1f; 0.01f |], 1)
-            |> Check.equal 1.11f
+        test "asum_double" {
+            let! x = Gen.Double.Array.[1,ROWS_MAX]
+            let expected = Array.sumBy abs x
+            Blas.asum x |> Check.close High expected
         }
 
-        test "dasum" {
-            Blas.dasum(3, [| 1.0; 0.1; 0.01 |], 1)
-            |> Check.equal 1.11
+        test "asum_single" {
+            let! x = Gen.Single.Array.[1,ROWS_MAX]
+            let expected = Array.sumBy abs x
+            Blas.asum x |> Check.close High expected
         }
 
-        test "saxpy" {
-            let y = [| 1.0f; 1.0f; 1.0f |]
-            Blas.saxpy(3, 2.0f, [| 1.0f; 1.0f; 1.0f |], 1, y, 1)
-            Check.equal [| 3.0f; 3.0f; 3.0f |] y
+        test "asum_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Array.[rows*cols]
+            let mutable expected = 0.0
+            for i = 0 to rows-1 do
+                expected <- expected + abs x.[i*cols+ini]
+            Blas.asum(rows, x, ini, cols) |> Check.close High expected
         }
 
-        test "daxpy" {
-            let y = [| 1.0; 1.0; 1.0 |]
-            Blas.daxpy(3, 2.0, [| 1.0; 1.0; 1.0 |], 1, y, 1)
-            Check.equal [| 3.0; 3.0; 3.0 |] y
+        test "asum_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Array.[rows*cols]
+            let mutable expected = 0.0f
+            for i = 0 to rows-1 do
+                expected <- expected + abs x.[i*cols+ini]
+            Blas.asum(rows, x, ini, cols) |> Check.close High expected
         }
 
-        test "scopy" {
-            let x = [| 1.0f; -1.0f; 0.0f |]
-            let y = Array.zeroCreate 3
-            Blas.scopy(3, x, 1 , y, 1)
+        test "axpy_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! a = Gen.Double
+            let! x = Gen.Double.Array.[rows]
+            let! y = Gen.Double.Array.[rows]
+            let expected = Array.map2 (fun x y -> a*x + y) x y
+            Blas.axpy(a,x,y)
+            Check.close High expected y
+        }
+
+        test "axpy_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! a = Gen.Single
+            let! x = Gen.Single.NonNegative.Array.[rows]
+            let! y = Gen.Single.NonNegative.Array.[rows]
+            let expected = Array.map2 (fun x y -> a*x + y) x y
+            Blas.axpy(a,x,y)
+            Check.close Medium expected y
+        }
+
+        test "axpy_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! a = Gen.Double
+            let! x = Gen.Double.Array.[rows*cols]
+            let! y = Gen.Double.Array.[rows*cols]
+            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + y.[r*cols+ini])
+            Blas.axpy(rows,a,x,ini,cols,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.close High expected.[i] y.[i*cols+ini]
+        }
+
+        test "axpy_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! a = Gen.Single
+            let! x = Gen.Single.NonNegative.Array.[rows*cols]
+            let! y = Gen.Single.NonNegative.Array.[rows*cols]
+            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + y.[r*cols+ini])
+            Blas.axpy(rows,a,x,ini,cols,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.close Medium expected.[i] y.[i*cols+ini]
+        }
+
+        test "copy_double" {
+            let! x = Gen.Double.Array.[1,ROWS_MAX]
+            let y = Array.zeroCreate x.Length
+            Blas.copy(x,y)
             Check.equal x y
         }
 
-        test "dcopy" {
-            let x = [| 1.0; -1.0; 0.0 |]
-            let y = Array.zeroCreate 3
-            Blas.dcopy(3, x, 1 , y, 1)
+        test "copy_single" {
+            let! x = Gen.Single.Array.[1,ROWS_MAX]
+            let y = Array.zeroCreate x.Length
+            Blas.copy(x,y)
             Check.equal x y
         }
 
-        test "sdot" {
-            Blas.sdot(3,
-                [| 1.0f; 2.0f; 3.0f |], 1,
-                [| 4.0f; 5.0f; 6.0f ;|], 1)
-            |> Check.equal 32.0f
+        test "copy_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Array.[rows*cols]
+            let y = Array.zeroCreate x.Length
+            Blas.copy(rows,x,ini,cols,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.equal x.[i*cols+ini] y.[i*cols+ini]
         }
 
-        test "ddot" {
-            Blas.ddot(3,
-                [| 1.0; 2.0; 3.0 |], 1,
-                [| 4.0; 5.0; 6.0 ;|], 1)
-            |> Check.equal 32.0
+        test "copy_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Array.[rows*cols]
+            let y = Array.zeroCreate x.Length
+            Blas.copy(rows,x,ini,cols,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.equal x.[i*cols+ini] y.[i*cols+ini]
+        }
+
+        test "dot_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Double.NonNegative.Array.[rows]
+            let! y = Gen.Double.NonNegative.Array.[rows]
+            let expected = Array.fold2 (fun s x y -> s + x*y) 0.0 x y
+            Blas.dot(x,y)
+            |> Check.close High expected
+        }
+
+        test "dot_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! x = Gen.Single.NonNegative.Array.[rows]
+            let! y = Gen.Single.NonNegative.Array.[rows]
+            let expected = Array.fold2 (fun s x y -> s + x*y) 0.0f x y
+            Blas.dot(x,y)
+            |> Check.close High expected
+        }
+
+        test "dot_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.NonNegative.Array.[rows*cols]
+            let! y = Gen.Double.NonNegative.Array.[rows*cols]
+            let mutable expected = 0.0
+            for i = 0 to rows-1 do
+                expected <- expected + x.[i*cols+ini]*y.[i*cols+ini]
+            Blas.dot(rows,x,ini,cols,y,ini,cols)
+            |> Check.close High expected
+        }
+
+        test "dot_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,3]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.NonNegative.Array.[rows*cols]
+            let! y = Gen.Single.NonNegative.Array.[rows*cols]
+            let mutable expected = 0.0f
+            for i = 0 to rows-1 do
+                expected <- expected + x.[i*cols+ini]*y.[i*cols+ini]
+            Blas.dot(rows,x,ini,cols,y,ini,cols)
+            |> Check.close High expected
         }
 
         test "sscal" {

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace MKLNET
 {
     [SuppressUnmanagedCodeSecurity]
-    public static class Blas
+    public unsafe static class Blas
     {
 #if LINUX
         const string DLL = "libmkl_rt.so";
@@ -16,10 +16,16 @@ namespace MKLNET
 #endif
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern float cblas_sdot(int N, float[] X, int incX, float[] Y, int incY);
+        static extern float cblas_sdot(int N, float* X, int incX, float* Y, int incY);
+        public static float dot(int N, float[] X, int iniX, int incX, float[] Y, int iniY, int incY)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                return cblas_sdot(N, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float sdot(int N, float[] X, int incX, float[] Y, int incY)
-            => cblas_sdot(N, X, incX, Y, incY);
+        public static float dot(float[] X, float[] Y)
+            => dot(X.Length, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern float cblas_sdoti(int N, float[] X, int[] indx, float[] Y);
@@ -28,10 +34,16 @@ namespace MKLNET
             => cblas_sdoti(N, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double cblas_ddot(int N, double[] X, int incX, double[] Y, int incY);
+        static extern double cblas_ddot(int N, double* X, int incX, double* Y, int incY);
+        public static double dot(int N, double[] X, int iniX, int incX, double[] Y, int iniY, int incY)
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+                return cblas_ddot(N, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ddot(int N, double[] X, int incX, double[] Y, int incY)
-            => cblas_ddot(N, X, incX, Y, incY);
+        public static double dot(double[] X, double[] Y)
+            => dot(X.Length, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern double cblas_ddoti(int N, double[] X, int[] indx, double[] Y);
@@ -58,10 +70,17 @@ namespace MKLNET
             => cblas_snrm2(N, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern float cblas_sasum(int N, float[] X, int incX);
+        static extern float cblas_sasum(int N, float* X, int incX);
+        public static float asum(int N, float[] X, int iniX, int incX)
+        {
+            fixed (float* xp = &X[iniX])
+            {
+                return cblas_sasum(N, xp, incX);
+            }
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float sasum(int N, float[] X, int incX)
-            => cblas_sasum(N, X, incX);
+        public static float asum(float[] X)
+            => asum(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern double cblas_dnrm2(int N, double[] X, int incX);
@@ -70,9 +89,17 @@ namespace MKLNET
             => cblas_dnrm2(N, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double cblas_dasum(int N, double[] X, int incX);
-        public static double dasum(int N, double[] X, int incX)
-            => cblas_dasum(N, X, incX);
+        static extern double cblas_dasum(int N, double* X, int incX);
+        public static double asum(int N, double[] X, int iniX, int incX)
+        {
+            fixed (double* xp = &X[iniX])
+            {
+                return cblas_dasum(N, xp, incX);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double asum(double[] X)
+            => asum(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int cblas_isamax(int N, float[] X, int incX);
@@ -105,16 +132,29 @@ namespace MKLNET
             => cblas_sswap(N, X, incX, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_scopy(int N, float[] X, int incX, float[] Y, int incY);
+        static extern void cblas_scopy(int N, float* X, int incX, float* Y, int incY);
+        public static void copy(int N, float[] X, int iniX, int incX, float[] Y, int iniY, int incY)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                cblas_scopy(N, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void scopy(int N, float[] X, int incX, float[] Y, int incY)
-            => cblas_scopy(N, X, incX, Y, incY);
+        public static void copy(float[] X, float[] Y)
+            => copy(X.Length, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_saxpy(int N, float alpha, float[] X, int incX, float[] Y, int incY);
+        static extern void cblas_saxpy(int N, float a, float* X, int incX, float* Y, int incY);
+        public static void axpy(int N, float a, float[] X, int iniX, int incX, float[] Y, int iniY, int incY)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                cblas_saxpy(N, a, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void saxpy(int N, float alpha, float[] X, int incX, float[] Y, int incY)
-            => cblas_saxpy(N, alpha, X, incX, Y, incY);
+        public static void axpy(float a, float[] X, float[] Y)
+            => axpy(X.Length, a, X, 0, 1, Y, 0, 1);
+
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_saxpby(int N, float alpha, float[] X, int incX, float beta, float[] Y, int incY);
@@ -159,16 +199,28 @@ namespace MKLNET
             => cblas_dswap(N, X, incX, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dcopy(int N, double[] X, int incX, double[] Y, int incY);
+        static extern void cblas_dcopy(int N, double* X, int incX, double* Y, int incY);
+        public static void copy(int N, double[] X, int iniX, int incX, double[] Y, int iniY, int incY)
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+                cblas_dcopy(N, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dcopy(int N, double[] X, int incX, double[] Y, int incY)
-            => cblas_dcopy(N, X, incX, Y, incY);
+        public static void copy(double[] X, double[] Y)
+            => copy(X.Length, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_daxpy(int N, double alpha, double[] X, int incX, double[] Y, int incY);
+        static extern void cblas_daxpy(int N, double a, double* X, int incX, double* Y, int incY);
+        public static void axpy(int N, double a, double[] X, int iniX, int incX, double[] Y, int iniY, int incY)
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+                cblas_daxpy(N, a, xp, incX, yp, incY);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void daxpy(int N, double alpha, double[] X, int incX, double[] Y, int incY)
-            => cblas_daxpy(N, alpha, X, incX, Y, incY);
+        public static void axpy(double a, double[] X, double[] Y)
+            => axpy(X.Length, a, X, 0, 1, Y, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_daxpby(int N, double alpha, double[] X, int incX, double beta, double[] Y, int incY);
