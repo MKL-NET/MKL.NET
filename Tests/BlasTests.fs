@@ -90,56 +90,6 @@ let blas_1 =
                 Check.close Low expected.[i] y.[i*cols+ini]
         }
 
-        test "axpby_double" {
-            let! rows = Gen.Int.[1,ROWS_MAX]
-            let! a = Gen.Double.Unit
-            let! b = Gen.Double.Unit
-            let! x = Gen.Double.Unit.Array.[rows]
-            let! y = Gen.Double.Unit.Array.[rows]
-            let expected = Array.map2 (fun x y -> a*x + b*y) x y
-            Blas.axpby(a,x,b,y)
-            Check.close High expected y
-        }
-
-        test "axpby_single" {
-            let! rows = Gen.Int.[1,ROWS_MAX]
-            let! a = Gen.Single.Unit
-            let! b = Gen.Single.Unit
-            let! x = Gen.Single.Unit.Array.[rows]
-            let! y = Gen.Single.Unit.Array.[rows]
-            let expected = Array.map2 (fun x y -> a*x + b*y) x y
-            Blas.axpby(a,x,b,y)
-            Check.close Low expected y
-        }
-
-        test "axpby_i_double" {
-            let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
-            let! ini = Gen.Int.[0,cols-1]
-            let! a = Gen.Double.Unit
-            let! b = Gen.Double.Unit
-            let! x = Gen.Double.Unit.Array.[rows*cols]
-            let! y = Gen.Double.Unit.Array.[rows*cols]
-            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + b*y.[r*cols+ini])
-            Blas.axpby(rows,a,x,ini,cols,b,y,ini,cols)
-            for i = 0 to rows-1 do
-                Check.close High expected.[i] y.[i*cols+ini]
-        }
-
-        test "axpby_i_single" {
-            let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
-            let! ini = Gen.Int.[0,cols-1]
-            let! a = Gen.Single.Unit
-            let! b = Gen.Single.Unit
-            let! x = Gen.Single.Unit.Array.[rows*cols]
-            let! y = Gen.Single.Unit.Array.[rows*cols]
-            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + b*y.[r*cols+ini])
-            Blas.axpby(rows,a,x,ini,cols,b,y,ini,cols)
-            for i = 0 to rows-1 do
-                Check.close Low expected.[i] y.[i*cols+ini]
-        }
-
         test "copy_double" {
             let! x = Gen.Double.Array.[1,ROWS_MAX]
             let y = Array.zeroCreate x.Length
@@ -1143,9 +1093,64 @@ let blas_3 =
         }
     }
 
+let blas_like =
+    test "like" {
+
+        test "axpby_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! a = Gen.Double.Unit
+            let! b = Gen.Double.Unit
+            let! x = Gen.Double.Unit.Array.[rows]
+            let! y = Gen.Double.Unit.Array.[rows]
+            let expected = Array.map2 (fun x y -> a*x + b*y) x y
+            Blas.axpby(a,x,b,y)
+            Check.close High expected y
+        }
+
+        test "axpby_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! a = Gen.Single.Unit
+            let! b = Gen.Single.Unit
+            let! x = Gen.Single.Unit.Array.[rows]
+            let! y = Gen.Single.Unit.Array.[rows]
+            let expected = Array.map2 (fun x y -> a*x + b*y) x y
+            Blas.axpby(a,x,b,y)
+            Check.close Low expected y
+        }
+
+        test "axpby_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! a = Gen.Double.Unit
+            let! b = Gen.Double.Unit
+            let! x = Gen.Double.Unit.Array.[rows*cols]
+            let! y = Gen.Double.Unit.Array.[rows*cols]
+            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + b*y.[r*cols+ini])
+            Blas.axpby(rows,a,x,ini,cols,b,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.close High expected.[i] y.[i*cols+ini]
+        }
+
+        test "axpby_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! a = Gen.Single.Unit
+            let! b = Gen.Single.Unit
+            let! x = Gen.Single.Unit.Array.[rows*cols]
+            let! y = Gen.Single.Unit.Array.[rows*cols]
+            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + b*y.[r*cols+ini])
+            Blas.axpby(rows,a,x,ini,cols,b,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.close Low expected.[i] y.[i*cols+ini]
+        }
+    }
+
 let all =
     test "blas" {
         blas_1
         blas_2
         blas_3
+        //blas_like
     }
