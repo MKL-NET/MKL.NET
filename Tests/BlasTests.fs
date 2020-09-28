@@ -90,6 +90,56 @@ let blas_1 =
                 Check.close Low expected.[i] y.[i*cols+ini]
         }
 
+        test "axpby_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! a = Gen.Double.Unit
+            let! b = Gen.Double.Unit
+            let! x = Gen.Double.Unit.Array.[rows]
+            let! y = Gen.Double.Unit.Array.[rows]
+            let expected = Array.map2 (fun x y -> a*x + b*y) x y
+            Blas.axpby(a,x,b,y)
+            Check.close High expected y
+        }
+
+        test "axpby_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! a = Gen.Single.Unit
+            let! b = Gen.Single.Unit
+            let! x = Gen.Single.Unit.Array.[rows]
+            let! y = Gen.Single.Unit.Array.[rows]
+            let expected = Array.map2 (fun x y -> a*x + b*y) x y
+            Blas.axpby(a,x,b,y)
+            Check.close Low expected y
+        }
+
+        test "axpby_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! a = Gen.Double.Unit
+            let! b = Gen.Double.Unit
+            let! x = Gen.Double.Unit.Array.[rows*cols]
+            let! y = Gen.Double.Unit.Array.[rows*cols]
+            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + b*y.[r*cols+ini])
+            Blas.axpby(rows,a,x,ini,cols,b,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.close High expected.[i] y.[i*cols+ini]
+        }
+
+        test "axpby_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! a = Gen.Single.Unit
+            let! b = Gen.Single.Unit
+            let! x = Gen.Single.Unit.Array.[rows*cols]
+            let! y = Gen.Single.Unit.Array.[rows*cols]
+            let expected = Array.init rows (fun r -> a*x.[r*cols+ini] + b*y.[r*cols+ini])
+            Blas.axpby(rows,a,x,ini,cols,b,y,ini,cols)
+            for i = 0 to rows-1 do
+                Check.close Low expected.[i] y.[i*cols+ini]
+        }
+
         test "copy_double" {
             let! x = Gen.Double.Array.[1,ROWS_MAX]
             let y = Array.zeroCreate x.Length
@@ -818,8 +868,8 @@ let blas_2 =
 
         test "trsv_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! A = Gen.Double.Unit.Array.[rows*rows]
-            let! x = Gen.Double.Unit.Array.[rows]
+            let! A = Gen.Double.[1.0,2.0].Array.[rows*rows]
+            let! x = Gen.Double.[1.0,2.0].Array.[rows]
             let b = Array.init rows (fun i ->
                 let mutable t = 0.0
                 for j = 0 to i do
@@ -843,7 +893,7 @@ let blas_2 =
             )
             Blas.trsv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
                 rows, A, rows, b, 0, 1)
-            Check.close Low x b
+            Check.close High x b
         }
     }
 
@@ -1018,6 +1068,78 @@ let blas_3 =
             Blas.syr2k(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
                 A, cols, B, cols, beta, C, rows)
             Check.close High expected C
+        }
+
+        test "tymm_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.Unit.Array.[rows*rows]
+            let! B = Gen.Double.Unit.Array.[rows*cols]
+            let! alpha = Gen.Double.Unit
+            let expected = Array.init (rows*cols) (fun ci ->
+                let row, col = Math.DivRem(ci,cols)
+                let mutable t = 0.0
+                for k = 0 to row do
+                    t <- t + A.[k+row*rows] * B.[col+k*cols]
+                alpha * t
+            )
+            Blas.trmm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+                rows, cols, alpha, A, rows, B, cols)
+            Check.close High expected B
+        }
+
+        test "tymm_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.Unit.Array.[rows*rows]
+            let! B = Gen.Single.Unit.Array.[rows*cols]
+            let! alpha = Gen.Single.Unit
+            let expected = Array.init (rows*cols) (fun ci ->
+                let row, col = Math.DivRem(ci,cols)
+                let mutable t = 0.0f
+                for k = 0 to row do
+                    t <- t + A.[k+row*rows] * B.[col+k*cols]
+                alpha * t
+            )
+            Blas.trmm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+                rows, cols, alpha, A, rows, B, cols)
+            Check.close High expected B
+        }
+
+        test "trsm_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.[1.0,2.0].Array.[rows*rows]
+            let! X = Gen.Double.[1.0,2.0].Array.[rows*cols]
+            let! alpha = Gen.Double.[1.0,2.0]
+            let B = Array.init (rows*cols) (fun ci ->
+                let row, col = Math.DivRem(ci,cols)
+                let mutable t = 0.0
+                for k = 0 to row do
+                    t <- t + A.[k+row*rows] * X.[col+k*cols]
+                t / alpha
+            )
+            Blas.trsm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+                rows, cols, alpha, A, rows, B, cols)
+            Check.close High X B
+        }
+
+        test "trsm_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.[1.0f,2.0f].Array.[rows*rows]
+            let! X = Gen.Single.[1.0f,2.0f].Array.[rows*cols]
+            let! alpha = Gen.Single.[1.0f,2.0f]
+            let B = Array.init (rows*cols) (fun ci ->
+                let row, col = Math.DivRem(ci,cols)
+                let mutable t = 0.0f
+                for k = 0 to row do
+                    t <- t + A.[k+row*rows] * X.[col+k*cols]
+                t / alpha
+            )
+            Blas.trsm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+                rows, cols, alpha, A, rows, B, cols)
+            Check.close High X B
         }
     }
 
