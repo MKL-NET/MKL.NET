@@ -734,7 +734,7 @@ let blas_2 =
             let! A = Gen.Double.Unit.Array.[rows*rows]
             let! alpha = Gen.Double.Unit
             let expected = Array.init (rows*rows) (fun ai ->
-                let row, col = Math.DivRem(ai, rows)
+                let row, col = Math.DivRem(ai,rows)
                 if col > row then A.[ai]
                 else alpha * x.[row] * x.[col] + A.[ai]
             )
@@ -748,7 +748,7 @@ let blas_2 =
             let! A = Gen.Single.Unit.Array.[rows*rows]
             let! alpha = Gen.Single.Unit
             let expected = Array.init (rows*rows) (fun ai ->
-                let row, col = Math.DivRem(ai, rows)
+                let row, col = Math.DivRem(ai,rows)
                 if col > row then A.[ai]
                 else alpha * x.[row] * x.[col] + A.[ai]
             )
@@ -763,7 +763,7 @@ let blas_2 =
             let! A = Gen.Double.Unit.Array.[rows*rows]
             let! alpha = Gen.Double.Unit
             let expected = Array.init (rows*rows) (fun ai ->
-                let row, col = Math.DivRem(ai, rows)
+                let row, col = Math.DivRem(ai,rows)
                 if col > row then A.[ai]
                 else alpha * (x.[row] * y.[col] + y.[row] * x.[col]) + A.[ai]
             )
@@ -778,7 +778,7 @@ let blas_2 =
             let! A = Gen.Single.Unit.Array.[rows*rows]
             let! alpha = Gen.Single.Unit
             let expected = Array.init (rows*rows) (fun ai ->
-                let row, col = Math.DivRem(ai, rows)
+                let row, col = Math.DivRem(ai,rows)
                 if col > row then A.[ai]
                 else alpha * (x.[row] * y.[col] + y.[row] * x.[col]) + A.[ai]
             )
@@ -819,34 +819,31 @@ let blas_2 =
         test "trsv_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
             let! A = Gen.Double.Unit.Array.[rows*rows]
-            let! b = Gen.Double.Unit.Array.[rows]
-            let x = Array.copy b
-            Blas.trsv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
-                rows, A, rows, x, 0, 1)
-            let expected = Array.init rows (fun i ->
+            let! x = Gen.Double.Unit.Array.[rows]
+            let b = Array.init rows (fun i ->
                 let mutable t = 0.0
                 for j = 0 to i do
                     t <- t + A.[j+i*rows] * x.[j]
                 t
             )
-            Check.close High expected b
+            Blas.trsv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+                rows, A, rows, b, 0, 1)
+            Check.close High x b
         }
 
         test "trsv_single" {
-            let! rows = Gen.Int.[1,ROWS_MAX]
-            let! A = Gen.Single.Unit.Array.[rows*rows]
-            let! b = Gen.Single.Unit.Array.[rows]
-            let x = Array.copy b
-            Blas.trsv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
-                rows, A, rows, x, 0, 1)
-            let expected = Array.init rows (fun i ->
+            let rows = 2
+            let! A = Gen.Single.[1.0f,2.0f].Array.[rows*rows]
+            let! x = Gen.Single.[1.0f,2.0f].Array.[rows]
+            let b = Array.init rows (fun i ->
                 let mutable t = 0.0f
                 for j = 0 to i do
                     t <- t + A.[j+i*rows] * x.[j]
                 t
             )
-            ()
-            //Check.close Low expected b
+            Blas.trsv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+                rows, A, rows, b, 0, 1)
+            Check.close Low x b
         }
     }
 
@@ -863,7 +860,7 @@ let blas_3 =
             let! alpha = Gen.Double.Unit
             let! beta = Gen.Double.Unit
             let expected = Array.init (rows*colsB) (fun ci ->
-                let row, col = Math.DivRem(ci, colsB)
+                let row, col = Math.DivRem(ci,colsB)
                 let mutable t = 0.0
                 for k = 0 to colsA-1 do
                     t <- t + A.[k+row*colsA] * B.[col+k*colsB]
@@ -885,13 +882,141 @@ let blas_3 =
             let! beta = Gen.Single.Unit
             let expected = Array.init (rows*colsB) (fun ci ->
                 let mutable t = 0.0f
-                let row, col = Math.DivRem(ci, colsB)
+                let row, col = Math.DivRem(ci,colsB)
                 for k = 0 to colsA-1 do
                     t <- t + A.[k+row*colsA] * B.[col+k*colsB]
                 alpha * t + beta * C.[ci]
             )
             Blas.gemm(Layout.RowMajor, Transpose.No, Transpose.No, rows, colsB, colsA, alpha,
                 A, colsA, B, colsB, beta, C, colsB)
+            Check.close High expected C
+        }
+
+        test "symm_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.Unit.Array.[rows*rows]
+            let! B = Gen.Double.Unit.Array.[rows*cols]
+            let! C = Gen.Double.Unit.Array.[rows*cols]
+            let! alpha = Gen.Double.Unit
+            let! beta = Gen.Double.Unit
+            let expected = Array.init (rows*cols) (fun ci ->
+                let row, col = Math.DivRem(ci,cols)
+                let mutable t = 0.0
+                for k = 0 to rows-1 do
+                    t <- t + A.[if k>row then row+k*rows else k+row*rows] * B.[col+k*cols]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.symm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, rows, cols, alpha,
+                A, rows, B, cols, beta, C, cols)
+            Check.close High expected C
+        }
+
+        test "symm_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.Unit.Array.[rows*rows]
+            let! B = Gen.Single.Unit.Array.[rows*cols]
+            let! C = Gen.Single.Unit.Array.[rows*cols]
+            let! alpha = Gen.Single.Unit
+            let! beta = Gen.Single.Unit
+            let expected = Array.init (rows*cols) (fun ci ->
+                let row, col = Math.DivRem(ci,cols)
+                let mutable t = 0.0f
+                for k = 0 to rows-1 do
+                    t <- t + A.[if k>row then row+k*rows else k+row*rows] * B.[col+k*cols]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.symm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, rows, cols, alpha,
+                A, rows, B, cols, beta, C, cols)
+            Check.close High expected C
+        }
+
+        test "syrk_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.Unit.Array.[rows*cols]
+            let! C = Gen.Double.Unit.Array.[rows*rows]
+            let! alpha = Gen.Double.Unit
+            let! beta = Gen.Double.Unit
+            let expected = Array.init (rows*rows) (fun ci ->
+                let row, col = Math.DivRem(ci,rows)
+                if col > row then C.[ci]
+                else
+                let mutable t = 0.0
+                for k = 0 to cols-1 do
+                    t <- t + A.[k+row*cols] * A.[k+col*cols]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.syrk(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+                A, cols, beta, C, rows)
+            Check.close High expected C
+        }
+
+        test "syrk_float" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.Unit.Array.[rows*cols]
+            let! C = Gen.Single.Unit.Array.[rows*rows]
+            let! alpha = Gen.Single.Unit
+            let! beta = Gen.Single.Unit
+            let expected = Array.init (rows*rows) (fun ci ->
+                let row, col = Math.DivRem(ci,rows)
+                if col > row then C.[ci]
+                else
+                let mutable t = 0.0f
+                for k = 0 to cols-1 do
+                    t <- t + A.[k+row*cols] * A.[k+col*cols]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.syrk(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+                A, cols, beta, C, rows)
+            Check.close High expected C
+        }
+
+        test "syrk2_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.Unit.Array.[rows*cols]
+            let! B = Gen.Double.Unit.Array.[rows*cols]
+            let! C = Gen.Double.Unit.Array.[rows*rows]
+            let! alpha = Gen.Double.Unit
+            let! beta = Gen.Double.Unit
+            let expected = Array.init (rows*rows) (fun ci ->
+                let row, col = Math.DivRem(ci,rows)
+                if col > row then C.[ci]
+                else
+                let mutable t = 0.0
+                for k = 0 to cols-1 do
+                    t <- t + A.[k+row*cols] * B.[k+col*cols]
+                           + B.[k+row*cols] * A.[k+col*cols]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.syr2k(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+                A, cols, B, cols, beta, C, rows)
+            Check.close High expected C
+        }
+
+        test "syrk2_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.Unit.Array.[rows*cols]
+            let! B = Gen.Single.Unit.Array.[rows*cols]
+            let! C = Gen.Single.Unit.Array.[rows*rows]
+            let! alpha = Gen.Single.Unit
+            let! beta = Gen.Single.Unit
+            let expected = Array.init (rows*rows) (fun ci ->
+                let row, col = Math.DivRem(ci,rows)
+                if col > row then C.[ci]
+                else
+                let mutable t = 0.0f
+                for k = 0 to cols-1 do
+                    t <- t + A.[k+row*cols] * B.[k+col*cols]
+                           + B.[k+row*cols] * A.[k+col*cols]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.syr2k(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+                A, cols, B, cols, beta, C, rows)
             Check.close High expected C
         }
     }
