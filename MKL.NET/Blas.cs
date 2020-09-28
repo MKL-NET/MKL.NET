@@ -120,28 +120,48 @@ namespace MKLNET
             => asum(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int cblas_isamax(int N, float[] X, int incX);
+        static extern int cblas_isamax(int N, float* X, int incX);
+        public static int iamax(int N, float[] X, int iniX, int incX)
+        {
+            fixed (float* xp = &X[iniX])
+                return cblas_isamax(N, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int isamax(int N, float[] X, int incX)
-            => cblas_isamax(N, X, incX);
+        public static int iamax(float[] X)
+            => iamax(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int cblas_idamax(int N, double[] X, int incX);
+        static extern int cblas_idamax(int N, double* X, int incX);
+        public static int iamax(int N, double[] X, int iniX, int incX)
+        {
+            fixed (double* xp = &X[iniX])
+                return cblas_idamax(N, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int idamax(int N, double[] X, int incX)
-            => cblas_idamax(N, X, incX);
+        public static int iamax(double[] X)
+            => iamax(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int cblas_isamin(int N, float[] X, int incX);
+        static extern int cblas_isamin(int N, float* X, int incX);
+        public static int iamin(int N, float[] X, int iniX, int incX)
+        {
+            fixed (float* xp = &X[iniX])
+                return cblas_isamin(N, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int isamin(int N, float[] X, int incX)
-            => cblas_isamin(N, X, incX);
+        public static int iamin(float[] X)
+            => iamin(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int cblas_idamin(int N, double[] X, int incX);
+        static extern int cblas_idamin(int N, double* X, int incX);
+        public static int iamin(int N, double[] X, int iniX, int incX)
+        {
+            fixed (double* xp = &X[iniX])
+                return cblas_idamin(N, xp, incX);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int idamin(int N, double[] X, int incX)
-            => cblas_idamin(N, X, incX);
+        public static int iamin(double[] X)
+            => iamin(X.Length, X, 0, 1);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sswap(int N, float* X, int incX, float* Y, int incY);

@@ -4,6 +4,7 @@ open MKLNET
 open CsCheck
 
 let ROWS_MAX = 5
+let COLS_MAX = 3
 
 let blas_1 =
     test "1" {
@@ -22,7 +23,7 @@ let blas_1 =
 
         test "asum_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let mutable expected = 0.0
@@ -33,7 +34,7 @@ let blas_1 =
 
         test "asum_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let mutable expected = 0.0f
@@ -64,7 +65,7 @@ let blas_1 =
 
         test "axpy_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! a = Gen.Double
             let! x = Gen.Double.Array.[rows*cols]
@@ -77,7 +78,7 @@ let blas_1 =
 
         test "axpy_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! a = Gen.Single
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
@@ -104,7 +105,7 @@ let blas_1 =
 
         test "copy_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let y = Array.zeroCreate x.Length
@@ -115,7 +116,7 @@ let blas_1 =
 
         test "copy_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let y = Array.zeroCreate x.Length
@@ -144,7 +145,7 @@ let blas_1 =
 
         test "dot_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.NonNegative.Array.[rows*cols]
             let! y = Gen.Double.NonNegative.Array.[rows*cols]
@@ -157,7 +158,7 @@ let blas_1 =
 
         test "dot_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
             let! y = Gen.Single.NonNegative.Array.[rows*cols]
@@ -189,7 +190,7 @@ let blas_1 =
 
         test "sdot_i" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
             let! y = Gen.Single.NonNegative.Array.[rows*cols]
@@ -202,7 +203,7 @@ let blas_1 =
 
         test "sdot_sb_i" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! sb = Gen.Single.NonNegative
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
@@ -228,7 +229,7 @@ let blas_1 =
 
         test "nrm2_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let mutable expected = 0.0
@@ -240,7 +241,7 @@ let blas_1 =
 
         test "nrm2_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let mutable expected = 0.0f
@@ -280,7 +281,7 @@ let blas_1 =
 
         test "rot_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Unit.Array.[rows*cols]
             let! y = Gen.Double.Unit.Array.[rows*cols]
@@ -296,7 +297,7 @@ let blas_1 =
 
         test "rot_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Unit.Array.[rows*cols]
             let! y = Gen.Single.Unit.Array.[rows*cols]
@@ -372,7 +373,7 @@ let blas_1 =
 
         test "rotm_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Unit.Array.[rows*cols]
             let! y = Gen.Double.Unit.Array.[rows*cols]
@@ -390,7 +391,7 @@ let blas_1 =
 
         test "rotm_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Unit.Array.[rows*cols]
             let! y = Gen.Single.Unit.Array.[rows*cols]
@@ -470,7 +471,7 @@ let blas_1 =
 
         test "scal_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let! a = Gen.Double
@@ -481,7 +482,7 @@ let blas_1 =
 
         test "scal_i_float" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let! a = Gen.Single
@@ -514,7 +515,7 @@ let blas_1 =
 
         test "swap_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let! y = Gen.Double.Array.[rows*cols]
@@ -527,7 +528,7 @@ let blas_1 =
 
         test "swap_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,3]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let! y = Gen.Single.Array.[rows*cols]
@@ -538,24 +539,88 @@ let blas_1 =
             Check.equal expectedy y
         }
 
-        test "isamax" {
-            Blas.isamax(3, [| 1.0f; 7.0f; -3.0f |], 1)
-            |> Check.equal 1
+        test "iamax_double" {
+            let! x = Gen.Double.Normal.Array.[1,ROWS_MAX]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if abs x > a then i+1,abs x,i else i+1,a,j)
+                    (0,-1.0,0) x
+            Blas.iamax x
+            |> Check.equal expected
         }
 
-        test "idamax" {
-            Blas.idamax(3, [| 1.0; 7.0; -3.0 |], 1)
-            |> Check.equal 1
+        test "iamax_single" {
+            let! x = Gen.Single.Normal.Array.[1,ROWS_MAX]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if abs x > a then i+1,abs x,i else i+1,a,j)
+                    (0,-1.0f,0) x
+            Blas.iamax x
+            |> Check.equal expected
         }
 
-        test "isamin" {
-            Blas.isamin(3, [| 1.0f; 7.0f; -3.0f |], 1)
-            |> Check.equal 0
+        test "iamax_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Normal.Array.[rows*cols]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x > a then i+1,abs x,i/cols else i+1,a,j)
+                    (0,-1.0,0) x
+            Blas.iamax(rows,x,ini,cols)
+            |> Check.equal expected
         }
 
-        test "idamin" {
-            Blas.idamin(3, [| 1.0; 7.0; -3.0 |], 1)
-            |> Check.equal 0
+        test "iamax_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Normal.Array.[rows*cols]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x > a then i+1,abs x,i/cols else i+1,a,j)
+                    (0,-1.0f,0) x
+            Blas.iamax(rows,x,ini,cols)
+            |> Check.equal expected
+        }
+
+        test "iamin_double" {
+            let! x = Gen.Double.Normal.Array.[1,ROWS_MAX]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if abs x < a then i+1,abs x,i else i+1,a,j)
+                    (0,infinity,0) x
+            Blas.iamin x
+            |> Check.equal expected
+        }
+
+        test "iamin_single" {
+            let! x = Gen.Single.Normal.Array.[1,ROWS_MAX]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if abs x < a then i+1,abs x,i else i+1,a,j)
+                    (0,infinityf,0) x
+            Blas.iamin x
+            |> Check.equal expected
+        }
+
+        test "iamin_i_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Double.Normal.Array.[rows*cols]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x < a then i+1,abs x,i/cols else i+1,a,j)
+                    (0,infinity,0) x
+            Blas.iamin(rows,x,ini,cols)
+            |> Check.equal expected
+        }
+
+        test "iamin_i_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! ini = Gen.Int.[0,cols-1]
+            let! x = Gen.Single.Normal.Array.[rows*cols]
+            let _,_,expected =
+                Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x < a then i+1,abs x,i/cols else i+1,a,j)
+                    (0,infinityf,0) x
+            Blas.iamin(rows,x,ini,cols)
+            |> Check.equal expected
         }
     }
 
