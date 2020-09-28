@@ -38,7 +38,7 @@ let equal (expected:'a) (actual:'a) =
                 |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
                             | _, r -> r
             else
-                Failure(Normal "Length differs. expected: " + Numeric e + " actual: " + Numeric a)
+                Failure(Normal "Length differs. expected: " + Numeric e.Length + " actual: " + Numeric a.Length)
         let inline equalDefault (e:'b) (a:'b) =
             let e = (string e).Replace("\n","")
             let a = (string a).Replace("\n","")
@@ -85,7 +85,7 @@ let close accuracy (expected:'a) (actual:'a) =
                 |> function | i, Failure t -> Failure(Normal "Index: " + Numeric i + ". " + t)
                             | _, r -> r
             else
-                Failure(Normal "Length differs. expected: " + Numeric e + " actual: " + Numeric a)
+                Failure(Normal "Length differs. expected: " + Numeric e.Length + " actual: " + Numeric a.Length)
         let inline closeDefault (e:'b) (a:'b) =
             Failure(Normal "Expected difference to be less than "
             + Numeric(Accuracy.areCloseRhs accuracy a e)

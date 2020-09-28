@@ -40,6 +40,12 @@ namespace MKLNET
         Right = 142,
     }
 
+    public enum UpLoBlas
+    {
+        Upper = 121,
+        Lower = 122,
+    }
+
     public enum UpLo : byte
     {
         Lower = (byte)'L',

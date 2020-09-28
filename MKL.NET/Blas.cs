@@ -30,7 +30,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern float cblas_sdoti(int N, float[] X, int[] indx, float[] Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float sdoti(int N, float[] X, int[] indx, float[] Y)
+        public static float doti(int N, float[] X, int[] indx, float[] Y)
             => cblas_sdoti(N, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -48,7 +48,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern double cblas_ddoti(int N, double[] X, int[] indx, double[] Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ddoti(int N, double[] X, int[] indx, double[] Y)
+        public static double doti(int N, double[] X, int[] indx, double[] Y)
             => cblas_ddoti(N, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -203,31 +203,31 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_saxpby(int N, float alpha, float[] X, int incX, float beta, float[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void saxpby(int N, float alpha, float[] X, int incX, float beta, float[] Y, int incY)
+        public static void axpby(int N, float alpha, float[] X, int incX, float beta, float[] Y, int incY)
             => cblas_saxpby(N, alpha, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_saxpyi(int N, float alpha, float[] X, int[] indx, float[] Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void saxpyi(int N, float alpha, float[] X, int[] indx, float[] Y)
+        public static void axpyi(int N, float alpha, float[] X, int[] indx, float[] Y)
             => cblas_saxpyi(N, alpha, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sgthr(int N, float[] Y, float[] X, int[] indx);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sgthr(int N, float[] Y, float[] X, int[] indx)
+        public static void gthr(int N, float[] Y, float[] X, int[] indx)
             => cblas_sgthr(N, Y, X, indx);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sgthrz(int N, float[] Y, float[] X, int[] indx);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sgthrz(int N, float[] Y, float[] X, int[] indx)
+        public static void gthrz(int N, float[] Y, float[] X, int[] indx)
             => cblas_sgthrz(N, Y, X, indx);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_ssctr(int N, float[] X, int[] indx, float[] Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssctr(int N, float[] X, int[] indx, float[] Y)
+        public static void sctr(int N, float[] X, int[] indx, float[] Y)
             => cblas_ssctr(N, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -275,31 +275,31 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_daxpby(int N, double alpha, double[] X, int incX, double beta, double[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void daxpby(int N, double alpha, double[] X, int incX, double beta, double[] Y, int incY)
+        public static void axpby(int N, double alpha, double[] X, int incX, double beta, double[] Y, int incY)
             => cblas_daxpby(N, alpha, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_daxpyi(int N, double alpha, double[] X, int[] indx, double[] Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void daxpyi(int N, double alpha, double[] X, int[] indx, double[] Y)
+        public static void axpyi(int N, double alpha, double[] X, int[] indx, double[] Y)
             => cblas_daxpyi(N, alpha, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dgthr(int N, double[] Y, double[] X, int[] indx);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dgthr(int N, double[] Y, double[] X, int[] indx)
+        public static void gthr(int N, double[] Y, double[] X, int[] indx)
             => cblas_dgthr(N, Y, X, indx);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dgthrz(int N, double[] Y, double[] X, int[] indx);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dgthrz(int N, double[] Y, double[] X, int[] indx)
+        public static void gthrz(int N, double[] Y, double[] X, int[] indx)
             => cblas_dgthrz(N, Y, X, indx);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dsctr(int N, double[] X, int[] indx, double[] Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsctr(int N, double[] X, int[] indx, double[] Y)
+        public static void sctr(int N, double[] X, int[] indx, double[] Y)
             => cblas_dsctr(N, X, indx, Y);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -331,7 +331,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sroti(int N, float[] X, int[] indx, float[] Y, float c, float s);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sroti(int N, float[] X, int[] indx, float[] Y, float c, float s)
+        public static void roti(int N, float[] X, int[] indx, float[] Y, float c, float s)
             => cblas_sroti(N, X, indx, Y, c, s);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -383,7 +383,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_droti(int N, double[] X, int[] indx, double[] Y, double c, double s);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void droti(int N, double[] X, int[] indx, double[] Y, double c, double s)
+        public static void roti(int N, double[] X, int[] indx, double[] Y, double c, double s)
             => cblas_droti(N, X, indx, Y, c, s);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -433,7 +433,7 @@ namespace MKLNET
             float[] A, int lda, float[] X,
             int incX, float beta, float[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sgbmv(Layout Layout,
+        public static void gbmv(Layout Layout,
             Transpose TransA, int M, int N,
             int KL, int KU, float alpha,
             float[] A, int lda, float[] X,
@@ -441,72 +441,78 @@ namespace MKLNET
             => cblas_sgbmv(Layout, TransA, M, N, KL, KU, alpha, A, lda, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_strmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_strmv(Layout Layout, UpLoBlas UPLO,
+            Transpose TransA, Diag Diag,
+            int N, float* A, int lda,
+            float* X, int incX);
+        public static void trmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, float[] A, int lda,
-            float[] X, int incX);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void strmv(Layout Layout, UpLo Uplo,
-            Transpose TransA, Diag Diag,
-            int N, float[] A, int lda,
-            float[] X, int incX)
-            => cblas_strmv(Layout, Uplo, TransA, Diag, N, A, lda, X, incX);
+            float[] X, int iniX, int incX)
+        {
+            fixed (float* ap = &A[0])
+            fixed (float* xp = &X[iniX])
+                cblas_strmv(Layout, UPLO, TransA, Diag, N, ap, lda, xp, incX);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_stbmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_stbmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, float[] A, int lda,
             float[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void stbmv(Layout Layout, UpLo Uplo,
+        public static void tbmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, float[] A, int lda,
             float[] X, int incX)
-            => cblas_stbmv(Layout, Uplo, TransA, Diag, N, K, A, lda, X, incX);
+            => cblas_stbmv(Layout, UPLO, TransA, Diag, N, K, A, lda, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_stpmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_stpmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, float[] Ap, float[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void stpmv(Layout Layout, UpLo Uplo,
+        public static void tpmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, float[] Ap, float[] X, int incX)
-            => cblas_stpmv(Layout, Uplo, TransA, Diag, N, Ap, X, incX);
+            => cblas_stpmv(Layout, UPLO, TransA, Diag, N, Ap, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_strsv(Layout Layout, UpLo Uplo,
+        static extern void cblas_strsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
-            int N, float[] A, int lda, float[] X,
+            int N, float* A, int lda, float* X,
             int incX);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void strsv(Layout Layout, UpLo Uplo,
+        public static void trsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, float[] A, int lda, float[] X,
-            int incX)
-            => cblas_strsv(Layout, Uplo, TransA, Diag, N, A, lda, X, incX);
+            int iniX, int incX)
+        {
+            fixed (float* ap = &A[0])
+            fixed (float* xp = &X[iniX])
+                cblas_strsv(Layout, UPLO, TransA, Diag, N, ap, lda, xp, incX);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_stbsv(Layout Layout, UpLo Uplo,
+        static extern void cblas_stbsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, float[] A, int lda,
             float[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void stbsv(Layout Layout, UpLo Uplo,
+        public static void tbsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, float[] A, int lda,
             float[] X, int incX)
-            => cblas_stbsv(Layout, Uplo, TransA, Diag, N, K, A, lda, X, incX);
+            => cblas_stbsv(Layout, UPLO, TransA, Diag, N, K, A, lda, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_stpsv(Layout Layout, UpLo Uplo,
+        static extern void cblas_stpsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, float[] Ap, float[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void stpsv(Layout Layout, UpLo Uplo,
+        public static void tpsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, float[] Ap, float[] X, int incX)
-            => cblas_stpsv(Layout, Uplo, TransA, Diag, N, Ap, X, incX);
+            => cblas_stpsv(Layout, UPLO, TransA, Diag, N, Ap, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dgemv(Layout Layout,
@@ -533,7 +539,7 @@ namespace MKLNET
             double[] A, int lda, double[] X,
             int incX, double beta, double[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dgbmv(Layout Layout,
+        public static void gbmv(Layout Layout,
             Transpose TransA, int M, int N,
             int KL, int KU, double alpha,
             double[] A, int lda, double[] X,
@@ -541,250 +547,284 @@ namespace MKLNET
             => cblas_dgbmv(Layout, TransA, M, N, KL, KU, alpha, A, lda, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dtrmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dtrmv(Layout Layout, UpLoBlas UPLO,
+            Transpose TransA, Diag Diag,
+            int N, double* A, int lda,
+            double* X, int incX);
+        public static void trmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, double[] A, int lda,
-            double[] X, int incX);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtrmv(Layout Layout, UpLo Uplo,
-            Transpose TransA, Diag Diag,
-            int N, double[] A, int lda,
-            double[] X, int incX)
-            => cblas_dtrmv(Layout, Uplo, TransA, Diag, N, A, lda, X, incX);
+            double[] X, int iniX, int incX)
+        {
+            fixed (double* ap = &A[0])
+            fixed (double* xp = &X[iniX])
+                cblas_dtrmv(Layout, UPLO, TransA, Diag, N, ap, lda, xp, incX);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dtbmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dtbmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, double[] A, int lda,
             double[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtbmv(Layout Layout, UpLo Uplo,
+        public static void tbmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, double[] A, int lda,
             double[] X, int incX)
-            => cblas_dtbmv(Layout, Uplo, TransA, Diag, N, K, A, lda, X, incX);
+            => cblas_dtbmv(Layout, UPLO, TransA, Diag, N, K, A, lda, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dtpmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dtpmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, double[] Ap, double[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtpmv(Layout Layout, UpLo Uplo,
+        public static void tpmv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, double[] Ap, double[] X, int incX)
-            => cblas_dtpmv(Layout, Uplo, TransA, Diag, N, Ap, X, incX);
+            => cblas_dtpmv(Layout, UPLO, TransA, Diag, N, Ap, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dtrsv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dtrsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
-            int N, double[] A, int lda, double[] X,
+            int N, double* A, int lda, double* X,
             int incX);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtrsv(Layout Layout, UpLo Uplo,
+        public static void trsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, double[] A, int lda, double[] X,
-            int incX)
-            => cblas_dtrsv(Layout, Uplo, TransA, Diag, N, A, lda, X, incX);
+            int iniX, int incX)
+        {
+            fixed (double* ap = &A[0])
+            fixed (double* xp = &X[iniX])
+                cblas_dtrsv(Layout, UPLO, TransA, Diag, N, ap, lda, xp, incX);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dtbsv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dtbsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, double[] A, int lda,
             double[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtbsv(Layout Layout, UpLo Uplo,
+        public static void tbsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, int K, double[] A, int lda,
             double[] X, int incX)
-            => cblas_dtbsv(Layout, Uplo, TransA, Diag, N, K, A, lda, X, incX);
+            => cblas_dtbsv(Layout, UPLO, TransA, Diag, N, K, A, lda, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dtpsv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dtpsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, double[] Ap, double[] X, int incX);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtpsv(Layout Layout, UpLo Uplo,
+        public static void tpsv(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Diag Diag,
             int N, double[] Ap, double[] X, int incX)
-            => cblas_dtpsv(Layout, Uplo, TransA, Diag, N, Ap, X, incX);
+            => cblas_dtpsv(Layout, UPLO, TransA, Diag, N, Ap, X, incX);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_ssymv(Layout Layout, UpLo Uplo,
+        static extern void cblas_ssymv(Layout Layout, UpLoBlas UPLO,
+            int N, float alpha, float* A,
+            int lda, float* X, int incX,
+            float beta, float* Y, int incY);
+        public static void symv(Layout Layout, UpLoBlas UPLO,
             int N, float alpha, float[] A,
-            int lda, float[] X, int incX,
-            float beta, float[] Y, int incY);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssymv(Layout Layout, UpLo Uplo,
-            int N, float alpha, float[] A,
-            int lda, float[] X, int incX,
-            float beta, float[] Y, int incY)
-            => cblas_ssymv(Layout, Uplo, N, alpha, A, lda, X, incX, beta, Y, incY);
+            int lda, float[] X, int iniX, int incX,
+            float beta, float[] Y, int iniY, int incY)
+        {
+            fixed (float* ap = &A[0])
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                cblas_ssymv(Layout, UPLO, N, alpha, ap, lda, xp, incX, beta, yp, incY);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_ssbmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_ssbmv(Layout Layout, UpLoBlas UPLO,
             int N, int K, float alpha, float[] A,
             int lda, float[] X, int incX,
             float beta, float[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssbmv(Layout Layout, UpLo Uplo,
+        public static void sbmv(Layout Layout, UpLoBlas UPLO,
             int N, int K, float alpha, float[] A,
             int lda, float[] X, int incX,
             float beta, float[] Y, int incY)
-            => cblas_ssbmv(Layout, Uplo, N, K, alpha, A, lda, X, incX, beta, Y, incY);
+            => cblas_ssbmv(Layout, UPLO, N, K, alpha, A, lda, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_sspmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_sspmv(Layout Layout, UpLoBlas UPLO,
             int N, float alpha, float[] Ap,
             float[] X, int incX,
             float beta, float[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sspmv(Layout Layout, UpLo Uplo,
+        public static void spmv(Layout Layout, UpLoBlas UPLO,
             int N, float alpha, float[] Ap,
             float[] X, int incX,
             float beta, float[] Y, int incY)
-            => cblas_sspmv(Layout, Uplo, N, alpha, Ap, X, incX, beta, Y, incY);
+            => cblas_sspmv(Layout, UPLO, N, alpha, Ap, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sger(Layout Layout, int M, int N,
-            float alpha, float[] X, int incX,
-            float[] Y, int incY, float[] A, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sger(Layout Layout, int M, int N,
-            float alpha, float[] X, int incX,
-            float[] Y, int incY, float[] A, int lda)
-            => cblas_sger(Layout, M, N, alpha, X, incX, Y, incY, A, lda);
+            float alpha, float* X, int incX,
+            float* Y, int incY, float* A, int lda);
+        public static void ger(Layout Layout, int M, int N,
+            float alpha, float[] X, int iniX, int incX,
+            float[] Y, int iniY, int incY, float[] A, int lda)
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+            fixed (float* ap = &A[0])
+                cblas_sger(Layout, M, N, alpha, xp, incX, yp, incY, ap, lda);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_ssyr(Layout Layout, UpLo Uplo,
-            int N, float alpha, float[] X,
-            int incX, float[] A, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssyr(Layout Layout, UpLo Uplo,
-            int N, float alpha, float[] X,
+        static extern void cblas_ssyr(Layout Layout, UpLoBlas UPLO,
+            int N, float alpha, float* X,
+            int incX, float* A, int lda);
+        public static void syr(Layout Layout, UpLoBlas UPLO,
+            int N, float alpha, float[] X, int iniX,
             int incX, float[] A, int lda)
-            => cblas_ssyr(Layout, Uplo, N, alpha, X, incX, A, lda);
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* ap = &A[0])
+                cblas_ssyr(Layout, UPLO, N, alpha, xp, incX, ap, lda);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_sspr(Layout Layout, UpLo Uplo,
+        static extern void cblas_sspr(Layout Layout, UpLoBlas UPLO,
             int N, float alpha, float[] X,
             int incX, float[] Ap);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sspr(Layout Layout, UpLo Uplo,
+        public static void spr(Layout Layout, UpLoBlas UPLO,
             int N, float alpha, float[] X,
             int incX, float[] Ap)
-            => cblas_sspr(Layout, Uplo, N, alpha, X, incX, Ap);
+            => cblas_sspr(Layout, UPLO, N, alpha, X, incX, Ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_ssyr2(Layout Layout, UpLo Uplo,
-            int N, float alpha, float[] X,
-            int incX, float[] Y, int incY, float[] A,
+        static extern void cblas_ssyr2(Layout Layout, UpLoBlas UPLO,
+            int N, float alpha, float* X,
+            int incX, float* Y, int incY, float* A,
             int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssyr2(Layout Layout, UpLo Uplo,
-            int N, float alpha, float[] X,
-            int incX, float[] Y, int incY, float[] A,
+        public static void syr2(Layout Layout, UpLoBlas UPLO,
+            int N, float alpha, float[] X, int iniX,
+            int incX, float[] Y, int iniY, int incY, float[] A,
             int lda)
-            => cblas_ssyr2(Layout, Uplo, N, alpha, X, incX, Y, incY, A, lda);
+        {
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+            fixed (float* ap = &A[0])
+                cblas_ssyr2(Layout, UPLO, N, alpha, xp, incX, yp, incY, ap, lda);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_sspr2(Layout Layout, UpLo Uplo,
+        static extern void cblas_sspr2(Layout Layout, UpLoBlas UPLO,
             int N, float alpha, float[] X,
             int incX, float[] Y, int incY, float[] A);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sspr2(Layout Layout, UpLo Uplo,
+        public static void spr2(Layout Layout, UpLoBlas UPLO,
             int N, float alpha, float[] X,
             int incX, float[] Y, int incY, float[] A)
-            => cblas_sspr2(Layout, Uplo, N, alpha, X, incX, Y, incY, A);
+            => cblas_sspr2(Layout, UPLO, N, alpha, X, incX, Y, incY, A);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dsymv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dsymv(Layout Layout, UpLoBlas UPLO,
+            int N, double alpha, double* A,
+            int lda, double* X, int incX,
+            double beta, double* Y, int incY);
+        public static void symv(Layout Layout, UpLoBlas UPLO,
             int N, double alpha, double[] A,
-            int lda, double[] X, int incX,
-            double beta, double[] Y, int incY);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsymv(Layout Layout, UpLo Uplo,
-            int N, double alpha, double[] A,
-            int lda, double[] X, int incX,
-            double beta, double[] Y, int incY)
-            => cblas_dsymv(Layout, Uplo, N, alpha, A, lda, X, incX, beta, Y, incY);
+            int lda, double[] X, int iniX, int incX,
+            double beta, double[] Y, int iniY, int incY)
+        {
+            fixed (double* ap = &A[0])
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+                cblas_dsymv(Layout, UPLO, N, alpha, ap, lda, xp, incX, beta, yp, incY);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dsbmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dsbmv(Layout Layout, UpLoBlas UPLO,
             int N, int K, double alpha, double[] A,
             int lda, double[] X, int incX,
             double beta, double[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsbmv(Layout Layout, UpLo Uplo,
+        public static void sbmv(Layout Layout, UpLoBlas UPLO,
             int N, int K, double alpha, double[] A,
             int lda, double[] X, int incX,
             double beta, double[] Y, int incY)
-            => cblas_dsbmv(Layout, Uplo, N, K, alpha, A, lda, X, incX, beta, Y, incY);
+            => cblas_dsbmv(Layout, UPLO, N, K, alpha, A, lda, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dspmv(Layout Layout, UpLo Uplo,
+        static extern void cblas_dspmv(Layout Layout, UpLoBlas UPLO,
             int N, double alpha, double[] Ap,
             double[] X, int incX,
             double beta, double[] Y, int incY);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dspmv(Layout Layout, UpLo Uplo,
+        public static void spmv(Layout Layout, UpLoBlas UPLO,
             int N, double alpha, double[] Ap,
             double[] X, int incX,
             double beta, double[] Y, int incY)
-            => cblas_dspmv(Layout, Uplo, N, alpha, Ap, X, incX, beta, Y, incY);
+            => cblas_dspmv(Layout, UPLO, N, alpha, Ap, X, incX, beta, Y, incY);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dger(Layout Layout, int M, int N,
-            double alpha, double[] X, int incX,
-            double[] Y, int incY, double[] A, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dger(Layout Layout, int M, int N,
-            double alpha, double[] X, int incX,
-            double[] Y, int incY, double[] A, int lda)
-            => cblas_dger(Layout, M, N, alpha, X, incX, Y, incY, A, lda);
+            double alpha, double* X, int incX,
+            double* Y, int incY, double* A, int lda);
+        public static void ger(Layout Layout, int M, int N,
+            double alpha, double[] X, int iniX, int incX,
+            double[] Y, int iniY, int incY, double[] A, int lda)
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+            fixed (double* ap = &A[0])
+                cblas_dger(Layout, M, N, alpha, xp, incX, yp, incY, ap, lda);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dsyr(Layout Layout, UpLo Uplo,
-                int N, double alpha, double[] X,
-                int incX, double[] A, int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsyr(Layout Layout, UpLo Uplo,
-                int N, double alpha, double[] X,
-                int incX, double[] A, int lda)
-            => cblas_dsyr(Layout, Uplo,
-               N, alpha, X,
-               incX, A, lda);
+        static extern void cblas_dsyr(Layout Layout, UpLoBlas UPLO,
+                int N, double alpha, double* X,
+                int incX, double* A, int lda);
+        public static void syr(Layout Layout, UpLoBlas UPLO,
+            int N, double alpha, double[] X, int iniX,
+            int incX, double[] A, int lda)
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* ap = &A[0])
+                cblas_dsyr(Layout, UPLO, N, alpha, xp, incX, ap, lda);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dspr(Layout Layout, UpLo Uplo,
+        static extern void cblas_dspr(Layout Layout, UpLoBlas UPLO,
             int N, double alpha, double[] X,
             int incX, double[] Ap);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dspr(Layout Layout, UpLo Uplo,
+        public static void spr(Layout Layout, UpLoBlas UPLO,
             int N, double alpha, double[] X,
             int incX, double[] Ap)
-            => cblas_dspr(Layout, Uplo, N, alpha, X, incX, Ap);
+            => cblas_dspr(Layout, UPLO, N, alpha, X, incX, Ap);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dsyr2(Layout Layout, UpLo Uplo,
-            int N, double alpha, double[] X,
-            int incX, double[] Y, int incY, double[] A,
+        static extern void cblas_dsyr2(Layout Layout, UpLoBlas UPLO,
+            int N, double alpha, double* X,
+            int incX, double* Y, int incY, double* A,
             int lda);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsyr2(Layout Layout, UpLo Uplo,
-            int N, double alpha, double[] X,
-            int incX, double[] Y, int incY, double[] A,
+        public static void syr2(Layout Layout, UpLoBlas UPLO,
+            int N, double alpha, double[] X, int iniX,
+            int incX, double[] Y, int iniY, int incY, double[] A,
             int lda)
-            => cblas_dsyr2(Layout, Uplo, N, alpha, X, incX, Y, incY, A, lda);
+        {
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+            fixed (double* ap = &A[0])
+                cblas_dsyr2(Layout, UPLO, N, alpha, xp, incX, yp, incY, ap, lda);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dspr2(Layout Layout, UpLo Uplo,
+        static extern void cblas_dspr2(Layout Layout, UpLoBlas UPLO,
             int N, double alpha, double[] X,
             int incX, double[] Y, int incY, double[] A);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dspr2(Layout Layout, UpLo Uplo,
+        public static void spr2(Layout Layout, UpLoBlas UPLO,
             int N, double alpha, double[] X,
             int incX, double[] Y, int incY, double[] A)
-            => cblas_dspr2(Layout, Uplo, N, alpha, X, incX, Y, incY, A);
+            => cblas_dspr2(Layout, UPLO, N, alpha, X, incX, Y, incY, A);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sgemm(Layout Layout, Transpose TransA,
@@ -801,88 +841,88 @@ namespace MKLNET
             => cblas_sgemm(Layout, TransA, TransB, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_sgemmt(Layout Layout, UpLo Uplo,
+        static extern void cblas_sgemmt(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Transpose TransB,
             int N, int K,
             float alpha, float[] A, int lda,
             float[] B, int ldb, float beta,
             float[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sgemmt(Layout Layout, UpLo Uplo,
+        public static void gemmt(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Transpose TransB,
             int N, int K,
             float alpha, float[] A, int lda,
             float[] B, int ldb, float beta,
             float[] C, int ldc)
-            => cblas_sgemmt(Layout, Uplo, TransA, TransB, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
+            => cblas_sgemmt(Layout, UPLO, TransA, TransB, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_ssymm(Layout Layout, Side Side,
-            UpLo Uplo, int M, int N,
+            UpLoBlas UPLO, int M, int N,
             float alpha, float[] A, int lda,
             float[] B, int ldb, float beta,
             float[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssymm(Layout Layout, Side Side,
-            UpLo Uplo, int M, int N,
+        public static void symm(Layout Layout, Side Side,
+            UpLoBlas UPLO, int M, int N,
             float alpha, float[] A, int lda,
             float[] B, int ldb, float beta,
             float[] C, int ldc)
-            => cblas_ssymm(Layout, Side, Uplo, M, N, alpha, A, lda, B, ldb, beta, C, ldc);
+            => cblas_ssymm(Layout, Side, UPLO, M, N, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_ssyrk(Layout Layout, UpLo Uplo,
+        static extern void cblas_ssyrk(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             float alpha, float[] A, int lda,
             float beta, float[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssyrk(Layout Layout, UpLo Uplo,
+        public static void syrk(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             float alpha, float[] A, int lda,
             float beta, float[] C, int ldc)
-            => cblas_ssyrk(Layout, Uplo, Trans, N, K, alpha, A, lda, beta, C, ldc);
+            => cblas_ssyrk(Layout, UPLO, Trans, N, K, alpha, A, lda, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_ssyr2k(Layout Layout, UpLo Uplo,
+        static extern void cblas_ssyr2k(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             float alpha, float[] A, int lda,
             float[] B, int ldb, float beta,
             float[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ssyr2k(Layout Layout, UpLo Uplo,
+        public static void syr2k(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             float alpha, float[] A, int lda,
             float[] B, int ldb, float beta,
             float[] C, int ldc)
-            => cblas_ssyr2k(Layout, Uplo, Trans, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
+            => cblas_ssyr2k(Layout, UPLO, Trans, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_strmm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             float alpha, float[] A, int lda,
             float[] B, int ldb);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void strmm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+        public static void trmm(Layout Layout, Side Side,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             float alpha, float[] A, int lda,
             float[] B, int ldb)
-            => cblas_strmm(Layout, Side, Uplo, TransA, Diag, M, N, alpha, A, lda, B, ldb);
+            => cblas_strmm(Layout, Side, UPLO, TransA, Diag, M, N, alpha, A, lda, B, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_strsm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             float alpha, float[] A, int lda,
             float[] B, int ldb);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void strsm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+        public static void trsm(Layout Layout, Side Side,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             float alpha, float[] A, int lda,
             float[] B, int ldb)
-            => cblas_strsm(Layout, Side, Uplo, TransA, Diag, M, N, alpha, A, lda, B, ldb);
+            => cblas_strsm(Layout, Side, UPLO, TransA, Diag, M, N, alpha, A, lda, B, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dgemm(Layout Layout, Transpose TransA,
@@ -899,87 +939,87 @@ namespace MKLNET
             => cblas_dgemm(Layout, TransA, TransB, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dgemmt(Layout Layout, UpLo Uplo,
+        static extern void cblas_dgemmt(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Transpose TransB,
             int N, int K,
             double alpha, double[] A, int lda,
             double[] B, int ldb, double beta,
             double[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dgemmt(Layout Layout, UpLo Uplo,
+        public static void gemmt(Layout Layout, UpLoBlas UPLO,
             Transpose TransA, Transpose TransB,
             int N, int K,
             double alpha, double[] A, int lda,
             double[] B, int ldb, double beta,
             double[] C, int ldc)
-            => cblas_dgemmt(Layout, Uplo, TransA, TransB, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
+            => cblas_dgemmt(Layout, UPLO, TransA, TransB, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dsymm(Layout Layout, Side Side,
-            UpLo Uplo, int M, int N,
+            UpLoBlas UPLO, int M, int N,
             double alpha, double[] A, int lda,
             double[] B, int ldb, double beta,
             double[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsymm(Layout Layout, Side Side,
-            UpLo Uplo, int M, int N,
+        public static void symm(Layout Layout, Side Side,
+            UpLoBlas UPLO, int M, int N,
             double alpha, double[] A, int lda,
             double[] B, int ldb, double beta,
             double[] C, int ldc)
-            => cblas_dsymm(Layout, Side, Uplo, M, N, alpha, A, lda, B, ldb, beta, C, ldc);
+            => cblas_dsymm(Layout, Side, UPLO, M, N, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dsyrk(Layout Layout, UpLo Uplo,
+        static extern void cblas_dsyrk(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             double alpha, double[] A, int lda,
             double beta, double[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsyrk(Layout Layout, UpLo Uplo,
+        public static void syrk(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             double alpha, double[] A, int lda,
             double beta, double[] C, int ldc)
-            => cblas_dsyrk(Layout, Uplo, Trans, N, K, alpha, A, lda, beta, C, ldc);
+            => cblas_dsyrk(Layout, UPLO, Trans, N, K, alpha, A, lda, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void cblas_dsyr2k(Layout Layout, UpLo Uplo,
+        static extern void cblas_dsyr2k(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             double alpha, double[] A, int lda,
             double[] B, int ldb, double beta,
             double[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dsyr2k(Layout Layout, UpLo Uplo,
+        public static void syr2k(Layout Layout, UpLoBlas UPLO,
             Transpose Trans, int N, int K,
             double alpha, double[] A, int lda,
             double[] B, int ldb, double beta,
             double[] C, int ldc)
-            => cblas_dsyr2k(Layout, Uplo, Trans, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
+            => cblas_dsyr2k(Layout, UPLO, Trans, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dtrmm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             double alpha, double[] A, int lda,
             double[] B, int ldb);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtrmm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+        public static void trmm(Layout Layout, Side Side,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             double alpha, double[] A, int lda,
             double[] B, int ldb)
-            => cblas_dtrmm(Layout, Side, Uplo, TransA, Diag, M, N, alpha, A, lda, B, ldb);
+            => cblas_dtrmm(Layout, Side, UPLO, TransA, Diag, M, N, alpha, A, lda, B, ldb);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dtrsm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             double alpha, double[] A, int lda,
             double[] B, int ldb);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dtrsm(Layout Layout, Side Side,
-            UpLo Uplo, Transpose TransA,
+        public static void trsm(Layout Layout, Side Side,
+            UpLoBlas UPLO, Transpose TransA,
             Diag Diag, int M, int N,
             double alpha, double[] A, int lda,
             double[] B, int ldb)
-            => cblas_dtrsm(Layout, Side, Uplo, TransA, Diag, M, N, alpha, A, lda, B, ldb);
+            => cblas_dtrsm(Layout, Side, UPLO, TransA, Diag, M, N, alpha, A, lda, B, ldb);
     }
 }
