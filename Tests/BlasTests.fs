@@ -627,40 +627,90 @@ let blas_1 =
 let blas_2 =
     test "2" {
 
-        test "sgemv" {
-            let y = Array.zeroCreate 3
-            Blas.sgemv(Layout.RowMajor, Transpose.No, 3, 3, -2.0f,
-                [| 1.0f; 1.0f; 2.0f; 1.0f; 2.0f; 1.0f; 2.0f; 1.0f; 1.0f |], 3,
-                [| 3.0f; -1.0f; 2.0f |],
-                1, 2.0f, y, 1)
-            Check.equal [| -12.0f; -6.0f; -14.0f |] y
+        test "gemv_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.Unit.Array.[rows*cols]
+            let! x = Gen.Double.Unit.Array.[cols]
+            let! y = Gen.Double.Unit.Array.[rows]
+            let! alpha = Gen.Double.Unit
+            let! beta = Gen.Double.Unit
+            let expected = Array.init rows (fun i ->
+                let mutable t = 0.0
+                for j = 0 to cols-1 do
+                    t <- t + A.[j+i*cols] * x.[j]
+                alpha * t + beta * y.[i]
+            )
+            Blas.gemv(Layout.RowMajor, Transpose.No, rows, cols, alpha,
+                A, cols, x, 0, 1, beta, y, 0, 1)
+            Check.close High expected y
         }
 
-        test "dgemv" {
-            let y = Array.zeroCreate 3
-            Blas.dgemv(Layout.RowMajor, Transpose.No, 3, 3, -2.0,
-                [| 1.0; 1.0; 2.0; 1.0; 2.0; 1.0; 2.0; 1.0; 1.0 |], 3,
-                [| 3.0; -1.0; 2.0 |],
-                1, 2.0, y, 1)
-            Check.equal [| -12.0; -6.0; -14.0 |] y
+        test "gemv_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.Unit.Array.[rows*cols]
+            let! x = Gen.Single.Unit.Array.[cols]
+            let! y = Gen.Single.Unit.Array.[rows]
+            let! alpha = Gen.Single.Unit
+            let! beta = Gen.Single.Unit
+            let expected = Array.init rows (fun i ->
+                let mutable t = 0.0f
+                for j = 0 to cols-1 do
+                    t <- t + A.[j+i*cols] * x.[j]
+                alpha * t + beta * y.[i]
+            )
+            Blas.gemv(Layout.RowMajor, Transpose.No, rows, cols, alpha,
+                A, cols, x, 0, 1, beta, y, 0, 1)
+            Check.close High expected y
+        }
+    }
+
+let blas_3 =
+    test "3" {
+
+        test "gemm_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! colsA = Gen.Int.[1,COLS_MAX]
+            let! colsB = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.Unit.Array.[rows*colsA]
+            let! B = Gen.Double.Unit.Array.[colsA*colsB]
+            let! C = Gen.Double.Unit.Array.[rows*colsB]
+            let! alpha = Gen.Double.Unit
+            let! beta = Gen.Double.Unit
+            let expected = Array.init (rows*colsB) (fun ci ->
+                let mutable t = 0.0
+                let col = ci % colsB
+                let row = ci / colsB
+                for k = 0 to colsA-1 do
+                    t <- t + A.[k+row*colsA] * B.[col+k*colsB]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.gemm(Layout.RowMajor, Transpose.No, Transpose.No, rows, colsB, colsA, alpha,
+                A, colsA, B, colsB, beta, C, colsB)
+            Check.close High expected C
         }
 
-        test "sgemm" {
-            let c = Array.zeroCreate 6
-            Blas.sgemm(Layout.RowMajor, Transpose.No, Transpose.No, 3, 2, 3, 1.0f,
-                [| 8.0f; 4.0f; 2.0f; 1.0f; 3.0f; -6.0f; -7.0f; 0.0f; 5.0f |], 3,
-                [| 5.0f; 2.0f; 3.0f; 1.0f; 4.0f; -1.0f |], 2,
-                1.0f, c, 2)
-            Check.equal [| 60.0f; 18.0f; -10.0f; 11.0f; -15.0f; -19.0f |] c
-        }
-
-        test "dgemm" {
-            let c = Array.zeroCreate 6
-            Blas.dgemm(Layout.RowMajor, Transpose.No, Transpose.No, 3, 2, 3, 1.0,
-                [| 8.0; 4.0; 2.0; 1.0; 3.0; -6.0; -7.0; 0.0; 5.0 |], 3,
-                [| 5.0; 2.0; 3.0; 1.0; 4.0; -1.0 |], 2,
-                1.0, c, 2)
-            Check.equal [| 60.0; 18.0; -10.0; 11.0; -15.0; -19.0 |] c
+        test "gemm_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! colsA = Gen.Int.[1,COLS_MAX]
+            let! colsB = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.Unit.Array.[rows*colsA]
+            let! B = Gen.Single.Unit.Array.[colsA*colsB]
+            let! C = Gen.Single.Unit.Array.[rows*colsB]
+            let! alpha = Gen.Single.Unit
+            let! beta = Gen.Single.Unit
+            let expected = Array.init (rows*colsB) (fun ci ->
+                let mutable t = 0.0f
+                let col = ci % colsB
+                let row = ci / colsB
+                for k = 0 to colsA-1 do
+                    t <- t + A.[k+row*colsA] * B.[col+k*colsB]
+                alpha * t + beta * C.[ci]
+            )
+            Blas.gemm(Layout.RowMajor, Transpose.No, Transpose.No, rows, colsB, colsA, alpha,
+                A, colsA, B, colsB, beta, C, colsB)
+            Check.close High expected C
         }
     }
 
@@ -668,4 +718,5 @@ let all =
     test "blas" {
         blas_1
         blas_2
+        blas_3
     }

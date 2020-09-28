@@ -411,16 +411,20 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sgemv(Layout Layout,
             Transpose TransA, int M, int N,
-            float alpha, float[] A, int lda,
-            float[] X, int incX, float beta,
-            float[] Y, int incY);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sgemv(Layout Layout,
+            float alpha, float* A, int lda,
+            float* X, int incX, float beta,
+            float* Y, int incY);
+        public static void gemv(Layout Layout,
             Transpose TransA, int M, int N,
             float alpha, float[] A, int lda,
-            float[] X, int incX, float beta,
-            float[] Y, int incY)
-            => cblas_sgemv(Layout, TransA, M, N, alpha, A, lda, X, incX, beta, Y, incY);
+            float[] X, int iniX, int incX, float beta,
+            float[] Y, int iniY, int incY)
+        {
+            fixed (float* ap = &A[0])
+            fixed (float* xp = &X[iniX])
+            fixed (float* yp = &Y[iniY])
+                cblas_sgemv(Layout, TransA, M, N, alpha, ap, lda, xp, incX, beta, yp, incY);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_sgbmv(Layout Layout,
@@ -507,16 +511,20 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dgemv(Layout Layout,
             Transpose TransA, int M, int N,
-            double alpha, double[] A, int lda,
-            double[] X, int incX, double beta,
-            double[] Y, int incY);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dgemv(Layout Layout,
+            double alpha, double* A, int lda,
+            double* X, int incX, double beta,
+            double* Y, int incY);
+        public static void gemv(Layout Layout,
             Transpose TransA, int M, int N,
             double alpha, double[] A, int lda,
-            double[] X, int incX, double beta,
-            double[] Y, int incY)
-            => cblas_dgemv(Layout, TransA, M, N, alpha, A, lda, X, incX, beta, Y, incY);
+            double[] X, int iniX, int incX, double beta,
+            double[] Y, int iniY, int incY)
+        {
+            fixed (double* ap = &A[0])
+            fixed (double* xp = &X[iniX])
+            fixed (double* yp = &Y[iniY])
+                cblas_dgemv(Layout, TransA, M, N, alpha, ap, lda, xp, incX, beta, yp, incY);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void cblas_dgbmv(Layout Layout,
@@ -785,7 +793,7 @@ namespace MKLNET
             int lda, float[] B, int ldb,
             float beta, float[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sgemm(Layout Layout, Transpose TransA,
+        public static void gemm(Layout Layout, Transpose TransA,
             Transpose TransB, int M, int N,
             int K, float alpha, float[] A,
             int lda, float[] B, int ldb,
@@ -883,7 +891,7 @@ namespace MKLNET
             int lda, double[] B, int ldb,
             double beta, double[] C, int ldc);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void dgemm(Layout Layout, Transpose TransA,
+        public static void gemm(Layout Layout, Transpose TransA,
             Transpose TransB, int M, int N,
             int K, double alpha, double[] A,
             int lda, double[] B, int ldb,
