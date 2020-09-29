@@ -642,7 +642,7 @@ let blas_2 =
                     t <- t + A.[j+i*cols] * x.[j]
                 alpha * t + beta * y.[i]
             )
-            Blas.gemv(Layout.RowMajor, Transpose.No, rows, cols, alpha,
+            Blas.gemv(Layout.RowMajor, Trans.No, rows, cols, alpha,
                 A, cols, x, 0, 1, beta, y, 0, 1)
             Check.close High expected y
         }
@@ -661,7 +661,7 @@ let blas_2 =
                     t <- t + A.[j+i*cols] * x.[j]
                 alpha * t + beta * y.[i]
             )
-            Blas.gemv(Layout.RowMajor, Transpose.No, rows, cols, alpha,
+            Blas.gemv(Layout.RowMajor, Trans.No, rows, cols, alpha,
                 A, cols, x, 0, 1, beta, y, 0, 1)
             Check.close High expected y
         }
@@ -707,7 +707,7 @@ let blas_2 =
                     t <- t + A.[if j>i then i+j*rows else j+i*rows] * x.[j]
                 alpha * t + beta * y.[i]
             )
-            Blas.symv(Layout.RowMajor, UpLoBlas.Lower, rows, alpha, A, rows, x, 0, 1, beta, y, 0, 1)
+            Blas.symv(Layout.RowMajor, UpLo.Lower, rows, alpha, A, rows, x, 0, 1, beta, y, 0, 1)
             Check.close High expected y
         }
 
@@ -724,7 +724,7 @@ let blas_2 =
                     t <- t + A.[if j>i then i+j*rows else j+i*rows] * x.[j]
                 alpha * t + beta * y.[i]
             )
-            Blas.symv(Layout.RowMajor, UpLoBlas.Lower, rows, alpha, A, rows, x, 0, 1, beta, y, 0, 1)
+            Blas.symv(Layout.RowMajor, UpLo.Lower, rows, alpha, A, rows, x, 0, 1, beta, y, 0, 1)
             Check.close High expected y
         }
 
@@ -738,7 +738,7 @@ let blas_2 =
                 if col > row then A.[ai]
                 else alpha * x.[row] * x.[col] + A.[ai]
             )
-            Blas.syr(Layout.RowMajor, UpLoBlas.Lower, rows, alpha, x, 0, 1, A, rows)
+            Blas.syr(Layout.RowMajor, UpLo.Lower, rows, alpha, x, 0, 1, A, rows)
             Check.close High expected A
         }
 
@@ -752,7 +752,7 @@ let blas_2 =
                 if col > row then A.[ai]
                 else alpha * x.[row] * x.[col] + A.[ai]
             )
-            Blas.syr(Layout.RowMajor, UpLoBlas.Lower, rows, alpha, x, 0, 1, A, rows)
+            Blas.syr(Layout.RowMajor, UpLo.Lower, rows, alpha, x, 0, 1, A, rows)
             Check.close High expected A
         }
 
@@ -767,7 +767,7 @@ let blas_2 =
                 if col > row then A.[ai]
                 else alpha * (x.[row] * y.[col] + y.[row] * x.[col]) + A.[ai]
             )
-            Blas.syr2(Layout.RowMajor, UpLoBlas.Lower, rows, alpha, x, 0, 1, y, 0, 1, A, rows)
+            Blas.syr2(Layout.RowMajor, UpLo.Lower, rows, alpha, x, 0, 1, y, 0, 1, A, rows)
             Check.close High expected A
         }
 
@@ -782,7 +782,7 @@ let blas_2 =
                 if col > row then A.[ai]
                 else alpha * (x.[row] * y.[col] + y.[row] * x.[col]) + A.[ai]
             )
-            Blas.syr2(Layout.RowMajor, UpLoBlas.Lower, rows, alpha, x, 0, 1, y, 0, 1, A, rows)
+            Blas.syr2(Layout.RowMajor, UpLo.Lower, rows, alpha, x, 0, 1, y, 0, 1, A, rows)
             Check.close High expected A
         }
 
@@ -796,7 +796,7 @@ let blas_2 =
                     t <- t + A.[j+i*rows] * x.[j]
                 t
             )
-            Blas.trmv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trmv(Layout.RowMajor, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, A, rows, x, 0, 1)
             Check.close High expected x
         }
@@ -811,7 +811,7 @@ let blas_2 =
                     t <- t + A.[j+i*rows] * x.[j]
                 t
             )
-            Blas.trmv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trmv(Layout.RowMajor, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, A, rows, x, 0, 1)
             Check.close High expected x
         }
@@ -826,7 +826,7 @@ let blas_2 =
                     t <- t + A.[j+i*rows] * x.[j]
                 t
             )
-            Blas.trsv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trsv(Layout.RowMajor, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, A, rows, b, 0, 1)
             Check.close High x b
         }
@@ -841,7 +841,7 @@ let blas_2 =
                     t <- t + A.[j+i*rows] * x.[j]
                 t
             )
-            Blas.trsv(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trsv(Layout.RowMajor, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, A, rows, b, 0, 1)
             Check.close High x b
         }
@@ -866,7 +866,7 @@ let blas_3 =
                     t <- t + A.[k+row*colsA] * B.[col+k*colsB]
                 alpha * t + beta * C.[ci]
             )
-            Blas.gemm(Layout.RowMajor, Transpose.No, Transpose.No, rows, colsB, colsA, alpha,
+            Blas.gemm(Layout.RowMajor, Trans.No, Trans.No, rows, colsB, colsA, alpha,
                 A, colsA, B, colsB, beta, C, colsB)
             Check.close High expected C
         }
@@ -887,7 +887,7 @@ let blas_3 =
                     t <- t + A.[k+row*colsA] * B.[col+k*colsB]
                 alpha * t + beta * C.[ci]
             )
-            Blas.gemm(Layout.RowMajor, Transpose.No, Transpose.No, rows, colsB, colsA, alpha,
+            Blas.gemm(Layout.RowMajor, Trans.No, Trans.No, rows, colsB, colsA, alpha,
                 A, colsA, B, colsB, beta, C, colsB)
             Check.close High expected C
         }
@@ -907,7 +907,7 @@ let blas_3 =
                     t <- t + A.[if k>row then row+k*rows else k+row*rows] * B.[col+k*cols]
                 alpha * t + beta * C.[ci]
             )
-            Blas.symm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, rows, cols, alpha,
+            Blas.symm(Layout.RowMajor, Side.Left, UpLo.Lower, rows, cols, alpha,
                 A, rows, B, cols, beta, C, cols)
             Check.close High expected C
         }
@@ -927,7 +927,7 @@ let blas_3 =
                     t <- t + A.[if k>row then row+k*rows else k+row*rows] * B.[col+k*cols]
                 alpha * t + beta * C.[ci]
             )
-            Blas.symm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, rows, cols, alpha,
+            Blas.symm(Layout.RowMajor, Side.Left, UpLo.Lower, rows, cols, alpha,
                 A, rows, B, cols, beta, C, cols)
             Check.close High expected C
         }
@@ -948,7 +948,7 @@ let blas_3 =
                     t <- t + A.[k+row*cols] * A.[k+col*cols]
                 alpha * t + beta * C.[ci]
             )
-            Blas.syrk(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+            Blas.syrk(Layout.RowMajor, UpLo.Lower, Trans.No, rows, cols, alpha,
                 A, cols, beta, C, rows)
             Check.close High expected C
         }
@@ -969,7 +969,7 @@ let blas_3 =
                     t <- t + A.[k+row*cols] * A.[k+col*cols]
                 alpha * t + beta * C.[ci]
             )
-            Blas.syrk(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+            Blas.syrk(Layout.RowMajor, UpLo.Lower, Trans.No, rows, cols, alpha,
                 A, cols, beta, C, rows)
             Check.close High expected C
         }
@@ -992,7 +992,7 @@ let blas_3 =
                            + B.[k+row*cols] * A.[k+col*cols]
                 alpha * t + beta * C.[ci]
             )
-            Blas.syr2k(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+            Blas.syr2k(Layout.RowMajor, UpLo.Lower, Trans.No, rows, cols, alpha,
                 A, cols, B, cols, beta, C, rows)
             Check.close High expected C
         }
@@ -1015,7 +1015,7 @@ let blas_3 =
                            + B.[k+row*cols] * A.[k+col*cols]
                 alpha * t + beta * C.[ci]
             )
-            Blas.syr2k(Layout.RowMajor, UpLoBlas.Lower, Transpose.No, rows, cols, alpha,
+            Blas.syr2k(Layout.RowMajor, UpLo.Lower, Trans.No, rows, cols, alpha,
                 A, cols, B, cols, beta, C, rows)
             Check.close High expected C
         }
@@ -1033,7 +1033,7 @@ let blas_3 =
                     t <- t + A.[k+row*rows] * B.[col+k*cols]
                 alpha * t
             )
-            Blas.trmm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trmm(Layout.RowMajor, Side.Left, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, cols, alpha, A, rows, B, cols)
             Check.close High expected B
         }
@@ -1051,7 +1051,7 @@ let blas_3 =
                     t <- t + A.[k+row*rows] * B.[col+k*cols]
                 alpha * t
             )
-            Blas.trmm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trmm(Layout.RowMajor, Side.Left, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, cols, alpha, A, rows, B, cols)
             Check.close High expected B
         }
@@ -1069,7 +1069,7 @@ let blas_3 =
                     t <- t + A.[k+row*rows] * X.[col+k*cols]
                 t / alpha
             )
-            Blas.trsm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trsm(Layout.RowMajor, Side.Left, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, cols, alpha, A, rows, B, cols)
             Check.close High X B
         }
@@ -1087,7 +1087,7 @@ let blas_3 =
                     t <- t + A.[k+row*rows] * X.[col+k*cols]
                 t / alpha
             )
-            Blas.trsm(Layout.RowMajor, Side.Left, UpLoBlas.Lower, Transpose.No, Diag.NonUnit,
+            Blas.trsm(Layout.RowMajor, Side.Left, UpLo.Lower, Trans.No, Diag.NonUnit,
                 rows, cols, alpha, A, rows, B, cols)
             Check.close High X B
         }
@@ -1159,7 +1159,7 @@ let blas_like =
                 let col, row = Math.DivRem(i,rows)
                 a * x.[col+row*cols]
             )
-            Blas.imatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
+            Blas.imatcopy(LayoutChar.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
             Check.close High expected x
         }
 
@@ -1172,7 +1172,7 @@ let blas_like =
                 let col, row = Math.DivRem(i,rows)
                 a * x.[col+row*cols]
             )
-            Blas.imatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
+            Blas.imatcopy(LayoutChar.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
             Check.close High expected x
         }
 
@@ -1186,7 +1186,7 @@ let blas_like =
                 let col, row = Math.DivRem(i,rows)
                 a * x.[col+row*cols]
             )
-            Blas.omatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,y,rows)
+            Blas.omatcopy(LayoutChar.RowMajor,TransChar.Yes,rows,cols,a,x,cols,y,rows)
             Check.close High expected y
         }
 
@@ -1200,7 +1200,7 @@ let blas_like =
                 let col, row = Math.DivRem(i,rows)
                 a * x.[col+row*cols]
             )
-            Blas.omatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,y,rows)
+            Blas.omatcopy(LayoutChar.RowMajor,TransChar.Yes,rows,cols,a,x,cols,y,rows)
             Check.close High expected y
         }
 
@@ -1213,7 +1213,7 @@ let blas_like =
             let! B = Gen.Double.Unit.Array.[rows*cols]
             let C = Array.zeroCreate (rows*cols)
             let expected = Array.init (rows*cols) (fun i -> alpha * A.[i] + beta * B.[i])
-            Blas.omatadd(Ordering.RowMajor,TransChar.No,TransChar.No,rows,cols,alpha,A,cols,beta,B,cols,C,cols)
+            Blas.omatadd(LayoutChar.RowMajor,TransChar.No,TransChar.No,rows,cols,alpha,A,cols,beta,B,cols,C,cols)
             Check.close High expected C
         }
 
@@ -1226,7 +1226,7 @@ let blas_like =
             let! B = Gen.Single.Unit.Array.[rows*cols]
             let C = Array.zeroCreate (rows*cols)
             let expected = Array.init (rows*cols) (fun i -> alpha * A.[i] + beta * B.[i])
-            Blas.omatadd(Ordering.RowMajor,TransChar.No,TransChar.No,rows,cols,alpha,A,cols,beta,B,cols,C,cols)
+            Blas.omatadd(LayoutChar.RowMajor,TransChar.No,TransChar.No,rows,cols,alpha,A,cols,beta,B,cols,C,cols)
             Check.close High expected C
         }
     }

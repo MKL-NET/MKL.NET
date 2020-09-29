@@ -9,13 +9,13 @@ namespace MKLNET
         ColMajor = 102,
     }
 
-    public enum Ordering : byte
+    public enum LayoutChar : byte
     {
         RowMajor = (byte)'R',
         ColMajor = (byte)'C',
     }
 
-    public enum Transpose
+    public enum Trans
     {
         No = 111,
         Yes = 112,
@@ -45,13 +45,13 @@ namespace MKLNET
         Right = 142,
     }
 
-    public enum UpLoBlas
+    public enum UpLo
     {
         Upper = 121,
         Lower = 122,
     }
 
-    public enum UpLo : byte
+    public enum UpLoChar : byte
     {
         Lower = (byte)'L',
         Upper = (byte)'U',
