@@ -65,23 +65,23 @@ let all =
 
         let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
         let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
-        rngRegTest VslBrng.MCG31         1009u 240663825952782091L
-        rngRegTest VslBrng.R250          1019u 3180522132078349787L
-        rngRegTest VslBrng.MRG32K3A      1029u 3910737405938184203L
-        rngRegTest VslBrng.MCG59         1039u 3099774634260532847L
-        rngRegTest VslBrng.WH            1049u 1577950657212625620L
-        rngRegTest VslBrng.SOBOL         1059u 2972904373591817001L
-        rngRegTest VslBrng.NIEDERR       1069u 2972904373591817001L
-        rngRegTest VslBrng.MT19937       1079u 1468232512089276129L
-        rngRegTest VslBrng.MT2203        1089u 3720494548499859774L
-        rngRegTest VslBrng.SFMT19937     1099u 1441199722547064088L
-        rngRegTest VslBrng.ARS5          1109u 1112439351205077107L
-        rngRegTest VslBrng.PHILOX4X32X10 1119u 2565555435408122464L
+        rngRegTest VslBrng.MCG31         4009u 3013428300987316150L
+        rngRegTest VslBrng.R250          4019u 3049171035733612682L
+        rngRegTest VslBrng.MRG32K3A      4029u 3250615175508194000L
+        rngRegTest VslBrng.MCG59         4039u 330405616378413966L
+        rngRegTest VslBrng.WH            4049u 3665759929813133342L
+        rngRegTest VslBrng.SOBOL         4059u 2972904373591817001L
+        rngRegTest VslBrng.NIEDERR       4069u 2972904373591817001L
+        rngRegTest VslBrng.MT19937       4079u 58059448151894752L
+        rngRegTest VslBrng.MT2203        4089u 3883114048211896142L
+        rngRegTest VslBrng.SFMT19937     4099u 2364233384765564780L
+        rngRegTest VslBrng.ARS5          4109u 899812096393549599L
+        rngRegTest VslBrng.PHILOX4X32X10 4119u 1671627428179700175L
 
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
-            let! x = Gen.Double.[1.0,2.0].Array.[obvs*vars]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
@@ -99,7 +99,7 @@ let all =
         test "mean_single" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
-            let! x = Gen.Single.[1.0f,2.0f].Array.[obvs*vars]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
@@ -117,7 +117,7 @@ let all =
         test "mean_weight" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
-            let! x = Gen.Double.[1.0,2.0].Array.[obvs*vars]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let weight = Array.init obvs (fun i -> double(i+1))
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x, weight)

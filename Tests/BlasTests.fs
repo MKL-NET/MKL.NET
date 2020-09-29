@@ -818,8 +818,8 @@ let blas_2 =
 
         test "trsv_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! A = Gen.Double.[1.0,2.0].Array.[rows*rows]
-            let! x = Gen.Double.[1.0,2.0].Array.[rows]
+            let! A = Gen.Double.OneTwo.Array.[rows*rows]
+            let! x = Gen.Double.OneTwo.Array.[rows]
             let b = Array.init rows (fun i ->
                 let mutable t = 0.0
                 for j = 0 to i do
@@ -833,8 +833,8 @@ let blas_2 =
 
         test "trsv_single" {
             let rows = 2
-            let! A = Gen.Single.[1.0f,2.0f].Array.[rows*rows]
-            let! x = Gen.Single.[1.0f,2.0f].Array.[rows]
+            let! A = Gen.Single.OneTwo.Array.[rows*rows]
+            let! x = Gen.Single.OneTwo.Array.[rows]
             let b = Array.init rows (fun i ->
                 let mutable t = 0.0f
                 for j = 0 to i do
@@ -1059,9 +1059,9 @@ let blas_3 =
         test "trsm_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
             let! cols = Gen.Int.[1,COLS_MAX]
-            let! A = Gen.Double.[1.0,2.0].Array.[rows*rows]
-            let! X = Gen.Double.[1.0,2.0].Array.[rows*cols]
-            let! alpha = Gen.Double.[1.0,2.0]
+            let! A = Gen.Double.OneTwo.Array.[rows*rows]
+            let! X = Gen.Double.OneTwo.Array.[rows*cols]
+            let! alpha = Gen.Double.OneTwo
             let B = Array.init (rows*cols) (fun ci ->
                 let row, col = Math.DivRem(ci,cols)
                 let mutable t = 0.0
@@ -1077,9 +1077,9 @@ let blas_3 =
         test "trsm_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
             let! cols = Gen.Int.[1,COLS_MAX]
-            let! A = Gen.Single.[1.0f,2.0f].Array.[rows*rows]
-            let! X = Gen.Single.[1.0f,2.0f].Array.[rows*cols]
-            let! alpha = Gen.Single.[1.0f,2.0f]
+            let! A = Gen.Single.OneTwo.Array.[rows*rows]
+            let! X = Gen.Single.OneTwo.Array.[rows*cols]
+            let! alpha = Gen.Single.OneTwo
             let B = Array.init (rows*cols) (fun ci ->
                 let row, col = Math.DivRem(ci,cols)
                 let mutable t = 0.0f
