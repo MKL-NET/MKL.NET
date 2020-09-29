@@ -63,20 +63,20 @@ let all =
         rngRegTest VslBrng.ARS5          3109u 3117495654345613975L
         rngRegTest VslBrng.PHILOX4X32X10 3119u 1011914356974091933L
 
-        //let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
-        //let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
-        //rngRegTest VslBrng.MCG31         1009u -477742185
-        //rngRegTest VslBrng.R250          1019u 34019462
-        //rngRegTest VslBrng.MRG32K3A      1029u 531787785
-        //rngRegTest VslBrng.MCG59         1039u 305228422
-        //rngRegTest VslBrng.WH            1049u -910026792
-        //rngRegTest VslBrng.SOBOL         1059u 397983813
-        //rngRegTest VslBrng.NIEDERR       1069u 397983813
-        //rngRegTest VslBrng.MT19937       1079u -10815693
-        //rngRegTest VslBrng.MT2203        1089u 322220006
-        //rngRegTest VslBrng.SFMT19937     1099u -541654099
-        //rngRegTest VslBrng.ARS5          1109u 1424906080
-        //rngRegTest VslBrng.PHILOX4X32X10 1119u -313251387
+        let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
+        let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
+        rngRegTest VslBrng.MCG31         1009u 240663825952782091L
+        rngRegTest VslBrng.R250          1019u 3180522132078349787L
+        rngRegTest VslBrng.MRG32K3A      1029u 3910737405938184203L
+        rngRegTest VslBrng.MCG59         1039u 3099774634260532847L
+        rngRegTest VslBrng.WH            1049u 1577950657212625620L
+        rngRegTest VslBrng.SOBOL         1059u 2972904373591817001L
+        rngRegTest VslBrng.NIEDERR       1069u 2972904373591817001L
+        rngRegTest VslBrng.MT19937       1079u 1468232512089276129L
+        rngRegTest VslBrng.MT2203        1089u 3720494548499859774L
+        rngRegTest VslBrng.SFMT19937     1099u 1441199722547064088L
+        rngRegTest VslBrng.ARS5          1109u 1112439351205077107L
+        rngRegTest VslBrng.PHILOX4X32X10 1119u 2565555435408122464L
 
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
