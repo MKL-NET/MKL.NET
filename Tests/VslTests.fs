@@ -48,20 +48,20 @@ let all =
         rngRegTest VslBrng.ARS5          2109u 737431650934642902L
         rngRegTest VslBrng.PHILOX4X32X10 2119u 3760308599493149230L
 
-        //let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
-        //let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected
-        //rngRegTest VslBrng.MCG31         3009u 1487154284
-        //rngRegTest VslBrng.R250          3019u 1093008071
-        //rngRegTest VslBrng.MRG32K3A      3029u 1832786184
-        //rngRegTest VslBrng.MCG59         3039u 1979245813
-        //rngRegTest VslBrng.WH            3049u 330003878
-        //rngRegTest VslBrng.SOBOL         3059u 740692057
-        //rngRegTest VslBrng.NIEDERR       3069u 740692057
-        //rngRegTest VslBrng.MT19937       3079u 1857274234
-        //rngRegTest VslBrng.MT2203        3089u -853301411
-        //rngRegTest VslBrng.SFMT19937     3099u 1279953302
-        //rngRegTest VslBrng.ARS5          3109u 588225730
-        //rngRegTest VslBrng.PHILOX4X32X10 3119u 1201934039
+        let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
+        let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected
+        rngRegTest VslBrng.MCG31         3009u 2554372213837656950L
+        rngRegTest VslBrng.R250          3019u 605032273881860902L
+        rngRegTest VslBrng.MRG32K3A      3029u 3199080429053811877L
+        rngRegTest VslBrng.MCG59         3039u 983679901418487041L
+        rngRegTest VslBrng.WH            3049u 2368885861067961391L
+        rngRegTest VslBrng.SOBOL         3059u 462579700310600779L
+        rngRegTest VslBrng.NIEDERR       3069u 462579700310600779L
+        rngRegTest VslBrng.MT19937       3079u 218873978465295057L
+        rngRegTest VslBrng.MT2203        3089u 1027738328642721635L
+        rngRegTest VslBrng.SFMT19937     3099u 559936188835746029L
+        rngRegTest VslBrng.ARS5          3109u 3117495654345613975L
+        rngRegTest VslBrng.PHILOX4X32X10 3119u 1011914356974091933L
 
         //let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
         //let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
