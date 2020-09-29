@@ -78,6 +78,21 @@ let all =
         rngRegTest VslBrng.ARS5          4109u 899812096393549599L
         rngRegTest VslBrng.PHILOX4X32X10 4119u 1671627428179700175L
 
+        let rng s (r:double[]) = Vsl.RngExponential(VslMethodExponential.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
+        let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected
+        rngRegTest VslBrng.MCG31         5009u 3261385093996348613L
+        rngRegTest VslBrng.R250          5019u 3436253156799410631L
+        rngRegTest VslBrng.MRG32K3A      5029u 3405657987443383710L
+        rngRegTest VslBrng.MCG59         5039u 1400168581003877311L
+        rngRegTest VslBrng.WH            5049u 2699859788165464138L
+        rngRegTest VslBrng.SOBOL         5059u 233432783296214338L
+        rngRegTest VslBrng.NIEDERR       5069u 233432783296214338L
+        rngRegTest VslBrng.MT19937       5079u 3937998186082149097L
+        rngRegTest VslBrng.MT2203        5089u 2924778465710312898L
+        rngRegTest VslBrng.SFMT19937     5099u 3070607586425730182L
+        rngRegTest VslBrng.ARS5          5109u 1053199769922906029L
+        rngRegTest VslBrng.PHILOX4X32X10 5119u 1581063928291000028L
+
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
