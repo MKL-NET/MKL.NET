@@ -4,9 +4,8 @@ open System
 open MKLNET
 open CsCheck
 
-let all =
-    test "Vsl" {
-
+let rng =
+    test "rng" {
         let rngRegressionTest name gen brng seed hash =
             let name = name + "_" + Enum.GetName(typeof<VslBrng>, brng)
             test ("rng_"+name) {
@@ -93,6 +92,24 @@ let all =
         rngRegTest VslBrng.ARS5          5109u 1053199769922906029L
         rngRegTest VslBrng.PHILOX4X32X10 5119u 1581063928291000028L
 
+        let rng s r = Vsl.RngGamma(VslMethodGamma.ICDF_ACCURATE, s, Array.length r, r, 1.0, 0.0, 0.5)
+        let rngRegTest brng seed expected = rngRegressionTest "gamma" rng brng seed expected
+        rngRegTest VslBrng.MCG31         6009u 3221525151326641826L
+        rngRegTest VslBrng.R250          6019u 343399800394395439L
+        rngRegTest VslBrng.MRG32K3A      6029u 1286969307799861790L
+        rngRegTest VslBrng.MCG59         6039u 3631106508509849642L
+        rngRegTest VslBrng.WH            6049u 3585728331391662728L
+        rngRegTest VslBrng.SOBOL         6059u 1872404584182394487L
+        rngRegTest VslBrng.NIEDERR       6069u 1872404584182394487L
+        rngRegTest VslBrng.MT19937       6079u 1303128071495044873L
+        rngRegTest VslBrng.MT2203        6089u 3060060161638742674L
+        rngRegTest VslBrng.SFMT19937     6099u 2306122516516863296L
+        rngRegTest VslBrng.ARS5          6109u 4281826517942208154L
+        rngRegTest VslBrng.PHILOX4X32X10 6119u 474843401138002659L
+    }
+
+let stats =
+    test "SS" {
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
@@ -150,6 +167,10 @@ let all =
             )
             Check.close VeryHigh expected mean
         }
+    }
+
+let conv_corr =
+    test "conv_corr" {
 
         test "corr_double" {
             let! x = Gen.Double.[0.0,100.0].Array.[1,100]
@@ -186,4 +207,11 @@ let all =
             Vsl.ConvExec1D(task, x, 1, y, 1, z, 1) |> Check.equal 0
             Array.sum z |> Check.greaterThan 0.0f
         }
+    }
+
+let all =
+    test "Vsl" {
+        rng
+        stats
+        conv_corr
     }
