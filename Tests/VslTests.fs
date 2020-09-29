@@ -186,6 +186,23 @@ let rng =
             rngRegTest VslBrng.ARS5          10109u 4272098222522881481L
             rngRegTest VslBrng.PHILOX4X32X10 10119u 2538632074952912975L
         }
+
+        test "uniform" {
+            let rng s r = Vsl.RngUniform(VslMethodUniform.STD_ACCURATE, s, Array.length r, r, 1.0, 2.0)
+            let rngRegTest brng seed expected = rngRegressionTest "uniform" rng brng seed expected
+            rngRegTest VslBrng.MCG31         11009u 2531303813583796990L
+            rngRegTest VslBrng.R250          11019u 4246682371978450839L
+            rngRegTest VslBrng.MRG32K3A      11029u 1891616263748256638L
+            rngRegTest VslBrng.MCG59         11039u 2829083621853501269L
+            rngRegTest VslBrng.WH            11049u 2440399153861225896L
+            rngRegTest VslBrng.SOBOL         11059u 536870913998004659L
+            rngRegTest VslBrng.NIEDERR       11069u 536870913998004659L
+            rngRegTest VslBrng.MT19937       11079u 958384326897628158L
+            rngRegTest VslBrng.MT2203        11089u 2247511991039200712L
+            rngRegTest VslBrng.SFMT19937     11099u 1612917012790411576L
+            rngRegTest VslBrng.ARS5          11109u 870447570130511209L
+            rngRegTest VslBrng.PHILOX4X32X10 11119u 4220763061341488726L
+        }
     }
 
 let stats =
