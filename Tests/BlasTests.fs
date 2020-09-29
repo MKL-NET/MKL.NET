@@ -1093,9 +1093,9 @@ let blas_3 =
         }
     }
 
-let blas_like =
-    test "like" {
-
+let blas_like_64_only =
+    test "like_64_only" {
+        
         test "axpby_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
             let! a = Gen.Double.Unit
@@ -1147,10 +1147,95 @@ let blas_like =
         }
     }
 
+let blas_like =
+    test "like" {
+
+        test "imatcopy_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! a = Gen.Double
+            let! x = Gen.Double.Array.[rows*cols]
+            let expected = Array.init (rows*cols) (fun i ->
+                let col, row = Math.DivRem(i,rows)
+                a * x.[col+row*cols]
+            )
+            Blas.imatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
+            Check.close High expected x
+        }
+
+        test "imatcopy_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! a = Gen.Single
+            let! x = Gen.Single.Array.[rows*cols]
+            let expected = Array.init (rows*cols) (fun i ->
+                let col, row = Math.DivRem(i,rows)
+                a * x.[col+row*cols]
+            )
+            Blas.imatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
+            Check.close High expected x
+        }
+
+        test "omatcopy_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! a = Gen.Double
+            let! x = Gen.Double.Array.[rows*cols]
+            let y = Array.zeroCreate (rows*cols)
+            let expected = Array.init (rows*cols) (fun i ->
+                let col, row = Math.DivRem(i,rows)
+                a * x.[col+row*cols]
+            )
+            Blas.omatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,y,rows)
+            Check.close High expected y
+        }
+
+        test "omatcopy_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! a = Gen.Single
+            let! x = Gen.Single.Array.[rows*cols]
+            let y = Array.zeroCreate (rows*cols)
+            let expected = Array.init (rows*cols) (fun i ->
+                let col, row = Math.DivRem(i,rows)
+                a * x.[col+row*cols]
+            )
+            Blas.omatcopy(Ordering.RowMajor,TransChar.Yes,rows,cols,a,x,cols,y,rows)
+            Check.close High expected y
+        }
+
+        test "omatadd_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! alpha = Gen.Double.Unit
+            let! beta = Gen.Double.Unit
+            let! A = Gen.Double.Unit.Array.[rows*cols]
+            let! B = Gen.Double.Unit.Array.[rows*cols]
+            let C = Array.zeroCreate (rows*cols)
+            let expected = Array.init (rows*cols) (fun i -> alpha * A.[i] + beta * B.[i])
+            Blas.omatadd(Ordering.RowMajor,TransChar.No,TransChar.No,rows,cols,alpha,A,cols,beta,B,cols,C,cols)
+            Check.close High expected C
+        }
+
+        test "omatadd_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! alpha = Gen.Single.Unit
+            let! beta = Gen.Single.Unit
+            let! A = Gen.Single.Unit.Array.[rows*cols]
+            let! B = Gen.Single.Unit.Array.[rows*cols]
+            let C = Array.zeroCreate (rows*cols)
+            let expected = Array.init (rows*cols) (fun i -> alpha * A.[i] + beta * B.[i])
+            Blas.omatadd(Ordering.RowMajor,TransChar.No,TransChar.No,rows,cols,alpha,A,cols,beta,B,cols,C,cols)
+            Check.close High expected C
+        }
+    }
+
 let all =
     test "blas" {
         blas_1
         blas_2
         blas_3
-        //blas_like
+        if Environment.Is64BitProcess then blas_like_64_only else []
+        blas_like
     }

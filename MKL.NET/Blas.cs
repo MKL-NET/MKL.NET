@@ -1096,5 +1096,45 @@ namespace MKLNET
             double alpha, double[] A, int lda,
             double[] B, int ldb)
             => cblas_dtrsm(Layout, Side, UPLO, TransA, Diag, M, N, alpha, A, lda, B, ldb);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void MKL_Dimatcopy(Ordering ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, int ldb);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void imatcopy(Ordering ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, int ldb)
+            => MKL_Dimatcopy(ordering, trans, rows, cols, alpha, A, lda, ldb);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void MKL_Simatcopy(Ordering ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, int ldb);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void imatcopy(Ordering ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, int ldb)
+            => MKL_Simatcopy(ordering, trans, rows, cols, alpha, A, lda, ldb);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void MKL_Domatcopy(Ordering ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, double[] B, int ldb);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void omatcopy(Ordering ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, double[] B, int ldb)
+            => MKL_Domatcopy(ordering, trans, rows, cols, alpha, A, lda, B, ldb);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void MKL_Somatcopy(Ordering ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, float[] B, int ldb);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void omatcopy(Ordering ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, float[] B, int ldb)
+            => MKL_Somatcopy(ordering, trans, rows, cols, alpha, A, lda, B, ldb);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void MKL_Domatadd(Ordering ordering, TransChar transa, TransChar transb, int rows, int cols, double alpha, double[] A,
+            int lda, double beta, double[] B, int ldb, double[] C, int ldc);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void omatadd(Ordering ordering, TransChar transa, TransChar transb, int rows, int cols, double alpha, double[] A,
+            int lda, double beta, double[] B, int ldb, double[] C, int ldc)
+            => MKL_Domatadd(ordering, transa, transb, rows, cols, alpha, A, lda, beta, B, ldb, C, ldc);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void MKL_Somatadd(Ordering ordering, TransChar transa, TransChar transb, int rows, int cols, float alpha, float[] A,
+            int lda, float beta, float[] B, int ldb, float[] C, int ldc);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void omatadd(Ordering ordering, TransChar transa, TransChar transb, int rows, int cols, float alpha, float[] A,
+            int lda, float beta, float[] B, int ldb, float[] C, int ldc)
+            => MKL_Somatadd(ordering, transa, transb, rows, cols, alpha, A, lda, beta, B, ldb, C, ldc);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace MKLNET
@@ -8,6 +7,12 @@ namespace MKLNET
     {
         RowMajor = 101,
         ColMajor = 102,
+    }
+
+    public enum Ordering : byte
+    {
+        RowMajor = (byte)'R',
+        ColMajor = (byte)'C',
     }
 
     public enum Transpose
