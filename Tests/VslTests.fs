@@ -33,20 +33,20 @@ let all =
         rngRegTest VslBrng.ARS5          1109u 902664128560390946L
         rngRegTest VslBrng.PHILOX4X32X10 1119u 1007062462772002442L
 
-        //let rng s r = Vsl.RngBeta(VslMethodBeta.CJA, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
-        //let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected
-        //rngRegTest VslBrng.MCG31         2009u 668123831151367569L
-        //rngRegTest VslBrng.R250          2019u 2694267132659165550L
-        //rngRegTest VslBrng.MRG32K3A      2029u 4030862350079524329L
-        //rngRegTest VslBrng.MCG59         2039u 2458365341119490795L
-        //rngRegTest VslBrng.WH            2049u 2449240157068043923L
-        //rngRegTest VslBrng.SOBOL         2059u 3982238621122909824L
-        //rngRegTest VslBrng.NIEDERR       2069u 3982238621122909824L
-        //rngRegTest VslBrng.MT19937       2079u 50877399811606908L
-        //rngRegTest VslBrng.MT2203        2089u 1443036476763881945L
-        //rngRegTest VslBrng.SFMT19937     2099u 3475646355979763546L
-        //rngRegTest VslBrng.ARS5          2109u 1605806262128146715L
-        //rngRegTest VslBrng.PHILOX4X32X10 2119u 2543094676414249274L
+        let rng s r = Vsl.RngBeta(VslMethodBeta.CJA, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
+        let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected
+        rngRegTest VslBrng.MCG31         2009u 3007063038128847251L
+        rngRegTest VslBrng.R250          2019u 3374066972319628839L
+        rngRegTest VslBrng.MRG32K3A      2029u 583529081042380527L
+        rngRegTest VslBrng.MCG59         2039u 3144430971418710325L
+        rngRegTest VslBrng.WH            2049u 2256846998793774208L
+        rngRegTest VslBrng.SOBOL         2059u 1748779858862532953L
+        rngRegTest VslBrng.NIEDERR       2069u 1748779858862532953L
+        rngRegTest VslBrng.MT19937       2079u 3507473686075455500L
+        rngRegTest VslBrng.MT2203        2089u 2384599116436423822L
+        rngRegTest VslBrng.SFMT19937     2099u 4252245473101236979L
+        rngRegTest VslBrng.ARS5          2109u 737431650934642902L
+        rngRegTest VslBrng.PHILOX4X32X10 2119u 3760308599493149230L
 
         //let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
         //let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected
