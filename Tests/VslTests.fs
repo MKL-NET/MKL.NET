@@ -33,7 +33,7 @@ let all =
         rngRegTest VslBrng.ARS5          1109u 902664128560390946L
         rngRegTest VslBrng.PHILOX4X32X10 1119u 1007062462772002442L
 
-        let rng s r = Vsl.RngBeta(VslMethodBeta.CJA, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
+        let rng s r = Vsl.RngBeta(VslMethodBeta.CJA_ACCURATE, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
         let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected
         rngRegTest VslBrng.MCG31         2009u 3007063038128847251L
         rngRegTest VslBrng.R250          2019u 3374066972319628839L
@@ -78,7 +78,7 @@ let all =
         rngRegTest VslBrng.ARS5          4109u 899812096393549599L
         rngRegTest VslBrng.PHILOX4X32X10 4119u 1671627428179700175L
 
-        let rng s (r:double[]) = Vsl.RngExponential(VslMethodExponential.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
+        let rng s r = Vsl.RngExponential(VslMethodExponential.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
         let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected
         rngRegTest VslBrng.MCG31         5009u 3261385093996348613L
         rngRegTest VslBrng.R250          5019u 3436253156799410631L
