@@ -7,105 +7,168 @@ open CsCheck
 let rng =
     test "rng" {
         let rngRegressionTest name gen brng seed hash =
-            let name = name + "_" + Enum.GetName(typeof<VslBrng>, brng)
-            test ("rng_"+name) {
+            let rngName = Enum.GetName(typeof<VslBrng>, brng)
+            test rngName {
                 let stream = Vsl.NewStream(brng, seed)
                 let r = Array.zeroCreate<double> 100
                 gen stream r |> Check.equal 0
                 Vsl.DeleteStream stream |> Check.equal 0
                 Array.sumBy abs r |> Check.notDefaultValue
-                Check.Hash(hash, (fun h -> h.AddSF(r,6)), name)
+                Check.Hash(hash, (fun h -> h.AddSF(r,6)), name + "_" + rngName)
             }
 
-        let rng s r = Vsl.RngGaussian(VslMethodGaussian.ICDF, s, Array.length r, r, 0.0, 1.0)
-        let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected
-        rngRegTest VslBrng.MCG31         1009u 3363136412936974698L
-        rngRegTest VslBrng.R250          1019u 483467208952316763L
-        rngRegTest VslBrng.MRG32K3A      1029u 3880012137407158688L
-        rngRegTest VslBrng.MCG59         1039u 1276390173367644893L
-        rngRegTest VslBrng.WH            1049u 2864157389607528761L
-        rngRegTest VslBrng.SOBOL         1059u 913519797090351680L
-        rngRegTest VslBrng.NIEDERR       1069u 913519797090351680L
-        rngRegTest VslBrng.MT19937       1079u 389138710951945826L
-        rngRegTest VslBrng.MT2203        1089u 381462857834239212L
-        rngRegTest VslBrng.SFMT19937     1099u 3998455859954030143L
-        rngRegTest VslBrng.ARS5          1109u 902664128560390946L
-        rngRegTest VslBrng.PHILOX4X32X10 1119u 1007062462772002442L
+        test "guassian" {
+            let rng s r = Vsl.RngGaussian(VslMethodGaussian.ICDF, s, Array.length r, r, 0.0, 1.0)
+            let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected
+            rngRegTest VslBrng.MCG31         1009u 3363136412936974698L
+            rngRegTest VslBrng.R250          1019u 483467208952316763L
+            rngRegTest VslBrng.MRG32K3A      1029u 3880012137407158688L
+            rngRegTest VslBrng.MCG59         1039u 1276390173367644893L
+            rngRegTest VslBrng.WH            1049u 2864157389607528761L
+            rngRegTest VslBrng.SOBOL         1059u 913519797090351680L
+            rngRegTest VslBrng.NIEDERR       1069u 913519797090351680L
+            rngRegTest VslBrng.MT19937       1079u 389138710951945826L
+            rngRegTest VslBrng.MT2203        1089u 381462857834239212L
+            rngRegTest VslBrng.SFMT19937     1099u 3998455859954030143L
+            rngRegTest VslBrng.ARS5          1109u 902664128560390946L
+            rngRegTest VslBrng.PHILOX4X32X10 1119u 1007062462772002442L
+        }
 
-        let rng s r = Vsl.RngBeta(VslMethodBeta.CJA_ACCURATE, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
-        let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected
-        rngRegTest VslBrng.MCG31         2009u 3007063038128847251L
-        rngRegTest VslBrng.R250          2019u 3374066972319628839L
-        rngRegTest VslBrng.MRG32K3A      2029u 583529081042380527L
-        rngRegTest VslBrng.MCG59         2039u 3144430971418710325L
-        rngRegTest VslBrng.WH            2049u 2256846998793774208L
-        rngRegTest VslBrng.SOBOL         2059u 1748779858862532953L
-        rngRegTest VslBrng.NIEDERR       2069u 1748779858862532953L
-        rngRegTest VslBrng.MT19937       2079u 3507473686075455500L
-        rngRegTest VslBrng.MT2203        2089u 2384599116436423822L
-        rngRegTest VslBrng.SFMT19937     2099u 4252245473101236979L
-        rngRegTest VslBrng.ARS5          2109u 737431650934642902L
-        rngRegTest VslBrng.PHILOX4X32X10 2119u 3760308599493149230L
+        test "beta" {
+            let rng s r = Vsl.RngBeta(VslMethodBeta.CJA_ACCURATE, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
+            let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected
+            rngRegTest VslBrng.MCG31         2009u 3007063038128847251L
+            rngRegTest VslBrng.R250          2019u 3374066972319628839L
+            rngRegTest VslBrng.MRG32K3A      2029u 583529081042380527L
+            rngRegTest VslBrng.MCG59         2039u 3144430971418710325L
+            rngRegTest VslBrng.WH            2049u 2256846998793774208L
+            rngRegTest VslBrng.SOBOL         2059u 1748779858862532953L
+            rngRegTest VslBrng.NIEDERR       2069u 1748779858862532953L
+            rngRegTest VslBrng.MT19937       2079u 3507473686075455500L
+            rngRegTest VslBrng.MT2203        2089u 2384599116436423822L
+            rngRegTest VslBrng.SFMT19937     2099u 4252245473101236979L
+            rngRegTest VslBrng.ARS5          2109u 737431650934642902L
+            rngRegTest VslBrng.PHILOX4X32X10 2119u 3760308599493149230L
+        }
 
-        let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
-        let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected
-        rngRegTest VslBrng.MCG31         3009u 2554372213837656950L
-        rngRegTest VslBrng.R250          3019u 605032273881860902L
-        rngRegTest VslBrng.MRG32K3A      3029u 3199080429053811877L
-        rngRegTest VslBrng.MCG59         3039u 983679901418487041L
-        rngRegTest VslBrng.WH            3049u 2368885861067961391L
-        rngRegTest VslBrng.SOBOL         3059u 462579700310600779L
-        rngRegTest VslBrng.NIEDERR       3069u 462579700310600779L
-        rngRegTest VslBrng.MT19937       3079u 218873978465295057L
-        rngRegTest VslBrng.MT2203        3089u 1027738328642721635L
-        rngRegTest VslBrng.SFMT19937     3099u 559936188835746029L
-        rngRegTest VslBrng.ARS5          3109u 3117495654345613975L
-        rngRegTest VslBrng.PHILOX4X32X10 3119u 1011914356974091933L
+        test "cauchy" {
+            let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
+            let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected
+            rngRegTest VslBrng.MCG31         3009u 2554372213837656950L
+            rngRegTest VslBrng.R250          3019u 605032273881860902L
+            rngRegTest VslBrng.MRG32K3A      3029u 3199080429053811877L
+            rngRegTest VslBrng.MCG59         3039u 983679901418487041L
+            rngRegTest VslBrng.WH            3049u 2368885861067961391L
+            rngRegTest VslBrng.SOBOL         3059u 462579700310600779L
+            rngRegTest VslBrng.NIEDERR       3069u 462579700310600779L
+            rngRegTest VslBrng.MT19937       3079u 218873978465295057L
+            rngRegTest VslBrng.MT2203        3089u 1027738328642721635L
+            rngRegTest VslBrng.SFMT19937     3099u 559936188835746029L
+            rngRegTest VslBrng.ARS5          3109u 3117495654345613975L
+            rngRegTest VslBrng.PHILOX4X32X10 3119u 1011914356974091933L
+        }
 
-        let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
-        let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
-        rngRegTest VslBrng.MCG31         4009u 3013428300987316150L
-        rngRegTest VslBrng.R250          4019u 3049171035733612682L
-        rngRegTest VslBrng.MRG32K3A      4029u 3250615175508194000L
-        rngRegTest VslBrng.MCG59         4039u 330405616378413966L
-        rngRegTest VslBrng.WH            4049u 3665759929813133342L
-        rngRegTest VslBrng.SOBOL         4059u 2972904373591817001L
-        rngRegTest VslBrng.NIEDERR       4069u 2972904373591817001L
-        rngRegTest VslBrng.MT19937       4079u 58059448151894752L
-        rngRegTest VslBrng.MT2203        4089u 3883114048211896142L
-        rngRegTest VslBrng.SFMT19937     4099u 2364233384765564780L
-        rngRegTest VslBrng.ARS5          4109u 899812096393549599L
-        rngRegTest VslBrng.PHILOX4X32X10 4119u 1671627428179700175L
+        test "chisquared" {
+            let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
+            let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
+            rngRegTest VslBrng.MCG31         4009u 3013428300987316150L
+            rngRegTest VslBrng.R250          4019u 3049171035733612682L
+            rngRegTest VslBrng.MRG32K3A      4029u 3250615175508194000L
+            rngRegTest VslBrng.MCG59         4039u 330405616378413966L
+            rngRegTest VslBrng.WH            4049u 3665759929813133342L
+            rngRegTest VslBrng.SOBOL         4059u 2972904373591817001L
+            rngRegTest VslBrng.NIEDERR       4069u 2972904373591817001L
+            rngRegTest VslBrng.MT19937       4079u 58059448151894752L
+            rngRegTest VslBrng.MT2203        4089u 3883114048211896142L
+            rngRegTest VslBrng.SFMT19937     4099u 2364233384765564780L
+            rngRegTest VslBrng.ARS5          4109u 899812096393549599L
+            rngRegTest VslBrng.PHILOX4X32X10 4119u 1671627428179700175L
+        }
 
-        let rng s r = Vsl.RngExponential(VslMethodExponential.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
-        let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected
-        rngRegTest VslBrng.MCG31         5009u 3261385093996348613L
-        rngRegTest VslBrng.R250          5019u 3436253156799410631L
-        rngRegTest VslBrng.MRG32K3A      5029u 3405657987443383710L
-        rngRegTest VslBrng.MCG59         5039u 1400168581003877311L
-        rngRegTest VslBrng.WH            5049u 2699859788165464138L
-        rngRegTest VslBrng.SOBOL         5059u 233432783296214338L
-        rngRegTest VslBrng.NIEDERR       5069u 233432783296214338L
-        rngRegTest VslBrng.MT19937       5079u 3937998186082149097L
-        rngRegTest VslBrng.MT2203        5089u 2924778465710312898L
-        rngRegTest VslBrng.SFMT19937     5099u 3070607586425730182L
-        rngRegTest VslBrng.ARS5          5109u 1053199769922906029L
-        rngRegTest VslBrng.PHILOX4X32X10 5119u 1581063928291000028L
+        test "exponential" {
+            let rng s r = Vsl.RngExponential(VslMethodExponential.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
+            let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected
+            rngRegTest VslBrng.MCG31         5009u 3261385093996348613L
+            rngRegTest VslBrng.R250          5019u 3436253156799410631L
+            rngRegTest VslBrng.MRG32K3A      5029u 3405657987443383710L
+            rngRegTest VslBrng.MCG59         5039u 1400168581003877311L
+            rngRegTest VslBrng.WH            5049u 2699859788165464138L
+            rngRegTest VslBrng.SOBOL         5059u 233432783296214338L
+            rngRegTest VslBrng.NIEDERR       5069u 233432783296214338L
+            rngRegTest VslBrng.MT19937       5079u 3937998186082149097L
+            rngRegTest VslBrng.MT2203        5089u 2924778465710312898L
+            rngRegTest VslBrng.SFMT19937     5099u 3070607586425730182L
+            rngRegTest VslBrng.ARS5          5109u 1053199769922906029L
+            rngRegTest VslBrng.PHILOX4X32X10 5119u 1581063928291000028L
+        }
 
-        let rng s r = Vsl.RngGamma(VslMethodGamma.ICDF_ACCURATE, s, Array.length r, r, 1.0, 0.0, 0.5)
-        let rngRegTest brng seed expected = rngRegressionTest "gamma" rng brng seed expected
-        rngRegTest VslBrng.MCG31         6009u 3221525151326641826L
-        rngRegTest VslBrng.R250          6019u 343399800394395439L
-        rngRegTest VslBrng.MRG32K3A      6029u 1286969307799861790L
-        rngRegTest VslBrng.MCG59         6039u 3631106508509849642L
-        rngRegTest VslBrng.WH            6049u 3585728331391662728L
-        rngRegTest VslBrng.SOBOL         6059u 1872404584182394487L
-        rngRegTest VslBrng.NIEDERR       6069u 1872404584182394487L
-        rngRegTest VslBrng.MT19937       6079u 1303128071495044873L
-        rngRegTest VslBrng.MT2203        6089u 3060060161638742674L
-        rngRegTest VslBrng.SFMT19937     6099u 2306122516516863296L
-        rngRegTest VslBrng.ARS5          6109u 4281826517942208154L
-        rngRegTest VslBrng.PHILOX4X32X10 6119u 474843401138002659L
+        test "gamma" {
+            let rng s r = Vsl.RngGamma(VslMethodGamma.ICDF_ACCURATE, s, Array.length r, r, 1.0, 0.0, 0.5)
+            let rngRegTest brng seed expected = rngRegressionTest "gamma" rng brng seed expected
+            rngRegTest VslBrng.MCG31         6009u 3221525151326641826L
+            rngRegTest VslBrng.R250          6019u 343399800394395439L
+            rngRegTest VslBrng.MRG32K3A      6029u 1286969307799861790L
+            rngRegTest VslBrng.MCG59         6039u 3631106508509849642L
+            rngRegTest VslBrng.WH            6049u 3585728331391662728L
+            rngRegTest VslBrng.SOBOL         6059u 1872404584182394487L
+            rngRegTest VslBrng.NIEDERR       6069u 1872404584182394487L
+            rngRegTest VslBrng.MT19937       6079u 1303128071495044873L
+            rngRegTest VslBrng.MT2203        6089u 3060060161638742674L
+            rngRegTest VslBrng.SFMT19937     6099u 2306122516516863296L
+            rngRegTest VslBrng.ARS5          6109u 4281826517942208154L
+            rngRegTest VslBrng.PHILOX4X32X10 6119u 474843401138002659L
+        }
+
+        test "gumbel" {
+            let rng s r = Vsl.RngGumbel(VslMethodGumbel.ICDF, s, Array.length r, r, 0.5, 2.0)
+            let rngRegTest brng seed expected = rngRegressionTest "gumbel" rng brng seed expected
+            rngRegTest VslBrng.MCG31         7009u 3300544060627090267L
+            rngRegTest VslBrng.R250          7019u 4114064451697481658L
+            rngRegTest VslBrng.MRG32K3A      7029u 1177729866325512386L
+            rngRegTest VslBrng.MCG59         7039u 3706039768270341890L
+            rngRegTest VslBrng.WH            7049u 2257971336688863443L
+            rngRegTest VslBrng.SOBOL         7059u 3513286207145613069L
+            rngRegTest VslBrng.NIEDERR       7069u 3513286207145613069L
+            rngRegTest VslBrng.MT19937       7079u 2582637860176808793L
+            rngRegTest VslBrng.MT2203        7089u 4246392918120398555L
+            rngRegTest VslBrng.SFMT19937     7099u 3939743512012141312L
+            rngRegTest VslBrng.ARS5          7109u 2753394047754074098L
+            rngRegTest VslBrng.PHILOX4X32X10 7119u 1304002842379000905L
+        }
+
+        test "laplace" {
+            let rng s r = Vsl.RngLaplace(VslMethodLaplace.ICDF, s, Array.length r, r, 0.0, 1.0)
+            let rngRegTest brng seed expected = rngRegressionTest "laplace" rng brng seed expected
+            rngRegTest VslBrng.MCG31         7009u 4006392271531722113L
+            rngRegTest VslBrng.R250          7019u 2831224452533544469L
+            rngRegTest VslBrng.MRG32K3A      7029u 1548183750457263527L
+            rngRegTest VslBrng.MCG59         7039u 3193002484954653016L
+            rngRegTest VslBrng.WH            7049u 1161833328774175845L
+            rngRegTest VslBrng.SOBOL         7059u 1050981607047449263L
+            rngRegTest VslBrng.NIEDERR       7069u 1050981607047449263L
+            rngRegTest VslBrng.MT19937       7079u 1591516205776010072L
+            rngRegTest VslBrng.MT2203        7089u 1186920821478934771L
+            rngRegTest VslBrng.SFMT19937     7099u 1010936889540621861L
+            rngRegTest VslBrng.ARS5          7109u 1867656044857571891L
+            rngRegTest VslBrng.PHILOX4X32X10 7119u 2200233901568403262L
+        }
+
+        test "lognormal" {
+            let rng s r = Vsl.RngLognormal(VslMethodLognormal.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0, 0.0, 1.0)
+            let rngRegTest brng seed expected = rngRegressionTest "lognormal" rng brng seed expected
+            rngRegTest VslBrng.MCG31         7009u 3249482114902342078L
+            rngRegTest VslBrng.R250          7019u 2275756113948509002L
+            rngRegTest VslBrng.MRG32K3A      7029u 313019564249121419L
+            rngRegTest VslBrng.MCG59         7039u 3238975126295573295L
+            rngRegTest VslBrng.WH            7049u 1396342078550757172L
+            rngRegTest VslBrng.SOBOL         7059u 921064004050560148L
+            rngRegTest VslBrng.NIEDERR       7069u 921064004050560148L
+            rngRegTest VslBrng.MT19937       7079u 896649036110895380L
+            rngRegTest VslBrng.MT2203        7089u 542496134400822828L
+            rngRegTest VslBrng.SFMT19937     7099u 790695318318110860L
+            rngRegTest VslBrng.ARS5          7109u 4191566483316371387L
+            rngRegTest VslBrng.PHILOX4X32X10 7119u 1384680572873834946L
+        }
     }
 
 let stats =
