@@ -1,23 +1,31 @@
 ﻿module LapackTests
 
+open System
 open MKLNET
+open CsCheck
+
+let ROWS_MAX = 5
+let COLS_MAX = 3
 
 let all =
     test "Lapack" {
-        test "dpotrf" {
-            let a = [|
-                 4.0;   0.0;   0.0;
-                 6.0;  25.0;   0.0;
-                10.0;  39.0; 110.0;
-            |]
-            let expected = [|
-                 2.0;   0.0;   0.0;
-                 3.0;   4.0;   0.0;
-                 5.0;   6.0;   7.0;
-            |]
-            let info = Lapack.dpotrf(Layout.RowMajor, UpLoChar.Lower, 3, a, 3);
-            Check.equal 0 info
-            for i = 0 to a.Length - 1 do
-                Check.equal expected.[i] a.[i]
+
+        test "potrf" {
+            let! rows = Gen.Int.[3,ROWS_MAX]
+            let! expected = Gen.Double.OneTwo.Array.[rows*rows]
+            for i = 0 to rows-2 do
+                for j = i+1 to rows-1 do
+                    expected.[j+i*rows] <- 0.0
+            let a = Array.init (rows*rows) (fun i ->
+                let row, col = Math.DivRem(i,rows)
+                if col > row then 0.0
+                else
+                    let mutable t = 0.0
+                    for k = 0 to row do
+                        t <- t + expected.[k+col*rows] * expected.[k+row*rows]
+                    t
+            )
+            Lapack.potrf(Layout.RowMajor, UpLoChar.Lower, rows, a, rows) |> Check.equal 0
+            Check.close High expected a
         }
     }
