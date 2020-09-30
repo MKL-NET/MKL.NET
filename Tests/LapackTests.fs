@@ -11,11 +11,12 @@ let all =
     test "Lapack" {
 
         test "potrf" {
-            let! rows = Gen.Int.[3,ROWS_MAX]
+            let! rows = Gen.Int.[1,ROWS_MAX]
             let! expected = Gen.Double.OneTwo.Array.[rows*rows]
             for i = 0 to rows-2 do
                 for j = i+1 to rows-1 do
                     expected.[j+i*rows] <- 0.0
+
             let a = Array.init (rows*rows) (fun i ->
                 let row, col = Math.DivRem(i,rows)
                 if col > row then 0.0
