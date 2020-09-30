@@ -19,19 +19,19 @@ let rng =
 
         test "guassian" {
             let rng s r = Vsl.RngGaussian(VslMethodGaussian.ICDF, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         01009u 3363136412936974698L
-            rngRegTest VslBrng.R250          01019u 483467208952316763L
-            rngRegTest VslBrng.MRG32K3A      01029u 3880012137407158688L
-            rngRegTest VslBrng.MCG59         01039u 1276390173367644893L
-            rngRegTest VslBrng.WH            01049u 2864157389607528761L
-            rngRegTest VslBrng.SOBOL         01059u 913519797090351680L
-            rngRegTest VslBrng.NIEDERR       01069u 913519797090351680L
-            rngRegTest VslBrng.MT19937       01079u 389138710951945826L
-            rngRegTest VslBrng.MT2203        01089u 381462857834239212L
-            rngRegTest VslBrng.SFMT19937     01099u 3998455859954030143L
-            rngRegTest VslBrng.ARS5          01109u 902664128560390946L
-            rngRegTest VslBrng.PHILOX4X32X10 01119u 1007062462772002442L
+            let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         01009u 1911341158842335953L
+            rngRegTest VslBrng.R250          01019u 3994273478527443358L
+            rngRegTest VslBrng.MRG32K3A      01029u 1389230277140062278L
+            rngRegTest VslBrng.MCG59         01039u 3422457414081294826L
+            rngRegTest VslBrng.WH            01049u 2338065572581055589L
+            rngRegTest VslBrng.SOBOL         01059u 826570339289502849L
+            rngRegTest VslBrng.NIEDERR       01069u 826570339289502849L
+            rngRegTest VslBrng.MT19937       01079u 555686340622176877L
+            rngRegTest VslBrng.MT2203        01089u 3913245892126679893L
+            rngRegTest VslBrng.SFMT19937     01099u 3237366725275470658L
+            rngRegTest VslBrng.ARS5          01109u 4145482568469106148L
+            rngRegTest VslBrng.PHILOX4X32X10 01119u 3249662980239763615L
         }
 
         test "beta" {
