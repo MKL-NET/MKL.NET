@@ -155,19 +155,19 @@ let rng =
 
         test "lognormal" {
             let rng s r = Vsl.RngLognormal(VslMethodLognormal.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "lognormal" rng brng seed expected 7
-            rngRegTest VslBrng.MCG31         09009u 1927107474182327545L
-            rngRegTest VslBrng.R250          09019u 1869291505658267769L
-            rngRegTest VslBrng.MRG32K3A      09029u 1334688870343913207L
-            rngRegTest VslBrng.MCG59         09039u 1525880984455889328L
-            rngRegTest VslBrng.WH            09049u 2229035916768001296L
-            rngRegTest VslBrng.SOBOL         09059u 3735119542935773255L
-            rngRegTest VslBrng.NIEDERR       09069u 3735119542935773255L
-            rngRegTest VslBrng.MT19937       09079u 2729435643764661402L
-            rngRegTest VslBrng.MT2203        09089u 3467718834196349513L
-            rngRegTest VslBrng.SFMT19937     09099u 2418030411093552242L
-            rngRegTest VslBrng.ARS5          09109u 3776742874250956793L
-            rngRegTest VslBrng.PHILOX4X32X10 09119u 854258462507067725L
+            let rngRegTest brng seed expected = rngRegressionTest "lognormal" rng brng seed expected 6
+            rngRegTest VslBrng.MCG31         09009u 1669334537677192586L
+            rngRegTest VslBrng.R250          09019u 539977220852619346L
+            rngRegTest VslBrng.MRG32K3A      09029u 2889550609694062035L
+            rngRegTest VslBrng.MCG59         09039u 901955343147341430L
+            rngRegTest VslBrng.WH            09049u 4154655793453721144L
+            rngRegTest VslBrng.SOBOL         09059u 921064004050560148L
+            rngRegTest VslBrng.NIEDERR       09069u 921064004050560148L
+            rngRegTest VslBrng.MT19937       09079u 1494212883049119338L
+            rngRegTest VslBrng.MT2203        09089u 3660936971908707139L
+            rngRegTest VslBrng.SFMT19937     09099u 715882456263113034L
+            rngRegTest VslBrng.ARS5          09109u 3179611504649199062L
+            rngRegTest VslBrng.PHILOX4X32X10 09119u 232250651324441870L
         }
 
         test "rayleigh" {
@@ -189,19 +189,19 @@ let rng =
 
         test "uniform" {
             let rng s r = Vsl.RngUniform(VslMethodUniform.STD_ACCURATE, s, Array.length r, r, 1.0, 2.0)
-            let rngRegTest brng seed expected = rngRegressionTest "uniform" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         11009u 2531303813583796990L
-            rngRegTest VslBrng.R250          11019u 4246682371978450839L
-            rngRegTest VslBrng.MRG32K3A      11029u 1891616263748256638L
-            rngRegTest VslBrng.MCG59         11039u 2829083621853501269L
-            rngRegTest VslBrng.WH            11049u 2440399153861225896L
-            rngRegTest VslBrng.SOBOL         11059u 536870913998004659L
-            rngRegTest VslBrng.NIEDERR       11069u 536870913998004659L
-            rngRegTest VslBrng.MT19937       11079u 958384326897628158L
-            rngRegTest VslBrng.MT2203        11089u 2247511991039200712L
-            rngRegTest VslBrng.SFMT19937     11099u 1612917012790411576L
-            rngRegTest VslBrng.ARS5          11109u 870447570130511209L
-            rngRegTest VslBrng.PHILOX4X32X10 11119u 4220763061341488726L
+            let rngRegTest brng seed expected = rngRegressionTest "uniform" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         11009u 4090925605172589169L
+            rngRegTest VslBrng.R250          11019u 554882053856108635L
+            rngRegTest VslBrng.MRG32K3A      11029u 1829241347878041450L
+            rngRegTest VslBrng.MCG59         11039u 177049864097891675L
+            rngRegTest VslBrng.WH            11049u 1191874181362486529L
+            rngRegTest VslBrng.SOBOL         11059u 2147483648179681715L
+            rngRegTest VslBrng.NIEDERR       11069u 2147483648179681715L
+            rngRegTest VslBrng.MT19937       11079u 3360788739640435814L
+            rngRegTest VslBrng.MT2203        11089u 3630805894947458479L
+            rngRegTest VslBrng.SFMT19937     11099u 4201146246093554038L
+            rngRegTest VslBrng.ARS5          11109u 309307524893232031L
+            rngRegTest VslBrng.PHILOX4X32X10 11119u 2720740487792199442L
         }
 
         test "weibull" {
