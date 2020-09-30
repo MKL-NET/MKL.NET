@@ -138,19 +138,19 @@ let rng =
 
         test "laplace" {
             let rng s r = Vsl.RngLaplace(VslMethodLaplace.ICDF, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "laplace" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         08009u 127748501191170537L
-            rngRegTest VslBrng.R250          08019u 436650264522189027L
-            rngRegTest VslBrng.MRG32K3A      08029u 1526954499164287748L
-            rngRegTest VslBrng.MCG59         08039u 4214423277934514873L
-            rngRegTest VslBrng.WH            08049u 3696695690838000233L
-            rngRegTest VslBrng.SOBOL         08059u 1050981607047449263L
-            rngRegTest VslBrng.NIEDERR       08069u 1050981607047449263L
-            rngRegTest VslBrng.MT19937       08079u 766678133025143641L
-            rngRegTest VslBrng.MT2203        08089u 3678915850979584093L
-            rngRegTest VslBrng.SFMT19937     08099u 657751388014926858L
-            rngRegTest VslBrng.ARS5          08109u 3665386738318567755L
-            rngRegTest VslBrng.PHILOX4X32X10 08119u 4072809202657423803L
+            let rngRegTest brng seed expected = rngRegressionTest "laplace" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         08009u 3014378499542677112L
+            rngRegTest VslBrng.R250          08019u 3827279879763198553L
+            rngRegTest VslBrng.MRG32K3A      08029u 3575225027511086806L
+            rngRegTest VslBrng.MCG59         08039u 1153559494918478981L
+            rngRegTest VslBrng.WH            08049u 4046539777708484423L
+            rngRegTest VslBrng.SOBOL         08059u 718426116830479204L
+            rngRegTest VslBrng.NIEDERR       08069u 718426116830479204L
+            rngRegTest VslBrng.MT19937       08079u 2274976002737702937L
+            rngRegTest VslBrng.MT2203        08089u 4100937988368367442L
+            rngRegTest VslBrng.SFMT19937     08099u 292674307133565193L
+            rngRegTest VslBrng.ARS5          08109u 2551444228736742587L
+            rngRegTest VslBrng.PHILOX4X32X10 08119u 2642903559743308446L
         }
 
         test "lognormal" {
