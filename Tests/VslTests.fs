@@ -121,19 +121,19 @@ let rng =
 
         test "gumbel" {
             let rng s r = Vsl.RngGumbel(VslMethodGumbel.ICDF, s, Array.length r, r, 0.5, 2.0)
-            let rngRegTest brng seed expected = rngRegressionTest "gumbel" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         07009u 3300544060627090267L
-            rngRegTest VslBrng.R250          07019u 4114064451697481658L
-            rngRegTest VslBrng.MRG32K3A      07029u 1177729866325512386L
-            rngRegTest VslBrng.MCG59         07039u 3706039768270341890L
-            rngRegTest VslBrng.WH            07049u 2257971336688863443L
-            rngRegTest VslBrng.SOBOL         07059u 3513286207145613069L
-            rngRegTest VslBrng.NIEDERR       07069u 3513286207145613069L
-            rngRegTest VslBrng.MT19937       07079u 2582637860176808793L
-            rngRegTest VslBrng.MT2203        07089u 4246392918120398555L
-            rngRegTest VslBrng.SFMT19937     07099u 3939743512012141312L
-            rngRegTest VslBrng.ARS5          07109u 2753394047754074098L
-            rngRegTest VslBrng.PHILOX4X32X10 07119u 1304002842379000905L
+            let rngRegTest brng seed expected = rngRegressionTest "gumbel" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         07009u 231392578904575918L
+            rngRegTest VslBrng.R250          07019u 3702420871138674006L
+            rngRegTest VslBrng.MRG32K3A      07029u 1977894535009061395L
+            rngRegTest VslBrng.MCG59         07039u 4198663749874620884L
+            rngRegTest VslBrng.WH            07049u 491758597000895023L
+            rngRegTest VslBrng.SOBOL         07059u 1500161989419041712L
+            rngRegTest VslBrng.NIEDERR       07069u 1500161989419041712L
+            rngRegTest VslBrng.MT19937       07079u 3287402501548365849L
+            rngRegTest VslBrng.MT2203        07089u 1683252679863220961L
+            rngRegTest VslBrng.SFMT19937     07099u 1031916838593596303L
+            rngRegTest VslBrng.ARS5          07109u 4125970184257205328L
+            rngRegTest VslBrng.PHILOX4X32X10 07119u 1524960450738054990L
         }
 
         test "laplace" {
