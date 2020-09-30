@@ -155,19 +155,19 @@ let rng =
 
         test "lognormal" {
             let rng s r = Vsl.RngLognormal(VslMethodLognormal.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "lognormal" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         09009u 1669334537677192586L
-            rngRegTest VslBrng.R250          09019u 539977220852619346L
-            rngRegTest VslBrng.MRG32K3A      09029u 2889550609694062035L
-            rngRegTest VslBrng.MCG59         09039u 901955343147341430L
-            rngRegTest VslBrng.WH            09049u 4154655793453721144L
-            rngRegTest VslBrng.SOBOL         09059u 921064004050560148L
-            rngRegTest VslBrng.NIEDERR       09069u 921064004050560148L
-            rngRegTest VslBrng.MT19937       09079u 1494212883049119338L
-            rngRegTest VslBrng.MT2203        09089u 3660936971908707139L
-            rngRegTest VslBrng.SFMT19937     09099u 715882456263113034L
-            rngRegTest VslBrng.ARS5          09109u 3179611504649199062L
-            rngRegTest VslBrng.PHILOX4X32X10 09119u 232250651324441870L
+            let rngRegTest brng seed expected = rngRegressionTest "lognormal" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         09009u 4241715076504999791L
+            rngRegTest VslBrng.R250          09019u 2153635780980296011L
+            rngRegTest VslBrng.MRG32K3A      09029u 1324633731277522476L
+            rngRegTest VslBrng.MCG59         09039u 1800864005283861463L
+            rngRegTest VslBrng.WH            09049u 1366180103858649183L
+            rngRegTest VslBrng.SOBOL         09059u 2870205828336798027L
+            rngRegTest VslBrng.NIEDERR       09069u 2870205828336798027L
+            rngRegTest VslBrng.MT19937       09079u 293612933934190983L
+            rngRegTest VslBrng.MT2203        09089u 1803383428152102046L
+            rngRegTest VslBrng.SFMT19937     09099u 397294213394500279L
+            rngRegTest VslBrng.ARS5          09109u 1076819462876621107L
+            rngRegTest VslBrng.PHILOX4X32X10 09119u 3334412675654124820L
         }
 
         test "rayleigh" {
