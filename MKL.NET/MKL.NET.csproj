@@ -10,7 +10,7 @@
     <PackageReleaseNotes>
 Blas API simplification with a large number of tests.
 Vsl API simplification and SS memory management (native and pin arrays across calls).
-Vsl random distibutions regression tests across platforms.
+Vsl random distributions regression tests across platforms.
 Lapack API simplification.
     </PackageReleaseNotes>
     <Version>0.8.0</Version>
