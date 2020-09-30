@@ -6,7 +6,7 @@ open CsCheck
 
 let rng =
     test "rng" {
-        let rngRegressionTest name gen brng seed hash =
+        let rngRegressionTest name gen brng seed hash sf =
             let rngName = Enum.GetName(typeof<VslBrng>, brng)
             test rngName {
                 let stream = Vsl.NewStream(brng, seed)
@@ -14,12 +14,12 @@ let rng =
                 gen stream r |> Check.equal 0
                 Vsl.DeleteStream stream |> Check.equal 0
                 Array.sumBy abs r |> Check.notDefaultValue
-                Check.Hash(hash, (fun h -> h.AddSF(r,6)), name + "_" + rngName)
+                Check.Hash(hash, (fun h -> h.AddSF(r,sf)), name + "_" + rngName)
             }
 
         test "guassian" {
             let rng s r = Vsl.RngGaussian(VslMethodGaussian.ICDF, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "gaussian" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         01009u 3363136412936974698L
             rngRegTest VslBrng.R250          01019u 483467208952316763L
             rngRegTest VslBrng.MRG32K3A      01029u 3880012137407158688L
@@ -36,24 +36,24 @@ let rng =
 
         test "beta" {
             let rng s r = Vsl.RngBeta(VslMethodBeta.CJA_ACCURATE, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected
-            rngRegTest VslBrng.MCG31         02009u 3007063038128847251L
-            rngRegTest VslBrng.R250          02019u 3374066972319628839L
-            rngRegTest VslBrng.MRG32K3A      02029u 583529081042380527L
-            rngRegTest VslBrng.MCG59         02039u 3144430971418710325L
-            rngRegTest VslBrng.WH            02049u 2256846998793774208L
-            rngRegTest VslBrng.SOBOL         02059u 1748779858862532953L
-            rngRegTest VslBrng.NIEDERR       02069u 1748779858862532953L
-            rngRegTest VslBrng.MT19937       02079u 3507473686075455500L
-            rngRegTest VslBrng.MT2203        02089u 2384599116436423822L
-            rngRegTest VslBrng.SFMT19937     02099u 4252245473101236979L
-            rngRegTest VslBrng.ARS5          02109u 737431650934642902L
-            rngRegTest VslBrng.PHILOX4X32X10 02119u 3760308599493149230L
+            let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         02009u 266836614851879131L
+            rngRegTest VslBrng.R250          02019u 831337157015072197L
+            rngRegTest VslBrng.MRG32K3A      02029u 1995914980122104812L
+            rngRegTest VslBrng.MCG59         02039u 2436897348971179894L
+            rngRegTest VslBrng.WH            02049u 3952383011453028300L
+            rngRegTest VslBrng.SOBOL         02059u 2347490825678864368L
+            rngRegTest VslBrng.NIEDERR       02069u 2347490825678864368L
+            rngRegTest VslBrng.MT19937       02079u 3406884361131094871L
+            rngRegTest VslBrng.MT2203        02089u 364559873890650910L
+            rngRegTest VslBrng.SFMT19937     02099u 3879319430663083863L
+            rngRegTest VslBrng.ARS5          02109u 4076063748528155858L
+            rngRegTest VslBrng.PHILOX4X32X10 02119u 3804838278735839101L
         }
 
         test "cauchy" {
             let rng s r = Vsl.RngCauchy(VslMethodCauchy.ICDF, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "cauchy" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         03009u 2554372213837656950L
             rngRegTest VslBrng.R250          03019u 605032273881860902L
             rngRegTest VslBrng.MRG32K3A      03029u 3199080429053811877L
@@ -70,7 +70,7 @@ let rng =
 
         test "chisquared" {
             let rng s (r:double[]) = Vsl.RngChiSquare(VslMethodChiSquare.CHI2GAMMA, s, Array.length r, r, 5)
-            let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "chisquare" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         04009u 3013428300987316150L
             rngRegTest VslBrng.R250          04019u 3049171035733612682L
             rngRegTest VslBrng.MRG32K3A      04029u 3250615175508194000L
@@ -87,7 +87,7 @@ let rng =
 
         test "exponential" {
             let rng s r = Vsl.RngExponential(VslMethodExponential.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         05009u 3261385093996348613L
             rngRegTest VslBrng.R250          05019u 3436253156799410631L
             rngRegTest VslBrng.MRG32K3A      05029u 3405657987443383710L
@@ -104,7 +104,7 @@ let rng =
 
         test "gamma" {
             let rng s r = Vsl.RngGamma(VslMethodGamma.ICDF_ACCURATE, s, Array.length r, r, 1.0, 0.0, 0.5)
-            let rngRegTest brng seed expected = rngRegressionTest "gamma" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "gamma" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         06009u 3221525151326641826L
             rngRegTest VslBrng.R250          06019u 343399800394395439L
             rngRegTest VslBrng.MRG32K3A      06029u 1286969307799861790L
@@ -121,7 +121,7 @@ let rng =
 
         test "gumbel" {
             let rng s r = Vsl.RngGumbel(VslMethodGumbel.ICDF, s, Array.length r, r, 0.5, 2.0)
-            let rngRegTest brng seed expected = rngRegressionTest "gumbel" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "gumbel" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         07009u 3300544060627090267L
             rngRegTest VslBrng.R250          07019u 4114064451697481658L
             rngRegTest VslBrng.MRG32K3A      07029u 1177729866325512386L
@@ -138,7 +138,7 @@ let rng =
 
         test "laplace" {
             let rng s r = Vsl.RngLaplace(VslMethodLaplace.ICDF, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "laplace" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "laplace" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         08009u 127748501191170537L
             rngRegTest VslBrng.R250          08019u 436650264522189027L
             rngRegTest VslBrng.MRG32K3A      08029u 1526954499164287748L
@@ -155,7 +155,7 @@ let rng =
 
         test "lognormal" {
             let rng s r = Vsl.RngLognormal(VslMethodLognormal.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "lognormal" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "lognormal" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         09009u 1669334537677192586L
             rngRegTest VslBrng.R250          09019u 539977220852619346L
             rngRegTest VslBrng.MRG32K3A      09029u 2889550609694062035L
@@ -172,7 +172,7 @@ let rng =
 
         test "rayleigh" {
             let rng s r = Vsl.RngRayleigh(VslMethodRayleigh.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "rayleigh" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "rayleigh" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         10009u 248151335908087344L
             rngRegTest VslBrng.R250          10019u 4096261162901598699L
             rngRegTest VslBrng.MRG32K3A      10029u 2208189781176820066L
@@ -189,7 +189,7 @@ let rng =
 
         test "uniform" {
             let rng s r = Vsl.RngUniform(VslMethodUniform.STD_ACCURATE, s, Array.length r, r, 1.0, 2.0)
-            let rngRegTest brng seed expected = rngRegressionTest "uniform" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "uniform" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         11009u 2531303813583796990L
             rngRegTest VslBrng.R250          11019u 4246682371978450839L
             rngRegTest VslBrng.MRG32K3A      11029u 1891616263748256638L
@@ -206,7 +206,7 @@ let rng =
 
         test "weibull" {
             let rng s r = Vsl.RngWeibull(VslMethodWeibull.ICDF_ACCURATE, s, Array.length r, r, 5.0, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "weibull" rng brng seed expected
+            let rngRegTest brng seed expected = rngRegressionTest "weibull" rng brng seed expected 6
             rngRegTest VslBrng.MCG31         12009u 1909196161986762957L
             rngRegTest VslBrng.R250          12019u 1929192170498483979L
             rngRegTest VslBrng.MRG32K3A      12029u 4226497204719176751L
