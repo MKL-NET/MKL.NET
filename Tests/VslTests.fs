@@ -87,19 +87,19 @@ let rng =
 
         test "exponential" {
             let rng s r = Vsl.RngExponential(VslMethodExponential.ICDF_ACCURATE, s, Array.length r, r, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         05009u 3261385093996348613L
-            rngRegTest VslBrng.R250          05019u 3436253156799410631L
-            rngRegTest VslBrng.MRG32K3A      05029u 3405657987443383710L
-            rngRegTest VslBrng.MCG59         05039u 1400168581003877311L
-            rngRegTest VslBrng.WH            05049u 2699859788165464138L
-            rngRegTest VslBrng.SOBOL         05059u 233432783296214338L
-            rngRegTest VslBrng.NIEDERR       05069u 233432783296214338L
-            rngRegTest VslBrng.MT19937       05079u 3937998186082149097L
-            rngRegTest VslBrng.MT2203        05089u 2924778465710312898L
-            rngRegTest VslBrng.SFMT19937     05099u 3070607586425730182L
-            rngRegTest VslBrng.ARS5          05109u 1053199769922906029L
-            rngRegTest VslBrng.PHILOX4X32X10 05119u 1581063928291000028L
+            let rngRegTest brng seed expected = rngRegressionTest "exponential" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         05009u 844597510462097425L
+            rngRegTest VslBrng.R250          05019u 2937239141713986364L
+            rngRegTest VslBrng.MRG32K3A      05029u 3897914504439965368L
+            rngRegTest VslBrng.MCG59         05039u 1529437958572229993L
+            rngRegTest VslBrng.WH            05049u 1867674625097711794L
+            rngRegTest VslBrng.SOBOL         05059u 673923749669676946L
+            rngRegTest VslBrng.NIEDERR       05069u 673923749669676946L
+            rngRegTest VslBrng.MT19937       05079u 1634149445982802608L
+            rngRegTest VslBrng.MT2203        05089u 1791653703200084386L
+            rngRegTest VslBrng.SFMT19937     05099u 3196014787959580621L
+            rngRegTest VslBrng.ARS5          05109u 215075076880542158L
+            rngRegTest VslBrng.PHILOX4X32X10 05119u 615996422290857771L
         }
 
         test "gamma" {
