@@ -36,19 +36,19 @@ let rng =
 
         test "beta" {
             let rng s r = Vsl.RngBeta(VslMethodBeta.CJA_ACCURATE, s, Array.length r, r, 2.0, 5.0, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         02009u 3007063038128847251L
-            rngRegTest VslBrng.R250          02019u 3374066972319628839L
-            rngRegTest VslBrng.MRG32K3A      02029u 583529081042380527L
-            rngRegTest VslBrng.MCG59         02039u 3144430971418710325L
-            rngRegTest VslBrng.WH            02049u 2256846998793774208L
-            rngRegTest VslBrng.SOBOL         02059u 1748779858862532953L
-            rngRegTest VslBrng.NIEDERR       02069u 1748779858862532953L
-            rngRegTest VslBrng.MT19937       02079u 3507473686075455500L
-            rngRegTest VslBrng.MT2203        02089u 2384599116436423822L
-            rngRegTest VslBrng.SFMT19937     02099u 4252245473101236979L
-            rngRegTest VslBrng.ARS5          02109u 737431650934642902L
-            rngRegTest VslBrng.PHILOX4X32X10 02119u 3760308599493149230L
+            let rngRegTest brng seed expected = rngRegressionTest "beta" rng brng seed expected 8
+            rngRegTest VslBrng.MCG31         02009u 668123831151367569L
+            rngRegTest VslBrng.R250          02019u 2694267132659165550L
+            rngRegTest VslBrng.MRG32K3A      02029u 4030862350079524329L
+            rngRegTest VslBrng.MCG59         02039u 2458365341119490795L
+            rngRegTest VslBrng.WH            02049u 2449240157068043923L
+            rngRegTest VslBrng.SOBOL         02059u 3982238621122909824L
+            rngRegTest VslBrng.NIEDERR       02069u 3982238621122909824L
+            rngRegTest VslBrng.MT19937       02079u 50877399811606908L
+            rngRegTest VslBrng.MT2203        02089u 1443036476763881945L
+            rngRegTest VslBrng.SFMT19937     02099u 3475646355979763546L
+            rngRegTest VslBrng.ARS5          02109u 1605806262128146715L
+            rngRegTest VslBrng.PHILOX4X32X10 02119u 2543094676414249274L
         }
 
         test "cauchy" {
