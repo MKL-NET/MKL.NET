@@ -316,6 +316,40 @@ let rng =
             rngRegTest VslBrng.ARS5          17109u 5105348163L
             rngRegTest VslBrng.PHILOX4X32X10 17119u 8564078007L
         }
+
+        test "negbinomial" {
+            let rng s r = Vsl.RngNegBinomial(VslMethodNegBinomial.NBAR, s, Array.length r, r, 2.0, 0.5)
+            let rngRegTest brng seed expected = rngRegressionTest "negbinomial" rng brng seed expected
+            rngRegTest VslBrng.MCG31         18009u 7409462528L
+            rngRegTest VslBrng.R250          18019u 8008578028L
+            rngRegTest VslBrng.MRG32K3A      18029u 5246085272L
+            rngRegTest VslBrng.MCG59         18039u 5834778244L
+            rngRegTest VslBrng.WH            18049u 6288389517L
+            rngRegTest VslBrng.SOBOL         18059u 5754271288L
+            rngRegTest VslBrng.NIEDERR       18069u 5754271288L
+            rngRegTest VslBrng.MT19937       18079u 6711064904L
+            rngRegTest VslBrng.MT2203        18089u 5254286412L
+            rngRegTest VslBrng.SFMT19937     18099u 6771967726L
+            rngRegTest VslBrng.ARS5          18109u 8015312150L
+            rngRegTest VslBrng.PHILOX4X32X10 18119u 6202436026L
+        }
+
+        test "uniform_int" {
+            let rng s r = Vsl.RngUniform(VslMethodUniform.STD, s, Array.length r, r, 0, 100)
+            let rngRegTest brng seed expected = rngRegressionTest "uniform_int" rng brng seed expected
+            rngRegTest VslBrng.MCG31         19009u 7585907347L
+            rngRegTest VslBrng.R250          19019u 6073158271L
+            rngRegTest VslBrng.MRG32K3A      19029u 5157146967L
+            rngRegTest VslBrng.MCG59         19039u 5828360466L
+            rngRegTest VslBrng.WH            19049u 5735168773L
+            rngRegTest VslBrng.SOBOL         19059u 4756780048L
+            rngRegTest VslBrng.NIEDERR       19069u 4756780048L
+            rngRegTest VslBrng.MT19937       19079u 5791777437L
+            rngRegTest VslBrng.MT2203        19089u 4431969085L
+            rngRegTest VslBrng.SFMT19937     19099u 5902660199L
+            rngRegTest VslBrng.ARS5          19109u 5650408163L
+            rngRegTest VslBrng.PHILOX4X32X10 19119u 7331028865L
+        }
     }
 
 let stats =
