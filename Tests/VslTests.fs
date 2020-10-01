@@ -350,6 +350,23 @@ let rng =
             rngRegTest VslBrng.ARS5          19109u 5650408163L
             rngRegTest VslBrng.PHILOX4X32X10 19119u 7331028865L
         }
+
+        test "multinomial" {
+            let rng s r = Vsl.RngMultinomial(VslMethodMultinomial.MULTPOISSON, s, Array.length r/4, r, 100, 4, [|0.1;0.2;0.3;0.4|])
+            let rngRegTest brng seed expected = rngRegressionTest "multinomial" rng brng seed expected
+            rngRegTest VslBrng.MCG31         20009u 5952224110L
+            rngRegTest VslBrng.R250          20019u 5939022544L
+            rngRegTest VslBrng.MRG32K3A      20029u 5817341231L
+            rngRegTest VslBrng.MCG59         20039u 7496623569L
+            rngRegTest VslBrng.WH            20049u 7498202221L
+            rngRegTest VslBrng.SOBOL         20059u 7299760709L
+            rngRegTest VslBrng.NIEDERR       20069u 7299760709L
+            rngRegTest VslBrng.MT19937       20079u 7371599876L
+            rngRegTest VslBrng.MT2203        20089u 5078083004L
+            rngRegTest VslBrng.SFMT19937     20099u 7316507363L
+            rngRegTest VslBrng.ARS5          20109u 8464270715L
+            rngRegTest VslBrng.PHILOX4X32X10 20119u 6906149872L
+        }
     }
 
 let stats =
