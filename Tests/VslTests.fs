@@ -252,18 +252,69 @@ let rng =
         test "poisson" {
             let rng s r = Vsl.RngPoisson(VslMethodPoisson.POISNORM, s, Array.length r, r, 0.5)
             let rngRegTest brng seed expected = rngRegressionTest "poisson" rng brng seed expected
-            rngRegTest VslBrng.MCG31         13009u 6372078952L
-            rngRegTest VslBrng.R250          13019u 6706812283L
-            rngRegTest VslBrng.MRG32K3A      13029u 5587494772L
-            rngRegTest VslBrng.MCG59         13039u 6365512031L
-            rngRegTest VslBrng.WH            13049u 6229529097L
-            rngRegTest VslBrng.SOBOL         13059u 6759364722L
-            rngRegTest VslBrng.NIEDERR       13069u 6759364722L
-            rngRegTest VslBrng.MT19937       13079u 7755483113L
-            rngRegTest VslBrng.MT2203        13089u 4602085470L
-            rngRegTest VslBrng.SFMT19937     13099u 5458231681L
-            rngRegTest VslBrng.ARS5          13109u 7342501524L
-            rngRegTest VslBrng.PHILOX4X32X10 13119u 7483430952L
+            rngRegTest VslBrng.MCG31         14009u 6358586656L
+            rngRegTest VslBrng.R250          14019u 6889946766L
+            rngRegTest VslBrng.MRG32K3A      14029u 5942771438L
+            rngRegTest VslBrng.MCG59         14039u 7783087904L
+            rngRegTest VslBrng.WH            14049u 6607728973L
+            rngRegTest VslBrng.SOBOL         14059u 6759364722L
+            rngRegTest VslBrng.NIEDERR       14069u 6759364722L
+            rngRegTest VslBrng.MT19937       14079u 6087785052L
+            rngRegTest VslBrng.MT2203        14089u 7550249421L
+            rngRegTest VslBrng.SFMT19937     14099u 5875956040L
+            rngRegTest VslBrng.ARS5          14109u 7878416031L
+            rngRegTest VslBrng.PHILOX4X32X10 14119u 6896942208L
+        }
+
+        test "bernoulli" {
+            let rng s r = Vsl.RngBernoulli(VslMethodBernoulli.ICDF, s, Array.length r, r, 0.5)
+            let rngRegTest brng seed expected = rngRegressionTest "bernoulli" rng brng seed expected
+            rngRegTest VslBrng.MCG31         15009u 7303646217L
+            rngRegTest VslBrng.R250          15019u 7297447362L
+            rngRegTest VslBrng.MRG32K3A      15029u 7582379231L
+            rngRegTest VslBrng.MCG59         15039u 5856905215L
+            rngRegTest VslBrng.WH            15049u 4550236763L
+            rngRegTest VslBrng.SOBOL         15059u 7795513064L
+            rngRegTest VslBrng.NIEDERR       15069u 7795513064L
+            rngRegTest VslBrng.MT19937       15079u 5606584243L
+            rngRegTest VslBrng.MT2203        15089u 6987426969L
+            rngRegTest VslBrng.SFMT19937     15099u 8376551972L
+            rngRegTest VslBrng.ARS5          15109u 5797953654L
+            rngRegTest VslBrng.PHILOX4X32X10 15119u 7697572742L
+        }
+
+        test "geometric" {
+            let rng s r = Vsl.RngGeometric(VslMethodGeometric.ICDF, s, Array.length r, r, 0.5)
+            let rngRegTest brng seed expected = rngRegressionTest "geometric" rng brng seed expected
+            rngRegTest VslBrng.MCG31         16009u 7187529131L
+            rngRegTest VslBrng.R250          16019u 7333520739L
+            rngRegTest VslBrng.MRG32K3A      16029u 6934066442L
+            rngRegTest VslBrng.MCG59         16039u 5579532180L
+            rngRegTest VslBrng.WH            16049u 4742140113L
+            rngRegTest VslBrng.SOBOL         16059u 4320261512L
+            rngRegTest VslBrng.NIEDERR       16069u 4320261512L
+            rngRegTest VslBrng.MT19937       16079u 4743893745L
+            rngRegTest VslBrng.MT2203        16089u 6459072570L
+            rngRegTest VslBrng.SFMT19937     16099u 5978903766L
+            rngRegTest VslBrng.ARS5          16109u 5087069969L
+            rngRegTest VslBrng.PHILOX4X32X10 16119u 6537149811L
+        }
+
+        test "hypergeometric" {
+            let rng s r = Vsl.RngHypergeometric(VslMethodHypergeometric.H2PE, s, Array.length r, r, 20, 5, 3)
+            let rngRegTest brng seed expected = rngRegressionTest "hypergeometric" rng brng seed expected
+            rngRegTest VslBrng.MCG31         17009u 7505590888L
+            rngRegTest VslBrng.R250          17019u 8157654408L
+            rngRegTest VslBrng.MRG32K3A      17029u 5363226153L
+            rngRegTest VslBrng.MCG59         17039u 7104405131L
+            rngRegTest VslBrng.WH            17049u 5145681514L
+            rngRegTest VslBrng.SOBOL         17059u 8326552959L
+            rngRegTest VslBrng.NIEDERR       17069u 8326552959L
+            rngRegTest VslBrng.MT19937       17079u 7154893751L
+            rngRegTest VslBrng.MT2203        17089u 4580678279L
+            rngRegTest VslBrng.SFMT19937     17099u 4878929170L
+            rngRegTest VslBrng.ARS5          17109u 5105348163L
+            rngRegTest VslBrng.PHILOX4X32X10 17119u 8564078007L
         }
     }
 
