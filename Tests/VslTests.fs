@@ -206,19 +206,19 @@ let rng =
 
         test "weibull" {
             let rng s r = Vsl.RngWeibull(VslMethodWeibull.ICDF_ACCURATE, s, Array.length r, r, 5.0, 0.0, 1.0)
-            let rngRegTest brng seed expected = rngRegressionTest "weibull" rng brng seed expected 6
-            rngRegTest VslBrng.MCG31         12009u 1909196161986762957L
-            rngRegTest VslBrng.R250          12019u 1929192170498483979L
-            rngRegTest VslBrng.MRG32K3A      12029u 4226497204719176751L
-            rngRegTest VslBrng.MCG59         12039u 3860001738512494955L
-            rngRegTest VslBrng.WH            12049u 1804190258271942196L
-            rngRegTest VslBrng.SOBOL         12059u 2071273229479253645L
-            rngRegTest VslBrng.NIEDERR       12069u 2071273229479253645L
-            rngRegTest VslBrng.MT19937       12079u 2390190648383988119L
-            rngRegTest VslBrng.MT2203        12089u 3508863914976693645L
-            rngRegTest VslBrng.SFMT19937     12099u 4273896375288095006L
-            rngRegTest VslBrng.ARS5          12109u 349769761845940744L
-            rngRegTest VslBrng.PHILOX4X32X10 12119u 4223214046999312888L
+            let rngRegTest brng seed expected = rngRegressionTest "weibull" rng brng seed expected 9
+            rngRegTest VslBrng.MCG31         12009u 971837987777444166L
+            rngRegTest VslBrng.R250          12019u 4029452035891946488L
+            rngRegTest VslBrng.MRG32K3A      12029u 2100466307823919454L
+            rngRegTest VslBrng.MCG59         12039u 1228651813502622042L
+            rngRegTest VslBrng.WH            12049u 934580548860763942L
+            rngRegTest VslBrng.SOBOL         12059u 758529923046351417L
+            rngRegTest VslBrng.NIEDERR       12069u 758529923046351417L
+            rngRegTest VslBrng.MT19937       12079u 3552877510660183554L
+            rngRegTest VslBrng.MT2203        12089u 976529127006230003L
+            rngRegTest VslBrng.SFMT19937     12099u 1834936387448599303L
+            rngRegTest VslBrng.ARS5          12109u 1919061286761215185L
+            rngRegTest VslBrng.PHILOX4X32X10 12119u 2392163270296257661L
         }
     }
 
