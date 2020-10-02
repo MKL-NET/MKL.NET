@@ -599,6 +599,32 @@ let stats =
             )
             Check.close VeryHigh expectedMin min
         }
+
+        test "quantiles_double" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let quantiles = [| 0.9; 0.95; 0.99 |]
+            let quants = Array.zeroCreate (vars*quantiles.Length)
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditQuantiles(task, quantiles.Length, quantiles, quants, null, VslStorage.ROWS) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.QUANTS, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            // percentiles test
+        }
+
+        test "quantiles_single" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let quantiles = [| 0.9f; 0.95f; 0.99f |]
+            let quants = Array.zeroCreate (vars*quantiles.Length)
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditQuantiles(task, quantiles.Length, quantiles, quants, null, VslStorage.ROWS) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.QUANTS, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            // percentiles test
+        }
     }
 
 let conv_corr =

@@ -746,7 +746,7 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditMoments(VslsSSTask task, float[] mean, float[] r2m, float[] r3m, float[] r4m, float[] c2m, float[] c3m, float[] c4m)
             => vslsSSEditMoments(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(r2m), task.Pinned.Add(r3m), task.Pinned.Add(r4m),
-                    task.Pinned.Add(c2m), task.Pinned.Add(c3m), task.Pinned.Add(c4m));
+                    task.Pinned.Add(c2m),    task.Pinned.Add(c3m), task.Pinned.Add(c4m));
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsldSSEditSums(IntPtr task, IntPtr sum, IntPtr r2s, IntPtr r3s, IntPtr r4s, IntPtr c2s, IntPtr c3s, IntPtr c4s);
@@ -800,17 +800,33 @@ namespace MKLNET
             => vslsSSEditPartialCovCor(task.Ptr, task.Pinned.Add(p_idx_array), task.Pinned.Add(cov), cov_storage, task.Pinned.Add(cor), cor_storage,
                     task.Pinned.Add(p_cov), p_cov_storage, task.Pinned.Add(p_cor), p_cor_storage);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditQuantiles(IntPtr task, int quant_order_n, IntPtr quant_order, IntPtr quants, IntPtr order_stats, VslStorage order_stats_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SSEditQuantiles(VsldSSTask task, int quant_order_n, double[] quant_order, double[] quants, double[] order_stats, VslStorage order_stats_storage)
-            => vsldSSEditQuantiles(task.Ptr, quant_order_n, task.Pinned.Add(quant_order), task.Pinned.Add(quants), task.Pinned.Add(order_stats), order_stats_storage);
+        private static (IntPtr, IntPtr) QuantileAllocate(int n, VslStorage storage)
+        {
+            var pp = Marshal.AllocHGlobal(sizeof(int) * 3);
+            Marshal.WriteInt32(pp, n);
+            var sp = IntPtr.Add(pp, sizeof(int));
+            Marshal.WriteInt32(sp, (int)storage);
+            return (pp, sp);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditQuantiles(IntPtr task, int quant_order_n, IntPtr quant_order, IntPtr quants, IntPtr order_stats, VslStorage order_stats_storage);
+        static extern int vsldSSEditQuantiles(IntPtr task, IntPtr quant_order_n, IntPtr quant_order, IntPtr quants, IntPtr order_stats, IntPtr order_stats_storage);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SSEditQuantiles(VsldSSTask task, int quant_order_n, double[] quant_order, double[] quants, double[] order_stats, VslStorage order_stats_storage)
+        {
+            var np = task.Pinned.Add(new[] { quant_order_n, (int)order_stats_storage });
+            return vsldSSEditQuantiles(task.Ptr, np, task.Pinned.Add(quant_order), task.Pinned.Add(quants), task.Pinned.Add(order_stats), IntPtr.Add(np, sizeof(int)));
+        }
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslsSSEditQuantiles(IntPtr task, IntPtr quant_order_n, IntPtr quant_order, IntPtr quants, IntPtr order_stats, IntPtr order_stats_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditQuantiles(VslsSSTask task, int quant_order_n, float[] quant_order, float[] quants, float[] order_stats, VslStorage order_stats_storage)
-            => vslsSSEditQuantiles(task.Ptr, quant_order_n, task.Pinned.Add(quant_order), task.Pinned.Add(quants), task.Pinned.Add(order_stats), order_stats_storage);
+        {
+            var np = task.Pinned.Add(new[] { quant_order_n, (int)order_stats_storage });
+            return vslsSSEditQuantiles(task.Ptr, np, task.Pinned.Add(quant_order), task.Pinned.Add(quants), task.Pinned.Add(order_stats), IntPtr.Add(np, sizeof(int)));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsldSSEditStreamQuantiles(IntPtr task, int quant_order_n, IntPtr quant_order, IntPtr quants, int nparams, IntPtr vparams);
