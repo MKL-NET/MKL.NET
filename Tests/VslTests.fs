@@ -371,6 +371,7 @@ let rng =
 
 let stats =
     test "SS" {
+
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
@@ -449,6 +450,96 @@ let stats =
                 total / totalWeight
             )
             Check.close High expected mean
+        }
+
+        test "median_abs_dev_double" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let mad = Array.zeroCreate<double> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.MDAD, mad) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MDAD, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expected = Array.init vars (fun i ->
+                Array.Sort(x, i*obvs, obvs)
+                let median =
+                    if obvs % 2 = 1 then x.[i*obvs+obvs/2]
+                    else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5
+                for j = i*obvs to (i+1)*obvs-1 do
+                    x.[j] <- abs(x.[j] - median)
+                Array.Sort(x, i*obvs, obvs)
+                if obvs % 2 = 1 then x.[i*obvs+obvs/2]
+                else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5
+            )
+            Check.close VeryHigh expected mad
+        }
+
+        test "median_abs_dev_single" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let mad = Array.zeroCreate<single> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.MDAD, mad) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MDAD, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expected = Array.init vars (fun i ->
+                Array.Sort(x, i*obvs, obvs)
+                let median =
+                    if obvs % 2 = 1 then x.[i*obvs+obvs/2]
+                    else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5f
+                for j = i*obvs to (i+1)*obvs-1 do
+                    x.[j] <- abs(x.[j] - median)
+                Array.Sort(x, i*obvs, obvs)
+                if obvs % 2 = 1 then x.[i*obvs+obvs/2]
+                else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5f
+            )
+            Check.close VeryHigh expected mad
+        }
+
+        test "mean_abs_dev_double" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let mad = Array.zeroCreate<double> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.MNAD, mad) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MNAD, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expected = Array.init vars (fun i ->
+                let mutable m = 0.0
+                for j = i*obvs to (i+1)*obvs-1 do
+                    m <- m + x.[j]
+                m <- m / double obvs
+                let mutable t = 0.0
+                for j = i*obvs to (i+1)*obvs-1 do
+                    t <- t + abs(x.[j] - m)
+                t / double obvs
+            )
+            Check.close VeryHigh expected mad
+        }
+
+        test "mean_abs_dev_single" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let mad = Array.zeroCreate<single> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.MNAD, mad) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MNAD, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expected = Array.init vars (fun i ->
+                let mutable m = 0.0f
+                for j = i*obvs to (i+1)*obvs-1 do
+                    m <- m + x.[j]
+                m <- m / single obvs
+                let mutable t = 0.0f
+                for j = i*obvs to (i+1)*obvs-1 do
+                    t <- t + abs(x.[j] - m)
+                t / single obvs
+            )
+            Check.close VeryHigh expected mad
         }
     }
 
