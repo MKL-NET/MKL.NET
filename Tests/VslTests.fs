@@ -539,7 +539,7 @@ let stats =
                     t <- t + abs(x.[j] - m)
                 t / single obvs
             )
-            Check.close VeryHigh expected mad
+            Check.close High expected mad
         }
     }
 
