@@ -495,7 +495,7 @@ let stats =
                 if obvs % 2 = 1 then x.[i*obvs+obvs/2]
                 else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5f
             )
-            Check.close VeryHigh expected mad
+            Check.close High expected mad
         }
 
         test "mean_abs_dev_double" {
@@ -540,6 +540,64 @@ let stats =
                 t / single obvs
             )
             Check.close Medium expected mad
+        }
+
+        test "max_min_double" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let max = Array.zeroCreate<double> vars
+            let min = Array.zeroCreate<double> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.MAX, max) |> Check.equal 0
+            Vsl.SSEditTask(task, VslEdit.MIN, min) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MAX ||| VslEstimate.MIN, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expectedMax = Array.init vars (fun i ->
+                let mutable max = -infinity
+                for j = i*obvs to (i+1)*obvs-1 do
+                    let xj = x.[j]
+                    if xj > max then max <- xj
+                max
+            )
+            Check.close VeryHigh expectedMax max
+            let expectedMin = Array.init vars (fun i ->
+                let mutable min = infinity
+                for j = i*obvs to (i+1)*obvs-1 do
+                    let xj = x.[j]
+                    if xj > min then min <- xj
+                min
+            )
+            Check.close VeryHigh expectedMin min
+        }
+
+        test "max_min_single" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let max = Array.zeroCreate<single> vars
+            let min = Array.zeroCreate<single> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.MAX, max) |> Check.equal 0
+            Vsl.SSEditTask(task, VslEdit.MIN, min) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MAX ||| VslEstimate.MIN, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expectedMax = Array.init vars (fun i ->
+                let mutable max = -infinityf
+                for j = i*obvs to (i+1)*obvs-1 do
+                    let xj = x.[j]
+                    if xj > max then max <- xj
+                max
+            )
+            Check.close VeryHigh expectedMax max
+            let expectedMin = Array.init vars (fun i ->
+                let mutable min = infinityf
+                for j = i*obvs to (i+1)*obvs-1 do
+                    let xj = x.[j]
+                    if xj > min then min <- xj
+                min
+            )
+            Check.close VeryHigh expectedMin min
         }
     }
 
