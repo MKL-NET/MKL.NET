@@ -610,7 +610,18 @@ let stats =
             Vsl.SSEditQuantiles(task, quantiles.Length, quantiles, quants, null, VslStorage.ROWS) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.QUANTS, VslMethod.FAST) |> Check.equal 0
             Vsl.SSDeleteTask task |> Check.equal 0
-            // percentiles test
+            let percentile s ss se p =
+                let inline linear2 (x1,y1) (x2,y2) x = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
+                let si = double ss + double(se-ss-1)*p
+                if si <= double ss then Array.get s ss
+                elif si >= double(se-1) then Array.get s (se-1)
+                else linear2 (floor si,s.[int si]) (floor si + 1.0,s.[int si + 1]) si
+            let expected = Array.init (vars*quantiles.Length) (fun i ->
+                let var, qi = Math.DivRem(i,quantiles.Length)
+                Array.Sort(x, var*obvs, obvs)
+                percentile x (var*obvs) (var*obvs+obvs) quantiles.[qi]
+            )
+            Check.close High expected quants
         }
 
         test "quantiles_single" {
@@ -623,7 +634,18 @@ let stats =
             Vsl.SSEditQuantiles(task, quantiles.Length, quantiles, quants, null, VslStorage.ROWS) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.QUANTS, VslMethod.FAST) |> Check.equal 0
             Vsl.SSDeleteTask task |> Check.equal 0
-            // percentiles test
+            let percentile s ss se p =
+                let inline linear2 (x1,y1) (x2,y2) x = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
+                let si = single ss + single(se-ss-1)*p
+                if si <= single ss then Array.get s ss
+                elif si >= single(se-1) then Array.get s (se-1)
+                else linear2 (floor si,s.[int si]) (floor si + 1.0f,s.[int si + 1]) si
+            let expected = Array.init (vars*quantiles.Length) (fun i ->
+                let var, qi = Math.DivRem(i,quantiles.Length)
+                Array.Sort(x, var*obvs, obvs)
+                percentile x (var*obvs) (var*obvs+obvs) quantiles.[qi]
+            )
+            Check.close Medium expected quants
         }
     }
 

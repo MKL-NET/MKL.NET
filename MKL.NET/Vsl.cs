@@ -746,7 +746,7 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditMoments(VslsSSTask task, float[] mean, float[] r2m, float[] r3m, float[] r4m, float[] c2m, float[] c3m, float[] c4m)
             => vslsSSEditMoments(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(r2m), task.Pinned.Add(r3m), task.Pinned.Add(r4m),
-                    task.Pinned.Add(c2m),    task.Pinned.Add(c3m), task.Pinned.Add(c4m));
+                    task.Pinned.Add(c2m), task.Pinned.Add(c3m), task.Pinned.Add(c4m));
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsldSSEditSums(IntPtr task, IntPtr sum, IntPtr r2s, IntPtr r3s, IntPtr r4s, IntPtr c2s, IntPtr c3s, IntPtr c4s);
@@ -763,51 +763,59 @@ namespace MKLNET
                     task.Pinned.Add(c2s), task.Pinned.Add(c3s), task.Pinned.Add(c4s));
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditCovCor(IntPtr task, IntPtr mean, IntPtr cov, VslFormat cov_storage, IntPtr cor, VslFormat cor_storage);
+        static extern int vsldSSEditCovCor(IntPtr task, IntPtr mean, IntPtr cov, IntPtr cov_storage, IntPtr cor, IntPtr cor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditCovCor(VsldSSTask task, double[] mean, double[] cov, VslFormat cov_storage, double[] cor, VslFormat cor_storage)
-            => vsldSSEditCovCor(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(cov), cov_storage, task.Pinned.Add(cor), cor_storage);
+        {
+            var p = task.Pinned.Add(new[] { (int)cov_storage, (int)cor_storage });
+            return vsldSSEditCovCor(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(cov), p, task.Pinned.Add(cor), IntPtr.Add(p, sizeof(int)));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditCovCor(IntPtr task, IntPtr mean, IntPtr cov, VslFormat cov_storage, IntPtr cor, VslFormat cor_storage);
+        static extern int vslsSSEditCovCor(IntPtr task, IntPtr mean, IntPtr cov, IntPtr cov_storage, IntPtr cor, IntPtr cor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditCovCor(VslsSSTask task, float[] mean, float[] cov, VslFormat cov_storage, float[] cor, VslFormat cor_storage)
-            => vslsSSEditCovCor(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(cov), cov_storage, task.Pinned.Add(cor), cor_storage);
+        {
+            var p = task.Pinned.Add(new[] { (int)cov_storage, (int)cor_storage });
+            return vslsSSEditCovCor(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(cov), p, task.Pinned.Add(cor), IntPtr.Add(p, sizeof(int)));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditCP(IntPtr task, IntPtr mean, IntPtr sum, IntPtr cp, VslFormat cp_storage);
+        static extern int vsldSSEditCP(IntPtr task, IntPtr mean, IntPtr sum, IntPtr cp, IntPtr cp_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditCP(VsldSSTask task, double[] mean, double[] sum, double[] cp, VslFormat cp_storage)
-            => vsldSSEditCP(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(sum), task.Pinned.Add(cp), cp_storage);
+        {
+            var p = task.Pinned.Add(new[] { (int)cp_storage });
+            return vsldSSEditCP(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(sum), task.Pinned.Add(cp), p);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditCP(IntPtr task, IntPtr mean, IntPtr sum, IntPtr cp, VslFormat cp_storage);
+        static extern int vslsSSEditCP(IntPtr task, IntPtr mean, IntPtr sum, IntPtr cp, IntPtr cp_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditCP(VslsSSTask task, float[] mean, float[] sum, float[] cp, VslFormat cp_storage)
-            => vslsSSEditCP(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(sum), task.Pinned.Add(cp), cp_storage);
+        {
+            var p = task.Pinned.Add(new[] { (int)cp_storage });
+            return vslsSSEditCP(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(sum), task.Pinned.Add(cp), p);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditPartialCovCor(IntPtr task, IntPtr p_idx_array, IntPtr cov, VslStorage cov_storage, IntPtr cor, VslStorage cor_storage, IntPtr p_cov, VslStorage p_cov_storage, IntPtr p_cor, VslStorage p_cor_storage);
+        static extern int vsldSSEditPartialCovCor(IntPtr task, IntPtr p_idx_array, IntPtr cov, IntPtr cov_storage, IntPtr cor, IntPtr cor_storage, IntPtr p_cov, IntPtr p_cov_storage, IntPtr p_cor, IntPtr p_cor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditPartialCovCor(VsldSSTask task, int[] p_idx_array, double[] cov, VslStorage cov_storage, double[] cor, VslStorage cor_storage, double[] p_cov, VslStorage p_cov_storage, double[] p_cor, VslStorage p_cor_storage)
-            => vsldSSEditPartialCovCor(task.Ptr, task.Pinned.Add(p_idx_array), task.Pinned.Add(cov), cov_storage, task.Pinned.Add(cor), cor_storage,
-                    task.Pinned.Add(p_cov), p_cov_storage, task.Pinned.Add(p_cor), p_cor_storage);
+        {
+            var p = task.Pinned.Add(new[] { (int)cov_storage, (int)cor_storage, (int)p_cov_storage, (int)p_cor_storage });
+            return vsldSSEditPartialCovCor(task.Ptr, task.Pinned.Add(p_idx_array), task.Pinned.Add(cov), p, task.Pinned.Add(cor), IntPtr.Add(p, sizeof(int)),
+                    task.Pinned.Add(p_cov), IntPtr.Add(p, sizeof(int) * 2), task.Pinned.Add(p_cor), IntPtr.Add(p, sizeof(int) * 3));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditPartialCovCor(IntPtr task, IntPtr p_idx_array, IntPtr cov, VslStorage cov_storage, IntPtr cor, VslStorage cor_storage, IntPtr p_cov, VslStorage p_cov_storage, IntPtr p_cor, VslStorage p_cor_storage);
+        static extern int vslsSSEditPartialCovCor(IntPtr task, IntPtr p_idx_array, IntPtr cov, IntPtr cov_storage, IntPtr cor, IntPtr cor_storage, IntPtr p_cov, IntPtr p_cov_storage, IntPtr p_cor, IntPtr p_cor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditPartialCovCor(VslsSSTask task, int[] p_idx_array, float[] cov, VslStorage cov_storage, float[] cor, VslStorage cor_storage, float[] p_cov, VslStorage p_cov_storage, float[] p_cor, VslStorage p_cor_storage)
-            => vslsSSEditPartialCovCor(task.Ptr, task.Pinned.Add(p_idx_array), task.Pinned.Add(cov), cov_storage, task.Pinned.Add(cor), cor_storage,
-                    task.Pinned.Add(p_cov), p_cov_storage, task.Pinned.Add(p_cor), p_cor_storage);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static (IntPtr, IntPtr) QuantileAllocate(int n, VslStorage storage)
         {
-            var pp = Marshal.AllocHGlobal(sizeof(int) * 3);
-            Marshal.WriteInt32(pp, n);
-            var sp = IntPtr.Add(pp, sizeof(int));
-            Marshal.WriteInt32(sp, (int)storage);
-            return (pp, sp);
+            var p = task.Pinned.Add(new[] { (int)cov_storage, (int)cor_storage, (int)p_cov_storage, (int)p_cor_storage });
+            return vslsSSEditPartialCovCor(task.Ptr, task.Pinned.Add(p_idx_array), task.Pinned.Add(cov), p, task.Pinned.Add(cor), IntPtr.Add(p, sizeof(int)),
+                    task.Pinned.Add(p_cov), IntPtr.Add(p, sizeof(int) * 2), task.Pinned.Add(p_cor), IntPtr.Add(p, sizeof(int) * 3));
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -829,16 +837,22 @@ namespace MKLNET
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditStreamQuantiles(IntPtr task, int quant_order_n, IntPtr quant_order, IntPtr quants, int nparams, IntPtr vparams);
+        static extern int vsldSSEditStreamQuantiles(IntPtr task, IntPtr quant_order_n, IntPtr quant_order, IntPtr quants, int nparams, IntPtr vparams);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditStreamQuantiles(VsldSSTask task, int quant_order_n, double[] quant_order, double[] quants, int nparams, double[] vparams)
-            => vsldSSEditStreamQuantiles(task.Ptr, quant_order_n, task.Pinned.Add(quant_order), task.Pinned.Add(quants), nparams, task.Pinned.Add(vparams));
+        {
+            var p = task.Pinned.Add(new[] { quant_order_n });
+            return vsldSSEditStreamQuantiles(task.Ptr, p, task.Pinned.Add(quant_order), task.Pinned.Add(quants), nparams, task.Pinned.Add(vparams));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditStreamQuantiles(IntPtr task, int quant_order_n, IntPtr quant_order, IntPtr quants, int nparams, IntPtr vparams);
+        static extern int vslsSSEditStreamQuantiles(IntPtr task, IntPtr quant_order_n, IntPtr quant_order, IntPtr quants, int nparams, IntPtr vparams);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditStreamQuantiles(VslsSSTask task, int quant_order_n, float[] quant_order, float[] quants, int nparams, float[] vparams)
-            => vslsSSEditStreamQuantiles(task.Ptr, quant_order_n, task.Pinned.Add(quant_order), task.Pinned.Add(quants), nparams, task.Pinned.Add(vparams));
+        {
+            var p = task.Pinned.Add(new[] { quant_order_n });
+            return vslsSSEditStreamQuantiles(task.Ptr, p, task.Pinned.Add(quant_order), task.Pinned.Add(quants), nparams, task.Pinned.Add(vparams));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsldSSEditPooledCovariance(IntPtr task, IntPtr grp_indices, IntPtr pld_mean, IntPtr pld_cov, IntPtr req_grp_indices, IntPtr grp_means, IntPtr grp_cov);
@@ -855,54 +869,78 @@ namespace MKLNET
                     task.Pinned.Add(grp_means), task.Pinned.Add(grp_cov));
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditRobustCovariance(IntPtr task, VslStorage rcov_storage, int nparams, IntPtr vparams, IntPtr rmean, IntPtr rcov);
+        static extern int vsldSSEditRobustCovariance(IntPtr task, IntPtr rcov_storage, IntPtr nparams, IntPtr vparams, IntPtr rmean, IntPtr rcov);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditRobustCovariance(VsldSSTask task, VslStorage rcov_storage, int nparams, double[] vparams, double[] rmean, double[] rcov)
-            => vsldSSEditRobustCovariance(task.Ptr, rcov_storage, nparams, task.Pinned.Add(vparams), task.Pinned.Add(rmean), task.Pinned.Add(rcov));
+        {
+            var p = task.Pinned.Add(new[] { (int)rcov_storage, nparams });
+            return vsldSSEditRobustCovariance(task.Ptr, p, p + sizeof(int), task.Pinned.Add(vparams), task.Pinned.Add(rmean), task.Pinned.Add(rcov));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditRobustCovariance(IntPtr task, VslStorage rcov_storage, int nparams, IntPtr vparams, IntPtr rmean, IntPtr rcov);
+        static extern int vslsSSEditRobustCovariance(IntPtr task, IntPtr rcov_storage, IntPtr nparams, IntPtr vparams, IntPtr rmean, IntPtr rcov);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditRobustCovariance(VslsSSTask task, VslStorage rcov_storage, int nparams, float[] vparams, float[] rmean, float[] rcov)
-            => vslsSSEditRobustCovariance(task.Ptr, rcov_storage, nparams, task.Pinned.Add(vparams), task.Pinned.Add(rmean), task.Pinned.Add(rcov));
+        {
+            var p = task.Pinned.Add(new[] { (int)rcov_storage, nparams });
+            return vslsSSEditRobustCovariance(task.Ptr, p, p + sizeof(int), task.Pinned.Add(vparams), task.Pinned.Add(rmean), task.Pinned.Add(rcov));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditOutliersDetection(IntPtr task, int nparams, IntPtr vparams, IntPtr w);
+        static extern int vsldSSEditOutliersDetection(IntPtr task, IntPtr nparams, IntPtr vparams, IntPtr w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditOutliersDetection(VsldSSTask task, int nparams, double[] vparams, double[] w)
-            => vsldSSEditOutliersDetection(task.Ptr, nparams, task.Pinned.Add(vparams), task.Pinned.Add(w));
+        {
+            var p = task.Pinned.Add(new[] { nparams });
+            return vsldSSEditOutliersDetection(task.Ptr, p, task.Pinned.Add(vparams), task.Pinned.Add(w));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditOutliersDetection(IntPtr task, int nparams, IntPtr vparams, IntPtr w);
+        static extern int vslsSSEditOutliersDetection(IntPtr task, IntPtr nparams, IntPtr vparams, IntPtr w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditOutliersDetection(VslsSSTask task, int nparams, float[] vparams, float[] w)
-            => vslsSSEditOutliersDetection(task.Ptr, nparams, task.Pinned.Add(vparams), task.Pinned.Add(w));
+        {
+            var p = task.Pinned.Add(new[] { nparams });
+            return vslsSSEditOutliersDetection(task.Ptr, p, task.Pinned.Add(vparams), task.Pinned.Add(w));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditMissingValues(IntPtr task, int nparams, IntPtr vparams, int init_estimates_n, IntPtr init_estimates, int prior_n, IntPtr prior, int simul_missing_vals_n, IntPtr simul_missing_vals, int estimates_n, IntPtr estimates);
+        static extern int vsldSSEditMissingValues(IntPtr task, IntPtr nparams, IntPtr vparams, IntPtr init_estimates_n, IntPtr init_estimates, IntPtr prior_n, IntPtr prior, IntPtr simul_missing_vals_n, IntPtr simul_missing_vals, IntPtr estimates_n, IntPtr estimates);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditMissingValues(VsldSSTask task, int nparams, double[] vparams, int init_estimates_n, double[] init_estimates, int prior_n, double[] prior, int simul_missing_vals_n, double[] simul_missing_vals, int estimates_n, double[] estimates)
-            => vsldSSEditMissingValues(task.Ptr, nparams, task.Pinned.Add(vparams), init_estimates_n, task.Pinned.Add(init_estimates), prior_n, task.Pinned.Add(prior),
-                    simul_missing_vals_n, task.Pinned.Add(simul_missing_vals), estimates_n, task.Pinned.Add(estimates));
+        {
+            var p = task.Pinned.Add(new[] { nparams, init_estimates_n, prior_n, simul_missing_vals_n, estimates_n });
+            return vsldSSEditMissingValues(task.Ptr, p, task.Pinned.Add(vparams), p + sizeof(int), task.Pinned.Add(init_estimates), p + (sizeof(int) * 2), task.Pinned.Add(prior),
+                    p + (sizeof(int) * 3), task.Pinned.Add(simul_missing_vals), p + (sizeof(int) * 4), task.Pinned.Add(estimates));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditMissingValues(IntPtr task, int nparams, IntPtr vparams, int init_estimates_n, IntPtr init_estimates, int prior_n, IntPtr prior, int simul_missing_vals_n, IntPtr simul_missing_vals, int estimates_n, IntPtr estimates);
+        static extern int vslsSSEditMissingValues(IntPtr task, IntPtr nparams, IntPtr vparams, IntPtr init_estimates_n, IntPtr init_estimates, IntPtr prior_n, IntPtr prior, IntPtr simul_missing_vals_n, IntPtr simul_missing_vals, IntPtr estimates_n, IntPtr estimates);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditMissingValues(VslsSSTask task, int nparams, float[] vparams, int init_estimates_n, float[] init_estimates, int prior_n, float[] prior, int simul_missing_vals_n, float[] simul_missing_vals, int estimates_n, float[] estimates)
-            => vslsSSEditMissingValues(task.Ptr, nparams, task.Pinned.Add(vparams), init_estimates_n, task.Pinned.Add(init_estimates), prior_n, task.Pinned.Add(prior),
-                    simul_missing_vals_n, task.Pinned.Add(simul_missing_vals), estimates_n, task.Pinned.Add(estimates));
+        {
+            var p = task.Pinned.Add(new[] { nparams, init_estimates_n, prior_n, simul_missing_vals_n, estimates_n });
+            return vslsSSEditMissingValues(task.Ptr, p, task.Pinned.Add(vparams), p + sizeof(int), task.Pinned.Add(init_estimates), p + (sizeof(int) * 2), task.Pinned.Add(prior),
+                    p + (sizeof(int) * 3), task.Pinned.Add(simul_missing_vals), p + (sizeof(int) * 4), task.Pinned.Add(estimates));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vsldSSEditCorParameterization(IntPtr task, IntPtr cor, VslStorage cor_storage, IntPtr pcor, VslStorage pcor_storage);
+        static extern int vsldSSEditCorParameterization(IntPtr task, IntPtr cor, IntPtr cor_storage, IntPtr pcor, IntPtr pcor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditCorParameterization(VsldSSTask task, double[] cor, VslStorage cor_storage, double[] pcor, VslStorage pcor_storage)
-            => vsldSSEditCorParameterization(task.Ptr, task.Pinned.Add(cor), cor_storage, task.Pinned.Add(pcor), pcor_storage);
+        {
+            var p = task.Pinned.Add(new[] { (int)cor_storage, (int)pcor_storage });
+            return vsldSSEditCorParameterization(task.Ptr, task.Pinned.Add(cor), p, task.Pinned.Add(pcor), p + sizeof(int));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslsSSEditCorParameterization(IntPtr task, IntPtr cor, VslStorage cor_storage, IntPtr pcor, VslStorage pcor_storage);
+        static extern int vslsSSEditCorParameterization(IntPtr task, IntPtr cor, IntPtr cor_storage, IntPtr pcor, IntPtr pcor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SSEditCorParameterization(VslsSSTask task, float[] cor, VslStorage cor_storage, float[] pcor, VslStorage pcor_storage)
-            => vslsSSEditCorParameterization(task.Ptr, task.Pinned.Add(cor), cor_storage, task.Pinned.Add(pcor), pcor_storage);
+        {
+            var p = task.Pinned.Add(new[] { (int)cor_storage, (int)pcor_storage });
+            return vslsSSEditCorParameterization(task.Ptr, task.Pinned.Add(cor), p, task.Pinned.Add(pcor), p + sizeof(int));
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsldSSCompute(IntPtr task, VslEstimate estimates, VslMethod method);
