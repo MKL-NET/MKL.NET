@@ -704,7 +704,7 @@ let stats =
 
         test "cor_double" {
             let! obvs = Gen.Int.[3,100]
-            let! vars = Gen.Int.[2,100]
+            let! vars = Gen.Int.[2,10]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let cor = Array.zeroCreate<double> (vars*vars)
@@ -736,7 +736,7 @@ let stats =
 
         test "cor_single" {
             let! obvs = Gen.Int.[3,100]
-            let! vars = Gen.Int.[2,100]
+            let! vars = Gen.Int.[2,10]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let cor = Array.zeroCreate<single> (vars*vars)
