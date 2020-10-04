@@ -495,7 +495,7 @@ let stats =
                 if obvs % 2 = 1 then x.[i*obvs+obvs/2]
                 else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5f
             )
-            Check.close High expected mad
+            Check.close Medium expected mad
         }
 
         test "mean_abs_dev_double" {
