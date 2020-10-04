@@ -701,6 +701,70 @@ let stats =
             Check.close Low expectedMean mean
             Check.close Low expectedCov cov
         }
+
+        test "cor_double" {
+            let! obvs = Gen.Int.[2,100]
+            let! vars = Gen.Int.[2,100]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let mean = Array.zeroCreate<double> vars
+            let cor = Array.zeroCreate<double> (vars*vars)
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditCovCor(task, mean, null, VslFormat.FULL, cor, VslFormat.FULL) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.COR, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expectedMean = Array.init vars (fun i ->
+                let mutable total = 0.0
+                for j = 0 to obvs - 1 do
+                    total <- total + x.[i * obvs + j]
+                total / double obvs
+            )
+            let cov = Array.init (vars*vars) (fun ij ->
+                let i,j = Math.DivRem(ij,vars)
+                let mutable total = 0.0
+                for k = 0 to obvs - 1 do
+                    total <- total + (x.[k + obvs * i]-mean.[i]) * (x.[k + obvs * j]-mean.[j])
+                total / double(obvs-1)
+            )
+            let expectedCor = Array.init (vars*vars) (fun ij ->
+                let i,j = Math.DivRem(ij,vars)
+                if i=j then cov.[ij]
+                else cov.[ij] / sqrt(cov.[i + i * vars] * cov.[j + j *vars])
+            )
+            Check.close Medium expectedMean mean
+            Check.close Medium expectedCor cor
+        }
+
+        test "cor_single" {
+            let! obvs = Gen.Int.[2,100]
+            let! vars = Gen.Int.[2,100]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let mean = Array.zeroCreate<single> vars
+            let cor = Array.zeroCreate<single> (vars*vars)
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditCovCor(task, mean, null, VslFormat.FULL, cor, VslFormat.FULL) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.COR, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expectedMean = Array.init vars (fun i ->
+                let mutable total = 0.0f
+                for j = 0 to obvs - 1 do
+                    total <- total + x.[i * obvs + j]
+                total / single obvs
+            )
+            let cov = Array.init (vars*vars) (fun ij ->
+                let i,j = Math.DivRem(ij,vars)
+                let mutable total = 0.0f
+                for k = 0 to obvs - 1 do
+                    total <- total + (x.[k + obvs * i]-mean.[i]) * (x.[k + obvs * j]-mean.[j])
+                total / single(obvs-1)
+            )
+            let expectedCor = Array.init (vars*vars) (fun ij ->
+                let i,j = Math.DivRem(ij,vars)
+                if i=j then cov.[ij]
+                else cov.[ij] / sqrt(cov.[i + i * vars] * cov.[j + j *vars])
+            )
+            Check.close Low expectedMean mean
+            Check.close Low expectedCor cor
+        }
     }
 
 let conv_corr =
