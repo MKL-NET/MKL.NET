@@ -372,6 +372,42 @@ let rng =
 let stats =
     test "SS" {
 
+        test "sum_double" {
+            let! obvs = Gen.Int.[1,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let sum = Array.zeroCreate<double> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.SUM, sum) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.SUM, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expected = Array.init vars (fun i ->
+                let mutable total = 0.0
+                for j = 0 to obvs - 1 do
+                    total <- total + x.[i * obvs + j]
+                total
+            )
+            Check.close VeryHigh expected sum
+        }
+
+        test "sum_single" {
+            let! obvs = Gen.Int.[4,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let sum = Array.zeroCreate<single> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditTask(task, VslEdit.SUM, sum) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.SUM, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let expected = Array.init vars (fun i ->
+                let mutable total = 0.0f
+                for j = 0 to obvs - 1 do
+                    total <- total + x.[i * obvs + j]
+                total
+            )
+            Check.close High expected sum
+        }
+
         test "mean_double" {
             let! obvs = Gen.Int.[1,100]
             let! vars = Gen.Int.[1,100]
@@ -598,6 +634,40 @@ let stats =
                 min
             )
             Check.close VeryHigh expectedMin min
+        }
+
+        test "skewness_double" {
+            let! obvs = Gen.Int.[4,100]
+            let! vars = Gen.Int.[1,100]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let mean = Array.zeroCreate vars
+            let mom2r = Array.zeroCreate vars
+            let mom3r = Array.zeroCreate vars
+            let mom2c = Array.zeroCreate vars
+            let mom3c = Array.zeroCreate vars
+            let skewness = Array.zeroCreate<double> vars
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditMoments(task, mean, mom2r, mom3r, null, mom2c, mom3c, null) |> Check.equal 0
+            Vsl.SSEditTask(task, VslEdit.SKEWNESS, skewness) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.SKEWNESS, VslMethod.FAST) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            let mean = Array.init vars (fun i ->
+                let mutable total = 0.0
+                for j = 0 to obvs - 1 do
+                    total <- total + x.[i * obvs + j]
+                total / double obvs
+            )
+            let expected = Array.init vars (fun i ->
+                let m = mean.[i]
+                let mutable total2 = 0.0
+                let mutable total3 = 0.0
+                for j = 0 to obvs - 1 do
+                    let xm = x.[i * obvs + j] - m
+                    total2 <- total2 + xm * xm
+                    total3 <- total3 + xm * xm * xm
+                total3 / double obvs / Math.Pow(total2 / double(obvs-1), 1.5)
+            )
+            Check.close High expected skewness
         }
 
         test "quantiles_double" {
