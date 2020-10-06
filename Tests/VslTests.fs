@@ -835,6 +835,25 @@ let stats =
             Check.close High expectedMean mean
             Check.close Low expectedCor cor
         }
+
+        test "missing_data_double" {
+            let! obvs = Gen.Int.[25,50]
+            let! vars = Gen.Int.[5,10]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let em_iter_num       = 100
+            let da_iter_num       = 10
+            let em_accuracy       = 0.001
+            let copy_num          = 20
+            let missing_value_num = 3
+            x.[1] <- nan; x.[obvs] <- nan; x.[obvs+2] <- nan
+            let param = [| double em_iter_num; double da_iter_num; em_accuracy; double copy_num; double missing_value_num |]
+            let simul_missing_vals = Array.zeroCreate<double> (missing_value_num*copy_num)
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditMissingValues(task, param.Length, param, 0, null, 0, null, simul_missing_vals.Length, simul_missing_vals, 0, null) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MISSING_VALS, VslMethod.MI) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            Array.sumBy abs simul_missing_vals |> Check.notDefaultValue
+        }
     }
 
 let conv_corr =
