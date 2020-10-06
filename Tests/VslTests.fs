@@ -873,6 +873,42 @@ let stats =
             Vsl.SSDeleteTask task |> Check.equal 0
             Array.sumBy abs simul_missing_vals |> Check.notDefaultValue
         }
+
+        test "outliers_double" {
+            let! obvs = Gen.Int.[25,35]
+            let! vars = Gen.Int.[3,5]
+            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let init_method = double VslBaconInit.MEDIAN
+            let alpha       = 0.005
+            let beta        = 0.005
+            x.[5] <- 100.0; x.[9+obvs*2] <- -100.0
+            let param = [| init_method; alpha; beta |]
+            let baconWeights = Array.zeroCreate<double> obvs
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditOutliersDetection(task, param.Length, param, baconWeights) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.OUTLIERS, VslMethod.BACON) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            Array.sumBy abs baconWeights |> Check.notDefaultValue
+            Array.forall (fun i -> i = 0.0 || i = 1.0) baconWeights |> Check.isTrue
+        }
+
+        test "outliers_single" {
+            let! obvs = Gen.Int.[25,35]
+            let! vars = Gen.Int.[3,5]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let init_method = single VslBaconInit.MEDIAN
+            let alpha       = 0.005f
+            let beta        = 0.005f
+            x.[5] <- 100.0f; x.[9+obvs*2] <- -100.0f
+            let param = [| init_method; alpha; beta |]
+            let baconWeights = Array.zeroCreate<single> obvs
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditOutliersDetection(task, param.Length, param, baconWeights) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.OUTLIERS, VslMethod.BACON) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            Array.sumBy abs baconWeights |> Check.notDefaultValue
+            Array.forall (fun i -> i = 0.0f || i = 1.0f) baconWeights |> Check.isTrue
+        }
     }
 
 let conv_corr =

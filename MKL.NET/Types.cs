@@ -360,6 +360,12 @@ namespace MKLNET
         RADIX           = 0x00100000,
     }
 
+    public enum VslBaconInit
+    {
+        MAHALANOBIS = 0x00000001,
+        MEDIAN      = 0x00000002,
+    }
+
     public enum VslBrng
     {
         MCG31         = (1 << 20),
