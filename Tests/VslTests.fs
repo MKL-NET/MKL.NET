@@ -837,17 +837,36 @@ let stats =
         }
 
         test "missing_data_double" {
-            let! obvs = Gen.Int.[25,50]
-            let! vars = Gen.Int.[5,10]
+            let! obvs = Gen.Int.[10,25]
+            let! vars = Gen.Int.[3,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
-            let em_iter_num       = 100
-            let da_iter_num       = 10
+            let em_iter_num       = 3
+            let da_iter_num       = 2
             let em_accuracy       = 0.001
-            let copy_num          = 20
+            let copy_num          = 10
             let missing_value_num = 3
             x.[1] <- nan; x.[obvs] <- nan; x.[obvs+2] <- nan
             let param = [| double em_iter_num; double da_iter_num; em_accuracy; double copy_num; double missing_value_num |]
             let simul_missing_vals = Array.zeroCreate<double> (missing_value_num*copy_num)
+            let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
+            Vsl.SSEditMissingValues(task, param.Length, param, 0, null, 0, null, simul_missing_vals.Length, simul_missing_vals, 0, null) |> Check.equal 0
+            Vsl.SSCompute(task, VslEstimate.MISSING_VALS, VslMethod.MI) |> Check.equal 0
+            Vsl.SSDeleteTask task |> Check.equal 0
+            Array.sumBy abs simul_missing_vals |> Check.notDefaultValue
+        }
+
+        test "missing_data_single" {
+            let! obvs = Gen.Int.[10,25]
+            let! vars = Gen.Int.[3,5]
+            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let em_iter_num       = 3
+            let da_iter_num       = 2
+            let em_accuracy       = 0.001f
+            let copy_num          = 10
+            let missing_value_num = 3
+            x.[1] <- nanf; x.[obvs] <- nanf; x.[obvs+2] <- nanf
+            let param = [| single em_iter_num; single da_iter_num; em_accuracy; single copy_num; single missing_value_num |]
+            let simul_missing_vals = Array.zeroCreate<single> (missing_value_num*copy_num)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditMissingValues(task, param.Length, param, 0, null, 0, null, simul_missing_vals.Length, simul_missing_vals, 0, null) |> Check.equal 0
             Vsl.SSCompute(task, VslEstimate.MISSING_VALS, VslMethod.MI) |> Check.equal 0
