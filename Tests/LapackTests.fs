@@ -55,7 +55,7 @@ let all =
             let P = perm ipiv rows 1.0
             let LU = mul rows L mids U cols
             let PLU = mul rows P rows LU cols
-            Check.close VeryHigh expected PLU
+            Check.close High expected PLU
         }
 
         test "getrf_single" { // LU factorization
@@ -103,7 +103,7 @@ let all =
             Check.close High expected a
         }
 
-        test "potrf_single" {
+        test "potrf_single" { // Cholesky
             let! rows = Gen.Int.[1,ROWS_MAX]
             let! expected = Gen.Single.OneTwo.Array.[rows*rows]
             for i = 0 to rows-2 do
