@@ -33,7 +33,7 @@ let perm (ipiv:int[]) n one =
 let all =
     test "Lapack" {
 
-        test "getrf_double" { // LU factorization
+        test "getrf_double" { // LU factorization with permutation matrix
             let! rows = Gen.Int.[1,ROWS_MAX]
             let! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*cols]
@@ -58,7 +58,7 @@ let all =
             Check.close High expected PLU
         }
 
-        test "getrf_single" { // LU factorization
+        test "getrf_single" { // LU factorization with permutation matrix
             let! rows = Gen.Int.[1,ROWS_MAX]
             let! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*cols]
@@ -81,6 +81,94 @@ let all =
             let LU = mul rows L mids U cols
             let PLU = mul rows P rows LU cols
             Check.close High expected PLU
+        }
+
+        test "getrfnp_double" { // LU factorization
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rows*cols]
+            let expected = Array.copy A
+            Lapack.getrfnp(Layout.RowMajor, rows, cols, A, cols) |> Check.equal 0
+            let mids = min rows cols
+            let L = Array.init (rows*mids) (fun i ->
+                let row,col = Math.DivRem(i,mids)
+                if col > row then 0.0
+                elif col = row then 1.0
+                else A.[col+row*cols]
+            )
+            let U = Array.init (mids*cols) (fun i ->
+                let row,col = Math.DivRem(i,cols)
+                if col < row then 0.0
+                else A.[col+row*cols]
+            )
+            let LU = mul rows L mids U cols
+            Check.close High expected LU
+        }
+
+        test "getrfnp_single" { // LU factorization
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.OneTwo.Array.[rows*cols]
+            let expected = Array.copy A
+            Lapack.getrfnp(Layout.RowMajor, rows, cols, A, cols) |> Check.equal 0
+            let mids = min rows cols
+            let L = Array.init (rows*mids) (fun i ->
+                let row,col = Math.DivRem(i,mids)
+                if col > row then 0.0f
+                elif col = row then 1.0f
+                else A.[col+row*cols]
+            )
+            let U = Array.init (mids*cols) (fun i ->
+                let row,col = Math.DivRem(i,cols)
+                if col < row then 0.0f
+                else A.[col+row*cols]
+            )
+            let LU = mul rows L mids U cols
+            Check.close Low expected LU
+        }
+
+        test "getrfnpi_double" { // LU factorization incomplete
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rows*cols]
+            let expected = Array.copy A
+            let mids = min rows cols
+            Lapack.getrfnpi(Layout.RowMajor, rows, cols, mids, A, cols) |> Check.equal 0
+            let L = Array.init (rows*mids) (fun i ->
+                let row,col = Math.DivRem(i,mids)
+                if col > row then 0.0
+                elif col = row then 1.0
+                else A.[col+row*cols]
+            )
+            let U = Array.init (mids*cols) (fun i ->
+                let row,col = Math.DivRem(i,cols)
+                if col < row then 0.0
+                else A.[col+row*cols]
+            )
+            let LU = mul rows L mids U cols
+            Check.close High expected LU
+        }
+
+        test "getrfnpi_single" { // LU factorization incomplete
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.OneTwo.Array.[rows*cols]
+            let expected = Array.copy A
+            let mids = min rows cols
+            Lapack.getrfnpi(Layout.RowMajor, rows, cols, mids, A, cols) |> Check.equal 0
+            let L = Array.init (rows*mids) (fun i ->
+                let row,col = Math.DivRem(i,mids)
+                if col > row then 0.0f
+                elif col = row then 1.0f
+                else A.[col+row*cols]
+            )
+            let U = Array.init (mids*cols) (fun i ->
+                let row,col = Math.DivRem(i,cols)
+                if col < row then 0.0f
+                else A.[col+row*cols]
+            )
+            let LU = mul rows L mids U cols
+            Check.close Low expected LU
         }
 
         test "potrf_double" { // Cholesky

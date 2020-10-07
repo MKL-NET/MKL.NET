@@ -7280,7 +7280,7 @@ namespace MKLNET
         static extern int LAPACKE_mkl_dgetrfnpi(Layout layout, int m, int n,
             int nfact, double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dgetrfnpi(Layout layout, int m, int n,
+        public static int getrfnpi(Layout layout, int m, int n,
             int nfact, double[] a, int lda)
             => LAPACKE_mkl_dgetrfnpi(layout, m, n,
                 nfact, a, lda);
@@ -7290,7 +7290,7 @@ namespace MKLNET
             double[] ap, int i, int j, int rows,
             int cols, double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dtppack(Layout layout, UpLoChar uplo, TransChar trans, int n,
+        public static int tppack(Layout layout, UpLoChar uplo, TransChar trans, int n,
             double[] ap, int i, int j, int rows,
             int cols, double[] a, int lda)
             => LAPACKE_mkl_dtppack(layout, uplo, trans, n,
@@ -7302,7 +7302,7 @@ namespace MKLNET
             double[] ap, int i, int j, int rows,
             int cols, double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dtpunpack(Layout layout, UpLoChar uplo, TransChar trans, int n,
+        public static int tpunpack(Layout layout, UpLoChar uplo, TransChar trans, int n,
             double[] ap, int i, int j, int rows,
             int cols, double[] a, int lda)
             => LAPACKE_mkl_dtpunpack(layout, uplo, trans, n,
@@ -7313,7 +7313,7 @@ namespace MKLNET
         static extern int LAPACKE_mkl_sgetrfnpi(Layout layout, int m, int n,
             int nfact, float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_sgetrfnpi(Layout layout, int m, int n,
+        public static int getrfnpi(Layout layout, int m, int n,
             int nfact, float[] a, int lda)
             => LAPACKE_mkl_sgetrfnpi(layout, m, n,
                 nfact, a, lda);
@@ -7323,7 +7323,7 @@ namespace MKLNET
             float[] ap, int i, int j, int rows,
             int cols, float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_stppack(Layout layout, UpLoChar uplo, TransChar trans, int n,
+        public static int tppack(Layout layout, UpLoChar uplo, TransChar trans, int n,
             float[] ap, int i, int j, int rows,
             int cols, float[] a, int lda)
             => LAPACKE_mkl_stppack(layout, uplo, trans, n,
@@ -7335,7 +7335,7 @@ namespace MKLNET
             float[] ap, int i, int j, int rows,
             int cols, float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_stpunpack(Layout layout, UpLoChar uplo, TransChar trans, int n,
+        public static int tpunpack(Layout layout, UpLoChar uplo, TransChar trans, int n,
             float[] ap, int i, int j, int rows,
             int cols, float[] a, int lda)
             => LAPACKE_mkl_stpunpack(layout, uplo, trans, n,
@@ -15659,7 +15659,7 @@ namespace MKLNET
         static extern int LAPACKE_mkl_dgetrfnp(Layout layout, int m, int n,
             double[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dgetrfnp(Layout layout, int m, int n,
+        public static int getrfnp(Layout layout, int m, int n,
             double[] a, int lda)
             => LAPACKE_mkl_dgetrfnp(layout, m, n,
                 a, lda);
@@ -15668,7 +15668,7 @@ namespace MKLNET
         static extern int LAPACKE_mkl_sgetrfnp(Layout layout, int m, int n,
             float[] a, int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_sgetrfnp(Layout layout, int m, int n,
+        public static int getrfnp(Layout layout, int m, int n,
             float[] a, int lda)
             => LAPACKE_mkl_sgetrfnp(layout, m, n,
                 a, lda);
@@ -15677,7 +15677,7 @@ namespace MKLNET
         static extern int LAPACKE_mkl_dgetrinp(Layout layout, int n, double[] a,
             int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dgetrinp(Layout layout, int n, double[] a,
+        public static int getrinp(Layout layout, int n, double[] a,
             int lda)
             => LAPACKE_mkl_dgetrinp(layout, n, a,
                 lda);
@@ -15687,7 +15687,7 @@ namespace MKLNET
             double[] a, int lda, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_dgetrinp(Layout layout, int n,
+        public static int getrinp(Layout layout, int n,
             double[] a, int lda, double[] work,
             int lwork)
             => LAPACKE_mkl_dgetrinp_work(layout, n,
@@ -15698,7 +15698,7 @@ namespace MKLNET
         static extern int LAPACKE_mkl_sgetrinp(Layout layout, int n, float[] a,
             int lda);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_sgetrinp(Layout layout, int n, float[] a,
+        public static int getrinp(Layout layout, int n, float[] a,
             int lda)
             => LAPACKE_mkl_sgetrinp(layout, n, a,
                 lda);
@@ -15708,7 +15708,7 @@ namespace MKLNET
             float[] a, int lda, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int mkl_sgetrinp(Layout layout, int n,
+        public static int getrinp(Layout layout, int n,
             float[] a, int lda, float[] work,
             int lwork)
             => LAPACKE_mkl_sgetrinp_work(layout, n,
