@@ -4302,27 +4302,27 @@ namespace MKLNET
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpstrf(Layout layout, UpLoChar uplo, int n, double[] a,
-            int lda, int[] piv, int[] rank,
+            int lda, int[] piv, ref int rank,
             double tol);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int pstrf(Layout layout, UpLoChar uplo, int n, double[] a,
-            int lda, int[] piv, int[] rank,
+            int lda, int[] piv, ref int rank,
             double tol)
             => LAPACKE_dpstrf(layout, uplo, n, a,
-                lda, piv, rank,
+                lda, piv, ref rank,
                 tol);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dpstrf_work(Layout layout, UpLoChar uplo, int n,
             double[] a, int lda, int[] piv,
-            int[] rank, double tol, double[] work);
+            ref int rank, double tol, double[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int pstrf(Layout layout, UpLoChar uplo, int n,
             double[] a, int lda, int[] piv,
-            int[] rank, double tol, double[] work)
+            ref int rank, double tol, double[] work)
             => LAPACKE_dpstrf_work(layout, uplo, n,
                 a, lda, piv,
-                rank, tol, work);
+                ref rank, tol, work);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dptcon(int n, double[] d, double[] e,
@@ -11436,27 +11436,27 @@ namespace MKLNET
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spstrf(Layout layout, UpLoChar uplo, int n, float[] a,
-            int lda, int[] piv, int[] rank,
+            int lda, int[] piv, ref int rank,
             float tol);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int pstrf(Layout layout, UpLoChar uplo, int n, float[] a,
-            int lda, int[] piv, int[] rank,
+            int lda, int[] piv, ref int rank,
             float tol)
             => LAPACKE_spstrf(layout, uplo, n, a,
-                lda, piv, rank,
+                lda, piv, ref rank,
                 tol);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_spstrf_work(Layout layout, UpLoChar uplo, int n,
             float[] a, int lda, int[] piv,
-            int[] rank, float tol, float[] work);
+            ref int rank, float tol, float[] work);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int pstrf(Layout layout, UpLoChar uplo, int n,
             float[] a, int lda, int[] piv,
-            int[] rank, float tol, float[] work)
+            ref int rank, float tol, float[] work)
             => LAPACKE_spstrf_work(layout, uplo, n,
                 a, lda, piv,
-                rank, tol, work);
+                ref rank, tol, work);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sptcon(int n, float[] d, float[] e,

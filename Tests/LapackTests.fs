@@ -16,6 +16,12 @@ let inline mul rows (A:'a[]) mids (B:'a[]) cols =
         t
     )
 
+let trans (A:'a[]) rows cols =
+    Array.init A.Length (fun i ->
+        let row,col = Math.DivRem(i,rows)
+        A.[row+col*cols]
+    )
+
 let perm (ipiv:int[]) n one =
     let p = Array.init n id
     for i = 0 to ipiv.Length-1 do
@@ -29,9 +35,13 @@ let perm (ipiv:int[]) n one =
         r.[col+row*n] <- one
     r
 
+let lower (A:'a[]) rows =
+    for i = 0 to rows-2 do
+        for j = i+1 to rows-1 do
+            A.[j+i*rows] <- Unchecked.defaultof<'a>
 
-let all =
-    test "Lapack" {
+let factorization =
+    test "factorization" {
 
         test "getrf_double" { // LU factorization with permutation matrix
             let! rows = Gen.Int.[1,ROWS_MAX]
@@ -223,81 +233,129 @@ let all =
 
         test "potrf_double" { // Cholesky factorization
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! expected = Gen.Double.OneTwo.Array.[rows*rows]
-            for i = 0 to rows-2 do
-                for j = i+1 to rows-1 do
-                    expected.[j+i*rows] <- 0.0
-
-            let a = Array.init (rows*rows) (fun i ->
-                let row, col = Math.DivRem(i,rows)
-                if col > row then 0.0
-                else
-                    let mutable t = 0.0
-                    for k = 0 to row do
-                        t <- t + expected.[k+col*rows] * expected.[k+row*rows]
-                    t
-            )
-            Lapack.potrf(Layout.RowMajor, UpLoChar.Lower, rows, a, rows) |> Check.equal 0
-            Check.close High expected a
+            let! L = Gen.Double.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            Lapack.potrf(Layout.RowMajor, UpLoChar.Lower, rows, A, rows) |> Check.equal 0
+            lower A rows
+            Check.close High L A
         }
 
         test "potrf_single" { // Cholesky factorization
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! expected = Gen.Single.OneTwo.Array.[rows*rows]
-            for i = 0 to rows-2 do
-                for j = i+1 to rows-1 do
-                    expected.[j+i*rows] <- 0.0f
-
-            let a = Array.init (rows*rows) (fun i ->
-                let row, col = Math.DivRem(i,rows)
-                if col > row then 0.0f
-                else
-                    let mutable t = 0.0f
-                    for k = 0 to row do
-                        t <- t + expected.[k+col*rows] * expected.[k+row*rows]
-                    t
-            )
-            Lapack.potrf(Layout.RowMajor, UpLoChar.Lower, rows, a, rows) |> Check.equal 0
-            Check.close High expected a
+            let! L = Gen.Single.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            Lapack.potrf(Layout.RowMajor, UpLoChar.Lower, rows, A, rows) |> Check.equal 0
+            lower A rows
+            Check.close High L A
         }
 
         test "potrf2_double" { // Cholesky factorization using a recursive algorithm
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! expected = Gen.Double.OneTwo.Array.[rows*rows]
-            for i = 0 to rows-2 do
-                for j = i+1 to rows-1 do
-                    expected.[j+i*rows] <- 0.0
-
-            let a = Array.init (rows*rows) (fun i ->
-                let row, col = Math.DivRem(i,rows)
-                if col > row then 0.0
-                else
-                    let mutable t = 0.0
-                    for k = 0 to row do
-                        t <- t + expected.[k+col*rows] * expected.[k+row*rows]
-                    t
-            )
-            Lapack.potrf2(Layout.RowMajor, UpLoChar.Lower, rows, a, rows) |> Check.equal 0
-            Check.close High expected a
+            let! L = Gen.Double.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            Lapack.potrf2(Layout.RowMajor, UpLoChar.Lower, rows, A, rows) |> Check.equal 0
+            lower A rows
+            Check.close High L A
         }
 
         test "potrf2_single" { // Cholesky factorization using a recursive algorithm
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! expected = Gen.Single.OneTwo.Array.[rows*rows]
-            for i = 0 to rows-2 do
-                for j = i+1 to rows-1 do
-                    expected.[j+i*rows] <- 0.0f
-
-            let a = Array.init (rows*rows) (fun i ->
-                let row, col = Math.DivRem(i,rows)
-                if col > row then 0.0f
-                else
-                    let mutable t = 0.0f
-                    for k = 0 to row do
-                        t <- t + expected.[k+col*rows] * expected.[k+row*rows]
-                    t
-            )
-            Lapack.potrf2(Layout.RowMajor, UpLoChar.Lower, rows, a, rows) |> Check.equal 0
-            Check.close High expected a
+            let! L = Gen.Single.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            Lapack.potrf2(Layout.RowMajor, UpLoChar.Lower, rows, A, rows) |> Check.equal 0
+            lower A rows
+            Check.close High L A
         }
+
+        test "pstrf_double" { // Cholesky factorization with complete pivoting
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! L = Gen.Double.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let L = Array.copy A
+            let piv = Array.zeroCreate rows
+            let mutable rank = 0
+            Lapack.pstrf(Layout.RowMajor, UpLoChar.Lower, rows, L, rows, piv, &rank, -1.0) |> Check.equal 0
+            lower L rows
+            let P = Array.zeroCreate (rows*rows)
+            for i = 0 to rows-1 do P.[i+(piv.[i]-1)*rows] <- 1.0
+            let PL = mul rows P rows L rows
+            let expected = mul rows PL rows (trans PL rows rows) rows
+            Check.close High expected A
+        }
+
+        test "pstrf_single" { // Cholesky factorization with complete pivoting
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! L = Gen.Single.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let L = Array.copy A
+            let piv = Array.zeroCreate rows
+            let mutable rank = 0
+            Lapack.pstrf(Layout.RowMajor, UpLoChar.Lower, rows, L, rows, piv, &rank, -1.0f) |> Check.equal 0
+            lower L rows
+            let P = Array.zeroCreate (rows*rows)
+            for i = 0 to rows-1 do P.[i+(piv.[i]-1)*rows] <- 1.0f
+            let PL = mul rows P rows L rows
+            let expected = mul rows PL rows (trans PL rows rows) rows
+            Check.close High expected A
+        }
+
+        test "sytrf_double" { // Bunch-Kaufman factorization
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! L = Gen.Double.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let ipiv = Array.zeroCreate rows
+            let D = Array.copy A
+            Lapack.sytrf(Layout.RowMajor, UpLoChar.Lower, rows, D, rows, ipiv) |> Check.equal 0
+            let L = Array.init (rows*rows) (fun i ->
+                let row,col = Math.DivRem(i,rows)
+                if col > row then 0.0
+                elif col = row then 1.0
+                else D.[col+row*rows]
+            )
+            let D = Array.init (rows*rows) (fun i ->
+                let row,col = Math.DivRem(i,rows)
+                if col = row then D.[col+row*rows]
+                else 0.0
+            )
+            let expected = mul rows (mul rows L rows D rows) rows (trans L rows rows) rows
+            if Array.indexed ipiv |> Array.forall (fun (i,j) -> i=j-1) then
+                Check.close High expected A
+        }
+
+        test "sytrf_float" { // Bunch-Kaufman factorization
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! L = Gen.Single.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let ipiv = Array.zeroCreate rows
+            let D = Array.copy A
+            Lapack.sytrf(Layout.RowMajor, UpLoChar.Lower, rows, D, rows, ipiv) |> Check.equal 0
+            let L = Array.init (rows*rows) (fun i ->
+                let row,col = Math.DivRem(i,rows)
+                if col > row then 0.0f
+                elif col = row then 1.0f
+                else D.[col+row*rows]
+            )
+            let D = Array.init (rows*rows) (fun i ->
+                let row,col = Math.DivRem(i,rows)
+                if col = row then D.[col+row*rows]
+                else 0.0f
+            )
+            let expected = mul rows (mul rows L rows D rows) rows (trans L rows rows) rows
+            if Array.indexed ipiv |> Array.forall (fun (i,j) -> i=j-1) then
+                Check.close High expected A
+        }
+    }
+
+
+let all =
+    test "Lapack" {
+        factorization
     }
