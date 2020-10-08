@@ -5,7 +5,7 @@ open System.Diagnostics
 
 let info fmt =
     let sb = System.Text.StringBuilder()
-    Printf.kbprintf (fun () -> sb.ToString() |> Information) sb fmt
+    Printf.kbprintf (fun () -> sb.Replace("\n","").ToString() |> Information) sb fmt
 
 let label s = Label s
 
@@ -87,10 +87,10 @@ let close accuracy (expected:'a) (actual:'a) =
             else
                 Failure(Normal "Length differs. expected: " + Numeric e.Length + " actual: " + Numeric a.Length)
         let inline closeDefault (e:'b) (a:'b) =
-            Failure(Normal "Expected difference to be less than "
-            + Numeric(Accuracy.areCloseRhs accuracy a e)
-            + Normal ", but was " + Numeric(Accuracy.areCloseLhs a e)
-            + Normal ". actual=" + Numeric a + Normal " expected=" + Numeric e
+            Failure(Normal "Actual=" + Numeric a + " expected=" + Numeric e
+            + " (difference " + Numeric(Accuracy.areCloseLhs a e)
+            + " not less than " + Numeric(Accuracy.areCloseRhs accuracy a e)
+            + ")."
             )
         match expected, actual with
         | (:? double as e), (:? double as a) ->

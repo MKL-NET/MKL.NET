@@ -354,8 +354,40 @@ let factorization =
         }
     }
 
+let linear_equations =
+    test "linear_equations" {
+
+        test "getrs_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! colsB = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rows*rows]
+            let! B = Gen.Double.OneTwo.Array.[rows*colsB]
+            let LU = Array.copy A
+            let X = Array.copy B
+            let ipiv = Array.zeroCreate (max rows rows)
+            Lapack.getrf(Layout.RowMajor, rows, rows, LU, rows, ipiv) |> Check.equal 0
+            Lapack.getrs(Layout.RowMajor, TransChar.No, rows, colsB, LU, rows, ipiv, X, colsB) |> Check.equal 0
+            let expected = mul rows A rows X colsB
+            Check.close High expected B
+        }
+
+        test "getrs_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! colsB = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.OneTwo.Array.[rows*rows]
+            let! B = Gen.Single.OneTwo.Array.[rows*colsB]
+            let LU = Array.copy A
+            let X = Array.copy B
+            let ipiv = Array.zeroCreate (max rows rows)
+            Lapack.getrf(Layout.RowMajor, rows, rows, LU, rows, ipiv) |> Check.equal 0
+            Lapack.getrs(Layout.RowMajor, TransChar.No, rows, colsB, LU, rows, ipiv, X, colsB) |> Check.equal 0
+            let expected = mul rows A rows X colsB
+            Check.close Low expected B
+        }
+    }
 
 let all =
     test "Lapack" {
         factorization
+        linear_equations
     }
