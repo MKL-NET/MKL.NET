@@ -359,30 +359,94 @@ let linear_equations =
 
         test "getrs_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! colsB = Gen.Int.[1,COLS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*rows]
-            let! B = Gen.Double.OneTwo.Array.[rows*colsB]
+            lower A rows
+            let! B = Gen.Double.OneTwo.Array.[rows*cols]
             let LU = Array.copy A
             let X = Array.copy B
-            let ipiv = Array.zeroCreate (max rows rows)
+            let ipiv = Array.zeroCreate rows
             Lapack.getrf(Layout.RowMajor, rows, rows, LU, rows, ipiv) |> Check.equal 0
-            Lapack.getrs(Layout.RowMajor, TransChar.No, rows, colsB, LU, rows, ipiv, X, colsB) |> Check.equal 0
-            let expected = mul rows A rows X colsB
+            Lapack.getrs(Layout.RowMajor, TransChar.No, rows, cols, LU, rows, ipiv, X, cols) |> Check.equal 0
+            let expected = mul rows A rows X cols
             Check.close High expected B
         }
 
         test "getrs_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! colsB = Gen.Int.[1,COLS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*rows]
-            let! B = Gen.Single.OneTwo.Array.[rows*colsB]
+            lower A rows
+            let! B = Gen.Single.OneTwo.Array.[rows*cols]
             let LU = Array.copy A
             let X = Array.copy B
-            let ipiv = Array.zeroCreate (max rows rows)
+            let ipiv = Array.zeroCreate rows
             Lapack.getrf(Layout.RowMajor, rows, rows, LU, rows, ipiv) |> Check.equal 0
-            Lapack.getrs(Layout.RowMajor, TransChar.No, rows, colsB, LU, rows, ipiv, X, colsB) |> Check.equal 0
-            let expected = mul rows A rows X colsB
-            Check.close Low expected B
+            Lapack.getrs(Layout.RowMajor, TransChar.No, rows, cols, LU, rows, ipiv, X, cols) |> Check.equal 0
+            let expected = mul rows A rows X cols
+            Check.close Medium expected B
+        }
+
+        test "potrs_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! L = Gen.Double.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let! B = Gen.Double.OneTwo.Array.[rows*cols]
+            let LU = Array.copy A
+            let X = Array.copy B
+            Lapack.potrf(Layout.RowMajor, UpLoChar.Lower, rows, LU, rows) |> Check.equal 0
+            Lapack.potrs(Layout.RowMajor, UpLoChar.Lower, rows, cols, LU, rows, X, cols) |> Check.equal 0
+            let expected = mul rows A rows X cols
+            Check.close High expected B
+        }
+
+        test "potrs_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! L = Gen.Single.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let! B = Gen.Single.OneTwo.Array.[rows*cols]
+            let LU = Array.copy A
+            let X = Array.copy B
+            Lapack.potrf(Layout.RowMajor, UpLoChar.Lower, rows, LU, rows) |> Check.equal 0
+            Lapack.potrs(Layout.RowMajor, UpLoChar.Lower, rows, cols, LU, rows, X, cols) |> Check.equal 0
+            let expected = mul rows A rows X cols
+            Check.close Medium expected B
+        }
+
+        test "sytrs_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! L = Gen.Double.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let! B = Gen.Double.OneTwo.Array.[rows*cols]
+            let ipiv = Array.zeroCreate rows
+            let D = Array.copy A
+            let X = Array.copy B
+            Lapack.sytrf(Layout.RowMajor, UpLoChar.Lower, rows, D, rows, ipiv) |> Check.equal 0
+            Lapack.sytrs(Layout.RowMajor, UpLoChar.Lower, rows, cols, D, rows, ipiv, X, cols) |> Check.equal 0
+            let expected = mul rows A rows X cols
+            Check.close High expected B
+        }
+
+        test "sytrs_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! cols = Gen.Int.[1,COLS_MAX]
+            let! L = Gen.Single.OneTwo.Array.[rows*rows]
+            lower L rows
+            let A = mul rows L rows (trans L rows rows) rows
+            let! B = Gen.Single.OneTwo.Array.[rows*cols]
+            let ipiv = Array.zeroCreate rows
+            let D = Array.copy A
+            let X = Array.copy B
+            Lapack.sytrf(Layout.RowMajor, UpLoChar.Lower, rows, D, rows, ipiv) |> Check.equal 0
+            Lapack.sytrs(Layout.RowMajor, UpLoChar.Lower, rows, cols, D, rows, ipiv, X, cols) |> Check.equal 0
+            let expected = mul rows A rows X cols
+            Check.close Medium expected B
         }
     }
 
