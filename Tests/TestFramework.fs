@@ -33,7 +33,7 @@ type Accuracy =
         | VeryHigh -> fun a b -> 1e-12 + 1e-9 * max (abs a) (abs b)
     static member ($) (m:Accuracy,_:single) =
         match m with
-        | Low -> fun a b -> 1e-4f + 1e-1f * max (abs a) (abs b)
+        | Low -> fun a b -> 1e-3f + 1e-1f * max (abs a) (abs b)
         | Medium -> fun a b -> 1e-6f + 1e-3f * max (abs a) (abs b)
         | High -> fun a b -> 1e-8f + 1e-5f * max (abs a) (abs b)
         | VeryHigh -> fun a b -> 1e-10f + 1e-7f * max (abs a) (abs b)
