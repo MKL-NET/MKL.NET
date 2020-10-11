@@ -218,7 +218,7 @@ let factorization =
             let mids = min rows cols
             let ipiv = Array.zeroCreate mids
             let expected = Array.copy A
-            Lapack.getrf2(Layout.RowMajor, rows, cols, A, cols, ipiv) |> Check.equal 0
+            Lapack.getrf2(Layout.RowMajor, rows, cols, A, cols, ipiv) |> Check.greaterThan -1
             let L = Array.init (rows*mids) (fun i ->
                 let row,col = Math.DivRem(i,mids)
                 if col > row then 0.0f
@@ -707,9 +707,60 @@ let inversion =
         }
     }
 
+let least_squares =
+    test "least_squares" {
+
+        test "gels_double" {
+            let! rowsa = Gen.Int.[1,ROWS_MAX]
+            let! colsa = Gen.Int.[1,rowsa]
+            let! colsb = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
+            let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
+            let QR = Array.copy A
+            let X = Array.copy B
+            Lapack.gels(Layout.RowMajor, TransChar.No, rowsa, colsa, colsb, QR, colsa, X, colsb) |> Check.equal 0
+            let X = Array.init (colsa*colsb) (fun i ->
+                let row,col = Math.DivRem(i,colsb)
+                X.[col+row*colsb]
+            )
+            let norm2 X =
+                let AX = mul rowsa A colsa X colsb
+                Array.fold2 (fun t a b -> t + (a-b)*(a-b)) 0.0 B AX
+            let norm2_0 = norm2 X
+            let! di = Gen.Int.[0,X.Length-1]
+            X.[di] <- X.[di] + 0.001
+            let norm2_d = norm2 X
+            Check.greaterThanOrEqual norm2_0 norm2_d
+        }
+
+        test "gels_single" {
+            let! rowsa = Gen.Int.[1,ROWS_MAX]
+            let! colsa = Gen.Int.[1,rowsa]
+            let! colsb = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Single.OneTwo.Array.[rowsa*colsa]
+            let! B = Gen.Single.OneTwo.Array.[rowsa*colsb]
+            let QR = Array.copy A
+            let X = Array.copy B
+            Lapack.gels(Layout.RowMajor, TransChar.No, rowsa, colsa, colsb, QR, colsa, X, colsb) |> Check.equal 0
+            let X = Array.init (colsa*colsb) (fun i ->
+                let row,col = Math.DivRem(i,colsb)
+                X.[col+row*colsb]
+            )
+            let norm2 X =
+                let AX = mul rowsa A colsa X colsb
+                Array.fold2 (fun t a b -> t + (a-b)*(a-b)) 0.0f B AX
+            let norm2_0 = norm2 X
+            let! di = Gen.Int.[0,X.Length-1]
+            X.[di] <- X.[di] + 0.01f
+            let norm2_d = norm2 X
+            Check.greaterThanOrEqual norm2_0 norm2_d
+        }
+    }
+
 let all =
     test "Lapack" {
         factorization
         linear_equations
         inversion
+        least_squares
     }

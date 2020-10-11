@@ -59,18 +59,22 @@ let equal (expected:'a) (actual:'a) =
 
 let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
     if actual < startInclusive then
-        Failure(Normal "actual (" + Numeric actual + ") is less than start (" + Numeric startInclusive + ").")
+        Failure(Normal "actual " + Numeric actual + " is less than start " + Numeric startInclusive + ".")
     elif actual > endInclusive then
-        Failure(Normal "actual (" + Numeric actual + ") is greater than end (" + Numeric endInclusive + ").")
+        Failure(Normal "actual " + Numeric actual + " is greater than end " + Numeric endInclusive + ".")
     else Success
 
 let greaterThan (expected:'a) (actual:'a) =
     if actual > expected then Success
-    else Failure(Normal "actual (" + Numeric actual + ") is not greater than " + Numeric expected + ".")
+    else Failure(Normal "actual " + Numeric actual + " is not greater than " + Numeric expected + ".")
+
+let greaterThanOrEqual (expected:'a) (actual:'a) =
+    if actual >= expected then Success
+    else Failure(Normal "actual " + Numeric actual + " is less than " + Numeric expected + ".")
 
 let notDefaultValue (actual:'a) =
     if actual <> Unchecked.defaultof<'a> then Success
-    else Failure(Normal "actual (" + Numeric actual + ") is the default value.")
+    else Failure(Normal "actual " + Numeric actual + " is the default value.")
 
 let close accuracy (expected:'a) (actual:'a) =
     let rec close (expected:obj) (actual:obj) =
