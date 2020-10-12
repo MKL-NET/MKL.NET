@@ -757,10 +757,88 @@ let least_squares =
         }
     }
 
+let eigenvalues =
+    test "eigenvalues" {
+
+        test "syev_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rows*rows]
+            symmetric A rows
+            let z = Array.copy A
+            let w = Array.zeroCreate rows
+            Lapack.syev(Layout.RowMajor, 'V', UpLoChar.Lower, rows, z, rows, w) |> Check.equal 0
+            let Az = mul rows A rows z rows
+            let wz = Array.init (rows*rows) (fun i -> z.[i] * w.[i % rows])
+            Check.close High Az wz
+        }
+
+        test "syev_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! A = Gen.Single.OneTwo.Array.[rows*rows]
+            symmetric A rows
+            let z = Array.copy A
+            let w = Array.zeroCreate rows
+            Lapack.syev(Layout.RowMajor, 'V', UpLoChar.Lower, rows, z, rows, w) |> Check.equal 0
+            let Az = mul rows A rows z rows
+            let wz = Array.init (rows*rows) (fun i -> z.[i] * w.[i % rows])
+            Check.close Low Az wz
+        }
+
+        test "syevd_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rows*rows]
+            symmetric A rows
+            let z = Array.copy A
+            let w = Array.zeroCreate rows
+            Lapack.syevd(Layout.RowMajor, 'V', UpLoChar.Lower, rows, z, rows, w) |> Check.equal 0
+            let Az = mul rows A rows z rows
+            let wz = Array.init (rows*rows) (fun i -> z.[i] * w.[i % rows])
+            Check.close High Az wz
+        }
+
+        test "syevd_single" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! A = Gen.Single.OneTwo.Array.[rows*rows]
+            symmetric A rows
+            let z = Array.copy A
+            let w = Array.zeroCreate rows
+            Lapack.syevd(Layout.RowMajor, 'V', UpLoChar.Lower, rows, z, rows, w) |> Check.equal 0
+            let Az = mul rows A rows z rows
+            let wz = Array.init (rows*rows) (fun i -> z.[i] * w.[i % rows])
+            Check.close Low Az wz
+        }
+
+        test "feast_syev_double" {
+            let! rows = Gen.Int.[1,ROWS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rows*rows]
+            symmetric A rows
+            let fpm = Array.zeroCreate 128
+            Feast.init fpm
+            fpm.[2] <- 15
+            let mutable uplo = 'F'
+            let mutable n = rows
+            let mutable epsout = 0.0
+            let mutable loop = 0
+            let mutable mo = 0
+            let mutable info = 0
+            let mutable emin = 1e-300
+            let mutable emax = 1e300
+            let mutable m0 = n
+            let w,z,res = Array.zeroCreate n, Array.zeroCreate (n*n), Array.zeroCreate n
+            Feast.syev(&uplo, &n, A, &n, fpm, &epsout, &loop, &emin, &emax, &m0, w, z, &mo, res, &info)
+            Check.equal 0 info
+            let z = trans z rows rows
+            let Az = mul rows A rows z rows
+            let wz = Array.init (rows*rows) (fun i -> z.[i] * w.[i % rows])
+            Check.close Low Az wz
+        }
+    }
+
 let all =
     test "Lapack" {
         factorization
         linear_equations
         inversion
         least_squares
+        eigenvalues
     }

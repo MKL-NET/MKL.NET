@@ -875,7 +875,7 @@ let stats =
         }
 
         test "outliers_double" {
-            let! obvs = Gen.Int.[25,35]
+            let! obvs = Gen.Int.[25,30]
             let! vars = Gen.Int.[3,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let init_method = double VslBaconInit.MEDIAN
@@ -893,7 +893,7 @@ let stats =
         }
 
         test "outliers_single" {
-            let! obvs = Gen.Int.[25,35]
+            let! obvs = Gen.Int.[25,30]
             let! vars = Gen.Int.[3,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let init_method = single VslBaconInit.MEDIAN
