@@ -689,7 +689,7 @@ let inversion =
             Lapack.sytri2(Layout.RowMajor, UpLoChar.Lower, rows, D, rows, ipiv) |> Check.equal 0
             symmetric D rows
             let expected = mul rows (mul rows A rows D rows) rows A rows
-            Check.close High expected A
+            Check.close Medium expected A
         }
 
         test "sytri2_single" {
@@ -755,6 +755,81 @@ let least_squares =
             let norm2_d = norm2 X
             Check.greaterThanOrEqual norm2_0 norm2_d
         }
+
+        test "gelsy_double" {
+            let! rowsa = Gen.Int.[1,ROWS_MAX]
+            let! colsa = Gen.Int.[1,rowsa]
+            let! colsb = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
+            let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
+            let QR = Array.copy A
+            let X = Array.copy B
+            let jpvt = Array.zeroCreate rowsa
+            let mutable rank = 0
+            Lapack.gelsy(Layout.RowMajor, rowsa, colsa, colsb, QR, colsa, X, colsb, jpvt, 0.00001, &rank) |> Check.equal 0
+            let X = Array.init (colsa*colsb) (fun i ->
+                let row,col = Math.DivRem(i,colsb)
+                X.[col+row*colsb]
+            )
+            let norm2 X =
+                let AX = mul rowsa A colsa X colsb
+                Array.fold2 (fun t a b -> t + (a-b)*(a-b)) 0.0 B AX
+            let norm2_0 = norm2 X
+            let! di = Gen.Int.[0,X.Length-1]
+            X.[di] <- X.[di] + 0.001
+            let norm2_d = norm2 X
+            Check.greaterThanOrEqual norm2_0 norm2_d
+        }
+
+        test "gelss_double" {
+            let! rowsa = Gen.Int.[1,ROWS_MAX]
+            let! colsa = Gen.Int.[1,rowsa]
+            let! colsb = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
+            let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
+            let QR = Array.copy A
+            let X = Array.copy B
+            let s = Array.zeroCreate rowsa
+            let mutable rank = 0
+            Lapack.gelss(Layout.RowMajor, rowsa, colsa, colsb, QR, colsa, X, colsb, s, 0.00001, &rank) |> Check.equal 0
+            let X = Array.init (colsa*colsb) (fun i ->
+                let row,col = Math.DivRem(i,colsb)
+                X.[col+row*colsb]
+            )
+            let norm2 X =
+                let AX = mul rowsa A colsa X colsb
+                Array.fold2 (fun t a b -> t + (a-b)*(a-b)) 0.0 B AX
+            let norm2_0 = norm2 X
+            let! di = Gen.Int.[0,X.Length-1]
+            X.[di] <- X.[di] + 0.001
+            let norm2_d = norm2 X
+            Check.greaterThanOrEqual norm2_0 norm2_d
+        }
+
+        test "gelsd_double" {
+            let! rowsa = Gen.Int.[1,ROWS_MAX]
+            let! colsa = Gen.Int.[1,rowsa]
+            let! colsb = Gen.Int.[1,COLS_MAX]
+            let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
+            let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
+            let QR = Array.copy A
+            let X = Array.copy B
+            let s = Array.zeroCreate rowsa
+            let mutable rank = 0
+            Lapack.gelsd(Layout.RowMajor, rowsa, colsa, colsb, QR, colsa, X, colsb, s, 0.00001, &rank) |> Check.equal 0
+            let X = Array.init (colsa*colsb) (fun i ->
+                let row,col = Math.DivRem(i,colsb)
+                X.[col+row*colsb]
+            )
+            let norm2 X =
+                let AX = mul rowsa A colsa X colsb
+                Array.fold2 (fun t a b -> t + (a-b)*(a-b)) 0.0 B AX
+            let norm2_0 = norm2 X
+            let! di = Gen.Int.[0,X.Length-1]
+            X.[di] <- X.[di] + 0.001
+            let norm2_d = norm2 X
+            Check.greaterThanOrEqual norm2_0 norm2_d
+        }
     }
 
 let eigenvalues =
@@ -814,7 +889,6 @@ let eigenvalues =
             symmetric A rows
             let fpm = Array.zeroCreate 128
             Feast.init fpm
-            fpm.[2] <- 15
             let mutable uplo = 'F'
             let mutable n = rows
             let mutable epsout = 0.0

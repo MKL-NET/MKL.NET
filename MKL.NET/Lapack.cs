@@ -1044,99 +1044,99 @@ namespace MKLNET
         static extern int LAPACKE_dgelsd(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s, double rcond,
-            int[] rank);
+            ref int rank);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsd(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s, double rcond,
-            int[] rank)
+            ref int rank)
             => LAPACKE_dgelsd(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, s, rcond,
-                rank);
+                ref rank);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgelsd_work(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s,
-            double rcond, int[] rank, double[] work,
+            double rcond, ref int rank, double[] work,
             int lwork, int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsd(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s,
-            double rcond, int[] rank, double[] work,
+            double rcond, ref int rank, double[] work,
             int lwork, int[] iwork)
             => LAPACKE_dgelsd_work(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, s,
-                rcond, rank, work,
+                rcond, ref rank, work,
                 lwork, iwork);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgelss(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s, double rcond,
-            int[] rank);
+            ref int rank);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelss(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s, double rcond,
-            int[] rank)
+            ref int rank)
             => LAPACKE_dgelss(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, s, rcond,
-                rank);
+                ref rank);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgelss_work(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s,
-            double rcond, int[] rank, double[] work,
+            double rcond, ref int rank, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelss(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, double[] s,
-            double rcond, int[] rank, double[] work,
+            double rcond, ref int rank, double[] work,
             int lwork)
             => LAPACKE_dgelss_work(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, s,
-                rcond, rank, work,
+                rcond, ref rank, work,
                 lwork);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgelsy(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, int[] jpvt,
-            double rcond, int[] rank);
+            double rcond, ref int rank);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsy(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, int[] jpvt,
-            double rcond, int[] rank)
+            double rcond, ref int rank)
             => LAPACKE_dgelsy(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, jpvt,
-                rcond, rank);
+                rcond, ref rank);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_dgelsy_work(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, int[] jpvt,
-            double rcond, int[] rank, double[] work,
+            double rcond, ref int rank, double[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsy(Layout layout, int m, int n,
             int nrhs, double[] a, int lda,
             double[] b, int ldb, int[] jpvt,
-            double rcond, int[] rank, double[] work,
+            double rcond, ref int rank, double[] work,
             int lwork)
             => LAPACKE_dgelsy_work(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, jpvt,
-                rcond, rank, work,
+                rcond, ref rank, work,
                 lwork);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -8219,99 +8219,99 @@ namespace MKLNET
         static extern int LAPACKE_sgelsd(Layout layout, int m, int n,
             int nrhs, float[] a, int lda, float[] b,
             int ldb, float[] s, float rcond,
-            int[] rank);
+            ref int rank);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsd(Layout layout, int m, int n,
             int nrhs, float[] a, int lda, float[] b,
             int ldb, float[] s, float rcond,
-            int[] rank)
+            ref int rank)
             => LAPACKE_sgelsd(layout, m, n,
                 nrhs, a, lda, b,
                 ldb, s, rcond,
-                rank);
+                ref rank);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgelsd_work(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, float[] s, float rcond,
-            int[] rank, float[] work, int lwork,
+            ref int rank, float[] work, int lwork,
             int[] iwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsd(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, float[] s, float rcond,
-            int[] rank, float[] work, int lwork,
+            ref int rank, float[] work, int lwork,
             int[] iwork)
             => LAPACKE_sgelsd_work(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, s, rcond,
-                rank, work, lwork,
+                ref rank, work, lwork,
                 iwork);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgelss(Layout layout, int m, int n,
             int nrhs, float[] a, int lda, float[] b,
             int ldb, float[] s, float rcond,
-            int[] rank);
+            ref int rank);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelss(Layout layout, int m, int n,
             int nrhs, float[] a, int lda, float[] b,
             int ldb, float[] s, float rcond,
-            int[] rank)
+            ref int rank)
             => LAPACKE_sgelss(layout, m, n,
                 nrhs, a, lda, b,
                 ldb, s, rcond,
-                rank);
+                ref rank);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgelss_work(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, float[] s, float rcond,
-            int[] rank, float[] work,
+            ref int rank, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelss(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, float[] s, float rcond,
-            int[] rank, float[] work,
+            ref int rank, float[] work,
             int lwork)
             => LAPACKE_sgelss_work(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, s, rcond,
-                rank, work,
+                ref rank, work,
                 lwork);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgelsy(Layout layout, int m, int n,
             int nrhs, float[] a, int lda, float[] b,
             int ldb, int[] jpvt, float rcond,
-            int[] rank);
+            ref int rank);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsy(Layout layout, int m, int n,
             int nrhs, float[] a, int lda, float[] b,
             int ldb, int[] jpvt, float rcond,
-            int[] rank)
+            ref int rank)
             => LAPACKE_sgelsy(layout, m, n,
                 nrhs, a, lda, b,
                 ldb, jpvt, rcond,
-                rank);
+                ref rank);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int LAPACKE_sgelsy_work(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, int[] jpvt,
-            float rcond, int[] rank, float[] work,
+            float rcond, ref int rank, float[] work,
             int lwork);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int gelsy(Layout layout, int m, int n,
             int nrhs, float[] a, int lda,
             float[] b, int ldb, int[] jpvt,
-            float rcond, int[] rank, float[] work,
+            float rcond, ref int rank, float[] work,
             int lwork)
             => LAPACKE_sgelsy_work(layout, m, n,
                 nrhs, a, lda,
                 b, ldb, jpvt,
-                rcond, rank, work,
+                rcond, ref rank, work,
                 lwork);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

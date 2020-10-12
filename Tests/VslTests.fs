@@ -837,8 +837,8 @@ let stats =
         }
 
         test "missing_data_double" {
-            let! obvs = Gen.Int.[10,20]
-            let! vars = Gen.Int.[4,6]
+            let! obvs = Gen.Int.[8,10]
+            let! vars = Gen.Int.[3,4]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let em_iter_num       = 3
             let da_iter_num       = 2
@@ -856,8 +856,8 @@ let stats =
         }
 
         test "missing_data_single" {
-            let! obvs = Gen.Int.[10,20]
-            let! vars = Gen.Int.[4,6]
+            let! obvs = Gen.Int.[8,10]
+            let! vars = Gen.Int.[3,4]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let em_iter_num       = 3
             let da_iter_num       = 2
@@ -875,8 +875,8 @@ let stats =
         }
 
         test "outliers_double" {
-            let! obvs = Gen.Int.[25,30]
-            let! vars = Gen.Int.[3,5]
+            let! obvs = Gen.Int.[20,25]
+            let! vars = Gen.Int.[3,4]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let init_method = double VslBaconInit.MEDIAN
             let alpha       = 0.005
@@ -893,8 +893,8 @@ let stats =
         }
 
         test "outliers_single" {
-            let! obvs = Gen.Int.[25,30]
-            let! vars = Gen.Int.[3,5]
+            let! obvs = Gen.Int.[20,25]
+            let! vars = Gen.Int.[3,4]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let init_method = single VslBaconInit.MEDIAN
             let alpha       = 0.005f
