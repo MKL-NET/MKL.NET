@@ -373,8 +373,8 @@ let stats =
     test "SS" {
 
         test "sum_double" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let sum = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -391,8 +391,8 @@ let stats =
         }
 
         test "sum_single" {
-            let! obvs = Gen.Int.[4,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let sum = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -409,8 +409,8 @@ let stats =
         }
 
         test "mean_double" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -427,8 +427,8 @@ let stats =
         }
 
         test "mean_single" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -445,8 +445,8 @@ let stats =
         }
 
         test "mean_weight_double" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let weight = Array.init obvs (fun i -> double(i+1))
@@ -467,8 +467,8 @@ let stats =
         }
 
         test "mean_weight_single" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let weight = Array.init obvs (fun i -> single(i+1))
@@ -489,8 +489,8 @@ let stats =
         }
 
         test "median_abs_dev_double" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,4]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mad = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -512,8 +512,8 @@ let stats =
         }
 
         test "median_abs_dev_single" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,4]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mad = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -535,8 +535,8 @@ let stats =
         }
 
         test "mean_abs_dev_double" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,4]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mad = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -557,8 +557,8 @@ let stats =
         }
 
         test "mean_abs_dev_single" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,4]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mad = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -579,8 +579,8 @@ let stats =
         }
 
         test "max_min_double" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let max = Array.zeroCreate<double> vars
             let min = Array.zeroCreate<double> vars
@@ -608,8 +608,8 @@ let stats =
         }
 
         test "max_min_single" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let max = Array.zeroCreate<single> vars
             let min = Array.zeroCreate<single> vars
@@ -637,8 +637,8 @@ let stats =
         }
 
         test "skewness_double" {
-            let! obvs = Gen.Int.[4,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[2,10]
+            let! vars = Gen.Int.[1,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate vars
             let mom2r = Array.zeroCreate vars
@@ -671,8 +671,8 @@ let stats =
         }
 
         test "quantiles_double" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,4]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let quantiles = [| 0.9; 0.95; 0.99 |]
             let quants = Array.zeroCreate (vars*quantiles.Length)
@@ -695,8 +695,8 @@ let stats =
         }
 
         test "quantiles_single" {
-            let! obvs = Gen.Int.[1,100]
-            let! vars = Gen.Int.[1,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[1,4]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let quantiles = [| 0.9f; 0.95f; 0.99f |]
             let quants = Array.zeroCreate (vars*quantiles.Length)
@@ -719,8 +719,8 @@ let stats =
         }
 
         test "cov_double" {
-            let! obvs = Gen.Int.[3,100]
-            let! vars = Gen.Int.[2,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[2,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let cov = Array.zeroCreate<double> (vars*vars)
@@ -746,8 +746,8 @@ let stats =
         }
 
         test "cov_single" {
-            let! obvs = Gen.Int.[3,100]
-            let! vars = Gen.Int.[2,100]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[2,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let cov = Array.zeroCreate<single> (vars*vars)
@@ -773,8 +773,8 @@ let stats =
         }
 
         test "cor_double" {
-            let! obvs = Gen.Int.[3,100]
-            let! vars = Gen.Int.[2,10]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[2,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let cor = Array.zeroCreate<double> (vars*vars)
@@ -805,8 +805,8 @@ let stats =
         }
 
         test "cor_single" {
-            let! obvs = Gen.Int.[3,100]
-            let! vars = Gen.Int.[2,10]
+            let! obvs = Gen.Int.[1,10]
+            let! vars = Gen.Int.[2,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let cor = Array.zeroCreate<single> (vars*vars)
@@ -837,7 +837,7 @@ let stats =
         }
 
         test "missing_data_double" {
-            let! obvs = Gen.Int.[10,25]
+            let! obvs = Gen.Int.[3,10]
             let! vars = Gen.Int.[3,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let em_iter_num       = 3
@@ -856,7 +856,7 @@ let stats =
         }
 
         test "missing_data_single" {
-            let! obvs = Gen.Int.[10,25]
+            let! obvs = Gen.Int.[3,10]
             let! vars = Gen.Int.[3,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let em_iter_num       = 3
@@ -875,7 +875,7 @@ let stats =
         }
 
         test "outliers_double" {
-            let! obvs = Gen.Int.[25,35]
+            let! obvs = Gen.Int.[3,10]
             let! vars = Gen.Int.[3,5]
             let! x = Gen.Double.OneTwo.Array.[obvs*vars]
             let init_method = double VslBaconInit.MEDIAN
@@ -893,7 +893,7 @@ let stats =
         }
 
         test "outliers_single" {
-            let! obvs = Gen.Int.[25,35]
+            let! obvs = Gen.Int.[3,10]
             let! vars = Gen.Int.[3,5]
             let! x = Gen.Single.OneTwo.Array.[obvs*vars]
             let init_method = single VslBaconInit.MEDIAN
