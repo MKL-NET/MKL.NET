@@ -8,12 +8,12 @@
     <NoWarn>NU5128;NU5131;IDE1006</NoWarn>
     <DefineConstants Condition=" '$(OS)' != '' ">$(DefineConstants);$(OS)</DefineConstants>
     <PackageReleaseNotes>
-Blas API simplification with a large number of tests.
-Vsl API simplification and SS memory management (native and pin arrays across calls).
-Vsl random distributions regression tests across platforms.
-Lapack API simplification.
+Vsl memory fixes.
+Lapack API complete with tests.
+Feast API added.
+1000+ tests now.
     </PackageReleaseNotes>
-    <Version>0.8.0</Version>
+    <Version>0.9.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />
