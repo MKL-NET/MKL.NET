@@ -535,46 +535,46 @@ type private RunCounts = {
     mutable Skipped : int64
 }
 
-type private Worker(pcg:PCG option,nextTest:unit->TestData option,tc:RunCounts,skip,stopOnError) as worker =
+type private Worker(seed:PCG option,nextTest:unit->TestData option,tc:RunCounts,skip,stopOnError) as worker =
     [<DefaultValue>]
     val mutable Running : TestData option
-    let rec run (pcg:PCG) =
-        match nextTest() with
-        | None ->
+    do ThreadPool.UnsafeQueueUserWorkItem(worker, false) |> ignore
+    interface IThreadPoolWorkItem with
+        member _.Execute() =
+            let mutable pcg = match seed with Some p -> p | None -> PCG.ThreadPCG
+            let mutable test = nextTest()
+            while test.IsSome do
+                worker.Running <- test
+                let t = test.Value
+                if t.Skip=0 then
+                    let stateBefore = pcg.State
+                    t.Method pcg (fun r ->
+                        match r with
+                        | None -> Interlocked.Increment &tc.Skipped |> ignore
+                        | Some r ->
+                            let seed = if pcg.State=stateBefore then None else Some(pcg,stateBefore)
+                            if TestResult.hasErrs r then
+                                if skip || Option.isNone seed then
+                                    if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
+                                t.Result <- Some(r,seed)
+                                Interlocked.Increment &tc.Failed |> ignore
+                                if stopOnError then tc.Threads.Reset 0
+                                if seed.IsSome && obj.ReferenceEquals(seed.Value,pcg) then
+                                    pcg <- PCG.ThreadPCG
+                            else
+                                if skip && r |> List.exists (function |FasterAgg a -> a.Faster > a.Slower && a.Variance > 36.0 | _ -> false) then
+                                    if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
+                                Interlocked.Increment &tc.Passed |> ignore
+                                if t.Result=None then
+                                    if skip && Option.isNone seed && List.exists (function |FasterAgg _ -> true | _ -> false) r |> not then
+                                        if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
+                                    t.Result <- Some(r,None)
+                    )
+                else Interlocked.Increment &tc.Skipped |> ignore
+                test <- nextTest()
             worker.Running <- None
             tc.Threads.Signal() |> ignore
-        | Some t ->
-            worker.Running <- Some t
-            if t.Skip=0 then
-                let stateBefore = pcg.State
-                t.Method pcg (fun r ->
-                    match r with
-                    | None -> Interlocked.Increment &tc.Skipped |> ignore
-                    | Some r ->
-                        let seed = if pcg.State=stateBefore then None else Some(pcg,stateBefore)
-                        if TestResult.hasErrs r then
-                            if skip || Option.isNone seed then
-                                if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                            t.Result <- Some(r,seed)
-                            Interlocked.Increment &tc.Failed |> ignore
-                            if stopOnError then tc.Threads.Reset 0
-                        else
-                            if skip && r |> List.exists (function |FasterAgg a -> a.Faster > a.Slower && a.Variance > 36.0 | _ -> false) then
-                                if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                            Interlocked.Increment &tc.Passed |> ignore
-                            if t.Result=None then
-                                if skip && Option.isNone seed && List.exists (function |FasterAgg _ -> true | _ -> false) r |> not then
-                                    if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                                t.Result <- Some(r,None)
-                    ThreadPool.UnsafeQueueUserWorkItem(WaitCallback worker.Execute, false) |> ignore
-                )
-            else
-                Interlocked.Increment &tc.Skipped |> ignore
-                run pcg
-    do ThreadPool.UnsafeQueueUserWorkItem(WaitCallback worker.Execute, false) |> ignore
-    member _.Execute(_:obj) =
-        let pcg = match pcg with Some p -> p | None -> PCG.ThreadPCG
-        run pcg
+
 
 module Tests =
 
@@ -717,11 +717,10 @@ module Tests =
                                     else List.tryPick (function Para s -> Some s | _ -> None) config
                                          |> Option.defaultWith Environment.get_ProcessorCount
                     counts.Threads.Reset noThreads
-                    let workers = Array.init noThreads (fun _ ->
-                        let pcg = PCG.ThreadPCG
-                        Worker(seed,
+                    let workers = Array.init noThreads (fun i ->
+                        Worker((if i=0 then seed else None),
                             (fun () -> if Stopwatch.GetTimestamp() > endTime then None
-                                       else randomTest pcg |> Option.map (Array.get tests)),
+                                       else randomTest PCG.ThreadPCG |> Option.map (Array.get tests)),
                             counts, skip, stopOnError)
                     )
                     "Running " + Numeric tests.Length + " (out of " +
@@ -736,15 +735,14 @@ module Tests =
                     counts.Threads.Reset noThreads
                     let testRunCount = Array.zeroCreate<int> tests.Length
                     let mutable testsLeft = tests.Length * iters
-                    let workers = Array.init noThreads (fun _ ->
-                        let pcg = PCG.ThreadPCG
-                        Worker(seed,
+                    let workers = Array.init noThreads (fun i ->
+                        Worker((if i=0 then seed else None),
                             (fun () ->
                                 let tl = Interlocked.Decrement &testsLeft
                                 if tl = 0 then timeout <- Stopwatch.GetTimestamp() + wait * Stopwatch.Frequency / 1000L
                                 if tl < 0 then None
                                 else let rec nextTest() =
-                                        match randomTest pcg with
+                                        match randomTest PCG.ThreadPCG with
                                         | None -> None
                                         | Some t ->
                                             let n = Interlocked.Increment &testRunCount.[t]

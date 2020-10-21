@@ -14,7 +14,7 @@ let rng =
                 gen stream r |> Check.equal 0
                 Vsl.DeleteStream stream |> Check.equal 0
                 Array.sumBy abs r |> Check.notDefaultValue
-                Check.Hash(hash, (fun h -> h.AddSF(r,sf)), name + "_" + rngName)
+                Check.Hash((fun h -> h.AddSignificantFigures(sf,r)), hash, name + "_" + rngName)
             }
 
         test "guassian" {
@@ -229,7 +229,7 @@ let rng =
                 gen stream r |> Check.equal 0
                 Vsl.DeleteStream stream |> Check.equal 0
                 Array.sumBy abs r |> Check.notDefaultValue
-                Check.Hash(hash, (fun h -> h.Add(r)), name + "_" + rngName)
+                Check.Hash((fun h -> h.Add(r)), hash, name + "_" + rngName)
             }
 
         test "binomial" {
