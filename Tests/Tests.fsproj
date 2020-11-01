@@ -1,26 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="CsCheck" Version="1.0.0" />
-    <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
-    <!--<PackageReference Include="MKL.NET" Version="0.9.0" />-->
-    <PackageReference Include="MKL.NET.win-x64" Version="2020.4.311" />
-    <PackageReference Include="MKL.NET.win-x86" Version="2020.4.311" />
-    <PackageReference Include="MKL.NET.linux-x64" Version="2020.4.304" />
-    <PackageReference Include="MKL.NET.linux-x86" Version="2020.4.304" />
-    <PackageReference Include="MKL.NET.osx-x64" Version="2020.4.301" />
-    <Compile Include="TestFramework.fs" />
-    <Compile Include="Check.fs" />
-    <Compile Include="Math.fs" />
-    <Compile Include="VmlTests.fs" />
-    <Compile Include="VslTests.fs" />
-    <Compile Include="BlasTests.fs" />
-    <Compile Include="LapackTests.fs" />
-    <Compile Include="MKLTests.fs" />
-    <Compile Include="PerfTests.fs" />
-    <Compile Include="Main.fs" />
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="CsCheck" Version="1.0.0" />
+        <!--<PackageReference Include="MKL.NET" Version="0.9.0" />-->
+        <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
+        <ProjectReference Include="../MKL.NET.Matrix/MKL.NET.Matrix.csproj" />
+        <PackageReference Include="MKL.NET.win-x64" Version="2020.4.311" />
+        <PackageReference Include="MKL.NET.win-x86" Version="2020.4.311" />
+        <PackageReference Include="MKL.NET.linux-x64" Version="2020.4.304" />
+        <PackageReference Include="MKL.NET.linux-x86" Version="2020.4.304" />
+        <PackageReference Include="MKL.NET.osx-x64" Version="2020.4.301" />
+        <Compile Include="TestFramework.fs" />
+        <Compile Include="Check.fs" />
+        <Compile Include="Math.fs" />
+        <Compile Include="VmlTests.fs" />
+        <Compile Include="VslTests.fs" />
+        <Compile Include="BlasTests.fs" />
+        <Compile Include="LapackTests.fs" />
+        <Compile Include="MKLTests.fs" />
+        <Compile Include="MatrixTests.fs" />
+        <Compile Include="PerfTests.fs" />
+        <Compile Include="Main.fs" />
   </ItemGroup>
 </Project>
