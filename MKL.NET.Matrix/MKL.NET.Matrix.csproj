@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>MKLNET</RootNamespace>
@@ -11,7 +11,6 @@ Initial release.
     <ItemGroup>
         <PackageReference Include="System.Buffers" Version="4.5.1" />
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
-        <!--<PackageReference Include="MKL.NET" Version="0.9.0" />-->
         <None Include="../matrix.png" Pack="true" PackagePath="" />
     </ItemGroup>
 </Project>
