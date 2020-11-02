@@ -380,14 +380,22 @@ type TestBuilder(name:string) =
                 ts.[i] p (function | None -> running <- false | Some r -> l <- l @ r)
             c(if running then Some l else None)
         )
-    member _.TryFinally(body, compensation) =
-        try body()
-        finally compensation()
-    member m.Using(d:#IDisposable, body) =
-        m.TryFinally((fun () -> body d), fun () -> d.Dispose())
     member m.For(s:seq<'a>,body:'a->Test) =
         let e = s.GetEnumerator()
         m.While(e.MoveNext, fun () -> body e.Current)
+    member _.TryFinally(body, compensation) =
+        Test(nameList, fun p c ->
+            try
+                try
+                    let (Test(_,f)) = body()
+                    f p c
+                with e -> c(Some [Exception e])
+            finally
+                compensation()
+        )
+    member m.Using(d:#IDisposable, body) =
+       m.TryFinally((fun () -> body d), fun () -> d.Dispose())
+    
 
 [<AutoOpen>]
 module TestAutoOpen =

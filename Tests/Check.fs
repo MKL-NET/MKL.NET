@@ -2,6 +2,7 @@
 
 open System
 open System.Diagnostics
+open MKLNET
 
 let info fmt =
     let sb = System.Text.StringBuilder()
@@ -113,6 +114,20 @@ let close accuracy (expected:'a) (actual:'a) =
             else closeDefault e a
         | (:? (double[]) as e), (:? (double[]) as a) -> closeArray e a
         | (:? (single[]) as e), (:? (single[]) as a) -> closeArray e a
+        | (:? matrix as e), (:? matrix as a) ->
+            if e.Rows <> a.Rows || e.Cols <> a.Cols then Failure(Normal "Matrix size differs. expected: ("
+                                                         + Numeric e.Rows + "," + Numeric e.Cols + ") actual: "
+                                                         + Numeric a.Rows + "," + Numeric a.Cols + ")")
+            else
+                let rec check r c =
+                    match close e.[r,c] a.[r,c] with
+                    | Success ->
+                        let nr, nc = if r+1<e.Rows then r+1,c else 0,c+1
+                        if nr=0 && nc=e.Cols then Success
+                        else check nr nc
+                    | Failure t -> Failure(Normal "At (" + Numeric r + "," + Numeric c + ") Size (" + Numeric e.Rows + "," + Numeric e.Cols + "). " + t)
+                    | f -> Failure(Normal "At (" + Numeric r + "," + Numeric c + ") Size (" + Numeric e.Rows + "," + Numeric e.Cols + "). " + f.ToString())
+                check 0 0
         | _ -> failwithf "Unknown type %s" (actual.GetType().Name)
     close expected actual
 
