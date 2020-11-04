@@ -2065,14 +2065,14 @@ namespace MKLNET
             return r;
         }
 
-        public static matrix InvCbrt(matrixT m, double b)
+        public static matrix Powx(matrixT m, double b)
         {
             matrix r = m;
             Inplace.Powx(r, b);
             return r;
         }
 
-        public static matrix InvCbrt(matrixTS m, double b)
+        public static matrix Powx(matrixTS m, double b)
         {
             matrix r = m;
             Inplace.Powx(r, b);
@@ -2150,3 +2150,5 @@ namespace MKLNET
 // TODO
 // matrixT etc for binary functions (15 each!)
 // Test for each function
+// matrix vector Blas functions
+// matrix Lapack functions
