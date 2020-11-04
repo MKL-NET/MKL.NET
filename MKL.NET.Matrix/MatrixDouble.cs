@@ -549,3 +549,10 @@ namespace MKLNET
         }
     }
 }
+
+// TODO
+// +(matrix, double)
+// vector
+// matrixF
+// bespoke ArrayPool
+// Pinned Object Heap and pinning optimisations.

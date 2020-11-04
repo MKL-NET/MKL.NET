@@ -1,5 +1,6 @@
 ﻿module MatrixTests
 
+open System
 open MKLNET
 open CsCheck
 
@@ -620,10 +621,27 @@ let mul = test "mul" {
     }
 }
 
+let functions = test "functions" {
+
+    test "sqrt" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use expected =
+            let E = new matrix(m,n)
+            for r = 0 to m-1 do
+                for c = 0 to n-1 do
+                    E.[r,c] <- Math.Sqrt(A.[r,c])
+            E
+        use actual = Matrix.Sqrt(A)
+        Check.close High expected actual
+    }
+}
+
 let all =
     test "matrix" {
         implicit
         add
         sub
         mul
+        functions
     }
