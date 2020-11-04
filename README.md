@@ -14,14 +14,14 @@ The correct native libraries will be included and loaded at runtime.
 
 <table>
 <tr><td>MKL.NET</td><td><a href="https://www.nuget.org/packages/MKL.NET"><img src="https://buildstats.info/nuget/MKL.NET?includePreReleases=true" ></a></td></tr>
-<tr><td>runtimes:</td><td></td></tr>
+<tr><td>runtimes:</td></tr>
 <tr><td>MKL.NET.win-x64</td><td><a href="https://www.nuget.org/packages/MKL.NET.win-x64"><img src="https://buildstats.info/nuget/MKL.NET.win-x64?includePreReleases=true" ></a></td></tr>
 <tr><td>MKL.NET.win-x86</td><td><a href="https://www.nuget.org/packages/MKL.NET.win-x86"><img src="https://buildstats.info/nuget/MKL.NET.win-x86?includePreReleases=true" ></a></td></tr>
 <tr><td>MKL.NET.linux-x64</td><td><a href="https://www.nuget.org/packages/MKL.NET.linux-x64"><img src="https://buildstats.info/nuget/MKL.NET.linux-x64?includePreReleases=true" ></a></td></tr>
 <tr><td>MKL.NET.linux-x86</td><td><a href="https://www.nuget.org/packages/MKL.NET.linux-x86"><img src="https://buildstats.info/nuget/MKL.NET.linux-x86?includePreReleases=true" ></a></td></tr>
 <tr><td>MKL.NET.osx-x64</td><td><a href="https://www.nuget.org/packages/MKL.NET.osx-x64"><img src="https://buildstats.info/nuget/MKL.NET.osx-x64?includePreReleases=true" ></a></td></tr>
-<tr><td>libraries:</td><td></td></tr>
-<tr><td>MKL.NET.Matrix</td><td>coming soon</td></tr>
+<tr><td>libraries:</td></tr>
+<tr><td>MKL.NET.Matrix</td><td><a href="https://www.nuget.org/packages/MKL.NET.Matrix"><img src="https://buildstats.info/nuget/MKL.NET.Matrix?includePreReleases=true" ></td></tr>
 </table>
 
 Rationale:
@@ -31,4 +31,10 @@ Rationale:
 - The project is well defined with no business logic and could benefit from external input.
 - Cross platform testing is easy and free using Github actions.
 - MKL.NET native packages can just be referenced for needed runtimes at library or application level.
-- MKL.NET.Matrix is a performance and memory optimised matrix algebra library.
+
+MKL.NET.Matrix:
+
+- Performance and memory optimised matrix algebra library.
+- Scale and Transpose deferred and unlikely to result in allocations.
+- ArrayPool underlying memory model using IDisposable and Finalizers.
+- Future optimisations likely include bespoke ArrayPool, Pinned Object Heap, and pinning optimisations.
