@@ -35,7 +35,7 @@ The correct native libraries will be included and loaded at runtime.
 ## MKL.NET.Matrix
 
 - Performance and memory optimised matrix algebra library.
-- Scale and Transpose deferred and unlikely to result in allocations.
+- Scale and Transpose deferred and unlikely to result in allocations (MKL can perform these together for +, *).
 - ArrayPool underlying memory model using IDisposable and Finalizers.
 - Future optimisations likely include bespoke ArrayPool, Pinned Object Heap, and pinning optimisations.
 

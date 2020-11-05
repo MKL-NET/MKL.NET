@@ -9,6 +9,7 @@ let all =
         BlasTests.all
         LapackTests.all
         MKLTests.all
+        VectorTests.all
         MatrixTests.all
         PerfTests.all
     }

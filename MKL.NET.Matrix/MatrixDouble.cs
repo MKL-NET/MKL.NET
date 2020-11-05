@@ -33,7 +33,7 @@ namespace MKLNET
 
         public static matrix operator +(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Add(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
@@ -42,7 +42,7 @@ namespace MKLNET
         public static matrix operator +(matrix a, matrixT bT)
         {
             var b = bT.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -51,7 +51,7 @@ namespace MKLNET
         public static matrix operator +(matrix a, matrixS bS)
         {
             var b = bS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, 1.0, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -60,7 +60,7 @@ namespace MKLNET
         public static matrix operator +(matrix a, matrixTS bTS)
         {
             var b = bTS.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -68,7 +68,7 @@ namespace MKLNET
 
         public static matrix operator -(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Sub(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
@@ -77,7 +77,7 @@ namespace MKLNET
         public static matrix operator -(matrix a, matrixT bT)
         {
             var b = bT.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -86,7 +86,7 @@ namespace MKLNET
         public static matrix operator -(matrix a, matrixS bS)
         {
             var b = bS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, 1.0, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -95,7 +95,7 @@ namespace MKLNET
         public static matrix operator -(matrix a, matrixTS bTS)
         {
             var b = bTS.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -103,7 +103,7 @@ namespace MKLNET
 
         public static matrix operator *(matrix a, matrix b)
         {
-            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -112,7 +112,7 @@ namespace MKLNET
         public static matrix operator *(matrix a, matrixT bT)
         {
             var b = bT.Matrix;
-            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -121,7 +121,7 @@ namespace MKLNET
         public static matrix operator *(matrix a, matrixS bS)
         {
             var b = bS.Matrix;
-            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -130,7 +130,7 @@ namespace MKLNET
         public static matrix operator *(matrix a, matrixTS bTS)
         {
             var b = bTS.Matrix;
-            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -156,7 +156,7 @@ namespace MKLNET
         public static matrix operator +(matrixT aT, matrix b)
         {
             var a = aT.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -166,7 +166,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -176,7 +176,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bS.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -186,7 +186,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -195,7 +195,7 @@ namespace MKLNET
         public static matrix operator -(matrixT aT, matrix b)
         {
             var a = aT.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -205,7 +205,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -215,7 +215,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bS.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -225,7 +225,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -234,7 +234,7 @@ namespace MKLNET
         public static matrix operator *(matrixT aT, matrix b)
         {
             var a = aT.Matrix;
-            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
@@ -244,7 +244,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
@@ -254,7 +254,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bS.Matrix;
-            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
@@ -264,7 +264,7 @@ namespace MKLNET
         {
             var a = aT.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
@@ -295,7 +295,7 @@ namespace MKLNET
         public static matrix operator +(matrixS aS, matrix b)
         {
             var a = aS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -305,7 +305,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -315,7 +315,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -325,7 +325,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -334,7 +334,7 @@ namespace MKLNET
         public static matrix operator -(matrixS aS, matrix b)
         {
             var a = aS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -344,7 +344,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -354,7 +354,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -364,7 +364,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, a.Rows);
             return r;
@@ -373,7 +373,7 @@ namespace MKLNET
         public static matrix operator *(matrixS aS, matrix b)
         {
             var a = aS.Matrix;
-            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, aS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -383,7 +383,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bT.Matrix;
-            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, aS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -393,7 +393,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bS.Matrix;
-            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, aS.Scale * bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -403,7 +403,7 @@ namespace MKLNET
         {
             var a = aS.Matrix;
             var b = bTS.Matrix;
-            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, aS.Scale * bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
@@ -434,7 +434,7 @@ namespace MKLNET
         public static matrix operator +(matrixTS aTS, matrix b)
         {
             var a = aTS.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -444,7 +444,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -454,7 +454,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bS.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -464,7 +464,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -473,7 +473,7 @@ namespace MKLNET
         public static matrix operator -(matrixTS aTS, matrix b)
         {
             var a = aTS.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -483,7 +483,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -493,7 +493,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bS.Matrix;
-            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -503,7 +503,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, r.Rows);
             return r;
@@ -512,7 +512,7 @@ namespace MKLNET
         public static matrix operator *(matrixTS aTS, matrix b)
         {
             var a = aTS.Matrix;
-            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, aTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
@@ -522,7 +522,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bT.Matrix;
-            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, aTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
@@ -532,7 +532,7 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bS.Matrix;
-            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, aTS.Scale * bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
@@ -542,17 +542,10 @@ namespace MKLNET
         {
             var a = aTS.Matrix;
             var b = bTS.Matrix;
-            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, aTS.Scale * bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
             return r;
         }
     }
 }
-
-// TODO
-// +(matrix, double)
-// vector
-// matrixF
-// bespoke ArrayPool
-// Pinned Object Heap and pinning optimisations.

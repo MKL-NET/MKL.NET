@@ -449,25 +449,88 @@ namespace MKLNET
 
         public static matrix Mul(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Mul(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Mul(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Mul(r, b);
+            return r;
+        }
+
+        public static matrix Mul(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Mul(r, b);
+            return r;
+        }
+
+        public static matrix Mul(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Mul(r, b);
+            return r;
+        }
+
         public static matrix Fmod(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Fmod(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Fmod(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmod(r, b);
+            return r;
+        }
+
+        public static matrix Fmod(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmod(r, b);
+            return r;
+        }
+
+        public static matrix Fmod(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmod(r, b);
+            return r;
+        }
+
         public static matrix Remainder(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Remainder(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
+            return r;
+        }
+
+        public static matrix Remainder(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Remainder(r, b);
+            return r;
+        }
+
+        public static matrix Remainder(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Remainder(r, b);
+            return r;
+        }
+
+        public static matrix Remainder(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Remainder(r, b);
             return r;
         }
 
@@ -613,17 +676,59 @@ namespace MKLNET
 
         public static matrix Hypot(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Hypot(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Hypot(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Hypot(r, b);
+            return r;
+        }
+
+        public static matrix Hypot(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Hypot(r, b);
+            return r;
+        }
+
+        public static matrix Hypot(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Hypot(r, b);
+            return r;
+        }
+
         public static matrix Div(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Div(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
+            return r;
+        }
+
+        public static matrix Div(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Div(r, b);
+            return r;
+        }
+
+        public static matrix Div(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Div(r, b);
+            return r;
+        }
+
+        public static matrix Div(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Div(r, b);
             return r;
         }
 
@@ -685,17 +790,59 @@ namespace MKLNET
 
         public static matrix Pow(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Pow(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Pow(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Pow(r, b);
+            return r;
+        }
+
+        public static matrix Pow(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Pow(r, b);
+            return r;
+        }
+
+        public static matrix Pow(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Pow(r, b);
+            return r;
+        }
+
         public static matrix Powr(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Powr(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
+            return r;
+        }
+
+        public static matrix Powr(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Powr(r, b);
+            return r;
+        }
+
+        public static matrix Powr(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Powr(r, b);
+            return r;
+        }
+
+        public static matrix Powr(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Powr(r, b);
             return r;
         }
 
@@ -1373,17 +1520,59 @@ namespace MKLNET
 
         public static matrix Atan2(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Atan2(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Atan2(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Atan2(r, b);
+            return r;
+        }
+
+        public static matrix Atan2(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Atan2(r, b);
+            return r;
+        }
+
+        public static matrix Atan2(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Atan2(r, b);
+            return r;
+        }
+
         public static matrix Atan2pi(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Atan2pi(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
+            return r;
+        }
+
+        public static matrix Atan2pi(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Atan2pi(r, b);
+            return r;
+        }
+
+        public static matrix Atan2pi(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Atan2pi(r, b);
+            return r;
+        }
+
+        public static matrix Atan2pi(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Atan2pi(r, b);
             return r;
         }
 
@@ -2005,49 +2194,175 @@ namespace MKLNET
 
         public static matrix CopySign(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.CopySign(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix CopySign(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.CopySign(r, b);
+            return r;
+        }
+
+        public static matrix CopySign(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.CopySign(r, b);
+            return r;
+        }
+
+        public static matrix CopySign(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.CopySign(r, b);
+            return r;
+        }
+
         public static matrix Fmax(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Fmax(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Fmax(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmax(r, b);
+            return r;
+        }
+
+        public static matrix Fmax(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmax(r, b);
+            return r;
+        }
+
+        public static matrix Fmax(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmax(r, b);
+            return r;
+        }
+
         public static matrix Fmin(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Fmin(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Fmin(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmin(r, b);
+            return r;
+        }
+
+        public static matrix Fmin(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmin(r, b);
+            return r;
+        }
+
+        public static matrix Fmin(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fmin(r, b);
+            return r;
+        }
+
         public static matrix Fdim(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.Fdim(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix Fdim(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fdim(r, b);
+            return r;
+        }
+
+        public static matrix Fdim(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fdim(r, b);
+            return r;
+        }
+
+        public static matrix Fdim(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.Fdim(r, b);
+            return r;
+        }
+
         public static matrix MaxMag(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.MaxMag(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
             return r;
         }
 
+        public static matrix MaxMag(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.MaxMag(r, b);
+            return r;
+        }
+
+        public static matrix MaxMag(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.MaxMag(r, b);
+            return r;
+        }
+
+        public static matrix MaxMag(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.MaxMag(r, b);
+            return r;
+        }
+
         public static matrix NextAfter(matrix a, matrix b)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.NextAfter(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
+            return r;
+        }
+
+        public static matrix NextAfter(matrixS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.NextAfter(r, b);
+            return r;
+        }
+
+        public static matrix NextAfter(matrixT a, matrix b)
+        {
+            matrix r = a;
+            Inplace.NextAfter(r, b);
+            return r;
+        }
+
+        public static matrix NextAfter(matrixTS a, matrix b)
+        {
+            matrix r = a;
+            Inplace.NextAfter(r, b);
             return r;
         }
 
@@ -2058,23 +2373,23 @@ namespace MKLNET
             return r;
         }
 
-        public static matrix Powx(matrixS m, double b)
+        public static matrix Powx(matrixS a, double b)
         {
-            matrix r = m;
+            matrix r = a;
             Inplace.Powx(r, b);
             return r;
         }
 
-        public static matrix Powx(matrixT m, double b)
+        public static matrix Powx(matrixT a, double b)
         {
-            matrix r = m;
+            matrix r = a;
             Inplace.Powx(r, b);
             return r;
         }
 
-        public static matrix Powx(matrixTS m, double b)
+        public static matrix Powx(matrixTS a, double b)
         {
-            matrix r = m;
+            matrix r = a;
             Inplace.Powx(r, b);
             return r;
         }
@@ -2139,16 +2454,40 @@ namespace MKLNET
 
         public static matrix LinearFrac(matrix a, matrix b, double scalea, double shifta, double scaleb, double shiftb)
         {
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimesionsForOperation();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
             Vml.LinearFrac(a.Length, a.A, 0, 1, b.A, 0, 1, scalea, shifta, scaleb, shiftb, r.A, 0, 1);
+            return r;
+        }
+
+        public static matrix LinearFrac(matrixS a, matrix b, double scalea, double shifta, double scaleb, double shiftb)
+        {
+            matrix r = a;
+            Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
+            return r;
+        }
+
+        public static matrix LinearFrac(matrixT a, matrix b, double scalea, double shifta, double scaleb, double shiftb)
+        {
+            matrix r = a;
+            Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
+            return r;
+        }
+
+        public static matrix LinearFrac(matrixTS a, matrix b, double scalea, double shifta, double scaleb, double shiftb)
+        {
+            matrix r = a;
+            Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
             return r;
         }
     }
 }
 
 // TODO
-// matrixT etc for binary functions (15 each!)
+// matrix vector operators
 // Test for each function
 // matrix vector Blas functions
 // matrix Lapack functions
+// +(matrix, double)
+// matrixF, vectorF
+// bespoke ArrayPool, Pinned Object Heap and pinning optimisations.
