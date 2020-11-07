@@ -88,6 +88,24 @@ let mul_mTmT (s:double) (A:matrix) (B:matrix) =
             C.[r,c] <- s * t
     C
 
+let mul_mv (s:double) (A:matrix) (b:vector) =
+    let c = new vector(A.Rows)
+    for r=0 to A.Rows-1 do
+        let mutable t = 0.0
+        for c=0 to A.Cols-1 do
+            t <- t + A.[r,c] * b.[c]
+        c.[r] <- s * t
+    c
+
+let mul_mTv (s:double) (A:matrix) (b:vector) =
+    let c = new vector(A.Cols)
+    for r=0 to A.Cols-1 do
+        let mutable t = 0.0
+        for c=0 to A.Rows-1 do
+            t <- t + A.[c,r] * b.[c]
+        c.[r] <- s * t
+    c
+
 let implicit = test "implicit" {
 
     test "mT" {
@@ -617,6 +635,86 @@ let mul = test "mul" {
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mTmT (s1*s2) A B
         use actual = (s1 * A.T) * (s2 * B.T)
+        Check.close High expected actual
+    }
+
+    test "mv" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        use expected = mul_mv 1.0 A b
+        use actual = A * b
+        Check.close High expected actual
+    }
+
+    test "mvS" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mv s A b
+        use actual = A * (s * b)
+        Check.close High expected actual
+    }
+
+    test "mTv" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        use expected = mul_mTv 1.0 A b
+        use actual = A.T * b
+        Check.close High expected actual
+    }
+
+    test "mTvS" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mTv s A b
+        use actual = A.T * (s * b)
+        Check.close High expected actual
+    }
+
+    test "mSv" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mv s A b
+        use actual = (s * A) * b
+        Check.close High expected actual
+    }
+
+    test "mSvS" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        let! s1 = Gen.Double.OneTwo
+        let! s2 = Gen.Double.OneTwo
+        use expected = mul_mv (s1*s2) A b
+        use actual = (s1 * A) * (s2 * b)
+        Check.close High expected actual
+    }
+
+    test "mTSv" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mTv s A b
+        use actual = (s * A.T) * b
+        Check.close High expected actual
+    }
+
+    test "mTSvS" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        let! s1 = Gen.Double.OneTwo
+        let! s2 = Gen.Double.OneTwo
+        use expected = mul_mTv (s1*s2) A b
+        use actual = (s1 * A.T) * (s2 * b)
         Check.close High expected actual
     }
 }

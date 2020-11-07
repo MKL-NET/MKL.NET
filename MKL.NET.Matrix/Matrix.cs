@@ -2484,7 +2484,6 @@ namespace MKLNET
 }
 
 // TODO
-// matrix vector operators
 // Test for each function
 // matrix vector Blas functions
 // matrix Lapack functions

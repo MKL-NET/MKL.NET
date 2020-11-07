@@ -135,6 +135,23 @@ namespace MKLNET
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
         }
+
+        public static vector operator *(matrix a, vector b)
+        {
+            if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Rows);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, 1.0, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            return r;
+        }
+
+        public static vector operator *(matrix a, vectorS bS)
+        {
+            var b = bS.Vector;
+            if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Rows);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            return r;
+        }
     }
 
     public struct matrixT
@@ -267,6 +284,25 @@ namespace MKLNET
             if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            return r;
+        }
+
+        public static vector operator *(matrixT aT, vector b)
+        {
+            var a = aT.Matrix;
+            if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Cols);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            return r;
+        }
+
+        public static vector operator *(matrixT aT, vectorS bS)
+        {
+            var a = aT.Matrix;
+            var b = bS.Vector;
+            if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Cols);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
             return r;
         }
     }
@@ -408,6 +444,25 @@ namespace MKLNET
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, aS.Scale * bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
             return r;
         }
+
+        public static vector operator *(matrixS aS, vector b)
+        {
+            var a = aS.Matrix;
+            if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Rows);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            return r;
+        }
+
+        public static vector operator *(matrixS aS, vectorS bS)
+        {
+            var a = aS.Matrix;
+            var b = bS.Vector;
+            if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Rows);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, aS.Scale * bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            return r;
+        }
     }
 
     public struct matrixTS
@@ -545,6 +600,25 @@ namespace MKLNET
             if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, aTS.Scale * bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            return r;
+        }
+
+        public static vector operator *(matrixTS aTS, vector b)
+        {
+            var a = aTS.Matrix;
+            if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Cols);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, aTS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            return r;
+        }
+
+        public static vector operator *(matrixTS aTS, vectorS bS)
+        {
+            var a = aTS.Matrix;
+            var b = bS.Vector;
+            if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+            var r = new vector(a.Cols);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, aTS.Scale * bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
             return r;
         }
     }
