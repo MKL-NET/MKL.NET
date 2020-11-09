@@ -719,20 +719,108 @@ let mul = test "mul" {
     }
 }
 
-let functions = test "functions" {
-
-    test "sqrt" {
+let testUnary name
+    (fexpected:double -> double)
+    (factual:matrix -> matrix)
+    (factualT:matrixT -> matrix)
+    (factualS:matrixS -> matrix)
+    (factualTS:matrixTS -> matrix) =
+    let map (A:matrix) =
+        let E = new matrix(A.Rows,A.Cols)
+        for r = 0 to A.Rows-1 do
+            for c = 0 to A.Cols-1 do
+                E.[r,c] <- fexpected(A.[r,c])
+        E
+    test name {
         let! m,n = gen2D
         use! A = genMatrix m n
-        use expected =
-            let E = new matrix(m,n)
-            for r = 0 to m-1 do
-                for c = 0 to n-1 do
-                    E.[r,c] <- Math.Sqrt(A.[r,c])
-            E
-        use actual = Matrix.Sqrt(A)
+        let! s = Gen.Double.Unit
+        use expected = map A
+        use actual = factual A
         Check.close High expected actual
+        use T = matrixT.op_Implicit A.T
+        use expectedT = map T
+        use actualT = factualT A.T
+        Check.close High expectedT actualT
+        use S = matrixS.op_Implicit (s * A)
+        use expectedS = map S
+        use actualS = factualS (s * A)
+        Check.close High expectedS actualS
+        use TS = matrixTS.op_Implicit (s * A.T)
+        use expectedTS = map TS
+        use actualTS = factualTS (s * A.T)
+        Check.close High expectedTS actualTS
     }
+
+let functions = test "functions" {
+
+    testUnary "Abs" abs Matrix.Abs Matrix.Abs Matrix.Abs Matrix.Abs
+    testUnary "Sqr" (fun x -> x*x) Matrix.Sqr Matrix.Sqr Matrix.Sqr Matrix.Sqr
+    testUnary "Inv" (fun x -> 1.0/x) Matrix.Inv Matrix.Inv Matrix.Inv Matrix.Inv
+    testUnary "Sqrt" sqrt Matrix.Sqrt Matrix.Sqrt Matrix.Sqrt Matrix.Sqrt
+    testUnary "InvSqrt" (fun x -> 1.0/sqrt x) Matrix.InvSqrt Matrix.InvSqrt Matrix.InvSqrt Matrix.InvSqrt
+#if NETCOREAPP
+    testUnary "Cbrt" Math.Cbrt Matrix.Cbrt Matrix.Cbrt Matrix.Cbrt Matrix.Cbrt
+    testUnary "InvCbrt" ((/) 1.0 >> Math.Cbrt) Matrix.InvCbrt Matrix.InvCbrt Matrix.InvCbrt Matrix.InvCbrt
+    testUnary "Pow2o3" (fun a -> Math.Cbrt(a*a)) Matrix.Pow2o3 Matrix.Pow2o3 Matrix.Pow2o3 Matrix.Pow2o3
+#endif
+    testUnary "Pow3o2" (fun a -> Math.Sqrt(a*a*a)) Matrix.Pow3o2 Matrix.Pow3o2 Matrix.Pow3o2 Matrix.Pow3o2
+    testUnary "Exp" exp Matrix.Exp Matrix.Exp Matrix.Exp Matrix.Exp
+    testUnary "Exp2" (fun i -> Math.Pow(2.0,i)) Matrix.Exp2 Matrix.Exp2 Matrix.Exp2 Matrix.Exp2
+    testUnary "Exp10" (fun i -> Math.Pow(10.0,i)) Matrix.Exp10 Matrix.Exp10 Matrix.Exp10 Matrix.Exp10
+    testUnary "Expm1" (fun i -> exp i-1.0) Matrix.Expm1 Matrix.Expm1 Matrix.Expm1 Matrix.Expm1
+    testUnary "Ln" log Matrix.Ln Matrix.Ln Matrix.Ln Matrix.Ln
+#if NETCOREAPP
+    testUnary "Log2" Math.Log2 Matrix.Log2 Matrix.Log2 Matrix.Log2 Matrix.Log2
+#endif
+    testUnary "Log10" log10 Matrix.Log10 Matrix.Log10 Matrix.Log10 Matrix.Log10
+    testUnary "Log1p" (fun i -> log(i+1.0)) Matrix.Log1p Matrix.Log1p Matrix.Log1p Matrix.Log1p
+#if NETCOREAPP
+    testUnary "Logb" (fun i -> Math.ILogB(i) |> double) Matrix.Logb Matrix.Logb Matrix.Logb Matrix.Logb
+#endif
+    testUnary "Cos" cos Matrix.Cos Matrix.Cos Matrix.Cos Matrix.Cos
+    testUnary "Sin" sin Matrix.Sin Matrix.Sin Matrix.Sin Matrix.Sin
+    testUnary "Tan" tan Matrix.Tan Matrix.Tan Matrix.Tan Matrix.Tan
+    testUnary "Cospi" (fun i -> cos(Math.PI*i)) Matrix.Cospi Matrix.Cospi Matrix.Cospi Matrix.Cospi
+    testUnary "Sinpi" (fun i -> sin(Math.PI*i)) Matrix.Sinpi Matrix.Sinpi Matrix.Sinpi Matrix.Sinpi
+    testUnary "Tanpi" (fun i -> tan(Math.PI*i)) Matrix.Tanpi Matrix.Tanpi Matrix.Tanpi Matrix.Tanpi
+    testUnary "Cosd" (fun i -> cos(Math.PI/180.0*i)) Matrix.Cosd Matrix.Cosd Matrix.Cosd Matrix.Cosd
+    testUnary "Sind" (fun i -> sin(Math.PI/180.0*i)) Matrix.Sind Matrix.Sind Matrix.Sind Matrix.Sind
+    testUnary "Tand" (fun i -> tan(Math.PI/180.0*i)) Matrix.Tand Matrix.Tand Matrix.Tand Matrix.Tand
+    testUnary "Acos" acos Matrix.Acos Matrix.Acos Matrix.Acos Matrix.Acos
+    testUnary "Asin" asin Matrix.Asin Matrix.Asin Matrix.Asin Matrix.Asin
+    testUnary "Atan" atan Matrix.Atan Matrix.Atan Matrix.Atan Matrix.Atan
+    testUnary "Acospi" (fun i -> acos i / Math.PI) Matrix.Acospi Matrix.Acospi Matrix.Acospi Matrix.Acospi
+    testUnary "Asinpi" (fun i -> asin i / Math.PI) Matrix.Asinpi Matrix.Asinpi Matrix.Asinpi Matrix.Asinpi
+    testUnary "Atanpi" (fun i -> atan i / Math.PI) Matrix.Atanpi Matrix.Atanpi Matrix.Atanpi Matrix.Atanpi
+    testUnary "Cosh" cosh Matrix.Cosh Matrix.Cosh Matrix.Cosh Matrix.Cosh
+    testUnary "Sinh" sinh Matrix.Sinh Matrix.Sinh Matrix.Sinh Matrix.Sinh
+    testUnary "Tanh" tanh Matrix.Tanh Matrix.Tanh Matrix.Tanh Matrix.Tanh
+#if NETCOREAPP
+    testUnary "Acosh" Math.Acosh Matrix.Acosh Matrix.Acosh Matrix.Acosh Matrix.Acosh
+    testUnary "Asinh" Math.Asinh Matrix.Asinh Matrix.Asinh Matrix.Asinh Matrix.Asinh
+    testUnary "Atanh" Math.Atanh Matrix.Atanh Matrix.Atanh Matrix.Atanh Matrix.Atanh
+#endif
+    testUnary "Erf" erf Matrix.Erf Matrix.Erf Matrix.Erf Matrix.Erf
+    testUnary "Erfc" erfc Matrix.Erfc Matrix.Erfc Matrix.Erfc Matrix.Erfc
+    testUnary "ErfInv" erfinv Matrix.ErfInv Matrix.ErfInv Matrix.ErfInv Matrix.ErfInv
+    testUnary "ErfcInv" erfcinv Matrix.ErfcInv Matrix.ErfcInv Matrix.ErfcInv Matrix.ErfcInv
+    testUnary "CdfNorm" normcdf Matrix.CdfNorm Matrix.CdfNorm Matrix.CdfNorm Matrix.CdfNorm
+    testUnary "CdfNormInv" normcdfinv Matrix.CdfNormInv Matrix.CdfNormInv Matrix.CdfNormInv Matrix.CdfNormInv
+    testUnary "LGamma" lgamma Matrix.LGamma Matrix.LGamma Matrix.LGamma Matrix.LGamma
+    testUnary "TGamma" gamma Matrix.TGamma Matrix.TGamma Matrix.TGamma Matrix.TGamma
+    testUnary "ExpInt1" (expint 1) Matrix.ExpInt1 Matrix.ExpInt1 Matrix.ExpInt1 Matrix.ExpInt1
+    testUnary "Floor" floor Matrix.Floor Matrix.Floor Matrix.Floor Matrix.Floor
+    testUnary "Ceil" ceil Matrix.Ceil Matrix.Ceil Matrix.Ceil Matrix.Ceil
+    testUnary "Trunc" truncate Matrix.Trunc Matrix.Trunc Matrix.Trunc Matrix.Trunc
+    testUnary "Round" (fun a -> Math.Round(a, MidpointRounding.AwayFromZero))
+        Matrix.Round Matrix.Round Matrix.Round Matrix.Round
+    testUnary "Frac" (fun a -> a - truncate a)
+        Matrix.Frac Matrix.Frac Matrix.Frac Matrix.Frac
+    testUnary "NearbyInt" (fun a -> Math.Round(a, MidpointRounding.ToEven))
+        Matrix.NearbyInt Matrix.NearbyInt Matrix.NearbyInt Matrix.NearbyInt
+    testUnary "Rint" (fun a -> Math.Round(a, MidpointRounding.ToEven))
+        Matrix.Rint Matrix.Rint Matrix.Rint Matrix.Rint
 }
 
 let all =

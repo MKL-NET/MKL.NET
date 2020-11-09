@@ -1,5 +1,6 @@
 ﻿module VectorTests
 
+open System
 open MKLNET
 open CsCheck
 
@@ -373,9 +374,111 @@ let mul = test "mul" {
     }
 }
 
+let testUnary name
+    (fexpected:double -> double)
+    (factual:vector -> vector)
+    (factualT:vectorT -> vectorT)
+    (factualS:vectorS -> vector)
+    (factualTS:vectorTS -> vectorT) =
+    let map (A:vector) =
+        let E = new vector(A.Length)
+        for i = 0 to A.Length-1 do
+            E.[i] <- fexpected(A.[i])
+        E
+    test name {
+        let! n = gen1D
+        use! A = genVector n
+        let! s = Gen.Double.Unit
+        use expected = map A
+        use actual = factual A
+        Check.close High expected actual
+        let expectedT = expected.T
+        let actualT = factualT A.T
+        Check.close High expectedT.T actualT.T
+        use S = vectorS.op_Implicit (s * A)
+        use expectedS = map S
+        use actualS = factualS (s * A)
+        Check.close High expectedS actualS
+        let expectedTS = expectedS.T
+        let actualTS = factualTS (s * A.T)
+        Check.close High expectedTS.T actualTS.T
+    }
+
+let functions = test "functions" {
+
+    testUnary "Abs" abs Vector.Abs Vector.Abs Vector.Abs Vector.Abs
+    testUnary "Sqr" (fun x -> x*x) Vector.Sqr Vector.Sqr Vector.Sqr Vector.Sqr
+    testUnary "Inv" (fun x -> 1.0/x) Vector.Inv Vector.Inv Vector.Inv Vector.Inv
+    testUnary "Sqrt" sqrt Vector.Sqrt Vector.Sqrt Vector.Sqrt Vector.Sqrt
+    testUnary "InvSqrt" (fun x -> 1.0/sqrt x) Vector.InvSqrt Vector.InvSqrt Vector.InvSqrt Vector.InvSqrt
+#if NETCOREAPP
+    testUnary "Cbrt" Math.Cbrt Vector.Cbrt Vector.Cbrt Vector.Cbrt Vector.Cbrt
+    testUnary "InvCbrt" ((/) 1.0 >> Math.Cbrt) Vector.InvCbrt Vector.InvCbrt Vector.InvCbrt Vector.InvCbrt
+    testUnary "Pow2o3" (fun a -> Math.Cbrt(a*a)) Vector.Pow2o3 Vector.Pow2o3 Vector.Pow2o3 Vector.Pow2o3
+#endif
+    testUnary "Pow3o2" (fun a -> Math.Sqrt(a*a*a)) Vector.Pow3o2 Vector.Pow3o2 Vector.Pow3o2 Vector.Pow3o2
+    testUnary "Exp" exp Vector.Exp Vector.Exp Vector.Exp Vector.Exp
+    testUnary "Exp2" (fun i -> Math.Pow(2.0,i)) Vector.Exp2 Vector.Exp2 Vector.Exp2 Vector.Exp2
+    testUnary "Exp10" (fun i -> Math.Pow(10.0,i)) Vector.Exp10 Vector.Exp10 Vector.Exp10 Vector.Exp10
+    testUnary "Expm1" (fun i -> exp i-1.0) Vector.Expm1 Vector.Expm1 Vector.Expm1 Vector.Expm1
+    testUnary "Ln" log Vector.Ln Vector.Ln Vector.Ln Vector.Ln
+#if NETCOREAPP
+    testUnary "Log2" Math.Log2 Vector.Log2 Vector.Log2 Vector.Log2 Vector.Log2
+#endif
+    testUnary "Log10" log10 Vector.Log10 Vector.Log10 Vector.Log10 Vector.Log10
+    testUnary "Log1p" (fun i -> log(i+1.0)) Vector.Log1p Vector.Log1p Vector.Log1p Vector.Log1p
+#if NETCOREAPP
+    testUnary "Logb" (fun i -> Math.ILogB(i) |> double) Vector.Logb Vector.Logb Vector.Logb Vector.Logb
+#endif
+    testUnary "Cos" cos Vector.Cos Vector.Cos Vector.Cos Vector.Cos
+    testUnary "Sin" sin Vector.Sin Vector.Sin Vector.Sin Vector.Sin
+    testUnary "Tan" tan Vector.Tan Vector.Tan Vector.Tan Vector.Tan
+    testUnary "Cospi" (fun i -> cos(Math.PI*i)) Vector.Cospi Vector.Cospi Vector.Cospi Vector.Cospi
+    testUnary "Sinpi" (fun i -> sin(Math.PI*i)) Vector.Sinpi Vector.Sinpi Vector.Sinpi Vector.Sinpi
+    testUnary "Tanpi" (fun i -> tan(Math.PI*i)) Vector.Tanpi Vector.Tanpi Vector.Tanpi Vector.Tanpi
+    testUnary "Cosd" (fun i -> cos(Math.PI/180.0*i)) Vector.Cosd Vector.Cosd Vector.Cosd Vector.Cosd
+    testUnary "Sind" (fun i -> sin(Math.PI/180.0*i)) Vector.Sind Vector.Sind Vector.Sind Vector.Sind
+    testUnary "Tand" (fun i -> tan(Math.PI/180.0*i)) Vector.Tand Vector.Tand Vector.Tand Vector.Tand
+    testUnary "Acos" acos Vector.Acos Vector.Acos Vector.Acos Vector.Acos
+    testUnary "Asin" asin Vector.Asin Vector.Asin Vector.Asin Vector.Asin
+    testUnary "Atan" atan Vector.Atan Vector.Atan Vector.Atan Vector.Atan
+    testUnary "Acospi" (fun i -> acos i / Math.PI) Vector.Acospi Vector.Acospi Vector.Acospi Vector.Acospi
+    testUnary "Asinpi" (fun i -> asin i / Math.PI) Vector.Asinpi Vector.Asinpi Vector.Asinpi Vector.Asinpi
+    testUnary "Atanpi" (fun i -> atan i / Math.PI) Vector.Atanpi Vector.Atanpi Vector.Atanpi Vector.Atanpi
+    testUnary "Cosh" cosh Vector.Cosh Vector.Cosh Vector.Cosh Vector.Cosh
+    testUnary "Sinh" sinh Vector.Sinh Vector.Sinh Vector.Sinh Vector.Sinh
+    testUnary "Tanh" tanh Vector.Tanh Vector.Tanh Vector.Tanh Vector.Tanh
+#if NETCOREAPP
+    testUnary "Acosh" Math.Acosh Vector.Acosh Vector.Acosh Vector.Acosh Vector.Acosh
+    testUnary "Asinh" Math.Asinh Vector.Asinh Vector.Asinh Vector.Asinh Vector.Asinh
+    testUnary "Atanh" Math.Atanh Vector.Atanh Vector.Atanh Vector.Atanh Vector.Atanh
+#endif
+    testUnary "Erf" erf Vector.Erf Vector.Erf Vector.Erf Vector.Erf
+    testUnary "Erfc" erfc Vector.Erfc Vector.Erfc Vector.Erfc Vector.Erfc
+    testUnary "ErfInv" erfinv Vector.ErfInv Vector.ErfInv Vector.ErfInv Vector.ErfInv
+    testUnary "ErfcInv" erfcinv Vector.ErfcInv Vector.ErfcInv Vector.ErfcInv Vector.ErfcInv
+    testUnary "CdfNorm" normcdf Vector.CdfNorm Vector.CdfNorm Vector.CdfNorm Vector.CdfNorm
+    testUnary "CdfNormInv" normcdfinv Vector.CdfNormInv Vector.CdfNormInv Vector.CdfNormInv Vector.CdfNormInv
+    testUnary "LGamma" lgamma Vector.LGamma Vector.LGamma Vector.LGamma Vector.LGamma
+    testUnary "TGamma" gamma Vector.TGamma Vector.TGamma Vector.TGamma Vector.TGamma
+    testUnary "ExpInt1" (expint 1) Vector.ExpInt1 Vector.ExpInt1 Vector.ExpInt1 Vector.ExpInt1
+    testUnary "Floor" floor Vector.Floor Vector.Floor Vector.Floor Vector.Floor
+    testUnary "Ceil" ceil Vector.Ceil Vector.Ceil Vector.Ceil Vector.Ceil
+    testUnary "Trunc" truncate Vector.Trunc Vector.Trunc Vector.Trunc Vector.Trunc
+    testUnary "Round" (fun a -> Math.Round(a, MidpointRounding.AwayFromZero))
+        Vector.Round Vector.Round Vector.Round Vector.Round
+    testUnary "Frac" (fun a -> a - truncate a)
+        Vector.Frac Vector.Frac Vector.Frac Vector.Frac
+    testUnary "NearbyInt" (fun a -> Math.Round(a, MidpointRounding.ToEven))
+        Vector.NearbyInt Vector.NearbyInt Vector.NearbyInt Vector.NearbyInt
+    testUnary "Rint" (fun a -> Math.Round(a, MidpointRounding.ToEven))
+        Vector.Rint Vector.Rint Vector.Rint Vector.Rint
+}
+
 let all =
     test "vector" {
         add
         sub
         mul
+        functions
     }

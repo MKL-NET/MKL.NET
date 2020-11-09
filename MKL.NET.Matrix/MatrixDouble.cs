@@ -7,26 +7,26 @@ namespace MKLNET
     {
         public readonly int Rows;
         public readonly int Cols;
-        internal double[] A;
+        public double[] Array;
         public int Length => Rows * Cols;
         public matrix(int rows, int cols)
         {
             Rows = rows;
             Cols = cols;
-            A = ArrayPool<double>.Shared.Rent(rows * cols);
+            Array = ArrayPool<double>.Shared.Rent(rows * cols);
         }
         public double this[int row, int col]
         {
-            get => A[col * Rows + row];
-            set => A[col * Rows + row] = value;
+            get => Array[col * Rows + row];
+            set => Array[col * Rows + row] = value;
         }
         public void Dispose()
         {
-            ArrayPool<double>.Shared.Return(A);
-            A = null;
+            ArrayPool<double>.Shared.Return(Array);
+            Array = null;
             GC.SuppressFinalize(this);
         }
-        ~matrix() => ArrayPool<double>.Shared.Return(A);
+        ~matrix() => ArrayPool<double>.Shared.Return(Array);
         public matrixT T => new matrixT(this);
         public static matrixS operator *(matrix a, double s) => new matrixS(a, s);
         public static matrixS operator *(double s, matrix a) => new matrixS(a, s);
@@ -35,7 +35,7 @@ namespace MKLNET
         {
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Vml.Add(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
+            Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
         }
 
@@ -44,7 +44,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.Array, a.Rows, 1.0, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -53,7 +53,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, 1.0, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, 1.0, a.Array, a.Rows, bS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -62,7 +62,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.Array, a.Rows, bTS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -70,7 +70,7 @@ namespace MKLNET
         {
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Vml.Sub(a.Length, a.A, 0, 1, b.A, 0, 1, r.A, 0, 1);
+            Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
         }
 
@@ -79,7 +79,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.Array, a.Rows, -1.0, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -88,7 +88,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, 1.0, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, 1.0, a.Array, a.Rows, -bS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -97,7 +97,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, 1.0, a.Array, a.Rows, -bTS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -105,7 +105,7 @@ namespace MKLNET
         {
             if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -114,7 +114,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -123,7 +123,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, bS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -132,7 +132,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, bTS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -140,7 +140,7 @@ namespace MKLNET
         {
             if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Rows);
-            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, 1.0, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, 1.0, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
 
@@ -149,7 +149,7 @@ namespace MKLNET
             var b = bS.Vector;
             if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Rows);
-            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, bS.Scale, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
     }
@@ -166,7 +166,7 @@ namespace MKLNET
         {
             var m = mT.Matrix;
             var r = new matrix(m.Cols, m.Rows);
-            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, m.Rows, m.Cols, 1.0, m.A, m.Rows, r.A, m.Cols);
+            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, m.Rows, m.Cols, 1.0, m.Array, m.Rows, r.Array, m.Cols);
             return r;
         }
 
@@ -175,7 +175,7 @@ namespace MKLNET
             var a = aT.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.Array, a.Rows, 1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -185,7 +185,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.Array, a.Rows, 1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -195,7 +195,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.Array, a.Rows, bS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -205,7 +205,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.Array, a.Rows, bTS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -214,7 +214,7 @@ namespace MKLNET
             var a = aT.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.Array, a.Rows, -1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -224,7 +224,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.Array, a.Rows, -1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -234,7 +234,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, 1.0, a.Array, a.Rows, -bS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -244,7 +244,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, 1.0, a.Array, a.Rows, -bTS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -253,7 +253,7 @@ namespace MKLNET
             var a = aT.Matrix;
             if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -263,7 +263,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, 1.0, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -273,7 +273,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, bS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -283,7 +283,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, bTS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -292,7 +292,7 @@ namespace MKLNET
             var a = aT.Matrix;
             if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Cols);
-            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, 1.0, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, 1.0, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
 
@@ -302,7 +302,7 @@ namespace MKLNET
             var b = bS.Vector;
             if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Cols);
-            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, bS.Scale, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
     }
@@ -324,7 +324,7 @@ namespace MKLNET
         {
             var m = mS.Matrix;
             var r = new matrix(m.Rows, m.Cols);
-            Blas.omatcopy(LayoutChar.ColMajor, TransChar.No, m.Rows, m.Cols, mS.Scale, m.A, m.Rows, r.A, r.Rows);
+            Blas.omatcopy(LayoutChar.ColMajor, TransChar.No, m.Rows, m.Cols, mS.Scale, m.Array, m.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -333,7 +333,7 @@ namespace MKLNET
             var a = aS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, 1.0, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -343,7 +343,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, 1.0, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -353,7 +353,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, bS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -363,7 +363,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, bTS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -372,7 +372,7 @@ namespace MKLNET
             var a = aS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, -1.0, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -382,7 +382,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, -1.0, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -392,7 +392,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, -bS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -402,7 +402,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Cols || a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, a.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.Yes, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, -bTS.Scale, b.Array, b.Rows, r.Array, a.Rows);
             return r;
         }
 
@@ -411,7 +411,7 @@ namespace MKLNET
             var a = aS.Matrix;
             if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, aS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, aS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -421,7 +421,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, aS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, aS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -431,7 +431,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, aS.Scale * bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, aS.Scale * bS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -441,7 +441,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Rows, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, aS.Scale * bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Rows);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, a.Rows, b.Rows, a.Cols, aS.Scale * bTS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
             return r;
         }
 
@@ -450,7 +450,7 @@ namespace MKLNET
             var a = aS.Matrix;
             if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Rows);
-            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, aS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, aS.Scale, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
 
@@ -460,7 +460,7 @@ namespace MKLNET
             var b = bS.Vector;
             if (a.Cols != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Rows);
-            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, aS.Scale * bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.No, a.Rows, a.Cols, aS.Scale * bS.Scale, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
     }
@@ -482,7 +482,7 @@ namespace MKLNET
         {
             var m = mTS.Matrix;
             var r = new matrix(m.Cols, m.Rows);
-            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, m.Rows, m.Cols, mTS.Scale, m.A, m.Rows, r.A, m.Cols);
+            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, m.Rows, m.Cols, mTS.Scale, m.Array, m.Rows, r.Array, m.Cols);
             return r;
         }
 
@@ -491,7 +491,7 @@ namespace MKLNET
             var a = aTS.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, 1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -501,7 +501,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, 1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, 1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -511,7 +511,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, bS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, bS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -521,7 +521,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, bTS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, bTS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -530,7 +530,7 @@ namespace MKLNET
             var a = aTS.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, -1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -540,7 +540,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -1.0, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, -1.0, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -550,7 +550,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Cols != b.Rows || a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -bS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.No, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, -bS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -560,7 +560,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, a.Rows);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.A, a.Rows, -bTS.Scale, b.A, b.Rows, r.A, r.Rows);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.Yes, TransChar.Yes, a.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, -bTS.Scale, b.Array, b.Rows, r.Array, r.Rows);
             return r;
         }
 
@@ -569,7 +569,7 @@ namespace MKLNET
             var a = aTS.Matrix;
             if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, aTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, aTS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -579,7 +579,7 @@ namespace MKLNET
             var b = bT.Matrix;
             if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, aTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, aTS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -589,7 +589,7 @@ namespace MKLNET
             var b = bS.Matrix;
             if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Cols);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, aTS.Scale * bS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.No, a.Cols, b.Cols, a.Rows, aTS.Scale * bS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -599,7 +599,7 @@ namespace MKLNET
             var b = bTS.Matrix;
             if (a.Rows != b.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new matrix(a.Cols, b.Rows);
-            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, aTS.Scale * bTS.Scale, a.A, a.Rows, b.A, b.Rows, 0.0, r.A, a.Cols);
+            Blas.gemm(Layout.ColMajor, Trans.Yes, Trans.Yes, a.Cols, b.Rows, a.Rows, aTS.Scale * bTS.Scale, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Cols);
             return r;
         }
 
@@ -608,7 +608,7 @@ namespace MKLNET
             var a = aTS.Matrix;
             if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Cols);
-            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, aTS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, aTS.Scale, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
 
@@ -618,7 +618,7 @@ namespace MKLNET
             var b = bS.Vector;
             if (a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
             var r = new vector(a.Cols);
-            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, aTS.Scale * bS.Scale, a.A, a.Rows, b.A, 0, 1, 0.0, r.A, 0, 1);
+            Blas.gemv(Layout.ColMajor, Trans.Yes, a.Rows, a.Cols, aTS.Scale * bS.Scale, a.Array, a.Rows, b.Array, 0, 1, 0.0, r.Array, 0, 1);
             return r;
         }
     }
