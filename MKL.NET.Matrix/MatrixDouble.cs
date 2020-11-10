@@ -30,6 +30,8 @@ namespace MKLNET
         public matrixT T => new matrixT(this);
         public static matrixS operator *(matrix a, double s) => new matrixS(a, s);
         public static matrixS operator *(double s, matrix a) => new matrixS(a, s);
+        public static matrix operator +(matrix m, double a) => Matrix.LinearFrac(m, m, 1.0, a, 0.0, 0.0);
+        public static matrix operator +(double a, matrix m) => Matrix.LinearFrac(m, m, 1.0, a, 0.0, 0.0);
 
         public static matrix operator +(matrix a, matrix b)
         {
@@ -161,6 +163,18 @@ namespace MKLNET
         public matrix T => Matrix;
         public static matrixTS operator *(matrixT a, double s) => new matrixTS(a.Matrix, s);
         public static matrixTS operator *(double s, matrixT a) => new matrixTS(a.Matrix, s);
+        public static matrix operator +(matrixT m, double a)
+        {
+            matrix r = m;
+            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0, a, 0.0, 0.0);
+            return r;
+        }
+        public static matrix operator +(double a, matrixT m)
+        {
+            matrix r = m;
+            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0, a, 0.0, 0.0);
+            return r;
+        }
 
         public static implicit operator matrix(matrixT mT)
         {
@@ -319,6 +333,8 @@ namespace MKLNET
         public matrixTS T => new matrixTS(Matrix, Scale);
         public static matrixS operator *(matrixS a, double s) => new matrixS(a.Matrix, a.Scale * s);
         public static matrixS operator *(double s, matrixS a) => new matrixS(a.Matrix, s * a.Scale);
+        public static matrix operator +(matrixS m, double a) => MKLNET.Matrix.LinearFrac(m.Matrix, m.Matrix, m.Scale, a, 0.0, 0.0);
+        public static matrix operator +(double a, matrixS m) => MKLNET.Matrix.LinearFrac(m.Matrix, m.Matrix, m.Scale, a, 0.0, 0.0);
 
         public static implicit operator matrix(matrixS mS)
         {
@@ -477,6 +493,18 @@ namespace MKLNET
         public matrixS T => new matrixS(Matrix, Scale);
         public static matrixTS operator *(matrixTS a, double s) => new matrixTS(a.Matrix, a.Scale * s);
         public static matrixTS operator *(double s, matrixTS a) => new matrixTS(a.Matrix, s * a.Scale);
+        public static matrix operator +(matrixTS m, double a)
+        {
+            matrix r = m;
+            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0, a, 0.0, 0.0);
+            return r;
+        }
+        public static matrix operator +(double a, matrixTS m)
+        {
+            matrix r = m;
+            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0, a, 0.0, 0.0);
+            return r;
+        }
 
         public static implicit operator matrix(matrixTS mTS)
         {

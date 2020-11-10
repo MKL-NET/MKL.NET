@@ -2484,6 +2484,5 @@
 // TODO
 // matrix vector Blas functions
 // matrix Lapack functions
-// +(matrix, double)
 // matrixF, vectorF
 // bespoke ArrayPool, Pinned Object Heap and pinning optimisations.

@@ -474,6 +474,64 @@ let sub = test "sub" {
         use actual = (s1 * A.T) - (s2 * B.T)
         Check.close High expected actual
     }
+
+    test "md" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(n,m)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[r,c] <- A.[r,c] + a
+            R
+        use actual = A + a
+        Check.close High expected actual
+    }
+
+    test "mTd" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(m,n)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[c,r] <- A.[r,c] + a
+            R
+        use actual = A.T + a
+        Check.close High expected actual
+    }
+
+    test "mSd" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(n,m)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[r,c] <- s * A.[r,c] + a
+            R
+        use actual = (s * A) + a
+        Check.close High expected actual
+    }
+
+    test "mTSd" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(m,n)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[c,r] <- s * A.[r,c] + a
+            R
+        use actual = (s * A.T) + a
+        Check.close High expected actual
+    }
 }
 
 let mul = test "mul" {

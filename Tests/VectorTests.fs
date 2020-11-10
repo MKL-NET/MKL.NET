@@ -68,7 +68,7 @@ let mul_vTmT (s:double) (a:vector) (B:matrix) =
 
 let add = test "add" {
 
-    test "add_vv" {
+    test "vv" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -77,7 +77,7 @@ let add = test "add" {
         Check.close High expected actual
     }
 
-    test "add_vvS" {
+    test "vvS" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -87,7 +87,7 @@ let add = test "add" {
         Check.close High expected actual
     }
 
-    test "add_vTvT" {
+    test "vTvT" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -96,7 +96,7 @@ let add = test "add" {
         Check.close High expected actual
     }
 
-    test "add_vTvTS" {
+    test "vTvTS" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -106,7 +106,7 @@ let add = test "add" {
         Check.close High expected actual
     }
 
-    test "add_vSv" {
+    test "vSv" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -116,7 +116,7 @@ let add = test "add" {
         Check.close High expected actual
     }
 
-    test "add_vSvS" {
+    test "vSvS" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -127,7 +127,7 @@ let add = test "add" {
         Check.close High expected actual
     }
 
-    test "add_vTSvT" {
+    test "vTSvT" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -137,7 +137,7 @@ let add = test "add" {
         Check.close High expected actual
     }
 
-    test "add_vTSvTS" {
+    test "vTSvTS" {
         let! n = gen1D
         let! a = genVector n
         let! b = genVector n
@@ -146,6 +146,60 @@ let add = test "add" {
         use expected = add_vv s1 a s2 b
         use actual = (s1 * a.T + s2 * b.T).T
         Check.close High expected actual
+    }
+
+    test "vd" {
+        let! n = gen1D
+        use! A = genVector n
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new vector(n)
+            for i =0 to n-1 do
+                R.[i] <- A.[i] + a
+            R
+        use actual = A + a
+        Check.close High expected actual
+    }
+
+    test "vTd" {
+        let! n = gen1D
+        use! A = genVector n
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new vector(n)
+            for i =0 to n-1 do
+                R.[i] <- A.[i] + a
+            R
+        let actual = A.T + a
+        Check.close High expected actual.T
+    }
+
+    test "mSd" {
+        let! n = gen1D
+        use! A = genVector n
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new vector(n)
+            for i =0 to n-1 do
+                R.[i] <- s * A.[i] + a
+            R
+        use actual = (s * A) + a
+        Check.close High expected actual
+    }
+
+    test "mTSd" {
+        let! n = gen1D
+        use! A = genVector n
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new vector(n)
+            for i =0 to n-1 do
+                R.[i] <- (s * A.[i]) + a
+            R
+        let actual = (s * A.T) + a
+        Check.close High expected actual.T
     }
 }
 
