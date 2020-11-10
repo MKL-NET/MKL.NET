@@ -1,4 +1,8 @@
-﻿namespace MKLNET
+﻿using System;
+using System.Buffers;
+using System.Security.Cryptography.X509Certificates;
+
+namespace MKLNET
 {
     public static class Matrix
     {
@@ -386,6 +390,71 @@
                 var rem = new matrix(a.Rows, a.Cols);
                 Vml.Modf(a.Length, a.Array, 0, 1, a.Array, 0, 1, rem.Array, 0, 1);
                 return rem;
+            }
+
+            public static void Scal(matrix a, double s)
+            {
+                Blas.scal(a.Length, s, a.Array, 0, 1);
+            }
+
+            public static void Lower(matrix a)
+            {
+                for (int c = 1; c < a.Cols; c++)
+                    for (int r = 0; r < c; r++)
+                        a[r, c] = 0.0;
+            }
+
+            public static void Upper(matrix a)
+            {
+                for (int c = 0; c < a.Cols; c++)
+                    for (int r = c + 1; r < a.Rows; r++)
+                        a[r, c] = 0.0;
+            }
+
+            public static void Cholesky(matrix a)
+            {
+                if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+                Lower(a);
+                ThrowHelper.Check(Lapack.potrf2(Layout.ColMajor, UpLoChar.Lower, a.Rows, a.Array, a.Rows));
+            }
+
+            public static void Solve(matrix a, matrix b)
+            {
+                if (a.Rows != a.Cols || a.Rows != b.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+                var ipiv = ArrayPool<int>.Shared.Rent(a.Rows);
+                ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, b.Cols, a.Array, a.Rows, ipiv, b.Array, a.Rows));
+                ArrayPool<int>.Shared.Return(ipiv);
+            }
+
+            public static void Solve(matrix a, vector b)
+            {
+                if (a.Rows != a.Cols || a.Rows != b.Length) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+                var ipiv = ArrayPool<int>.Shared.Rent(a.Rows);
+                ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, 1, a.Array, a.Rows, ipiv, b.Array, a.Rows));
+                ArrayPool<int>.Shared.Return(ipiv);
+            }
+
+            public static void Inverse(matrix a)
+            {
+                if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+                var ipiv = ArrayPool<int>.Shared.Rent(a.Rows);
+                ThrowHelper.Check(Lapack.getrf(Layout.ColMajor, a.Rows, a.Rows, a.Array, a.Rows, ipiv));
+                ThrowHelper.Check(Lapack.getri(Layout.ColMajor, a.Rows, a.Array, a.Rows, ipiv));
+                ArrayPool<int>.Shared.Return(ipiv);
+            }
+
+            public static vector Eigens(matrix a)
+            {
+                if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+                var w = new vector(a.Rows);
+                ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, a.Rows, a.Array, a.Rows, w.Array));
+                return w;
+            }
+
+            public static void LeastSquares(matrix a, matrix b)
+            {
+                if (a.Rows != b.Rows || a.Cols > a.Rows) ThrowHelper.ThrowIncorrectMatrixDimensionsForOperation();
+                Lapack.gels(Layout.RowMajor, TransChar.No, a.Rows, a.Cols, b.Cols, a.Array, a.Cols, b.Array, b.Cols);
             }
         }
 
@@ -2478,11 +2547,87 @@
             Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
             return r;
         }
+
+        public static double Asum(matrix a)
+        {
+            return Blas.asum(a.Length, a.Array, 0, 1);
+        }
+
+        public static double Nrm2(matrix a)
+        {
+            return Blas.nrm2(a.Length, a.Array, 0, 1);
+        }
+
+        public static (int, int) Iamax(matrix a)
+        {
+            int i = Blas.iamax(a.Length, a.Array, 0, 1);
+            int col = Math.DivRem(i, a.Rows, out int row);
+            return (row, col);
+        }
+
+        public static (int, int) Iamin(matrix a)
+        {
+            int i = Blas.iamin(a.Length, a.Array, 0, 1);
+            int col = Math.DivRem(i, a.Rows, out int row);
+            return (row, col);
+        }
+
+        public static matrix Copy(matrix a)
+        {
+            var r = new matrix(a.Rows, a.Cols);
+            Blas.copy(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            return r;
+        }
+
+        public static matrix Cholesky(matrix a)
+        {
+            var r = Copy(a);
+            Inplace.Cholesky(r);
+            return r;
+        }
+
+        public static matrix Solve(matrix a, matrix b)
+        {
+            a = Copy(a);
+            b = Copy(b);
+            Inplace.Solve(a, b);
+            return b;
+        }
+
+        public static vector Solve(matrix a, vector b)
+        {
+            a = Copy(a);
+            b = Vector.Copy(b);
+            Inplace.Solve(a, b);
+            return b;
+        }
+
+        public static matrix Inverse(matrix a)
+        {
+            a = Copy(a);
+            Inplace.Inverse(a);
+            return a;
+        }
+
+        public static (matrix, vector) Eigens(matrix a)
+        {
+            a = Copy(a);
+            var w = Inplace.Eigens(a);
+            return (a, w);
+        }
+
+        public static matrix LeastSquares(matrix a, matrix b)
+        {
+            a = Copy(a);
+            b = Copy(b);
+            Inplace.LeastSquares(a, b);
+            return b;
+        }
     }
 }
 
 // TODO
-// matrix vector Blas functions
-// matrix Lapack functions
+// matrix Vml functions
+// test Lapack and Vml functions
 // matrixF, vectorF
 // bespoke ArrayPool, Pinned Object Heap and pinning optimisations.

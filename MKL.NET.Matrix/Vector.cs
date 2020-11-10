@@ -387,6 +387,11 @@
                 Vml.Modf(a.Length, a.Array, 0, 1, a.Array, 0, 1, rem.Array, 0, 1);
                 return rem;
             }
+
+            public static void Scal(vector a, double s)
+            {
+                Blas.scal(a.Length, s, a.Array, 0, 1);
+            }
         }
 
         public static vector Abs(vector a)
@@ -2332,6 +2337,33 @@
             vector r = new vectorS(a.Vector, a.Scale);
             Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
             return new vectorT(r);
+        }
+
+        public static double Asum(vector a)
+        {
+            return Blas.asum(a.Length, a.Array, 0, 1);
+        }
+
+        public static double Nrm2(vector a)
+        {
+            return Blas.nrm2(a.Length, a.Array, 0, 1);
+        }
+
+        public static int Iamax(vector a)
+        {
+            return Blas.iamax(a.Length, a.Array, 0, 1);
+        }
+
+        public static int Iamin(vector a)
+        {
+            return Blas.iamin(a.Length, a.Array, 0, 1);
+        }
+
+        public static vector Copy(vector a)
+        {
+            var r = new vector(a.Length);
+            Blas.copy(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            return r;
         }
     }
 }
