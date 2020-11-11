@@ -12,18 +12,17 @@ jobs:
         DOTNET_CLI_TELEMETRY_OPTOUT: true
       steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
       - name: Test Framework 64
         run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 30 --wait 10
       - name: Test Core 64
-        run: dotnet run -p Tests -c Release -f netcoreapp3.1 -- -perf --info --nost --time 60 --wait 10
+        run: dotnet run -p Tests -c Release -f net5.0 -- -perf --info --nost --time 60 --wait 10
       - name: Test Framework 86
         run: dotnet run -p Tests -c Release -f net48 -r win-x86 -- -perf --info --nost --time 30 --wait 10
       - name: Test Core 86
-        run: dotnet run -p Tests -c Release -f netcoreapp3.1 -- -perf -r win-x86 --info --nost --time 60 --wait 10
+        run: dotnet run -p Tests -c Release -f net5.0 -- -perf -r win-x86 --info --nost --time 60 --wait 10
   linux:
       runs-on: ubuntu-latest
       env:
@@ -31,10 +30,13 @@ jobs:
         DOTNET_CLI_TELEMETRY_OPTOUT: true
       steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
       - name: Build
-        run: dotnet build Tests -c Release -f netcoreapp3.1 -p:OS=LINUX
+        run: dotnet build Tests -c Release -f net5.0 -p:OS=LINUX
       - name: Test
-        run: dotnet run -p Tests -c Release -f netcoreapp3.1 --no-build -- -perf --info --nost --time 60 --wait 10
+        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10
   osx:
       runs-on: macos-latest
       env:
@@ -42,7 +44,10 @@ jobs:
         DOTNET_CLI_TELEMETRY_OPTOUT: true
       steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
       - name: Build
-        run: dotnet build Tests -c Release -f netcoreapp3.1 -p:OS=OSX
+        run: dotnet build Tests -c Release -f net5.0 -p:OS=OSX
       - name: Test
-        run: dotnet run -p Tests -c Release -f netcoreapp3.1 --no-build -- -perf --info --nost --time 60 --wait 10
+        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10

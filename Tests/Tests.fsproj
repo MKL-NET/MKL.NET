@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+        <TargetFrameworks>net5.0;net48</TargetFrameworks>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="CsCheck" Version="1.0.0" />
