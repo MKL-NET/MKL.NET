@@ -24,9 +24,9 @@ let testUnaryI name (gen:Gen<'a>)
         (fexpected:'a -> 'a)
         (factual:(int*'a[]*int*int*'a[]*int*int) -> unit) =
     test name {
-        let! cols = Gen.Int.[1,3]
-        let! ini = Gen.Int.[0,cols-1]
         let! rows = Gen.Int.[1,ROWS_MAX]
+        and! cols = Gen.Int.[1,3]
+        let! ini = Gen.Int.[0,cols-1]
         let! a = (GenArray gen).[rows*cols]
         let actual = Array.copy a
         factual(a.Length/cols,a,ini,cols,actual,ini,cols)
@@ -72,10 +72,10 @@ let testBinaryI name (gen:Gen<'a>)
         (fexpected:'a -> 'a -> 'a)
         (factual:(int*'a[]*int*int*'a[]*int*int*'a[]*int*int) -> unit) =
     test name {
-        let gena = GenArray gen
-        let! cols = Gen.Int.[1,3]
-        let! ini = Gen.Int.[0,cols-1]
         let! rows = Gen.Int.[1,ROWS_MAX]
+        and! cols = Gen.Int.[1,3]
+        let! ini = Gen.Int.[0,cols-1]
+        let gena = GenArray gen
         let! a = gena.[rows*cols]
         let! b = gena.[a.Length]
         let actual = Array.copy a

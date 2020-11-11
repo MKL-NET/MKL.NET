@@ -368,6 +368,8 @@ type TestBuilder(name:string) =
                             else c(Some r)
                 )
         )
+    member _.MergeSources(g1:#Gen<'a>, g2:#Gen<'b>) =
+        Gen.Select(g1,g2)
     member _.While(guard, body:unit->Test) =
         let ts = ListSlim()
         while guard() do

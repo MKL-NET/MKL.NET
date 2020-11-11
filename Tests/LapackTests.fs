@@ -50,7 +50,7 @@ let factorization =
 
         test "getrf_double" { // LU factorization with permutation matrix
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*cols]
             let mids = min rows cols
             let ipiv = Array.zeroCreate mids
@@ -75,7 +75,7 @@ let factorization =
 
         test "getrf_single" { // LU factorization with permutation matrix
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*cols]
             let mids = min rows cols
             let ipiv = Array.zeroCreate mids
@@ -100,7 +100,7 @@ let factorization =
 
         test "getrfnp_double" { // LU factorization
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*cols]
             let expected = Array.copy A
             Lapack.getrfnp(Layout.RowMajor, rows, cols, A, cols) |> Check.equal 0
@@ -122,7 +122,7 @@ let factorization =
 
         test "getrfnp_single" { // LU factorization
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*cols]
             let expected = Array.copy A
             Lapack.getrfnp(Layout.RowMajor, rows, cols, A, cols) |> Check.equal 0
@@ -144,7 +144,7 @@ let factorization =
 
         test "getrfnpi_double" { // LU factorization incomplete
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*cols]
             let expected = Array.copy A
             let mids = min rows cols
@@ -166,7 +166,7 @@ let factorization =
 
         test "getrfnpi_single" { // LU factorization incomplete
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*cols]
             let expected = Array.copy A
             let mids = min rows cols
@@ -188,7 +188,7 @@ let factorization =
 
         test "getrf2_double" { // LU factorization with permutation matrix partial pivoting
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*cols]
             let mids = min rows cols
             let ipiv = Array.zeroCreate mids
@@ -213,7 +213,7 @@ let factorization =
 
         test "getrf2_single" { // LU factorization with permutation matrix partial pivoting
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*cols]
             let mids = min rows cols
             let ipiv = Array.zeroCreate mids
@@ -364,7 +364,7 @@ let linear_equations =
 
         test "getrs_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*rows]
             lower A rows
             let! B = Gen.Double.OneTwo.Array.[rows*cols]
@@ -379,7 +379,7 @@ let linear_equations =
 
         test "getrs_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*rows]
             lower A rows
             let! B = Gen.Single.OneTwo.Array.[rows*cols]
@@ -394,7 +394,7 @@ let linear_equations =
 
         test "potrs_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! L = Gen.Double.OneTwo.Array.[rows*rows]
             lower L rows
             let A = mul rows L rows (trans L rows rows) rows
@@ -409,7 +409,7 @@ let linear_equations =
 
         test "potrs_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! L = Gen.Single.OneTwo.Array.[rows*rows]
             lower L rows
             let A = mul rows L rows (trans L rows rows) rows
@@ -424,7 +424,7 @@ let linear_equations =
 
         test "sytrs_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! L = Gen.Double.OneTwo.Array.[rows*rows]
             lower L rows
             let A = mul rows L rows (trans L rows rows) rows
@@ -440,7 +440,7 @@ let linear_equations =
 
         test "sytrs_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! L = Gen.Single.OneTwo.Array.[rows*rows]
             lower L rows
             let A = mul rows L rows (trans L rows rows) rows
@@ -456,7 +456,7 @@ let linear_equations =
 
         test "sytrs2_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! L = Gen.Double.OneTwo.Array.[rows*rows]
             lower L rows
             let A = mul rows L rows (trans L rows rows) rows
@@ -472,7 +472,7 @@ let linear_equations =
 
         test "sytrs2_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! L = Gen.Single.OneTwo.Array.[rows*rows]
             lower L rows
             let A = mul rows L rows (trans L rows rows) rows
@@ -488,7 +488,7 @@ let linear_equations =
 
         test "gesv_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*rows]
             let! B = Gen.Double.OneTwo.Array.[rows*cols]
             let LU = Array.copy A
@@ -501,7 +501,7 @@ let linear_equations =
 
         test "gesv_float" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*rows]
             let! B = Gen.Single.OneTwo.Array.[rows*cols]
             lower A rows
@@ -516,7 +516,7 @@ let linear_equations =
 
         test "posv_double" {
             let! rows = Gen.Int.[2,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*rows]
             let! B = Gen.Double.OneTwo.Array.[rows*cols]
             lower A rows
@@ -530,7 +530,7 @@ let linear_equations =
 
         test "posv_single" {
             let! rows = Gen.Int.[2,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*rows]
             let! B = Gen.Single.OneTwo.Array.[rows*cols]
             lower A rows
@@ -544,7 +544,7 @@ let linear_equations =
 
         test "sysv_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*rows]
             let! B = Gen.Double.OneTwo.Array.[rows*cols]
             lower A rows
@@ -559,7 +559,7 @@ let linear_equations =
 
         test "sysv_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*rows]
             let! B = Gen.Single.OneTwo.Array.[rows*cols]
             lower A rows
@@ -712,8 +712,8 @@ let least_squares =
 
         test "gels_double" {
             let! rowsa = Gen.Int.[1,ROWS_MAX]
+            and! colsb = Gen.Int.[1,COLS_MAX]
             let! colsa = Gen.Int.[1,rowsa]
-            let! colsb = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
             let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
             let QR = Array.copy A
@@ -735,8 +735,8 @@ let least_squares =
 
         test "gels_single" {
             let! rowsa = Gen.Int.[1,ROWS_MAX]
+            and! colsb = Gen.Int.[1,COLS_MAX]
             let! colsa = Gen.Int.[1,rowsa]
-            let! colsb = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rowsa*colsa]
             let! B = Gen.Single.OneTwo.Array.[rowsa*colsb]
             let QR = Array.copy A
@@ -758,8 +758,8 @@ let least_squares =
 
         test "gelsy_double" {
             let! rowsa = Gen.Int.[1,ROWS_MAX]
+            and! colsb = Gen.Int.[1,COLS_MAX]
             let! colsa = Gen.Int.[1,rowsa]
-            let! colsb = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
             let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
             let QR = Array.copy A
@@ -783,8 +783,8 @@ let least_squares =
 
         test "gelss_double" {
             let! rowsa = Gen.Int.[1,ROWS_MAX]
+            and! colsb = Gen.Int.[1,COLS_MAX]
             let! colsa = Gen.Int.[1,rowsa]
-            let! colsb = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
             let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
             let QR = Array.copy A
@@ -808,8 +808,8 @@ let least_squares =
 
         test "gelsd_double" {
             let! rowsa = Gen.Int.[1,ROWS_MAX]
+            and! colsb = Gen.Int.[1,COLS_MAX]
             let! colsa = Gen.Int.[1,rowsa]
-            let! colsb = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rowsa*colsa]
             let! B = Gen.Double.OneTwo.Array.[rowsa*colsb]
             let QR = Array.copy A

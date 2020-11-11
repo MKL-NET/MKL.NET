@@ -24,7 +24,7 @@ let blas_1 =
 
         test "asum_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let mutable expected = 0.0
@@ -35,7 +35,7 @@ let blas_1 =
 
         test "asum_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let mutable expected = 0.0f
@@ -66,7 +66,7 @@ let blas_1 =
 
         test "axpy_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! a = Gen.Double
             let! x = Gen.Double.Array.[rows*cols]
@@ -79,7 +79,7 @@ let blas_1 =
 
         test "axpy_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! a = Gen.Single
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
@@ -106,7 +106,7 @@ let blas_1 =
 
         test "copy_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let y = Array.zeroCreate x.Length
@@ -117,7 +117,7 @@ let blas_1 =
 
         test "copy_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let y = Array.zeroCreate x.Length
@@ -146,7 +146,7 @@ let blas_1 =
 
         test "dot_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.NonNegative.Array.[rows*cols]
             let! y = Gen.Double.NonNegative.Array.[rows*cols]
@@ -159,7 +159,7 @@ let blas_1 =
 
         test "dot_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
             let! y = Gen.Single.NonNegative.Array.[rows*cols]
@@ -191,7 +191,7 @@ let blas_1 =
 
         test "sdot_i" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
             let! y = Gen.Single.NonNegative.Array.[rows*cols]
@@ -204,7 +204,7 @@ let blas_1 =
 
         test "sdot_sb_i" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! sb = Gen.Single.NonNegative
             let! x = Gen.Single.NonNegative.Array.[rows*cols]
@@ -230,7 +230,7 @@ let blas_1 =
 
         test "nrm2_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let mutable expected = 0.0
@@ -242,7 +242,7 @@ let blas_1 =
 
         test "nrm2_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let mutable expected = 0.0f
@@ -282,7 +282,7 @@ let blas_1 =
 
         test "rot_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Unit.Array.[rows*cols]
             let! y = Gen.Double.Unit.Array.[rows*cols]
@@ -298,7 +298,7 @@ let blas_1 =
 
         test "rot_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Unit.Array.[rows*cols]
             let! y = Gen.Single.Unit.Array.[rows*cols]
@@ -374,7 +374,7 @@ let blas_1 =
 
         test "rotm_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Unit.Array.[rows*cols]
             let! y = Gen.Double.Unit.Array.[rows*cols]
@@ -392,7 +392,7 @@ let blas_1 =
 
         test "rotm_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Unit.Array.[rows*cols]
             let! y = Gen.Single.Unit.Array.[rows*cols]
@@ -472,7 +472,7 @@ let blas_1 =
 
         test "scal_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let! a = Gen.Double
@@ -483,7 +483,7 @@ let blas_1 =
 
         test "scal_i_float" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let! a = Gen.Single
@@ -516,7 +516,7 @@ let blas_1 =
 
         test "swap_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Array.[rows*cols]
             let! y = Gen.Double.Array.[rows*cols]
@@ -529,7 +529,7 @@ let blas_1 =
 
         test "swap_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Array.[rows*cols]
             let! y = Gen.Single.Array.[rows*cols]
@@ -560,7 +560,7 @@ let blas_1 =
 
         test "iamax_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Normal.Array.[rows*cols]
             let _,_,expected =
@@ -572,7 +572,7 @@ let blas_1 =
 
         test "iamax_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Normal.Array.[rows*cols]
             let _,_,expected =
@@ -602,7 +602,7 @@ let blas_1 =
 
         test "iamin_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Double.Normal.Array.[rows*cols]
             let _,_,expected =
@@ -614,7 +614,7 @@ let blas_1 =
 
         test "iamin_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! x = Gen.Single.Normal.Array.[rows*cols]
             let _,_,expected =
@@ -630,7 +630,7 @@ let blas_2 =
 
         test "gemv_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.Unit.Array.[rows*cols]
             let! x = Gen.Double.Unit.Array.[cols]
             let! y = Gen.Double.Unit.Array.[rows]
@@ -649,7 +649,7 @@ let blas_2 =
 
         test "gemv_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.Unit.Array.[rows*cols]
             let! x = Gen.Single.Unit.Array.[cols]
             let! y = Gen.Single.Unit.Array.[rows]
@@ -668,7 +668,7 @@ let blas_2 =
 
         test "ger_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! x = Gen.Double.Unit.Array.[rows]
             let! y = Gen.Double.Unit.Array.[cols]
             let! A = Gen.Double.Unit.Array.[rows*cols]
@@ -682,7 +682,7 @@ let blas_2 =
 
         test "ger_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! x = Gen.Single.Unit.Array.[rows]
             let! y = Gen.Single.Unit.Array.[cols]
             let! A = Gen.Single.Unit.Array.[rows*cols]
@@ -852,8 +852,8 @@ let blas_3 =
 
         test "gemm_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! colsA = Gen.Int.[1,COLS_MAX]
-            let! colsB = Gen.Int.[1,COLS_MAX]
+            and! colsA = Gen.Int.[1,COLS_MAX]
+            and! colsB = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.Unit.Array.[rows*colsA]
             let! B = Gen.Double.Unit.Array.[colsA*colsB]
             let! C = Gen.Double.Unit.Array.[rows*colsB]
@@ -873,8 +873,8 @@ let blas_3 =
 
         test "gemm_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! colsA = Gen.Int.[1,COLS_MAX]
-            let! colsB = Gen.Int.[1,COLS_MAX]
+            and! colsA = Gen.Int.[1,COLS_MAX]
+            and! colsB = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.Unit.Array.[rows*colsA]
             let! B = Gen.Single.Unit.Array.[colsA*colsB]
             let! C = Gen.Single.Unit.Array.[rows*colsB]
@@ -894,7 +894,7 @@ let blas_3 =
 
         test "symm_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.Unit.Array.[rows*rows]
             let! B = Gen.Double.Unit.Array.[rows*cols]
             let! C = Gen.Double.Unit.Array.[rows*cols]
@@ -914,7 +914,7 @@ let blas_3 =
 
         test "symm_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.Unit.Array.[rows*rows]
             let! B = Gen.Single.Unit.Array.[rows*cols]
             let! C = Gen.Single.Unit.Array.[rows*cols]
@@ -934,7 +934,7 @@ let blas_3 =
 
         test "syrk_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.Unit.Array.[rows*cols]
             let! C = Gen.Double.Unit.Array.[rows*rows]
             let! alpha = Gen.Double.Unit
@@ -955,7 +955,7 @@ let blas_3 =
 
         test "syrk_float" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.Unit.Array.[rows*cols]
             let! C = Gen.Single.Unit.Array.[rows*rows]
             let! alpha = Gen.Single.Unit
@@ -976,7 +976,7 @@ let blas_3 =
 
         test "syrk2_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.Unit.Array.[rows*cols]
             let! B = Gen.Double.Unit.Array.[rows*cols]
             let! C = Gen.Double.Unit.Array.[rows*rows]
@@ -999,7 +999,7 @@ let blas_3 =
 
         test "syrk2_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.Unit.Array.[rows*cols]
             let! B = Gen.Single.Unit.Array.[rows*cols]
             let! C = Gen.Single.Unit.Array.[rows*rows]
@@ -1022,7 +1022,7 @@ let blas_3 =
 
         test "tymm_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.Unit.Array.[rows*rows]
             let! B = Gen.Double.Unit.Array.[rows*cols]
             let! alpha = Gen.Double.Unit
@@ -1040,7 +1040,7 @@ let blas_3 =
 
         test "tymm_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.Unit.Array.[rows*rows]
             let! B = Gen.Single.Unit.Array.[rows*cols]
             let! alpha = Gen.Single.Unit
@@ -1058,7 +1058,7 @@ let blas_3 =
 
         test "trsm_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Double.OneTwo.Array.[rows*rows]
             let! X = Gen.Double.OneTwo.Array.[rows*cols]
             let! alpha = Gen.Double.OneTwo
@@ -1076,7 +1076,7 @@ let blas_3 =
 
         test "trsm_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! A = Gen.Single.OneTwo.Array.[rows*rows]
             let! X = Gen.Single.OneTwo.Array.[rows*cols]
             let! alpha = Gen.Single.OneTwo
@@ -1120,7 +1120,7 @@ let blas_like_64_only =
 
         test "axpby_i_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! a = Gen.Double.Unit
             let! b = Gen.Double.Unit
@@ -1134,7 +1134,7 @@ let blas_like_64_only =
 
         test "axpby_i_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! ini = Gen.Int.[0,cols-1]
             let! a = Gen.Single.Unit
             let! b = Gen.Single.Unit
@@ -1152,7 +1152,7 @@ let blas_like =
 
         test "imatcopy_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! a = Gen.Double
             let! x = Gen.Double.Array.[rows*cols]
             let expected = Array.init (rows*cols) (fun i ->
@@ -1165,7 +1165,7 @@ let blas_like =
 
         test "imatcopy_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! a = Gen.Single
             let! x = Gen.Single.Array.[rows*cols]
             let expected = Array.init (rows*cols) (fun i ->
@@ -1178,7 +1178,7 @@ let blas_like =
 
         test "omatcopy_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! a = Gen.Double
             let! x = Gen.Double.Array.[rows*cols]
             let y = Array.zeroCreate (rows*cols)
@@ -1192,7 +1192,7 @@ let blas_like =
 
         test "omatcopy_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! a = Gen.Single
             let! x = Gen.Single.Array.[rows*cols]
             let y = Array.zeroCreate (rows*cols)
@@ -1206,7 +1206,7 @@ let blas_like =
 
         test "omatadd_double" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! alpha = Gen.Double.Unit
             let! beta = Gen.Double.Unit
             let! A = Gen.Double.Unit.Array.[rows*cols]
@@ -1219,7 +1219,7 @@ let blas_like =
 
         test "omatadd_single" {
             let! rows = Gen.Int.[1,ROWS_MAX]
-            let! cols = Gen.Int.[1,COLS_MAX]
+            and! cols = Gen.Int.[1,COLS_MAX]
             let! alpha = Gen.Single.Unit
             let! beta = Gen.Single.Unit
             let! A = Gen.Single.Unit.Array.[rows*cols]
