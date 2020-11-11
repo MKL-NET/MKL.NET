@@ -3,21 +3,15 @@ using System.Runtime.CompilerServices;
 
 namespace MKLNET
 {
-    internal static class ThrowHelper
+    public static class ThrowHelper
     {
         [MethodImpl(MethodImplOptions.NoInlining)]
-        internal static void ThrowIncorrectVectorDimensionsForOperation()
+        public static void ThrowIncorrectDimensionsForOperation()
         {
-            throw new Exception("Incorrect Vector Dimensions For Operation");
+            throw new Exception("Incorrect Dimensions For Operation");
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        internal static void ThrowIncorrectMatrixDimensionsForOperation()
-        {
-            throw new Exception("Incorrect Matrix Dimensions For Operation");
-        }
-
-        internal static void Check(int i)
+        public static void Check(int i)
         {
             if (i != 0) throw new Exception("MKL Error code: " + i);
         }

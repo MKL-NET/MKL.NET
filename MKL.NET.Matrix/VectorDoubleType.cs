@@ -32,7 +32,7 @@ namespace MKLNET
 
         public static vector operator +(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -41,7 +41,7 @@ namespace MKLNET
         public static vector operator +(vector a, vectorS bS)
         {
             var b = bS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, 1.0, a.Array, a.Length, bS.Scale, b.Array, a.Length, r.Array, a.Length);
             return r;
@@ -49,7 +49,7 @@ namespace MKLNET
 
         public static vector operator -(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -58,7 +58,7 @@ namespace MKLNET
         public static vector operator -(vector a, vectorS bS)
         {
             var b = bS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, 1.0, a.Array, a.Length, -bS.Scale, b.Array, a.Length, r.Array, a.Length);
             return r;
@@ -95,7 +95,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bT.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return new vectorT(r);
@@ -105,7 +105,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bTS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, 1.0, a.Array, a.Length, bTS.Scale, b.Array, a.Length, r.Array, a.Length);
             return new vectorT(r);
@@ -115,7 +115,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bT.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return new vectorT(r);
@@ -125,7 +125,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bTS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, 1.0, a.Array, a.Length, -bTS.Scale, b.Array, a.Length, r.Array, a.Length);
             return new vectorT(r);
@@ -134,7 +134,7 @@ namespace MKLNET
         public static double operator *(vectorT aT, vector b)
         {
             var a = aT.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
             return r;
         }
@@ -143,7 +143,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
             return r * bS.Scale;
         }
@@ -151,7 +151,7 @@ namespace MKLNET
         public static vectorT operator *(vectorT aT, matrix b)
         {
             var a = aT.Vector;
-            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, 1, b.Cols, a.Length, 1.0, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);
@@ -161,7 +161,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bT.Matrix;
-            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, 1, b.Rows, a.Length, 1.0, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);
@@ -171,7 +171,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bS.Matrix;
-            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, 1, b.Cols, a.Length, bS.Scale, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);
@@ -181,7 +181,7 @@ namespace MKLNET
         {
             var a = aT.Vector;
             var b = bTS.Matrix;
-            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, 1, b.Rows, a.Length, bTS.Scale, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);
@@ -215,7 +215,7 @@ namespace MKLNET
         public static vector operator +(vectorS aS, vector b)
         {
             var a = aS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aS.Scale, a.Array, a.Length, 1.0, b.Array, a.Length, r.Array, a.Length);
             return r;
@@ -225,7 +225,7 @@ namespace MKLNET
         {
             var a = aS.Vector;
             var b = bS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aS.Scale, a.Array, a.Length, bS.Scale, b.Array, a.Length, r.Array, a.Length);
             return r;
@@ -234,7 +234,7 @@ namespace MKLNET
         public static vector operator -(vectorS aS, vector b)
         {
             var a = aS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aS.Scale, a.Array, a.Length, -1.0, b.Array, a.Length, r.Array, a.Length);
             return r;
@@ -244,7 +244,7 @@ namespace MKLNET
         {
             var a = aS.Vector;
             var b = bS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aS.Scale, a.Array, a.Length, -bS.Scale, b.Array, a.Length, r.Array, a.Length);
             return r;
@@ -288,7 +288,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bT.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aTS.Scale, a.Array, a.Length, 1.0, b.Array, a.Length, r.Array, a.Length);
             return new vectorT(r);
@@ -298,7 +298,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bTS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aTS.Scale, a.Array, a.Length, bTS.Scale, b.Array, a.Length, r.Array, a.Length);
             return new vectorT(r);
@@ -308,7 +308,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bT.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aTS.Scale, a.Array, a.Length, -1.0, b.Array, a.Length, r.Array, a.Length);
             return new vectorT(r);
@@ -318,7 +318,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bTS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, a.Length, 1, aTS.Scale, a.Array, a.Length, -bTS.Scale, b.Array, a.Length, r.Array, a.Length);
             return new vectorT(r);
@@ -327,7 +327,7 @@ namespace MKLNET
         public static double operator *(vectorTS aTS, vector b)
         {
             var a = aTS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
             return aTS.Scale * r;
         }
@@ -336,7 +336,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bS.Vector;
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
             return aTS.Scale * r * bS.Scale;
         }
@@ -344,7 +344,7 @@ namespace MKLNET
         public static vectorT operator *(vectorTS aTS, matrix b)
         {
             var a = aTS.Vector;
-            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, 1, b.Cols, a.Length, aTS.Scale, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);
@@ -354,7 +354,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bT.Matrix;
-            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, 1, b.Rows, a.Length, aTS.Scale, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);
@@ -364,7 +364,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bS.Matrix;
-            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Cols);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, 1, b.Cols, a.Length, aTS.Scale * bS.Scale, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);
@@ -374,7 +374,7 @@ namespace MKLNET
         {
             var a = aTS.Vector;
             var b = bTS.Matrix;
-            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(b.Rows);
             Blas.gemm(Layout.ColMajor, Trans.No, Trans.Yes, 1, b.Rows, a.Length, aTS.Scale * bTS.Scale, a.Array, 1, b.Array, b.Rows, 0.0, r.Array, 1);
             return new vectorT(r);

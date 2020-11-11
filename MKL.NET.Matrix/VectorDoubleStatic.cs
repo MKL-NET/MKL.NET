@@ -1,8 +1,8 @@
 ﻿namespace MKLNET
 {
-    public static class Vector
+    public static partial class Vector
     {
-        public static class Inplace
+        public static partial class Inplace
         {
             public static void Abs(vector a)
             {
@@ -448,7 +448,7 @@
 
         public static vector Mul(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -475,7 +475,7 @@
 
         public static vector Fmod(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Fmod(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -502,7 +502,7 @@
 
         public static vector Remainder(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Remainder(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -659,7 +659,7 @@
 
         public static vector Hypot(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Hypot(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -686,7 +686,7 @@
 
         public static vector Div(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Div(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -765,7 +765,7 @@
 
         public static vector Pow(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Pow(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -792,7 +792,7 @@
 
         public static vector Powr(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Powr(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -1443,7 +1443,7 @@
 
         public static vector Atan2(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Atan2(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -1470,7 +1470,7 @@
 
         public static vector Atan2pi(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Atan2pi(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -2069,7 +2069,7 @@
 
         public static vector CopySign(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.CopySign(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -2096,7 +2096,7 @@
 
         public static vector Fmax(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Fmax(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -2123,7 +2123,7 @@
 
         public static vector Fmin(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Fmin(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -2150,7 +2150,7 @@
 
         public static vector Fdim(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.Fdim(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -2177,7 +2177,7 @@
 
         public static vector MaxMag(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.MaxMag(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -2204,7 +2204,7 @@
 
         public static vector NextAfter(vector a, vector b)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.NextAfter(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
@@ -2314,7 +2314,7 @@
 
         public static vector LinearFrac(vector a, vector b, double scalea, double shifta, double scaleb, double shiftb)
         {
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectVectorDimensionsForOperation();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new vector(a.Length);
             Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, scalea, shifta, scaleb, shiftb, r.Array, 0, 1);
             return r;
