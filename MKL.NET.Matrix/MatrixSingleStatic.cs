@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Buffers;
 
 namespace MKLNET
 {
@@ -420,26 +419,26 @@ namespace MKLNET
             public static void Solve(matrixF a, matrixF b)
             {
                 if (a.Rows != a.Cols || a.Rows != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var ipiv = ArrayPool<int>.Shared.Rent(a.Rows);
+                var ipiv = IntPool.Rent(a.Rows);
                 ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, b.Cols, a.Array, a.Rows, ipiv, b.Array, a.Rows));
-                ArrayPool<int>.Shared.Return(ipiv);
+                IntPool.Return(ipiv);
             }
 
             public static void Solve(matrixF a, vectorF b)
             {
                 if (a.Rows != a.Cols || a.Rows != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var ipiv = ArrayPool<int>.Shared.Rent(a.Rows);
+                var ipiv = IntPool.Rent(a.Rows);
                 ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, 1, a.Array, a.Rows, ipiv, b.Array, a.Rows));
-                ArrayPool<int>.Shared.Return(ipiv);
+                IntPool.Return(ipiv);
             }
 
             public static void Inverse(matrixF a)
             {
                 if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var ipiv = ArrayPool<int>.Shared.Rent(a.Rows);
+                var ipiv = IntPool.Rent(a.Rows);
                 ThrowHelper.Check(Lapack.getrf(Layout.ColMajor, a.Rows, a.Rows, a.Array, a.Rows, ipiv));
                 ThrowHelper.Check(Lapack.getri(Layout.ColMajor, a.Rows, a.Array, a.Rows, ipiv));
-                ArrayPool<int>.Shared.Return(ipiv);
+                IntPool.Return(ipiv);
             }
 
             public static vectorF Eigens(matrixF a)

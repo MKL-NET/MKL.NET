@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningLevel>5</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RootNamespace>MKLNET</RootNamespace>
     <NoWarn>IDE1006</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

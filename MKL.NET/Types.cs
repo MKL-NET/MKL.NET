@@ -120,6 +120,7 @@ namespace MKLNET
 
     }
 
+#pragma warning disable IDE0051 // Remove unused private members
     public struct VslStream
     {
         readonly IntPtr Ptr;
@@ -145,6 +146,12 @@ namespace MKLNET
         readonly IntPtr Ptr;
     }
 
+    public struct DftiDescriptor
+    {
+        readonly IntPtr Ptr;
+    }
+#pragma warning restore IDE0051 // Remove unused private members
+
     internal struct Pinned
     {
         int count;
@@ -154,7 +161,7 @@ namespace MKLNET
             count = 0;
             handles = new GCHandle[c];
         }
-        internal IntPtr Add(object o)
+        internal IntPtr Add(object? o)
         {
             if(count == handles.Length)
             {
@@ -185,11 +192,6 @@ namespace MKLNET
         internal IntPtr Ptr;
         internal IntPtr Allocated;
         internal Pinned Pinned;
-    }
-
-    public struct DftiDescriptor
-    {
-        readonly IntPtr Ptr;
     }
 
     public enum VslMode

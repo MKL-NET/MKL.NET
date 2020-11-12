@@ -765,7 +765,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vsldSSEditCovCor(IntPtr task, IntPtr mean, IntPtr cov, IntPtr cov_storage, IntPtr cor, IntPtr cor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SSEditCovCor(VsldSSTask task, double[] mean, double[] cov, VslFormat cov_storage, double[] cor, VslFormat cor_storage)
+        public static int SSEditCovCor(VsldSSTask task, double[] mean, double[]? cov, VslFormat cov_storage, double[]? cor, VslFormat cor_storage)
         {
             var p = task.Pinned.Add(new[] { (int)cov_storage, (int)cor_storage });
             return vsldSSEditCovCor(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(cov), p, task.Pinned.Add(cor), IntPtr.Add(p, sizeof(int)));
@@ -774,7 +774,7 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslsSSEditCovCor(IntPtr task, IntPtr mean, IntPtr cov, IntPtr cov_storage, IntPtr cor, IntPtr cor_storage);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SSEditCovCor(VslsSSTask task, float[] mean, float[] cov, VslFormat cov_storage, float[] cor, VslFormat cor_storage)
+        public static int SSEditCovCor(VslsSSTask task, float[] mean, float[]? cov, VslFormat cov_storage, float[]? cor, VslFormat cor_storage)
         {
             var p = task.Pinned.Add(new[] { (int)cov_storage, (int)cor_storage });
             return vslsSSEditCovCor(task.Ptr, task.Pinned.Add(mean), task.Pinned.Add(cov), p, task.Pinned.Add(cor), IntPtr.Add(p, sizeof(int)));

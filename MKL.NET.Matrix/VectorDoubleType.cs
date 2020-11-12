@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Buffers;
 
 namespace MKLNET
 {
@@ -10,7 +9,7 @@ namespace MKLNET
         public vector(int length)
         {
             Length = length;
-            Array = ArrayPool<double>.Shared.Rent(length);
+            Array = matrix.Pool.Rent(length);
         }
         public double this[int i]
         {
@@ -19,14 +18,13 @@ namespace MKLNET
         }
         public void Dispose()
         {
-            ArrayPool<double>.Shared.Return(Array);
-            Array = null;
+            matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        ~vector() => ArrayPool<double>.Shared.Return(Array);
-        public vectorT T => new vectorT(this);
-        public static vectorS operator *(vector a, double s) => new vectorS(a, s);
-        public static vectorS operator *(double s, vector a) => new vectorS(a, s);
+        ~vector() => matrix.Pool.Return(Array);
+        public vectorT T => new(this);
+        public static vectorS operator *(vector a, double s) => new(a, s);
+        public static vectorS operator *(double s, vector a) => new(a, s);
         public static vector operator +(vector m, double a) => Vector.LinearFrac(m, m, 1.0, a, 0.0, 0.0);
         public static vector operator +(double a, vector m) => Vector.LinearFrac(m, m, 1.0, a, 0.0, 0.0);
 
@@ -87,10 +85,10 @@ namespace MKLNET
         internal vectorT(vector v) => Vector = v;
 
         public vector T => Vector;
-        public static vectorTS operator *(vectorT a, double s) => new vectorTS(a.Vector, s);
-        public static vectorTS operator *(double s, vectorT a) => new vectorTS(a.Vector, s);
-        public static vectorT operator +(vectorT m, double a) => new vectorT(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, 1.0, a, 0.0, 0.0));
-        public static vectorT operator +(double a, vectorT m) => new vectorT(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, 1.0, a, 0.0, 0.0));
+        public static vectorTS operator *(vectorT a, double s) => new(a.Vector, s);
+        public static vectorTS operator *(double s, vectorT a) => new(a.Vector, s);
+        public static vectorT operator +(vectorT m, double a) => new(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, 1.0, a, 0.0, 0.0));
+        public static vectorT operator +(double a, vectorT m) => new(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, 1.0, a, 0.0, 0.0));
         public static vectorT operator +(vectorT aT, vectorT bT)
         {
             var a = aT.Vector;
@@ -198,9 +196,9 @@ namespace MKLNET
             Scale = s;
         }
 
-        public vectorTS T => new vectorTS(Vector, Scale);
-        public static vectorS operator *(vectorS a, double s) => new vectorS(a.Vector, a.Scale * s);
-        public static vectorS operator *(double s, vectorS a) => new vectorS(a.Vector, s * a.Scale);
+        public vectorTS T => new(Vector, Scale);
+        public static vectorS operator *(vectorS a, double s) => new(a.Vector, a.Scale * s);
+        public static vectorS operator *(double s, vectorS a) => new(a.Vector, s * a.Scale);
         public static vector operator +(vectorS m, double a) => MKLNET.Vector.LinearFrac(m.Vector, m.Vector, m.Scale, a, 0.0, 0.0);
         public static vector operator +(double a, vectorS m) => MKLNET.Vector.LinearFrac(m.Vector, m.Vector, m.Scale, a, 0.0, 0.0);
 
@@ -279,11 +277,11 @@ namespace MKLNET
             Scale = s;
         }
 
-        public vectorS T => new vectorS(Vector, Scale);
-        public static vectorTS operator *(vectorTS a, double s) => new vectorTS(a.Vector, a.Scale * s);
-        public static vectorTS operator *(double s, vectorTS a) => new vectorTS(a.Vector, s * a.Scale);
-        public static vectorT operator +(vectorTS m, double a) => new vectorT(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, m.Scale, a, 0.0, 0.0));
-        public static vectorT operator +(double a, vectorTS m) => new vectorT(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, m.Scale, a, 0.0, 0.0));
+        public vectorS T => new(Vector, Scale);
+        public static vectorTS operator *(vectorTS a, double s) => new(a.Vector, a.Scale * s);
+        public static vectorTS operator *(double s, vectorTS a) => new(a.Vector, s * a.Scale);
+        public static vectorT operator +(vectorTS m, double a) => new(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, m.Scale, a, 0.0, 0.0));
+        public static vectorT operator +(double a, vectorTS m) => new(MKLNET.Vector.LinearFrac(m.Vector, m.Vector, m.Scale, a, 0.0, 0.0));
         public static vectorT operator +(vectorTS aTS, vectorT bT)
         {
             var a = aTS.Vector;

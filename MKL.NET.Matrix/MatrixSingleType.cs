@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Buffers;
 
 namespace MKLNET
 {
     public class matrixF : IDisposable
     {
+        internal static ArrayPool<float> Pool = new(ArrayPool<float>.DefaultMaxNumberOfArraysPerBucket, ArrayPool<float>.DefaultMaxArrayLength);
         public readonly int Rows;
         public readonly int Cols;
         public float[] Array;
@@ -13,7 +13,7 @@ namespace MKLNET
         {
             Rows = rows;
             Cols = cols;
-            Array = ArrayPool<float>.Shared.Rent(rows * cols);
+            Array = Pool.Rent(rows * cols);
         }
         public float this[int row, int col]
         {
@@ -22,14 +22,13 @@ namespace MKLNET
         }
         public void Dispose()
         {
-            ArrayPool<float>.Shared.Return(Array);
-            Array = null;
+            Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        ~matrixF() => ArrayPool<float>.Shared.Return(Array);
-        public matrixFT T => new matrixFT(this);
-        public static matrixFS operator *(matrixF a, float s) => new matrixFS(a, s);
-        public static matrixFS operator *(float s, matrixF a) => new matrixFS(a, s);
+        ~matrixF() => Pool.Return(Array);
+        public matrixFT T => new(this);
+        public static matrixFS operator *(matrixF a, float s) => new(a, s);
+        public static matrixFS operator *(float s, matrixF a) => new(a, s);
         public static matrixF operator +(matrixF m, float a) => Matrix.LinearFrac(m, m, 1.0f, a, 0.0f, 0.0f);
         public static matrixF operator +(float a, matrixF m) => Matrix.LinearFrac(m, m, 1.0f, a, 0.0f, 0.0f);
 
@@ -161,8 +160,8 @@ namespace MKLNET
         public readonly matrixF Matrix;
         internal matrixFT(matrixF m) => Matrix = m;
         public matrixF T => Matrix;
-        public static matrixFTS operator *(matrixFT a, float s) => new matrixFTS(a.Matrix, s);
-        public static matrixFTS operator *(float s, matrixFT a) => new matrixFTS(a.Matrix, s);
+        public static matrixFTS operator *(matrixFT a, float s) => new(a.Matrix, s);
+        public static matrixFTS operator *(float s, matrixFT a) => new(a.Matrix, s);
         public static matrixF operator +(matrixFT m, float a)
         {
             matrixF r = m;
@@ -330,9 +329,9 @@ namespace MKLNET
             Matrix = m;
             Scale = s;
         }
-        public matrixFTS T => new matrixFTS(Matrix, Scale);
-        public static matrixFS operator *(matrixFS a, float s) => new matrixFS(a.Matrix, a.Scale * s);
-        public static matrixFS operator *(float s, matrixFS a) => new matrixFS(a.Matrix, s * a.Scale);
+        public matrixFTS T => new(Matrix, Scale);
+        public static matrixFS operator *(matrixFS a, float s) => new(a.Matrix, a.Scale * s);
+        public static matrixFS operator *(float s, matrixFS a) => new(a.Matrix, s * a.Scale);
         public static matrixF operator +(matrixFS m, float a) => MKLNET.Matrix.LinearFrac(m.Matrix, m.Matrix, m.Scale, a, 0.0f, 0.0f);
         public static matrixF operator +(float a, matrixFS m) => MKLNET.Matrix.LinearFrac(m.Matrix, m.Matrix, m.Scale, a, 0.0f, 0.0f);
 
@@ -490,9 +489,9 @@ namespace MKLNET
             Matrix = m;
             Scale = s;
         }
-        public matrixFS T => new matrixFS(Matrix, Scale);
-        public static matrixFTS operator *(matrixFTS a, float s) => new matrixFTS(a.Matrix, a.Scale * s);
-        public static matrixFTS operator *(float s, matrixFTS a) => new matrixFTS(a.Matrix, s * a.Scale);
+        public matrixFS T => new(Matrix, Scale);
+        public static matrixFTS operator *(matrixFTS a, float s) => new(a.Matrix, a.Scale * s);
+        public static matrixFTS operator *(float s, matrixFTS a) => new(a.Matrix, s * a.Scale);
         public static matrixF operator +(matrixFTS m, float a)
         {
             matrixF r = m;
