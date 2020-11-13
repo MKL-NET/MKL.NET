@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// - Modified to use GC.AllocateArray
+
+using System;
 using System.Threading;
 using System.Runtime.CompilerServices;
 
@@ -25,7 +29,7 @@ namespace MKLNET
         }
     }
 
-    internal sealed partial class ArrayPool<T>
+    internal class ArrayPool<T>
     {
         /// <summary>The default maximum length of each array in the pool (2^20).</summary>
         internal const int DefaultMaxArrayLength = 1024 * 1024;
@@ -124,7 +128,7 @@ namespace MKLNET
         }
 
         /// <summary>Provides a thread-safe bucket containing buffers that can be Rent'd and Return'd.</summary>
-        private sealed class Bucket
+        class Bucket
         {
             internal readonly int _bufferLength;
             private readonly T[]?[] _buffers;

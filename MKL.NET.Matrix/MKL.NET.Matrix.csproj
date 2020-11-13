@@ -8,7 +8,11 @@
         <RootNamespace>MKLNET</RootNamespace>
         <NoWarn>IDE1006</NoWarn>
         <PackageReleaseNotes>
-Bespoke ArrayPool.
+Added matrixF and vectorF for single precision calculations.
+Added further matrix vector operators.
+Added Lapack matrix functions.
+Uses bespoke ArrayPool making it dependency free again.
+Uses the Pinned Object Heap for net5.0.
         </PackageReleaseNotes>
         <Version>0.3.0</Version>
     </PropertyGroup>
