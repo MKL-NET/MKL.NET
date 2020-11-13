@@ -48,7 +48,7 @@ public static matrix Example1(matrix m)
 
 public static matrix Example2(matrix a, matrix b, double w)
 {
-    return w * a + (1-w) * b.T;
+    return w * a + (1.0 - w) * b.T;
 }
 
 public static matrix Example3(matrix m)
