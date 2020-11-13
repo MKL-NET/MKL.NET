@@ -2644,7 +2644,7 @@ namespace MKLNET
             public static (vector, matrix) MeanAndCovariance(matrix samples, vector weights)
             {
                 if (samples.Rows != weights.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var mean = new vector(samples.Length);
+                var mean = new vector(samples.Cols);
                 var cov = new matrix(samples.Cols, samples.Cols);
                 var task = Vsl.SSNewTask(samples.Cols, samples.Rows, VslStorage.ROWS, samples.Array, weights.Array);
                 ThrowHelper.Check(Vsl.SSEditCovCor(task, mean.Array, cov.Array, VslFormat.FULL, null, VslFormat.FULL));
