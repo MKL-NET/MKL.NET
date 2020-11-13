@@ -35,9 +35,9 @@ The correct native libraries will be included and loaded at runtime.
 ## MKL.NET.Matrix
 
 - Performance and memory optimised matrix algebra library.
-- Scale and Transpose deferred and unlikely to result in allocations (MKL can perform these together for +, *).
+- Scale and Transpose deferred and unlikely to result in allocations (Can perform these together for +, *, and inplace for functions).
 - ArrayPool underlying memory model using IDisposable and Finalizers.
-- Future optimisations likely include bespoke ArrayPool, Pinned Object Heap, and pinning optimisations.
+- Uses the Pinned Object Heap for net5.0.
 
 The following examples only create one new matrix (using ArrayPool) without mutating inputs.
 ```csharp
@@ -61,5 +61,20 @@ public static matrix Example4(matrix m)
     matrix r = Example1(m);
     Matrix.Inplace.Log1p(r);
     return r;
+}
+```
+
+Example statistics matrix function.
+```csharp
+public static (vector, matrix) MeanAndCovariance(matrix samples, vector weights)
+{
+    if (samples.Rows != weights.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+    var mean = new vector(samples.Length);
+    var cov = new matrix(samples.Cols, samples.Cols);
+    var task = Vsl.SSNewTask(samples.Cols, samples.Rows, VslStorage.ROWS, samples.Array, weights.Array);
+    ThrowHelper.Check(Vsl.SSEditCovCor(task, mean.Array, cov.Array, VslFormat.FULL, null, VslFormat.FULL));
+    ThrowHelper.Check(Vsl.SSCompute(task, VslEstimate.COV, VslMethod.FAST));
+    ThrowHelper.Check(Vsl.SSDeleteTask(task));
+    return (mean, cov);
 }
 ```
