@@ -10,7 +10,7 @@
         <PackageReleaseNotes>
 Added matrixF and vectorF for single precision calculations.
 Added further matrix vector operators.
-Added Lapack matrix functions.
+Added Lapack Matrix functions.
 Uses bespoke ArrayPool making it dependency free again.
 Uses the Pinned Object Heap for net5.0.
         </PackageReleaseNotes>
