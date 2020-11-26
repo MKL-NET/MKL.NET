@@ -64,7 +64,7 @@ public static matrix Example4(matrix m)
 }
 ```
 
-Example statistics matrix function.
+Example statistics matrix function:
 ```csharp
 public static (vector, matrix) MeanAndCovariance(matrix samples, vector weights)
 {
@@ -78,3 +78,7 @@ public static (vector, matrix) MeanAndCovariance(matrix samples, vector weights)
     return (mean, cov);
 }
 ```
+
+Note: arrays need to be pinned across MKL function call for multiple calls like above as MKL stores native pointers and the arrays could be moved between calls.
+MKL.NET handles pinning internally unpinning when the task is deleted.
+This is a common bug when using MKL from .NET which causes occasional crashes.
