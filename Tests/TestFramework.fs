@@ -629,7 +629,7 @@ module Tests =
                     | FasterAgg fa ->
                         if fa.Error || info then
                             let me = fa.Median
-                            let range = "%[-" + Numeric((me.MADless*100.0).ToString("#0")) + "..+" + Numeric((me.MADmore*100.0).ToString("#0")) + "]"
+                            let range = "%[-" + Numeric((me.LowerQuartile*100.0).ToString("#0.0")) + "%..+" + Numeric((me.UpperQuartile*100.0).ToString("#0.0")) + "%]"
                             let result = if me.Median >= 0.0 then Numeric((me.Median*100.0).ToString("#0.0")) + range + " faster"
                                          else Numeric((me.Median*100.0 / (-1.0 - me.Median)).ToString("#0.0")) + range + " slower"
                             if fa.Error then Alert "  FAIL: " + Message fa.Message + result
@@ -685,8 +685,8 @@ module Tests =
                                 | None -> 0.0, None
                                 | Some(rs,seed) ->
                                     let m = Message "Duration " + Numeric((1000.0*me.Median/double Stopwatch.Frequency).ToString("#0.000")) +
-                                            "ms[-" + Numeric((1000.0*me.MADless/double Stopwatch.Frequency).ToString("#0.000")) +
-                                            "..+" + Numeric((1000.0*me.MADmore/double Stopwatch.Frequency).ToString("#0.000")) + "]"
+                                            "ms[-" + Numeric((1000.0*me.LowerQuartile/double Stopwatch.Frequency).ToString("#0.000")) +
+                                            "..+" + Numeric((1000.0*me.UpperQuartile/double Stopwatch.Frequency).ToString("#0.000")) + "]"
                                     let time = TestText.toText m |> Text.toANSI |> Information
                                     me.Median, testResultWriteLine config t.Name (time::rs,seed)
                             ) tests mes
