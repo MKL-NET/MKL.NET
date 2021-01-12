@@ -63,6 +63,16 @@ namespace MKLNET
             => mkl_set_threading_layer(required_threading);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int mkl_get_dynamic();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int get_dynamic() => mkl_get_dynamic();
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void mkl_set_dynamic(int flag);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void set_dynamic(int flag) => mkl_set_dynamic(flag);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int mkl_cbwr_set(MklCBWR option);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cbwr_set(MklCBWR option)

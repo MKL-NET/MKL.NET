@@ -31,4 +31,9 @@ let all =
             let v = MKL.cbwr_get_auto_branch()
             Check.info "%s" (Enum.GetName(typeof<MklCBWR> ,v))
         }
+
+        test "get_dynamic" {
+            let i = MKL.get_dynamic()
+            Check.info "%i" i
+        }
     }
