@@ -83,5 +83,11 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MklCBWR cbwr_get_auto_branch()
             => mkl_cbwr_get_auto_branch();
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern void mkl_free_buffers();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void free_buffers()
+            => mkl_free_buffers();
     }
 }
