@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 
 namespace MKLNET
 {
-    public struct RcidTrnspTask
-    {
-        readonly IntPtr Ptr;
-    }
+    //public struct RcidTrnspTask
+    //{
+    //    readonly IntPtr Ptr;
+    //}
 
     [SuppressUnmanagedCodeSecurity]
     public unsafe static class Rci
