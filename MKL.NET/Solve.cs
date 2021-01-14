@@ -38,29 +38,54 @@ namespace MKLNET
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern RciStatus dtrnlsp_init(IntPtr* handle, int* n, int* m, double* x, double* eps, int* iter1, int* iter2, double* rs);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus dtrnlsp_solve(IntPtr handle, double* fvec, double* fjac, RciRequest* RCI_Request);
-
-        public static RciStatus NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter1, int iter2, double rs)
+        static extern RciStatus dtrnlsp_solve(IntPtr* handle, double* fvec, double* fjac, RciRequest* RCI_Request);
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern RciStatus dtrnlsp_delete(IntPtr* handle);
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern RciStatus djacobi_init(IntPtr* handle, int* n, int* m, double* x, double* fjac, double* eps);
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern RciStatus djacobi_solve(IntPtr* handle, double* f1, double* f2, int* RCI_Request);
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern RciStatus djacobi_delete(IntPtr* handle);
+        public static RciStatus NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter1, int iter2, double rs, double jac_eps)
         {
             int n = x.Length;
             int m = Fx.Length;
             double[] jac = new double[n * m];
-            fixed(double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            double[] f1 = new double[m];
+            double[] f2 = new double[m];
+            fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
             {
                 IntPtr handle;
                 RciStatus status;
                 if ((status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs)) != RciStatus.SUCCESS) return status;
-                while(true)
+                while (true)
                 {
                     RciRequest request;
-                    if ((status = dtrnlsp_solve(handle, Fxp, jacp, &request)) != RciStatus.SUCCESS) break;
+                    if ((status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) != RciStatus.SUCCESS) break;
                     if (request == RciRequest.CALCULATE_FUNCTION)
                     {
                         F(x, Fx);
                     }
                     else if (request == RciRequest.CALCULATE_JACOBIAN)
                     {
-                        // calc jac
+                        IntPtr jacHandle;
+                        int jacRequest;
+                        if ((status = djacobi_init(&jacHandle, &n, &m, xp, jacp, &jac_eps)) != RciStatus.SUCCESS) break;
+                        while (true)
+                        {
+                            if ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) != RciStatus.SUCCESS) break;
+                            if (jacRequest == 1)
+                            {
+                                F(x, f1);
+                            }
+                            else if (jacRequest == 2)
+                            {
+                                F(x, f2);
+                            }
+                            else break;
+                        }
+                        djacobi_delete(&jacHandle);
                     }
                     else
                     {
@@ -72,6 +97,8 @@ namespace MKLNET
                 return status;
             }
         }
+
+
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern RciStatus dtrnlsp_init(IntPtr* handle, IntPtr n, IntPtr m, IntPtr x, IntPtr eps, IntPtr iter1, IntPtr iter2, IntPtr rs);
         public static RciStatus trnlsp_init(int n, int m, double[] x, double[] eps, int iter1, int iter2, double rs, out RcidTrnspTask task)
@@ -125,8 +152,7 @@ namespace MKLNET
             r2 = r2l;
         }
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void dtrnlsp_delete(IntPtr* handle);
+        
         public static void trnlsp_delete(RcidTrnspTask task)
         {
             Marshal.FreeHGlobal(task.Allocated);
@@ -135,8 +161,7 @@ namespace MKLNET
             dtrnlsp_delete(&t);
         }
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void djacobi_init(IntPtr handle, int* iter, int* st_cr, double* r1, double* r2);
+        
         //public static void jacobi_init(Rcidja task, out int iter, out int st_cr, out double r1, out double r2)
         //{
         //    int iterl, st_crl;
