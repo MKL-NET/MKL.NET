@@ -11,7 +11,11 @@ let all =
         MKLTests.all
         VectorTests.all
         MatrixTests.all
+#if NETCOREAPP
         SolveTests.all
+#else
+        if not Environment.Is64BitProcess then SolveTests.all else []
+#endif
         PerfTests.all
     }
 
