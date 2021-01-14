@@ -14,7 +14,7 @@ let all =
 #if NETCOREAPP
         SolveTests.all
 #else
-        if not Environment.Is64BitProcess then SolveTests.all else []
+        if Environment.Is64BitProcess then SolveTests.all else []
 #endif
         PerfTests.all
     }
