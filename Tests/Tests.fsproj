@@ -23,6 +23,7 @@
         <Compile Include="MKLTests.fs" />
         <Compile Include="VectorTests.fs" />
         <Compile Include="MatrixTests.fs" />
+        <Compile Include="SolveTests.fs" />
         <Compile Include="PerfTests.fs" />
         <Compile Include="Main.fs" />
   </ItemGroup>

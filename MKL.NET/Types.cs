@@ -150,36 +150,6 @@ namespace MKLNET
     {
         readonly IntPtr Ptr;
     }
-
-    //public struct RcidTrnspTask
-    //{
-    //    readonly IntPtr Ptr;
-    //}
-
-    //public struct RcisTrnspTask
-    //{
-    //    readonly IntPtr Ptr;
-    //}
-
-    //public struct RcidTrnspbcTask
-    //{
-    //    readonly IntPtr Ptr;
-    //}
-
-    //public struct RcisTrnspbcTask
-    //{
-    //    readonly IntPtr Ptr;
-    //}
-
-    //public struct RcidJacobiTask
-    //{
-    //    readonly IntPtr Ptr;
-    //}
-
-    //public struct RcisJacobiTask
-    //{
-    //    readonly IntPtr Ptr;
-    //}
 #pragma warning restore IDE0051 // Remove unused private members
 
     internal struct Pinned
@@ -636,13 +606,5 @@ namespace MKLNET
     public enum DfdiStatus : long
     {
         NO_ERROR = 0L,
-    }
-
-
-    public enum RciStatus
-    {
-        SUCCESS         = 1501,
-        INVALID_OPTION  = 1502,
-        OUT_OF_MEMORY   = 1503,
     }
 }

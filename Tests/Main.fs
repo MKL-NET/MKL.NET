@@ -11,6 +11,7 @@ let all =
         MKLTests.all
         VectorTests.all
         MatrixTests.all
+        SolveTests.all
         PerfTests.all
     }
 
