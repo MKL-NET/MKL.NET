@@ -7,7 +7,7 @@ open Microsoft.FSharp.NativeInterop
 
 #nowarn "9"
 
-let all = test "rci" {
+let all = test "solve" {
 
     test "quadratic_action" {
         let mutable calls = 0
@@ -20,11 +20,10 @@ let all = test "rci" {
             Fx.[1] <- y - (x-a) * (x-b)
             let x,y = -1.0, 0.0
             Fx.[2] <- y - (x-a) * (x-b)
-        let eps = Array.create 6 0.00001
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
-        let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, Fx, eps, 1000, 100, 0.0)
-        Check.equal RciStatus.F_NORM_2_LESS_THAN_EPS1 result
+        let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, Fx)
+        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
         Check.info "x    : %A" x
         Check.info "Fx   : %A" Fx
         Check.info "Calls: %i" calls
@@ -41,11 +40,10 @@ let all = test "rci" {
             NativePtr.set Fx 1  (y - (x-a) * (x-b))
             let x,y = -1.0, 0.0
             NativePtr.set Fx 2  (y - (x-a) * (x-b))
-        let eps = Array.create 6 0.00001
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
-        let result = Solve.NonLinearLeastSquares(Solve.djacobi_function F, x, Fx, eps, 1000, 100, 0.0)
-        Check.equal RciStatus.F_NORM_2_LESS_THAN_EPS1 result
+        let result = Solve.NonLinearLeastSquares(SolveFn F, x, Fx)
+        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
         Check.info "x    : %A" x
         Check.info "Fx   : %A" Fx
         Check.info "Calls: %i" calls
@@ -62,13 +60,12 @@ let all = test "rci" {
             Fx.[1] <- y - (x-a) * (x-b)
             let x,y = -1.0, 0.0
             Fx.[2] <- y - (x-a) * (x-b)
-        let eps = Array.create 6 0.00001
         let x = [|-5.0; 8.0|]
         let lower = [|-2.0; -2.0|]
         let upper = [|2.0; 2.0|]
         let Fx = Array.zeroCreate 3
-        let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, lower, upper, Fx, eps, 1000, 100, 0.0)
-        Check.equal RciStatus.F_NORM_2_LESS_THAN_EPS1 result
+        let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, lower, upper, Fx)
+        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
         Check.info "x    : %A" x
         Check.info "Fx   : %A" Fx
         Check.info "Calls: %i" calls
@@ -85,13 +82,12 @@ let all = test "rci" {
             NativePtr.set Fx 1  (y - (x-a) * (x-b))
             let x,y = -1.0, 0.0
             NativePtr.set Fx 2  (y - (x-a) * (x-b))
-        let eps = Array.create 6 0.00001
         let x = [|-5.0; 8.0|]
         let lower = [|-2.0; -2.0|]
         let upper = [|2.0; 2.0|]
         let Fx = Array.zeroCreate 3
-        let result = Solve.NonLinearLeastSquares(Solve.djacobi_function F, x, lower, upper, Fx, eps, 1000, 100, 0.0)
-        Check.equal RciStatus.F_NORM_2_LESS_THAN_EPS1 result
+        let result = Solve.NonLinearLeastSquares(SolveFn F, x, lower, upper, Fx)
+        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
         Check.info "x    : %A" x
         Check.info "Fx   : %A" Fx
         Check.info "Calls: %i" calls

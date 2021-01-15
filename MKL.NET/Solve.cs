@@ -16,183 +16,192 @@ namespace MKLNET
 #endif
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus dtrnlsp_init(IntPtr* handle, int* n, int* m, double* x, double* eps, int* iter1, int* iter2, double* rs);
+        static extern int dtrnlsp_init(IntPtr* handle, int* n, int* m, double* x, double* eps, int* iter1, int* iter2, double* rs);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus dtrnlsp_solve(IntPtr* handle, double* fvec, double* fjac, int* RCI_Request);
+        static extern int dtrnlsp_solve(IntPtr* handle, double* fvec, double* fjac, int* RCI_Request);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus dtrnlsp_delete(IntPtr* handle);
+        static extern int dtrnlsp_delete(IntPtr* handle);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus dtrnlspbc_init(IntPtr* handle, int* n, int* m, double* x, double* lower, double* upper, double* eps, int* iter1, int* iter2, double* rs);
+        static extern int dtrnlspbc_init(IntPtr* handle, int* n, int* m, double* x, double* lower, double* upper, double* eps, int* iter1, int* iter2, double* rs);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus dtrnlspbc_solve(IntPtr* handle, double* fvec, double* fjac, int* RCI_Request);
+        static extern int dtrnlspbc_solve(IntPtr* handle, double* fvec, double* fjac, int* RCI_Request);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus dtrnlspbc_delete(IntPtr* handle);
+        static extern int dtrnlspbc_delete(IntPtr* handle);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus djacobi_init(IntPtr* handle, int* n, int* m, double* x, double* fjac, double* eps);
+        static extern int djacobi_init(IntPtr* handle, int* n, int* m, double* x, double* fjac, double* eps);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus djacobi_solve(IntPtr* handle, double* f1, double* f2, int* RCI_Request);
+        static extern int djacobi_solve(IntPtr* handle, double* f1, double* f2, int* RCI_Request);
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus djacobi_delete(IntPtr* handle);
-        public delegate void djacobi_function(int* m, int* n, double* x, double* f);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern RciStatus djacobi(djacobi_function fcn, int* n, int* m, double* fjac, double* x, double* eps);
+        static extern int djacobi_delete(IntPtr* handle);
         
-        const int CALCULATE_JACOBIAN = 2;
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int djacobi(SolveFn fcn, int* n, int* m, double* fjac, double* x, double* eps);
+
+        const int ONE_ITERATION = 0;
         const int CALCULATE_FUNCTION = 1;
-        public static RciStatus NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter1, int iter2, double rs)
+        const int CALCULATE_JACOBIAN = 2;
+        const int SUCCESS = 1501;
+        static readonly double[] DEFAULT_EPS = new[] { 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9 };
+
+        /// <summary>
+        /// Nonlinear Least Squares Problem. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, SolveFn is native and will be called in parallel</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
         {
             int n = x.Length;
             int m = Fx.Length;
-            double[] jac = new double[n * m];
-            double[] f1 = new double[m];
-            double[] f2 = new double[m];
+            var jac = new double[n * m];
+            var f1 = new double[m];
+            var f2 = new double[m];
             fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
             {
                 IntPtr handle;
                 int request;
                 var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
-                while (status == RciStatus.SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == RciStatus.SUCCESS)
+                while (status == SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION)
-                    {
-                        F(x, Fx);
-                    }
+                    if (request == CALCULATE_FUNCTION) F(x, Fx);
                     else if (request == CALCULATE_JACOBIAN)
                     {
                         IntPtr jacHandle;
                         int jacRequest;
                         status = djacobi_init(&jacHandle, &n, &m, xp, jacp, epsp);
-                        if (status == RciStatus.SUCCESS)
-                            while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == RciStatus.SUCCESS && jacRequest != 0)
+                        if (status == SUCCESS)
+                            while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
                                 F(x, jacRequest == 1 ? f1 : f2);
                         djacobi_delete(&jacHandle);
                     }
-                    else if (request < 0)
+                    else if (request != ONE_ITERATION)
                     {
-                        status = (RciStatus)request;
+                        status = request;
                         break;
                     }
                 }
                 dtrnlsp_delete(&handle);
-                return status;
+                return (SolveResult)status;
             }
         }
 
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx)
+            => NonLinearLeastSquares(F, x, Fx, DEFAULT_EPS);
 
-        public static RciStatus NonLinearLeastSquares(djacobi_function F, double[] x, double[] Fx, double[] eps, int iter1, int iter2, double rs)
+        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
         {
             int n = x.Length;
             int m = Fx.Length;
-            double[] jac = new double[n * m];
+            var jac = new double[n * m];
             fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
             {
                 IntPtr handle;
                 int request;
                 var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
-                while (status == RciStatus.SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == RciStatus.SUCCESS)
+                while (status == SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION)
+                    if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
+                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, epsp);
+                    else if (request != ONE_ITERATION)
                     {
-                        F(&m, &n, xp, Fxp);
-                    }
-                    else if (request == CALCULATE_JACOBIAN)
-                    {
-                        status = djacobi(F, &n, &m, jacp, xp, epsp);
-                    }
-                    else if (request != 0)
-                    {
-                        status = (RciStatus)request;
+                        status = request;
                         break;
                     }
                 }
                 dtrnlsp_delete(&handle);
-                return status;
+                return (SolveResult)status;
             }
         }
 
-        public static RciStatus NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1, int iter2, double rs)
+        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] Fx)
+            => NonLinearLeastSquares(F, x, Fx, DEFAULT_EPS);
+
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
         {
             int n = x.Length;
             int m = Fx.Length;
-            double[] jac = new double[n * m];
-            double[] f1 = new double[m];
-            double[] f2 = new double[m];
+            var jac = new double[n * m];
+            var f1 = new double[m];
+            var f2 = new double[m];
             fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
             {
                 IntPtr handle;
                 int request;
                 var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
-                while (status == RciStatus.SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == RciStatus.SUCCESS)
+                while (status == SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION)
-                    {
-                        F(x, Fx);
-                    }
+                    if (request == CALCULATE_FUNCTION) F(x, Fx);
                     else if (request == CALCULATE_JACOBIAN)
                     {
                         IntPtr jacHandle;
                         int jacRequest;
                         status = djacobi_init(&jacHandle, &n, &m, xp, jacp, epsp);
-                        if (status == RciStatus.SUCCESS)
-                            while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == RciStatus.SUCCESS && jacRequest != 0)
+                        if (status == SUCCESS)
+                            while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
                                 F(x, jacRequest == 1 ? f1 : f2);
                         djacobi_delete(&jacHandle);
                     }
-                    else if (request < 0)
+                    else if (request != ONE_ITERATION)
                     {
-                        status = (RciStatus)request;
+                        status = request;
                         break;
                     }
                 }
                 dtrnlspbc_delete(&handle);
-                return status;
+                return (SolveResult)status;
             }
         }
 
-        public static RciStatus NonLinearLeastSquares(djacobi_function F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1, int iter2, double rs)
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx)
+            => NonLinearLeastSquares(F, x, lower, upper, Fx, DEFAULT_EPS);
+
+        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
         {
             int n = x.Length;
             int m = Fx.Length;
-            double[] jac = new double[n * m];
-            double[] f1 = new double[m];
-            double[] f2 = new double[m];
+            var jac = new double[n * m];
+            var f1 = new double[m];
+            var f2 = new double[m];
             fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
             {
                 IntPtr handle;
                 int request;
                 var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
-                while (status == RciStatus.SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == RciStatus.SUCCESS)
+                while (status == SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION)
+                    if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
+                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, epsp);
+                    else if (request != ONE_ITERATION)
                     {
-                        F(&m, &n, xp, Fxp);
-                    }
-                    else if (request == CALCULATE_JACOBIAN)
-                    {
-                        status = djacobi(F, &n, &m, jacp, xp, epsp);
-                    }
-                    else if (request < 0)
-                    {
-                        status = (RciStatus)request;
+                        status = request;
                         break;
                     }
                 }
                 dtrnlspbc_delete(&handle);
-                return status;
+                return (SolveResult)status;
             }
         }
+
+        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] lower, double[] upper, double[] Fx)
+            => NonLinearLeastSquares(F, x, lower, upper, Fx, DEFAULT_EPS);
     }
 
-    public enum RciStatus
+    public unsafe delegate void SolveFn(int* m, int* n, double* x, double* f);
+
+    public enum SolveResult
     {
-        SUCCESS = 1501,
-        INVALID_OPTION = 1502,
-        OUT_OF_MEMORY = 1503,
         EXCEEDED_ITERATIONS = -1,
         DELTA_LESS_THAN_EPS0 = -2,
         F_NORM_2_LESS_THAN_EPS1 = -3,
         JACOBIAN_SINGULAR_LESS_THAN_ESP2 = -4,
         S_NORM_2_LESS_THAN_EPS3 = -5,
         F_J_S_LESS_THAN_EPS4 = -6,
+        INVALID_OPTION = 1502,
+        OUT_OF_MEMORY = 1503,
     }
 }
