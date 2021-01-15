@@ -4,7 +4,7 @@ namespace MKLNET
 {
     public class matrixF : IDisposable
     {
-        internal static ArrayPool<float> Pool = new(ArrayPool<float>.DefaultMaxNumberOfArraysPerBucket, ArrayPool<float>.DefaultMaxArrayLength);
+        internal static ArrayPool<float> Pool = new(ArrayPool<float>.DefaultMaxNumberOfArraysPerBucket, Environment.Is64BitProcess ? 20 : 10);
         public readonly int Rows;
         public readonly int Cols;
         public float[] Array;

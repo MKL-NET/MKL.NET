@@ -4,7 +4,7 @@ namespace MKLNET
 {
     public static partial class Matrix
     {
-        internal static ArrayPool<int> IntPool = new(ArrayPool<int>.DefaultMaxNumberOfArraysPerBucket, ArrayPool<int>.DefaultMaxArrayLength);
+        internal static ArrayPool<int> IntPool = new(ArrayPool<int>.DefaultMaxNumberOfArraysPerBucket, Environment.Is64BitProcess ? 20 : 10);
         public static void ResetPools(int maxArrayLength, int maxArraysPerBucket)
         {
             IntPool = new(maxArrayLength, maxArraysPerBucket);
