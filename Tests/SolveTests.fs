@@ -23,10 +23,8 @@ let all = test "solve" {
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0 x.[0]
+        Check.close High 1.0 x.[1]
     }
 
     test "quadratic_native_double" {
@@ -43,10 +41,8 @@ let all = test "solve" {
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFn F, x, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0 x.[0]
+        Check.close High 1.0 x.[1]
     }
 
     test "quadratic_action_bound_double" {
@@ -65,10 +61,8 @@ let all = test "solve" {
         let upper = [|2.0; 2.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0 x.[0]
+        Check.close High 1.0 x.[1]
     }
 
     test "quadratic_native_bound_double" {
@@ -87,10 +81,8 @@ let all = test "solve" {
         let upper = [|2.0; 2.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFn F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0 x.[0]
+        Check.close High 1.0 x.[1]
     }
 
     test "quadratic_action_single" {
@@ -107,10 +99,8 @@ let all = test "solve" {
         let x = [|-5.0f; 8.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0f x.[0]
+        Check.close High 1.0f x.[1]
     }
 
     test "quadratic_native_single" {
@@ -127,10 +117,8 @@ let all = test "solve" {
         let x = [|-5.0f; 8.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFnF F, x, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0f x.[0]
+        Check.close High 1.0f x.[1]
     }
 
     test "quadratic_action_bound_single" {
@@ -149,10 +137,8 @@ let all = test "solve" {
         let upper = [|2.0f; 2.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0f x.[0]
+        Check.close High 1.0f x.[1]
     }
 
     test "quadratic_native_bound_single" {
@@ -171,9 +157,7 @@ let all = test "solve" {
         let upper = [|2.0f; 2.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFnF F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
-        Check.info "x    : %A" x
-        Check.info "Fx   : %A" Fx
-        Check.info "Calls: %i" calls
+        Check.close High -1.0f x.[0]
+        Check.close High 1.0f x.[1]
     }
 }
