@@ -5,7 +5,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="CsCheck" Version="1.1.2" />
-        <!--<PackageReference Include="MKL.NET" Version="0.9.0" />-->
+        <!--<PackageReference Include="MKL.NET" Version="1.0.0" />-->
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
         <ProjectReference Include="../MKL.NET.Matrix/MKL.NET.Matrix.csproj" />
         <PackageReference Include="MKL.NET.win-x64" Version="2020.4.311" />

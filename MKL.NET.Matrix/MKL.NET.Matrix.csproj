@@ -8,13 +8,9 @@
         <RootNamespace>MKLNET</RootNamespace>
         <NoWarn>IDE1006</NoWarn>
         <PackageReleaseNotes>
-Added matrixF and vectorF for single precision calculations.
-Added further matrix vector operators.
-Added Lapack Matrix functions.
-Uses bespoke ArrayPool making it dependency free again.
-Uses the Pinned Object Heap for net5.0.
+Bug fix for x86 ArrayPool default size causing out of memory.
         </PackageReleaseNotes>
-        <Version>0.3.0</Version>
+        <Version>0.4.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
