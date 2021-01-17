@@ -165,13 +165,13 @@ namespace MKLNET
         public static matrixF operator +(matrixFT m, float a)
         {
             matrixF r = m;
-            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
+            MatrixInplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
             return r;
         }
         public static matrixF operator +(float a, matrixFT m)
         {
             matrixF r = m;
-            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
+            MatrixInplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
             return r;
         }
 
@@ -495,13 +495,13 @@ namespace MKLNET
         public static matrixF operator +(matrixFTS m, float a)
         {
             matrixF r = m;
-            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
+            MatrixInplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
             return r;
         }
         public static matrixF operator +(float a, matrixFTS m)
         {
             matrixF r = m;
-            MKLNET.Matrix.Inplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
+            MatrixInplace.LinearFrac(r, r, 1.0f, a, 0.0f, 0.0f);
             return r;
         }
 

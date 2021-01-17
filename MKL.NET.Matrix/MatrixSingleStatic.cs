@@ -4,458 +4,6 @@ namespace MKLNET
 {
     public static partial class Matrix
     {
-        public static partial class Inplace
-        {
-            public static void Abs(matrixF a)
-            {
-                Vml.Abs(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Add(matrixF a, matrixF b)
-            {
-                Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Sub(matrixF a, matrixF b)
-            {
-                Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Sqr(matrixF a)
-            {
-                Vml.Sqr(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Mul(matrixF a, matrixF b)
-            {
-                Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Fmod(matrixF a, matrixF b)
-            {
-                Vml.Fmod(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Remainder(matrixF a, matrixF b)
-            {
-                Vml.Remainder(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Inv(matrixF a)
-            {
-                Vml.Inv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Sqrt(matrixF a)
-            {
-                Vml.Sqrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void InvSqrt(matrixF a)
-            {
-                Vml.InvSqrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Cbrt(matrixF a)
-            {
-                Vml.Cbrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void InvCbrt(matrixF a)
-            {
-                Vml.InvCbrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Hypot(matrixF a, matrixF b)
-            {
-                Vml.Hypot(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Div(matrixF a, matrixF b)
-            {
-                Vml.Div(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Pow2o3(matrixF a)
-            {
-                Vml.Pow2o3(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Pow3o2(matrixF a)
-            {
-                Vml.Pow3o2(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Pow(matrixF a, matrixF b)
-            {
-                Vml.Pow(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Powr(matrixF a, matrixF b)
-            {
-                Vml.Powr(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Exp(matrixF a)
-            {
-                Vml.Exp(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Exp2(matrixF a)
-            {
-                Vml.Exp2(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Exp10(matrixF a)
-            {
-                Vml.Exp10(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Expm1(matrixF a)
-            {
-                Vml.Expm1(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Ln(matrixF a)
-            {
-                Vml.Ln(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Log2(matrixF a)
-            {
-                Vml.Log2(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Log10(matrixF a)
-            {
-                Vml.Log10(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Log1p(matrixF a)
-            {
-                Vml.Log1p(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Logb(matrixF a)
-            {
-                Vml.Logb(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Cos(matrixF a)
-            {
-                Vml.Cos(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Sin(matrixF a)
-            {
-                Vml.Sin(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Tan(matrixF a)
-            {
-                Vml.Tan(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Cospi(matrixF a)
-            {
-                Vml.Cospi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Sinpi(matrixF a)
-            {
-                Vml.Sinpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Tanpi(matrixF a)
-            {
-                Vml.Tanpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Cosd(matrixF a)
-            {
-                Vml.Cosd(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Sind(matrixF a)
-            {
-                Vml.Sind(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Tand(matrixF a)
-            {
-                Vml.Tand(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Acos(matrixF a)
-            {
-                Vml.Acos(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Asin(matrixF a)
-            {
-                Vml.Asin(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Atan(matrixF a)
-            {
-                Vml.Atan(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Acospi(matrixF a)
-            {
-                Vml.Acospi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Asinpi(matrixF a)
-            {
-                Vml.Asinpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Atanpi(matrixF a)
-            {
-                Vml.Atanpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Atan2(matrixF a, matrixF b)
-            {
-                Vml.Atan2(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Atan2pi(matrixF a, matrixF b)
-            {
-                Vml.Atan2pi(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Cosh(matrixF a)
-            {
-                Vml.Cosh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Sinh(matrixF a)
-            {
-                Vml.Sinh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Tanh(matrixF a)
-            {
-                Vml.Tanh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Acosh(matrixF a)
-            {
-                Vml.Acosh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Asinh(matrixF a)
-            {
-                Vml.Asinh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Atanh(matrixF a)
-            {
-                Vml.Atanh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Erf(matrixF a)
-            {
-                Vml.Erf(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Erfc(matrixF a)
-            {
-                Vml.Erfc(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void ErfInv(matrixF a)
-            {
-                Vml.ErfInv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void ErfcInv(matrixF a)
-            {
-                Vml.ErfcInv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void CdfNorm(matrixF a)
-            {
-                Vml.CdfNorm(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void CdfNormInv(matrixF a)
-            {
-                Vml.CdfNormInv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void LGamma(matrixF a)
-            {
-                Vml.LGamma(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void TGamma(matrixF a)
-            {
-                Vml.TGamma(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void ExpInt1(matrixF a)
-            {
-                Vml.ExpInt1(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Floor(matrixF a)
-            {
-                Vml.Floor(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Ceil(matrixF a)
-            {
-                Vml.Ceil(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Trunc(matrixF a)
-            {
-                Vml.Trunc(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Round(matrixF a)
-            {
-                Vml.Round(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Frac(matrixF a)
-            {
-                Vml.Frac(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void NearbyInt(matrixF a)
-            {
-                Vml.NearbyInt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Rint(matrixF a)
-            {
-                Vml.Rint(a.Length, a.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void CopySign(matrixF a, matrixF b)
-            {
-                Vml.CopySign(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Fmax(matrixF a, matrixF b)
-            {
-                Vml.Fmax(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Fmin(matrixF a, matrixF b)
-            {
-                Vml.Fmin(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Fdim(matrixF a, matrixF b)
-            {
-                Vml.Fdim(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void MaxMag(matrixF a, matrixF b)
-            {
-                Vml.MaxMag(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void NextAfter(matrixF a, matrixF b)
-            {
-                Vml.NextAfter(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
-            }
-
-            public static void Powx(matrixF a, float b)
-            {
-                Vml.Powx(a.Length, a.Array, 0, 1, b, a.Array, 0, 1);
-            }
-
-            public static void LinearFrac(matrixF a, matrixF b, float scalea, float shifta, float scaleb, float shiftb)
-            {
-                Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, scalea, shifta, scaleb, shiftb, a.Array, 0, 1);
-            }
-
-            public static matrixF SinCos(matrixF a)
-            {
-                var cos = new matrixF(a.Rows, a.Cols);
-                Vml.SinCos(a.Length, a.Array, 0, 1, a.Array, 0, 1, cos.Array, 0, 1);
-                return cos;
-            }
-
-            public static matrixF Modf(matrixF a)
-            {
-                var rem = new matrixF(a.Rows, a.Cols);
-                Vml.Modf(a.Length, a.Array, 0, 1, a.Array, 0, 1, rem.Array, 0, 1);
-                return rem;
-            }
-
-            public static void Scal(matrixF a, float s)
-            {
-                Blas.scal(a.Length, s, a.Array, 0, 1);
-            }
-
-            public static void Lower(matrixF a)
-            {
-                for (int c = 1; c < a.Cols; c++)
-                    for (int r = 0; r < c; r++)
-                        a[r, c] = 0.0f;
-            }
-
-            public static void Upper(matrixF a)
-            {
-                for (int c = 0; c < a.Cols; c++)
-                    for (int r = c + 1; r < a.Rows; r++)
-                        a[r, c] = 0.0f;
-            }
-
-            public static void Cholesky(matrixF a)
-            {
-                if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                Lower(a);
-                ThrowHelper.Check(Lapack.potrf2(Layout.ColMajor, UpLoChar.Lower, a.Rows, a.Array, a.Rows));
-            }
-
-            public static void Solve(matrixF a, matrixF b)
-            {
-                if (a.Rows != a.Cols || a.Rows != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var ipiv = IntPool.Rent(a.Rows);
-                ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, b.Cols, a.Array, a.Rows, ipiv, b.Array, a.Rows));
-                IntPool.Return(ipiv);
-            }
-
-            public static void Solve(matrixF a, vectorF b)
-            {
-                if (a.Rows != a.Cols || a.Rows != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var ipiv = IntPool.Rent(a.Rows);
-                ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, 1, a.Array, a.Rows, ipiv, b.Array, a.Rows));
-                IntPool.Return(ipiv);
-            }
-
-            public static void Inverse(matrixF a)
-            {
-                if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var ipiv = IntPool.Rent(a.Rows);
-                ThrowHelper.Check(Lapack.getrf(Layout.ColMajor, a.Rows, a.Rows, a.Array, a.Rows, ipiv));
-                ThrowHelper.Check(Lapack.getri(Layout.ColMajor, a.Rows, a.Array, a.Rows, ipiv));
-                IntPool.Return(ipiv);
-            }
-
-            public static vectorF Eigens(matrixF a)
-            {
-                if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var w = new vectorF(a.Rows);
-                ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, a.Rows, a.Array, a.Rows, w.Array));
-                return w;
-            }
-
-            public static void LeastSquares(matrixF a, matrixF b)
-            {
-                if (a.Rows != b.Rows || a.Cols > a.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                Lapack.gels(Layout.RowMajor, TransChar.No, a.Rows, a.Cols, b.Cols, a.Array, a.Cols, b.Array, b.Cols);
-            }
-        }
-
         public static matrixF Abs(matrixF a)
         {
             var r = new matrixF(a.Rows, a.Cols);
@@ -466,21 +14,21 @@ namespace MKLNET
         public static matrixF Abs(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Abs(r);
+            MatrixInplace.Abs(r);
             return r;
         }
 
         public static matrixF Abs(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Abs(r);
+            MatrixInplace.Abs(r);
             return r;
         }
 
         public static matrixF Abs(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Abs(r);
+            MatrixInplace.Abs(r);
             return r;
         }
 
@@ -494,21 +42,21 @@ namespace MKLNET
         public static matrixF Sqr(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Sqr(r);
+            MatrixInplace.Sqr(r);
             return r;
         }
 
         public static matrixF Sqr(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Sqr(r);
+            MatrixInplace.Sqr(r);
             return r;
         }
 
         public static matrixF Sqr(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Sqr(r);
+            MatrixInplace.Sqr(r);
             return r;
         }
 
@@ -523,21 +71,21 @@ namespace MKLNET
         public static matrixF Mul(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Mul(r, b);
+            MatrixInplace.Mul(r, b);
             return r;
         }
 
         public static matrixF Mul(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Mul(r, b);
+            MatrixInplace.Mul(r, b);
             return r;
         }
 
         public static matrixF Mul(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Mul(r, b);
+            MatrixInplace.Mul(r, b);
             return r;
         }
 
@@ -552,21 +100,21 @@ namespace MKLNET
         public static matrixF Fmod(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmod(r, b);
+            MatrixInplace.Fmod(r, b);
             return r;
         }
 
         public static matrixF Fmod(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmod(r, b);
+            MatrixInplace.Fmod(r, b);
             return r;
         }
 
         public static matrixF Fmod(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmod(r, b);
+            MatrixInplace.Fmod(r, b);
             return r;
         }
 
@@ -581,21 +129,21 @@ namespace MKLNET
         public static matrixF Remainder(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Remainder(r, b);
+            MatrixInplace.Remainder(r, b);
             return r;
         }
 
         public static matrixF Remainder(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Remainder(r, b);
+            MatrixInplace.Remainder(r, b);
             return r;
         }
 
         public static matrixF Remainder(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Remainder(r, b);
+            MatrixInplace.Remainder(r, b);
             return r;
         }
 
@@ -609,21 +157,21 @@ namespace MKLNET
         public static matrixF Inv(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Inv(r);
+            MatrixInplace.Inv(r);
             return r;
         }
 
         public static matrixF Inv(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Inv(r);
+            MatrixInplace.Inv(r);
             return r;
         }
 
         public static matrixF Inv(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Inv(r);
+            MatrixInplace.Inv(r);
             return r;
         }
 
@@ -637,21 +185,21 @@ namespace MKLNET
         public static matrixF Sqrt(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Sqrt(r);
+            MatrixInplace.Sqrt(r);
             return r;
         }
 
         public static matrixF Sqrt(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Sqrt(r);
+            MatrixInplace.Sqrt(r);
             return r;
         }
 
         public static matrixF Sqrt(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Sqrt(r);
+            MatrixInplace.Sqrt(r);
             return r;
         }
 
@@ -665,21 +213,21 @@ namespace MKLNET
         public static matrixF InvSqrt(matrixFS a)
         {
             matrixF r = a;
-            Inplace.InvSqrt(r);
+            MatrixInplace.InvSqrt(r);
             return r;
         }
 
         public static matrixF InvSqrt(matrixFT a)
         {
             matrixF r = a;
-            Inplace.InvSqrt(r);
+            MatrixInplace.InvSqrt(r);
             return r;
         }
 
         public static matrixF InvSqrt(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.InvSqrt(r);
+            MatrixInplace.InvSqrt(r);
             return r;
         }
 
@@ -693,21 +241,21 @@ namespace MKLNET
         public static matrixF Cbrt(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Cbrt(r);
+            MatrixInplace.Cbrt(r);
             return r;
         }
 
         public static matrixF Cbrt(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Cbrt(r);
+            MatrixInplace.Cbrt(r);
             return r;
         }
 
         public static matrixF Cbrt(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Cbrt(r);
+            MatrixInplace.Cbrt(r);
             return r;
         }
 
@@ -721,21 +269,21 @@ namespace MKLNET
         public static matrixF InvCbrt(matrixFS a)
         {
             matrixF r = a;
-            Inplace.InvCbrt(r);
+            MatrixInplace.InvCbrt(r);
             return r;
         }
 
         public static matrixF InvCbrt(matrixFT a)
         {
             matrixF r = a;
-            Inplace.InvCbrt(r);
+            MatrixInplace.InvCbrt(r);
             return r;
         }
 
         public static matrixF InvCbrt(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.InvCbrt(r);
+            MatrixInplace.InvCbrt(r);
             return r;
         }
 
@@ -750,21 +298,21 @@ namespace MKLNET
         public static matrixF Hypot(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Hypot(r, b);
+            MatrixInplace.Hypot(r, b);
             return r;
         }
 
         public static matrixF Hypot(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Hypot(r, b);
+            MatrixInplace.Hypot(r, b);
             return r;
         }
 
         public static matrixF Hypot(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Hypot(r, b);
+            MatrixInplace.Hypot(r, b);
             return r;
         }
 
@@ -779,21 +327,21 @@ namespace MKLNET
         public static matrixF Div(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Div(r, b);
+            MatrixInplace.Div(r, b);
             return r;
         }
 
         public static matrixF Div(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Div(r, b);
+            MatrixInplace.Div(r, b);
             return r;
         }
 
         public static matrixF Div(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Div(r, b);
+            MatrixInplace.Div(r, b);
             return r;
         }
 
@@ -807,21 +355,21 @@ namespace MKLNET
         public static matrixF Pow2o3(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Pow2o3(r);
+            MatrixInplace.Pow2o3(r);
             return r;
         }
 
         public static matrixF Pow2o3(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Pow2o3(r);
+            MatrixInplace.Pow2o3(r);
             return r;
         }
 
         public static matrixF Pow2o3(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Pow2o3(r);
+            MatrixInplace.Pow2o3(r);
             return r;
         }
 
@@ -835,21 +383,21 @@ namespace MKLNET
         public static matrixF Pow3o2(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Pow3o2(r);
+            MatrixInplace.Pow3o2(r);
             return r;
         }
 
         public static matrixF Pow3o2(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Pow3o2(r);
+            MatrixInplace.Pow3o2(r);
             return r;
         }
 
         public static matrixF Pow3o2(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Pow3o2(r);
+            MatrixInplace.Pow3o2(r);
             return r;
         }
 
@@ -864,21 +412,21 @@ namespace MKLNET
         public static matrixF Pow(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Pow(r, b);
+            MatrixInplace.Pow(r, b);
             return r;
         }
 
         public static matrixF Pow(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Pow(r, b);
+            MatrixInplace.Pow(r, b);
             return r;
         }
 
         public static matrixF Pow(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Pow(r, b);
+            MatrixInplace.Pow(r, b);
             return r;
         }
 
@@ -893,21 +441,21 @@ namespace MKLNET
         public static matrixF Powr(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Powr(r, b);
+            MatrixInplace.Powr(r, b);
             return r;
         }
 
         public static matrixF Powr(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Powr(r, b);
+            MatrixInplace.Powr(r, b);
             return r;
         }
 
         public static matrixF Powr(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Powr(r, b);
+            MatrixInplace.Powr(r, b);
             return r;
         }
 
@@ -921,21 +469,21 @@ namespace MKLNET
         public static matrixF Exp(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Exp(r);
+            MatrixInplace.Exp(r);
             return r;
         }
 
         public static matrixF Exp(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Exp(r);
+            MatrixInplace.Exp(r);
             return r;
         }
 
         public static matrixF Exp(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Exp(r);
+            MatrixInplace.Exp(r);
             return r;
         }
 
@@ -949,21 +497,21 @@ namespace MKLNET
         public static matrixF Exp2(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Exp2(r);
+            MatrixInplace.Exp2(r);
             return r;
         }
 
         public static matrixF Exp2(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Exp2(r);
+            MatrixInplace.Exp2(r);
             return r;
         }
 
         public static matrixF Exp2(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Exp2(r);
+            MatrixInplace.Exp2(r);
             return r;
         }
 
@@ -977,21 +525,21 @@ namespace MKLNET
         public static matrixF Exp10(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Exp10(r);
+            MatrixInplace.Exp10(r);
             return r;
         }
 
         public static matrixF Exp10(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Exp10(r);
+            MatrixInplace.Exp10(r);
             return r;
         }
 
         public static matrixF Exp10(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Exp10(r);
+            MatrixInplace.Exp10(r);
             return r;
         }
 
@@ -1005,21 +553,21 @@ namespace MKLNET
         public static matrixF Expm1(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Expm1(r);
+            MatrixInplace.Expm1(r);
             return r;
         }
 
         public static matrixF Expm1(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Expm1(r);
+            MatrixInplace.Expm1(r);
             return r;
         }
 
         public static matrixF Expm1(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Expm1(r);
+            MatrixInplace.Expm1(r);
             return r;
         }
 
@@ -1033,21 +581,21 @@ namespace MKLNET
         public static matrixF Ln(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Ln(r);
+            MatrixInplace.Ln(r);
             return r;
         }
 
         public static matrixF Ln(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Ln(r);
+            MatrixInplace.Ln(r);
             return r;
         }
 
         public static matrixF Ln(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Ln(r);
+            MatrixInplace.Ln(r);
             return r;
         }
 
@@ -1061,21 +609,21 @@ namespace MKLNET
         public static matrixF Log2(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Log2(r);
+            MatrixInplace.Log2(r);
             return r;
         }
 
         public static matrixF Log2(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Log2(r);
+            MatrixInplace.Log2(r);
             return r;
         }
 
         public static matrixF Log2(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Log2(r);
+            MatrixInplace.Log2(r);
             return r;
         }
 
@@ -1089,21 +637,21 @@ namespace MKLNET
         public static matrixF Log10(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Log10(r);
+            MatrixInplace.Log10(r);
             return r;
         }
 
         public static matrixF Log10(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Log10(r);
+            MatrixInplace.Log10(r);
             return r;
         }
 
         public static matrixF Log10(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Log10(r);
+            MatrixInplace.Log10(r);
             return r;
         }
 
@@ -1117,21 +665,21 @@ namespace MKLNET
         public static matrixF Log1p(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Log1p(r);
+            MatrixInplace.Log1p(r);
             return r;
         }
 
         public static matrixF Log1p(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Log1p(r);
+            MatrixInplace.Log1p(r);
             return r;
         }
 
         public static matrixF Log1p(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Log1p(r);
+            MatrixInplace.Log1p(r);
             return r;
         }
 
@@ -1145,21 +693,21 @@ namespace MKLNET
         public static matrixF Logb(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Logb(r);
+            MatrixInplace.Logb(r);
             return r;
         }
 
         public static matrixF Logb(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Logb(r);
+            MatrixInplace.Logb(r);
             return r;
         }
 
         public static matrixF Logb(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Logb(r);
+            MatrixInplace.Logb(r);
             return r;
         }
 
@@ -1173,21 +721,21 @@ namespace MKLNET
         public static matrixF Cos(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Cos(r);
+            MatrixInplace.Cos(r);
             return r;
         }
 
         public static matrixF Cos(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Cos(r);
+            MatrixInplace.Cos(r);
             return r;
         }
 
         public static matrixF Cos(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Cos(r);
+            MatrixInplace.Cos(r);
             return r;
         }
 
@@ -1201,21 +749,21 @@ namespace MKLNET
         public static matrixF Sin(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Sin(r);
+            MatrixInplace.Sin(r);
             return r;
         }
 
         public static matrixF Sin(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Sin(r);
+            MatrixInplace.Sin(r);
             return r;
         }
 
         public static matrixF Sin(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Sin(r);
+            MatrixInplace.Sin(r);
             return r;
         }
 
@@ -1229,21 +777,21 @@ namespace MKLNET
         public static matrixF Tan(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Tan(r);
+            MatrixInplace.Tan(r);
             return r;
         }
 
         public static matrixF Tan(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Tan(r);
+            MatrixInplace.Tan(r);
             return r;
         }
 
         public static matrixF Tan(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Tan(r);
+            MatrixInplace.Tan(r);
             return r;
         }
 
@@ -1257,21 +805,21 @@ namespace MKLNET
         public static matrixF Cospi(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Cospi(r);
+            MatrixInplace.Cospi(r);
             return r;
         }
 
         public static matrixF Cospi(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Cospi(r);
+            MatrixInplace.Cospi(r);
             return r;
         }
 
         public static matrixF Cospi(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Cospi(r);
+            MatrixInplace.Cospi(r);
             return r;
         }
 
@@ -1285,21 +833,21 @@ namespace MKLNET
         public static matrixF Sinpi(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Sinpi(r);
+            MatrixInplace.Sinpi(r);
             return r;
         }
 
         public static matrixF Sinpi(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Sinpi(r);
+            MatrixInplace.Sinpi(r);
             return r;
         }
 
         public static matrixF Sinpi(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Sinpi(r);
+            MatrixInplace.Sinpi(r);
             return r;
         }
 
@@ -1313,21 +861,21 @@ namespace MKLNET
         public static matrixF Tanpi(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Tanpi(r);
+            MatrixInplace.Tanpi(r);
             return r;
         }
 
         public static matrixF Tanpi(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Tanpi(r);
+            MatrixInplace.Tanpi(r);
             return r;
         }
 
         public static matrixF Tanpi(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Tanpi(r);
+            MatrixInplace.Tanpi(r);
             return r;
         }
 
@@ -1341,21 +889,21 @@ namespace MKLNET
         public static matrixF Cosd(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Cosd(r);
+            MatrixInplace.Cosd(r);
             return r;
         }
 
         public static matrixF Cosd(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Cosd(r);
+            MatrixInplace.Cosd(r);
             return r;
         }
 
         public static matrixF Cosd(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Cosd(r);
+            MatrixInplace.Cosd(r);
             return r;
         }
 
@@ -1369,21 +917,21 @@ namespace MKLNET
         public static matrixF Sind(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Sind(r);
+            MatrixInplace.Sind(r);
             return r;
         }
 
         public static matrixF Sind(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Sind(r);
+            MatrixInplace.Sind(r);
             return r;
         }
 
         public static matrixF Sind(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Sind(r);
+            MatrixInplace.Sind(r);
             return r;
         }
 
@@ -1397,21 +945,21 @@ namespace MKLNET
         public static matrixF Tand(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Tand(r);
+            MatrixInplace.Tand(r);
             return r;
         }
 
         public static matrixF Tand(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Tand(r);
+            MatrixInplace.Tand(r);
             return r;
         }
 
         public static matrixF Tand(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Tand(r);
+            MatrixInplace.Tand(r);
             return r;
         }
 
@@ -1425,21 +973,21 @@ namespace MKLNET
         public static matrixF Acos(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Acos(r);
+            MatrixInplace.Acos(r);
             return r;
         }
 
         public static matrixF Acos(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Acos(r);
+            MatrixInplace.Acos(r);
             return r;
         }
 
         public static matrixF Acos(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Acos(r);
+            MatrixInplace.Acos(r);
             return r;
         }
 
@@ -1453,21 +1001,21 @@ namespace MKLNET
         public static matrixF Asin(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Asin(r);
+            MatrixInplace.Asin(r);
             return r;
         }
 
         public static matrixF Asin(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Asin(r);
+            MatrixInplace.Asin(r);
             return r;
         }
 
         public static matrixF Asin(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Asin(r);
+            MatrixInplace.Asin(r);
             return r;
         }
 
@@ -1481,21 +1029,21 @@ namespace MKLNET
         public static matrixF Atan(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Atan(r);
+            MatrixInplace.Atan(r);
             return r;
         }
 
         public static matrixF Atan(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Atan(r);
+            MatrixInplace.Atan(r);
             return r;
         }
 
         public static matrixF Atan(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Atan(r);
+            MatrixInplace.Atan(r);
             return r;
         }
 
@@ -1509,21 +1057,21 @@ namespace MKLNET
         public static matrixF Acospi(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Acospi(r);
+            MatrixInplace.Acospi(r);
             return r;
         }
 
         public static matrixF Acospi(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Acospi(r);
+            MatrixInplace.Acospi(r);
             return r;
         }
 
         public static matrixF Acospi(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Acospi(r);
+            MatrixInplace.Acospi(r);
             return r;
         }
 
@@ -1537,21 +1085,21 @@ namespace MKLNET
         public static matrixF Asinpi(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Asinpi(r);
+            MatrixInplace.Asinpi(r);
             return r;
         }
 
         public static matrixF Asinpi(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Asinpi(r);
+            MatrixInplace.Asinpi(r);
             return r;
         }
 
         public static matrixF Asinpi(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Asinpi(r);
+            MatrixInplace.Asinpi(r);
             return r;
         }
 
@@ -1565,21 +1113,21 @@ namespace MKLNET
         public static matrixF Atanpi(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Atanpi(r);
+            MatrixInplace.Atanpi(r);
             return r;
         }
 
         public static matrixF Atanpi(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Atanpi(r);
+            MatrixInplace.Atanpi(r);
             return r;
         }
 
         public static matrixF Atanpi(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Atanpi(r);
+            MatrixInplace.Atanpi(r);
             return r;
         }
 
@@ -1594,21 +1142,21 @@ namespace MKLNET
         public static matrixF Atan2(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Atan2(r, b);
+            MatrixInplace.Atan2(r, b);
             return r;
         }
 
         public static matrixF Atan2(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Atan2(r, b);
+            MatrixInplace.Atan2(r, b);
             return r;
         }
 
         public static matrixF Atan2(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Atan2(r, b);
+            MatrixInplace.Atan2(r, b);
             return r;
         }
 
@@ -1623,21 +1171,21 @@ namespace MKLNET
         public static matrixF Atan2pi(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Atan2pi(r, b);
+            MatrixInplace.Atan2pi(r, b);
             return r;
         }
 
         public static matrixF Atan2pi(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Atan2pi(r, b);
+            MatrixInplace.Atan2pi(r, b);
             return r;
         }
 
         public static matrixF Atan2pi(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Atan2pi(r, b);
+            MatrixInplace.Atan2pi(r, b);
             return r;
         }
 
@@ -1651,21 +1199,21 @@ namespace MKLNET
         public static matrixF Cosh(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Cosh(r);
+            MatrixInplace.Cosh(r);
             return r;
         }
 
         public static matrixF Cosh(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Cosh(r);
+            MatrixInplace.Cosh(r);
             return r;
         }
 
         public static matrixF Cosh(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Cosh(r);
+            MatrixInplace.Cosh(r);
             return r;
         }
 
@@ -1679,21 +1227,21 @@ namespace MKLNET
         public static matrixF Sinh(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Sinh(r);
+            MatrixInplace.Sinh(r);
             return r;
         }
 
         public static matrixF Sinh(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Sinh(r);
+            MatrixInplace.Sinh(r);
             return r;
         }
 
         public static matrixF Sinh(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Sinh(r);
+            MatrixInplace.Sinh(r);
             return r;
         }
 
@@ -1707,21 +1255,21 @@ namespace MKLNET
         public static matrixF Tanh(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Tanh(r);
+            MatrixInplace.Tanh(r);
             return r;
         }
 
         public static matrixF Tanh(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Tanh(r);
+            MatrixInplace.Tanh(r);
             return r;
         }
 
         public static matrixF Tanh(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Tanh(r);
+            MatrixInplace.Tanh(r);
             return r;
         }
 
@@ -1735,21 +1283,21 @@ namespace MKLNET
         public static matrixF Acosh(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Acosh(r);
+            MatrixInplace.Acosh(r);
             return r;
         }
 
         public static matrixF Acosh(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Acosh(r);
+            MatrixInplace.Acosh(r);
             return r;
         }
 
         public static matrixF Acosh(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Acosh(r);
+            MatrixInplace.Acosh(r);
             return r;
         }
 
@@ -1763,21 +1311,21 @@ namespace MKLNET
         public static matrixF Asinh(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Asinh(r);
+            MatrixInplace.Asinh(r);
             return r;
         }
 
         public static matrixF Asinh(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Asinh(r);
+            MatrixInplace.Asinh(r);
             return r;
         }
 
         public static matrixF Asinh(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Asinh(r);
+            MatrixInplace.Asinh(r);
             return r;
         }
 
@@ -1791,21 +1339,21 @@ namespace MKLNET
         public static matrixF Atanh(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Atanh(r);
+            MatrixInplace.Atanh(r);
             return r;
         }
 
         public static matrixF Atanh(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Atanh(r);
+            MatrixInplace.Atanh(r);
             return r;
         }
 
         public static matrixF Atanh(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Atanh(r);
+            MatrixInplace.Atanh(r);
             return r;
         }
 
@@ -1819,21 +1367,21 @@ namespace MKLNET
         public static matrixF Erf(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Erf(r);
+            MatrixInplace.Erf(r);
             return r;
         }
 
         public static matrixF Erf(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Erf(r);
+            MatrixInplace.Erf(r);
             return r;
         }
 
         public static matrixF Erf(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Erf(r);
+            MatrixInplace.Erf(r);
             return r;
         }
 
@@ -1847,21 +1395,21 @@ namespace MKLNET
         public static matrixF Erfc(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Erfc(r);
+            MatrixInplace.Erfc(r);
             return r;
         }
 
         public static matrixF Erfc(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Erfc(r);
+            MatrixInplace.Erfc(r);
             return r;
         }
 
         public static matrixF Erfc(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Erfc(r);
+            MatrixInplace.Erfc(r);
             return r;
         }
 
@@ -1875,21 +1423,21 @@ namespace MKLNET
         public static matrixF ErfInv(matrixFS a)
         {
             matrixF r = a;
-            Inplace.ErfInv(r);
+            MatrixInplace.ErfInv(r);
             return r;
         }
 
         public static matrixF ErfInv(matrixFT a)
         {
             matrixF r = a;
-            Inplace.ErfInv(r);
+            MatrixInplace.ErfInv(r);
             return r;
         }
 
         public static matrixF ErfInv(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.ErfInv(r);
+            MatrixInplace.ErfInv(r);
             return r;
         }
 
@@ -1903,21 +1451,21 @@ namespace MKLNET
         public static matrixF ErfcInv(matrixFS a)
         {
             matrixF r = a;
-            Inplace.ErfcInv(r);
+            MatrixInplace.ErfcInv(r);
             return r;
         }
 
         public static matrixF ErfcInv(matrixFT a)
         {
             matrixF r = a;
-            Inplace.ErfcInv(r);
+            MatrixInplace.ErfcInv(r);
             return r;
         }
 
         public static matrixF ErfcInv(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.ErfcInv(r);
+            MatrixInplace.ErfcInv(r);
             return r;
         }
 
@@ -1931,21 +1479,21 @@ namespace MKLNET
         public static matrixF CdfNorm(matrixFS a)
         {
             matrixF r = a;
-            Inplace.CdfNorm(r);
+            MatrixInplace.CdfNorm(r);
             return r;
         }
 
         public static matrixF CdfNorm(matrixFT a)
         {
             matrixF r = a;
-            Inplace.CdfNorm(r);
+            MatrixInplace.CdfNorm(r);
             return r;
         }
 
         public static matrixF CdfNorm(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.CdfNorm(r);
+            MatrixInplace.CdfNorm(r);
             return r;
         }
 
@@ -1959,21 +1507,21 @@ namespace MKLNET
         public static matrixF CdfNormInv(matrixFS a)
         {
             matrixF r = a;
-            Inplace.CdfNormInv(r);
+            MatrixInplace.CdfNormInv(r);
             return r;
         }
 
         public static matrixF CdfNormInv(matrixFT a)
         {
             matrixF r = a;
-            Inplace.CdfNormInv(r);
+            MatrixInplace.CdfNormInv(r);
             return r;
         }
 
         public static matrixF CdfNormInv(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.CdfNormInv(r);
+            MatrixInplace.CdfNormInv(r);
             return r;
         }
 
@@ -1987,21 +1535,21 @@ namespace MKLNET
         public static matrixF LGamma(matrixFS a)
         {
             matrixF r = a;
-            Inplace.LGamma(r);
+            MatrixInplace.LGamma(r);
             return r;
         }
 
         public static matrixF LGamma(matrixFT a)
         {
             matrixF r = a;
-            Inplace.LGamma(r);
+            MatrixInplace.LGamma(r);
             return r;
         }
 
         public static matrixF LGamma(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.LGamma(r);
+            MatrixInplace.LGamma(r);
             return r;
         }
 
@@ -2015,21 +1563,21 @@ namespace MKLNET
         public static matrixF TGamma(matrixFS a)
         {
             matrixF r = a;
-            Inplace.TGamma(r);
+            MatrixInplace.TGamma(r);
             return r;
         }
 
         public static matrixF TGamma(matrixFT a)
         {
             matrixF r = a;
-            Inplace.TGamma(r);
+            MatrixInplace.TGamma(r);
             return r;
         }
 
         public static matrixF TGamma(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.TGamma(r);
+            MatrixInplace.TGamma(r);
             return r;
         }
 
@@ -2043,21 +1591,21 @@ namespace MKLNET
         public static matrixF ExpInt1(matrixFS a)
         {
             matrixF r = a;
-            Inplace.ExpInt1(r);
+            MatrixInplace.ExpInt1(r);
             return r;
         }
 
         public static matrixF ExpInt1(matrixFT a)
         {
             matrixF r = a;
-            Inplace.ExpInt1(r);
+            MatrixInplace.ExpInt1(r);
             return r;
         }
 
         public static matrixF ExpInt1(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.ExpInt1(r);
+            MatrixInplace.ExpInt1(r);
             return r;
         }
 
@@ -2071,21 +1619,21 @@ namespace MKLNET
         public static matrixF Floor(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Floor(r);
+            MatrixInplace.Floor(r);
             return r;
         }
 
         public static matrixF Floor(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Floor(r);
+            MatrixInplace.Floor(r);
             return r;
         }
 
         public static matrixF Floor(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Floor(r);
+            MatrixInplace.Floor(r);
             return r;
         }
 
@@ -2099,21 +1647,21 @@ namespace MKLNET
         public static matrixF Ceil(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Ceil(r);
+            MatrixInplace.Ceil(r);
             return r;
         }
 
         public static matrixF Ceil(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Ceil(r);
+            MatrixInplace.Ceil(r);
             return r;
         }
 
         public static matrixF Ceil(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Ceil(r);
+            MatrixInplace.Ceil(r);
             return r;
         }
 
@@ -2127,21 +1675,21 @@ namespace MKLNET
         public static matrixF Trunc(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Trunc(r);
+            MatrixInplace.Trunc(r);
             return r;
         }
 
         public static matrixF Trunc(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Trunc(r);
+            MatrixInplace.Trunc(r);
             return r;
         }
 
         public static matrixF Trunc(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Trunc(r);
+            MatrixInplace.Trunc(r);
             return r;
         }
 
@@ -2155,21 +1703,21 @@ namespace MKLNET
         public static matrixF Round(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Round(r);
+            MatrixInplace.Round(r);
             return r;
         }
 
         public static matrixF Round(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Round(r);
+            MatrixInplace.Round(r);
             return r;
         }
 
         public static matrixF Round(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Round(r);
+            MatrixInplace.Round(r);
             return r;
         }
 
@@ -2183,21 +1731,21 @@ namespace MKLNET
         public static matrixF Frac(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Frac(r);
+            MatrixInplace.Frac(r);
             return r;
         }
 
         public static matrixF Frac(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Frac(r);
+            MatrixInplace.Frac(r);
             return r;
         }
 
         public static matrixF Frac(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Frac(r);
+            MatrixInplace.Frac(r);
             return r;
         }
 
@@ -2211,21 +1759,21 @@ namespace MKLNET
         public static matrixF NearbyInt(matrixFS a)
         {
             matrixF r = a;
-            Inplace.NearbyInt(r);
+            MatrixInplace.NearbyInt(r);
             return r;
         }
 
         public static matrixF NearbyInt(matrixFT a)
         {
             matrixF r = a;
-            Inplace.NearbyInt(r);
+            MatrixInplace.NearbyInt(r);
             return r;
         }
 
         public static matrixF NearbyInt(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.NearbyInt(r);
+            MatrixInplace.NearbyInt(r);
             return r;
         }
 
@@ -2239,21 +1787,21 @@ namespace MKLNET
         public static matrixF Rint(matrixFS a)
         {
             matrixF r = a;
-            Inplace.Rint(r);
+            MatrixInplace.Rint(r);
             return r;
         }
 
         public static matrixF Rint(matrixFT a)
         {
             matrixF r = a;
-            Inplace.Rint(r);
+            MatrixInplace.Rint(r);
             return r;
         }
 
         public static matrixF Rint(matrixFTS a)
         {
             matrixF r = a;
-            Inplace.Rint(r);
+            MatrixInplace.Rint(r);
             return r;
         }
 
@@ -2268,21 +1816,21 @@ namespace MKLNET
         public static matrixF CopySign(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.CopySign(r, b);
+            MatrixInplace.CopySign(r, b);
             return r;
         }
 
         public static matrixF CopySign(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.CopySign(r, b);
+            MatrixInplace.CopySign(r, b);
             return r;
         }
 
         public static matrixF CopySign(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.CopySign(r, b);
+            MatrixInplace.CopySign(r, b);
             return r;
         }
 
@@ -2297,21 +1845,21 @@ namespace MKLNET
         public static matrixF Fmax(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmax(r, b);
+            MatrixInplace.Fmax(r, b);
             return r;
         }
 
         public static matrixF Fmax(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmax(r, b);
+            MatrixInplace.Fmax(r, b);
             return r;
         }
 
         public static matrixF Fmax(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmax(r, b);
+            MatrixInplace.Fmax(r, b);
             return r;
         }
 
@@ -2326,21 +1874,21 @@ namespace MKLNET
         public static matrixF Fmin(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmin(r, b);
+            MatrixInplace.Fmin(r, b);
             return r;
         }
 
         public static matrixF Fmin(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmin(r, b);
+            MatrixInplace.Fmin(r, b);
             return r;
         }
 
         public static matrixF Fmin(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fmin(r, b);
+            MatrixInplace.Fmin(r, b);
             return r;
         }
 
@@ -2355,21 +1903,21 @@ namespace MKLNET
         public static matrixF Fdim(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fdim(r, b);
+            MatrixInplace.Fdim(r, b);
             return r;
         }
 
         public static matrixF Fdim(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fdim(r, b);
+            MatrixInplace.Fdim(r, b);
             return r;
         }
 
         public static matrixF Fdim(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.Fdim(r, b);
+            MatrixInplace.Fdim(r, b);
             return r;
         }
 
@@ -2384,21 +1932,21 @@ namespace MKLNET
         public static matrixF MaxMag(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.MaxMag(r, b);
+            MatrixInplace.MaxMag(r, b);
             return r;
         }
 
         public static matrixF MaxMag(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.MaxMag(r, b);
+            MatrixInplace.MaxMag(r, b);
             return r;
         }
 
         public static matrixF MaxMag(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.MaxMag(r, b);
+            MatrixInplace.MaxMag(r, b);
             return r;
         }
 
@@ -2413,21 +1961,21 @@ namespace MKLNET
         public static matrixF NextAfter(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.NextAfter(r, b);
+            MatrixInplace.NextAfter(r, b);
             return r;
         }
 
         public static matrixF NextAfter(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            Inplace.NextAfter(r, b);
+            MatrixInplace.NextAfter(r, b);
             return r;
         }
 
         public static matrixF NextAfter(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            Inplace.NextAfter(r, b);
+            MatrixInplace.NextAfter(r, b);
             return r;
         }
 
@@ -2441,21 +1989,21 @@ namespace MKLNET
         public static matrixF Powx(matrixFS a, float b)
         {
             matrixF r = a;
-            Inplace.Powx(r, b);
+            MatrixInplace.Powx(r, b);
             return r;
         }
 
         public static matrixF Powx(matrixFT a, float b)
         {
             matrixF r = a;
-            Inplace.Powx(r, b);
+            MatrixInplace.Powx(r, b);
             return r;
         }
 
         public static matrixF Powx(matrixFTS a, float b)
         {
             matrixF r = a;
-            Inplace.Powx(r, b);
+            MatrixInplace.Powx(r, b);
             return r;
         }
 
@@ -2470,21 +2018,21 @@ namespace MKLNET
         public static (matrixF, matrixF) SinCos(matrixFS a)
         {
             matrixF sin = a;
-            var cos = Inplace.SinCos(sin);
+            var cos = MatrixInplace.SinCos(sin);
             return (sin, cos);
         }
 
         public static (matrixF, matrixF) SinCos(matrixFT a)
         {
             matrixF sin = a;
-            var cos = Inplace.SinCos(sin);
+            var cos = MatrixInplace.SinCos(sin);
             return (sin, cos);
         }
 
         public static (matrixF, matrixF) SinCos(matrixFTS a)
         {
             matrixF sin = a;
-            var cos = Inplace.SinCos(sin);
+            var cos = MatrixInplace.SinCos(sin);
             return (sin, cos);
         }
 
@@ -2499,21 +2047,21 @@ namespace MKLNET
         public static (matrixF, matrixF) Modf(matrixFS a)
         {
             matrixF tru = a;
-            var rem = Inplace.Modf(tru);
+            var rem = MatrixInplace.Modf(tru);
             return (tru, rem);
         }
 
         public static (matrixF, matrixF) Modf(matrixFT a)
         {
             matrixF tru = a;
-            var rem = Inplace.Modf(tru);
+            var rem = MatrixInplace.Modf(tru);
             return (tru, rem);
         }
 
         public static (matrixF, matrixF) Modf(matrixFTS a)
         {
             matrixF tru = a;
-            var rem = Inplace.Modf(tru);
+            var rem = MatrixInplace.Modf(tru);
             return (tru, rem);
         }
 
@@ -2528,21 +2076,21 @@ namespace MKLNET
         public static matrixF LinearFrac(matrixFS a, matrixF b, float scalea, float shifta, float scaleb, float shiftb)
         {
             matrixF r = a;
-            Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
+            MatrixInplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
             return r;
         }
 
         public static matrixF LinearFrac(matrixFT a, matrixF b, float scalea, float shifta, float scaleb, float shiftb)
         {
             matrixF r = a;
-            Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
+            MatrixInplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
             return r;
         }
 
         public static matrixF LinearFrac(matrixFTS a, matrixF b, float scalea, float shifta, float scaleb, float shiftb)
         {
             matrixF r = a;
-            Inplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
+            MatrixInplace.LinearFrac(r, b, scalea, shifta, scaleb, shiftb);
             return r;
         }
 
@@ -2580,7 +2128,7 @@ namespace MKLNET
         public static matrixF Cholesky(matrixF a)
         {
             var r = Copy(a);
-            Inplace.Cholesky(r);
+            MatrixInplace.Cholesky(r);
             return r;
         }
 
@@ -2588,7 +2136,7 @@ namespace MKLNET
         {
             a = Copy(a);
             b = Copy(b);
-            Inplace.Solve(a, b);
+            MatrixInplace.Solve(a, b);
             return b;
         }
 
@@ -2596,21 +2144,21 @@ namespace MKLNET
         {
             a = Copy(a);
             b = Vector.Copy(b);
-            Inplace.Solve(a, b);
+            MatrixInplace.Solve(a, b);
             return b;
         }
 
         public static matrixF Inverse(matrixF a)
         {
             a = Copy(a);
-            Inplace.Inverse(a);
+            MatrixInplace.Inverse(a);
             return a;
         }
 
         public static (matrixF, vectorF) Eigens(matrixF a)
         {
             a = Copy(a);
-            var w = Inplace.Eigens(a);
+            var w = MatrixInplace.Eigens(a);
             return (a, w);
         }
 
@@ -2618,7 +2166,7 @@ namespace MKLNET
         {
             a = Copy(a);
             b = Copy(b);
-            Inplace.LeastSquares(a, b);
+            MatrixInplace.LeastSquares(a, b);
             return b;
         }
 
@@ -2644,6 +2192,552 @@ namespace MKLNET
                 ThrowHelper.Check(Vsl.SSDeleteTask(task));
                 return (mean, cov);
             }
+        }
+    }
+
+    public static partial class MatrixInplace
+    {
+        public static matrixF Abs(this matrixF a)
+        {
+            Vml.Abs(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Add(this matrixF a, matrixF b)
+        {
+            Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Sub(this matrixF a, matrixF b)
+        {
+            Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Sqr(this matrixF a)
+        {
+            Vml.Sqr(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Mul(this matrixF a, matrixF b)
+        {
+            Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF MulToB(this matrixF a, matrixF b)
+        {
+            Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, b.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Fmod(this matrixF a, matrixF b)
+        {
+            Vml.Fmod(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Remainder(this matrixF a, matrixF b)
+        {
+            Vml.Remainder(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Inv(this matrixF a)
+        {
+            Vml.Inv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Sqrt(this matrixF a)
+        {
+            Vml.Sqrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF InvSqrt(this matrixF a)
+        {
+            Vml.InvSqrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Cbrt(this matrixF a)
+        {
+            Vml.Cbrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF InvCbrt(this matrixF a)
+        {
+            Vml.InvCbrt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Hypot(this matrixF a, matrixF b)
+        {
+            Vml.Hypot(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Div(this matrixF a, matrixF b)
+        {
+            Vml.Div(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Pow2o3(this matrixF a)
+        {
+            Vml.Pow2o3(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Pow3o2(this matrixF a)
+        {
+            Vml.Pow3o2(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Pow(this matrixF a, matrixF b)
+        {
+            Vml.Pow(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Powr(this matrixF a, matrixF b)
+        {
+            Vml.Powr(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Exp(this matrixF a)
+        {
+            Vml.Exp(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Exp2(this matrixF a)
+        {
+            Vml.Exp2(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Exp10(this matrixF a)
+        {
+            Vml.Exp10(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Expm1(this matrixF a)
+        {
+            Vml.Expm1(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Ln(this matrixF a)
+        {
+            Vml.Ln(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Log2(this matrixF a)
+        {
+            Vml.Log2(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Log10(this matrixF a)
+        {
+            Vml.Log10(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Log1p(this matrixF a)
+        {
+            Vml.Log1p(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Logb(this matrixF a)
+        {
+            Vml.Logb(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Cos(this matrixF a)
+        {
+            Vml.Cos(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Sin(this matrixF a)
+        {
+            Vml.Sin(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Tan(this matrixF a)
+        {
+            Vml.Tan(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Cospi(this matrixF a)
+        {
+            Vml.Cospi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Sinpi(this matrixF a)
+        {
+            Vml.Sinpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Tanpi(this matrixF a)
+        {
+            Vml.Tanpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Cosd(this matrixF a)
+        {
+            Vml.Cosd(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Sind(this matrixF a)
+        {
+            Vml.Sind(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Tand(this matrixF a)
+        {
+            Vml.Tand(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Acos(this matrixF a)
+        {
+            Vml.Acos(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Asin(this matrixF a)
+        {
+            Vml.Asin(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Atan(this matrixF a)
+        {
+            Vml.Atan(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Acospi(this matrixF a)
+        {
+            Vml.Acospi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Asinpi(this matrixF a)
+        {
+            Vml.Asinpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Atanpi(this matrixF a)
+        {
+            Vml.Atanpi(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Atan2(this matrixF a, matrixF b)
+        {
+            Vml.Atan2(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Atan2pi(this matrixF a, matrixF b)
+        {
+            Vml.Atan2pi(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Cosh(this matrixF a)
+        {
+            Vml.Cosh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Sinh(this matrixF a)
+        {
+            Vml.Sinh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Tanh(this matrixF a)
+        {
+            Vml.Tanh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Acosh(this matrixF a)
+        {
+            Vml.Acosh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Asinh(this matrixF a)
+        {
+            Vml.Asinh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Atanh(this matrixF a)
+        {
+            Vml.Atanh(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Erf(this matrixF a)
+        {
+            Vml.Erf(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Erfc(this matrixF a)
+        {
+            Vml.Erfc(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF ErfInv(this matrixF a)
+        {
+            Vml.ErfInv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF ErfcInv(this matrixF a)
+        {
+            Vml.ErfcInv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF CdfNorm(this matrixF a)
+        {
+            Vml.CdfNorm(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF CdfNormInv(this matrixF a)
+        {
+            Vml.CdfNormInv(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF LGamma(this matrixF a)
+        {
+            Vml.LGamma(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF TGamma(this matrixF a)
+        {
+            Vml.TGamma(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF ExpInt1(this matrixF a)
+        {
+            Vml.ExpInt1(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Floor(this matrixF a)
+        {
+            Vml.Floor(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Ceil(this matrixF a)
+        {
+            Vml.Ceil(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Trunc(this matrixF a)
+        {
+            Vml.Trunc(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Round(this matrixF a)
+        {
+            Vml.Round(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Frac(this matrixF a)
+        {
+            Vml.Frac(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF NearbyInt(this matrixF a)
+        {
+            Vml.NearbyInt(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Rint(this matrixF a)
+        {
+            Vml.Rint(a.Length, a.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF CopySign(this matrixF a, matrixF b)
+        {
+            Vml.CopySign(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Fmax(this matrixF a, matrixF b)
+        {
+            Vml.Fmax(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Fmin(this matrixF a, matrixF b)
+        {
+            Vml.Fmin(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Fdim(this matrixF a, matrixF b)
+        {
+            Vml.Fdim(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF MaxMag(this matrixF a, matrixF b)
+        {
+            Vml.MaxMag(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF NextAfter(this matrixF a, matrixF b)
+        {
+            Vml.NextAfter(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Powx(this matrixF a, float b)
+        {
+            Vml.Powx(a.Length, a.Array, 0, 1, b, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF LinearFrac(this matrixF a, matrixF b, float scalea, float shifta, float scaleb, float shiftb)
+        {
+            Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, scalea, shifta, scaleb, shiftb, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF SinCos(matrixF a)
+        {
+            var cos = new matrixF(a.Rows, a.Cols);
+            Vml.SinCos(a.Length, a.Array, 0, 1, a.Array, 0, 1, cos.Array, 0, 1);
+            return cos;
+        }
+
+        public static matrixF Modf(matrixF a)
+        {
+            var rem = new matrixF(a.Rows, a.Cols);
+            Vml.Modf(a.Length, a.Array, 0, 1, a.Array, 0, 1, rem.Array, 0, 1);
+            return rem;
+        }
+
+        public static matrixF Scal(this matrixF a, float s)
+        {
+            Blas.scal(a.Length, s, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF Lower(this matrixF a)
+        {
+            for (int c = 1; c < a.Cols; c++)
+                for (int r = 0; r < c; r++)
+                    a[r, c] = 0.0f;
+            return a;
+        }
+
+        public static matrixF Upper(this matrixF a)
+        {
+            for (int c = 0; c < a.Cols; c++)
+                for (int r = c + 1; r < a.Rows; r++)
+                    a[r, c] = 0.0f;
+            return a;
+        }
+
+        public static matrixF Cholesky(this matrixF a)
+        {
+            if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            Lower(a);
+            ThrowHelper.Check(Lapack.potrf2(Layout.ColMajor, UpLoChar.Lower, a.Rows, a.Array, a.Rows));
+            return a;
+        }
+
+        public static matrixF Solve(this matrixF a, matrixF b)
+        {
+            if (a.Rows != a.Cols || a.Rows != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var ipiv = Matrix.IntPool.Rent(a.Rows);
+            ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, b.Cols, a.Array, a.Rows, ipiv, b.Array, a.Rows));
+            Matrix.IntPool.Return(ipiv);
+            return a;
+        }
+
+        public static matrixF Solve(this matrixF a, vectorF b)
+        {
+            if (a.Rows != a.Cols || a.Rows != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var ipiv = Matrix.IntPool.Rent(a.Rows);
+            ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, 1, a.Array, a.Rows, ipiv, b.Array, a.Rows));
+            Matrix.IntPool.Return(ipiv);
+            return a;
+        }
+
+        public static matrixF Inverse(this matrixF a)
+        {
+            if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var ipiv = Matrix.IntPool.Rent(a.Rows);
+            ThrowHelper.Check(Lapack.getrf(Layout.ColMajor, a.Rows, a.Rows, a.Array, a.Rows, ipiv));
+            ThrowHelper.Check(Lapack.getri(Layout.ColMajor, a.Rows, a.Array, a.Rows, ipiv));
+            Matrix.IntPool.Return(ipiv);
+            return a;
+        }
+
+        public static vectorF Eigens(matrixF a)
+        {
+            if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var w = new vectorF(a.Rows);
+            ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, a.Rows, a.Array, a.Rows, w.Array));
+            return w;
+        }
+
+        public static matrixF LeastSquares(this matrixF a, matrixF b)
+        {
+            if (a.Rows != b.Rows || a.Cols > a.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            Lapack.gels(Layout.RowMajor, TransChar.No, a.Rows, a.Cols, b.Cols, a.Array, a.Cols, b.Array, b.Cols);
+            return a;
+        }
+
+        public static matrixF Copy(this matrixF a, matrixF b)
+        {
+            Blas.copy(b.Length, b.Array, 0, 1, a.Array, 0, 1);
+            return a;
         }
     }
 }
