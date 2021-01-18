@@ -60,7 +60,7 @@ namespace MKLNET
             return r;
         }
 
-        public static matrixF Mul(matrixF a, matrixF b)
+        public static matrixF Dot(matrixF a, matrixF b)
         {
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new matrixF(a.Rows, a.Cols);
@@ -71,21 +71,21 @@ namespace MKLNET
         public static matrixF Mul(matrixFS a, matrixF b)
         {
             matrixF r = a;
-            MatrixInplace.Mul(r, b);
+            MatrixInplace.Dot(r, b);
             return r;
         }
 
         public static matrixF Mul(matrixFT a, matrixF b)
         {
             matrixF r = a;
-            MatrixInplace.Mul(r, b);
+            MatrixInplace.Dot(r, b);
             return r;
         }
 
         public static matrixF Mul(matrixFTS a, matrixF b)
         {
             matrixF r = a;
-            MatrixInplace.Mul(r, b);
+            MatrixInplace.Dot(r, b);
             return r;
         }
 
@@ -2221,15 +2221,39 @@ namespace MKLNET
             return a;
         }
 
-        public static matrixF Mul(this matrixF a, matrixF b)
+        public static matrixF Dot(this matrixF a, matrixF b)
         {
             Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
             return a;
         }
 
-        public static matrixF MulToB(this matrixF a, matrixF b)
+        public static matrixF Mul(this matrixF a, matrixF b)
         {
-            Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, b.Array, 0, 1);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0f, a.Array, a.Rows, b.Array, b.Rows, 0.0f, a.Array, a.Rows);
+            return a;
+        }
+
+        public static matrixF AddMul(this matrixF a, float s, matrixF b)
+        {
+            Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, 1.0f, 0.0f, s, 0.0f, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrixF AddMul(this matrixF c, matrixF a, matrixF b)
+        {
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0f, a.Array, a.Rows, b.Array, b.Rows, 1.0f, c.Array, a.Rows);
+            return c;
+        }
+
+        public static matrixF AddMul(this matrixF c, float s, matrixF a, matrixF b)
+        {
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, s, a.Array, a.Rows, b.Array, b.Rows, 1.0f, c.Array, a.Rows);
+            return c;
+        }
+
+        public static matrixF PreMul(this matrixF a, matrixF b)
+        {
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, b.Rows, a.Cols, b.Cols, 1.0f, b.Array, b.Rows, a.Array, a.Rows, 0.0f, a.Array, b.Rows);
             return a;
         }
 

@@ -68,7 +68,7 @@ namespace MKLNET
             return r;
         }
 
-        public static matrix Mul(matrix a, matrix b)
+        public static matrix Dot(matrix a, matrix b)
         {
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = new matrix(a.Rows, a.Cols);
@@ -79,21 +79,21 @@ namespace MKLNET
         public static matrix Mul(matrixS a, matrix b)
         {
             matrix r = a;
-            MatrixInplace.Mul(r, b);
+            MatrixInplace.Dot(r, b);
             return r;
         }
 
         public static matrix Mul(matrixT a, matrix b)
         {
             matrix r = a;
-            MatrixInplace.Mul(r, b);
+            MatrixInplace.Dot(r, b);
             return r;
         }
 
         public static matrix Mul(matrixTS a, matrix b)
         {
             matrix r = a;
-            MatrixInplace.Mul(r, b);
+            MatrixInplace.Dot(r, b);
             return r;
         }
 
@@ -2217,12 +2217,6 @@ namespace MKLNET
             return a;
         }
 
-        public static matrix AddMul(this matrix a, double s, matrix b)
-        {
-            Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, 1.0, 0.0, s, 0.0, a.Array, 0, 1);
-            return a;
-        }
-
         public static matrix Sub(this matrix a, matrix b)
         {
             Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
@@ -2235,15 +2229,39 @@ namespace MKLNET
             return a;
         }
 
-        public static matrix Mul(this matrix a, matrix b)
+        public static matrix Dot(this matrix a, matrix b)
         {
             Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, a.Array, 0, 1);
             return a;
         }
 
+        public static matrix Mul(this matrix a, matrix b)
+        {
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, a.Array, a.Rows);
+            return a;
+        }
+
+        public static matrix AddMul(this matrix a, double s, matrix b)
+        {
+            Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, 1.0, 0.0, s, 0.0, a.Array, 0, 1);
+            return a;
+        }
+
+        public static matrix AddMul(this matrix c, matrix a, matrix b)
+        {
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.Array, a.Rows, b.Array, b.Rows, 1.0, c.Array, a.Rows);
+            return c;
+        }
+
+        public static matrix AddMul(this matrix c, double s, matrix a, matrix b)
+        {
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, s, a.Array, a.Rows, b.Array, b.Rows, 1.0, c.Array, a.Rows);
+            return c;
+        }
+
         public static matrix PreMul(this matrix a, matrix b)
         {
-            Vml.Mul(b.Length, b.Array, 0, 1, a.Array, 0, 1, a.Array, 0, 1);
+            Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, b.Rows, a.Cols, b.Cols, 1.0, b.Array, b.Rows, a.Array, a.Rows, 0.0, a.Array, b.Rows);
             return a;
         }
 

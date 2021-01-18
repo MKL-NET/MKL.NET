@@ -59,8 +59,18 @@ public static matrix Example3(matrix m)
 public static matrix Example4(matrix m)
 {
     matrix r = Example1(m);
-    Matrix.Inplace.Log1p(r);
-    return r;
+    return MatrixInplace.Log1p(r);
+}
+```
+
+The following example show how calculations can be performed inplace using fluent style without any new matrix allocations.
+```csharp
+public void Example5(matrix A11Inv, matrix A22, vector Xold, double mvarH, matrix B, vector Sources, vector X)
+{
+    // X = A11Inv * (0.5 * mvarH * B * Sources + A22 * Xold);
+    X.CopyMul(0.5 * mvarH, B, Sources).AddMul(A22, Xold).PreMul(A11Inv);
+    // Xold = X;
+    Xold.Copy(X);
 }
 ```
 
