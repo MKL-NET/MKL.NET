@@ -65,10 +65,10 @@ public static matrix Example4(matrix m)
 
 The following example show how calculations can be performed inplace using fluent style without any new matrix allocations.
 ```csharp
-public void Inplace(matrix A11Inv, matrix A22, vector Xold, double mvar, matrix B, vector Sources, vector X)
+public void Inplace(matrix AInv, matrix A22, vector Xold, double mvar, matrix B, vector Sources, vector X)
 {
-    // X = A11Inv * (0.5 * mvar * B * Sources + A22 * Xold);
-    X.CopyMul(0.5 * mvar, B, Sources).AddMul(A22, Xold).PreMul(A11Inv);
+    // X = AInv * (0.5 * mvar * B * Sources + A22 * Xold);
+    X.CopyMul(0.5 * mvar, B, Sources).AddMul(A22, Xold).PreMul(AInv);
     // Xold = X;
     Xold.Copy(X);
 }

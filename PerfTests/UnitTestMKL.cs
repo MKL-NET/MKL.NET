@@ -370,15 +370,6 @@ namespace MKL0Test
             E.MakeSquareWithRandomValues(size, 0, 10, true);
             a.MakeWithRandomValues(size, 0, 10, true);
             b.MakeWithRandomValues(size, 0, 10, true);
-            //for (int i = 0; i < operations; i++)
-            //{
-            //    C.M = A.M + 0 * C.M;
-            //    B.M = A.M + 0 * C.M + A.M * B.M - E.M + C.M + 0.15 * E.M;
-            //    A.M = B.M + 0 * C.M + A.M * B.M - E.M + C.M + 0.15 * E.M;
-            //    A.M = A.M * 0.1;
-            //    b.V = b.V + A.M * a.V + B.M * a.V + C.M * a.V + D.M * a.V + E.M * a.V;
-            //    b.V = b.V * 0.1;
-            //}
 
             for (int i = 0; i < operations; i++)
             {
