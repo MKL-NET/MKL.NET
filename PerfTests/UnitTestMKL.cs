@@ -227,25 +227,6 @@ namespace MKL0Test
         #region PERFORMANCE
 
         [TestMethod]
-        public void TestPerformanceMultiplication()
-        {
-            //the problem and the result
-            int size = 250;
-            int multiplications = 5000;
-            //execute
-            MKL0.Matrix A = new MKL0.Matrix();
-            MKL0.Matrix B = new MKL0.Matrix();
-            A.MakeSquareWithRandomValues(size, 0, 1000, true);
-            B.MakeSquareWithRandomValues(size, 0, 1000, true);
-            MKL0.Matrix C = new MKL0.Matrix();
-            for (int i = 0; i < multiplications; i++)
-            {
-                C.M = A.M * B.M;
-                C.M.Dispose();
-            }
-        }
-
-        [TestMethod]
         public void TestPerformanceInvert()
         {
             //the problem and the result
@@ -385,6 +366,31 @@ namespace MKL0Test
                 b.V.AddMul(A.M, a.V).AddMul(B.M, a.V).AddMul(C.M, a.V).AddMul(D.M, a.V).AddMul(E.M, a.V);
                 // b.V = b.V * 0.1;
                 b.V.Scal(0.1);
+            }
+        }
+
+        [TestMethod]
+        public void TestPerformanceMultiplication()
+        {
+            //the problem and the result
+            int size = 2;
+            int multiplications = 1;
+            //execute
+            MKLNET.matrix A = new matrix(2, 2);
+            MKLNET.matrix B = new matrix(2, 2);
+            A[0, 0] = 737;
+            A[0, 1] = 911;
+            A[1, 0] = 259;
+            A[1, 1] = 204;
+            B[0, 0] = 931;
+            B[0, 1] = 260;
+            B[1, 0] = 739;
+            B[1, 1] = 425;
+            MKLNET.matrix C;
+            for (int i = 0; i < multiplications; i++)
+            {
+                C = A * B;
+                C = A.Mul(B);
             }
         }
 
