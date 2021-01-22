@@ -28,8 +28,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MKL.NET.osx-x64", "MKL.NET.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MKL.NET.Matrix", "MKL.NET.Matrix\MKL.NET.Matrix.csproj", "{F3D069AD-B4C4-4E4F-815B-35BAA36C35FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTests", "PerfTests\PerfTests.csproj", "{F24FA5EB-1877-4B0D-B53F-8C7AF53BDEC6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,10 +66,6 @@ Global
 		{F3D069AD-B4C4-4E4F-815B-35BAA36C35FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3D069AD-B4C4-4E4F-815B-35BAA36C35FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3D069AD-B4C4-4E4F-815B-35BAA36C35FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F24FA5EB-1877-4B0D-B53F-8C7AF53BDEC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F24FA5EB-1877-4B0D-B53F-8C7AF53BDEC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F24FA5EB-1877-4B0D-B53F-8C7AF53BDEC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F24FA5EB-1877-4B0D-B53F-8C7AF53BDEC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

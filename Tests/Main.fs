@@ -9,8 +9,6 @@ let all =
         BlasTests.all
         LapackTests.all
         MKLTests.all
-        VectorTests.all
-        MatrixTests.all
 #if NETCOREAPP
         SolveTests.all
 #else
