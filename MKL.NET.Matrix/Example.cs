@@ -14,6 +14,8 @@
             using vectorT ve7 = (Va.T + 0.1) * Ma;
             using vectorT ve8 = Va.T * (Ma + 0.1);
             using vectorT ve9 = (Va.T + 0.1) * (Ma + 0.1);
+            double d = Va.T * Vb;
+            using matrix me2 = Va * Vb.T;
         }
 
         public class RngGaussianExpression : Expression.MatrixExpression

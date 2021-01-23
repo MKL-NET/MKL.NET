@@ -6,7 +6,7 @@
         <WarningLevel>5</WarningLevel>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RootNamespace>MKLNET</RootNamespace>
-        <NoWarn>IDE1006,CA1816</NoWarn>
+        <NoWarn>IDE1006</NoWarn>
         <PackageReleaseNotes>
 Inplace refactor. Can now be used in a fluent style.
         </PackageReleaseNotes>

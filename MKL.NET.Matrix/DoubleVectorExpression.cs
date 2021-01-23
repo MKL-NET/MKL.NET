@@ -4,8 +4,10 @@
     {
         public abstract vector EvaluateVector();
         public VectorTranspose T => new(this);
-        public MatrixExpression ToMatrix()
-            => this is Input ? new InputVectorToMatrix(this) : new NonInputVectorToMatrix(this);
+        public MatrixExpression ToMatrix() =>
+            this is Input ? new InputVectorToMatrix(this)
+            : this is VectorScale e ? new NonInputVectorScaleToMatrix(e)
+            : new NonInputVectorToMatrix(this);
         public static implicit operator VectorExpression(vector m) => new VectorInput(m);
         public static implicit operator vector(VectorExpression m) => m.EvaluateVector();
         public static VectorAddScalar operator +(VectorExpression a, double s) => new(a, s);
@@ -26,8 +28,10 @@
     {
         public abstract vectorT EvaluateVector();
         public VectorTTranspose T => new(this);
-        public MatrixExpression ToMatrix()
-            => this is Input ? new InputVectorTToMatrix(this) : new NonInputVectorTToMatrix(this);
+        public MatrixExpression ToMatrix() =>
+            this is Input ? new InputVectorTToMatrix(this)
+            : this is VectorTScale e ? new NonInputVectorTScaleToMatrix(e)
+            : new NonInputVectorTToMatrix(this);
         public static implicit operator VectorTExpression(vectorT m) => new VectorTInput(m);
         public static implicit operator vectorT(VectorTExpression m) => m.EvaluateVector();
         public static VectorTAddScalar operator +(VectorTExpression m, double s) => new(m, s);
@@ -81,10 +85,8 @@
         public NonInputVectorToMatrix(VectorExpression a) => E = a;
         public override matrix EvaluateMatrix()
         {
-            {
-                var v = E.EvaluateVector();
-                return new(v.Length, 1, v);
-            }
+            var v = E.EvaluateVector();
+            return new(v.Length, 1, v.Reuse());
         }
     }
 
@@ -94,25 +96,35 @@
         public NonInputVectorTToMatrix(VectorTExpression a) => E = a;
         public override matrix EvaluateMatrix()
         {
-            {
-                var v = E.EvaluateVector();
-                return new(v.Length, 1, v);
-            }
+            var v = E.EvaluateVector();
+            return new(1, v.Length, v.Reuse());
         }
     }
 
-    public class VectorResult : VectorExpression // This is not rerunable, need to make classes for all uses
+    public class NonInputVectorScaleToMatrix : MatrixExpression, IScale
     {
-        readonly vector m;
-        public VectorResult(vector a) => m = a;
-        public override vector EvaluateVector() => m;
+        readonly VectorScale E;
+        public NonInputVectorScaleToMatrix(VectorScale a) => E = a;
+        public double S => E.S;
+        MatrixExpression IScale.E => E.E.ToMatrix();
+        public override matrix EvaluateMatrix()
+        {
+            var v = E.EvaluateVector();
+            return new(v.Length, 1, v.Reuse());
+        }
     }
 
-    public class VectorTResult : VectorTExpression // This is not rerunable, need to make classes for all uses
+    public class NonInputVectorTScaleToMatrix : MatrixExpression, IScale
     {
-        readonly vectorT m;
-        public VectorTResult(vectorT a) => m = a;
-        public override vectorT EvaluateVector() => m;
+        readonly VectorTScale E;
+        public NonInputVectorTScaleToMatrix(VectorTScale a) => E = a;
+        public double S => E.S;
+        MatrixExpression IScale.E => E.E.ToMatrix();
+        public override matrix EvaluateMatrix()
+        {
+            var v = E.EvaluateVector();
+            return new(1, v.Length, v.Reuse());
+        }
     }
 
     public class VectorScale : VectorExpression, IScale
@@ -130,10 +142,31 @@
         public override vector EvaluateVector()
         {
             var m = new MatrixScale(E.ToMatrix(), S).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
         public static VectorScale operator *(VectorScale a, double b) => new(a.E, a.S * b);
         public static VectorScale operator *(double a, VectorScale b) => new(b.E, a * b.S);
+    }
+
+    public class VectorTScale : VectorTExpression, IScale
+    {
+        public readonly VectorTExpression E;
+        public readonly double S;
+        public VectorTScale(VectorTExpression a, double s)
+        {
+            E = a;
+            S = s;
+        }
+        MatrixExpression IScale.E => E.ToMatrix();
+        double IScale.S => S;
+
+        public override vectorT EvaluateVector()
+        {
+            var m = new MatrixScale(E.ToMatrix(), S).EvaluateMatrix();
+            return new(m.Rows, m.Reuse());
+        }
+        public static VectorTScale operator *(VectorTScale a, double b) => new(a.E, a.S * b);
+        public static VectorTScale operator *(double a, VectorTScale b) => new(b.E, a * b.S);
     }
 
     public class VectorTranspose : VectorTExpression
@@ -143,7 +176,7 @@
         public override vectorT EvaluateVector()
         {
             var m = new MatrixTranspose(E.ToMatrix()).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -154,7 +187,7 @@
         public override vector EvaluateVector()
         {
             var m = new MatrixTranspose(new InputVectorTToMatrix(E)).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -170,7 +203,7 @@
         public override vector EvaluateVector()
         {
             var m = new MatrixAddScalar(E.ToMatrix(), S).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -186,7 +219,7 @@
         public override vectorT EvaluateVector()
         {
             var m = new MatrixAddScalar(E.ToMatrix(), S).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -202,7 +235,7 @@
         public override vector EvaluateVector()
         {
             var m = new MatrixScalarSub(E.ToMatrix(), S).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -218,7 +251,7 @@
         public override vectorT EvaluateVector()
         {
             var m = new MatrixScalarSub(E.ToMatrix(), S).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -233,7 +266,7 @@
         public override vector EvaluateVector()
         {
             var m = new MatrixAdd(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -248,7 +281,7 @@
         public override vectorT EvaluateVector()
         {
             var m = new MatrixAdd(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -263,7 +296,7 @@
         public override vector EvaluateVector()
         {
             var m = new MatrixSub(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -278,7 +311,7 @@
         public override vectorT EvaluateVector()
         {
             var m = new MatrixSub(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
-            return new(m.Rows, m);
+            return new(m.Rows, m.Reuse());
         }
     }
 
@@ -294,7 +327,7 @@
         public override vector EvaluateVector()
         {
             var r = new MatrixMultiply(M, V.ToMatrix()).EvaluateMatrix();
-            return new(r.Rows, r);
+            return new(r.Rows, r.Reuse());
         }
     }
 
@@ -310,7 +343,7 @@
         public override vectorT EvaluateVector()
         {
             var r = new MatrixMultiply(VT.ToMatrix(), M).EvaluateMatrix();
-            return new(r.Cols, r);
+            return new(r.Cols, r.Reuse());
         }
     }
 
@@ -321,7 +354,7 @@
         public override vector EvaluateVector()
         {
             var i = E.EvaluateMatrix();
-            return new(i.Rows, i);
+            return new(i.Rows, i.Reuse());
         }
     }
 
@@ -332,7 +365,7 @@
         public override vectorT EvaluateVector()
         {
             var i = E.EvaluateMatrix();
-            return new(i.Cols, i);
+            return new(i.Cols, i.Reuse());
         }
     }
 }

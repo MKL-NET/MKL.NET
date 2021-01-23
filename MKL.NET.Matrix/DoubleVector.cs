@@ -7,21 +7,21 @@ namespace MKLNET
     {
         public int Length;
         public double[] Array;
-        public vector(int length)
+        public vector(int length, double[] reuse)
         {
             Length = length;
-            Array = matrix.Pool.Rent(length);
+            Array = reuse;
         }
-        public vector(int length, matrix reuse)
-        {
-            Length = length;
-            Array = reuse.Array;
-            GC.SuppressFinalize(reuse);
-        }
+        public vector(int length) : this(length, matrix.Pool.Rent(length)) { }
         public void Dispose()
         {
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
+        }
+        public double[] Reuse()
+        {
+            GC.SuppressFinalize(this);
+            return Array;
         }
         ~vector() => matrix.Pool.Return(Array);
         public double this[int i]
@@ -42,34 +42,27 @@ namespace MKLNET
     {
         public int Length;
         public double[] Array;
-        public vectorT(int length)
+        public vectorT(int length, double[] reuse)
         {
             Length = length;
-            Array = matrix.Pool.Rent(length);
+            Array = reuse;
         }
-        public vectorT(int length, matrix reuse)
-        {
-            Length = length;
-            Array = reuse.Array;
-            GC.SuppressFinalize(reuse);
-        }
+        public vectorT(int length) : this(length, matrix.Pool.Rent(length)) { }
         public void Dispose()
         {
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
+        }
+        public double[] Reuse()
+        {
+            GC.SuppressFinalize(this);
+            return Array;
         }
         ~vectorT() => matrix.Pool.Return(Array);
         public double this[int i]
         {
             get => Array[i];
             set => Array[i] = value;
-        }
-        public matrix ToMatrixReuse() => new(1, Length, this);
-        public matrix CopyToMatrix()
-        {
-            var r = new matrix(1, Length);
-            Blas.copy(Length, Array, 0, 1, r.Array, 0, 1);
-            return r;
         }
         public VectorTTranspose T => new(this);
         public static VectorTAddScalar operator +(vectorT m, double s) => new(m, s);
@@ -257,29 +250,29 @@ namespace MKLNET
             return r;
         }
         public static int Iamin(VectorTExpression a) => Iamin(a);
-        public static (VectorResult, VectorResult) SinCos(VectorExpression a)
+        public static (vector, vector) SinCos(VectorExpression a)
         {
             var i = a.EvaluateVector();
             var sin = a is Input ? new vector(i.Length) : i;
             var cos = new vector(i.Length);
             Vml.SinCos(i.Length, i.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
-            return (new(sin), new(cos));
+            return (sin, cos);
         }
-        public static (VectorTResult, VectorTResult) SinCos(VectorTExpression a)
+        public static (vectorT, vectorT) SinCos(VectorTExpression a)
         {
             var i = a.EvaluateVector();
             var sin = a is Input ? new vectorT(i.Length) : i;
             var cos = new vectorT(i.Length);
             Vml.SinCos(i.Length, i.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
-            return (new(sin), new(cos));
+            return (sin, cos);
         }
-        public static (VectorTResult, VectorTResult) Modf(VectorTExpression a)
+        public static (vectorT, vectorT) Modf(VectorTExpression a)
         {
             var i = a.EvaluateVector();
             var tru = a is Input ? new vectorT(i.Length) : i;
             var rem = new vectorT(i.Length);
             Vml.Modf(i.Length, i.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
-            return (new(tru), new(rem));
+            return (tru, rem);
         }
         public static matrix CopyToMatrix(vector v)
         {

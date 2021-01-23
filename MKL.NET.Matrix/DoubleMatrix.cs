@@ -6,43 +6,16 @@ namespace MKLNET
     public class matrix : IDisposable
     {
         internal static ArrayPool<double> Pool = new(1024 * 1024, 10);
-        public readonly int Rows;
-        public readonly int Cols;
+        public readonly int Rows, Cols;
         public double[] Array;
         public int Length => Rows * Cols;
-        public matrix(int rows, int cols)
-        {
-            Rows = rows;
-            Cols = cols;
-            Array = Pool.Rent(rows * cols);
-        }
-        public matrix(int rows, int cols, matrix reuse)
-        {
-            Rows = rows;
-            Cols = cols;
-            Array = reuse.Array;
-            GC.SuppressFinalize(reuse);
-        }
-        public matrix(int rows, int cols, vector reuse)
-        {
-            Rows = rows;
-            Cols = cols;
-            Array = reuse.Array;
-            GC.SuppressFinalize(reuse);
-        }
-        public matrix(int rows, int cols, vectorT reuse)
-        {
-            Rows = rows;
-            Cols = cols;
-            Array = reuse.Array;
-            GC.SuppressFinalize(reuse);
-        }
         public matrix(int rows, int cols, double[] reuse)
         {
             Rows = rows;
             Cols = cols;
             Array = reuse;
         }
+        public matrix(int rows, int cols) : this(rows, cols, Pool.Rent(rows * cols)) { }
         public double this[int row, int col]
         {
             get => Array[col * Rows + row];
@@ -52,6 +25,11 @@ namespace MKLNET
         {
             Pool.Return(Array);
             GC.SuppressFinalize(this);
+        }
+        public double[] Reuse()
+        {
+            GC.SuppressFinalize(this);
+            return Array;
         }
         ~matrix() => Pool.Return(Array);
         public MatrixTranspose T => new(this);
@@ -187,22 +165,22 @@ namespace MKLNET
             return (row, col);
         }
 
-        public static (MatrixResult, MatrixResult) SinCos(MatrixExpression a)
+        public static (matrix, matrix) SinCos(MatrixExpression a)
         {
             var i = a.EvaluateMatrix();
             var sin = a is Input ? new matrix(i.Rows, i.Cols) : i;
             var cos = new matrix(i.Rows, i.Cols);
             Vml.SinCos(i.Length, i.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
-            return (new(sin), new(cos));
+            return (sin, cos);
         }
 
-        public static (MatrixResult, MatrixResult) Modf(MatrixExpression a)
+        public static (matrix, matrix) Modf(MatrixExpression a)
         {
             var i = a.EvaluateMatrix();
             var tru = a is Input ? new matrix(i.Rows, i.Cols) : i;
             var rem = new matrix(i.Rows, i.Cols);
             Vml.Modf(i.Length, i.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
-            return (new(tru), new(rem));
+            return (tru, rem);
         }
 
         public static matrix Copy(matrix a)
@@ -212,14 +190,14 @@ namespace MKLNET
             return r;
         }
 
-        public static (MatrixResult, VectorResult) Eigens(MatrixExpression a)
+        public static (matrix, vector) Eigens(MatrixExpression a)
         {
             var i = a.EvaluateMatrix();
             if (i.Rows != i.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var v = a is Input ? new matrix(i.Rows, i.Cols) : i;
             var w = new vector(i.Rows);
             ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, v.Rows, v.Array, v.Rows, w.Array));
-            return (new(v), new(w));
+            return (v, w);
         }
     }
 }

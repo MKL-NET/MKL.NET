@@ -12,18 +12,18 @@
         public static MatrixAdd operator +(MatrixExpression a, MatrixExpression b) => new(a, b);
         public static MatrixSub operator -(MatrixExpression a, MatrixExpression b) => new(a, b);
         public static MatrixExpression operator *(MatrixExpression a, double s) =>
-            a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s)
+            a is IScale sa ? new MatrixScale(sa.E, sa.S * s)
             : a is MatrixTranspose ta ? new MatrixTransposeScale(ta.E, s)
             : a is MatrixTransposeScale tsa ? new MatrixTransposeScale(tsa.E, tsa.S * s)
             : new MatrixScale(a, s);
         public static MatrixExpression operator *(double s, MatrixExpression a) =>
-            a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s)
+            a is IScale sa ? new MatrixScale(sa.E, sa.S * s)
             : a is MatrixTranspose ta ? new MatrixTransposeScale(ta.E, s)
             : a is MatrixTransposeScale tsa ? new MatrixTransposeScale(tsa.E, tsa.S * s)
             : new MatrixScale(a, s);
         public static MatrixMultiply operator *(MatrixExpression a, MatrixExpression b) => new(a, b);
         public MatrixExpression T =>
-            this is MatrixScale s ? new MatrixTransposeScale(s.E, s.S)
+            this is IScale s ? new MatrixTransposeScale(s.E, s.S)
             : this is MatrixTranspose t ? t.E
             : this is MatrixTransposeScale ts ? new MatrixScale(ts.E, ts.S)
             : new MatrixTranspose(this);
@@ -36,13 +36,6 @@
     {
         readonly protected matrix m;
         public MatrixInput(matrix a) => m = a;
-        public override matrix EvaluateMatrix() => m;
-    }
-
-    public class MatrixResult : MatrixExpression // This is not rerunable, need to make classes for all uses
-    {
-        readonly matrix m;
-        public MatrixResult(matrix a) => m = a;
         public override matrix EvaluateMatrix() => m;
     }
 
@@ -64,7 +57,7 @@
         public override matrix EvaluateMatrix()
         {
             var i = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(i.Rows, i.Cols) : new matrix(i.Rows, i.Cols, i);
+            var o = E is Input ? new matrix(i.Rows, i.Cols) : new matrix(i.Rows, i.Cols, i.Reuse());
             Blas.omatcopy(LayoutChar.ColMajor, TransChar.No, i.Rows, i.Cols, S, i.Array, i.Rows, o.Array, i.Rows);
             return o;
         }
@@ -82,7 +75,7 @@
         public override matrix EvaluateMatrix()
         {
             var i = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i);
+            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i.Reuse());
             Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, i.Rows, i.Cols, 1.0, i.Array, i.Rows, o.Array, i.Cols);
             return o;
         }
@@ -100,7 +93,7 @@
         public override matrix EvaluateMatrix()
         {
             var i = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i);
+            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i.Reuse());
             Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, i.Rows, i.Cols, S, i.Array, i.Rows, o.Array, i.Cols);
             return o;
         }
@@ -137,14 +130,14 @@
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (Ea is not Input)
             {
-                var o = new matrix(a.Rows, a.Cols, a);
+                var o = new matrix(a.Rows, a.Cols, a.Reuse());
                 Evaluate(a, b, o);
                 if (Eb is not Input) b.Dispose();
                 return o;
             }
             else if (Eb is not Input)
             {
-                var o = new matrix(b.Rows, b.Cols, b);
+                var o = new matrix(b.Rows, b.Cols, b.Reuse());
                 Evaluate(a, b, o);
                 if (Ea is not Input) a.Dispose();
                 return o;
@@ -168,12 +161,25 @@
         }
         public override matrix EvaluateMatrix()
         {
-            var a = ae.EvaluateMatrix();
-            var b = be.EvaluateMatrix();
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var r = new matrix(a.Rows, a.Cols);
-            Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
-            return r;
+            if (ae is Input && be is Input)
+            {
+                var a = ae.EvaluateMatrix();
+                var b = be.EvaluateMatrix();
+                if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+                var r = new matrix(a.Rows, a.Cols);
+                Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+                return r;
+            }
+            else
+            {
+                var a = ae.EvaluateMatrix();
+                var b = be.EvaluateMatrix();
+                if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+                var r = a is Input ? b : a;
+                Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+                if (a is not Input && b is not Input) b.Dispose();
+                return r;
+            }
         }
     }
 
@@ -207,10 +213,21 @@
         }
         public override matrix EvaluateMatrix()
         {
-            var a = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(a.Rows, a.Cols) : a;
-            Vml.LinearFrac(a.Length, a.Array, 0, 1, a.Array, 0, 1, 1.0, S, 0.0, 0.0, o.Array, 0, 1);
-            return o;
+            if (E is IScale Es)
+            {
+                var e = Es.E;
+                var a = e.EvaluateMatrix();
+                var o = e is Input ? new matrix(a.Rows, a.Cols) : a;
+                Vml.LinearFrac(a.Length, a.Array, 0, 1, a.Array, 0, 1, Es.S, S, 0.0, 0.0, o.Array, 0, 1);
+                return o;
+            }
+            else
+            {
+                var a = E.EvaluateMatrix();
+                var o = E is Input ? new matrix(a.Rows, a.Cols) : a;
+                Vml.LinearFrac(a.Length, a.Array, 0, 1, a.Array, 0, 1, 1.0, S, 0.0, 0.0, o.Array, 0, 1);
+                return o;
+            }
         }
     }
 
@@ -225,10 +242,21 @@
         }
         public override matrix EvaluateMatrix()
         {
-            var a = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(a.Rows, a.Cols) : a;
-            Vml.LinearFrac(a.Length, a.Array, 0, 1, a.Array, 0, 1, -1.0, S, 0.0, 0.0, o.Array, 0, 1);
-            return o;
+            if (E is IScale Es)
+            {
+                var e = Es.E;
+                var a = e.EvaluateMatrix();
+                var o = e is Input ? new matrix(a.Rows, a.Cols) : a;
+                Vml.LinearFrac(a.Length, a.Array, 0, 1, a.Array, 0, 1, -Es.S, S, 0.0, 0.0, o.Array, 0, 1);
+                return o;
+            }
+            else
+            {
+                var a = E.EvaluateMatrix();
+                var o = E is Input ? new matrix(a.Rows, a.Cols) : a;
+                Vml.LinearFrac(a.Length, a.Array, 0, 1, a.Array, 0, 1, -1.0, S, 0.0, 0.0, o.Array, 0, 1);
+                return o;
+            }
         }
     }
 
@@ -804,5 +832,4 @@
             return a;
         }
     }
-
 }
