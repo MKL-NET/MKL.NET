@@ -5,7 +5,7 @@ namespace MKLNET
 {
     public class matrix : IDisposable
     {
-        internal static ArrayPool<double> Pool = new(ArrayPool<double>.DefaultMaxNumberOfArraysPerBucket, Environment.Is64BitProcess ? 20 : 10);
+        internal static ArrayPool<double> Pool = new(1024 * 1024, 10);
         public readonly int Rows;
         public readonly int Cols;
         public double[] Array;
@@ -16,11 +16,32 @@ namespace MKLNET
             Cols = cols;
             Array = Pool.Rent(rows * cols);
         }
-        public matrix(int rows, int cols, double[] array)
+        public matrix(int rows, int cols, matrix reuse)
         {
             Rows = rows;
             Cols = cols;
-            Array = array;
+            Array = reuse.Array;
+            GC.SuppressFinalize(reuse);
+        }
+        public matrix(int rows, int cols, vector reuse)
+        {
+            Rows = rows;
+            Cols = cols;
+            Array = reuse.Array;
+            GC.SuppressFinalize(reuse);
+        }
+        public matrix(int rows, int cols, vectorT reuse)
+        {
+            Rows = rows;
+            Cols = cols;
+            Array = reuse.Array;
+            GC.SuppressFinalize(reuse);
+        }
+        public matrix(int rows, int cols, double[] reuse)
+        {
+            Rows = rows;
+            Cols = cols;
+            Array = reuse;
         }
         public double this[int row, int col]
         {
@@ -42,7 +63,8 @@ namespace MKLNET
         public static MatrixSub operator -(matrix a, matrix b) => new(a, b);
         public static MatrixScale operator *(matrix a, double s) => new(a, s);
         public static MatrixScale operator *(double s, matrix a) => new(a, s);
-        public static MatrixMultiply operator *(matrix a, matrix b) => new(a, b);
+        public static MatrixMultiply operator *(matrix a, MatrixExpression b) => new(a, b);
+        public static MatrixVectorMultiply operator *(matrix m, VectorExpression v) => new(m, v);
     }
 
     public static class Matrix
@@ -127,9 +149,9 @@ namespace MKLNET
         public static MatrixLower Lower(MatrixExpression a) => new(a);
         public static MatrixUpper Upper(MatrixExpression a) => new(a);
         public static MatrixCholesky Cholesky(MatrixExpression a) => new(a);
-        public static MatrixSolveEq Solve(MatrixExpression a, MatrixExpression b) => new(a, b);
+        public static MatrixSolve Solve(MatrixExpression a, MatrixExpression b) => new(a, b);
         public static MatrixInverse Inverse(MatrixExpression a) => new(a);
-        public static MatrixLeastSquares LeastSquares(matrix a, matrix b) => new(a, b);
+        public static MatrixLeastSquares LeastSquares(MatrixExpression a, MatrixExpression b) => new(a, b);
 
         public static double Asum(MatrixExpression a)
         {
@@ -190,21 +212,14 @@ namespace MKLNET
             return r;
         }
 
-        //public static vector Solve(matrix a, vector b)
-        //{
-        //    a = Copy(a);
-        //    b = Vector.Copy(b);
-        //    MatrixInplace.Solve(a, b);
-        //    return b;
-        //}
-
-        //public static (matrix, vector) Eigens(matrix a)
-        //{
-        //    a = Copy(a);
-        //    var w = MatrixInplace.Eigens(a);
-        //    return (a, w);
-        //}
-
-
+        public static (MatrixResult, VectorResult) Eigens(MatrixExpression a)
+        {
+            var i = a.EvaluateMatrix();
+            if (i.Rows != i.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var v = a is Input ? new matrix(i.Rows, i.Cols) : i;
+            var w = new vector(i.Rows);
+            ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, v.Rows, v.Array, v.Rows, w.Array));
+            return (new(v), new(w));
+        }
     }
 }

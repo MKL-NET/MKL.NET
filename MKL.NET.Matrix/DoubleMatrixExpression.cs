@@ -27,6 +27,7 @@
             : this is MatrixTranspose t ? t.E
             : this is MatrixTransposeScale ts ? new MatrixScale(ts.E, ts.S)
             : new MatrixTranspose(this);
+        public static MatrixVectorMultiply operator *(MatrixExpression m, VectorExpression v) => new(m, v);
     }
 
     public interface Input { }
@@ -63,7 +64,7 @@
         public override matrix EvaluateMatrix()
         {
             var i = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(i.Rows, i.Cols) : new matrix(i.Rows, i.Cols, i.Array);
+            var o = E is Input ? new matrix(i.Rows, i.Cols) : new matrix(i.Rows, i.Cols, i);
             Blas.omatcopy(LayoutChar.ColMajor, TransChar.No, i.Rows, i.Cols, S, i.Array, i.Rows, o.Array, i.Rows);
             return o;
         }
@@ -81,7 +82,7 @@
         public override matrix EvaluateMatrix()
         {
             var i = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i.Array);
+            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i);
             Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, i.Rows, i.Cols, 1.0, i.Array, i.Rows, o.Array, i.Cols);
             return o;
         }
@@ -99,7 +100,7 @@
         public override matrix EvaluateMatrix()
         {
             var i = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i.Array);
+            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i);
             Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, i.Rows, i.Cols, S, i.Array, i.Rows, o.Array, i.Cols);
             return o;
         }
@@ -136,14 +137,14 @@
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (Ea is not Input)
             {
-                var o = new matrix(a.Rows, a.Cols, a.Array);
+                var o = new matrix(a.Rows, a.Cols, a);
                 Evaluate(a, b, o);
                 if (Eb is not Input) b.Dispose();
                 return o;
             }
             else if (Eb is not Input)
             {
-                var o = new matrix(b.Rows, b.Cols, b.Array);
+                var o = new matrix(b.Rows, b.Cols, b);
                 Evaluate(a, b, o);
                 if (Ea is not Input) a.Dispose();
                 return o;
@@ -763,10 +764,10 @@
             return a;
         }
     }
-    public class MatrixSolveEq : MatrixExpression
+    public class MatrixSolve : MatrixExpression
     {
         readonly MatrixExpression i, j;
-        public MatrixSolveEq(MatrixExpression a, MatrixExpression b)
+        public MatrixSolve(MatrixExpression a, MatrixExpression b)
         {
             i = a;
             j = b;

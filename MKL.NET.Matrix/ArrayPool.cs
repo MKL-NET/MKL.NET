@@ -222,6 +222,6 @@ namespace MKLNET
 
     internal class Pool
     {
-        internal static ArrayPool<int> Int = new(ArrayPool<int>.DefaultMaxNumberOfArraysPerBucket, Environment.Is64BitProcess ? 20 : 10);
+        internal static ArrayPool<int> Int = new(1024, 3);
     }
 }

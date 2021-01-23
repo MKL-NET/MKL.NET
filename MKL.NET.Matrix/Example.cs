@@ -6,6 +6,14 @@
         {
             using matrix me = Ma + Mb + Ma * 0.1 + 0.1 * Mb + Matrix.Abs(Ma) + Ma * Mb;
             using vector ve = Va + 0.1 + (1.0 - Vb.T).T;
+            using vector ve2 = Ma * Va;
+            using vector ve3 = Ma * (Va + 0.1);
+            using vector ve4 = (Ma + 0.1) * Va;
+            using vector ve5 = (Ma + 0.1) * (Va + 0.1);
+            using vectorT ve6 = Va.T * Ma;
+            using vectorT ve7 = (Va.T + 0.1) * Ma;
+            using vectorT ve8 = Va.T * (Ma + 0.1);
+            using vectorT ve9 = (Va.T + 0.1) * (Ma + 0.1);
         }
 
         public class RngGaussianExpression : Expression.MatrixExpression
