@@ -5,6 +5,12 @@
         public static void E1(matrix Ma, matrix Mb, vector Va, vector Vb)
         {
             using matrix me = Ma + Mb + Ma * 0.1 + 0.1 * Mb + Matrix.Abs(Ma) + Ma * Mb;
+            using matrix me2 = Ma + (Mb + Ma);
+            using matrix me3 = Ma + Mb + Ma;
+            using matrix me4 = Va * Vb.T;
+            using matrix me5 = Ma * Mb * Ma;
+            using matrix me6 = Ma * (Mb * Ma);
+            using matrix me7 = Matrix.Abs(Ma) * Mb;
             using vector ve = Va + 0.1 + (1.0 - Vb.T).T;
             using vector ve2 = Ma * Va;
             using vector ve3 = Ma * (Va + 0.1);
@@ -15,7 +21,6 @@
             using vectorT ve8 = Va.T * (Ma + 0.1);
             using vectorT ve9 = (Va.T + 0.1) * (Ma + 0.1);
             double d = Va.T * Vb;
-            using matrix me2 = Va * Vb.T;
         }
 
         public class RngGaussianExpression : Expression.MatrixExpression

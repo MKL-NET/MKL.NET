@@ -3,43 +3,25 @@
     public abstract class VectorExpression
     {
         public abstract vector EvaluateVector();
-        public VectorTranspose T => new(this);
+        public VectorTExpression T => new VectorTranspose(this);
         public MatrixExpression ToMatrix() =>
             this is Input ? new InputVectorToMatrix(this)
             : this is VectorScale e ? new NonInputVectorScaleToMatrix(e)
             : new NonInputVectorToMatrix(this);
         public static implicit operator VectorExpression(vector m) => new VectorInput(m);
         public static implicit operator vector(VectorExpression m) => m.EvaluateVector();
-        public static VectorAddScalar operator +(VectorExpression a, double s) => new(a, s);
-        public static VectorAddScalar operator +(double s, VectorExpression b) => new(b, s);
-        public static VectorAddScalar operator -(VectorExpression m, double s) => new(m, -s);
-        public static VectorScalarSub operator -(double s, VectorExpression m) => new(m, s);
-        public static VectorAdd operator +(VectorExpression a, VectorExpression b) => new(a, b);
-        public static VectorSub operator -(VectorExpression a, VectorExpression b) => new(a, b);
+        public static VectorExpression operator +(VectorExpression a, double s) => new VectorAddScalar(a, s);
+        public static VectorExpression operator +(double s, VectorExpression b) => new VectorAddScalar(b, s);
+        public static VectorExpression operator -(VectorExpression m, double s) => new VectorAddScalar(m, -s);
+        public static VectorExpression operator -(double s, VectorExpression m) => new VectorScalarSub(m, s);
+        public static VectorExpression operator +(VectorExpression a, VectorExpression b) => new VectorAdd(a, b);
+        public static VectorExpression operator -(VectorExpression a, VectorExpression b) => new VectorSub(a, b);
         public static VectorExpression operator *(VectorExpression a, double s) =>
             a is VectorScale sa ? new VectorScale(sa.E, sa.S * s)
             : new VectorScale(a, s);
         public static VectorExpression operator *(double s, VectorExpression a) =>
             a is VectorScale sa ? new VectorScale(sa.E, sa.S * s)
             : new VectorScale(a, s);
-    }
-
-    public abstract class VectorTExpression
-    {
-        public abstract vectorT EvaluateVector();
-        public VectorTTranspose T => new(this);
-        public MatrixExpression ToMatrix() =>
-              this is Input ? new InputVectorTToMatrix(this)
-            : this is VectorTScale e ? new NonInputVectorTScaleToMatrix(e)
-            : new NonInputVectorTToMatrix(this);
-        public static implicit operator VectorTExpression(vectorT m) => new VectorTInput(m);
-        public static implicit operator vectorT(VectorTExpression m) => m.EvaluateVector();
-        public static VectorTAddScalar operator +(VectorTExpression m, double s) => new(m, s);
-        public static VectorTAddScalar operator +(double s, VectorTExpression m) => new(m, s);
-        public static VectorTAddScalar operator -(VectorTExpression m, double s) => new(m, -s);
-        public static VectorTScalarSub operator -(double s, VectorTExpression m) => new(m, s);
-        public static VectorTAdd operator +(VectorTExpression a, VectorTExpression b) => new(a, b);
-        public static VectorTSub operator -(VectorTExpression a, VectorTExpression b) => new(a, b);
         public static double operator *(VectorTExpression vt, VectorExpression v)
         {
             matrix m = new MatrixMultiply(vt.ToMatrix(), v.ToMatrix());
@@ -47,8 +29,27 @@
             m.Dispose();
             return r;
         }
-        public static MatrixMultiply operator *(VectorExpression v, VectorTExpression vt) => new(v.ToMatrix(), vt.ToMatrix());
-        public static VectorTMatrixMultiply operator *(VectorTExpression vt, MatrixExpression m) => new(vt, m);
+        public static MatrixExpression operator *(VectorExpression v, VectorTExpression vt) => new MatrixMultiply(v.ToMatrix(), vt.ToMatrix());
+    }
+
+    public abstract class VectorTExpression
+    {
+        public abstract vectorT EvaluateVector();
+        public VectorExpression T => new VectorTTranspose(this);
+        public MatrixExpression ToMatrix() =>
+              this is Input ? new InputVectorTToMatrix(this)
+            : this is VectorTScale e ? new NonInputVectorTScaleToMatrix(e)
+            : new NonInputVectorTToMatrix(this);
+        public static implicit operator VectorTExpression(vectorT m) => new VectorTInput(m);
+        public static implicit operator vectorT(VectorTExpression m) => m.EvaluateVector();
+        public static VectorTExpression operator +(VectorTExpression m, double s) => new VectorTAddScalar(m, s);
+        public static VectorTExpression operator +(double s, VectorTExpression m) => new VectorTAddScalar(m, s);
+        public static VectorTExpression operator -(VectorTExpression m, double s) => new VectorTAddScalar(m, -s);
+        public static VectorTExpression operator -(double s, VectorTExpression m) => new VectorTScalarSub(s, m);
+        public static VectorTExpression operator +(VectorTExpression a, VectorTExpression b) => new VectorTAdd(a, b);
+        public static VectorTExpression operator -(VectorTExpression a, VectorTExpression b) => new VectorTSub(a, b);
+        public static VectorTExpression operator *(VectorTExpression a, double s) => new VectorTScale(a, s);
+        public static VectorTExpression operator *(double s, VectorTExpression a) => new VectorTScale(a, s);
     }
 
     public class VectorInput : VectorExpression, Input
@@ -243,7 +244,7 @@
     {
         public readonly VectorTExpression E;
         public readonly double S;
-        public VectorTScalarSub(VectorTExpression a, double s)
+        public VectorTScalarSub(double s, VectorTExpression a)
         {
             E = a;
             S = s;

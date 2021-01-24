@@ -5,10 +5,10 @@
         public abstract matrix EvaluateMatrix();
         public static implicit operator MatrixExpression(matrix m) => new MatrixInput(m);
         public static implicit operator matrix(MatrixExpression m) => m.EvaluateMatrix();
-        public static MatrixAddScalar operator +(MatrixExpression a, double s) => new(a, s);
-        public static MatrixAddScalar operator +(double s, MatrixExpression b) => new(b, s);
-        public static MatrixAddScalar operator -(MatrixExpression a, double b) => new(a, -b);
-        public static MatrixScalarSub operator -(double a, MatrixExpression b) => new(b, a);
+        public static MatrixExpression operator +(MatrixExpression a, double s) => new MatrixAddScalar(a, s);
+        public static MatrixExpression operator +(double s, MatrixExpression b) => new MatrixAddScalar(b, s);
+        public static MatrixExpression operator -(MatrixExpression a, double b) => new MatrixAddScalar(a, -b);
+        public static MatrixExpression operator -(double a, MatrixExpression b) => new MatrixScalarSub(a, b);
         public static MatrixExpression operator +(MatrixExpression a, MatrixExpression b)
         {
             if (a is MatrixTranspose ta)
@@ -65,12 +65,13 @@
               a is MatrixTranspose ta ? new MatrixTranspose(ta.E, ta.S * s)
             : a is IScale sa ? new MatrixScale(sa.E, sa.S * s)
             : new MatrixScale(a, s);
-        public static MatrixMultiply operator *(MatrixExpression a, MatrixExpression b) => new(a, b);
+        public static MatrixExpression operator *(MatrixExpression a, MatrixExpression b) => new MatrixMultiply(a, b);
         public MatrixExpression T =>
               this is MatrixTranspose t ? (t.S == 1.0 ? t.E : new MatrixScale(t.E, t.S))
             : this is IScale s ? new MatrixTranspose(s.E, s.S)
             : new MatrixTranspose(this, 1.0);
-        public static MatrixVectorMultiply operator *(MatrixExpression m, VectorExpression v) => new(m, v);
+        public static VectorExpression operator *(MatrixExpression m, VectorExpression v) => new MatrixVectorMultiply(m, v);
+        public static VectorTExpression operator *(VectorTExpression vt, MatrixExpression m) => new VectorTMatrixMultiply(vt, m);
     }
 
     public interface Input { }
@@ -315,7 +316,7 @@
     {
         public readonly MatrixExpression E;
         public readonly double S;
-        public MatrixScalarSub(MatrixExpression a, double s)
+        public MatrixScalarSub(double s, MatrixExpression a)
         {
             E = a;
             S = s;
