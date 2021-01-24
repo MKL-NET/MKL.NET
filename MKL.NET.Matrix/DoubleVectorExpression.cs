@@ -5,9 +5,7 @@
         public abstract vector EvaluateVector();
         public VectorTExpression T => new VectorTranspose(this);
         public MatrixExpression ToMatrix() =>
-            this is Input ? new InputVectorToMatrix(this)
-            : this is VectorScale e ? new NonInputVectorScaleToMatrix(e)
-            : new NonInputVectorToMatrix(this);
+              this is VectorScale e ? new VectorToMatrix(e.E) * e.S : new VectorToMatrix(this);
         public static implicit operator VectorExpression(vector m) => new VectorInput(m);
         public static implicit operator vector(VectorExpression m) => m.EvaluateVector();
         public static VectorExpression operator +(VectorExpression a, double s) => new VectorAddScalar(a, s);
@@ -37,9 +35,7 @@
         public abstract vectorT EvaluateVector();
         public VectorExpression T => new VectorTTranspose(this);
         public MatrixExpression ToMatrix() =>
-              this is Input ? new InputVectorTToMatrix(this)
-            : this is VectorTScale e ? new NonInputVectorTScaleToMatrix(e)
-            : new NonInputVectorTToMatrix(this);
+              this is VectorTScale e ? new VectorTToMatrix(e.E) * e.S : new VectorTToMatrix(this);
         public static implicit operator VectorTExpression(vectorT m) => new VectorTInput(m);
         public static implicit operator vectorT(VectorTExpression m) => m.EvaluateVector();
         public static VectorTExpression operator +(VectorTExpression m, double s) => new VectorTAddScalar(m, s);
@@ -66,37 +62,25 @@
         public override vectorT EvaluateVector() => m;
     }
 
-    public class InputVectorToMatrix : MatrixExpression, Input
+    public class VectorToMatrix : MatrixExpression
     {
         readonly VectorExpression E;
-        public InputVectorToMatrix(VectorExpression a) => E = a;
-        public override matrix EvaluateMatrix() => Vector.CopyToMatrix(E);
-    }
-
-    public class InputVectorTToMatrix : MatrixExpression, Input
-    {
-        readonly VectorTExpression E;
-        public InputVectorTToMatrix(VectorTExpression a) => E = a;
-        public override matrix EvaluateMatrix() => Vector.CopyToMatrix(E);
-    }
-
-    public class NonInputVectorToMatrix : MatrixExpression
-    {
-        readonly VectorExpression E;
-        public NonInputVectorToMatrix(VectorExpression a) => E = a;
+        public VectorToMatrix(VectorExpression a) => E = a;
         public override matrix EvaluateMatrix()
         {
+            if (E is Input) return Vector.CopyToMatrix(E);
             vector v = E;
             return new(v.Length, 1, v.Reuse());
         }
     }
 
-    public class NonInputVectorTToMatrix : MatrixExpression
+    public class VectorTToMatrix : MatrixExpression
     {
         readonly VectorTExpression E;
-        public NonInputVectorTToMatrix(VectorTExpression a) => E = a;
+        public VectorTToMatrix(VectorTExpression a) => E = a;
         public override matrix EvaluateMatrix()
         {
+            if (E is Input) return Vector.CopyToMatrix(E);
             vectorT v = E;
             return new(1, v.Length, v.Reuse());
         }
@@ -177,17 +161,17 @@
         public override vectorT EvaluateVector()
         {
             matrix m = E.ToMatrix().T;
-            return new(m.Rows, m.Reuse());
+            return new(m.Cols, m.Reuse());
         }
     }
 
     public class VectorTTranspose : VectorExpression
     {
-        readonly vectorT E;
-        public VectorTTranspose(vectorT a) => E = a;
+        readonly VectorTExpression E;
+        public VectorTTranspose(VectorTExpression a) => E = a;
         public override vector EvaluateVector()
         {
-            matrix m = new InputVectorTToMatrix(E).T;
+            matrix m = E.ToMatrix().T;
             return new(m.Rows, m.Reuse());
         }
     }

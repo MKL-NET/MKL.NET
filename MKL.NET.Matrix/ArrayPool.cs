@@ -3,8 +3,8 @@
 // - Modified to use GC.AllocateArray
 
 using System;
-using System.Threading;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace MKLNET
 {

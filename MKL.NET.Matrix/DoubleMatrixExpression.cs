@@ -252,7 +252,7 @@
             var a = Ea.EvaluateMatrix();
             var b = Eb.EvaluateMatrix();
             if ((Transa == Transb && (a.Rows != b.Rows || a.Cols != b.Cols))
-               ||(a.Rows != b.Cols || a.Cols != b.Rows)) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+               || (a.Rows != b.Cols || a.Cols != b.Rows)) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = a is not Input ? (Transa == TransChar.Yes ? new matrix(a.Cols, a.Rows, a.Reuse()) : a)
                   : b is not Input ? (Transb == TransChar.Yes ? new matrix(b.Cols, b.Rows, b.Reuse()) : b)
                   : new matrix(a.Rows, a.Cols);

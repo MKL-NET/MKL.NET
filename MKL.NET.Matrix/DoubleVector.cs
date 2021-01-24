@@ -44,8 +44,8 @@ namespace MKLNET
         public static VectorExpression operator *(double s, vector a) => new VectorScale(a, s);
         public static double operator *(vectorT vt, vector v) => (VectorTExpression)vt * (VectorExpression)v;
         public static double operator *(VectorTExpression vt, vector v) => vt * (VectorExpression)v;
-        public static MatrixExpression operator *(vector v, vectorT vt) => new MatrixMultiply(new InputVectorToMatrix(v), new InputVectorTToMatrix(vt));
-        public static MatrixExpression operator *(vector v, VectorTExpression vt) => new MatrixMultiply(new InputVectorToMatrix(v), vt.ToMatrix());
+        public static MatrixExpression operator *(vector v, vectorT vt) => (VectorExpression)v * (VectorTExpression)vt;
+        public static MatrixExpression operator *(vector v, VectorTExpression vt) => (VectorExpression)v * vt;
     }
     public class vectorT : IDisposable
     {
@@ -87,14 +87,8 @@ namespace MKLNET
         public static VectorTExpression operator *(vectorT vt, double s) => new VectorTScale(vt, s);
         public static VectorTExpression operator *(double s, vectorT vt) => new VectorTScale(vt, s);
         public static double operator *(vectorT vt, vector v) => vt * (VectorExpression)v;
-        public static double operator *(vectorT vt, VectorExpression v)
-        {
-            var m = new MatrixMultiply(new InputVectorTToMatrix(vt), v.ToMatrix()).EvaluateMatrix();
-            var r = m[0, 0];
-            m.Dispose();
-            return r;
-        }
-        public static MatrixExpression operator *(VectorExpression v, vectorT vt) => new MatrixMultiply(v.ToMatrix(), new InputVectorTToMatrix(vt));
+        public static double operator *(vectorT vt, VectorExpression v) => (VectorTExpression)vt * v;
+        public static MatrixExpression operator *(VectorExpression v, vectorT vt) => v * (VectorTExpression)vt;
         public static MatrixExpression operator *(vector v, vectorT vt) => (VectorExpression)v * vt;
         public static VectorTExpression operator *(vectorT vt, matrix m) => new VectorTMatrixMultiply(vt, m);
         public static VectorTExpression operator *(vectorT vt, MatrixExpression m) => new VectorTMatrixMultiply(vt, m);
