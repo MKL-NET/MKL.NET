@@ -9,24 +9,67 @@
         public static MatrixAddScalar operator +(double s, MatrixExpression b) => new(b, s);
         public static MatrixAddScalar operator -(MatrixExpression a, double b) => new(a, -b);
         public static MatrixScalarSub operator -(double a, MatrixExpression b) => new(b, a);
-        public static MatrixAdd operator +(MatrixExpression a, MatrixExpression b) => new(a, b);
-        public static MatrixSub operator -(MatrixExpression a, MatrixExpression b) => new(a, b);
+        public static MatrixExpression operator +(MatrixExpression a, MatrixExpression b)
+        {
+            if (a is MatrixTranspose ta)
+            {
+                return b is MatrixTranspose tb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, tb.E, TransChar.Yes, tb.S)
+                     : b is IScale sb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, sb.E, TransChar.No, sb.S)
+                     : new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, b, TransChar.No, 1.0);
+            }
+            else if (b is MatrixTranspose tb)
+            {
+                return a is IScale sa ? new MatrixAddTranspose(sa.E, TransChar.No, sa.S, tb.E, TransChar.Yes, tb.S)
+                     : new MatrixAddTranspose(a, TransChar.No, 1.0, tb.E, TransChar.Yes, tb.S);
+            }
+            else if (a is IScale sa)
+            {
+                return b is IScale sb ? new MatrixAddScale(sa.E, sa.S, sb.E, sb.S)
+                     : new MatrixAddScale(sa.E, sa.S, b, 1.0);
+            }
+            else if (b is IScale sb)
+            {
+                return new MatrixAddScale(a, 1.0, sb.E, sb.S);
+            }
+            return new MatrixAddSimple(a, b);
+        }
+        public static MatrixExpression operator -(MatrixExpression a, MatrixExpression b)
+        {
+            if (a is MatrixTranspose ta)
+            {
+                return b is MatrixTranspose tb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, tb.E, TransChar.Yes, -tb.S)
+                     : b is IScale sb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, sb.E, TransChar.No, -sb.S)
+                     : new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, b, TransChar.No, -1.0);
+            }
+            else if (b is MatrixTranspose tb)
+            {
+                return a is IScale sa ? new MatrixAddTranspose(sa.E, TransChar.No, sa.S, tb.E, TransChar.Yes, -tb.S)
+                     : new MatrixAddTranspose(a, TransChar.No, 1.0, tb.E, TransChar.Yes, -tb.S);
+            }
+            else if (a is IScale sa)
+            {
+                return b is IScale sb ? new MatrixAddScale(sa.E, sa.S, sb.E, -sb.S)
+                     : new MatrixAddScale(sa.E, sa.S, b, -1.0);
+            }
+            else if (b is IScale sb)
+            {
+                return new MatrixAddScale(a, 1.0, sb.E, -sb.S);
+            }
+            return new MatrixSubSimple(a, b);
+        }
         public static MatrixExpression operator *(MatrixExpression a, double s) =>
-            a is IScale sa ? new MatrixScale(sa.E, sa.S * s)
-            : a is MatrixTranspose ta ? new MatrixTransposeScale(ta.E, s)
-            : a is MatrixTransposeScale tsa ? new MatrixTransposeScale(tsa.E, tsa.S * s)
+              a is MatrixTranspose ta ? new MatrixTranspose(ta.E, ta.S * s)
+            : a is IScale sa ? new MatrixScale(sa.E, sa.S * s)
             : new MatrixScale(a, s);
         public static MatrixExpression operator *(double s, MatrixExpression a) =>
-            a is IScale sa ? new MatrixScale(sa.E, sa.S * s)
-            : a is MatrixTranspose ta ? new MatrixTransposeScale(ta.E, s)
-            : a is MatrixTransposeScale tsa ? new MatrixTransposeScale(tsa.E, tsa.S * s)
+              a is MatrixTranspose ta ? new MatrixTranspose(ta.E, ta.S * s)
+            : a is IScale sa ? new MatrixScale(sa.E, sa.S * s)
             : new MatrixScale(a, s);
         public static MatrixMultiply operator *(MatrixExpression a, MatrixExpression b) => new(a, b);
         public MatrixExpression T =>
-            this is IScale s ? new MatrixTransposeScale(s.E, s.S)
-            : this is MatrixTranspose t ? t.E
-            : this is MatrixTransposeScale ts ? new MatrixScale(ts.E, ts.S)
-            : new MatrixTranspose(this);
+              this is MatrixTranspose t ? (t.S == 1.0 ? t.E : new MatrixScale(t.E, t.S))
+            : this is IScale s ? new MatrixTranspose(s.E, s.S)
+            : new MatrixTranspose(this, 1.0);
         public static MatrixVectorMultiply operator *(MatrixExpression m, VectorExpression v) => new(m, v);
     }
 
@@ -39,9 +82,13 @@
         public override matrix EvaluateMatrix() => m;
     }
 
-    public interface IScale
+    public interface ITransposeOrScale
     {
         MatrixExpression E { get; }
+    }
+
+    public interface IScale : ITransposeOrScale
+    {
         double S { get; }
     }
 
@@ -61,9 +108,10 @@
             Blas.omatcopy(LayoutChar.ColMajor, TransChar.No, i.Rows, i.Cols, S, i.Array, i.Rows, o.Array, i.Rows);
             return o;
         }
-        public new MatrixTransposeScale T => new(E, S);
-        MatrixExpression IScale.E => E;
+        public new MatrixTranspose T => new(E, S);
         double IScale.S => S;
+        MatrixExpression ITransposeOrScale.E => E;
+
         public static MatrixScale operator *(MatrixScale a, double b) => new(a.E, a.S * b);
         public static MatrixScale operator *(double a, MatrixScale b) => new(b.E, a * b.S);
     }
@@ -71,21 +119,8 @@
     public class MatrixTranspose : MatrixExpression
     {
         public readonly MatrixExpression E;
-        public MatrixTranspose(MatrixExpression a) => E = a;
-        public override matrix EvaluateMatrix()
-        {
-            var i = E.EvaluateMatrix();
-            var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i.Reuse());
-            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, i.Rows, i.Cols, 1.0, i.Array, i.Rows, o.Array, i.Cols);
-            return o;
-        }
-    }
-
-    public class MatrixTransposeScale : MatrixExpression
-    {
-        public readonly MatrixExpression E;
         public readonly double S;
-        public MatrixTransposeScale(MatrixExpression a, double s)
+        public MatrixTranspose(MatrixExpression a, double s)
         {
             E = a;
             S = s;
@@ -94,7 +129,7 @@
         {
             var i = E.EvaluateMatrix();
             var o = E is Input ? new matrix(i.Cols, i.Rows) : new matrix(i.Cols, i.Rows, i.Reuse());
-            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, i.Rows, i.Cols, S, i.Array, i.Rows, o.Array, i.Cols);
+            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, i.Rows, i.Cols, S, i.Array, i.Rows, o.Array, i.Cols); // Check rows, cols
             return o;
         }
     }
@@ -151,52 +186,96 @@
         }
     }
 
-    public class MatrixAdd : MatrixExpression
+    public class MatrixAddSimple : MatrixExpression
     {
-        readonly MatrixExpression ae, be;
-        public MatrixAdd(MatrixExpression a, MatrixExpression b)
+        readonly MatrixExpression Ea, Eb;
+        public MatrixAddSimple(MatrixExpression a, MatrixExpression b)
         {
-            ae = a;
-            be = b;
+            Ea = a;
+            Eb = b;
         }
         public override matrix EvaluateMatrix()
         {
-            if (ae is Input && be is Input)
-            {
-                var a = ae.EvaluateMatrix();
-                var b = be.EvaluateMatrix();
-                if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var r = new matrix(a.Rows, a.Cols);
-                Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
-                return r;
-            }
-            else
-            {
-                var a = ae.EvaluateMatrix();
-                var b = be.EvaluateMatrix();
-                if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-                var r = a is Input ? b : a;
-                Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
-                if (a is not Input && b is not Input) b.Dispose();
-                return r;
-            }
+            var a = Ea.EvaluateMatrix();
+            var b = Eb.EvaluateMatrix();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var r = a is not Input ? a
+                  : b is not Input ? b
+                  : new matrix(a.Rows, a.Cols);
+            Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            return r;
         }
     }
 
-    public class MatrixSub : MatrixExpression
+    public class MatrixAddScale : MatrixExpression
     {
-        readonly MatrixExpression ae, be;
-        public MatrixSub(MatrixExpression a, MatrixExpression b)
+        readonly MatrixExpression Ea, Eb;
+        readonly double Sa, Sb;
+        public MatrixAddScale(MatrixExpression a, double sa, MatrixExpression b, double sb)
         {
-            ae = a;
-            be = b;
+            Ea = a;
+            Eb = b;
+            Sa = sa;
+            Sb = sb;
         }
         public override matrix EvaluateMatrix()
         {
-            var a = ae.EvaluateMatrix();
-            var b = be.EvaluateMatrix();
+            var a = Ea.EvaluateMatrix();
+            var b = Eb.EvaluateMatrix();
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var r = new matrix(a.Rows, a.Cols);
+            var r = a is not Input ? a
+                  : b is not Input ? b
+                  : new matrix(a.Rows, a.Cols);
+            Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, Sa, 0.0, Sb, 0.0, r.Array, 0, 1);
+            if (a is not Input && b is not Input) b.Dispose();
+            return r;
+        }
+    }
+
+    public class MatrixAddTranspose : MatrixExpression
+    {
+        readonly MatrixExpression Ea, Eb;
+        readonly double Sa, Sb;
+        readonly TransChar Transa, Transb;
+        public MatrixAddTranspose(MatrixExpression a, TransChar transa, double sa, MatrixExpression b, TransChar transb, double sb)
+        {
+            Ea = a;
+            Eb = b;
+            Sa = sa;
+            Sb = sb;
+            Transa = transa;
+            Transb = transb;
+        }
+        public override matrix EvaluateMatrix()
+        {
+            var a = Ea.EvaluateMatrix();
+            var b = Eb.EvaluateMatrix();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var r = a is not Input ? (Transa == TransChar.Yes ? new matrix(a.Cols, a.Rows, a.Reuse()) : a)
+                  : b is not Input ? (Transb == TransChar.Yes ? new matrix(b.Cols, b.Rows, b.Reuse()) : b)
+                  : new matrix(a.Rows, a.Cols);
+            Blas.omatadd(LayoutChar.ColMajor, Transa, Transb, r.Rows, r.Cols, Sa, a.Array, a.Rows, Sb, b.Array, b.Rows, r.Array, r.Rows);
+            if (a is not Input && b is not Input) b.Dispose();
+            return r;
+        }
+    }
+
+    public class MatrixSubSimple : MatrixExpression
+    {
+        readonly MatrixExpression Ea, Eb;
+        public MatrixSubSimple(MatrixExpression a, MatrixExpression b)
+        {
+            Ea = a;
+            Eb = b;
+        }
+        public override matrix EvaluateMatrix()
+        {
+            var a = Ea.EvaluateMatrix();
+            var b = Eb.EvaluateMatrix();
+            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var r = a is not Input ? a
+                  : b is not Input ? b
+                  : new matrix(a.Rows, a.Cols);
             Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
             return r;
         }

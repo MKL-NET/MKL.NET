@@ -32,13 +32,13 @@ namespace MKLNET
             return Array;
         }
         ~matrix() => Pool.Return(Array);
-        public MatrixTranspose T => new(this);
+        public MatrixTranspose T => new(this, 1.0);
         public static MatrixAddScalar operator +(matrix m, double s) => new(m, s);
         public static MatrixAddScalar operator +(double s, matrix m) => new(m, s);
         public static MatrixAddScalar operator -(matrix m, double s) => new(m, -s);
         public static MatrixScalarSub operator -(double s, matrix m) => new(m, s);
-        public static MatrixAdd operator +(matrix a, matrix b) => new(a, b);
-        public static MatrixSub operator -(matrix a, matrix b) => new(a, b);
+        public static MatrixAddSimple operator +(matrix a, matrix b) => new(a, b);
+        public static MatrixSubSimple operator -(matrix a, matrix b) => new(a, b);
         public static MatrixScale operator *(matrix a, double s) => new(a, s);
         public static MatrixScale operator *(double s, matrix a) => new(a, s);
         public static MatrixMultiply operator *(matrix a, MatrixExpression b) => new(a, b);

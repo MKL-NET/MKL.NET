@@ -106,7 +106,7 @@
         readonly VectorScale E;
         public NonInputVectorScaleToMatrix(VectorScale a) => E = a;
         public double S => E.S;
-        MatrixExpression IScale.E => E.E.ToMatrix();
+        MatrixExpression ITransposeOrScale.E => E.E.ToMatrix();
         public override matrix EvaluateMatrix()
         {
             var v = E.EvaluateVector();
@@ -119,7 +119,7 @@
         readonly VectorTScale E;
         public NonInputVectorTScaleToMatrix(VectorTScale a) => E = a;
         public double S => E.S;
-        MatrixExpression IScale.E => E.E.ToMatrix();
+        MatrixExpression ITransposeOrScale.E => E.E.ToMatrix();
         public override matrix EvaluateMatrix()
         {
             var v = E.EvaluateVector();
@@ -136,7 +136,7 @@
             E = a;
             S = s;
         }
-        MatrixExpression IScale.E => E.ToMatrix();
+        MatrixExpression ITransposeOrScale.E => E.ToMatrix();
         double IScale.S => S;
 
         public override vector EvaluateVector()
@@ -157,7 +157,7 @@
             E = a;
             S = s;
         }
-        MatrixExpression IScale.E => E.ToMatrix();
+        MatrixExpression ITransposeOrScale.E => E.ToMatrix();
         double IScale.S => S;
 
         public override vectorT EvaluateVector()
@@ -175,7 +175,7 @@
         public VectorTranspose(VectorExpression a) => E = a;
         public override vectorT EvaluateVector()
         {
-            var m = new MatrixTranspose(E.ToMatrix()).EvaluateMatrix();
+            var m = new MatrixTranspose(E.ToMatrix(), 1.0).EvaluateMatrix();
             return new(m.Rows, m.Reuse());
         }
     }
@@ -186,7 +186,7 @@
         public VectorTTranspose(vectorT a) => E = a;
         public override vector EvaluateVector()
         {
-            var m = new MatrixTranspose(new InputVectorTToMatrix(E)).EvaluateMatrix();
+            var m = new MatrixTranspose(new InputVectorTToMatrix(E), 1.0).EvaluateMatrix();
             return new(m.Rows, m.Reuse());
         }
     }
@@ -265,7 +265,7 @@
         }
         public override vector EvaluateVector()
         {
-            var m = new MatrixAdd(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
+            var m = new MatrixAddSimple(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
             return new(m.Rows, m.Reuse());
         }
     }
@@ -280,7 +280,7 @@
         }
         public override vectorT EvaluateVector()
         {
-            var m = new MatrixAdd(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
+            var m = new MatrixAddSimple(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
             return new(m.Rows, m.Reuse());
         }
     }
@@ -295,7 +295,7 @@
         }
         public override vector EvaluateVector()
         {
-            var m = new MatrixSub(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
+            var m = (A.ToMatrix() - B.ToMatrix()).EvaluateMatrix();
             return new(m.Rows, m.Reuse());
         }
     }
@@ -310,7 +310,7 @@
         }
         public override vectorT EvaluateVector()
         {
-            var m = new MatrixSub(A.ToMatrix(), B.ToMatrix()).EvaluateMatrix();
+            var m = (A.ToMatrix() - B.ToMatrix()).EvaluateMatrix();
             return new(m.Rows, m.Reuse());
         }
     }
