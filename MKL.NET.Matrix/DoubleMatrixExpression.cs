@@ -275,36 +275,46 @@
 
     public class MatrixMultiply : MatrixExpression
     {
-        readonly MatrixExpression Ea, Be;
+        readonly MatrixExpression Ea, Eb;
         public MatrixMultiply(MatrixExpression a, MatrixExpression b)
         {
             Ea = a;
-            Be = b;
+            Eb = b;
         }
         public override matrix EvaluateMatrix()
         {
-            // Fix this up, transpose, scale, r with correct rows, cols
-            var a = Ea.EvaluateMatrix();
-            var b = Be.EvaluateMatrix();
-            if (a.Cols != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            if (Ea is not MatrixInput && a.Array.Length >= a.Rows * b.Cols)
+            var (ea, ta, sa) = Ea is MatrixTranspose mta ? (mta.E, Trans.Yes, mta.S)
+                             : Ea is MatrixScale msa ? (msa.E, Trans.No, msa.S)
+                             : (Ea, Trans.No, 1.0);
+            var (eb, tb, sb) = Eb is MatrixTranspose mtb ? (mtb.E, Trans.Yes, mtb.S)
+                             : Eb is MatrixScale msb ? (msb.E, Trans.No, msb.S)
+                             : (Eb, Trans.No, 1.0);
+            var a = ea.EvaluateMatrix();
+            var b = eb.EvaluateMatrix();
+            var k = ta == Trans.Yes ? a.Rows : a.Cols;
+            if (k != (tb == Trans.Yes ? b.Cols : b.Rows)) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var rrows = ta == Trans.Yes ? a.Cols : a.Rows;
+            var rcols = tb == Trans.Yes ? b.Rows : b.Cols;
+            if (ea is not MatrixInput && a.Array.Length >= rrows * rcols)
             {
-                Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, a.Array, a.Rows);
-                if (Be is not MatrixInput) b.Dispose();
-                return a;
+                var r = new matrix(rrows, rcols, a.Reuse());
+                Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
+                if (eb is not MatrixInput) b.Dispose();
+                return r;
             }
-            else if (Be is not MatrixInput && b.Array.Length >= a.Rows * b.Cols)
+            else if (eb is not MatrixInput && b.Array.Length >= rrows * rcols)
             {
-                Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, b.Array, a.Rows);
+                var r = new matrix(rrows, rcols, b.Reuse());
+                Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
                 if (Ea is not MatrixInput) a.Dispose();
-                return b;
+                return r;
             }
             else
             {
-                var r = new matrix(a.Rows, b.Cols);
-                Blas.gemm(Layout.ColMajor, Trans.No, Trans.No, a.Rows, b.Cols, a.Cols, 1.0, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, a.Rows);
-                if (Ea is not MatrixInput) a.Dispose();
-                if (Be is not MatrixInput) b.Dispose();
+                var r = new matrix(rrows, rrows);
+                Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
+                if (ea is not MatrixInput) a.Dispose();
+                if (eb is not MatrixInput) b.Dispose();
                 return r;
             }
         }

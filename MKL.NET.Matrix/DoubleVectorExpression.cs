@@ -10,7 +10,7 @@ namespace MKLNET.Expression
         {
             var v = EvaluateVector();
             var m = new matrix(v.Length, 1, v.Array);
-            GC.SuppressFinalize(m); // v owns to array, m will never be disposed
+            GC.SuppressFinalize(m); // v owns the array, m will never be disposed
             return new MatrixInput(m);
         }
         public MatrixExpression ToMatrix() =>
@@ -53,7 +53,7 @@ namespace MKLNET.Expression
         {
             var v = EvaluateVector();
             var m = new matrix(1, v.Length, v.Array);
-            GC.SuppressFinalize(m); // v owns to array, m will never be disposed
+            GC.SuppressFinalize(m); // v owns the array, m will never be disposed
             return new MatrixInput(m);
         }
         public MatrixExpression ToMatrix() =>
