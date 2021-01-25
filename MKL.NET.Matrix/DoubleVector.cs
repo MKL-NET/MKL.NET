@@ -218,8 +218,8 @@ namespace MKLNET
         public static VectorTExpression MaxMag(VectorTExpression a, VectorExpression b) => new MatrixToVectorT(new MatrixMaxMag(a.ToMatrix(), b.ToMatrix()));
         public static VectorExpression NextAfter(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixNextAfter(a.ToMatrix(), b.ToMatrix()));
         public static VectorTExpression NextAfter(VectorTExpression a, VectorTExpression b) => new MatrixToVectorT(new MatrixNextAfter(a.ToMatrix(), b.ToMatrix()));
-        public static VectorExpression Dot(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixDot(a.ToMatrix(), b.ToMatrix()));
-        public static VectorTExpression Dot(VectorTExpression a, VectorTExpression b) => new MatrixToVectorT(new MatrixDot(a.ToMatrix(), b.ToMatrix()));
+        public static VectorExpression Mul(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixMul(a.ToMatrix(), b.ToMatrix()));
+        public static VectorTExpression Mul(VectorTExpression a, VectorTExpression b) => new MatrixToVectorT(new MatrixMul(a.ToMatrix(), b.ToMatrix()));
         public static VectorExpression Fmod(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixFmod(a.ToMatrix(), b.ToMatrix()));
         public static VectorTExpression Fmod(VectorTExpression a, VectorTExpression b) => new MatrixToVectorT(new MatrixFmod(a.ToMatrix(), b.ToMatrix()));
         public static VectorExpression Atan2(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixAtan2(a.ToMatrix(), b.ToMatrix()));

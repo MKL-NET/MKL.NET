@@ -34,9 +34,12 @@ namespace MKLNET.Expression
             : new VectorScale(a, s);
         public static double operator *(VectorTExpression vt, VectorExpression v)
         {
-            matrix m = new MatrixMultiply(vt.ToMatrix(), v.ToMatrix());
-            var r = m[0, 0];
-            m.Dispose();
+            var a = vt.EvaluateVector();
+            var b = v.EvaluateVector();
+            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
+            if (vt is not VectorTInput) a.Dispose();
+            if (v is not VectorInput) b.Dispose();
             return r;
         }
         public static MatrixExpression operator *(VectorExpression v, VectorTExpression vt) => new MatrixMultiply(v.ToMatrix(), vt.ToMatrix());

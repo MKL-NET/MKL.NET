@@ -122,7 +122,7 @@ namespace MKLNET
         public static MatrixExpression Fdim(MatrixExpression a, MatrixExpression b) => new MatrixFdim(a, b);
         public static MatrixExpression MaxMag(MatrixExpression a, MatrixExpression b) => new MatrixMaxMag(a, b);
         public static MatrixExpression NextAfter(MatrixExpression a, MatrixExpression b) => new MatrixNextAfter(a, b);
-        public static MatrixExpression Dot(MatrixExpression a, MatrixExpression b) => new MatrixDot(a, b);
+        public static MatrixExpression Mul(MatrixExpression a, MatrixExpression b) => new MatrixMul(a, b);
         public static MatrixExpression Fmod(MatrixExpression a, MatrixExpression b) => new MatrixFmod(a, b);
         public static MatrixExpression Atan2(MatrixExpression a, MatrixExpression b) => new MatrixAtan2(a, b);
         public static MatrixExpression Atan2pi(MatrixExpression a, MatrixExpression b) => new MatrixAtan2pi(a, b);

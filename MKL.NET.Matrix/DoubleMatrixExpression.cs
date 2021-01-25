@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace MKLNET.Expression
+﻿namespace MKLNET.Expression
 {
     public abstract class MatrixExpression
     {
@@ -746,9 +744,9 @@ namespace MKLNET.Expression
             => Vml.NextAfter(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
     }
 
-    public class MatrixDot : MatrixBinary
+    public class MatrixMul : MatrixBinary
     {
-        public MatrixDot(MatrixExpression a, MatrixExpression b) : base(a, b) { }
+        public MatrixMul(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
             => Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
     }
