@@ -33,10 +33,10 @@ namespace MKLNET
         }
         ~matrix() => Pool.Return(Array);
         public MatrixExpression T => new MatrixTranspose(this, 1.0);
-        public static MatrixExpression operator +(matrix m, double s) => new MatrixAddScalar(m, s);
-        public static MatrixExpression operator +(double s, matrix m) => new MatrixAddScalar(m, s);
-        public static MatrixExpression operator -(matrix m, double s) => new MatrixAddScalar(m, -s);
-        public static MatrixExpression operator -(double s, matrix m) => new MatrixScalarSub(s, m);
+        public static MatrixExpression operator +(matrix a, double s) => new MatrixAddScalar(a, s);
+        public static MatrixExpression operator +(double s, matrix a) => new MatrixAddScalar(a, s);
+        public static MatrixExpression operator -(matrix a, double s) => new MatrixAddScalar(a, -s);
+        public static MatrixExpression operator -(double s, matrix a) => s - (MatrixExpression)a;
         public static MatrixExpression operator +(matrix a, matrix b) => new MatrixAddSimple(a, b);
         public static MatrixExpression operator +(matrix a, MatrixExpression b) => (MatrixExpression)a + b;
         public static MatrixExpression operator +(MatrixExpression a, matrix b) => a + (MatrixExpression)b;
@@ -144,7 +144,7 @@ namespace MKLNET
         {
             var i = a.EvaluateMatrix();
             var r = Blas.asum(i.Length, i.Array, 0, 1);
-            if (a is not Input) i.Dispose();
+            if (a is not MatrixInput) i.Dispose();
             return r;
         }
 
@@ -152,7 +152,7 @@ namespace MKLNET
         {
             var i = a.EvaluateMatrix();
             var r = Blas.nrm2(i.Length, i.Array, 0, 1);
-            if (a is not Input) i.Dispose();
+            if (a is not MatrixInput) i.Dispose();
             return r;
         }
 
@@ -160,7 +160,7 @@ namespace MKLNET
         {
             var i = a.EvaluateMatrix();
             int r = Blas.iamax(i.Length, i.Array, 0, 1);
-            if (a is not Input) i.Dispose();
+            if (a is not MatrixInput) i.Dispose();
             int col = Math.DivRem(r, i.Rows, out int row);
             return (row, col);
         }
@@ -169,7 +169,7 @@ namespace MKLNET
         {
             var i = a.EvaluateMatrix();
             int r = Blas.iamin(i.Length, i.Array, 0, 1);
-            if (a is not Input) i.Dispose();
+            if (a is not MatrixInput) i.Dispose();
             int col = Math.DivRem(r, i.Rows, out int row);
             return (row, col);
         }
@@ -177,7 +177,7 @@ namespace MKLNET
         public static (matrix, matrix) SinCos(MatrixExpression a)
         {
             var i = a.EvaluateMatrix();
-            var sin = a is Input ? new matrix(i.Rows, i.Cols) : i;
+            var sin = a is MatrixInput ? new matrix(i.Rows, i.Cols) : i;
             var cos = new matrix(i.Rows, i.Cols);
             Vml.SinCos(i.Length, i.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
@@ -186,7 +186,7 @@ namespace MKLNET
         public static (matrix, matrix) Modf(MatrixExpression a)
         {
             var i = a.EvaluateMatrix();
-            var tru = a is Input ? new matrix(i.Rows, i.Cols) : i;
+            var tru = a is MatrixInput ? new matrix(i.Rows, i.Cols) : i;
             var rem = new matrix(i.Rows, i.Cols);
             Vml.Modf(i.Length, i.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
             return (tru, rem);
@@ -203,7 +203,7 @@ namespace MKLNET
         {
             var i = a.EvaluateMatrix();
             if (i.Rows != i.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var v = a is Input ? new matrix(i.Rows, i.Cols) : i;
+            var v = a is MatrixInput ? new matrix(i.Rows, i.Cols) : i;
             var w = new vector(i.Rows);
             ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, v.Rows, v.Array, v.Rows, w.Array));
             return (v, w);

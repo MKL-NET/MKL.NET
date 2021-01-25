@@ -33,7 +33,7 @@ namespace MKLNET
         public static VectorExpression operator +(vector a, double s) => new VectorAddScalar(a, s);
         public static VectorExpression operator +(double s, vector a) => new VectorAddScalar(a, s);
         public static VectorExpression operator -(vector a, double s) => new VectorAddScalar(a, -s);
-        public static VectorExpression operator -(double s, vector a) => new VectorScalarSub(a, s);
+        public static VectorExpression operator -(double s, vector a) => s - (VectorExpression)a;
         public static VectorExpression operator +(vector a, vector b) => new VectorAdd(a, b);
         public static VectorExpression operator +(vector a, VectorExpression b) => new VectorAdd(a, b);
         public static VectorExpression operator +(VectorExpression a, vector b) => new VectorAdd(a, b);
@@ -74,10 +74,10 @@ namespace MKLNET
             set => Array[i] = value;
         }
         public VectorExpression T => new VectorTTranspose(this);
-        public static VectorTExpression operator +(vectorT m, double s) => new VectorTAddScalar(m, s);
-        public static VectorTExpression operator +(double s, vectorT m) => new VectorTAddScalar(m, s);
-        public static VectorTExpression operator -(vectorT m, double s) => new VectorTAddScalar(m, -s);
-        public static VectorTExpression operator -(double s, vectorT m) => new VectorTScalarSub(s, m);
+        public static VectorTExpression operator +(vectorT a, double s) => new VectorTAddScalar(a, s);
+        public static VectorTExpression operator +(double s, vectorT a) => new VectorTAddScalar(a, s);
+        public static VectorTExpression operator -(vectorT a, double s) => new VectorTAddScalar(a, -s);
+        public static VectorTExpression operator -(double s, vectorT a) => s - (VectorTExpression)a;
         public static VectorTExpression operator +(vectorT a, vectorT b) => new VectorTAdd(a, b);
         public static VectorTExpression operator +(vectorT a, VectorTExpression b) => new VectorTAdd(a, b);
         public static VectorTExpression operator +(VectorTExpression a, vectorT b) => new VectorTAdd(a, b);
@@ -246,42 +246,62 @@ namespace MKLNET
         public static double Nrm2(VectorTExpression a) => Matrix.Nrm2(a.ToMatrix());
         public static int Iamax(VectorExpression a)
         {
-            var i = a.EvaluateVector();
-            int r = Blas.iamax(i.Length, i.Array, 0, 1);
-            if (a is not Input) i.Dispose();
+            var v = a.EvaluateVector();
+            int r = Blas.iamax(v.Length, v.Array, 0, 1);
+            if (a is not VectorInput) v.Dispose();
             return r;
         }
-        public static int Iamax(VectorTExpression a) => Iamax(a);
+        public static int Iamax(VectorTExpression a)
+        {
+            var v = a.EvaluateVector();
+            int r = Blas.iamax(v.Length, v.Array, 0, 1);
+            if (a is not VectorTInput) v.Dispose();
+            return r;
+        }
         public static int Iamin(VectorExpression a)
         {
-            var i = a.EvaluateVector();
-            int r = Blas.iamin(i.Length, i.Array, 0, 1);
-            if (a is not Input) i.Dispose();
+            var vt = a.EvaluateVector();
+            int r = Blas.iamin(vt.Length, vt.Array, 0, 1);
+            if (a is not VectorInput) vt.Dispose();
             return r;
         }
-        public static int Iamin(VectorTExpression a) => Iamin(a);
+        public static int Iamin(VectorTExpression a)
+        {
+            var vt = a.EvaluateVector();
+            int r = Blas.iamin(vt.Length, vt.Array, 0, 1);
+            if (a is not VectorTInput) vt.Dispose();
+            return r;
+        }
         public static (vector, vector) SinCos(VectorExpression a)
         {
-            var i = a.EvaluateVector();
-            var sin = a is Input ? new vector(i.Length) : i;
-            var cos = new vector(i.Length);
-            Vml.SinCos(i.Length, i.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            var v = a.EvaluateVector();
+            var sin = a is VectorInput ? new vector(v.Length) : v;
+            var cos = new vector(v.Length);
+            Vml.SinCos(v.Length, v.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
         }
         public static (vectorT, vectorT) SinCos(VectorTExpression a)
         {
-            var i = a.EvaluateVector();
-            var sin = a is Input ? new vectorT(i.Length) : i;
-            var cos = new vectorT(i.Length);
-            Vml.SinCos(i.Length, i.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            var vt = a.EvaluateVector();
+            var sin = a is VectorTInput ? new vectorT(vt.Length) : vt;
+            var cos = new vectorT(vt.Length);
+            Vml.SinCos(vt.Length, vt.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
+        }
+        public static (vector, vector) Modf(VectorExpression a)
+        {
+            var v = a.EvaluateVector();
+            var tru = a is VectorInput ? new vector(v.Length) : v;
+            var rem = new vector(v.Length);
+            Vml.Modf(v.Length, v.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            return (tru, rem);
         }
         public static (vectorT, vectorT) Modf(VectorTExpression a)
         {
-            var i = a.EvaluateVector();
-            var tru = a is Input ? new vectorT(i.Length) : i;
-            var rem = new vectorT(i.Length);
-            Vml.Modf(i.Length, i.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            var vt = a.EvaluateVector();
+            var tru = a is VectorTInput ? new vectorT(vt.Length) : vt;
+            var rem = new vectorT(vt.Length);
+            Vml.Modf(vt.Length, vt.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
             return (tru, rem);
         }
         public static matrix CopyToMatrix(vector v)
