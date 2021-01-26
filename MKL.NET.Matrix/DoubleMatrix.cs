@@ -63,6 +63,7 @@ namespace MKLNET
         }
         public static MatrixExpression Abs(MatrixExpression m) => new MatrixAbs(m);
         public static MatrixExpression Sqr(MatrixExpression m) => new MatrixSqr(m);
+        public static MatrixExpression Sqrt(MatrixExpression m) => new MatrixSqrt(m);
         public static MatrixExpression Inv(MatrixExpression m) => new MatrixInv(m);
         public static MatrixExpression InvSqrt(MatrixExpression m) => new MatrixInvSqrt(m);
         public static MatrixExpression Cbrt(MatrixExpression m) => new MatrixCbrt(m);

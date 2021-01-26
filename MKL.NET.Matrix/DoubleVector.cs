@@ -100,6 +100,8 @@ namespace MKLNET
         public static VectorTExpression Abs(VectorTExpression v) => new MatrixToVectorT(new MatrixAbs(v.ToMatrix()));
         public static VectorExpression Sqr(VectorExpression v) => new MatrixToVector(new MatrixSqr(v.ToMatrix()));
         public static VectorTExpression Sqr(VectorTExpression v) => new MatrixToVectorT(new MatrixSqr(v.ToMatrix()));
+        public static VectorExpression Sqrt(VectorExpression v) => new MatrixToVector(new MatrixSqrt(v.ToMatrix()));
+        public static VectorTExpression Sqrt(VectorTExpression v) => new MatrixToVectorT(new MatrixSqrt(v.ToMatrix()));
         public static VectorExpression Inv(VectorExpression v) => new MatrixToVector(new MatrixInv(v.ToMatrix()));
         public static VectorTExpression Inv(VectorTExpression v) => new MatrixToVectorT(new MatrixInv(v.ToMatrix()));
         public static VectorExpression InvSqrt(VectorExpression v) => new MatrixToVector(new MatrixInvSqrt(v.ToMatrix()));

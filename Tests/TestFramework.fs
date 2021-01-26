@@ -555,31 +555,29 @@ type private Worker(seed:PCG option,nextTest:unit->TestData option,tc:RunCounts,
         while test.IsSome do
             worker.Running <- test
             let t = test.Value
-            if t.Skip=0 then
-                let stateBefore = pcg.State
-                t.Method pcg (fun r ->
-                    match r with
-                    | None -> Interlocked.Increment &tc.Skipped |> ignore
-                    | Some r ->
-                        let seed = if pcg.State=stateBefore then None else Some(pcg,stateBefore)
-                        if TestResult.hasErrs r then
-                            if skip || Option.isNone seed then
+            let stateBefore = pcg.State
+            t.Method pcg (fun r ->
+                match r with
+                | None -> Interlocked.Increment &tc.Skipped |> ignore
+                | Some r ->
+                    let seed = if pcg.State=stateBefore then None else Some(pcg,stateBefore)
+                    if TestResult.hasErrs r then
+                        if skip || Option.isNone seed then
+                            if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
+                        t.Result <- Some(r,seed)
+                        Interlocked.Increment &tc.Failed |> ignore
+                        if stopOnError then tc.Threads.Reset 0
+                        if seed.IsSome && obj.ReferenceEquals(seed.Value,pcg) then
+                            pcg <- PCG.ThreadPCG
+                    else
+                        if skip && r |> List.exists (function |FasterAgg a -> a.Faster > a.Slower && a.Variance > 36.0 | _ -> false) then
+                            if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
+                        Interlocked.Increment &tc.Passed |> ignore
+                        if t.Result=None then
+                            if skip && Option.isNone seed && List.exists (function |FasterAgg _ -> true | _ -> false) r |> not then
                                 if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                            t.Result <- Some(r,seed)
-                            Interlocked.Increment &tc.Failed |> ignore
-                            if stopOnError then tc.Threads.Reset 0
-                            if seed.IsSome && obj.ReferenceEquals(seed.Value,pcg) then
-                                pcg <- PCG.ThreadPCG
-                        else
-                            if skip && r |> List.exists (function |FasterAgg a -> a.Faster > a.Slower && a.Variance > 36.0 | _ -> false) then
-                                if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                            Interlocked.Increment &tc.Passed |> ignore
-                            if t.Result=None then
-                                if skip && Option.isNone seed && List.exists (function |FasterAgg _ -> true | _ -> false) r |> not then
-                                    if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                                t.Result <- Some(r,None)
-                )
-            else Interlocked.Increment &tc.Skipped |> ignore
+                            t.Result <- Some(r,None)
+            )
             test <- nextTest()
         worker.Running <- None
         tc.Threads.Signal() |> ignore
@@ -757,7 +755,8 @@ module Tests =
                                             let n = Interlocked.Increment &testRunCount.[t]
                                             if n <= iters then Some tests.[t]
                                             else
-                                                if n=iters+1 && Interlocked.Increment &tests.[t].Skip = 1 then Interlocked.Decrement &counts.Tests |> ignore
+                                                if n=iters+1 && Interlocked.Increment &tests.[t].Skip = 1 then
+                                                    Interlocked.Decrement &counts.Tests |> ignore
                                                 nextTest()
                                      nextTest() ),
                                 counts, skip, stopOnError)

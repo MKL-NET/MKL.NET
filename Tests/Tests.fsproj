@@ -21,6 +21,7 @@
         <Compile Include="BlasTests.fs" />
         <Compile Include="LapackTests.fs" />
         <Compile Include="MKLTests.fs" />
+        <Compile Include="MatrixTests.fs" />
         <Compile Include="SolveTests.fs" />
         <Compile Include="PerfTests.fs" />
         <Compile Include="Main.fs" />

@@ -1,5 +1,20 @@
-﻿namespace MKLNET
+﻿using System;
+using System.Collections.Generic;
+
+namespace MKLNET
 {
+    public static class Dbg
+    {
+        static readonly List<string> Msgs = new();
+        public static void Add(string s)
+        {
+            Msgs.Add(s);
+        }
+        public static IEnumerable<string> Out()
+        {
+            return Msgs;
+        }
+    }
     public static class Example
     {
         public static void E1(matrix Ma, matrix Mb, vector Va, vector Vb)

@@ -197,7 +197,7 @@
             var r = Ea is not MatrixInput ? a
                   : Eb is not MatrixInput ? b
                   : new matrix(a.Rows, a.Cols);
-            Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, Sa, 0.0, Sb, 0.0, r.Array, 0, 1);
+            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, r.Rows, r.Cols, Sa, a.Array, a.Rows, Sb, b.Array, b.Rows, r.Array, r.Rows);
             if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
             return r;
         }
@@ -221,11 +221,11 @@
         {
             var a = Ea.EvaluateMatrix();
             var b = Eb.EvaluateMatrix();
-            if ((Transa == Transb && (a.Rows != b.Rows || a.Cols != b.Cols))
-               || (a.Rows != b.Cols || a.Cols != b.Rows)) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            if (  (Transa == Transb && (a.Rows != b.Rows || a.Cols != b.Cols))
+               || (Transa != Transb && (a.Rows != b.Cols || a.Cols != b.Rows))) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = Ea is not MatrixInput ? (Transa == TransChar.Yes ? new matrix(a.Cols, a.Rows, a.Reuse()) : a)
                   : Eb is not MatrixInput ? (Transb == TransChar.Yes ? new matrix(b.Cols, b.Rows, b.Reuse()) : b)
-                  : new matrix(a.Rows, a.Cols);
+                  : Transa == TransChar.Yes ? new matrix(a.Cols, a.Rows) : new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, Transa, Transb, r.Rows, r.Cols, Sa, a.Array, a.Rows, Sb, b.Array, b.Rows, r.Array, r.Rows);
             if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
             return r;
@@ -311,7 +311,7 @@
             }
             else
             {
-                var r = new matrix(rrows, rrows);
+                var r = new matrix(rrows, rcols);
                 Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
                 if (ea is not MatrixInput) a.Dispose();
                 if (eb is not MatrixInput) b.Dispose();
