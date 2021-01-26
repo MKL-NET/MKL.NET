@@ -5,7 +5,7 @@ namespace MKLNET.Expression
     public abstract class VectorExpression
     {
         public abstract vector EvaluateVector();
-        public VectorTExpression T => new VectorTranspose(this);
+        public VectorTExpression T => this is VectorTTranspose t ? t.E : new VectorTranspose(this);
         MatrixExpression InputToMatrix()
         {
             var v = EvaluateVector();
@@ -49,7 +49,7 @@ namespace MKLNET.Expression
     public abstract class VectorTExpression
     {
         public abstract vectorT EvaluateVector();
-        public VectorExpression T => new VectorTTranspose(this);
+        public VectorExpression T => this is VectorTranspose t ? t.E : new VectorTTranspose(this);
         MatrixExpression InputToMatrix()
         {
             var v = EvaluateVector();

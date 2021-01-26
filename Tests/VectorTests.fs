@@ -448,9 +448,8 @@ let testUnary name
         use expected = map A
         use actual = A |> impVE |> factual |> impV
         Check.close High expected actual
-        let expectedT = expected.T
-        let actualT = factualT A.T
-        Check.close High (impV expectedT.T) (impV actualT.T)
+        use actual = (factualT A.T).T |> impV
+        Check.close High expected actual
     }
 
 let functions = test "functions" {
