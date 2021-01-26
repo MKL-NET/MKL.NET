@@ -107,8 +107,8 @@ let mul_mTv (s:double) (A:matrix) (b:vector) =
         c.[r] <- s * t
     c
 
-let imp (m:MatrixExpression) = MatrixExpression.op_Implicit m
-let impM (m:matrix) = MatrixExpression.op_Implicit m
+let impM (m:MatrixExpression) = MatrixExpression.op_Implicit m
+let impME (m:matrix) = MatrixExpression.op_Implicit m
 
 let implicit = test "implicit" {
 
@@ -121,7 +121,7 @@ let implicit = test "implicit" {
                 for c = 0 to m-1 do
                     T.[r,c] <- A.[c,r]
             T
-        use actual = imp A.T
+        use actual = impM A.T
         Check.close High expected actual
     }
 
@@ -135,7 +135,7 @@ let implicit = test "implicit" {
                 for c = 0 to n-1 do
                     AT.[r,c] <- s * A.[r,c]
             AT
-        use actual = imp (s * A)
+        use actual = impM (s * A)
         Check.close High expected actual
     }
 
@@ -149,7 +149,7 @@ let implicit = test "implicit" {
                 for c = 0 to m-1 do
                     T.[r,c] <- s * A.[c,r]
             T
-        use actual = imp (s * A.T)
+        use actual = impM (s * A.T)
         Check.close High expected actual
     }
 }
@@ -161,7 +161,7 @@ let add = test "add" {
         use! A = genMatrix m n
         use! B = genMatrix m n
         use expected = add_mm 1.0 A 1.0 B
-        use actual = A + B |> imp
+        use actual = A + B |> impM
         Check.close High expected actual
     }
 
@@ -170,7 +170,7 @@ let add = test "add" {
         use! A = genMatrix m n
         use! B = genMatrix n m
         use expected = add_mmT 1.0 A 1.0 B
-        use actual = A + B.T |> imp
+        use actual = A + B.T |> impM
         Check.close High expected actual
     }
 
@@ -180,7 +180,7 @@ let add = test "add" {
         use! B = genMatrix m n
         let s = 1.0
         use expected = add_mm 1.0 A s B
-        use actual = A + s * B |> imp
+        use actual = A + s * B |> impM
         Check.close High expected actual
     }
 
@@ -190,7 +190,7 @@ let add = test "add" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mmT 1.0 A s B
-        use actual = A + (s * B.T) |> imp
+        use actual = A + (s * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -199,7 +199,7 @@ let add = test "add" {
         use! A = genMatrix n m
         use! B = genMatrix m n
         use expected = add_mTm 1.0 A 1.0 B
-        use actual = A.T + B |> imp
+        use actual = A.T + B |> impM
         Check.close High expected actual
     }
 
@@ -208,7 +208,7 @@ let add = test "add" {
         use! A = genMatrix n m
         use! B = genMatrix n m
         use expected = add_mTmT 1.0 A 1.0 B
-        use actual = A.T + B.T |> imp
+        use actual = A.T + B.T |> impM
         Check.close High expected actual
     }
 
@@ -218,7 +218,7 @@ let add = test "add" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mTm 1.0 A s B
-        use actual = A.T + (s * B) |> imp
+        use actual = A.T + (s * B) |> impM
         Check.close High expected actual
     }
 
@@ -228,7 +228,7 @@ let add = test "add" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mTmT 1.0 A s B
-        use actual = A.T + (s * B.T) |> imp
+        use actual = A.T + (s * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -238,7 +238,7 @@ let add = test "add" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mm s A 1.0 B
-        use actual = (s * A) + B |> imp
+        use actual = (s * A) + B |> impM
         Check.close High expected actual
     }
 
@@ -248,7 +248,7 @@ let add = test "add" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mmT s A 1.0 B
-        use actual = (s * A) + B.T |> imp
+        use actual = (s * A) + B.T |> impM
         Check.close High expected actual
     }
 
@@ -259,7 +259,7 @@ let add = test "add" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mm s1 A s2 B
-        use actual = (s1 * A) + (s2 * B) |> imp
+        use actual = (s1 * A) + (s2 * B) |> impM
         Check.close High expected actual
     }
 
@@ -270,7 +270,7 @@ let add = test "add" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mmT s1 A s2 B
-        use actual = (s1 * A) + (s2 * B.T) |> imp
+        use actual = (s1 * A) + (s2 * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -280,7 +280,7 @@ let add = test "add" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mTm s A 1.0 B
-        use actual = (s * A.T) + B |> imp
+        use actual = (s * A.T) + B |> impM
         Check.close High expected actual
     }
 
@@ -290,7 +290,7 @@ let add = test "add" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mTmT s A 1.0 B
-        use actual = (s * A.T) + B.T |> imp
+        use actual = (s * A.T) + B.T |> impM
         Check.close High expected actual
     }
 
@@ -301,7 +301,7 @@ let add = test "add" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mTm s1 A s2 B
-        use actual = (s1 * A.T) + (s2 * B) |> imp
+        use actual = (s1 * A.T) + (s2 * B) |> impM
         Check.close High expected actual
     }
 
@@ -312,7 +312,7 @@ let add = test "add" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mTmT s1 A s2 B
-        use actual = (s1 * A.T) + (s2 * B.T) |> imp
+        use actual = (s1 * A.T) + (s2 * B.T) |> impM
         Check.close High expected actual
     }
 }
@@ -324,7 +324,7 @@ let sub = test "sub" {
         use! A = genMatrix m n
         use! B = genMatrix m n
         use expected = add_mm 1.0 A -1.0 B
-        use actual = A - B |> imp
+        use actual = A - B |> impM
         Check.close High expected actual
     }
 
@@ -333,7 +333,7 @@ let sub = test "sub" {
         use! A = genMatrix m n
         use! B = genMatrix n m
         use expected = add_mmT 1.0 A -1.0 B
-        use actual = A - B.T |> imp
+        use actual = A - B.T |> impM
         Check.close High expected actual
     }
 
@@ -343,7 +343,7 @@ let sub = test "sub" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mm 1.0 A -s B
-        use actual = A - s * B |> imp
+        use actual = A - s * B |> impM
         Check.close High expected actual
     }
 
@@ -353,7 +353,7 @@ let sub = test "sub" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mmT 1.0 A -s B
-        use actual = A - (s * B.T) |> imp
+        use actual = A - (s * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -362,7 +362,7 @@ let sub = test "sub" {
         use! A = genMatrix n m
         use! B = genMatrix m n
         use expected = add_mTm 1.0 A -1.0 B
-        use actual = A.T - B |> imp
+        use actual = A.T - B |> impM
         Check.close High expected actual
     }
 
@@ -371,7 +371,7 @@ let sub = test "sub" {
         use! A = genMatrix n m
         use! B = genMatrix n m
         use expected = add_mTmT 1.0 A -1.0 B
-        use actual = A.T - B.T |> imp
+        use actual = A.T - B.T |> impM
         Check.close High expected actual
     }
 
@@ -381,7 +381,7 @@ let sub = test "sub" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mTm 1.0 A -s B
-        use actual = A.T - (s * B) |> imp
+        use actual = A.T - (s * B) |> impM
         Check.close High expected actual
     }
 
@@ -391,7 +391,7 @@ let sub = test "sub" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mTmT 1.0 A -s B
-        use actual = A.T - (s * B.T) |> imp
+        use actual = A.T - (s * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -401,7 +401,7 @@ let sub = test "sub" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mm s A -1.0 B
-        use actual = (s * A) - B |> imp
+        use actual = (s * A) - B |> impM
         Check.close High expected actual
     }
 
@@ -411,7 +411,7 @@ let sub = test "sub" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mmT s A -1.0 B
-        use actual = (s * A) - B.T |> imp
+        use actual = (s * A) - B.T |> impM
         Check.close High expected actual
     }
 
@@ -422,7 +422,7 @@ let sub = test "sub" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mm s1 A -s2 B
-        use actual = (s1 * A) - (s2 * B) |> imp
+        use actual = (s1 * A) - (s2 * B) |> impM
         Check.close High expected actual
     }
 
@@ -433,7 +433,7 @@ let sub = test "sub" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mmT s1 A -s2 B
-        use actual = (s1 * A) - (s2 * B.T) |> imp
+        use actual = (s1 * A) - (s2 * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -443,7 +443,7 @@ let sub = test "sub" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mTm s A -1.0 B
-        use actual = (s * A.T) - B |> imp
+        use actual = (s * A.T) - B |> impM
         Check.close High expected actual
     }
 
@@ -453,7 +453,7 @@ let sub = test "sub" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mTmT s A -1.0 B
-        use actual = (s * A.T) - B.T |> imp
+        use actual = (s * A.T) - B.T |> impM
         Check.close High expected actual
     }
 
@@ -464,7 +464,7 @@ let sub = test "sub" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mTm s1 A -s2 B
-        use actual = (s1 * A.T) - (s2 * B) |> imp
+        use actual = (s1 * A.T) - (s2 * B) |> impM
         Check.close High expected actual
     }
 
@@ -475,7 +475,7 @@ let sub = test "sub" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mTmT s1 A -s2 B
-        use actual = (s1 * A.T) - (s2 * B.T) |> imp
+        use actual = (s1 * A.T) - (s2 * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -489,7 +489,7 @@ let sub = test "sub" {
                 for c=0 to m-1 do
                     R.[r,c] <- A.[r,c] + a
             R
-        use actual = A + a |> imp
+        use actual = A + a |> impM
         Check.close High expected actual
     }
 
@@ -503,7 +503,7 @@ let sub = test "sub" {
                 for c=0 to m-1 do
                     R.[c,r] <- A.[r,c] + a
             R
-        use actual = A.T + a |> imp
+        use actual = A.T + a |> impM
         Check.close High expected actual
     }
 
@@ -518,7 +518,7 @@ let sub = test "sub" {
                 for c=0 to m-1 do
                     R.[r,c] <- s * A.[r,c] + a
             R
-        use actual = (s * A) + a |> imp
+        use actual = (s * A) + a |> impM
         Check.close High expected actual
     }
 
@@ -533,7 +533,7 @@ let sub = test "sub" {
                 for c=0 to m-1 do
                     R.[c,r] <- s * A.[r,c] + a
             R
-        use actual = (s * A.T) + a |> imp
+        use actual = (s * A.T) + a |> impM
         Check.close High expected actual
     }
 }
@@ -545,7 +545,7 @@ let mul = test "mul" {
         use! A = genMatrix m k
         use! B = genMatrix k n
         use expected = mul_mm 1.0 A B
-        use actual = A * B |> imp
+        use actual = A * B |> impM
         Check.close High expected actual
     }
 
@@ -554,7 +554,7 @@ let mul = test "mul" {
         use! A = genMatrix m k
         use! B = genMatrix n k
         use expected = mul_mmT 1.0 A B
-        use actual = A * B.T |> imp
+        use actual = A * B.T |> impM
         Check.close High expected actual
     }
 
@@ -564,7 +564,7 @@ let mul = test "mul" {
         use! B = genMatrix k n
         let! s = Gen.Double.OneTwo
         use expected = mul_mm s A B
-        use actual = A * (s * B) |> imp
+        use actual = A * (s * B) |> impM
         Check.close High expected actual
     }
 
@@ -574,7 +574,7 @@ let mul = test "mul" {
         use! B = genMatrix n k
         let! s = Gen.Double.OneTwo
         use expected = mul_mmT s A B
-        use actual = A * (s * B.T) |> imp
+        use actual = A * (s * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -583,7 +583,7 @@ let mul = test "mul" {
         use! A = genMatrix k m
         use! B = genMatrix k n
         use expected = mul_mTm 1.0 A B
-        use actual = A.T * B |> imp
+        use actual = A.T * B |> impM
         Check.close High expected actual
     }
 
@@ -592,7 +592,7 @@ let mul = test "mul" {
         use! A = genMatrix k m
         use! B = genMatrix n k
         use expected = mul_mTmT 1.0 A B
-        use actual = A.T * B.T |> imp
+        use actual = A.T * B.T |> impM
         Check.close High expected actual
     }
 
@@ -602,7 +602,7 @@ let mul = test "mul" {
         use! B = genMatrix k n
         let! s = Gen.Double.OneTwo
         use expected = mul_mTm s A B
-        use actual = A.T * (s * B) |> imp
+        use actual = A.T * (s * B) |> impM
         Check.close High expected actual
     }
 
@@ -612,7 +612,7 @@ let mul = test "mul" {
         use! B = genMatrix n k
         let! s = Gen.Double.OneTwo
         use expected = mul_mTmT s A B
-        use actual = A.T * (s * B.T) |> imp
+        use actual = A.T * (s * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -622,7 +622,7 @@ let mul = test "mul" {
         use! B = genMatrix k n
         let! s = Gen.Double.OneTwo
         use expected = mul_mm s A B
-        use actual = (s * A) * B |> imp
+        use actual = (s * A) * B |> impM
         Check.close High expected actual
     }
 
@@ -632,7 +632,7 @@ let mul = test "mul" {
         use! B = genMatrix n k
         let! s = Gen.Double.OneTwo
         use expected = mul_mmT s A B
-        use actual = (s * A) * B.T |> imp
+        use actual = (s * A) * B.T |> impM
         Check.close High expected actual
     }
 
@@ -643,7 +643,7 @@ let mul = test "mul" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mm (s1*s2) A B
-        use actual = (s1 * A) * (s2 * B) |> imp
+        use actual = (s1 * A) * (s2 * B) |> impM
         Check.close High expected actual
     }
 
@@ -654,7 +654,7 @@ let mul = test "mul" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mmT (s1*s2) A B
-        use actual = (s1 * A) * (s2 * B.T) |> imp
+        use actual = (s1 * A) * (s2 * B.T) |> impM
         Check.close High expected actual
     }
 
@@ -664,7 +664,7 @@ let mul = test "mul" {
         use! B = genMatrix k n
         let! s = Gen.Double.OneTwo
         use expected = mul_mTm s A B
-        use actual = (s * A.T) * B |> imp
+        use actual = (s * A.T) * B |> impM
         Check.close High expected actual
     }
 
@@ -674,7 +674,7 @@ let mul = test "mul" {
         use! B = genMatrix n k
         let! s = Gen.Double.OneTwo
         use expected = mul_mTmT s A B
-        use actual = (s * A.T) * B.T |> imp
+        use actual = (s * A.T) * B.T |> impM
         Check.close High expected actual
     }
 
@@ -685,7 +685,7 @@ let mul = test "mul" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mTm (s1*s2) A B
-        use actual = (s1 * A.T) * (s2 * B) |> imp
+        use actual = (s1 * A.T) * (s2 * B) |> impM
         Check.close High expected actual
     }
 
@@ -696,89 +696,89 @@ let mul = test "mul" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mTmT (s1*s2) A B
-        use actual = (s1 * A.T) * (s2 * B.T) |> imp
+        use actual = (s1 * A.T) * (s2 * B.T) |> impM
         Check.close High expected actual
     }
 
-    //test "mv" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix m n
-    //    use! b = VectorTests.genVector n
-    //    use expected = mul_mv 1.0 A b
-    //    use actual = A * b
-    //    Check.close High expected actual
-    //}
+    test "mv" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        use expected = mul_mv 1.0 A b
+        use actual = A * b |> VectorTests.impV
+        Check.close High expected actual
+    }
 
-    //test "mvS" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix m n
-    //    use! b = VectorTests.genVector n
-    //    let! s = Gen.Double.OneTwo
-    //    use expected = mul_mv s A b
-    //    use actual = A * (s * b)
-    //    Check.close High expected actual
-    //}
+    test "mvS" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mv s A b
+        use actual = A * (s * b) |> VectorTests.impV
+        Check.close High expected actual
+    }
 
-    //test "mTv" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix n m
-    //    use! b = VectorTests.genVector n
-    //    use expected = mul_mTv 1.0 A b
-    //    use actual = A.T * b
-    //    Check.close High expected actual
-    //}
+    test "mTv" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        use expected = mul_mTv 1.0 A b
+        use actual = A.T * b |> VectorTests.impV
+        Check.close High expected actual
+    }
 
-    //test "mTvS" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix n m
-    //    use! b = VectorTests.genVector n
-    //    let! s = Gen.Double.OneTwo
-    //    use expected = mul_mTv s A b
-    //    use actual = A.T * (s * b)
-    //    Check.close High expected actual
-    //}
+    test "mTvS" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mTv s A b
+        use actual = A.T * (s * b) |> VectorTests.impV
+        Check.close High expected actual
+    }
 
-    //test "mSv" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix m n
-    //    use! b = VectorTests.genVector n
-    //    let! s = Gen.Double.OneTwo
-    //    use expected = mul_mv s A b
-    //    use actual = (s * A) * b
-    //    Check.close High expected actual
-    //}
+    test "mSv" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mv s A b
+        use actual = (s * A) * b |> VectorTests.impV
+        Check.close High expected actual
+    }
 
-    //test "mSvS" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix m n
-    //    use! b = VectorTests.genVector n
-    //    let! s1 = Gen.Double.OneTwo
-    //    let! s2 = Gen.Double.OneTwo
-    //    use expected = mul_mv (s1*s2) A b
-    //    use actual = (s1 * A) * (s2 * b)
-    //    Check.close High expected actual
-    //}
+    test "mSvS" {
+        let! m,n = gen2D
+        use! A = genMatrix m n
+        use! b = VectorTests.genVector n
+        let! s1 = Gen.Double.OneTwo
+        let! s2 = Gen.Double.OneTwo
+        use expected = mul_mv (s1*s2) A b
+        use actual = (s1 * A) * (s2 * b) |> VectorTests.impV
+        Check.close High expected actual
+    }
 
-    //test "mTSv" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix n m
-    //    use! b = VectorTests.genVector n
-    //    let! s = Gen.Double.OneTwo
-    //    use expected = mul_mTv s A b
-    //    use actual = (s * A.T) * b
-    //    Check.close High expected actual
-    //}
+    test "mTSv" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        let! s = Gen.Double.OneTwo
+        use expected = mul_mTv s A b
+        use actual = (s * A.T) * b |> VectorTests.impV
+        Check.close High expected actual
+    }
 
-    //test "mTSvS" {
-    //    let! m,n = gen2D
-    //    use! A = genMatrix n m
-    //    use! b = VectorTests.genVector n
-    //    let! s1 = Gen.Double.OneTwo
-    //    let! s2 = Gen.Double.OneTwo
-    //    use expected = mul_mTv (s1*s2) A b
-    //    use actual = (s1 * A.T) * (s2 * b)
-    //    Check.close High expected actual
-    //}
+    test "mTSvS" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        use! b = VectorTests.genVector n
+        let! s1 = Gen.Double.OneTwo
+        let! s2 = Gen.Double.OneTwo
+        use expected = mul_mTv (s1*s2) A b
+        use actual = (s1 * A.T) * (s2 * b) |> VectorTests.impV
+        Check.close High expected actual
+    }
 }
 
 let testUnary name
@@ -793,9 +793,8 @@ let testUnary name
     test name {
         let! m,n = gen2D
         use! A = genMatrix m n
-        let! s = Gen.Double.Unit
         use expected = map A
-        use actual = A |> impM |> factual |> imp
+        use actual = A |> impME |> factual |> impM
         Check.close High expected actual
     }
 

@@ -71,8 +71,10 @@
               this is MatrixTranspose t ? (t.S == 1.0 ? t.E : new MatrixScale(t.E, t.S))
             : this is MatrixScale s ? new MatrixTranspose(s.E, s.S)
             : new MatrixTranspose(this, 1.0);
+        public static VectorExpression operator *(MatrixExpression m, vector v) => new MatrixVectorMultiply(m, v);
         public static VectorExpression operator *(MatrixExpression m, VectorExpression v) => new MatrixVectorMultiply(m, v);
         public static VectorTExpression operator *(VectorTExpression vt, MatrixExpression m) => new VectorTMatrixMultiply(vt, m);
+        public static VectorTExpression operator *(vectorT vt, MatrixExpression m) => new VectorTMatrixMultiply(vt, m);
     }
 
     public class MatrixInput : MatrixExpression
@@ -123,7 +125,7 @@
     {
         readonly MatrixExpression E;
         public MatrixUnary(MatrixExpression a) => E = a;
-        protected abstract void Evaluate(matrix a, matrix o);
+        protected abstract void Evaluate(matrix a, matrix r);
         public override matrix EvaluateMatrix()
         {
             var a = E.EvaluateMatrix();
@@ -141,7 +143,7 @@
             Ea = a;
             Eb = b;
         }
-        protected abstract void Evaluate(matrix a, matrix b, matrix o);
+        protected abstract void Evaluate(matrix a, matrix b, matrix r);
         public override matrix EvaluateMatrix()
         {
             var a = Ea.EvaluateMatrix();

@@ -15,7 +15,8 @@ namespace MKLNET.Expression
         }
         public MatrixExpression ToMatrix() =>
               this is VectorInput ? InputToMatrix()
-            : this is VectorScale s ? (s.E is VectorInput ? s.E.InputToMatrix() : new VectorToMatrix(s.E)) * s.S
+            : this is VectorTTranspose vt ? vt.E.ToMatrix().T
+            : this is VectorScale s ? (s.E is VectorInput ? s.E.InputToMatrix() : s.E.ToMatrix()) * s.S
             : new VectorToMatrix(this);
         public static implicit operator VectorExpression(vector a) => new VectorInput(a);
         public static implicit operator vector(VectorExpression a) => a.EvaluateVector();
@@ -58,7 +59,8 @@ namespace MKLNET.Expression
         }
         public MatrixExpression ToMatrix() =>
               this is VectorTInput ? InputToMatrix()
-            : this is VectorTScale s ? (s.E is VectorTInput ? s.E.InputToMatrix() : new VectorTToMatrix(s.E)) * s.S
+            : this is VectorTranspose vt ? vt.E.ToMatrix().T
+            : this is VectorTScale s ? (s.E is VectorTInput ? s.E.InputToMatrix() : s.E.ToMatrix()) * s.S
             : new VectorTToMatrix(this);
         public static implicit operator VectorTExpression(vectorT a) => new VectorTInput(a);
         public static implicit operator vectorT(VectorTExpression a) => a.EvaluateVector();
@@ -139,7 +141,7 @@ namespace MKLNET.Expression
         public override vectorT EvaluateVector()
         {
             matrix m = E.ToMatrix() * S;
-            return new(m.Rows, m.Reuse());
+            return new(m.Cols, m.Reuse());
         }
         public static VectorTScale operator *(VectorTScale a, double b) => new(a.E, a.S * b);
         public static VectorTScale operator *(double a, VectorTScale b) => new(b.E, a * b.S);
@@ -147,7 +149,7 @@ namespace MKLNET.Expression
 
     public class VectorTranspose : VectorTExpression
     {
-        readonly VectorExpression E;
+        public readonly VectorExpression E;
         public VectorTranspose(VectorExpression a) => E = a;
         public override vectorT EvaluateVector()
         {
@@ -158,7 +160,7 @@ namespace MKLNET.Expression
 
     public class VectorTTranspose : VectorExpression
     {
-        readonly VectorTExpression E;
+        public readonly VectorTExpression E;
         public VectorTTranspose(VectorTExpression a) => E = a;
         public override vector EvaluateVector()
         {
@@ -195,7 +197,7 @@ namespace MKLNET.Expression
         public override vectorT EvaluateVector()
         {
             matrix m = E.ToMatrix() + S;
-            return new(m.Rows, m.Reuse());
+            return new(m.Cols, m.Reuse());
         }
     }
 
@@ -225,7 +227,7 @@ namespace MKLNET.Expression
         public override vectorT EvaluateVector()
         {
             matrix m = A.ToMatrix() + B.ToMatrix();
-            return new(m.Rows, m.Reuse());
+            return new(m.Cols, m.Reuse());
         }
     }
 
@@ -255,7 +257,7 @@ namespace MKLNET.Expression
         public override vectorT EvaluateVector()
         {
             matrix m = A.ToMatrix() - B.ToMatrix();
-            return new(m.Rows, m.Reuse());
+            return new(m.Cols, m.Reuse());
         }
     }
 

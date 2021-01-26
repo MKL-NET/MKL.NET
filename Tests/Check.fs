@@ -114,6 +114,19 @@ let close accuracy (expected:'a) (actual:'a) =
             else closeDefault e a
         | (:? (double[]) as e), (:? (double[]) as a) -> closeArray e a
         | (:? (single[]) as e), (:? (single[]) as a) -> closeArray e a
+        | (:? vector as e), (:? vector as a) ->
+            if e.Length <> a.Length then Failure(Normal "Vector size differs. expected: "
+                                            + Numeric e.Length + " actual: "
+                                            + Numeric a.Length)
+            else
+                let rec check i =
+                    match close e.[i] a.[i] with
+                    | Success ->
+                        if i+1=e.Length then Success
+                        else check (i+1)
+                    | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
+                    | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
+                check 0
         | (:? matrix as e), (:? matrix as a) ->
             if e.Rows <> a.Rows || e.Cols <> a.Cols then Failure(Normal "Matrix size differs. expected: ("
                                                          + Numeric e.Rows + "," + Numeric e.Cols + ") actual: ("
@@ -128,19 +141,6 @@ let close accuracy (expected:'a) (actual:'a) =
                     | Failure t -> Failure(Normal "At (" + Numeric r + "," + Numeric c + ") Size (" + Numeric e.Rows + "," + Numeric e.Cols + "). " + t)
                     | f -> Failure(Normal "At (" + Numeric r + "," + Numeric c + ") Size (" + Numeric e.Rows + "," + Numeric e.Cols + "). " + f.ToString())
                 check 0 0
-        | (:? vector as e), (:? vector as a) ->
-            if e.Length <> a.Length then Failure(Normal "Vector size differs. expected: "
-                                            + Numeric e.Length + " actual: "
-                                            + Numeric a.Length)
-            else
-                let rec check i =
-                    match close e.[i] a.[i] with
-                    | Success ->
-                        if i+1=e.Length then Success
-                        else check (i+1)
-                    | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
-                    | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
-                check 0
         | _ -> failwithf "Unknown type %s" (actual.GetType().Name)
     close expected actual
 
