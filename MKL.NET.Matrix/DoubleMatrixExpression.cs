@@ -12,65 +12,41 @@
             new MatrixAddScalar(a is MatrixScale sm ? new MatrixScale(sm.E, -sm.S) : new MatrixScale(a, -1.0), s);
         public static MatrixExpression operator +(MatrixExpression a, MatrixExpression b)
         {
-            if (a is MatrixTranspose ta)
+            if (a is MatrixTranspose or MatrixScale || b is MatrixTranspose or MatrixScale)
             {
-                return b is MatrixTranspose tb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, tb.E, TransChar.Yes, tb.S)
-                     : b is MatrixScale sb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, sb.E, TransChar.No, sb.S)
-                     : new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, b, TransChar.No, 1.0);
-            }
-            else if (b is MatrixTranspose tb)
-            {
-                return a is MatrixScale sa ? new MatrixAddTranspose(sa.E, TransChar.No, sa.S, tb.E, TransChar.Yes, tb.S)
-                     : new MatrixAddTranspose(a, TransChar.No, 1.0, tb.E, TransChar.Yes, tb.S);
-            }
-            else if (a is MatrixScale sa)
-            {
-                return b is MatrixScale sb ? new MatrixAddScale(sa.E, sa.S, sb.E, sb.S)
-                     : new MatrixAddScale(sa.E, sa.S, b, 1.0);
-            }
-            else if (b is MatrixScale sb)
-            {
-                return new MatrixAddScale(a, 1.0, sb.E, sb.S);
+                var (ea, ta, sa) = a is MatrixScale msa ? (msa.E is MatrixTranspose mta ? (mta.E, TransChar.Yes, msa.S) : (msa.E, TransChar.No, msa.S))
+                                 : a is MatrixTranspose mta2 ? (mta2.E, TransChar.Yes, 1.0)
+                                 : (a, TransChar.No, 1.0);
+                var (eb, tb, sb) = b is MatrixScale msb ? (msb.E is MatrixTranspose mtb ? (mtb.E, TransChar.Yes, msb.S) : (msb.E, TransChar.No, msb.S))
+                                 : b is MatrixTranspose mtb2 ? (mtb2.E, TransChar.Yes, 1.0)
+                                 : (b, TransChar.No, 1.0);
+                return new MatrixAddTranspose(ea, ta, sa, eb, tb, sb);
             }
             return new MatrixAddSimple(a, b);
         }
         public static MatrixExpression operator -(MatrixExpression a, MatrixExpression b)
         {
-            if (a is MatrixTranspose ta)
+            if (a is MatrixTranspose or MatrixScale || b is MatrixTranspose or MatrixScale)
             {
-                return b is MatrixTranspose tb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, tb.E, TransChar.Yes, -tb.S)
-                     : b is MatrixScale sb ? new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, sb.E, TransChar.No, -sb.S)
-                     : new MatrixAddTranspose(ta.E, TransChar.Yes, ta.S, b, TransChar.No, -1.0);
-            }
-            else if (b is MatrixTranspose tb)
-            {
-                return a is MatrixScale sa ? new MatrixAddTranspose(sa.E, TransChar.No, sa.S, tb.E, TransChar.Yes, -tb.S)
-                     : new MatrixAddTranspose(a, TransChar.No, 1.0, tb.E, TransChar.Yes, -tb.S);
-            }
-            else if (a is MatrixScale sa)
-            {
-                return b is MatrixScale sb ? new MatrixAddScale(sa.E, sa.S, sb.E, -sb.S)
-                     : new MatrixAddScale(sa.E, sa.S, b, -1.0);
-            }
-            else if (b is MatrixScale sb)
-            {
-                return new MatrixAddScale(a, 1.0, sb.E, -sb.S);
+                var (ea, ta, sa) = a is MatrixScale msa ? (msa.E is MatrixTranspose mta ? (mta.E, TransChar.Yes, msa.S) : (msa.E, TransChar.No, msa.S))
+                                 : a is MatrixTranspose mta2 ? (mta2.E, TransChar.Yes, 1.0)
+                                 : (a, TransChar.No, 1.0);
+                var (eb, tb, sb) = b is MatrixScale msb ? (msb.E is MatrixTranspose mtb ? (mtb.E, TransChar.Yes, -msb.S) : (msb.E, TransChar.No, -msb.S))
+                                 : b is MatrixTranspose mtb2 ? (mtb2.E, TransChar.Yes, -1.0)
+                                 : (b, TransChar.No, -1.0);
+                return new MatrixAddTranspose(ea, ta, sa, eb, tb, sb);
             }
             return new MatrixSubSimple(a, b);
         }
         public static MatrixExpression operator *(MatrixExpression a, double s) =>
-              a is MatrixTranspose ta ? new MatrixTranspose(ta.E, ta.S * s)
-            : a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s)
-            : new MatrixScale(a, s);
+              a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s) : new MatrixScale(a, s);
         public static MatrixExpression operator *(double s, MatrixExpression a) =>
-              a is MatrixTranspose ta ? new MatrixTranspose(ta.E, ta.S * s)
-            : a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s)
-            : new MatrixScale(a, s);
+              a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s) : new MatrixScale(a, s);
         public static MatrixExpression operator *(MatrixExpression a, MatrixExpression b) => new MatrixMultiply(a, b);
         public MatrixExpression T =>
-              this is MatrixTranspose t ? (t.S == 1.0 ? t.E : new MatrixScale(t.E, t.S))
-            : this is MatrixScale s ? new MatrixTranspose(s.E, s.S)
-            : new MatrixTranspose(this, 1.0);
+              this is MatrixTranspose t ? t.E
+            : this is MatrixScale s ? new MatrixScale(s.E.T, s.S)
+            : new MatrixTranspose(this);
         public static VectorExpression operator *(MatrixExpression m, vector v) => new MatrixVectorMultiply(m, v);
         public static VectorExpression operator *(MatrixExpression m, VectorExpression v) => new MatrixVectorMultiply(m, v);
         public static VectorTExpression operator *(VectorTExpression vt, MatrixExpression m) => new VectorTMatrixMultiply(vt, m);
@@ -95,29 +71,46 @@
         }
         public override matrix EvaluateMatrix()
         {
-            var a = E.EvaluateMatrix();
-            var r = E is MatrixInput ? new matrix(a.Rows, a.Cols) : a;
-            Blas.omatcopy(LayoutChar.ColMajor, TransChar.No, a.Rows, a.Cols, S, a.Array, a.Rows, r.Array, a.Rows);
-            return r;
+            
+            if(E is MatrixTranspose mt)
+            {
+                var a = mt.E.EvaluateMatrix();
+                var r = mt.E is MatrixInput ? new matrix(a.Cols, a.Rows) : new matrix(a.Cols, a.Rows, a.Reuse());
+                Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, a.Rows, a.Cols, S, a.Array, a.Rows, r.Array, r.Rows);
+                return r;
+            }
+            else
+            {
+                var a = E.EvaluateMatrix();
+                var r = E is MatrixInput ? new matrix(a.Rows, a.Cols) : a;
+                Blas.omatcopy(LayoutChar.ColMajor, TransChar.No, a.Rows, a.Cols, S, a.Array, a.Rows, r.Array, r.Rows);
+                return r;
+            }
         }
-        public new MatrixTranspose T => new(E, S);
     }
 
     public class MatrixTranspose : MatrixExpression
     {
         public readonly MatrixExpression E;
-        public readonly double S;
-        public MatrixTranspose(MatrixExpression a, double s)
+        public MatrixTranspose(MatrixExpression a)
         {
             E = a;
-            S = s;
         }
         public override matrix EvaluateMatrix()
         {
             var a = E.EvaluateMatrix();
-            var r = E is MatrixInput ? new matrix(a.Cols, a.Rows) : new matrix(a.Cols, a.Rows, a.Reuse());
-            Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, a.Rows, a.Cols, S, a.Array, a.Rows, r.Array, a.Cols); // Check rows, cols
-            return r;
+            if (E is MatrixInput)
+            {
+                var r = new matrix(a.Cols, a.Rows);
+                Blas.omatcopy(LayoutChar.ColMajor, TransChar.Yes, a.Rows, a.Cols, 1.0, a.Array, a.Rows, r.Array, r.Rows);
+                return r;
+            }
+            else
+            {
+                var r = new matrix(a.Cols, a.Rows, a.Reuse());
+                Blas.imatcopy(LayoutChar.ColMajor, TransChar.Yes, a.Rows, a.Cols, 1.0, a.Array, a.Rows, r.Rows);
+                return r;
+            }
         }
     }
 
@@ -175,31 +168,6 @@
                   : Eb is not MatrixInput ? b
                   : new matrix(a.Rows, a.Cols);
             Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
-            if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
-            return r;
-        }
-    }
-
-    public class MatrixAddScale : MatrixExpression
-    {
-        readonly MatrixExpression Ea, Eb;
-        readonly double Sa, Sb;
-        public MatrixAddScale(MatrixExpression a, double sa, MatrixExpression b, double sb)
-        {
-            Ea = a;
-            Eb = b;
-            Sa = sa;
-            Sb = sb;
-        }
-        public override matrix EvaluateMatrix()
-        {
-            var a = Ea.EvaluateMatrix();
-            var b = Eb.EvaluateMatrix();
-            if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var r = Ea is not MatrixInput ? a
-                  : Eb is not MatrixInput ? b
-                  : new matrix(a.Rows, a.Cols);
-            Blas.omatadd(LayoutChar.ColMajor, TransChar.No, TransChar.No, r.Rows, r.Cols, Sa, a.Array, a.Rows, Sb, b.Array, b.Rows, r.Array, r.Rows);
             if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
             return r;
         }
@@ -285,11 +253,11 @@
         }
         public override matrix EvaluateMatrix()
         {
-            var (ea, ta, sa) = Ea is MatrixTranspose mta ? (mta.E, Trans.Yes, mta.S)
-                             : Ea is MatrixScale msa ? (msa.E, Trans.No, msa.S)
+            var (ea, ta, sa) = Ea is MatrixScale msa ? (msa.E is MatrixTranspose mta ? (mta.E, Trans.Yes, msa.S) : (msa.E, Trans.No, msa.S))
+                             : Ea is MatrixTranspose mta2 ? (mta2.E, Trans.Yes, 1.0)
                              : (Ea, Trans.No, 1.0);
-            var (eb, tb, sb) = Eb is MatrixTranspose mtb ? (mtb.E, Trans.Yes, mtb.S)
-                             : Eb is MatrixScale msb ? (msb.E, Trans.No, msb.S)
+            var (eb, tb, sb) = Eb is MatrixScale msb ? (msb.E is MatrixTranspose mtb ? (mtb.E, Trans.Yes, msb.S) : (msb.E, Trans.No, msb.S))
+                             : Eb is MatrixTranspose mtb2 ? (mtb2.E, Trans.Yes, 1.0)
                              : (Eb, Trans.No, 1.0);
             var a = ea.EvaluateMatrix();
             var b = eb.EvaluateMatrix();

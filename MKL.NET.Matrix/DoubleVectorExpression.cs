@@ -5,7 +5,10 @@ namespace MKLNET.Expression
     public abstract class VectorExpression
     {
         public abstract vector EvaluateVector();
-        public VectorTExpression T => this is VectorTTranspose t ? t.E : new VectorTranspose(this);
+        public VectorTExpression T =>
+              this is VectorTTranspose t ? t.E
+            : this is VectorScale s ? new VectorTScale(s.E.T, s.S)
+            : new VectorTranspose(this);
         MatrixExpression InputToMatrix()
         {
             var v = EvaluateVector();
@@ -16,7 +19,7 @@ namespace MKLNET.Expression
         public MatrixExpression ToMatrix() =>
               this is VectorInput ? InputToMatrix()
             : this is VectorTTranspose vt ? vt.E.ToMatrix().T
-            : this is VectorScale s ? (s.E is VectorInput ? s.E.InputToMatrix() : s.E.ToMatrix()) * s.S
+            : this is VectorScale s ? s.E.ToMatrix() * s.S
             : new VectorToMatrix(this);
         public static implicit operator VectorExpression(vector a) => new VectorInput(a);
         public static implicit operator vector(VectorExpression a) => a.EvaluateVector();
@@ -28,11 +31,9 @@ namespace MKLNET.Expression
         public static VectorExpression operator +(VectorExpression a, VectorExpression b) => new VectorAdd(a, b);
         public static VectorExpression operator -(VectorExpression a, VectorExpression b) => new VectorSub(a, b);
         public static VectorExpression operator *(VectorExpression a, double s) =>
-            a is VectorScale sa ? new VectorScale(sa.E, sa.S * s)
-            : new VectorScale(a, s);
+            a is VectorScale sa ? new VectorScale(sa.E, sa.S * s) : new VectorScale(a, s);
         public static VectorExpression operator *(double s, VectorExpression a) =>
-            a is VectorScale sa ? new VectorScale(sa.E, sa.S * s)
-            : new VectorScale(a, s);
+            a is VectorScale sa ? new VectorScale(sa.E, sa.S * s) : new VectorScale(a, s);
         public static double operator *(VectorTExpression vt, VectorExpression v)
         {
             var a = vt.EvaluateVector();
@@ -49,7 +50,10 @@ namespace MKLNET.Expression
     public abstract class VectorTExpression
     {
         public abstract vectorT EvaluateVector();
-        public VectorExpression T => this is VectorTranspose t ? t.E : new VectorTTranspose(this);
+        public VectorExpression T =>
+              this is VectorTranspose t ? t.E
+            : this is VectorTScale s ? new VectorScale(s.E.T, s.S)
+            : new VectorTTranspose(this);
         MatrixExpression InputToMatrix()
         {
             var v = EvaluateVector();
@@ -60,7 +64,7 @@ namespace MKLNET.Expression
         public MatrixExpression ToMatrix() =>
               this is VectorTInput ? InputToMatrix()
             : this is VectorTranspose vt ? vt.E.ToMatrix().T
-            : this is VectorTScale s ? (s.E is VectorTInput ? s.E.InputToMatrix() : s.E.ToMatrix()) * s.S
+            : this is VectorTScale s ? s.E.ToMatrix() * s.S
             : new VectorTToMatrix(this);
         public static implicit operator VectorTExpression(vectorT a) => new VectorTInput(a);
         public static implicit operator vectorT(VectorTExpression a) => a.EvaluateVector();
@@ -71,8 +75,10 @@ namespace MKLNET.Expression
             new VectorTAddScalar(a is VectorTScale sm ? new VectorTScale(sm.E, -sm.S) : new VectorTScale(a, -1.0), s);
         public static VectorTExpression operator +(VectorTExpression a, VectorTExpression b) => new VectorTAdd(a, b);
         public static VectorTExpression operator -(VectorTExpression a, VectorTExpression b) => new VectorTSub(a, b);
-        public static VectorTExpression operator *(VectorTExpression a, double s) => new VectorTScale(a, s);
-        public static VectorTExpression operator *(double s, VectorTExpression a) => new VectorTScale(a, s);
+        public static VectorTExpression operator *(VectorTExpression a, double s) =>
+            a is VectorTScale sa ? new VectorTScale(sa.E, sa.S * s) : new VectorTScale(a, s);
+        public static VectorTExpression operator *(double s, VectorTExpression a) =>
+            a is VectorTScale sa ? new VectorTScale(sa.E, sa.S * s) : new VectorTScale(a, s);
     }
 
     public class VectorInput : VectorExpression
@@ -125,8 +131,6 @@ namespace MKLNET.Expression
             matrix m = E.ToMatrix() * S;
             return new(m.Rows, m.Reuse());
         }
-        public static VectorScale operator *(VectorScale a, double b) => new(a.E, a.S * b);
-        public static VectorScale operator *(double a, VectorScale b) => new(b.E, a * b.S);
     }
 
     public class VectorTScale : VectorTExpression
@@ -143,8 +147,6 @@ namespace MKLNET.Expression
             matrix m = E.ToMatrix() * S;
             return new(m.Cols, m.Reuse());
         }
-        public static VectorTScale operator *(VectorTScale a, double b) => new(a.E, a.S * b);
-        public static VectorTScale operator *(double a, VectorTScale b) => new(b.E, a * b.S);
     }
 
     public class VectorTranspose : VectorTExpression

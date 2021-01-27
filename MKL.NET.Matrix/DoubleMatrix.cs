@@ -32,7 +32,7 @@ namespace MKLNET
             return Array;
         }
         ~matrix() => Pool.Return(Array);
-        public MatrixExpression T => new MatrixTranspose(this, 1.0);
+        public MatrixExpression T => new MatrixTranspose(this);
         public static MatrixExpression operator +(matrix a, double s) => new MatrixAddScalar(a, s);
         public static MatrixExpression operator +(double s, matrix a) => new MatrixAddScalar(a, s);
         public static MatrixExpression operator -(matrix a, double s) => new MatrixAddScalar(a, -s);

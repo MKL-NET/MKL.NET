@@ -228,7 +228,7 @@ let add = test "add" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mTmT 1.0 A s B
-        use actual = A.T + (s * B.T) |> impM
+        use actual = (A.T + (s * B.T)) * 1.0 + 0.0 |> impM
         Check.close High expected actual
     }
 
@@ -280,7 +280,7 @@ let add = test "add" {
         use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = add_mTm s A 1.0 B
-        use actual = (s * A.T) + B |> impM
+        use actual = ((s * A.T) + B) + 0.0 |> impM
         Check.close High expected actual
     }
 
@@ -301,7 +301,7 @@ let add = test "add" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mTm s1 A s2 B
-        use actual = (s1 * A.T) + (s2 * B) |> impM
+        use actual = ((s1 * A.T) + (s2 * B)) + 0.0 |> impM
         Check.close High expected actual
     }
 
@@ -313,6 +313,64 @@ let add = test "add" {
         let! s2 = Gen.Double.OneTwo
         use expected = add_mTmT s1 A s2 B
         use actual = (s1 * A.T) + (s2 * B.T) |> impM
+        Check.close High expected actual
+    }
+
+    test "md" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(n,m)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[r,c] <- A.[r,c] + a
+            R
+        use actual = A + a |> impM
+        Check.close High expected actual
+    }
+
+    test "mTd" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(m,n)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[c,r] <- A.[r,c] + a
+            R
+        use actual = A.T + a |> impM
+        Check.close High expected actual
+    }
+
+    test "mSd" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(n,m)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[r,c] <- s * A.[r,c] + a
+            R
+        use actual = (s * A) + a |> impM
+        Check.close High expected actual
+    }
+
+    test "mTSd" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(m,n)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[c,r] <- s * A.[r,c] + a
+            R
+        use actual = (s * A.T) + a |> impM
         Check.close High expected actual
     }
 }
@@ -353,9 +411,9 @@ let sub = test "sub" {
         use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = add_mmT 1.0 A -s B
-        use actual = A - (s * B.T) |> impM
+        use actual = (A - (s * B.T)) * 1.0 * 1.0 |> impM
         Check.close High expected actual
-    }
+     }
 
     test "mTm" {
         let! m,n = gen2D
@@ -422,7 +480,7 @@ let sub = test "sub" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mm s1 A -s2 B
-        use actual = (s1 * A) - (s2 * B) |> impM
+        use actual = ((s1 * A) - (s2 * B)) * 1.0 |> impM
         Check.close High expected actual
     }
 
@@ -475,7 +533,7 @@ let sub = test "sub" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_mTmT s1 A -s2 B
-        use actual = (s1 * A.T) - (s2 * B.T) |> impM
+        use actual = (s1 * A.T) - (s2 * B.T) + 0.0 |> impM
         Check.close High expected actual
     }
 
@@ -487,9 +545,9 @@ let sub = test "sub" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- A.[r,c] + a
+                    R.[r,c] <- A.[r,c] - a
             R
-        use actual = A + a |> impM
+        use actual = A - a |> impM
         Check.close High expected actual
     }
 
@@ -501,9 +559,9 @@ let sub = test "sub" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- A.[r,c] + a
+                    R.[c,r] <- A.[r,c] - a
             R
-        use actual = A.T + a |> impM
+        use actual = A.T - a |> impM
         Check.close High expected actual
     }
 
@@ -516,9 +574,9 @@ let sub = test "sub" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- s * A.[r,c] + a
+                    R.[r,c] <- s * A.[r,c] - a
             R
-        use actual = (s * A) + a |> impM
+        use actual = (s * A) - a |> impM
         Check.close High expected actual
     }
 
@@ -531,9 +589,67 @@ let sub = test "sub" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- s * A.[r,c] + a
+                    R.[c,r] <- s * A.[r,c] - a
             R
-        use actual = (s * A.T) + a |> impM
+        use actual = (s * A.T) - a |> impM
+        Check.close High expected actual
+    }
+
+    test "dm" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(n,m)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[r,c] <- a - A.[r,c]
+            R
+        use actual = a - A |> impM
+        Check.close High expected actual
+    }
+
+    test "dmT" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(m,n)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[c,r] <- a - A.[r,c]
+            R
+        use actual = a - A.T |> impM
+        Check.close High expected actual
+    }
+
+    test "dmS" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(n,m)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[r,c] <- a - s * A.[r,c]
+            R
+        use actual = a - (s * A) |> impM
+        Check.close High expected actual
+    }
+
+    test "dmTS" {
+        let! m,n = gen2D
+        use! A = genMatrix n m
+        let! s = Gen.Double.OneTwo
+        let! a = Gen.Double.OneTwo
+        use expected =
+            let R = new matrix(m,n)
+            for r =0 to n-1 do
+                for c=0 to m-1 do
+                    R.[c,r] <- a - s * A.[r,c]
+            R
+        use actual = (a - (s * A.T)) * 1.0 |> impM
         Check.close High expected actual
     }
 }
@@ -696,7 +812,7 @@ let mul = test "mul" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mTmT (s1*s2) A B
-        use actual = (s1 * A.T) * (s2 * B.T) |> impM
+        use actual = ((s1 * A.T) * (s2 * B.T) + 0.0) * 1.0 |> impM
         Check.close High expected actual
     }
 
@@ -755,7 +871,7 @@ let mul = test "mul" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mv (s1*s2) A b
-        use actual = (s1 * A) * (s2 * b) |> VectorTests.impV
+        use actual = ((s1 * A) * (s2 * b)) * 1.0 + 0.0 |> VectorTests.impV
         Check.close High expected actual
     }
 
@@ -776,7 +892,7 @@ let mul = test "mul" {
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_mTv (s1*s2) A b
-        use actual = (s1 * A.T) * (s2 * b) |> VectorTests.impV
+        use actual = ((s1 * A.T) * (s2 * b) + 0.0) * 1.0 |> VectorTests.impV
         Check.close High expected actual
     }
 }
