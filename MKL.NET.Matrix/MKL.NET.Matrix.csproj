@@ -7,10 +7,19 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RootNamespace>MKLNET</RootNamespace>
         <NoWarn>IDE1006,CA1816</NoWarn>
+        <Description>
+Performance and memory optimised matrix algebra library based on cross platform MKL.NET.
+
+- Matrix expressions are optimised to perform intermediate calculations inplace and reuse memory directly.
+- Operations such as scale, transpose, +, * are combined into single MKL calls.
+- Intermediate matrices are disposed or reused automatically.
+- ArrayPool underlying memory model using IDisposable and Finalizers.
+- Uses the Pinned Object Heap for net5.0.
+        </Description>
         <PackageReleaseNotes>
-Inplace refactor. Can now be used in a fluent style.
+Expression refactor. Keen to hear performance stories.
         </PackageReleaseNotes>
-        <Version>0.5.0</Version>
+        <Version>0.6.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />

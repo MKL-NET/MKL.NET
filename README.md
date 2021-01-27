@@ -35,31 +35,18 @@ The correct native libraries will be included and loaded at runtime.
 ## MKL.NET.Matrix
 
 - Performance and memory optimised matrix algebra library.
-- Scale and Transpose deferred and unlikely to result in allocations (Can perform these together for +, *, and inplace for functions).
+- Matrix expressions are optimised to perform intermediate calculations inplace and reuse memory directly.
+- Operations such as scale, transpose, +, * are combined into single MKL calls.
+- Intermediate matrices are disposed or reused automatically.
 - ArrayPool underlying memory model using IDisposable and Finalizers.
 - Uses the Pinned Object Heap for net5.0.
 
-The following examples only create one new matrix (using ArrayPool) without mutating inputs.
+The following example only results in one new matrix (using ArrayPool) without mutating inputs.
 ```csharp
-public static matrix Example1(matrix m)
+public static matrix Example(matrix ma, matrix mb, vector va, vector vb)
 {
-    return 0.5 * m * m.T;
-}
-
-public static matrix Example2(matrix a, matrix b, double w)
-{
-    return w * a + (1.0 - w) * b.T;
-}
-
-public static matrix Example3(matrix m)
-{
-    return Matrix.Round(100.0 * m.T);
-}
-
-public static matrix Example4(matrix m)
-{
-    matrix r = Example1(m);
-    return MatrixInplace.Log1p(r);
+    using matrix r = 0.5 * Matrix.Abs(1.0 - ma) * mb.T + Math.PI * va.T * Vector.Sin(vb);
+    ...
 }
 ```
 
@@ -79,5 +66,5 @@ public static (vector, matrix) MeanAndCovariance(matrix samples, vector weights)
 ```
 
 Note: arrays need to be pinned across all MKL function calls when there are multiple as above as MKL stores native pointers and the arrays could be moved between calls.
-MKL.NET handles pinning internally unpinning when the task is deleted.
-This is a common bug when using MKL from .NET which causes occasional crashes.
+MKL.NET handles pinning automatically, unpinning when the task is deleted.
+This is a common seen bug when using MKL directly from .NET which causes occasional crashes.
