@@ -246,6 +246,7 @@ namespace MKLNET
         public static double Asum(VectorTExpression a) => Matrix.Asum(a.ToMatrix());
         public static double Nrm2(VectorExpression a) => Matrix.Nrm2(a.ToMatrix());
         public static double Nrm2(VectorTExpression a) => Matrix.Nrm2(a.ToMatrix());
+
         public static int Iamax(VectorExpression a)
         {
             var v = a.EvaluateVector();
@@ -253,6 +254,7 @@ namespace MKLNET
             if (a is not VectorInput) v.Dispose();
             return r;
         }
+
         public static int Iamax(VectorTExpression a)
         {
             var v = a.EvaluateVector();
@@ -260,6 +262,7 @@ namespace MKLNET
             if (a is not VectorTInput) v.Dispose();
             return r;
         }
+
         public static int Iamin(VectorExpression a)
         {
             var vt = a.EvaluateVector();
@@ -267,6 +270,7 @@ namespace MKLNET
             if (a is not VectorInput) vt.Dispose();
             return r;
         }
+
         public static int Iamin(VectorTExpression a)
         {
             var vt = a.EvaluateVector();
@@ -274,49 +278,55 @@ namespace MKLNET
             if (a is not VectorTInput) vt.Dispose();
             return r;
         }
+
+        public static vector Copy(vector v)
+        {
+            var r = new vector(v.Length);
+            Blas.copy(v.Length, v.Array, 0, 1, r.Array, 0, 1);
+            return r;
+        }
+
+        public static vectorT Copy(vectorT v)
+        {
+            var r = new vectorT(v.Length);
+            Blas.copy(v.Length, v.Array, 0, 1, r.Array, 0, 1);
+            return r;
+        }
+
         public static (vector, vector) SinCos(VectorExpression a)
         {
             var v = a.EvaluateVector();
-            var sin = a is VectorInput ? new vector(v.Length) : v;
+            var sin = a is VectorInput ? Copy(v) : v;
             var cos = new vector(v.Length);
             Vml.SinCos(v.Length, v.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
         }
+
         public static (vectorT, vectorT) SinCos(VectorTExpression a)
         {
             var vt = a.EvaluateVector();
-            var sin = a is VectorTInput ? new vectorT(vt.Length) : vt;
+            var sin = a is VectorTInput ? Copy(vt) : vt;
             var cos = new vectorT(vt.Length);
             Vml.SinCos(vt.Length, vt.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
         }
+
         public static (vector, vector) Modf(VectorExpression a)
         {
             var v = a.EvaluateVector();
-            var tru = a is VectorInput ? new vector(v.Length) : v;
+            var tru = a is VectorInput ? Copy(v) : v;
             var rem = new vector(v.Length);
             Vml.Modf(v.Length, v.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
             return (tru, rem);
         }
+
         public static (vectorT, vectorT) Modf(VectorTExpression a)
         {
             var vt = a.EvaluateVector();
-            var tru = a is VectorTInput ? new vectorT(vt.Length) : vt;
+            var tru = a is VectorTInput ? Copy(vt) : vt;
             var rem = new vectorT(vt.Length);
             Vml.Modf(vt.Length, vt.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
             return (tru, rem);
-        }
-        public static matrix CopyToMatrix(vector v)
-        {
-            var r = new matrix(1, v.Length);
-            Blas.copy(v.Length, v.Array, 0, 1, r.Array, 0, 1);
-            return r;
-        }
-        public static matrix CopyToMatrix(vectorT v)
-        {
-            var r = new matrix(1, v.Length);
-            Blas.copy(v.Length, v.Array, 0, 1, r.Array, 0, 1);
-            return r;
         }
     }
 }

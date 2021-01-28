@@ -175,24 +175,6 @@ namespace MKLNET
             return (row, col);
         }
 
-        public static (matrix, matrix) SinCos(MatrixExpression a)
-        {
-            var i = a.EvaluateMatrix();
-            var sin = a is MatrixInput ? new matrix(i.Rows, i.Cols) : i;
-            var cos = new matrix(i.Rows, i.Cols);
-            Vml.SinCos(i.Length, i.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
-            return (sin, cos);
-        }
-
-        public static (matrix, matrix) Modf(MatrixExpression a)
-        {
-            var i = a.EvaluateMatrix();
-            var tru = a is MatrixInput ? new matrix(i.Rows, i.Cols) : i;
-            var rem = new matrix(i.Rows, i.Cols);
-            Vml.Modf(i.Length, i.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
-            return (tru, rem);
-        }
-
         public static matrix Copy(matrix a)
         {
             var r = new matrix(a.Rows, a.Cols);
@@ -200,12 +182,44 @@ namespace MKLNET
             return r;
         }
 
+        public static (matrix, matrix) SinCos(MatrixExpression a)
+        {
+            var m = a.EvaluateMatrix();
+            var sin = a is MatrixInput ? Copy(m) : m;
+            var cos = new matrix(m.Rows, m.Cols);
+            Vml.SinCos(m.Length, m.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            return (sin, cos);
+        }
+
+        public static double Det(MatrixExpression a)
+        {
+            var m = a.EvaluateMatrix();
+            if (a is MatrixInput) m = Copy(m);
+            var ipiv = Pool.Int.Rent(m.Rows);
+            ThrowHelper.Check(Lapack.getrf(Layout.ColMajor, m.Rows, m.Rows, m.Array, m.Rows, ipiv));
+            Pool.Int.Return(ipiv);
+            double r = m[0, 0];
+            for (int i = 1; i < m.Rows; i++)
+                r *= m[i, i];
+            m.Dispose();
+            return r;
+        }
+
+        public static (matrix, matrix) Modf(MatrixExpression a)
+        {
+            var m = a.EvaluateMatrix();
+            var tru = a is MatrixInput ? Copy(m) : m;
+            var rem = new matrix(m.Rows, m.Cols);
+            Vml.Modf(m.Length, m.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            return (tru, rem);
+        }
+
         public static (matrix, vector) Eigens(MatrixExpression a)
         {
-            var i = a.EvaluateMatrix();
-            if (i.Rows != i.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var v = a is MatrixInput ? new matrix(i.Rows, i.Cols) : i;
-            var w = new vector(i.Rows);
+            var m = a.EvaluateMatrix();
+            if (m.Rows != m.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            var v = a is MatrixInput ? Copy(m) : m;
+            var w = new vector(m.Rows);
             ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, v.Rows, v.Array, v.Rows, w.Array));
             return (v, w);
         }

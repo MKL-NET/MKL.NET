@@ -979,6 +979,28 @@ let functions = test "functions" {
     testUnary "Frac" (fun a -> a - truncate a) Matrix.Frac
     testUnary "NearbyInt" (fun a -> Math.Round(a, MidpointRounding.ToEven)) Matrix.NearbyInt
     testUnary "Rint" (fun a -> Math.Round(a, MidpointRounding.ToEven)) Matrix.Rint
+
+    test "Eigens" {
+        use m = new matrix(3,3)
+        m.[0,0] <- 14165.; m.[0,1] <- 8437.; m.[0,2] <- 7554.
+        m.[1,0] <- 8437.; m.[1,1] <- 11902.; m.[1,2] <- 7962.
+        m.[2,0] <- 7554.; m.[2,1] <- 7962.; m.[2,2] <- 5940.
+        let struct (v,e) = Matrix.Eigens(impME m)
+        Check.close Accuracy.High 128.1346664 e.[0]
+        Check.close Accuracy.High 4698.444253 e.[1]
+        Check.close Accuracy.High 27180.42108 e.[2]
+        v.Dispose()
+        e.Dispose()
+    }
+
+    test "Det" {
+        use m = new matrix(3,3)
+        m.[0,0] <- 5.; m.[0,1] <- 7.; m.[0,2] <- 8.
+        m.[1,0] <- 3.; m.[1,1] <- 6.; m.[1,2] <- 3.
+        m.[2,0] <- 6.; m.[2,1] <- 4.; m.[2,2] <- 8.
+        let d = Matrix.Det(impME m)
+        Check.close Accuracy.High 54.0 d
+    }
 }
 
 let all =

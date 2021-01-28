@@ -17,9 +17,10 @@ Performance and memory optimised matrix algebra library based on cross platform 
 - Uses the Pinned Object Heap for net5.0.
         </Description>
         <PackageReleaseNotes>
-Expression refactor. Keen to hear performance stories.
+Eigens copy bug fix.
+Added Determinant Matrix function Det.
         </PackageReleaseNotes>
-        <Version>0.6.0</Version>
+        <Version>0.6.1</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
