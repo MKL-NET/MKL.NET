@@ -295,37 +295,37 @@ namespace MKLNET
 
         public static (vector, vector) SinCos(VectorExpression a)
         {
-            var v = a.EvaluateVector();
-            var sin = a is VectorInput ? Copy(v) : v;
-            var cos = new vector(v.Length);
-            Vml.SinCos(v.Length, v.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            var sin = a.EvaluateVector();
+            if (a is VectorInput) sin = Copy(sin);
+            var cos = new vector(sin.Length);
+            Vml.SinCos(sin.Length, sin.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
         }
 
         public static (vectorT, vectorT) SinCos(VectorTExpression a)
         {
-            var vt = a.EvaluateVector();
-            var sin = a is VectorTInput ? Copy(vt) : vt;
-            var cos = new vectorT(vt.Length);
-            Vml.SinCos(vt.Length, vt.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            var sin = a.EvaluateVector();
+            if (a is VectorTInput) sin = Copy(sin);
+            var cos = new vectorT(sin.Length);
+            Vml.SinCos(sin.Length, sin.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
         }
 
         public static (vector, vector) Modf(VectorExpression a)
         {
-            var v = a.EvaluateVector();
-            var tru = a is VectorInput ? Copy(v) : v;
-            var rem = new vector(v.Length);
-            Vml.Modf(v.Length, v.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            var tru = a.EvaluateVector();
+            if (a is VectorInput) tru = Copy(tru);
+            var rem = new vector(tru.Length);
+            Vml.Modf(tru.Length, tru.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
             return (tru, rem);
         }
 
         public static (vectorT, vectorT) Modf(VectorTExpression a)
         {
-            var vt = a.EvaluateVector();
-            var tru = a is VectorTInput ? Copy(vt) : vt;
-            var rem = new vectorT(vt.Length);
-            Vml.Modf(vt.Length, vt.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            var tru = a.EvaluateVector();
+            if (a is VectorTInput) tru = Copy(tru);
+            var rem = new vectorT(tru.Length);
+            Vml.Modf(tru.Length, tru.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
             return (tru, rem);
         }
     }

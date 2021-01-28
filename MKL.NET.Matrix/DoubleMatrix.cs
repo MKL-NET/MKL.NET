@@ -184,10 +184,10 @@ namespace MKLNET
 
         public static (matrix, matrix) SinCos(MatrixExpression a)
         {
-            var m = a.EvaluateMatrix();
-            var sin = a is MatrixInput ? Copy(m) : m;
-            var cos = new matrix(m.Rows, m.Cols);
-            Vml.SinCos(m.Length, m.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            var sin = a.EvaluateMatrix();
+            if (a is MatrixInput) sin = Copy(sin);
+            var cos = new matrix(sin.Rows, sin.Cols);
+            Vml.SinCos(sin.Length, sin.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
             return (sin, cos);
         }
 
@@ -207,19 +207,19 @@ namespace MKLNET
 
         public static (matrix, matrix) Modf(MatrixExpression a)
         {
-            var m = a.EvaluateMatrix();
-            var tru = a is MatrixInput ? Copy(m) : m;
-            var rem = new matrix(m.Rows, m.Cols);
-            Vml.Modf(m.Length, m.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            var tru = a.EvaluateMatrix();
+            if (a is MatrixInput) tru = Copy(tru);
+            var rem = new matrix(tru.Rows, tru.Cols);
+            Vml.Modf(tru.Length, tru.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
             return (tru, rem);
         }
 
         public static (matrix, vector) Eigens(MatrixExpression a)
         {
-            var m = a.EvaluateMatrix();
-            if (m.Rows != m.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var v = a is MatrixInput ? Copy(m) : m;
-            var w = new vector(m.Rows);
+            var v = a.EvaluateMatrix();
+            if (v.Rows != v.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            if (a is MatrixInput) v = Copy(v);
+            var w = new vector(v.Rows);
             ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, v.Rows, v.Array, v.Rows, w.Array));
             return (v, w);
         }
