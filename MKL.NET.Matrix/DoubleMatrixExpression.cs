@@ -198,7 +198,7 @@
             var r = Ea is not MatrixInput ? a
                   : Eb is not MatrixInput ? b
                   : new matrix(a.Rows, a.Cols);
-            Vml.Add(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            Vml.Add(a.Length, a.Array, b.Array, r.Array);
             if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
             return r;
         }
@@ -220,7 +220,7 @@
             var r = Ea is not MatrixInput ? a
                   : Eb is not MatrixInput ? b
                   : new matrix(a.Rows, a.Cols);
-            Vml.Sub(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            Vml.Sub(a.Length, a.Array, b.Array, r.Array);
             if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
             return r;
         }
@@ -270,7 +270,7 @@
             var (e, sa) = E is MatrixScale Es ? (Es.E, Es.S) : (E, 1.0);
             var a = e.EvaluateMatrix();
             var r = e is MatrixInput ? new matrix(a.Rows, a.Cols) : a;
-            Vml.LinearFrac(a.Length, a.Array, 0, 1, a.Array, 0, 1, sa, S, 0.0, 0.0, r.Array, 0, 1);
+            Vml.LinearFrac(a.Length, a.Array, a.Array, sa, S, 0.0, 0.0, r.Array);
             return r;
         }
     }
@@ -326,384 +326,384 @@
     {
         public MatrixAbs(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Abs(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Abs(a.Length, a.Array, r.Array);
     }
 
     public class MatrixSqr : MatrixUnary
     {
         public MatrixSqr(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Sqr(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Sqr(a.Length, a.Array, r.Array);
     }
 
     public class MatrixInv : MatrixUnary
     {
         public MatrixInv(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Inv(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Inv(a.Length, a.Array, r.Array);
     }
 
     public class MatrixSqrt : MatrixUnary
     {
         public MatrixSqrt(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Sqrt(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Sqrt(a.Length, a.Array, r.Array);
     }
 
     public class MatrixInvSqrt : MatrixUnary
     {
         public MatrixInvSqrt(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.InvSqrt(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.InvSqrt(a.Length, a.Array, r.Array);
     }
 
     public class MatrixCbrt : MatrixUnary
     {
         public MatrixCbrt(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Cbrt(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Cbrt(a.Length, a.Array, r.Array);
     }
 
     public class MatrixInvCbrt : MatrixUnary
     {
         public MatrixInvCbrt(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.InvCbrt(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.InvCbrt(a.Length, a.Array, r.Array);
     }
 
     public class MatrixPow2o3 : MatrixUnary
     {
         public MatrixPow2o3(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Pow2o3(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Pow2o3(a.Length, a.Array, r.Array);
     }
 
     public class MatrixPow3o2 : MatrixUnary
     {
         public MatrixPow3o2(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Pow3o2(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Pow3o2(a.Length, a.Array, r.Array);
     }
 
     public class MatrixExp : MatrixUnary
     {
         public MatrixExp(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Exp(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Exp(a.Length, a.Array, r.Array);
     }
 
     public class MatrixExp2 : MatrixUnary
     {
         public MatrixExp2(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Exp2(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Exp2(a.Length, a.Array, r.Array);
     }
 
     public class MatrixExp10 : MatrixUnary
     {
         public MatrixExp10(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Exp10(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Exp10(a.Length, a.Array, r.Array);
     }
 
     public class MatrixExpm1 : MatrixUnary
     {
         public MatrixExpm1(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Expm1(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Expm1(a.Length, a.Array, r.Array);
     }
 
     public class MatrixLn : MatrixUnary
     {
         public MatrixLn(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Ln(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Ln(a.Length, a.Array, r.Array);
     }
 
     public class MatrixLog2 : MatrixUnary
     {
         public MatrixLog2(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Log2(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Log2(a.Length, a.Array, r.Array);
     }
 
     public class MatrixLog10 : MatrixUnary
     {
         public MatrixLog10(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Log10(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Log10(a.Length, a.Array, r.Array);
     }
 
     public class MatrixLog1p : MatrixUnary
     {
         public MatrixLog1p(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Log1p(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Log1p(a.Length, a.Array, r.Array);
     }
 
     public class MatrixLogb : MatrixUnary
     {
         public MatrixLogb(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Logb(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Logb(a.Length, a.Array, r.Array);
     }
     public class MatrixCos : MatrixUnary
     {
         public MatrixCos(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Cos(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Cos(a.Length, a.Array, r.Array);
     }
 
     public class MatrixSin : MatrixUnary
     {
         public MatrixSin(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Sin(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Sin(a.Length, a.Array, r.Array);
     }
 
     public class MatrixTan : MatrixUnary
     {
         public MatrixTan(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Tan(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Tan(a.Length, a.Array, r.Array);
     }
 
     public class MatrixCospi : MatrixUnary
     {
         public MatrixCospi(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Cospi(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Cospi(a.Length, a.Array, r.Array);
     }
 
     public class MatrixSinpi : MatrixUnary
     {
         public MatrixSinpi(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Sinpi(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Sinpi(a.Length, a.Array, r.Array);
     }
 
     public class MatrixTanpi : MatrixUnary
     {
         public MatrixTanpi(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Tanpi(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Tanpi(a.Length, a.Array, r.Array);
     }
 
     public class MatrixCosd : MatrixUnary
     {
         public MatrixCosd(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Cosd(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Cosd(a.Length, a.Array, r.Array);
     }
 
     public class MatrixSind : MatrixUnary
     {
         public MatrixSind(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Sind(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Sind(a.Length, a.Array, r.Array);
     }
 
     public class MatrixTand : MatrixUnary
     {
         public MatrixTand(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Tand(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Tand(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAcos : MatrixUnary
     {
         public MatrixAcos(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Acos(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Acos(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAsin : MatrixUnary
     {
         public MatrixAsin(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Asin(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Asin(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAtan : MatrixUnary
     {
         public MatrixAtan(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Atan(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Atan(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAcospi : MatrixUnary
     {
         public MatrixAcospi(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Acospi(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Acospi(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAsinpi : MatrixUnary
     {
         public MatrixAsinpi(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Asinpi(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Asinpi(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAtanpi : MatrixUnary
     {
         public MatrixAtanpi(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Atanpi(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Atanpi(a.Length, a.Array, r.Array);
     }
 
     public class MatrixCosh : MatrixUnary
     {
         public MatrixCosh(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Cosh(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Cosh(a.Length, a.Array, r.Array);
     }
 
     public class MatrixSinh : MatrixUnary
     {
         public MatrixSinh(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Sinh(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Sinh(a.Length, a.Array, r.Array);
     }
 
     public class MatrixTanh : MatrixUnary
     {
         public MatrixTanh(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Tanh(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Tanh(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAcosh : MatrixUnary
     {
         public MatrixAcosh(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Acosh(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Acosh(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAsinh : MatrixUnary
     {
         public MatrixAsinh(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Asinh(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Asinh(a.Length, a.Array, r.Array);
     }
 
     public class MatrixAtanh : MatrixUnary
     {
         public MatrixAtanh(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Atanh(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Atanh(a.Length, a.Array, r.Array);
     }
 
     public class MatrixErf : MatrixUnary
     {
         public MatrixErf(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Erf(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Erf(a.Length, a.Array, r.Array);
     }
 
     public class MatrixErfc : MatrixUnary
     {
         public MatrixErfc(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Erfc(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Erfc(a.Length, a.Array, r.Array);
     }
 
     public class MatrixErfInv : MatrixUnary
     {
         public MatrixErfInv(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.ErfInv(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.ErfInv(a.Length, a.Array, r.Array);
     }
 
     public class MatrixErfcInv : MatrixUnary
     {
         public MatrixErfcInv(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.ErfcInv(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.ErfcInv(a.Length, a.Array, r.Array);
     }
 
     public class MatrixCdfNorm : MatrixUnary
     {
         public MatrixCdfNorm(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.CdfNorm(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.CdfNorm(a.Length, a.Array, r.Array);
     }
 
     public class MatrixCdfNormInv : MatrixUnary
     {
         public MatrixCdfNormInv(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.CdfNormInv(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.CdfNormInv(a.Length, a.Array, r.Array);
     }
 
     public class MatrixLGamma : MatrixUnary
     {
         public MatrixLGamma(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.LGamma(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.LGamma(a.Length, a.Array, r.Array);
     }
 
     public class MatrixTGamma : MatrixUnary
     {
         public MatrixTGamma(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.TGamma(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.TGamma(a.Length, a.Array, r.Array);
     }
 
     public class MatrixExpInt1 : MatrixUnary
     {
         public MatrixExpInt1(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.ExpInt1(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.ExpInt1(a.Length, a.Array, r.Array);
     }
 
     public class MatrixFloor : MatrixUnary
     {
         public MatrixFloor(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Floor(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Floor(a.Length, a.Array, r.Array);
     }
 
     public class MatrixCeil : MatrixUnary
     {
         public MatrixCeil(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Ceil(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Ceil(a.Length, a.Array, r.Array);
     }
 
     public class MatrixTrunc : MatrixUnary
     {
         public MatrixTrunc(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Trunc(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Trunc(a.Length, a.Array, r.Array);
     }
 
     public class MatrixRound : MatrixUnary
     {
         public MatrixRound(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Round(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Round(a.Length, a.Array, r.Array);
     }
 
     public class MatrixFrac : MatrixUnary
     {
         public MatrixFrac(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Frac(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Frac(a.Length, a.Array, r.Array);
     }
 
     public class MatrixNearbyInt : MatrixUnary
     {
         public MatrixNearbyInt(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.NearbyInt(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.NearbyInt(a.Length, a.Array, r.Array);
     }
 
     public class MatrixRint : MatrixUnary
     {
         public MatrixRint(MatrixExpression a) : base(a) { }
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Rint(a.Length, a.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Rint(a.Length, a.Array, r.Array);
     }
 
     public class MatrixPowx : MatrixUnary
@@ -711,112 +711,112 @@
         readonly double b;
         public MatrixPowx(MatrixExpression a, double b) : base(a) => this.b = b;
         protected override void Evaluate(matrix a, matrix r)
-            => Vml.Powx(a.Length, a.Array, 0, 1, b, r.Array, 0, 1);
+            => Vml.Powx(a.Length, a.Array, b, r.Array);
     }
 
     public class MatrixCopySign : MatrixBinary
     {
         public MatrixCopySign(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.CopySign(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.CopySign(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixFmax : MatrixBinary
     {
         public MatrixFmax(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Fmax(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Fmax(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixFmin : MatrixBinary
     {
         public MatrixFmin(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Fmin(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Fmin(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixFdim : MatrixBinary
     {
         public MatrixFdim(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Fdim(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Fdim(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixMaxMag : MatrixBinary
     {
         public MatrixMaxMag(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.MaxMag(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.MaxMag(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixNextAfter : MatrixBinary
     {
         public MatrixNextAfter(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.NextAfter(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.NextAfter(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixMul : MatrixBinary
     {
         public MatrixMul(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Mul(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Mul(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixFmod : MatrixBinary
     {
         public MatrixFmod(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Fmod(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Fmod(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixAtan2 : MatrixBinary
     {
         public MatrixAtan2(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Atan2(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Atan2(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixAtan2pi : MatrixBinary
     {
         public MatrixAtan2pi(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Atan2pi(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Atan2pi(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixPowr : MatrixBinary
     {
         public MatrixPowr(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Powr(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Powr(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixRemainder : MatrixBinary
     {
         public MatrixRemainder(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Remainder(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Remainder(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixHypot : MatrixBinary
     {
         public MatrixHypot(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Hypot(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Hypot(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixDiv : MatrixBinary
     {
         public MatrixDiv(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Div(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Div(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixPow : MatrixBinary
     {
         public MatrixPow(MatrixExpression a, MatrixExpression b) : base(a, b) { }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.Pow(a.Length, a.Array, 0, 1, b.Array, 0, 1, r.Array, 0, 1);
+            => Vml.Pow(a.Length, a.Array, b.Array, r.Array);
     }
 
     public class MatrixLinearFrac : MatrixBinary
@@ -830,7 +830,7 @@
             Shiftb = shiftb;
         }
         protected override void Evaluate(matrix a, matrix b, matrix r)
-            => Vml.LinearFrac(a.Length, a.Array, 0, 1, b.Array, 0, 1, Scalea, Shifta, Scaleb, Shiftb, r.Array, 0, 1);
+            => Vml.LinearFrac(a.Length, a.Array, b.Array, Scalea, Shifta, Scaleb, Shiftb, r.Array);
     }
 
     public class MatrixInverse : MatrixExpression

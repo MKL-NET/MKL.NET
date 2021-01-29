@@ -999,7 +999,7 @@ let functions = test "functions" {
         m.[1,0] <- 3.; m.[1,1] <- 6.; m.[1,2] <- 3.
         m.[2,0] <- 6.; m.[2,1] <- 4.; m.[2,2] <- 8.
         let d = Matrix.Det(impME m)
-        Check.close Accuracy.High 54.0 d
+        Check.close Accuracy.High -54.0 d
     }
 }
 

@@ -18,7 +18,7 @@ namespace MKLNET
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        public double[] Reuse()
+        internal double[] Reuse()
         {
             GC.SuppressFinalize(this);
             return Array;
@@ -62,7 +62,7 @@ namespace MKLNET
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        public double[] Reuse()
+        internal double[] Reuse()
         {
             GC.SuppressFinalize(this);
             return Array;
@@ -298,7 +298,7 @@ namespace MKLNET
             var sin = a.EvaluateVector();
             if (a is VectorInput) sin = Copy(sin);
             var cos = new vector(sin.Length);
-            Vml.SinCos(sin.Length, sin.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            Vml.SinCos(sin.Length, sin.Array, sin.Array, cos.Array);
             return (sin, cos);
         }
 
@@ -307,7 +307,7 @@ namespace MKLNET
             var sin = a.EvaluateVector();
             if (a is VectorTInput) sin = Copy(sin);
             var cos = new vectorT(sin.Length);
-            Vml.SinCos(sin.Length, sin.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            Vml.SinCos(sin.Length, sin.Array, sin.Array, cos.Array);
             return (sin, cos);
         }
 
@@ -316,7 +316,7 @@ namespace MKLNET
             var tru = a.EvaluateVector();
             if (a is VectorInput) tru = Copy(tru);
             var rem = new vector(tru.Length);
-            Vml.Modf(tru.Length, tru.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            Vml.Modf(tru.Length, tru.Array, tru.Array, rem.Array);
             return (tru, rem);
         }
 
@@ -325,7 +325,7 @@ namespace MKLNET
             var tru = a.EvaluateVector();
             if (a is VectorTInput) tru = Copy(tru);
             var rem = new vectorT(tru.Length);
-            Vml.Modf(tru.Length, tru.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            Vml.Modf(tru.Length, tru.Array, tru.Array, rem.Array);
             return (tru, rem);
         }
     }

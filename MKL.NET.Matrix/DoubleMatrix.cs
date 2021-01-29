@@ -26,7 +26,7 @@ namespace MKLNET
             Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        public double[] Reuse()
+        internal double[] Reuse()
         {
             GC.SuppressFinalize(this);
             return Array;
@@ -187,7 +187,7 @@ namespace MKLNET
             var sin = a.EvaluateMatrix();
             if (a is MatrixInput) sin = Copy(sin);
             var cos = new matrix(sin.Rows, sin.Cols);
-            Vml.SinCos(sin.Length, sin.Array, 0, 1, sin.Array, 0, 1, cos.Array, 0, 1);
+            Vml.SinCos(sin.Length, sin.Array, sin.Array, cos.Array);
             return (sin, cos);
         }
 
@@ -202,7 +202,7 @@ namespace MKLNET
             for (int i = 1; i < m.Rows; i++)
                 r *= m[i, i];
             m.Dispose();
-            return r;
+            return -r;
         }
 
         public static (matrix, matrix) Modf(MatrixExpression a)
@@ -210,7 +210,7 @@ namespace MKLNET
             var tru = a.EvaluateMatrix();
             if (a is MatrixInput) tru = Copy(tru);
             var rem = new matrix(tru.Rows, tru.Cols);
-            Vml.Modf(tru.Length, tru.Array, 0, 1, tru.Array, 0, 1, rem.Array, 0, 1);
+            Vml.Modf(tru.Length, tru.Array, tru.Array, rem.Array);
             return (tru, rem);
         }
 
