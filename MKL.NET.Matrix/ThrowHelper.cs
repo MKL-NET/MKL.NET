@@ -11,6 +11,7 @@ namespace MKLNET
             throw new Exception("Incorrect Dimensions For Operation");
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Check(int i)
         {
             if (i != 0) throw new Exception("MKL Error code: " + i);

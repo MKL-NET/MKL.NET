@@ -974,8 +974,9 @@ let functions = test "functions" {
     testUnary "ExpInt1" (expint 1) Matrix.ExpInt1
     testUnary "Floor" floor Matrix.Floor
     testUnary "Ceil" ceil Matrix.Ceil
-    testUnary "Trunc" truncate Matrix.Trunc
-    testUnary "Round" (fun a -> Math.Round(a, MidpointRounding.AwayFromZero)) Matrix.Round
+    testUnary "Truncate" truncate Matrix.Truncate
+    testUnary "Round" Math.Round Matrix.Round
+    testUnary "RoundAwayFromZero" (fun a -> Math.Round(a, MidpointRounding.AwayFromZero)) Matrix.RoundAwayFromZero
     testUnary "Frac" (fun a -> a - truncate a) Matrix.Frac
     testUnary "NearbyInt" (fun a -> Math.Round(a, MidpointRounding.ToEven)) Matrix.NearbyInt
     testUnary "Rint" (fun a -> Math.Round(a, MidpointRounding.ToEven)) Matrix.Rint

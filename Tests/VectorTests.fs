@@ -512,8 +512,9 @@ let functions = test "functions" {
     testUnary "ExpInt1" (expint 1) Vector.ExpInt1 Vector.ExpInt1
     testUnary "Floor" floor Vector.Floor Vector.Floor
     testUnary "Ceil" ceil Vector.Ceil Vector.Ceil
-    testUnary "Trunc" truncate Vector.Trunc Vector.Trunc
-    testUnary "Round" (fun a -> Math.Round(a, MidpointRounding.AwayFromZero)) Vector.Round Vector.Round
+    testUnary "Truncate" truncate Vector.Truncate Vector.Truncate
+    testUnary "Round" Math.Round Vector.Round Vector.Round
+    testUnary "RoundAwayFromZero" (fun a -> Math.Round(a, MidpointRounding.AwayFromZero)) Vector.RoundAwayFromZero Vector.RoundAwayFromZero
     testUnary "Frac" (fun a -> a - truncate a) Vector.Frac Vector.Frac
     testUnary "NearbyInt" (fun a -> Math.Round(a, MidpointRounding.ToEven)) Vector.NearbyInt Vector.NearbyInt
     testUnary "Rint" (fun a -> Math.Round(a, MidpointRounding.ToEven)) Vector.Rint Vector.Rint
