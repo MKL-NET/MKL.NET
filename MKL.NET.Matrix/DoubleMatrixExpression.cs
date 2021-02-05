@@ -270,7 +270,7 @@
             var (e, sa) = E is MatrixScale Es ? (Es.E, Es.S) : (E, 1.0);
             var a = e.EvaluateMatrix();
             var r = e is MatrixInput ? new matrix(a.Rows, a.Cols) : a;
-            Vml.LinearFrac(a.Length, a.Array, a.Array, sa, S, 0.0, 0.0, r.Array);
+            Vml.LinearFrac(a.Length, a.Array, a.Array, sa, S, 0.0, 1.0, r.Array);
             return r;
         }
     }
@@ -295,30 +295,11 @@
             var b = eb.EvaluateMatrix();
             var k = ta == Trans.Yes ? a.Rows : a.Cols;
             if (k != (tb == Trans.Yes ? b.Cols : b.Rows)) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var rrows = ta == Trans.Yes ? a.Cols : a.Rows;
-            var rcols = tb == Trans.Yes ? b.Rows : b.Cols;
-            if (ea is not MatrixInput && a.Array.Length >= rrows * rcols)
-            {
-                var r = new matrix(rrows, rcols, a.Reuse());
-                Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
-                if (eb is not MatrixInput) b.Dispose();
-                return r;
-            }
-            else if (eb is not MatrixInput && b.Array.Length >= rrows * rcols)
-            {
-                var r = new matrix(rrows, rcols, b.Reuse());
-                Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
-                if (Ea is not MatrixInput) a.Dispose();
-                return r;
-            }
-            else
-            {
-                var r = new matrix(rrows, rcols);
-                Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
-                if (ea is not MatrixInput) a.Dispose();
-                if (eb is not MatrixInput) b.Dispose();
-                return r;
-            }
+            var r = new matrix(ta == Trans.Yes ? a.Cols : a.Rows, tb == Trans.Yes ? b.Rows : b.Cols);
+            Blas.gemm(Layout.ColMajor, ta, tb, r.Rows, r.Cols, k, sa * sb, a.Array, a.Rows, b.Array, b.Rows, 0.0, r.Array, r.Rows);
+            if (ea is not MatrixInput) a.Dispose();
+            if (eb is not MatrixInput) b.Dispose();
+            return r;
         }
     }
 
