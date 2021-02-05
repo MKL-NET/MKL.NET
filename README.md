@@ -40,6 +40,7 @@ The correct native libraries will be included and loaded at runtime.
 - Intermediate matrices are disposed or reused automatically.
 - ArrayPool underlying memory model using IDisposable and Finalizers.
 - Uses the Pinned Object Heap for net5.0.
+- All these combined result in it being much faster than other matrix libraries.
 
 The following example only results in one new matrix (using ArrayPool) without mutating inputs.
 ```csharp

@@ -20,7 +20,7 @@ jobs:
       - name: Test Core 64
         run: dotnet run -p Tests -c Release -f net5.0 -- -perf --info --nost --time 60 --wait 10
       - name: Test Core 86
-        run: dotnet run -p Tests -c Release -f net5.0 -- -perf -r win-x86 --info --nost --time 60 --wait 10
+        run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10
       - name: Test Framework 86
         run: dotnet run -p Tests -c Release -f net48 -r win-x86 -- -perf --info --nost --time 30 --wait 10
   linux:
