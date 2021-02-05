@@ -35,14 +35,14 @@ The correct native libraries will be included and loaded at runtime.
 ## MKL.NET.Matrix
 
 - Performance and memory optimised matrix algebra library.
-- Matrix expressions are optimised to perform intermediate calculations inplace and reuse memory directly.
+- Matrix expressions are optimised to perform intermediate calculations inplace and reuse memory.
 - Operations such as scale, transpose, +, * are combined into single MKL calls.
-- Intermediate matrices are disposed or reused automatically.
+- Intermediate matrices are disposed (or reused) automatically.
 - ArrayPool underlying memory model using IDisposable and Finalizers.
 - Uses the Pinned Object Heap for net5.0.
 - All these combined result in it being much faster than other matrix libraries.
 
-The following example only results in one new matrix (using ArrayPool) without mutating inputs.
+The following example only results in one new matrix r (using ArrayPool) without mutating inputs.
 ```csharp
 public static matrix Example(matrix ma, matrix mb, vector va, vector vb)
 {
