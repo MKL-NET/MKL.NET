@@ -2,7 +2,7 @@
     <PropertyGroup>
         <Authors>Anthony Lloyd</Authors>
         <Owners>Anthony Lloyd</Owners>
-        <Copyright>Copyright 2020</Copyright>
+        <Copyright>Copyright 2021</Copyright>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageProjectUrl>http://github.com/MKL-NET/MKL.NET</PackageProjectUrl>
         <PackageIcon>matrix.png</PackageIcon>

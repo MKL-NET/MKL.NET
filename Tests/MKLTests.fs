@@ -8,11 +8,11 @@ let all =
 
         test "get_version" {
             let v = MKL.get_version()
-            Check.equal 2020 v.MajorVersion
-            Check.equal 0 v.MinorVersion
-            Check.equal 4 v.UpdateVersion
-            Check.equal "Product" v.ProductStatus
-            Check.equal "20200917" v.Build
+            Check.info "%i" v.MajorVersion
+            Check.info "%i" v.MinorVersion
+            Check.info "%i" v.UpdateVersion
+            Check.info "%s" v.ProductStatus
+            Check.info "%s" v.Build
             Check.info "%s" v.Processor
             Check.info "%s" v.Platform
         }

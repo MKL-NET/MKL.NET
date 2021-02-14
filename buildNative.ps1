@@ -21,11 +21,13 @@ try
     New-Item runtimes/win-x64/native -ItemType Directory | Out-Null
     Copy-Item packages/intelmkl.redist.win-x64/runtimes/win-x64/native/*.dll runtimes/win-x64/native
     Remove-Item packages/intelmkl.redist.win-x64 -Force -Recurse
+    Move-Item runtimes/win-x64/native/mkl_rt.1.dll runtimes/win-x64/native/mkl_rt.dll
 
     GetPackage intelmkl.redist.win-x86 2021.1.1.52
     New-Item runtimes/win-x86/native -ItemType Directory | Out-Null
     Copy-Item packages/intelmkl.redist.win-x86/runtimes/win-x86/native/*.dll runtimes/win-x86/native
     Remove-Item packages/intelmkl.redist.win-x86 -Force -Recurse
+    Move-Item runtimes/win-x86/native/mkl_rt.1.dll runtimes/win-x86/native/mkl_rt.dll
     
     GetPackage intelopenmp.redist.win 2021.1.2.265
     Copy-Item packages/intelopenmp.redist.win/runtimes/win-x64/native/*.dll runtimes/win-x64/native
@@ -61,6 +63,14 @@ try
     New-Item runtimes/osx-x64/native -ItemType Directory | Out-Null
     Copy-Item packages/intelmkl.devel.osx-x64/lib/native/osx-x64/*.dylib runtimes/osx-x64/native
     Remove-Item packages/intelmkl.devel.osx-x64 -Force -Recurse
+    Remove-Item runtimes/osx-x64/native/libmkl_rt.dylib
+    Remove-Item runtimes/osx-x64/native/libmkl_core.dylib
+    Remove-Item runtimes/osx-x64/native/libmkl_intel_ilp64.dylib
+    Remove-Item runtimes/osx-x64/native/libmkl_intel_lp64.dylib
+    Remove-Item runtimes/osx-x64/native/libmkl_intel_thread.dylib
+    Remove-Item runtimes/osx-x64/native/libmkl_sequential.dylib
+    Remove-Item runtimes/osx-x64/native/libmkl_tbb_thread.dylib
+    Move-Item runtimes/osx-x64/native/libmkl_rt.1.dylib runtimes/osx-x64/native/libmkl_rt.dylib
 
     GetPackage intelopenmp.devel.osx 2021.1.2.267
     Copy-Item packages/intelopenmp.devel.osx/lib/native/osx-x64/*.dylib runtimes/osx-x64/native
