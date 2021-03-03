@@ -33,6 +33,7 @@ namespace MKLNET
         }
         ~matrix() => Pool.Return(Array);
         public MatrixExpression T => new MatrixTranspose(this);
+        public MatrixExpression Reuse(matrix m) => new MatrixReuse(m);
         public static MatrixExpression operator +(matrix a, double s) => new MatrixAddScalar(a, s);
         public static MatrixExpression operator +(double s, matrix a) => new MatrixAddScalar(a, s);
         public static MatrixExpression operator -(matrix a, double s) => new MatrixAddScalar(a, -s);

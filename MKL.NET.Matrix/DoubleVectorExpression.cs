@@ -95,6 +95,20 @@ namespace MKLNET.Expression
         public override vectorT EvaluateVector() => V;
     }
 
+    public class VectorReuse : VectorExpression
+    {
+        readonly vector V;
+        public VectorReuse(vector a) => V = a;
+        public override vector EvaluateVector() => V;
+    }
+
+    public class VectorTReuse : VectorTExpression
+    {
+        readonly vectorT V;
+        public VectorTReuse(vectorT a) => V = a;
+        public override vectorT EvaluateVector() => V;
+    }
+
     public class VectorToMatrix : MatrixExpression
     {
         readonly VectorExpression E;

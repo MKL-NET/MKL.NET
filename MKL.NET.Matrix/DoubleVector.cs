@@ -96,6 +96,8 @@ namespace MKLNET
 
     public static class Vector
     {
+        public static VectorExpression Reuse(vector v) => new VectorReuse(v);
+        public static VectorTExpression Reuse(vectorT v) => new VectorTReuse(v);
         public static VectorExpression Abs(VectorExpression v) => new MatrixToVector(new MatrixAbs(v.ToMatrix()));
         public static VectorTExpression Abs(VectorTExpression v) => new MatrixToVectorT(new MatrixAbs(v.ToMatrix()));
         public static VectorExpression Sqr(VectorExpression v) => new MatrixToVector(new MatrixSqr(v.ToMatrix()));

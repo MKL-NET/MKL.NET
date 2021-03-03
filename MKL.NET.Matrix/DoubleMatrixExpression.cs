@@ -74,6 +74,13 @@
         public override matrix EvaluateMatrix() => m;
     }
 
+    public class MatrixReuse : MatrixExpression
+    {
+        readonly protected matrix m;
+        public MatrixReuse(matrix a) => m = a;
+        public override matrix EvaluateMatrix() => m;
+    }
+
     public class MatrixScale : MatrixExpression
     {
         public readonly MatrixExpression E;
