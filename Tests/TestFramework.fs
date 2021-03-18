@@ -348,7 +348,7 @@ type TestBuilder(name:string) =
     member _.Bind(g:#Gen<'a>,f:'a->Test,
       [<CallerLineNumberAttribute;Optional;DefaultParameterValue 0>]line:int) =
         Test(nameList, fun p c ->
-            let struct (a,s) = g.Generate p
+            let a, s = g.Generate p
             match sizeMins.GetOption line with
             | ValueSome v when v.IsLessThan s -> c None
             | _ ->
