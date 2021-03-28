@@ -6,7 +6,7 @@ open CsCheck
 
 let rng =
     test "rng" {
-        let rngRegressionTest name gen brng seed hash sf =
+        let rngRegressionTest name gen brng seed hash (sf:int) =
             let rngName = Enum.GetName(typeof<VslBrng>, brng)
             test rngName {
                 let stream = Vsl.NewStream(brng, seed)
@@ -14,7 +14,7 @@ let rng =
                 gen stream r |> Check.equal 0
                 Vsl.DeleteStream stream |> Check.equal 0
                 Array.sumBy abs r |> Check.notDefaultValue
-                Check.Hash((fun h -> h.AddSignificantFigures(sf,r)), hash, name + "_" + rngName)
+                Check.Hash((fun h -> h.Add(r)), hash, significantFigures = sf, memberName = name + "_" + rngName)
             }
 
         test "guassian" {
@@ -229,7 +229,7 @@ let rng =
                 gen stream r |> Check.equal 0
                 Vsl.DeleteStream stream |> Check.equal 0
                 Array.sumBy abs r |> Check.notDefaultValue
-                Check.Hash((fun h -> h.Add(r)), hash, name + "_" + rngName)
+                Check.Hash((fun h -> h.Add(r)), hash, memberName = name + "_" + rngName)
             }
 
         test "binomial" {

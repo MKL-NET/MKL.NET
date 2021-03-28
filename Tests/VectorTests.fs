@@ -10,24 +10,24 @@ let gen1D = Gen.Int.[1,MAX_DIM]
 let gen2D = Gen.Select(gen1D,gen1D)
 
 let genVector length =
-    Gen.Create(fun (pcg:PCG) (size:Size byref) ->
+    Gen.Create(fun (pcg:PCG) (_:Size) (size:Size byref) ->
         size <- Size 0UL
         let v = new vector(length)
         let gen = Gen.Double.OneTwo
         for i =0 to length-1 do
-            let d,_ = gen.Generate pcg
+            let d,_ = gen.Generate(pcg, null)
             v.[i] <- d
         v
     )
 
 let genMatrix rows cols =
-    Gen.Create(fun (pcg:PCG) (size:Size byref) ->
+    Gen.Create(fun (pcg:PCG) (_:Size) (size:Size byref) ->
         size <- Size 0UL
         let m = new matrix(rows,cols)
         let gen = Gen.Double.OneTwo
         for r =0 to rows-1 do
             for c=0 to cols-1 do
-                let d,_ = gen.Generate pcg
+                let d,_ = gen.Generate(pcg, null)
                 m.[r,c] <- d
         m
     )

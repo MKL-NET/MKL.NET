@@ -348,9 +348,9 @@ type TestBuilder(name:string) =
     member _.Bind(g:#Gen<'a>,f:'a->Test,
       [<CallerLineNumberAttribute;Optional;DefaultParameterValue 0>]line:int) =
         Test(nameList, fun p c ->
-            let a, s = g.Generate p
+            let a, s = g.Generate(p, null)
             match sizeMins.GetOption line with
-            | ValueSome v when v.IsLessThan s -> c None
+            | ValueSome v when Size.IsLessThan(v, s) -> c None
             | _ ->
                 let (Test(_,tf)) = f a
                 tf p (function
@@ -359,7 +359,7 @@ type TestBuilder(name:string) =
                             if TestResult.hasErrs r then
                                 //lock sizeMins (fun () ->
                                     let m = &sizeMins.GetRef line
-                                    if isNull m || not(m.IsLessThan s) then
+                                    if isNull m || not(Size.IsLessThan(m, s)) then
                                         m <- s
                                         Some r
                                     else None

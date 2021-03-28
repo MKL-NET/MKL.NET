@@ -11,13 +11,13 @@ let gen2D = Gen.Select(gen1D,gen1D)
 let gen3D = Gen.Select(gen1D,gen1D,gen1D)
 
 let genMatrix rows cols =
-    Gen.Create(fun (pcg:PCG) (size:Size byref) ->
+    Gen.Create(fun (pcg:PCG) (_:Size) (size:Size byref) ->
         size <- Size 0UL
         let m = new matrix(rows,cols)
         let gen = Gen.Double.OneTwo
         for r =0 to rows-1 do
             for c=0 to cols-1 do
-                let d,_ = gen.Generate pcg
+                let d,_ = gen.Generate(pcg, null)
                 m.[r,c] <- d
         m
     )
