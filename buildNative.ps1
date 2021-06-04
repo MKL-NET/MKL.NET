@@ -8,7 +8,10 @@ function GetPackage([string]$name, [string]$version)
         $wc = New-Object System.Net.WebClient
         $wc.DownloadFile("https://www.nuget.org/api/v2/package/$name/$version", $filename)
     }
-    Expand-Archive $filename "packages/$name"
+    $temp_zip_filename = "$PSScriptRoot/packages/$name.$version.zip"
+    Copy-Item $filename $temp_zip_filename
+    Expand-Archive $temp_zip_filename "packages/$name"
+    Remove-Item $temp_zip_filename
 }
 
 try
