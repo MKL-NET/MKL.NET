@@ -5654,18 +5654,18 @@ namespace MKLNET
         static extern int LAPACKE_dsyevr(Layout layout, char jobz, char range, UpLoChar uplo,
             int n, double[] a, int lda, double vl,
             double vu, int il, int iu,
-            double abstol, int[] m, double[] w, double[] z,
+            double abstol, out int m, double[] w, double[] z,
             int ldz, int[] isuppz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int syevr(Layout layout, char jobz, char range, UpLoChar uplo,
             int n, double[] a, int lda, double vl,
             double vu, int il, int iu,
-            double abstol, int[] m, double[] w, double[] z,
+            double abstol, out int m, double[] w, double[] z,
             int ldz, int[] isuppz)
             => LAPACKE_dsyevr(layout, jobz, range, uplo,
                 n, a, lda, vl,
                 vu, il, iu,
-                abstol, m, w, z,
+                abstol, out m, w, z,
                 ldz, isuppz);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -5673,7 +5673,7 @@ namespace MKLNET
             UpLoChar uplo, int n, double[] a,
             int lda, double vl, double vu,
             int il, int iu, double abstol,
-            int[] m, double[] w, double[] z,
+            out int m, double[] w, double[] z,
             int ldz, int[] isuppz,
             double[] work, int lwork,
             int[] iwork, int liwork);
@@ -5682,7 +5682,7 @@ namespace MKLNET
             UpLoChar uplo, int n, double[] a,
             int lda, double vl, double vu,
             int il, int iu, double abstol,
-            int[] m, double[] w, double[] z,
+            out int m, double[] w, double[] z,
             int ldz, int[] isuppz,
             double[] work, int lwork,
             int[] iwork, int liwork)
@@ -5690,7 +5690,7 @@ namespace MKLNET
                 uplo, n, a,
                 lda, vl, vu,
                 il, iu, abstol,
-                m, w, z,
+                out m, w, z,
                 ldz, isuppz,
                 work, lwork,
                 iwork, liwork);
@@ -12698,18 +12698,18 @@ namespace MKLNET
         static extern int LAPACKE_ssyevr(Layout layout, char jobz, char range, UpLoChar uplo,
             int n, float[] a, int lda, float vl,
             float vu, int il, int iu, float abstol,
-            int[] m, float[] w, float[] z, int ldz,
+            out int m, float[] w, float[] z, int ldz,
             int[] isuppz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int syevr(Layout layout, char jobz, char range, UpLoChar uplo,
             int n, float[] a, int lda, float vl,
             float vu, int il, int iu, float abstol,
-            int[] m, float[] w, float[] z, int ldz,
+            out int m, float[] w, float[] z, int ldz,
             int[] isuppz)
             => LAPACKE_ssyevr(layout, jobz, range, uplo,
                 n, a, lda, vl,
                 vu, il, iu, abstol,
-                m, w, z, ldz,
+                out m, w, z, ldz,
                 isuppz);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
