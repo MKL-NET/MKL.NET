@@ -12717,7 +12717,7 @@ namespace MKLNET
             UpLoChar uplo, int n, float[] a,
             int lda, float vl, float vu,
             int il, int iu, float abstol,
-            int[] m, float[] w, float[] z,
+            out int m, float[] w, float[] z,
             int ldz, int[] isuppz, float[] work,
             int lwork, int[] iwork,
             int liwork);
@@ -12726,7 +12726,7 @@ namespace MKLNET
             UpLoChar uplo, int n, float[] a,
             int lda, float vl, float vu,
             int il, int iu, float abstol,
-            int[] m, float[] w, float[] z,
+            out int m, float[] w, float[] z,
             int ldz, int[] isuppz, float[] work,
             int lwork, int[] iwork,
             int liwork)
@@ -12734,7 +12734,7 @@ namespace MKLNET
                 uplo, n, a,
                 lda, vl, vu,
                 il, iu, abstol,
-                m, w, z,
+                out m, w, z,
                 ldz, isuppz, work,
                 lwork, iwork,
                 liwork);

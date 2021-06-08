@@ -260,6 +260,12 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int NewStreamEx(out VslStream stream, VslBrng brng, uint seed, uint[] param)
             => vslNewStreamEx(out stream, brng, seed, param);
+        public static VslStream NewStreamEx(VslBrng brng, uint seed, uint[] param)
+        {
+            int status = NewStreamEx(out var stream, brng, seed, param);
+            if (status != 0) throw new Exception("Non zero status: " + status);
+            return stream;
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslDeleteStream(ref VslStream stream);
@@ -289,6 +295,12 @@ namespace MKLNET
         static extern int vslSkipAheadStream(VslStream stream, int nskip);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SkipAheadStream(VslStream stream, int nskip)
+            => vslSkipAheadStream(stream, nskip);
+
+        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int vslSkipAheadStream(VslStream stream, long nskip);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SkipAheadStream(VslStream stream, long nskip)
             => vslSkipAheadStream(stream, nskip);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

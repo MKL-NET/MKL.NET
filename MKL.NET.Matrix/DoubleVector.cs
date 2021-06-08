@@ -215,8 +215,10 @@ namespace MKLNET
         public static VectorExpression CopySign(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixCopySign(a.ToMatrix(), b.ToMatrix()));
         public static VectorTExpression CopySign(VectorTExpression a, VectorExpression b) => new MatrixToVectorT(new MatrixCopySign(a.ToMatrix(), b.ToMatrix()));
         public static VectorExpression Max(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixFmax(a.ToMatrix(), b.ToMatrix()));
+        public static VectorExpression Max(VectorExpression a, double b) => new MatrixToVector(new MatrixMaxScalar(a.ToMatrix(), b));
         public static VectorTExpression Max(VectorTExpression a, VectorExpression b) => new MatrixToVectorT(new MatrixFmax(a.ToMatrix(), b.ToMatrix()));
         public static VectorExpression Min(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixFmin(a.ToMatrix(), b.ToMatrix()));
+        public static VectorExpression Min(VectorExpression a, double b) => new MatrixToVector(new MatrixMinScalar(a.ToMatrix(), b));
         public static VectorTExpression Min(VectorTExpression a, VectorExpression b) => new MatrixToVectorT(new MatrixFmin(a.ToMatrix(), b.ToMatrix()));
         public static VectorExpression Fdim(VectorExpression a, VectorExpression b) => new MatrixToVector(new MatrixFdim(a.ToMatrix(), b.ToMatrix()));
         public static VectorTExpression Fdim(VectorTExpression a, VectorExpression b) => new MatrixToVectorT(new MatrixFdim(a.ToMatrix(), b.ToMatrix()));

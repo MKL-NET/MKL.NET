@@ -702,6 +702,22 @@
             => Vml.Powx(a.Length, a.Array, b, r.Array);
     }
 
+    public class MatrixMaxScalar : MatrixUnary
+    {
+        readonly double b;
+        public MatrixMaxScalar(MatrixExpression a, double b) : base(a) => this.b = b;
+        protected override void Evaluate(matrix a, matrix r)
+            => Vml.Fmax(a.Length, a.Array, 0, a.Length, b, r.Array, 0, r.Length);
+    }
+
+    public class MatrixMinScalar : MatrixUnary
+    {
+        readonly double b;
+        public MatrixMinScalar(MatrixExpression a, double b) : base(a) => this.b = b;
+        protected override void Evaluate(matrix a, matrix r)
+            => Vml.Fmin(a.Length, a.Array, 0, a.Length, b, r.Array, 0, r.Length);
+    }
+
     public class MatrixCopySign : MatrixBinary
     {
         public MatrixCopySign(MatrixExpression a, MatrixExpression b) : base(a, b) { }
@@ -895,11 +911,12 @@
             var b = Eb.EvaluateMatrix();
             if (a.Rows != a.Cols || a.Rows != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (Ea is MatrixInput) a = Matrix.Copy(a);
+            if (Eb is MatrixInput) b = Matrix.Copy(b);
             var ipiv = Pool.Int.Rent(a.Rows);
             ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, b.Cols, a.Array, a.Rows, ipiv, b.Array, a.Rows));
             Pool.Int.Return(ipiv);
-            if (Eb is not MatrixInput) b.Dispose();
-            return a;
+            if (Ea is not MatrixInput) a.Dispose();
+            return b;
         }
     }
 
@@ -915,11 +932,12 @@
         {
             var a = Ea.EvaluateMatrix();
             var b = Eb.EvaluateMatrix();
-            if (a.Rows != b.Rows || a.Cols > a.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+            if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (Ea is MatrixInput) a = Matrix.Copy(a);
+            if (Eb is MatrixInput) b = Matrix.Copy(b);
             Lapack.gels(Layout.RowMajor, TransChar.No, a.Rows, a.Cols, b.Cols, a.Array, a.Cols, b.Array, b.Cols);
-            if (Eb is not MatrixInput) b.Dispose();
-            return a;
+            if (Ea is not MatrixInput) a.Dispose();
+            return b;
         }
     }
 }

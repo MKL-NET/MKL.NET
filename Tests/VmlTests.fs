@@ -745,6 +745,28 @@ let miscellaneous =
 let bespoke =
     test "bespoke" {
 
+        test "MaxScalar_double" {
+            let! a = Gen.Double.Normal.Array.[1,ROWS_MAX]
+            let! b = Gen.Double.Normal
+            let expected = Array.map (fun a -> Math.Max(a,b)) a
+            let actual = Array.zeroCreate a.Length
+            Vml.Fmax(a.Length,a,0,1,b,actual,0,1)
+            Check.close High expected actual |> Check.message "I"
+            Vml.Fmax(a.Length,a,0,1,b,a,0,1)
+            Check.close High expected a |> Check.message "inplace"
+        }
+
+        test "MinScalar_double" {
+            let! a = Gen.Double.Normal.Array.[1,ROWS_MAX]
+            let! b = Gen.Double.Normal
+            let expected = Array.map (fun a -> Math.Min(a,b)) a
+            let actual = Array.zeroCreate a.Length
+            Vml.Fmin(a.Length,a,0,1,b,actual,0,1)
+            Check.close High expected actual |> Check.message "I"
+            Vml.Fmin(a.Length,a,0,1,b,a,0,1)
+            Check.close High expected a |> Check.message "inplace"
+        }
+
         test "Powx_double" {
             let! a = Gen.Double.[0.0,Double.MaxValue].Array.[1,ROWS_MAX]
             let! b = Gen.Double

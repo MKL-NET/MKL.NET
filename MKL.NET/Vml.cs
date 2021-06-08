@@ -5005,6 +5005,14 @@ namespace MKLNET
                 vdFmaxI(n, ap, inca, bp, incb, rp, incr);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Fmax(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdFmaxI(n, ap, inca, &b, 0, rp, incr);
+        }
+
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern void vmsFmaxI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5047,6 +5055,13 @@ namespace MKLNET
             fixed (double* bp = &b[inib])
             fixed (double* rp = &r[inir])
                 vdFminI(n, ap, inca, bp, incb, rp, incr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Fmin(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr)
+        {
+            fixed (double* ap = &a[inia])
+            fixed (double* rp = &r[inir])
+                vdFminI(n, ap, inca, &b, 0, rp, incr);
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

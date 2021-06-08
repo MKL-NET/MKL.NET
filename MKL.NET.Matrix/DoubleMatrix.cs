@@ -121,7 +121,9 @@ namespace MKLNET
         public static MatrixExpression Powx(MatrixExpression m, double b) => new MatrixPowx(m, b);
         public static MatrixExpression CopySign(MatrixExpression a, MatrixExpression b) => new MatrixCopySign(a, b);
         public static MatrixExpression Max(MatrixExpression a, MatrixExpression b) => new MatrixFmax(a, b);
+        public static MatrixExpression Max(MatrixExpression a, double b) => new MatrixMaxScalar(a, b);
         public static MatrixExpression Min(MatrixExpression a, MatrixExpression b) => new MatrixFmin(a, b);
+        public static MatrixExpression Min(MatrixExpression a, double b) => new MatrixMinScalar(a, b);
         public static MatrixExpression Fdim(MatrixExpression a, MatrixExpression b) => new MatrixFdim(a, b);
         public static MatrixExpression MaxMag(MatrixExpression a, MatrixExpression b) => new MatrixMaxMag(a, b);
         public static MatrixExpression NextAfter(MatrixExpression a, MatrixExpression b) => new MatrixNextAfter(a, b);
