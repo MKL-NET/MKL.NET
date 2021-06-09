@@ -36,4 +36,9 @@ let all =
             let i = MKL.get_dynamic()
             Check.info "%i" i
         }
+
+        //test "set_threading_layer" {
+        //    let i = MKL.set_threading_layer(MklThreading.SEQUENTIAL)
+        //    Check.info "%A" i
+        //}
     }

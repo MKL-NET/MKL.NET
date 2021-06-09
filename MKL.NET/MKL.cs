@@ -47,9 +47,9 @@ namespace MKLNET
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void mkl_set_num_threads(int nt);
+        static extern void mkl_set_num_threads(ref int nt);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void set_num_threads(int nt) => mkl_set_num_threads(nt);
+        public static void set_num_threads(int nt) => mkl_set_num_threads(ref nt);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int mkl_get_max_threads();
@@ -57,10 +57,10 @@ namespace MKLNET
         public static int get_max_threads() => mkl_get_max_threads();
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern MklThreading mkl_set_threading_layer(MklThreading required_threading);
+        static extern MklThreading mkl_set_threading_layer(ref MklThreading required_threading);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MklThreading set_threading_layer(MklThreading required_threading)
-            => mkl_set_threading_layer(required_threading);
+            => mkl_set_threading_layer(ref required_threading);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int mkl_get_dynamic();
@@ -68,15 +68,15 @@ namespace MKLNET
         public static int get_dynamic() => mkl_get_dynamic();
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern void mkl_set_dynamic(int flag);
+        static extern void mkl_set_dynamic(ref int flag);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void set_dynamic(int flag) => mkl_set_dynamic(flag);
+        public static void set_dynamic(int flag) => mkl_set_dynamic(ref flag);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int mkl_cbwr_set(MklCBWR option);
+        static extern int mkl_cbwr_set(ref MklCBWR option);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cbwr_set(MklCBWR option)
-            => mkl_cbwr_set(option);
+            => mkl_cbwr_set(ref option);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern MklCBWR mkl_cbwr_get_auto_branch();

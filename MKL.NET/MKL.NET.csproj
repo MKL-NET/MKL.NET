@@ -12,9 +12,9 @@
     <NoWarn>NU5128;NU5131;IDE1006</NoWarn>
     <DefineConstants Condition="'$(OS)'!=''">$(DefineConstants);$(OS)</DefineConstants>
     <PackageReleaseNotes>
-Fixed Lapack.syevr out m.
+Fixed MKL.set_threading_layer.
     </PackageReleaseNotes>
-    <Version>1.1.2</Version>
+    <Version>1.1.3</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />
