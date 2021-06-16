@@ -256,16 +256,18 @@ namespace MKLNET
         }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern int vslNewStreamEx(out VslStream stream, VslBrng brng, uint seed, uint[] param);
+        static extern int vslNewStreamEx(out VslStream stream, VslBrng brng, int n, uint[] param);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int NewStreamEx(out VslStream stream, VslBrng brng, uint seed, uint[] param)
-            => vslNewStreamEx(out stream, brng, seed, param);
-        public static VslStream NewStreamEx(VslBrng brng, uint seed, uint[] param)
+        public static int NewStreamEx(out VslStream stream, VslBrng brng, int n, uint[] param)
+            => vslNewStreamEx(out stream, brng, n, param);
+        public static VslStream NewStreamEx(VslBrng brng, int n, uint[] param)
         {
-            int status = NewStreamEx(out var stream, brng, seed, param);
+            int status = NewStreamEx(out var stream, brng, n, param);
             if (status != 0) throw new Exception("Non zero status: " + status);
             return stream;
         }
+        public static VslStream NewStreamEx(VslBrng brng, uint[] param)
+            => NewStreamEx(brng, param.Length, param);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslDeleteStream(ref VslStream stream);
