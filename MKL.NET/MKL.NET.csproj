@@ -17,10 +17,11 @@
     <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
     <PackageReleaseNotes>
 Added Vsl.NewStreamEx overload.
+Added Solve.NonLinearLeastSquares Jacobian precision parameter.
 References Assembly rename and reduce size.
 Strong name the assembly.
     </PackageReleaseNotes>
-    <Version>1.1.4</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />

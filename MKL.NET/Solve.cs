@@ -73,8 +73,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -93,7 +94,7 @@ namespace MKLNET
                     {
                         IntPtr jacHandle;
                         int jacRequest;
-                        status = djacobi_init(&jacHandle, &n, &m, xp, jacp, epsp);
+                        status = djacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
                                 F(x, jacRequest == 1 ? f1 : f2);
@@ -130,8 +131,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -144,7 +146,7 @@ namespace MKLNET
                 while (status == SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
                     if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, epsp);
+                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, &jeps);
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
@@ -178,8 +180,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -198,7 +201,7 @@ namespace MKLNET
                     {
                         IntPtr jacHandle;
                         int jacRequest;
-                        status = djacobi_init(&jacHandle, &n, &m, xp, jacp, epsp);
+                        status = djacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
                                 F(x, jacRequest == 1 ? f1 : f2);
@@ -239,8 +242,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -255,7 +259,7 @@ namespace MKLNET
                 while (status == SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
                     if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, epsp);
+                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, &jeps);
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
@@ -289,8 +293,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -309,7 +314,7 @@ namespace MKLNET
                     {
                         IntPtr jacHandle;
                         int jacRequest;
-                        status = sjacobi_init(&jacHandle, &n, &m, xp, jacp, epsp);
+                        status = sjacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = sjacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
                                 F(x, jacRequest == 1 ? f1 : f2);
@@ -346,8 +351,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -360,7 +366,7 @@ namespace MKLNET
                 while (status == SUCCESS && (status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
                     if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = sjacobi(F, &n, &m, jacp, xp, epsp);
+                    else if (request == CALCULATE_JACOBIAN) status = sjacobi(F, &n, &m, jacp, xp, &jeps);
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
@@ -394,8 +400,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -414,7 +421,7 @@ namespace MKLNET
                     {
                         IntPtr jacHandle;
                         int jacRequest;
-                        status = sjacobi_init(&jacHandle, &n, &m, xp, jacp, epsp);
+                        status = sjacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = sjacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
                                 F(x, jacRequest == 1 ? f1 : f2);
@@ -455,8 +462,9 @@ namespace MKLNET
         /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
         /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
         /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <param name="jeps">precision of the Jacobian matrix calculation</param>
         /// <returns>stop criterion</returns>
-        public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
         {
             int n = x.Length;
             int m = Fx.Length;
@@ -471,7 +479,7 @@ namespace MKLNET
                 while (status == SUCCESS && (status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
                     if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = sjacobi(F, &n, &m, jacp, xp, epsp);
+                    else if (request == CALCULATE_JACOBIAN) status = sjacobi(F, &n, &m, jacp, xp, &jeps);
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
