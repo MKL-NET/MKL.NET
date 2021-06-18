@@ -115,11 +115,60 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new double[n * m];
+            fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(x, Fx);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                dtrnlsp_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="Fx">function values, just zero to start, solution on exit</param>
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx)
             => NonLinearLeastSquares(F, x, Fx, DEFAULT_EPS);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] Fx)
+            => NonLinearLeastSquares(F, J, x, Fx, DEFAULT_EPS);
 
         /// <summary>
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
@@ -162,11 +211,60 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new double[n * m];
+            fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                dtrnlsp_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="Fx">function values, just zero to start, solution on exit</param>
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] Fx)
             => NonLinearLeastSquares(F, x, Fx, DEFAULT_EPS);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] Fx)
+            => NonLinearLeastSquares(F, J, x, Fx, DEFAULT_EPS);
 
         /// <summary>
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
@@ -222,6 +320,46 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new double[n * m];
+            fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(x, Fx);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                dtrnlspbc_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="lower">x lower bound</param>
         /// <param name="upper">x upper bound</param>
@@ -229,6 +367,19 @@ namespace MKLNET
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx)
             => NonLinearLeastSquares(F, x, lower, upper, Fx, DEFAULT_EPS);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx)
+            => NonLinearLeastSquares(F, J, x, lower, upper, Fx, DEFAULT_EPS);
 
         /// <summary>
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
@@ -275,6 +426,48 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new double[n * m];
+            var f1 = new double[m];
+            var f2 = new double[m];
+            fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                dtrnlspbc_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="lower">x lower bound</param>
         /// <param name="upper">x upper bound</param>
@@ -282,6 +475,19 @@ namespace MKLNET
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] lower, double[] upper, double[] Fx)
             => NonLinearLeastSquares(F, x, lower, upper, Fx, DEFAULT_EPS);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx)
+            => NonLinearLeastSquares(F, J, x, lower, upper, Fx, DEFAULT_EPS);
 
         /// <summary>
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
@@ -335,11 +541,60 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new float[n * m];
+            fixed (float* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(x, Fx);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                strnlsp_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="Fx">function values, just zero to start, solution on exit</param>
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] Fx)
             => NonLinearLeastSquares(F, x, Fx, DEFAULT_EPS_FLOAT);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] Fx)
+            => NonLinearLeastSquares(F, J, x, Fx, DEFAULT_EPS_FLOAT);
 
         /// <summary>
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
@@ -382,11 +637,60 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new float[n * m];
+            fixed (float* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                strnlsp_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="Fx">function values, just zero to start, solution on exit</param>
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] Fx)
             => NonLinearLeastSquares(F, x, Fx, DEFAULT_EPS_FLOAT);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] Fx)
+            => NonLinearLeastSquares(F, J, x, Fx, DEFAULT_EPS_FLOAT);
 
         /// <summary>
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
@@ -442,6 +746,46 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new float[n * m];
+            fixed (float* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(x, Fx);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                strnlspbc_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="lower">x lower bound</param>
         /// <param name="upper">x upper bound</param>
@@ -449,6 +793,19 @@ namespace MKLNET
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] lower, float[] upper, float[] Fx)
             => NonLinearLeastSquares(F, x, lower, upper, Fx, DEFAULT_EPS_FLOAT);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, not called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx)
+            => NonLinearLeastSquares(F, J, x, lower, upper, Fx, DEFAULT_EPS_FLOAT);
 
         /// <summary>
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
@@ -495,6 +852,46 @@ namespace MKLNET
         /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
         /// </summary>
         /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
+        /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
+        /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+        /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+        {
+            int n = x.Length;
+            int m = Fx.Length;
+            var jac = new float[n * m];
+            fixed (float* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+            {
+                IntPtr handle;
+                int request;
+                var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+                if(status == SUCCESS)
+                    while ((status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
+                    {
+                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
+                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        else if (request != ONE_ITERATION)
+                        {
+                            status = request;
+                            break;
+                        }
+                    }
+                strnlspbc_delete(&handle);
+                return (SolveResult)status;
+            }
+        }
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
         /// <param name="x">input values, initial guess to start, solution on exit</param>
         /// <param name="lower">x lower bound</param>
         /// <param name="upper">x upper bound</param>
@@ -502,6 +899,19 @@ namespace MKLNET
         /// <returns>stop criterion</returns>
         public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] lower, float[] upper, float[] Fx)
             => NonLinearLeastSquares(F, x, lower, upper, Fx, DEFAULT_EPS_FLOAT);
+
+        /// <summary>
+        /// Nonlinear Least Squares Solver. Fx = F(x). minimizes Norm_2(F(x))
+        /// </summary>
+        /// <param name="F">objective function, called in parallel</param>
+        /// <param name="J">Jacobian function, J_ij = df_i / dx_j as a column major array</param>
+        /// <param name="x">input values, initial guess to start, solution on exit</param>
+        /// <param name="lower">x lower bound</param>
+        /// <param name="upper">x upper bound</param>
+        /// <param name="Fx">function values, just zero to start, solution on exit</param>
+        /// <returns>stop criterion</returns>
+        public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx)
+            => NonLinearLeastSquares(F, J, x, lower, upper, Fx, DEFAULT_EPS_FLOAT);
     }
 
     public unsafe delegate void SolveFn(int* m, int* n, double* x, double* f);
