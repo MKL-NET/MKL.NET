@@ -19,7 +19,6 @@
 Added Vsl.NewStreamEx overload.
 Added Solve.NonLinearLeastSquares Jacobian function parameter.
 Added Solve.NonLinearLeastSquares Jacobian precision parameter.
-Added Xml documentation file.
 References Assembly rename and reduce size.
 Strong name the assembly.
     </PackageReleaseNotes>
