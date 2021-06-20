@@ -9,6 +9,11 @@ open Microsoft.FSharp.NativeInterop
 
 let all = test "solve" {
 
+    let checkIsValid (r:SolveResult) =
+         ( r = SolveResult.S_NORM_2_LESS_THAN_EPS3
+        || r = SolveResult.F_NORM_2_LESS_THAN_EPS1)
+        |> Check.isTrue
+
     test "quadratic_action_double" {
         let mutable calls = 0
         let F (x:double[]) (Fx:double[]) =
@@ -23,7 +28,7 @@ let all = test "solve" {
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         let nonJCalls = calls
@@ -47,7 +52,7 @@ let all = test "solve" {
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, Action<_,_> J, x, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
@@ -69,7 +74,7 @@ let all = test "solve" {
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFn F, x, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         let nonJCalls = calls
@@ -93,7 +98,7 @@ let all = test "solve" {
         let x = [|-5.0; 8.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFn F, Action<_,_> J, x, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
@@ -117,7 +122,7 @@ let all = test "solve" {
         let upper = [|2.0; 2.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         let nonJCalls = calls
@@ -143,7 +148,7 @@ let all = test "solve" {
         let upper = [|2.0; 2.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, Action<_,_> J, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
@@ -167,7 +172,7 @@ let all = test "solve" {
         let upper = [|2.0; 2.0|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFn F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         let nonJCalls = calls
@@ -191,7 +196,7 @@ let all = test "solve" {
         let x = [|-1.9; 1.9|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFn F, Action<_,_> J, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
@@ -213,7 +218,7 @@ let all = test "solve" {
         let x = [|-5.0f; 8.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         let nonJCalls = calls
@@ -237,7 +242,7 @@ let all = test "solve" {
         let x = [|-5.0f; 8.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, Action<_,_> J, x, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
@@ -259,7 +264,7 @@ let all = test "solve" {
         let x = [|-5.0f; 8.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFnF F, x, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         let nonJCalls = calls
@@ -283,7 +288,7 @@ let all = test "solve" {
         let x = [|-5.0f; 8.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFnF F, Action<_,_> J, x, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
@@ -307,7 +312,7 @@ let all = test "solve" {
         let upper = [|2.0f; 2.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         let nonJCalls = calls
@@ -333,7 +338,7 @@ let all = test "solve" {
         let upper = [|2.0f; 2.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(Action<_,_> F, Action<_,_> J, x, lower, upper, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
@@ -357,7 +362,7 @@ let all = test "solve" {
         let upper = [|2.0f; 2.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFnF F, x, lower, upper, Fx)
-        Check.equal SolveResult.F_NORM_2_LESS_THAN_EPS1 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         let nonJCalls = calls
@@ -383,7 +388,7 @@ let all = test "solve" {
         let upper = [|2.0f; 2.0f|]
         let Fx = Array.zeroCreate 3
         let result = Solve.NonLinearLeastSquares(SolveFnF F, Action<_,_> J, x, lower, upper, Fx)
-        Check.equal SolveResult.S_NORM_2_LESS_THAN_EPS3 result
+        checkIsValid result
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
