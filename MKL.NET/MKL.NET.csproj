@@ -11,6 +11,7 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>NU5128;NU5131;IDE1006</NoWarn>
     <DefineConstants Condition="'$(OS)'!=''">$(DefineConstants);$(OS)</DefineConstants>
+    <ProduceOnlyReferenceAssembly Condition="'$(OS)'=='REF'">true</ProduceOnlyReferenceAssembly>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
@@ -23,10 +24,6 @@ References Assembly rename and reduce size.
 Strong name the assembly.
     </PackageReleaseNotes>
     <Version>1.2.0</Version>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(OS)'=='REF'">
-    <ProduceOnlyReferenceAssembly>true</ProduceOnlyReferenceAssembly>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />
