@@ -28,6 +28,7 @@
         <Compile Include="MatrixTests.fs" />
         <Compile Include="SolveTests.fs" />
         <Compile Include="PerfTests.fs" />
+        <Compile Include="Optimize.RootTests.fs" />
         <Compile Include="Main.fs" />
   </ItemGroup>
 </Project>
