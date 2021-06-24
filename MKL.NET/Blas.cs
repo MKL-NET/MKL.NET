@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace MKLNET
 {
     [SuppressUnmanagedCodeSecurity]

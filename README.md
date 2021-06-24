@@ -22,8 +22,8 @@ The correct native libraries will be included and loaded at runtime.
 <tr><td>MKL.NET.osx-x64</td><td><a href="https://www.nuget.org/packages/MKL.NET.osx-x64"><img src="https://buildstats.info/nuget/MKL.NET.osx-x64?includePreReleases=true" ></a></td></tr>
 <tr><td>libraries:</td></tr>
 <tr><td>MKL.NET.Matrix</td><td><a href="https://www.nuget.org/packages/MKL.NET.Matrix"><img src="https://buildstats.info/nuget/MKL.NET.Matrix?includePreReleases=true" ></td></tr>
-<tr><td>MKL.NET.Statistics</td><td>coming soon...</td></tr>
-<tr><td>MKL.NET.Optimization</td><td>coming soon...</td></tr>
+<tr><td>MKL.NET.Optimization</td><td><a href="https://www.nuget.org/packages/MKL.NET.Optimization"><img src="https://buildstats.info/nuget/MKL.NET.Optimization?includePreReleases=true" ></td></tr>
+<tr><td>MKL.NET.Statistics</td><td><a href="https://www.nuget.org/packages/MKL.NET.Statistics"><img src="https://buildstats.info/nuget/MKL.NET.Statistics?includePreReleases=true" ></td></tr>
 </table>
 
 ## Rationale

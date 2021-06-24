@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
+        <LangVersion>9.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <WarningLevel>5</WarningLevel>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <RootNamespace>MKLNET</RootNamespace>
+        <SignAssembly>true</SignAssembly>
+        <DelaySign>false</DelaySign>
+        <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
+        <Description>
+Optimization and root finding based on cross platform MKL.NET.
+        </Description>
+        <PackageReleaseNotes>
+Preview
+        </PackageReleaseNotes>
+        <Version>0.1.0-preview</Version>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
+        <None Include="../matrix.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+</Project>
