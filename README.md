@@ -71,3 +71,18 @@ public static (vector, matrix) MeanAndCovariance(matrix samples, vector weights)
 Note: arrays need to be pinned across all MKL function calls when there are multiple as above as MKL stores native pointers and the arrays could be moved between calls.
 MKL.NET handles pinning automatically, unpinning when the task is deleted.
 This is a common seen bug when using MKL directly from .NET which causes occasional crashes.
+
+## MKL.NET.Optimization
+
+Simple and high performance optimization and root finding library loosely based on the [scipy.optimize](https://docs.scipy.org/doc/scipy/reference/optimize.html) API.
+
+The aim is to include the latest algorithms such as Toms748, robustly tested with [CsCheck](https://github.com/AnthonyLloyd/CsCheck).
+Full use of MKL.NET will be made to improve performance. Algorithms will be performance tested and default to the best for given inputs.
+
+WIP currently working on root finding.
+
+## MKL.NET.Statistics
+
+Simple and high performance statistics functions loosely based on the [scipy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html) API.
+
+WIP ...
