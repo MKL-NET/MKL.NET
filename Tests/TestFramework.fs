@@ -283,6 +283,12 @@ type TestResult =
     | FasterAgg of FasterAggregation
     static member hasErrs (r:TestResult list) =
         List.exists (function | Failure _ | Exception _ -> true | FasterAgg fa when fa.Error -> true | _ -> false) r
+    static member (|||) (r1:TestResult, r2:TestResult) =
+        match r1, r2 with
+        | Success, _ -> Success
+        | _, Success -> Success
+        | Failure f1, Failure f2 -> Failure(f1 + " " + f2)
+        | _ -> failwith "not supported yet"
 
 [<Struct>]
 type Test = private Test of string list * (PCG->(TestResult list option->unit)->unit)

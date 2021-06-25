@@ -58,7 +58,7 @@ let equal (expected:'a) (actual:'a) =
             else equalDefault e a
     equal expected actual
 
-let between (actual:'a) (startInclusive:'a) (endInclusive:'a) =
+let between (startInclusive:'a) (endInclusive:'a) (actual:'a) =
     if actual < startInclusive then
         Failure(Normal "actual " + Numeric actual + " is less than start " + Numeric startInclusive + ".")
     elif actual > endInclusive then

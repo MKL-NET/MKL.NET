@@ -6,16 +6,22 @@ namespace MKLNET
     {
         public static bool Root_Bound(double fa, double fb) => (fa < 0.0 && fb > 0.0) || (fb < 0.0 && fa > 0.0);
 
-        public static double Root_Linear(double a, double fa, double b, double fb) => (a * fb - b * fa) / (fb - fa);
+        public static double Root_Linear(double a, double fa, double b, double fb)
+        {
+            var r = fa / (fa - fb);
+            return a - r * a + r * b; // Rounding error mitigation.
+        }
 
         public static double Root_Quadratic(double a, double fa, double b, double fb, double c, double fc)
-        {
+        { // https://en.wikipedia.org/wiki/Muller%27s_method
             var r = (fb - fa) / (b - a) - (fc - fb) / (c - b);
             var w = (fc - fa) / (c - a) + r;
             r = Math.Sqrt(w * w - 4 * fa * r / (a - c));
             var x = a - 2 * fa / (w + r);
             if (a < x && x < b) return x;
-            return a - 2 * fa / (w - r);
+            x = a - 2 * fa / (w - r);
+            if (a < x && x < b) return x;
+            return Root_Linear(a, fa, b, fb); // Rounding errors, it must be near a or b, Root_Linear will work.
         }
 
         public static double Root_InverseQuadratic(double a, double fa, double b, double fb, double c, double fc)
@@ -25,7 +31,10 @@ namespace MKLNET
             return Root_Quadratic(a, fa, b, fb, c, fc);
         }
 
-        static double Root_Inner(Func<double, double> f, double tol, double a, double fa, double b, double fb, double c, double fc)
+        static double Not_Too_Close(double tol, double lower, double upper, double x) =>
+            Math.Min(upper - tol * 1.99, Math.Max(lower + tol * 1.99, x));
+
+        static double Root_Hybrid(Func<double, double> f, double tol, double a, double fa, double b, double fb, double c, double fc)
         {
             int level = 1;
             while (b - a > tol * 2)
@@ -35,7 +44,7 @@ namespace MKLNET
                 else
                 {
                     x = level == 0 ? Root_Quadratic(a, fa, b, fb, c, fc) : Root_InverseQuadratic(a, fa, b, fb, c, fc);
-                    x = Math.Min(b - tol * 1.99, Math.Max(a + tol * 1.99, x));
+                    x = Not_Too_Close(tol, a, b, x);
                 }
                 var fx = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
@@ -66,28 +75,34 @@ namespace MKLNET
         /// <returns>The root x accurate to tol.</returns>
         public static double Root(Func<double, double> f, double xtol, double xmin, double xlower, double xupper, double xmax)
         {
-            var fai = f(xlower); if (fai == 0.0) return xlower;
-            var fbi = f(xupper); if (fbi == 0.0) return xupper;
-            if (Root_Bound(fai, fbi)) return Root_Inner(f, xtol, xlower, fai, xupper, fbi, double.PositiveInfinity, 0);
-            var lx = Root_Linear(xlower, fai, xupper, fbi);
-            if (Math.Abs(fai) < Math.Abs(fbi))
+            var fxlower = f(xlower); if (fxlower == 0.0) return xlower;
+            var fxupper = f(xupper); if (fxupper == 0.0) return xupper;
+            if (Root_Bound(fxlower, fxupper))
+            {
+                var xmid = Not_Too_Close(xtol, xlower, xupper, Root_Linear(xlower, fxlower, xupper, fxupper));
+                var fxmid = f(xmid); if (fxmid == 0.0) return xmid;
+                return Root_Bound(fxlower, fxmid) ? Root_Hybrid(f, xtol, xlower, fxlower, xmid, fxmid, xupper, fxupper)
+                                                  : Root_Hybrid(f, xtol, xmid, fxmid, xupper, fxupper, xlower, fxlower);
+            }
+            var lx = Root_Linear(xlower, fxlower, xupper, fxupper);
+            if (Math.Abs(fxlower) < Math.Abs(fxupper))
             {
                 if (lx > xmin && lx < xlower)
                 {
                     var ai2 = lx - (lx - xmin) * 0.2;
                     var fai2 = f(ai2); if (fai2 == 0.0) return ai2;
-                    if (Root_Bound(fai2, fai)) return Root_Inner(f, xtol, ai2, fai2, xlower, fai, xupper, fbi);
+                    if (Root_Bound(fai2, fxlower)) return Root_Hybrid(f, xtol, ai2, fai2, xlower, fxlower, xupper, fxupper);
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    if (Root_Bound(fa, fai2)) return Root_Inner(f, xtol, xmin, fa, ai2, fai2, xlower, fai);
+                    if (Root_Bound(fa, fai2)) return Root_Hybrid(f, xtol, xmin, fa, ai2, fai2, xlower, fxlower);
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    return Root_Inner(f, xtol, xupper, fbi, xmax, fb, xlower, fai);
+                    return Root_Hybrid(f, xtol, xupper, fxupper, xmax, fb, xlower, fxlower);
                 }
                 else
                 {
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    if (Root_Bound(fa, fai)) return Root_Inner(f, xtol, xmin, fa, xlower, fai, xupper, fbi);
+                    if (Root_Bound(fa, fxlower)) return Root_Hybrid(f, xtol, xmin, fa, xlower, fxlower, xupper, fxupper);
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    return Root_Inner(f, xtol, xupper, fbi, xmax, fb, xlower, fai);
+                    return Root_Hybrid(f, xtol, xupper, fxupper, xmax, fb, xlower, fxlower);
                 }
             }
             else
@@ -96,18 +111,18 @@ namespace MKLNET
                 {
                     var bi2 = lx + (xmax - lx) * 0.2;
                     var fbi2 = f(bi2); if (fbi2 == 0.0) return bi2;
-                    if (Root_Bound(fbi, fbi2)) return Root_Inner(f, xtol, xupper, fbi, bi2, fbi2, xlower, fai);
+                    if (Root_Bound(fxupper, fbi2)) return Root_Hybrid(f, xtol, xupper, fxupper, bi2, fbi2, xlower, fxlower);
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    if (Root_Bound(fbi2, fb)) return Root_Inner(f, xtol, bi2, fbi2, xmax, fb, xupper, fbi);
+                    if (Root_Bound(fbi2, fb)) return Root_Hybrid(f, xtol, bi2, fbi2, xmax, fb, xupper, fxupper);
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    return Root_Inner(f, xtol, xmin, fa, xlower, fai, xupper, fbi);
+                    return Root_Hybrid(f, xtol, xmin, fa, xlower, fxlower, xupper, fxupper);
                 }
                 else
                 {
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    if (Root_Bound(fbi, fb)) return Root_Inner(f, xtol, xupper, fbi, xmax, fb, xlower, fai);
+                    if (Root_Bound(fxupper, fb)) return Root_Hybrid(f, xtol, xupper, fxupper, xmax, fb, xlower, fxlower);
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    return Root_Inner(f, xtol, xmin, fa, xlower, fai, xupper, fbi);
+                    return Root_Hybrid(f, xtol, xmin, fa, xlower, fxlower, xupper, fxupper);
                 }
             }
         }
