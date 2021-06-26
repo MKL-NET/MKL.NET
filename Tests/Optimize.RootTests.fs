@@ -92,7 +92,7 @@ let all =
         test_solver "Root_TestProblems_Hybrid_6" 1e-6 Optimize.Root (Check.equal 2160)
         test_solver "Root_TestProblems_Hybrid_7" 1e-7 Optimize.Root (Check.equal 2258)
         test_solver "Root_TestProblems_Hybrid_9" 1e-9 Optimize.Root (Check.between 2315 2316)
-        test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root (Check.equal 2351)
+        test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root (Check.between 2350 2351)
 
         test_solver "Root_TestProblems_Brent_6" 1e-6 Optimize.Root_Brent (Check.equal 2763)
         test_solver "Root_TestProblems_Brent_7" 1e-7 Optimize.Root_Brent (Check.equal 2816)
