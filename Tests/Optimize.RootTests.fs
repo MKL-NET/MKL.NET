@@ -11,7 +11,7 @@ let genNegative = Gen.Double.Where(fun i -> not(Double.IsNaN i) && i < 0.0)
 let all =
     test "optimize_root" {
 
-        test "Root_Bound" {
+        test "root_bound" {
             let fa = 1e-162
             let fb = -1e-162
             Check.isTrue (Optimize.Root_Bound(fa, fb))
@@ -25,7 +25,7 @@ let all =
             Check.isFalse (Optimize.Root_Bound(-fa, fb))
         }
 
-        test "Root_Linear_Between" {
+        test "root_linear_between" {
             let! a, _, b, _, x =
                 let genD = Gen.Double
                 Gen.Select(genD, genD, genD, genD)
@@ -34,7 +34,7 @@ let all =
             Check.between a b x
         }
 
-        test "Root_Linear_Correct" {
+        test "root_linear_correct" {
             let! root = Gen.Double.[1.0, 10.0]
             let f x = x - root
             let! x =
@@ -46,7 +46,7 @@ let all =
             Check.close High root x
         }
 
-        test "Root_Quadratic_Between" {
+        test "root_quadratic_between" {
             let! a, _, b, _, _, _, x =
                 let genD = Gen.Double
                 Gen.Select(genD, genD, genD, genD, genD, genD)
@@ -55,7 +55,7 @@ let all =
             Check.between a b x
         }
 
-        test "Root_Quadratic_Correct" {
+        test "root_quadratic_correct" {
             let! root1 = Gen.Double.[-10.0, -1.0]
             let! root2 = Gen.Double.[1.0, 10.0]
             let f x = (x - root1) * (x - root2)
@@ -68,7 +68,7 @@ let all =
             Check.close Medium root1 x ||| Check.close Medium root2 x
         }
 
-        test "Root_InverseQuadratic_Between" {
+        test "root_inversequadratic_between" {
             let! a, _, b, _, _, _, x =
                 let genD = Gen.Double
                 Gen.Select(genD, genD, genD, genD, genD, genD)
@@ -89,13 +89,39 @@ let all =
                 testAssert count
             }
 
-        test_solver "Root_TestProblems_Hybrid_6" 1e-6 Optimize.Root (Check.equal 2160)
-        test_solver "Root_TestProblems_Hybrid_7" 1e-7 Optimize.Root (Check.equal 2258)
-        test_solver "Root_TestProblems_Hybrid_9" 1e-9 Optimize.Root (Check.between 2315 2316)
-        test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root (Check.between 2350 2351)
+        test_solver "root_testproblems_hybrid_6" 1e-6 Optimize.Root (Check.equal 2160)
+        test_solver "root_testproblems_hybrid_7" 1e-7 Optimize.Root (Check.equal 2258)
+        test_solver "root_testproblems_hybrid_9" 1e-9 Optimize.Root (Check.between 2315 2316)
+        test_solver "root_testproblems_hybrid_11" 1e-11 Optimize.Root (Check.between 2350 2351)
 
-        test_solver "Root_TestProblems_Brent_6" 1e-6 Optimize.Root_Brent (Check.equal 2763)
-        test_solver "Root_TestProblems_Brent_7" 1e-7 Optimize.Root_Brent (Check.equal 2816)
-        test_solver "Root_TestProblems_Brent_9" 1e-9 Optimize.Root_Brent (Check.equal 2889)
-        test_solver "Root_TestProblems_Brent_11" 1e-11 Optimize.Root_Brent (Check.equal 2935)
+        test_solver "root_testproblems_brent_6" 1e-6 Optimize.Root_Brent (Check.equal 2763)
+        test_solver "root_testproblems_brent_7" 1e-7 Optimize.Root_Brent (Check.equal 2816)
+        test_solver "root_testproblems_brent_9" 1e-9 Optimize.Root_Brent (Check.equal 2889)
+        test_solver "root_testproblems_brent_11" 1e-11 Optimize.Root_Brent (Check.equal 2935)
+
+        test "bond_spread" {
+            let tol = 1e-11
+            let run solver =
+                let mutable count = 0
+                let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; 0.9 - Optimization.BondPrice(x, 0.075, 0.035, 20.0)), -0.1, 1.0)
+                x, count
+            let root, root_i = run Optimize.Root
+            let root_brent, root_brent_i = run Optimize.Root_Brent
+            Check.isTrue (abs(root - root_brent) < tol * 2.0)
+            Check.equal 11 root_i
+            Check.equal 13 root_brent_i
+        }
+
+        test "option_volatility" {
+            let tol = 1e-11
+            let run solver =
+                let mutable count = 0
+                let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; Optimization.BlackScholes(true, 9.0, 10.0, 2.0, 0.02, x) - 1.0), 0.0, 1.0)
+                x, count
+            let root, root_i = run Optimize.Root
+            let root_brent, root_brent_i = run Optimize.Root_Brent
+            Check.isTrue (abs(root - root_brent) < tol * 2.0)
+            Check.equal 7 root_i
+            Check.equal 8 root_brent_i
+        }
     }

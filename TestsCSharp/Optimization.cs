@@ -112,4 +112,29 @@ public static class Optimization
                 1e-4
             );
     }
+
+    public static double BondPrice(double spread, double coupon, double interestRate, double years)
+    {
+        double pv = 0.0;
+        for (int t = 1; t < years * 2; t++)
+            pv += coupon * 0.5 * Math.Pow(1 + interestRate + spread, -0.5 * t);
+        pv += (1 + coupon * 0.5) * Math.Pow(1 + interestRate + spread, -years);
+        return pv;
+    }
+
+    public static double BlackScholes(bool call, double s, double x, double t, double r, double v)
+    {
+        static double CND(double x)
+        {
+            var l = Math.Abs(x);
+            var k = 1.0 / (1.0 + 0.2316419 * l);
+            var cnd = 1.0 - 1.0 / Math.Sqrt(2 * Convert.ToDouble(Math.PI.ToString())) * Math.Exp(-l * l / 2.0) *
+                (0.31938153 * k + -0.356563782 * k * k + 1.781477937 * Math.Pow(k, 3.0) + -1.821255978 * Math.Pow(k, 4.0)
+                + 1.330274429 * Math.Pow(k, 5.0));
+            return x < 0 ? 1.0 - cnd : cnd;
+        }
+        var d1 = (Math.Log(s / x) + (r + v * v / 2.0) * t) / (v * Math.Sqrt(t));
+        var d2 = d1 - v * Math.Sqrt(t);
+        return call ? s * CND(d1) - x * Math.Exp(-r * t) * CND(d2) : x * Math.Exp(-r * t) * CND(-d2) - s * CND(-d1);
+    }
 }
