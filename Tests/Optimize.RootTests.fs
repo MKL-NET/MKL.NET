@@ -77,7 +77,7 @@ let all =
             Check.between a b x
         }
 
-        let test_solver name tol solver n =
+        let test_solver name tol solver (testAssert:int -> TestResult) =
             test name {
                 let problems = Optimization.TestProblems
                 Check.equal 154 problems.Length
@@ -86,16 +86,16 @@ let all =
                     let struct (F, Min, Max) = problems.[i]
                     let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
                     Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
-                Check.equal n count
+                testAssert count
             }
 
-        test_solver "Root_TestProblems_Hybrid_6" 1e-6 Optimize.Root 2160
-        test_solver "Root_TestProblems_Hybrid_7" 1e-7 Optimize.Root 2258
-        test_solver "Root_TestProblems_Hybrid_9" 1e-9 Optimize.Root 2315
-        test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root 2351
+        test_solver "Root_TestProblems_Hybrid_6" 1e-6 Optimize.Root (Check.equal 2160)
+        test_solver "Root_TestProblems_Hybrid_7" 1e-7 Optimize.Root (Check.equal 2258)
+        test_solver "Root_TestProblems_Hybrid_9" 1e-9 Optimize.Root (Check.between 2315 2316)
+        test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root (Check.equal 2351)
 
-        test_solver "Root_TestProblems_Brent_6" 1e-6 Optimize.Root_Brent 2763
-        test_solver "Root_TestProblems_Brent_7" 1e-7 Optimize.Root_Brent 2816
-        test_solver "Root_TestProblems_Brent_9" 1e-9 Optimize.Root_Brent 2889
-        test_solver "Root_TestProblems_Brent_11" 1e-11 Optimize.Root_Brent 2935
+        test_solver "Root_TestProblems_Brent_6" 1e-6 Optimize.Root_Brent (Check.equal 2763)
+        test_solver "Root_TestProblems_Brent_7" 1e-7 Optimize.Root_Brent (Check.equal 2816)
+        test_solver "Root_TestProblems_Brent_9" 1e-9 Optimize.Root_Brent (Check.equal 2889)
+        test_solver "Root_TestProblems_Brent_11" 1e-11 Optimize.Root_Brent (Check.equal 2935)
     }
