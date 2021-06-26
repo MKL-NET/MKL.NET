@@ -2,7 +2,7 @@
   "profiles": {
     "Tests": {
       "commandName": "Project",
-      "commandLineArgs": "rci.quadratic_callback --iter 1 --info --wait 6000"
+      "commandLineArgs": "Root_InverseQuadratic_Between --iter 1 --info --wait 6000 --seed 7mxuKBY1ZQNe"
     }
   }
 }

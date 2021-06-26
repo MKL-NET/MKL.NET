@@ -25,8 +25,10 @@ namespace MKLNET
         }
 
         public static double Root_InverseQuadratic(double a, double fa, double b, double fb, double c, double fc)
-        {
-            var x = a * fb * fc / ((fa - fb) * (fa - fc)) + b * fa * fc / ((fb - fa) * (fb - fc)) + c * fa * fb / ((fc - fa) * (fc - fb));
+        { // https://en.wikipedia.org/wiki/Inverse_quadratic_interpolation
+            var x = fb / (fa - fb) * fc / (fa - fc) * a
+                  + fa / (fb - fa) * fc / (fb - fc) * b
+                  + fa / (fc - fa) * fb / (fc - fb) * c;
             if (a < x && x < b) return x;
             return Root_Quadratic(a, fa, b, fb, c, fc);
         }

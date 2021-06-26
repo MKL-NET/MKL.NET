@@ -106,8 +106,8 @@ public static class Optimization
         foreach (var n in Range(20, 1, 40).Concat(Range(100, 100, 1000)))
             yield return (
                 x => x < 0 ? -0.859
-                   : x > 2e-3 / (1 + n) ? Math.E - 1.859
-                   : Math.Exp((n + 1) * x / 2e-3) - 1.859,
+                    : x > 2e-3 / (1 + n) ? Math.E - 1.859
+                    : Math.Exp((n + 1) * x / 2e-3) - 1.859,
                 -1e4,
                 1e-4
             );

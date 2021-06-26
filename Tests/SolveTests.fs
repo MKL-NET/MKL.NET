@@ -56,8 +56,8 @@ let all = test "solve" {
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 
     test "quadratic_native_double" {
@@ -102,8 +102,8 @@ let all = test "solve" {
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 
     test "quadratic_action_bound_double" {
@@ -152,8 +152,8 @@ let all = test "solve" {
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 
     test "quadratic_native_bound_double" {
@@ -200,8 +200,8 @@ let all = test "solve" {
         Check.close High -1.0 x.[0]
         Check.close High 1.0 x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 
     test "quadratic_action_single" {
@@ -246,8 +246,8 @@ let all = test "solve" {
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 
     test "quadratic_native_single" {
@@ -292,8 +292,8 @@ let all = test "solve" {
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 
     test "quadratic_action_bound_single" {
@@ -342,8 +342,8 @@ let all = test "solve" {
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 
     test "quadratic_native_bound_single" {
@@ -392,7 +392,7 @@ let all = test "solve" {
         Check.close High -1.0f x.[0]
         Check.close High 1.0f x.[1]
         Check.greaterThan calls nonJCalls
-        Check.info "Non J calls = %i" nonJCalls
-        Check.info "J calls = %i" calls
+        //Check.info "Non J calls = %i" nonJCalls
+        //Check.info "J calls = %i" calls
     }
 }

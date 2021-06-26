@@ -67,4 +67,32 @@ let all =
                     .Select(fun (a, fa, b, fb, c, fc) -> Optimize.Root_Quadratic(a, fa, b, fb, c, fc))
             Check.close Medium root1 x ||| Check.close Medium root2 x
         }
+
+        test "Root_InverseQuadratic_Between" {
+            let! a, _, b, _, _, _, x =
+                let genD = Gen.Double
+                Gen.Select(genD, genD, genD, genD, genD, genD)
+                    .Where(fun struct (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Bound(fa, fb))
+                    .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Root_InverseQuadratic(a, fa, b, fb, c, fc))
+            Check.between a b x
+        }
+
+        let test_solver name tol solver n =
+            test name {
+                let problems = Optimization.TestProblems
+                Check.equal 154 problems.Length
+                let mutable count = 0
+                for i = 0 to problems.Length - 1 do
+                    let struct (F, Min, Max) = problems.[i]
+                    let x = solver(Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), tol, Min, Max)
+                    Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                Check.equal n count
+            }
+
+        //test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root 2329
+
+        test_solver "Root_TestProblems_Brent_6" 1e-6 Optimize.Root_Brent 2763
+        test_solver "Root_TestProblems_Brent_7" 1e-7 Optimize.Root_Brent 2816
+        test_solver "Root_TestProblems_Brent_9" 1e-9 Optimize.Root_Brent 2889
+        test_solver "Root_TestProblems_Brent_11" 1e-11 Optimize.Root_Brent 2935
     }
