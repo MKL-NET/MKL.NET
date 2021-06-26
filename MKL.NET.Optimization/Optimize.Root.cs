@@ -36,18 +36,15 @@ namespace MKLNET
         static double Not_Too_Close(double tol, double lower, double upper, double x) =>
             Math.Min(upper - tol * 1.99, Math.Max(lower + tol * 1.99, x));
 
-        static double Root_Hybrid(Func<double, double> f, double tol, double a, double fa, double b, double fb, double c, double fc)
+        static double Root_Hybrid(double tol, Func<double, double> f, double a, double fa, double b, double fb, double c, double fc)
         {
             int level = 1;
             while (b - a > tol * 2)
             {
                 double x;
-                if (b - a < tol * 4 || level >= 2) x = (a + b) * 0.5;
-                else
-                {
-                    x = level == 0 ? Root_Quadratic(a, fa, b, fb, c, fc) : Root_InverseQuadratic(a, fa, b, fb, c, fc);
-                    x = Not_Too_Close(tol, a, b, x);
-                }
+                if (b - a < tol * 4 || level == 2) x = (a + b) * 0.5;
+                else if (level == 0) x = Not_Too_Close(tol, a, b, Root_Quadratic(a, fa, b, fb, c, fc));
+                else x = Not_Too_Close(tol, a, b, Root_InverseQuadratic(a, fa, b, fb, c, fc));
                 var fx = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
                 {
@@ -68,14 +65,14 @@ namespace MKLNET
         /// <summary>
         /// Finds x the root f(x) = 0 accurate to tol where xmin and xmax (xmin<xlower<xupper<xmax) bound a root i.e. f(xmin)f(xmax) < 0.
         /// </summary>
-        /// <param name="f">The function to find the root of.</param>
         /// <param name="xtol">The tolerance of the root required.</param>
+        /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The lower boundary.</param>
         /// <param name="xlower">The lower inner region.</param>
         /// <param name="xupper">The upper inner region.</param>
         /// <param name="xmax">The upper boundary.</param>
         /// <returns>The root x accurate to tol.</returns>
-        public static double Root(Func<double, double> f, double xtol, double xmin, double xlower, double xupper, double xmax)
+        public static double Root(double xtol, Func<double, double> f, double xmin, double xlower, double xupper, double xmax)
         {
             var fxlower = f(xlower); if (fxlower == 0.0) return xlower;
             var fxupper = f(xupper); if (fxupper == 0.0) return xupper;
@@ -83,8 +80,8 @@ namespace MKLNET
             {
                 var xmid = Not_Too_Close(xtol, xlower, xupper, Root_Linear(xlower, fxlower, xupper, fxupper));
                 var fxmid = f(xmid); if (fxmid == 0.0) return xmid;
-                return Root_Bound(fxlower, fxmid) ? Root_Hybrid(f, xtol, xlower, fxlower, xmid, fxmid, xupper, fxupper)
-                                                  : Root_Hybrid(f, xtol, xmid, fxmid, xupper, fxupper, xlower, fxlower);
+                return Root_Bound(fxlower, fxmid) ? Root_Hybrid(xtol, f, xlower, fxlower, xmid, fxmid, xupper, fxupper)
+                                                  : Root_Hybrid(xtol, f, xmid, fxmid, xupper, fxupper, xlower, fxlower);
             }
             var lx = Root_Linear(xlower, fxlower, xupper, fxupper);
             if (Math.Abs(fxlower) < Math.Abs(fxupper))
@@ -93,18 +90,18 @@ namespace MKLNET
                 {
                     var ai2 = lx - (lx - xmin) * 0.2;
                     var fai2 = f(ai2); if (fai2 == 0.0) return ai2;
-                    if (Root_Bound(fai2, fxlower)) return Root_Hybrid(f, xtol, ai2, fai2, xlower, fxlower, xupper, fxupper);
+                    if (Root_Bound(fai2, fxlower)) return Root_Hybrid(xtol, f, ai2, fai2, xlower, fxlower, xupper, fxupper);
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    if (Root_Bound(fa, fai2)) return Root_Hybrid(f, xtol, xmin, fa, ai2, fai2, xlower, fxlower);
+                    if (Root_Bound(fa, fai2)) return Root_Hybrid(xtol, f, xmin, fa, ai2, fai2, xlower, fxlower);
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    return Root_Hybrid(f, xtol, xupper, fxupper, xmax, fb, xlower, fxlower);
+                    return Root_Hybrid(xtol, f, xupper, fxupper, xmax, fb, xlower, fxlower);
                 }
                 else
                 {
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    if (Root_Bound(fa, fxlower)) return Root_Hybrid(f, xtol, xmin, fa, xlower, fxlower, xupper, fxupper);
+                    if (Root_Bound(fa, fxlower)) return Root_Hybrid(xtol, f, xmin, fa, xlower, fxlower, xupper, fxupper);
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    return Root_Hybrid(f, xtol, xupper, fxupper, xmax, fb, xlower, fxlower);
+                    return Root_Hybrid(xtol, f, xupper, fxupper, xmax, fb, xlower, fxlower);
                 }
             }
             else
@@ -113,18 +110,18 @@ namespace MKLNET
                 {
                     var bi2 = lx + (xmax - lx) * 0.2;
                     var fbi2 = f(bi2); if (fbi2 == 0.0) return bi2;
-                    if (Root_Bound(fxupper, fbi2)) return Root_Hybrid(f, xtol, xupper, fxupper, bi2, fbi2, xlower, fxlower);
+                    if (Root_Bound(fxupper, fbi2)) return Root_Hybrid(xtol, f, xupper, fxupper, bi2, fbi2, xlower, fxlower);
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    if (Root_Bound(fbi2, fb)) return Root_Hybrid(f, xtol, bi2, fbi2, xmax, fb, xupper, fxupper);
+                    if (Root_Bound(fbi2, fb)) return Root_Hybrid(xtol, f, bi2, fbi2, xmax, fb, xupper, fxupper);
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    return Root_Hybrid(f, xtol, xmin, fa, xlower, fxlower, xupper, fxupper);
+                    return Root_Hybrid(xtol, f, xmin, fa, xlower, fxlower, xupper, fxupper);
                 }
                 else
                 {
                     var fb = f(xmax); if (fb == 0.0) return xmax;
-                    if (Root_Bound(fxupper, fb)) return Root_Hybrid(f, xtol, xupper, fxupper, xmax, fb, xlower, fxlower);
+                    if (Root_Bound(fxupper, fb)) return Root_Hybrid(xtol, f, xupper, fxupper, xmax, fb, xlower, fxlower);
                     var fa = f(xmin); if (fa == 0.0) return xmin;
-                    return Root_Hybrid(f, xtol, xmin, fa, xlower, fxlower, xupper, fxupper);
+                    return Root_Hybrid(xtol, f, xmin, fa, xlower, fxlower, xupper, fxupper);
                 }
             }
         }
@@ -132,24 +129,24 @@ namespace MKLNET
         /// <summary>
         /// Finds x the root f(x) = 0 accurate to tol where xmin and xmax (xmin<xmax) bound a root i.e. f(xmin)f(xmax) < 0.
         /// </summary>
-        /// <param name="f">The function to find the root of.</param>
         /// <param name="xtol">The tolerance of the root required.</param>
+        /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The lower boundary.</param>
         /// <param name="xmax">The upper boundary.</param>
         /// <returns>The root x accurate to tol.</returns>
-        public static double Root(Func<double, double> f, double xtol, double xmin, double xmax)
-            => Root(f, xtol, xmin, xmin + (xmax - xmin) * 0.2, xmax - (xmax - xmin) * 0.2, xmax);
+        public static double Root(double xtol, Func<double, double> f, double xmin, double xmax)
+            => Root(xtol, f, xmin, xmin + (xmax - xmin) * 0.2, xmax - (xmax - xmin) * 0.2, xmax);
 
 
         /// <summary>
         /// Finds x the root f(x) = 0 accurate to tol where xmin and xmax (xmin<xmax) bound a root i.e. f(xmin)f(xmax) < 0.
         /// </summary>
-        /// <param name="f">The function to find the root of.</param>
         /// <param name="xtol">The tolerance of the root required.</param>
+        /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The lower boundary.</param>
         /// <param name="xmax">The upper boundary.</param>
         /// <returns>The root x accurate to tol.</returns>
-        public static double Root_Brent(Func<double, double> f, double xtol, double xmin, double xmax)
+        public static double Root_Brent(double xtol, Func<double, double> f, double xmin, double xmax)
         {
             // Implementation and notation based on Chapter 4 in
             // "Algorithms for Minimization without Derivatives"

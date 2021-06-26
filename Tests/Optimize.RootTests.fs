@@ -84,12 +84,15 @@ let all =
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
                     let struct (F, Min, Max) = problems.[i]
-                    let x = solver(Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), tol, Min, Max)
+                    let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
                     Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                 Check.equal n count
             }
 
-        //test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root 2329
+        test_solver "Root_TestProblems_Hybrid_6" 1e-6 Optimize.Root 2160
+        test_solver "Root_TestProblems_Hybrid_7" 1e-7 Optimize.Root 2258
+        test_solver "Root_TestProblems_Hybrid_9" 1e-9 Optimize.Root 2315
+        test_solver "Root_TestProblems_Hybrid_11" 1e-11 Optimize.Root 2351
 
         test_solver "Root_TestProblems_Brent_6" 1e-6 Optimize.Root_Brent 2763
         test_solver "Root_TestProblems_Brent_7" 1e-7 Optimize.Root_Brent 2816
