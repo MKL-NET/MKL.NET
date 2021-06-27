@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 
 namespace MKLNET
 {
@@ -228,6 +229,556 @@ namespace MKLNET
             else
                 return xmax;
         }
+
+        /// <summary>
+        /// Finds x the root f(x) = 0 accurate to tol where xmin and xmax (xmin<xmax) bound a root i.e. f(xmin)f(xmax) < 0.
+        /// </summary>
+        /// <param name="xtol">The tolerance of the root required.</param>
+        /// <param name="f">The function to find the root of.</param>
+        /// <param name="xmin">The lower boundary.</param>
+        /// <param name="xmax">The upper boundary.</param>
+        /// <returns>The root x accurate to tol.</returns>
+        public static double Root_Toms748_MathXK(double xtol, Func<double, double> f, double xmin, double xmax)
+        {
+            /// <summary>
+            /// Smallest value such that 1.0+x != 1.0
+            /// <para>Value = 2^(-52) = 2.2204460492503131e-016</para>
+            /// </summary>
+            const double MachineEpsilon = 2.2204460492503131e-016;
+            /// <summary>
+            /// Minimum normalized positive value 
+            /// <para>Value = 2^-1022 = 2.2250738585072014e-308</para>
+            /// </summary>
+            const double MinNormalValue = 2.2250738585072014e-308; // 2^-1022
+
+            // <summary>
+            /// Performs standard secant interpolation of [a,b] given
+            /// function evaluations f(a) and f(b).  
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <param name="fa"></param>
+            /// <param name="fb"></param>
+            /// <returns></returns>
+            static double SecantStep(double a, double b, double fa, double fb)
+            {
+                double c = a - (fa / (fb - fa)) * (b - a);
+                return c;
+            }
+
+            static double QuadraticStep(double a, double b, double d, double fa, double fb, double fd, int count)
+            {
+                //
+                // Performs quadratic interpolation to determine the next point,
+                // takes count Newton steps to find the location of the
+                // quadratic polynomial.
+                //
+                // Point d must lie outside of the interval [a,b], it is the third
+                // best approximation to the root, after a and b.
+                //
+                // Note: this does not guarentee to find a root
+                // inside [a, b], so we fall back to a secant step should
+                // the result be out of range.
+                //
+                // Start by obtaining the coefficients of the quadratic polynomial:
+                //
+
+                double C = fa;
+                double B = (fb - fa) / (b - a);
+                double A = ((fd - fb) / (d - b) - B) / (d - a);
+
+                // if a == 0, we do not have an quadratic 
+                // if a is not finite, we have an error in our calculations
+                // try a secant step, instead:
+                if (A == 0 || double.IsNaN(A) || double.IsInfinity(A))
+                    return SecantStep(a, b, fa, fb);
+
+                //
+                // Determine the starting point of the Newton steps:
+                //
+                double c = (Math.Sign(A) * Math.Sign(fa) > 0) ? a : b;
+
+                //
+                // Take the Newton steps:
+                //
+                bool error = false;
+                for (int i = 0; i < count; i++)
+                {
+                    double fi = C + (B + A * (c - b)) * (c - a); // f(x_i)
+                    double fpi = B + A * (2 * c - a - b);        // f'(x_i)
+                    double delta = fi / fpi;
+                    if (double.IsInfinity(delta) || double.IsNaN(delta))
+                    {
+                        error = true;
+                        break;
+                    }
+                    c -= delta;
+                }
+                if (error || (c <= a) || (c >= b))
+                {
+                    // Oops, failure, try a secant step:
+                    c = SecantStep(a, b, fa, fb);
+                }
+                return c;
+            }
+
+            static double CubicStep(double a, double b, double d, double e, double fa, double fb, double fd, double fe)
+            {
+                //
+                // Uses inverse cubic interpolation of f(x) at points 
+                // [a,b,d,e] to obtain an approximate root of f(x).
+                // Points d and e lie outside the interval [a,b]
+                // and are the third and forth best approximations
+                // to the root that we have found so far.
+                //
+                // Note: this does not guarentee to find a root
+                // inside [a, b], so we fall back to quadratic
+                // interpolation in case of an erroneous result.
+                //
+
+                double q11 = (d - e) * (fd / (fe - fd));
+                double q21 = (b - d) * (fb / (fd - fb));
+                double q31 = (a - b) * (fa / (fb - fa));
+                double d21 = (b - d) * (fd / (fd - fb));
+                double d31 = (a - b) * (fb / (fb - fa));
+
+                double q22 = (d21 - q11) * (fb / (fe - fb));
+                double q32 = (d31 - q21) * (fa / (fd - fa));
+                double d32 = (d31 - q21) * (fd / (fd - fa));
+                double q33 = (d32 - q22) * (fa / (fe - fa));
+                double c = q31 + q32 + q33 + a;
+
+#if EXTRA_DEBUG
+            Debug.WriteLine("a = {0} b = {1} d = {2} e = {3} fa = {4} fb = {5} fd = {6} fe = {7}", a, b, d, e, fa, fb, fd, fe);
+            Debug.WriteLine("q11 = {0} q21 = {1} q31 = {2} d21 = {3} d31 = {4}", q11, q21, q31, d21, d31);
+            Debug.WriteLine("q22 = {0} q32 = {1} d32 = {2} q33 = {3} c = {4}", q22, q32, d32, q33, c);
+#endif
+
+                return c;
+            }
+
+            static double DoubleSecantStep(double a, double b, double fa, double fb)
+            {
+                double u;
+                double fu;
+                if (Math.Abs(fa) < Math.Abs(fb))
+                {
+                    u = a;
+                    fu = fa;
+                }
+                else
+                {
+                    u = b;
+                    fu = fb;
+                }
+                double c = u - 2 * (fu / (fb - fa)) * (b - a);
+                if (Math.Abs(c - u) > (b - a) / 2)
+                {
+                    c = a + (b - a) / 2;
+                }
+
+
+                return c;
+            }
+
+            //
+            // Main entry point and logic for Toms Algorithm 748
+            // root finder.
+            //
+
+            double xSolution = double.NaN;
+            int iterations = 0;
+
+
+            double a = xmin;
+            double fa = f(a);
+
+            double b = xmax;
+            double fb = f(b);
+
+            if (fa == 0)
+            {
+                xSolution = a;
+                goto exit;
+            }
+            if (fb == 0)
+            {
+                xSolution = b;
+                goto exit;
+            }
+            if (b - a <= xtol * 2)
+            {
+                xSolution = a + (b - a) / 2.0; // don't have an exact solution so take a midpoint
+                goto exit;
+            }
+
+
+            double d, fd; // d is the third best guess to the root
+            double e, fe; // e is the fourth best guess to the root
+
+
+            // initialize
+            fe = e = d = fd = double.NaN;
+            double c;
+
+            int stepNumber = 0;
+            while (iterations < 1000)
+            {
+                // the root is in [a, b]; save it 
+                double a0 = a;
+                double b0 = b;
+
+                switch (stepNumber)
+                {
+                    case 0:
+                        // *Only* on the first iteration we take a secant step:
+                        c = SecantStep(a, b, fa, fb);
+                        break;
+                    case 1:
+                        // *Only* on the second iteration, we take a quadratic step:
+                        c = QuadraticStep(a, b, d, fa, fb, fd, 2);
+                        break;
+                    case 2:
+                    case 3:
+                        //
+                        // Starting with the third step taken
+                        // we can use either quadratic or cubic interpolation.
+                        // Cubic interpolation requires that all four function values
+                        // fa, fb, fd, and fe are distinct, should that not be the case
+                        // then variable prof will get set to true, and we'll end up
+                        // taking a quadratic step instead.
+                        //
+                        const double min_diff = MinNormalValue;
+                        bool prof = (Math.Abs(fa - fb) < min_diff)
+                            || (Math.Abs(fa - fd) < min_diff)
+                            || (Math.Abs(fa - fe) < min_diff)
+                            || (Math.Abs(fb - fd) < min_diff)
+                            || (Math.Abs(fb - fe) < min_diff)
+                            || (Math.Abs(fd - fe) < min_diff);
+
+                        // the first time use 2 newton steps; the second time use three
+                        int newtonSteps = (stepNumber == 2) ? 2 : 3;
+                        if (prof)
+                        {
+                            c = QuadraticStep(a, b, d, fa, fb, fd, newtonSteps);
+                        }
+                        else
+                        {
+                            c = CubicStep(a, b, d, e, fa, fb, fd, fe);
+                            if (!(c > a && c < b))
+                                c = QuadraticStep(a, b, d, fa, fb, fd, newtonSteps);
+                        }
+                        break;
+                    case 4:
+                        // Now we take a double-length secant step:
+                        c = DoubleSecantStep(a, b, fa, fb);
+                        break;
+                    case 5:
+                        //
+                        // And finally... check to see if an additional bisection step is 
+                        // to be taken, we do this if we're not converging fast enough:
+                        //
+                        const double mu = 0.5;
+                        if ((b - a) < mu * (b0 - a0))
+                        {
+                            stepNumber = 2;
+                            continue;
+                        }
+                        c = a + (b - a) / 2;
+                        break;
+                    default:
+                        return double.NegativeInfinity;
+
+                }
+
+                // save our next best bracket
+                e = d;
+                fe = fd;
+
+
+                // We require c in the interval [ a + |a|*minTol, b - |b|*minTol ]
+                // If the interval is not valid: (b-a) < (|a|+|b|)*minTol, then take a midpoint
+
+                const double minTol = MachineEpsilon * 10;
+
+                double minA = (a < 0) ? a * (1 - minTol) : a * (1 + minTol);
+                double minB = (b < 0) ? b * (1 + minTol) : b * (1 - minTol);
+                if ((b - a) < minTol * (Math.Abs(a) + Math.Abs(b)))
+                {
+                    c = a + (b - a) / 2;
+                }
+                else if (c < minA)
+                {
+                    c = minA;
+                }
+                else if (c > minB)
+                {
+                    c = minB;
+                }
+
+                // OK, lets invoke f(c):
+                double fc = f(c);
+                ++iterations;
+
+                // if we have a zero then we have an exact solution to the root:
+                if (fc == 0)
+                {
+                    xSolution = c;
+                    break;
+                }
+
+                if (double.IsNaN(fc))
+                {
+                    //Policies.ReportDomainError("Requires a continuous function: f({0}) = {1}", c, fc);
+                    break;
+                }
+
+                //
+                // Non-zero fc, update the interval:
+                //
+                if (Root_Bound(fa, fc))
+                {
+                    d = b; fd = fb;
+                    b = c; fb = fc;
+                }
+                else
+                {
+                    d = a; d = fa;
+                    a = c; fa = fc;
+                }
+
+
+                if (b - a <= xtol * 2)
+                {
+                    // we're close enough, but we don't have an exact solution
+                    // so take a midpoint
+                    xSolution = a + (b - a) / 2.0;
+                    break;
+                }
+
+                // reset our step if necessary;
+                if (++stepNumber > 5)
+                    stepNumber = 2;
+
+            }
+
+            exit:
+            return xSolution;
+        }
+
+        /// <summary>
+        /// Finds x the root f(x) = 0 accurate to tol where xmin and xmax (xmin<xmax) bound a root i.e. f(xmin)f(xmax) < 0.
+        /// </summary>
+        /// <param name="xtol">The tolerance of the root required.</param>
+        /// <param name="f">The function to find the root of.</param>
+        /// <param name="xmin">The lower boundary.</param>
+        /// <param name="xmax">The upper boundary.</param>
+        /// <returns>The root x accurate to tol.</returns>
+        public static double Root_Toms748_SciPy(double xtol, Func<double, double> f, double a, double b)
+        { //https://github.com/scipy/scipy/blob/master/scipy/optimize/zeros.py#L885
+            const double rtol = 0, MU = 0.5;
+            const int k = 1;
+
+            static double Secant(double x0, double x1, double f0, double f1)
+            {
+                // Secant has many "mathematically" equivalent formulations
+                // x2 = x0 - (x1 - x0)/(f1 - f0) * f0
+                //    = x1 - (x1 - x0)/(f1 - f0) * f1
+                //    = (-x1 * f0 + x0 * f1) / (f1 - f0)
+                //    = (-f0 / f1 * x1 + x0) / (1 - f0 / f1)
+                //    = (-f1 / f0 * x0 + x1) / (1 - f1 / f0)
+                if (f0 == f1) return double.NaN;
+                double x2;
+                if (Math.Abs(f1) > Math.Abs(f0))
+                    x2 = (-f0 / f1 * x1 + x0) / (1 - f0 / f1);
+                else
+                    x2 = (-f1 / f0 * x0 + x1) / (1 - f1 / f0);
+                return x2;
+            }
+
+            static bool IsClose(double a, double b, double rtol, double atol)
+                => Math.Abs(a - b) <= atol + rtol * Math.Abs(b);
+
+            static bool NotClose(double rtol, double atol, params double[] fs)
+            {
+                for (int i = 0; i < fs.Length - 1; i++)
+                    if (double.IsNaN(fs[i + 1]) || IsClose(fs[i], fs[i + 1], rtol, atol)) return false;
+                return true;
+            }
+
+            static double InverseCubic(double a, double b, double c, double d, double fa, double fb, double fc, double fd)
+            {
+                var Q11 = (c - d) * fc / (fd - fc);
+                var Q21 = (b - c) * fb / (fc - fb);
+                var Q31 = (a - b) * fa / (fb - fa);
+                var D21 = (b - c) * fc / (fc - fb);
+                var D31 = (a - b) * fb / (fb - fa);
+                var Q22 = (D21 - Q11) * fb / (fd - fb);
+                var Q32 = (D31 - Q21) * fa / (fc - fa);
+                var D32 = (D31 - Q21) * fc / (fc - fa);
+                var Q33 = (D32 - Q22) * fa / (fd - fa);
+                return a + (Q31 + Q32 + Q33);
+            }
+
+            static double Newton_Quadratic(double a, double b, double fa, double fb, double d, double fd, int k)
+            {
+                return Root_Quadratic(a, fa, b, fb, d, fd);
+            }
+
+            var fa = f(a); if (fa == 0) return a;
+            var fb = f(b); if (fb == 0) return b;
+            var c = Secant(a, b, fa, fb);
+            if (c <= a || c >= b) c = (a + b) * 0.5;
+            var fc = f(c); if (fc == 0) return c;
+            double d, fd, e = double.NaN, fe = double.NaN;
+
+            // update bracket
+            if (Root_Bound(fa, fc))
+            {
+                d = b;
+                fd = fb;
+                b = c;
+                fb = fc;
+            }
+            else
+            {
+                d = a;
+                fd = fa;
+                a = c;
+                fa = fc;
+            }
+
+            while (true)
+            {
+                // iterate
+                // Implements Algorithm 4.1(k=1) or 4.2(k=2) in [APS1995]
+                var ab_width = b - a;
+                c = double.NaN;
+                for (int nsteps = 2; nsteps < k + 2; nsteps++)
+                {
+                    if (NotClose(0, 32 * double.Epsilon, fa, fb, fd, fe))
+                    {
+                        var c0 = InverseCubic(a, b, d, e, fa, fb, fd, fe);
+                        if (a < c0 && c0 < b) c = c0;
+                    }
+                    if (double.IsNaN(c))
+                        c = Newton_Quadratic(a, b, fa, fb, d, fd, nsteps);
+
+                    fc = f(c); if (fc == 0) return c;
+                    e = d;
+                    fe = fd;
+                    // update bracket
+                    if (Root_Bound(fa, fc))
+                    {
+                        d = b;
+                        fd = fb;
+                        b = c;
+                        fb = fc;
+                    }
+                    else
+                    {
+                        d = a;
+                        fd = fa;
+                        a = c;
+                        fa = fc;
+                    }
+                }
+
+                double u, fu;
+                if (Math.Abs(fa) < Math.Abs(fb))
+                {
+                    u = a;
+                    fu = fa;
+                }
+                else
+                {
+                    u = b;
+                    fu = fb;
+                }
+
+                c = u - 2 * (fu / (fb - fa)) * (b - a);
+
+                if (Math.Abs(c - u) > 0.5 * (b - a))
+                    c = (a + b) * 0.5;
+                else
+                {
+                    if (IsClose(c, u, double.Epsilon, 0))
+                    {
+                        // c didn't change (much).
+                        // Either because the f-values at the endpoints have vastly
+                        // differing magnitudes, or because the root is very close to
+                        // that endpoint
+                        var check = Math.Abs(fa / fb); // instead of frexp
+                        if (check > 2 << 50 || 1 / check > 2 << 50) // Differ by more than 2**50
+                        {
+                            if (Math.Abs(fa) < Math.Abs(fb))
+                                c = (31 * a + b) / 32;
+                            else
+                                c = (31 * b + a) / 32;
+                        }
+                        else
+                        {
+                            // Make a bigger adjustment, about the
+                            // size of the requested tolerance.
+                            var adj = Math.Abs(c) * rtol + xtol;
+                            if (Math.Abs(fa) < Math.Abs(fb))
+                            {
+                                c = u + adj;
+                            }
+                            else
+                            {
+                                c = u - adj;
+                            }
+                        }
+                        if (c <= a || c >= b) c = (a + b) * 0.5;
+                    }
+                }
+
+                fc = f(c); if (fc == 0) return c;
+                e = d;
+                fe = fd;
+                // update bracket
+                if (Root_Bound(fa, fc))
+                {
+                    d = b;
+                    fd = fb;
+                    b = c;
+                    fb = fc;
+                }
+                else
+                {
+                    d = a;
+                    fd = fa;
+                    a = c;
+                    fa = fc;
+                }
+
+                if (b - a > MU * ab_width)
+                {
+                    var z = (a + b) * 0.5;
+                    var fz = f(z); if (fz == 0) return z;
+                    e = d;
+                    fe = fd;
+                    // update bracket
+                    if (Root_Bound(fa, fz))
+                    {
+                        d = b;
+                        fd = fb;
+                        b = z;
+                        fb = fz;
+                    }
+                    else
+                    {
+                        d = a;
+                        fd = fa;
+                        a = z;
+                        fa = fz;
+                    }
+                }
+
+                if (IsClose(a, b, rtol, xtol)) return (a + b) * 0.5;
+            }
+        }
     }
 }
 
@@ -237,3 +788,4 @@ namespace MKLNET
 // TODO: Halley
 // TODO: Root_Cubic
 // TODO: Hybrid with Cubic
+// TODO: rtol
