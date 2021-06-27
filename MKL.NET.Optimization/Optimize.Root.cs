@@ -33,12 +33,18 @@ namespace MKLNET
             return Root_Quadratic(a, fa, b, fb, c, fc);
         }
 
-        static double Not_Too_Close(double tol, double lower, double upper, double x) =>
-            Math.Min(upper - tol * 1.99, Math.Max(lower + tol * 1.99, x));
+        static double Not_Too_Close(double tol, double lower, double upper, double x)
+        {
+            var c = lower + tol * 1.99;
+            if (x < c) return c;
+            c = upper - tol * 1.99;
+            if (x > c) return c;
+            return x;
+        }
 
         static double Root_Hybrid(double tol, Func<double, double> f, double a, double fa, double b, double fb, double c, double fc)
         {
-            int level = 1;
+            int level = 0;
             while (b - a > tol * 2)
             {
                 double x;
@@ -74,12 +80,12 @@ namespace MKLNET
         /// <returns>The root x accurate to tol.</returns>
         public static double Root(double xtol, Func<double, double> f, double xmin, double xlower, double xupper, double xmax)
         {
-            var fxlower = f(xlower); if (fxlower == 0.0) return xlower;
-            var fxupper = f(xupper); if (fxupper == 0.0) return xupper;
+            var fxlower = f(xlower); if (fxlower == 0) return xlower;
+            var fxupper = f(xupper); if (fxupper == 0) return xupper;
             if (Root_Bound(fxlower, fxupper))
             {
                 var xmid = Not_Too_Close(xtol, xlower, xupper, Root_Linear(xlower, fxlower, xupper, fxupper));
-                var fxmid = f(xmid); if (fxmid == 0.0) return xmid;
+                var fxmid = f(xmid); if (fxmid == 0) return xmid;
                 return Root_Bound(fxlower, fxmid) ? Root_Hybrid(xtol, f, xlower, fxlower, xmid, fxmid, xupper, fxupper)
                                                   : Root_Hybrid(xtol, f, xmid, fxmid, xupper, fxupper, xlower, fxlower);
             }
@@ -91,16 +97,16 @@ namespace MKLNET
                     var ai2 = lx - (lx - xmin) * 0.2;
                     var fai2 = f(ai2); if (fai2 == 0.0) return ai2;
                     if (Root_Bound(fai2, fxlower)) return Root_Hybrid(xtol, f, ai2, fai2, xlower, fxlower, xupper, fxupper);
-                    var fa = f(xmin); if (fa == 0.0) return xmin;
+                    var fa = f(xmin); if (fa == 0) return xmin;
                     if (Root_Bound(fa, fai2)) return Root_Hybrid(xtol, f, xmin, fa, ai2, fai2, xlower, fxlower);
-                    var fb = f(xmax); if (fb == 0.0) return xmax;
+                    var fb = f(xmax); if (fb == 0) return xmax;
                     return Root_Hybrid(xtol, f, xupper, fxupper, xmax, fb, xlower, fxlower);
                 }
                 else
                 {
-                    var fa = f(xmin); if (fa == 0.0) return xmin;
+                    var fa = f(xmin); if (fa == 0) return xmin;
                     if (Root_Bound(fa, fxlower)) return Root_Hybrid(xtol, f, xmin, fa, xlower, fxlower, xupper, fxupper);
-                    var fb = f(xmax); if (fb == 0.0) return xmax;
+                    var fb = f(xmax); if (fb == 0) return xmax;
                     return Root_Hybrid(xtol, f, xupper, fxupper, xmax, fb, xlower, fxlower);
                 }
             }
@@ -109,18 +115,18 @@ namespace MKLNET
                 if (lx > xupper && lx < xmax)
                 {
                     var bi2 = lx + (xmax - lx) * 0.2;
-                    var fbi2 = f(bi2); if (fbi2 == 0.0) return bi2;
+                    var fbi2 = f(bi2); if (fbi2 == 0) return bi2;
                     if (Root_Bound(fxupper, fbi2)) return Root_Hybrid(xtol, f, xupper, fxupper, bi2, fbi2, xlower, fxlower);
-                    var fb = f(xmax); if (fb == 0.0) return xmax;
+                    var fb = f(xmax); if (fb == 0) return xmax;
                     if (Root_Bound(fbi2, fb)) return Root_Hybrid(xtol, f, bi2, fbi2, xmax, fb, xupper, fxupper);
-                    var fa = f(xmin); if (fa == 0.0) return xmin;
+                    var fa = f(xmin); if (fa == 0) return xmin;
                     return Root_Hybrid(xtol, f, xmin, fa, xlower, fxlower, xupper, fxupper);
                 }
                 else
                 {
-                    var fb = f(xmax); if (fb == 0.0) return xmax;
+                    var fb = f(xmax); if (fb == 0) return xmax;
                     if (Root_Bound(fxupper, fb)) return Root_Hybrid(xtol, f, xupper, fxupper, xmax, fb, xlower, fxlower);
-                    var fa = f(xmin); if (fa == 0.0) return xmin;
+                    var fa = f(xmin); if (fa == 0) return xmin;
                     return Root_Hybrid(xtol, f, xmin, fa, xlower, fxlower, xupper, fxupper);
                 }
             }
@@ -224,3 +230,10 @@ namespace MKLNET
         }
     }
 }
+
+// TODO: Toms748
+// TODO: Root_InverseCubic
+// TODO: Newton
+// TODO: Halley
+// TODO: Root_Cubic
+// TODO: Hybrid with Cubic

@@ -77,51 +77,53 @@ let all =
             Check.between a b x
         }
 
-        let test_solver name tol solver (testAssert:int -> TestResult) =
-            test name {
-                let problems = Optimization.TestProblems
-                Check.equal 154 problems.Length
-                let mutable count = 0
-                for i = 0 to problems.Length - 1 do
-                    let struct (F, Min, Max) = problems.[i]
-                    let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
-                    Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
-                testAssert count
+        test "test_problems" {
+            let test_solver name tol solver (testAssert:int -> TestResult) =
+                test name {
+                    let problems = Optimization.TestProblems
+                    Check.equal 154 problems.Length
+                    let mutable count = 0
+                    for i = 0 to problems.Length - 1 do
+                        let struct (F, Min, Max) = problems.[i]
+                        let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
+                        Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                    testAssert count
+                }
+
+            test_solver "hybrid_6" 1e-6 Optimize.Root (Check.equal 2162)
+            test_solver "hybrid_7" 1e-7 Optimize.Root (Check.equal 2256)
+            test_solver "hybrid_9" 1e-9 Optimize.Root (Check.between 2311 2311)
+            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2347 2347)
+
+            test_solver "brent_6" 1e-6 Optimize.Root_Brent (Check.equal 2763)
+            test_solver "brent_7" 1e-7 Optimize.Root_Brent (Check.equal 2816)
+            test_solver "brent_9" 1e-9 Optimize.Root_Brent (Check.equal 2889)
+            test_solver "brent_11" 1e-11 Optimize.Root_Brent (Check.equal 2935)
+
+            test "bond_spread" {
+                let tol = 1e-11
+                let run solver =
+                    let mutable count = 0
+                    let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; 0.9 - Optimization.BondPrice(x, 0.075, 0.035, 20.0)), -0.1, 1.0)
+                    x, count
+                let root, root_i = run Optimize.Root
+                let root_brent, root_brent_i = run Optimize.Root_Brent
+                Check.isTrue (abs(root - root_brent) < tol * 2.0)
+                Check.equal 10 root_i
+                Check.equal 13 root_brent_i
             }
 
-        test_solver "root_testproblems_hybrid_6" 1e-6 Optimize.Root (Check.equal 2160)
-        test_solver "root_testproblems_hybrid_7" 1e-7 Optimize.Root (Check.equal 2258)
-        test_solver "root_testproblems_hybrid_9" 1e-9 Optimize.Root (Check.between 2315 2316)
-        test_solver "root_testproblems_hybrid_11" 1e-11 Optimize.Root (Check.between 2350 2351)
-
-        test_solver "root_testproblems_brent_6" 1e-6 Optimize.Root_Brent (Check.equal 2763)
-        test_solver "root_testproblems_brent_7" 1e-7 Optimize.Root_Brent (Check.equal 2816)
-        test_solver "root_testproblems_brent_9" 1e-9 Optimize.Root_Brent (Check.equal 2889)
-        test_solver "root_testproblems_brent_11" 1e-11 Optimize.Root_Brent (Check.equal 2935)
-
-        test "bond_spread" {
-            let tol = 1e-11
-            let run solver =
-                let mutable count = 0
-                let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; 0.9 - Optimization.BondPrice(x, 0.075, 0.035, 20.0)), -0.1, 1.0)
-                x, count
-            let root, root_i = run Optimize.Root
-            let root_brent, root_brent_i = run Optimize.Root_Brent
-            Check.isTrue (abs(root - root_brent) < tol * 2.0)
-            Check.equal 11 root_i
-            Check.equal 13 root_brent_i
-        }
-
-        test "option_volatility" {
-            let tol = 1e-11
-            let run solver =
-                let mutable count = 0
-                let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; Optimization.BlackScholes(true, 9.0, 10.0, 2.0, 0.02, x) - 1.0), 0.0, 1.0)
-                x, count
-            let root, root_i = run Optimize.Root
-            let root_brent, root_brent_i = run Optimize.Root_Brent
-            Check.isTrue (abs(root - root_brent) < tol * 2.0)
-            Check.equal 7 root_i
-            Check.equal 8 root_brent_i
+            test "option_volatility" {
+                let tol = 1e-11
+                let run solver =
+                    let mutable count = 0
+                    let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; Optimization.BlackScholes(true, 9.0, 10.0, 2.0, 0.02, x) - 1.0), 0.0, 1.0)
+                    x, count
+                let root, root_i = run Optimize.Root
+                let root_brent, root_brent_i = run Optimize.Root_Brent
+                Check.isTrue (abs(root - root_brent) < tol * 2.0)
+                Check.equal 7 root_i
+                Check.equal 8 root_brent_i
+            }
         }
     }
