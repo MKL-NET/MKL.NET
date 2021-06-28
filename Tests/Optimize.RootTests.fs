@@ -100,7 +100,7 @@ let all =
             test_solver "brent_9" 1e-9 Optimize.Root_Brent (Check.equal 2889)
             test_solver "brent_11" 1e-11 Optimize.Root_Brent (Check.equal 2935)
 
-            test_solver "toms748_11" 1e-11 Optimize.Root_Toms748 (Check.between 2906 2908)
+            test_solver "toms748_11" 1e-11 Optimize.Root_Toms748 (Check.between 2906 2909)
 
             test "bond_spread" {
                 let tol = 1e-11
