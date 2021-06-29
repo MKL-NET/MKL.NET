@@ -85,7 +85,7 @@ let all =
                     let mutable count = 0
                     for i = 0 to problems.Length - 1 do
                         let struct (F, Min, Max) = problems.[i]
-                        let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
+                        let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
                         Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                     testAssert count
                 }
@@ -106,7 +106,7 @@ let all =
                 let tol = 1e-11
                 let run solver =
                     let mutable count = 0
-                    let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; 0.9 - Optimization.BondPrice(x, 0.075, 0.035, 20.0)), -0.1, 1.0)
+                    let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; 0.9 - Optimization.BondPrice(x, 0.075, 0.035, 20.0)), -0.1, 1.0)
                     x, count
                 let root, root_i = run Optimize.Root
                 let root_brent, root_brent_i = run Optimize.Root_Brent
@@ -119,7 +119,7 @@ let all =
                 let tol = 1e-11
                 let run solver =
                     let mutable count = 0
-                    let x = solver(tol, Func<_,_>(fun x -> count <- count + 1; Optimization.BlackScholes(true, 9.0, 10.0, 2.0, 0.02, x) - 1.0), 0.0, 1.0)
+                    let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.BlackScholes(true, 9.0, 10.0, 2.0, 0.02, x) - 1.0), 0.0, 1.0)
                     x, count
                 let root, root_i = run Optimize.Root
                 let root_brent, root_brent_i = run Optimize.Root_Brent
