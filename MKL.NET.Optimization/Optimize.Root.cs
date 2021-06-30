@@ -53,30 +53,39 @@ namespace MKLNET
         // https://en.wikipedia.org/wiki/Halley%27s_method
         public static double Root_Halley(double x, double fx, double dfx, double ddfx) => x - fx / (dfx - 0.5 * fx / dfx * ddfx);
 
-        static bool Not_Within_Tol(double xtol, double rtol, double a, double b)
-            => b - a > xtol * 2 + rtol * (a + b);
+        /// <summary>
+        /// The tolarance calculated at a point.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance.</param>
+        /// <param name="rtol">The relative tolerance</param>
+        /// <param name="x">The point at which to calcuate the tolerance.</param>
+        /// <returns>tol = atol + rtol * x</returns>
+        public static double Tol(double atol, double rtol, double x) => atol + rtol * Math.Abs(x);
 
-        static double Not_Too_Close(double xtol, double rtol, double a, double b, double x)
+        static bool Tol_Average_Not_Within(double atol, double rtol, double a, double b)
+            => b - a > atol * 2 + rtol * (a + b);
+
+        static double Tol_Not_Too_Close(double atol, double rtol, double a, double b, double x)
         {
-            var c = a + (xtol + rtol * a) / (1 - rtol) * 1.99;
+            var c = a + (atol + rtol * a) / (1 - rtol) * 1.99;
             if (x < c) return c;
-            c = b - (xtol + rtol * b) / (1 + rtol) * 1.99;
+            c = b - (atol + rtol * b) / (1 + rtol) * 1.99;
             if (x > c) return c;
             return x;
         }
 
-        static bool Within_2_Tol(double xtol, double rtol, double a, double b)
-            => b - a < xtol * 4 + rtol * (a + b) * 2;
+        static bool Tol_Average_Within_2(double atol, double rtol, double a, double b)
+            => b - a < atol * 4 + rtol * (a + b) * 2;
 
-        static double Root_Hybrid_Bound(double xtol, double rtol, Func<double, double> f, double a, double fa, double b, double fb, double c, double fc)
+        static double Root_Hybrid_Bound(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double fb, double c, double fc)
         {
             int level = 0;
-            while (Not_Within_Tol(xtol, rtol, a, b))
+            while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
                 double x;
-                if (Within_2_Tol(xtol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
-                else if (level == 0) x = Not_Too_Close(xtol, rtol, a, b, Root_Quadratic(a, fa, b, fb, c, fc));
-                else x = Not_Too_Close(xtol, rtol, a, b, Root_InverseQuadratic(a, fa, b, fb, c, fc));
+                if (Tol_Average_Within_2(atol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
+                else if (level == 0) x = Tol_Not_Too_Close(atol, rtol, a, b, Root_Quadratic(a, fa, b, fb, c, fc));
+                else x = Tol_Not_Too_Close(atol, rtol, a, b, Root_InverseQuadratic(a, fa, b, fb, c, fc));
                 var fx = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
                 {
@@ -95,91 +104,92 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xlower < xupper < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xlower < xupper < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The relative tolerance of the root required.</param>
         /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xlower">The lower guess x value.</param>
         /// <param name="xupper">The upper guess x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root(double xtol, double rtol, Func<double, double> f, double xmin, double xlower, double xupper, double xmax)
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, double> f, double xmin, double xlower, double xupper, double xmax)
         {
             var flower = f(xlower); if (flower == 0) return xlower;
             var fupper = f(xupper); if (fupper == 0) return xupper;
             if (Root_Bound(flower, fupper))
             {
-                var xmid = Not_Too_Close(xtol, rtol, xlower, xupper, Root_Linear(xlower, flower, xupper, fupper));
+                var xmid = Tol_Not_Too_Close(atol, rtol, xlower, xupper, Root_Linear(xlower, flower, xupper, fupper));
                 var fxmid = f(xmid); if (fxmid == 0) return xmid;
-                return Root_Bound(flower, fxmid) ? Root_Hybrid_Bound(xtol, rtol, f, xlower, flower, xmid, fxmid, xupper, fupper)
-                                                 : Root_Hybrid_Bound(xtol, rtol, f, xmid, fxmid, xupper, fupper, xlower, flower);
+                return Root_Bound(flower, fxmid) ? Root_Hybrid_Bound(atol, rtol, f, xlower, flower, xmid, fxmid, xupper, fupper)
+                                                 : Root_Hybrid_Bound(atol, rtol, f, xmid, fxmid, xupper, fupper, xlower, flower);
             }
             var xinterp = Root_Linear(xlower, flower, xupper, fupper);
             if (xinterp > xmin && xinterp < xlower)
             {
                 var xlower2 = xinterp - (xinterp - xmin) * 0.2;
                 var flower2 = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, flower)) return Root_Hybrid_Bound(xtol, rtol, f, xlower2, flower2, xlower, flower, xupper, fupper);
+                if (Root_Bound(flower2, flower)) return Root_Hybrid_Bound(atol, rtol, f, xlower2, flower2, xlower, flower, xupper, fupper);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower2)) return Root_Hybrid_Bound(xtol, rtol, f, xmin, fmin, xlower2, flower2, xlower, flower);
+                if (Root_Bound(fmin, flower2)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower2, flower2, xlower, flower);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) Root_Hybrid_Bound(xtol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
+                if (Root_Bound(fupper, fmax)) Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xupper && xinterp < xmax)
             {
                 var xupper2 = xinterp + (xmax - xinterp) * 0.2;
                 var fupper2 = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fupper, fupper2)) return Root_Hybrid_Bound(xtol, rtol, f, xupper, fupper, xupper2, fupper2, xlower, flower);
+                if (Root_Bound(fupper, fupper2)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xupper2, fupper2, xlower, flower);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper2, fmax)) return Root_Hybrid_Bound(xtol, rtol, f, xupper2, fupper2, xmax, fmax, xupper, fupper);
+                if (Root_Bound(fupper2, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper2, fupper2, xmax, fmax, xupper, fupper);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(xtol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
+                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (Math.Abs(flower) < Math.Abs(fupper))
             {
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(xtol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
+                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(xtol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
+                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(xtol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
+                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(xtol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
+                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xguess < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xguess < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xguess">A guess x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root(double xtol, double rtol, Func<double, double> f, double xmin, double xguess, double xmax)
-            => Root(xtol, rtol, f, xmin, xguess - (xguess - xmin) * 0.01, xguess + (xmax - xguess) * 0.01, xmax);
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, double> f, double xmin, double xguess, double xmax)
+            => Root(atol, rtol, f, xmin, xguess - (xguess - xmin) * 0.01, xguess + (xmax - xguess) * 0.01, xmax);
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root(double xtol, double rtol, Func<double, double> f, double xmin, double xmax)
-            => Root(xtol, rtol, f, xmin, xmin + (xmax - xmin) * 0.2, xmax - (xmax - xmin) * 0.2, xmax);
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, double> f, double xmin, double xmax)
+            => Root(atol, rtol, f, xmin, xmin + (xmax - xmin) * 0.2, xmax - (xmax - xmin) * 0.2, xmax);
 
         static double Root_Newton(double a, double fa, double dfa, double b, double fb, double dfb)
         {
@@ -200,15 +210,15 @@ namespace MKLNET
             return Root_Linear(a, fa, b, fb); // Could be grad cubic
         }
 
-        static double Root_Newton_Bound(double xtol, double rtol, Func<double, (double, double)> f, double a, double fa, double dfa, double b, double fb, double dfb)
+        static double Root_Newton_Bound(double atol, double rtol, Func<double, (double, double)> f, double a, double fa, double dfa, double b, double fb, double dfb)
         {
             int level = 0;
-            while (Not_Within_Tol(xtol, rtol, a, b))
+            while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
                 double x;
-                if (Within_2_Tol(xtol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
+                if (Tol_Average_Within_2(atol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
                 else if (level == 1) x = Root_Linear(a, fa, b, fb);
-                else x = Not_Too_Close(xtol, rtol, a, b, Root_Newton(a, fa, dfa, b, fb, dfb));
+                else x = Tol_Not_Too_Close(atol, rtol, a, b, Root_Newton(a, fa, dfa, b, fb, dfb));
                 var (fx, dfx) = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
                 {
@@ -225,17 +235,17 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xlower < xupper < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xlower < xupper < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function with derivative to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xlower">The lower guess x value.</param>
         /// <param name="xupper">The upper guess x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root(double xtol, double rtol, Func<double, (double, double)> f, double xmin, double xlower, double xupper, double xmax)
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, (double, double)> f, double xmin, double xlower, double xupper, double xmax)
         {
             var xguess = (xlower + xupper) * 0.5;
             var (fguess, dguess) = f(xguess); if (fguess == 0) return xguess;
@@ -244,79 +254,79 @@ namespace MKLNET
             {
                 var xlower2 = xinterp - (xinterp - xlower) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(xtol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
+                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, flower2)) return Root_Newton_Bound(xtol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2);
+                if (Root_Bound(flower, flower2)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
+                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xupper)
             {
                 var xupper2 = xinterp + (xupper - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
+                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
                 var (fupper, dupper) = f(xupper); if (fupper == 0.0) return xupper;
-                if (Root_Bound(fupper2, fupper)) return Root_Newton_Bound(xtol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper);
+                if (Root_Bound(fupper2, fupper)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(xtol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
+                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xmin && xinterp < xguess)
             {
                 var xlower2 = xinterp - (xinterp - xmin) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(xtol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
+                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower2)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2);
+                if (Root_Bound(fmin, flower2)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper2 = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
+                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper2, fmax)) return Root_Newton_Bound(xtol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax);
+                if (Root_Bound(fupper2, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xguess < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xguess < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function with derivative to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xguess">A guess x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root(double xtol, double rtol, Func<double, (double, double)> f, double xmin, double xguess, double xmax)
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, (double, double)> f, double xmin, double xguess, double xmax)
         {
             var (fguess, dguess) = f(xguess); if (fguess == 0) return xguess;
             var xinterp = Root_Newton(xguess, fguess, dguess);
@@ -324,64 +334,64 @@ namespace MKLNET
             {
                 var xlower = xinterp - (xinterp - xmin) * 0.2;
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, fguess)) return Root_Newton_Bound(xtol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess);
+                if (Root_Bound(flower, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
+                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper, dupper) = f(xupper); if (fupper == 0) return xupper;
-                if (Root_Bound(fguess, fupper)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper);
+                if (Root_Bound(fguess, fupper)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(xtol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
+                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(xtol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(xtol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function with derivative to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root(double xtol, double rtol, Func<double, (double, double)> f, double xmin, double xmax)
-            => Root(xtol, rtol, f, xmin, (xmin + xmax) * 0.5, xmax);
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, (double, double)> f, double xmin, double xmax)
+            => Root(atol, rtol, f, xmin, (xmin + xmax) * 0.5, xmax);
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root_Brent(double xtol, double rtol, Func<double, double> f, double xmin, double xmax)
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root_Brent(double atol, double rtol, Func<double, double> f, double xmin, double xmax)
         {
             // Implementation and notation based on Chapter 4 in
             // "Algorithms for Minimization without Derivatives"
@@ -406,13 +416,11 @@ namespace MKLNET
                 fa = fb; fb = fc; fc = fa;
             }
 
-            static double Tol(double xtol, double rtol, double x) => xtol + rtol * Math.Abs(x);
-
             var m = 0.5 * (c - xmax);
-            if (Math.Abs(m) > Tol(xtol, rtol, xmax) && fb != 0.0) // exact comparison with 0 is OK here
+            if (Math.Abs(m) > Tol(atol, rtol, xmax) && fb != 0.0) // exact comparison with 0 is OK here
             {
                 // See if bisection is forced
-                if (Math.Abs(e) < Tol(xtol, rtol, xmax) || Math.Abs(fa) <= Math.Abs(fb))
+                if (Math.Abs(e) < Tol(atol, rtol, xmax) || Math.Abs(fa) <= Math.Abs(fb))
                 {
                     d = e = m;
                 }
@@ -437,13 +445,13 @@ namespace MKLNET
                     else
                         p = -p;
                     s = e; e = d;
-                    if (2.0 * p < 3.0 * m * q - Math.Abs(Tol(xtol, rtol, xmax) * q) && p < Math.Abs(0.5 * s * q))
+                    if (2.0 * p < 3.0 * m * q - Math.Abs(Tol(atol, rtol, xmax) * q) && p < Math.Abs(0.5 * s * q))
                         d = p / q;
                     else
                         d = e = m;
                 }
                 xmin = xmax; fa = fb;
-                var tol = Tol(xtol, rtol, xmax);
+                var tol = Tol(atol, rtol, xmax);
                 if (Math.Abs(d) > tol)
                     xmax += d;
                 else if (m > 0.0)
@@ -462,15 +470,15 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds x the root f(x) = 0 accurate to xtol where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
         /// </summary>
-        /// <param name="xtol">The absolute tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xmax">The maximum x value.</param>
-        /// <returns>The root x accurate to xtol.</returns>
-        public static double Root_Toms748(double xtol, double rtol, Func<double, double> f, double xmin, double xmax)
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root_Toms748(double atol, double rtol, Func<double, double> f, double xmin, double xmax)
         { //https://github.com/scipy/scipy/blob/master/scipy/optimize/zeros.py#L885
             const double MU = 0.5, EPS = 2.2204460492503131e-016; const int k = 1;
 
@@ -648,7 +656,7 @@ namespace MKLNET
                         {
                             // Make a bigger adjustment, about the
                             // size of the requested tolerance.
-                            var adj = Math.Abs(c) * rtol + xtol;
+                            var adj = Math.Abs(c) * rtol + atol;
                             c = Math.Abs(fa) < Math.Abs(fb) ? u + adj : u - adj;
                         }
                         if (c <= a || c >= b) c = (a + b) * 0.5;
@@ -697,7 +705,7 @@ namespace MKLNET
                     }
                 }
 
-                if (IsClose(a, b, rtol, xtol)) return (a + b) * 0.5;
+                if (IsClose(a, b, rtol, atol)) return (a + b) * 0.5;
             }
         }
     }

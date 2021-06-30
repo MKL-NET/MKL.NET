@@ -7,7 +7,7 @@ namespace MKLNET
     public static partial class Optimize
     {
         /// <summary>
-        /// Finite-difference approximation of the derivative of a scalar function.
+        /// Finite-difference approximation of the derivative of a scalar function. The error is O(epsilon^2).
         /// </summary>
         /// <param name="f">The function of which to determine the derivative.</param>
         /// <param name="x">The value at which to determine the derivative.</param>
@@ -17,7 +17,7 @@ namespace MKLNET
             => (f(x + epsilon) - f(x - epsilon)) * 0.5 / epsilon;
 
         /// <summary>
-        /// Finite-difference approximation of the derivative of a scalar function. The function is called in parallel.
+        /// Finite-difference approximation of the derivative of a scalar function. The function is called in parallel. The error is O(epsilon^2).
         /// </summary>
         /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
         /// <param name="x">The value at which to determine the derivative.</param>
@@ -30,7 +30,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finite-element approximatiom of the integral of a scalar function.
+        /// Finite-element approximatiom of the integral of a scalar function. The error is O(((b - a) / n)^2).
         /// </summary>
         /// <param name="n">The number of elements to divide the region.</param>
         /// <param name="f">The function of which to determine the integral.</param>
@@ -46,7 +46,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finite-element approximatiom of the integral of a scalar function. The function is called in parallel.
+        /// Finite-element approximatiom of the integral of a scalar function. The function is called in parallel. The error is O(((b - a) / n)^2).
         /// </summary>
         /// <param name="n">The number of elements to divide the region.</param>
         /// <param name="f">The function of which to determine the integral, called in parallel.</param>
@@ -58,8 +58,8 @@ namespace MKLNET
             var total = 0.0;
             var h = (b - a) / n;
             var lockObject = new object();
-            Parallel.For(0, n, () => 0.0,
-                (i, _, t) => t + (i == 0 ? (f(a) + f(b)) * 0.5 : f(a + i * h)),
+            Parallel.For(-1, n, () => 0.0,
+                (i, _, t) => t + (i > 0 ? f(a + i * h) : i == 0 ? f(b) * 0.5 : f(a) * 0.5),
                 t => { lock (lockObject) total += t; });
             return total * h;
         }
@@ -145,6 +145,7 @@ namespace MKLNET
 
         /// <summary>
         /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// The first Richardson estimate possible has error O(epsilon^6).
         /// </summary>
         /// <param name="atol">The absolute tolerance of the derivative required.</param>
         /// <param name="rtol">The relative tolerance of the derivative required.</param>
@@ -157,6 +158,7 @@ namespace MKLNET
 
         /// <summary>
         /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// The first Richardson estimate possible has error O(epsilon^6).
         /// </summary>
         /// <param name="atol">The absolute tolerance of the derivative required.</param>
         /// <param name="rtol">The relative tolerance of the derivative required.</param>
@@ -190,5 +192,11 @@ namespace MKLNET
         /// <returns>The integral of the function from a to b.</returns>
         public static double Integral_Approx_Parallel(double atol, double rtol, Func<double, double> f, double a, double b)
             => Richardson_Extrapolation(atol, rtol, Integral_Estimates_Parallel(f, a, b));
+
+        public static bool Derivative_Check(double atol, double rtol, Func<double, double> f, Func<double, double> g, double x, double epsilon)
+        {
+            var expected = Derivative_Approx(atol, rtol, f, x, epsilon);
+            return Math.Abs(expected - g(x)) < Tol(atol, rtol, expected);
+        }
     }
 }
