@@ -1,19 +1,66 @@
 ﻿using System;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace MKLNET
 {
     public static partial class Optimize
     {
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function.
+        /// </summary>
+        /// <param name="f">The function of which to determine the derivative.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The small value used to increment and decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
         public static double Derivative_Approx(Func<double, double> f, double x, double epsilon)
             => (f(x + epsilon) - f(x - epsilon)) * 0.5 / epsilon;
 
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function. The function is called in parallel.
+        /// </summary>
+        /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The small value used to increment and decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Parallel(Func<double, double> f, double x, double epsilon)
+        {
+            var f0 = Task.Run(() => f(x - epsilon));
+            return (f(x + epsilon) - f0.Result) * 0.5 / epsilon;
+        }
+
+        /// <summary>
+        /// Finite-element approximatiom of the integral of a scalar function.
+        /// </summary>
+        /// <param name="n">The number of elements to divide the region.</param>
+        /// <param name="f">The function of which to determine the integral.</param>
+        /// <param name="a">The start of the region to integrate.</param>
+        /// <param name="b">The end of the region to integrate.</param>
+        /// <returns>The integral of the function from a to b.</returns>
         public static double Integral_Approx(int n, Func<double, double> f, double a, double b)
         {
             var total = (f(a) + f(b)) * 0.5;
             var h = (b - a) / n;
-            for (int i = 1; i < n; i++) total += f(i * h);
+            for (int i = 1; i < n; i++) total += f(a + i * h);
+            return total * h;
+        }
+
+        /// <summary>
+        /// Finite-element approximatiom of the integral of a scalar function. The function is called in parallel.
+        /// </summary>
+        /// <param name="n">The number of elements to divide the region.</param>
+        /// <param name="f">The function of which to determine the integral, called in parallel.</param>
+        /// <param name="a">The start of the region to integrate.</param>
+        /// <param name="b">The end of the region to integrate.</param>
+        /// <returns>The integral of the function from a to b.</returns>
+        public static double Integral_Approx_Parallel(int n, Func<double, double> f, double a, double b)
+        {
+            var total = 0.0;
+            var h = (b - a) / n;
+            var lockObject = new object();
+            Parallel.For(0, n, () => 0.0,
+                (i, _, t) => t + (i == 0 ? (f(a) + f(b)) * 0.5 : f(a + i * h)),
+                t => { lock (lockObject) total += t; });
             return total * h;
         }
 
@@ -26,6 +73,15 @@ namespace MKLNET
             }
         }
 
+        static IEnumerable<double> Derivative_Estimates_Parallel(Func<double, double> f, double x, double epsilon)
+        {
+            while (true)
+            {
+                yield return Derivative_Approx_Parallel(f, x, epsilon);
+                epsilon *= 0.5;
+            }
+        }
+
         static IEnumerable<double> Integral_Estimates(Func<double, double> f, double a, double b)
         {
             var n = 1;
@@ -34,20 +90,42 @@ namespace MKLNET
             yield return estimate * h;
             while (true)
             {
-                estimate *= 0.5;
-                h *= 0.5;
                 n *= 2;
-                for (int i = 1; i < n; i += 2) estimate += f(i * h);
+                h = (b - a) / n;
+                for (int i = 1; i < n; i += 2) estimate += f(a + i * h);
                 yield return estimate * h;
             }
         }
 
-        static IEnumerable<double> Richardson_Extrapolation(IEnumerable<double> estimates)
+        static IEnumerable<double> Integral_Estimates_Parallel(Func<double, double> f, double a, double b)
         {
-            var prevRow = Array.Empty<double>();
-            foreach(var startEstimate in estimates)
+            var n = 1;
+            var h = b - a;
+            var fb = Task.Run(() => f(b));
+            var estimate = (f(a) + fb.Result) * 0.5;
+            yield return estimate * h;
+            var lockObject = new object();
+            while (true)
             {
-                var estimate = startEstimate;
+                n *= 2;
+                h = (b - a) / n;
+                Parallel.For(0, n / 2, () => 0.0,
+                    (i, _, t) => t + f(a + (1 + i * 2) * h),
+                    t => { lock (lockObject) estimate += t; });
+                yield return estimate * h;
+            }
+        }
+
+        static double Richardson_Extrapolation(double atol, double rtol, IEnumerable<double> estimates)
+        {
+            var prevDiff = double.PositiveInfinity;
+            var e = estimates.GetEnumerator();
+            e.MoveNext();
+            var prevRow = new[] { e.Current };
+            while (true)
+            {
+                e.MoveNext();
+                var estimate = e.Current;
                 var row = new double[prevRow.Length + 1];
                 row[0] = estimate;
                 var pow4 = 4.0;
@@ -56,31 +134,61 @@ namespace MKLNET
                     row[i + 1] = estimate = (estimate * pow4 - prevRow[i]) / (pow4 - 1);
                     pow4 *= 4;
                 }
-                yield return row[row.Length - 1];
+                var c = row[row.Length - 1];
+                var diff = Math.Abs(c - prevRow[prevRow.Length - 1]);
+                var tol = atol + rtol * Math.Abs(c);
+                if (prevDiff <= tol && diff <= tol) return c;
+                prevDiff = diff;
                 prevRow = row;
             }
         }
 
-        static double Richardson_StoppingCriteria(double tol, IEnumerable<double> extrapolation)
-        {
-            var e = extrapolation.GetEnumerator();
-            e.MoveNext();
-            var a = e.Current;
-            e.MoveNext();
-            var b = e.Current;
-            while (true)
-            {
-                e.MoveNext();
-                var c = e.Current;
-                if (Math.Abs(a - b) <= tol && Math.Abs(b - c) <= tol) return c;
-                a = b; b = c;
-            }
-        }
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the derivative required.</param>
+        /// <param name="rtol">The relative tolerance of the derivative required.</param>
+        /// <param name="f">The function of which to determine the derivative.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The starting small value used to increment and decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx(double atol, double rtol, Func<double, double> f, double x, double epsilon)
+            => Richardson_Extrapolation(atol, rtol, Derivative_Estimates(f, x, epsilon));
 
-        public static double Derivative(double tol, Func<double, double> f, double x, double epsilon)
-            => Richardson_StoppingCriteria(tol, Richardson_Extrapolation(Derivative_Estimates(f, x, epsilon)));
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the derivative required.</param>
+        /// <param name="rtol">The relative tolerance of the derivative required.</param>
+        /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The starting small value used to increment and decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Parallel(double atol, double rtol, Func<double, double> f, double x, double epsilon)
+            => Richardson_Extrapolation(atol, rtol, Derivative_Estimates_Parallel(f, x, epsilon));
 
-        public static double Intergral(double tol, Func<double, double> f, double a, double b)
-            => Richardson_StoppingCriteria(tol, Richardson_Extrapolation(Integral_Estimates(f, a, b)));
+        /// <summary>
+        /// Finite-element approximatiom of the integral of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the integral required.</param>
+        /// <param name="rtol">The relative tolerance of the integral required.</param>
+        /// <param name="f">The function of which to determine the integral.</param>
+        /// <param name="a">The start of the region to integrate.</param>
+        /// <param name="b">The end of the region to integrate.</param>
+        /// <returns>The integral of the function from a to b.</returns>
+        public static double Integral_Approx(double atol, double rtol, Func<double, double> f, double a, double b)
+            => Richardson_Extrapolation(atol, rtol, Integral_Estimates(f, a, b));
+
+        /// <summary>
+        /// Finite-element approximatiom of the integral of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the integral required.</param>
+        /// <param name="rtol">The relative tolerance of the integral required.</param>
+        /// <param name="f">The function of which to determine the integral, called in parallel.</param>
+        /// <param name="a">The start of the region to integrate.</param>
+        /// <param name="b">The end of the region to integrate.</param>
+        /// <returns>The integral of the function from a to b.</returns>
+        public static double Integral_Approx_Parallel(double atol, double rtol, Func<double, double> f, double a, double b)
+            => Richardson_Extrapolation(atol, rtol, Integral_Estimates_Parallel(f, a, b));
     }
 }

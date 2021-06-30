@@ -2,7 +2,7 @@
   "profiles": {
     "Tests": {
       "commandName": "Project",
-      "commandLineArgs": "Root_InverseQuadratic_Between --iter 1 --info --wait 6000 --seed 7mxuKBY1ZQNe"
+      "commandLineArgs": "optimize_calculus --info --time 10 --wait 1000"
     }
   }
 }

@@ -4,10 +4,6 @@ open System
 open MKLNET
 open CsCheck
 
-// temp workaround
-let genPositive = Gen.Double.Where(fun i -> not(Double.IsNaN i) && i > 0.0)
-let genNegative = Gen.Double.Where(fun i -> not(Double.IsNaN i) && i < 0.0)
-
 let all =
     test "optimize_root" {
 
@@ -17,8 +13,8 @@ let all =
             Check.isTrue (Optimize.Root_Bound(fa, fb))
             let Root_Bound_Bad fa fb = fa * fb < 0.0
             Check.isFalse (Root_Bound_Bad fa fb)
-            let! fa = genPositive
-            let! fb = genNegative
+            let! fa = Gen.Double.Positive
+            let! fb = Gen.Double.Negative
             Check.isTrue (Optimize.Root_Bound(fa, fb))
             Check.isTrue (Optimize.Root_Bound(fb, fa))
             Check.isFalse (Optimize.Root_Bound(fa, -fb))

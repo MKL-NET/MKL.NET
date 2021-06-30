@@ -13,6 +13,7 @@ let all =
         MatrixTests.all
         if Environment.Is64BitProcess then SolveTests.all else []
         PerfTests.all
+        Optimize.CalculusTests.all
         Optimize.RootTests.all
     }
 
