@@ -109,7 +109,7 @@ let all =
                         struct (F.Invoke(x), G.Invoke(x))
                     let x = Optimize.Root(tol, 0.0, Func<_,_> f, Min, Max)
                     Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
-                Check.equal 2950 count
+                Check.equal 2902 count
             }
 
             test "bond_spread" {

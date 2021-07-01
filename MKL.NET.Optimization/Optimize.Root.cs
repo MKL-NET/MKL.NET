@@ -210,24 +210,27 @@ namespace MKLNET
             return Root_Linear(a, fa, b, fb); // Could be grad cubic
         }
 
-        static double Root_Newton_Bound(double atol, double rtol, Func<double, (double, double)> f, double a, double fa, double dfa, double b, double fb, double dfb)
+        static double Root_Newton_Bound(double atol, double rtol, Func<double, (double, double)> f,
+            double a, double fa, double dfa, double b, double fb, double dfb, double c, double fc)
         {
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
                 double x;
                 if (Tol_Average_Within_2(atol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
-                else if (level == 1) x = Root_Linear(a, fa, b, fb);
+                else if (level == 1) x = Tol_Not_Too_Close(atol, rtol, a, b, /*double.IsNaN(c) ?*/ Root_Linear(a, fa, b, fb) /*: Root_Quadratic(a, fa, b, fb, c, fc)*/);
                 else x = Tol_Not_Too_Close(atol, rtol, a, b, Root_Newton(a, fa, dfa, b, fb, dfb));
                 var (fx, dfx) = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
                 {
                     level = b - x < 0.4 * (b - a) ? level + 1 : 0;
+                    if (c > b || b - x < a - c) { c = b; fc = fb; }
                     b = x; fb = fx; dfb = dfx;
                 }
                 else
                 {
                     level = x - a < 0.4 * (b - a) ? level + 1 : 0;
+                    if (c < a || x - a < c - b) { c = a; fc = fa; }
                     a = x; fa = fx; dfa = dfx;
                 }
             }
@@ -254,64 +257,64 @@ namespace MKLNET
             {
                 var xlower2 = xinterp - (xinterp - xlower) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
+                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, flower2)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2);
+                if (Root_Bound(flower, flower2)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2, xguess, fguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
+                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xlower2, flower2);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xupper)
             {
                 var xupper2 = xinterp + (xupper - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
+                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
                 var (fupper, dupper) = f(xupper); if (fupper == 0.0) return xupper;
-                if (Root_Bound(fupper2, fupper)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper);
+                if (Root_Bound(fupper2, fupper)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper, xguess, fguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
+                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xupper2, fupper2);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xmin && xinterp < xguess)
             {
                 var xlower2 = xinterp - (xinterp - xmin) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
+                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower2)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2);
+                if (Root_Bound(fmin, flower2)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2, xguess, fguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper2 = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
+                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper2, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax);
+                if (Root_Bound(fupper2, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax, xguess, fguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
@@ -334,38 +337,38 @@ namespace MKLNET
             {
                 var xlower = xinterp - (xinterp - xmin) * 0.2;
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess);
+                if (Root_Bound(flower, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
+                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xguess, fguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower, flower);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper, dupper) = f(xupper); if (fupper == 0) return xupper;
-                if (Root_Bound(fguess, fupper)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper);
+                if (Root_Bound(fguess, fupper)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
+                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xguess, fguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper, fupper);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
+                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
+                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
