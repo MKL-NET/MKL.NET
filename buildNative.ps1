@@ -14,6 +14,15 @@ function GetPackage([string]$name, [string]$version)
     Remove-Item $temp_zip_filename
 }
 
+function DownloadFile([string]$source, [string]$localFilename)
+{
+    if(!(Test-Path $localFilename))
+    {
+        $wc = New-Object System.Net.WebClient
+        $wc.DownloadFile($source, $localFilename)
+    }
+}
+
 try
 {
     if(!(Test-Path packages)) { New-Item packages -ItemType Directory | Out-Null }
@@ -42,15 +51,37 @@ try
     Copy-Item packages/inteltbb.redist.win/runtimes/win-x86/native/*.dll runtimes/win-x86/native
     Remove-Item packages/inteltbb.redist.win -Force -Recurse
 
-    GetPackage intelmkl.devel.linux-x64 2020.4.304
+    # https://software.intel.com/content/www/us/en/develop/tools/oneapi/components/onemkl/download.html
+    DownloadFile https://registrationcenter-download.intel.com/akdlm/irc_nas/17901/l_onemkl_p_2021.3.0.520_offline.sh "packages/l_onemkl_p_2021.3.0.520_offline.sh"
+    7z x -opackages .\packages\l_onemkl_p_2021.3.0.520_offline.sh ujvgm.tar
+    7z x -opackages\ujvgm .\packages\ujvgm.tar
+    Remove-Item packages/ujvgm.tar
+    7z x -opackages\ujvgm\cupPayload ".\packages\ujvgm\packages\intel.oneapi.lin.mkl.runtime,v=2021.3.0-520\cupPayload.cup"
+    Remove-Item packages/ujvgm/cupPayload/_installdir/mkl/2021.3.0/lib/intel64/libmkl_sycl.so.1
     New-Item runtimes/linux-x64/native -ItemType Directory | Out-Null
-    Copy-Item packages/intelmkl.devel.linux-x64/lib/native/linux-x64/*.so runtimes/linux-x64/native
-    Remove-Item packages/intelmkl.devel.linux-x64 -Force -Recurse
-
-    GetPackage intelmkl.devel.linux-x86 2021.2.0.296
+    Copy-Item packages/ujvgm/cupPayload/_installdir/mkl/2021.3.0/lib/intel64/*.1 runtimes/linux-x64/native
     New-Item runtimes/linux-x86/native -ItemType Directory | Out-Null
-    Copy-Item packages/intelmkl.devel.linux-x86/lib/native/linux-x86/*.so runtimes/linux-x86/native
-    Remove-Item packages/intelmkl.devel.linux-x86 -Force -Recurse
+    Copy-Item packages/ujvgm/cupPayload/_installdir/mkl/2021.3.0/lib/ia32/*.1 runtimes/linux-x86/native
+    Remove-Item packages/ujvgm -Force -Recurse
+    Move-Item runtimes/linux-x64/native/libmkl_rt.so.1 runtimes/linux-x64/native/libmkl_rt.so
+    Move-Item runtimes/linux-x86/native/libmkl_rt.so.1 runtimes/linux-x86/native/libmkl_rt.so
+    New-Item runtimes/linux-x64.b/native -ItemType Directory | Out-Null
+    Move-Item runtimes/linux-x64/native/libmkl_core.so.1 runtimes/linux-x64.b/native/libmkl_core.so.1
+    Move-Item runtimes/linux-x64/native/libmkl_avx512_mic.so.1 runtimes/linux-x64.b/native/libmkl_avx512_mic.so.1
+    Move-Item runtimes/linux-x64/native/libmkl_intel_thread.so.1 runtimes/linux-x64.b/native/libmkl_intel_thread.so.1
+    Move-Item runtimes/linux-x64/native/libmkl_avx512.so.1 runtimes/linux-x64.b/native/libmkl_avx512.so.1
+    Move-Item runtimes/linux-x64/native/libmkl_avx.so.1 runtimes/linux-x64.b/native/libmkl_avx.so.1
+    Move-Item runtimes/linux-x64/native/libmkl_mc3.so.1 runtimes/linux-x64.b/native/libmkl_mc3.so.1
+
+    # GetPackage intelmkl.devel.linux-x64 2020.4.304
+    # New-Item runtimes/linux-x64/native -ItemType Directory | Out-Null
+    # Copy-Item packages/intelmkl.devel.linux-x64/lib/native/linux-x64/*.so runtimes/linux-x64/native
+    # Remove-Item packages/intelmkl.devel.linux-x64 -Force -Recurse
+    # 
+    # GetPackage intelmkl.devel.linux-x86 2021.2.0.296
+    # New-Item runtimes/linux-x86/native -ItemType Directory | Out-Null
+    # Copy-Item packages/intelmkl.devel.linux-x86/lib/native/linux-x86/*.so runtimes/linux-x86/native
+    # Remove-Item packages/intelmkl.devel.linux-x86 -Force -Recurse
 
     GetPackage intelopenmp.devel.linux 2021.3.0.3350
     Copy-Item packages/intelopenmp.devel.linux/lib/native/linux-x64/*.so runtimes/linux-x64/native
@@ -85,8 +116,9 @@ try
 
     dotnet pack MKL.NET.win-x64 -o packages -p:Version=2021.3.0.524
     dotnet pack MKL.NET.win-x86 -o packages -p:Version=2021.3.0.524
-    dotnet pack MKL.NET.linux-x64 -o packages -p:Version=2020.4.304
-    dotnet pack MKL.NET.linux-x86 -o packages -p:Version=2021.2.0.296
+    dotnet pack MKL.NET.linux-x64 -o packages -p:Version=2021.3.0.520
+    dotnet pack MKL.NET.linux-x64.b -o packages -p:Version=2021.3.0.520
+    dotnet pack MKL.NET.linux-x86 -o packages -p:Version=2021.3.0.520
     dotnet pack MKL.NET.osx-x64 -o packages -p:Version=2021.2.0.269
 }
 finally { Pop-Location }

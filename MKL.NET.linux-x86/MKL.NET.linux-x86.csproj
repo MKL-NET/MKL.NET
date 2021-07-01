@@ -5,8 +5,8 @@
      <NoWarn>NU5128</NoWarn>
    </PropertyGroup>
    <ItemGroup>
-     <None Include="../runtimes/linux-x86/native/*" Pack="true" PackagePath="runtimes/linux-x86/native" />
-     <None Include="../matrix.png" Pack="true" PackagePath="" />
-     <None Include="../THIRD_PARTY_INTEL_LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+     <Content Include="../runtimes/linux-x86/native/*" Pack="true" PackagePath="runtimes/linux-x86/native" />
+     <Content Include="../matrix.png" Pack="true" PackagePath="" />
+     <Content Include="../THIRD_PARTY_INTEL_LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
    </ItemGroup>
 </Project>

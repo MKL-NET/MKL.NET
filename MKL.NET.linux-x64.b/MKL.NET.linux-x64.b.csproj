@@ -5,11 +5,8 @@
     <NoWarn>NU5128</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="../runtimes/linux-x64/native/*" Pack="true" PackagePath="runtimes/linux-x64/native" />
+    <Content Include="../runtimes/linux-x64.b/native/*" Pack="true" PackagePath="runtimes/linux-x64/native" />
     <Content Include="../matrix.png" Pack="true" PackagePath="" />
     <Content Include="../THIRD_PARTY_INTEL_LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MKL.NET.linux-x64.b\MKL.NET.linux-x64.b.csproj" />
   </ItemGroup>
 </Project>
