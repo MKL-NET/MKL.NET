@@ -193,6 +193,16 @@ namespace MKLNET
         public static double Integral_Approx_Parallel(double atol, double rtol, Func<double, double> f, double a, double b)
             => Richardson_Extrapolation(atol, rtol, Integral_Estimates_Parallel(f, a, b));
 
+        /// <summary>
+        /// Check the deriative function against one calculated from a function.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance to check to.</param>
+        /// <param name="rtol">The relative tolerance to check to.</param>
+        /// <param name="f">The function to check against.</param>
+        /// <param name="g">The derivative of the function.</param>
+        /// <param name="x">The point at which to perform the check.</param>
+        /// <param name="epsilon">The starting small value used to increment and decrement x to determine the correct derivative.</param>
+        /// <returns>If the derivative function agrees at this point.</returns>
         public static bool Derivative_Check(double atol, double rtol, Func<double, double> f, Func<double, double> g, double x, double epsilon)
         {
             var expected = Derivative_Approx(atol, rtol, f, x, epsilon);

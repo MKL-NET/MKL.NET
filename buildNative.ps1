@@ -93,18 +93,20 @@ try
     Copy-Item packages/inteltbb.devel.linux/runtimes/linux-x86/native/*.so runtimes/linux-x86/native
     Remove-Item packages/inteltbb.devel.linux -Force -Recurse
 
-    GetPackage intelmkl.devel.osx-x64 2021.2.0.269
-    New-Item runtimes/osx-x64/native -ItemType Directory | Out-Null
-    Copy-Item packages/intelmkl.devel.osx-x64/lib/native/osx-x64/*.dylib runtimes/osx-x64/native
-    Remove-Item packages/intelmkl.devel.osx-x64 -Force -Recurse
-    Remove-Item runtimes/osx-x64/native/libmkl_rt.dylib
-    Remove-Item runtimes/osx-x64/native/libmkl_core.dylib
-    Remove-Item runtimes/osx-x64/native/libmkl_intel_ilp64.dylib
-    Remove-Item runtimes/osx-x64/native/libmkl_intel_lp64.dylib
-    Remove-Item runtimes/osx-x64/native/libmkl_intel_thread.dylib
-    Remove-Item runtimes/osx-x64/native/libmkl_sequential.dylib
-    Remove-Item runtimes/osx-x64/native/libmkl_tbb_thread.dylib
-    Move-Item runtimes/osx-x64/native/libmkl_rt.1.dylib runtimes/osx-x64/native/libmkl_rt.dylib
+    # GetPackage intelmkl.devel.osx-x64 2021.2.0.269
+    # New-Item runtimes/osx-x64/native -ItemType Directory | Out-Null
+    # Copy-Item packages/intelmkl.devel.osx-x64/lib/native/osx-x64/*.dylib runtimes/osx-x64/native
+    # Remove-Item packages/intelmkl.devel.osx-x64 -Force -Recurse
+    # Remove-Item runtimes/osx-x64/native/libmkl_rt.dylib
+    # Remove-Item runtimes/osx-x64/native/libmkl_core.dylib
+    # Remove-Item runtimes/osx-x64/native/libmkl_intel_ilp64.dylib
+    # Remove-Item runtimes/osx-x64/native/libmkl_intel_lp64.dylib
+    # Remove-Item runtimes/osx-x64/native/libmkl_intel_thread.dylib
+    # Remove-Item runtimes/osx-x64/native/libmkl_sequential.dylib
+    # Remove-Item runtimes/osx-x64/native/libmkl_tbb_thread.dylib
+    # Move-Item runtimes/osx-x64/native/libmkl_rt.1.dylib runtimes/osx-x64/native/libmkl_rt.dylib
+
+    # https://registrationcenter-download.intel.com/akdlm/irc_nas/17960/m_onemkl_p_2021.3.0.517_offline.dmg
 
     GetPackage intelopenmp.devel.osx 2021.3.0.3375
     Copy-Item packages/intelopenmp.devel.osx/lib/native/osx-x64/*.dylib runtimes/osx-x64/native

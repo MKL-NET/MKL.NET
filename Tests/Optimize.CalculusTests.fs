@@ -102,4 +102,14 @@ let all =
             let actual = Optimize.Integral_Approx_Parallel(1e-8, 1e-5, Func<_,_> Math.Cos, x, x + 0.1)
             Check.close Medium (Math.Sin(x + 0.1) - Math.Sin x) actual
         }
+
+        test "derivative_check_problems" {
+            let problems = Optimization.TestProblems
+            for i = 0 to problems.Length - 1 do
+                let struct (F, G, Min, Max) = problems.[i]
+                let check = Seq.forall (fun r ->
+                                Optimize.Derivative_Check(1e-8, 1e-5, F, G, Min * r + Max * (1.0 - r), 0.1)
+                            ) {0.1..0.1..0.9}
+                Check.isTrue check |> Check.message "%i %f %f" i Min Max
+        }
     }
