@@ -112,6 +112,33 @@ let all =
                 Check.equal 2902 count
             }
 
+            test "newton_nr_11" {
+                let tol = 1e-11
+                let problems = Optimization.TestProblems
+                let mutable count = 0
+                for i = 0 to problems.Length - 1 do
+                    let struct (F, G, Min, Max) = problems.[i]
+                    let f x =
+                        count <- count + 1
+                        struct (F.Invoke(x), G.Invoke(x))
+                    let x = Optimize.Root_Newton(tol, 0.0, Func<_,_> f, Min, Max)
+                    Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                Check.equal 4142 count
+            }
+
+            //test "newton_mathnet_11" { // f / df = 0 / 0 bug
+            //    let tol = 1e-11
+            //    let problems = Optimization.TestProblems
+            //    let mutable count = 0
+            //    for i = 0 to problems.Length - 1 do
+            //        let struct (F, G, Min, Max) = problems.[i]
+            //        let f x = count <- count + 1; F.Invoke(x)
+            //        let g x = count <- count + 1; G.Invoke(x)
+            //        let x = MathNet.Numerics.RootFinding.RobustNewtonRaphson.FindRoot(Func<_,_> f, Func<_,_> g, Min, Max, 1e-11, 1000)
+            //        Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+            //    Check.equal 2902 count
+            //}
+
             test "bond_spread" {
                 let tol = 1e-11
                 let run solver =
@@ -123,6 +150,19 @@ let all =
                 Check.isTrue (abs(root - root_brent) < tol * 2.0)
                 Check.equal 10 root_i
                 Check.equal 13 root_brent_i
+
+                let run_newton solver =
+                    let mutable count = 0
+                    let f x =
+                        count <- count + 1;
+                        let obj x = 0.9 - Optimization.BondPrice(x, 0.075, 0.035, 20.0)
+                        struct (obj x, Optimize.Derivative_Approx(1e-11, 0.0, Func<_,_> obj, x, 0.1))
+                    let x = solver(tol, 0.0, Func<_,_> f, -0.1, 1.0)
+                    x, count
+
+                let root_newton, root_newton_i = run_newton Optimize.Root_Newton
+                Check.isTrue (abs(root - root_newton) < tol * 2.0)
+                Check.equal 15 root_newton_i
             }
 
             test "option_volatility" {

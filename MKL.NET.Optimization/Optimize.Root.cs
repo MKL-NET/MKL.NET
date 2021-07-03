@@ -711,10 +711,63 @@ namespace MKLNET
                 if (IsClose(a, b, rtol, atol)) return (a + b) * 0.5;
             }
         }
+
+        public static double Root_Newton(double atol, double rtol, Func<double, (double, double)> fu, double x1, double x2)
+        {
+            const int MAXIT = 100; //Maximum allowed number of iterations.
+            double xh, xl;
+            (double fl, double _) = fu(x1);
+            (double fh, double _) = fu(x2);
+            if (fl == 0) return x1;
+            if (fh == 0) return x2;
+            if (fl < 0)
+            {
+                xl = x1;
+                xh = x2;
+            }
+            else
+            {
+                xh = x1;
+                xl = x2;
+            }
+            double rts = 0.5 * (x1 + x2); // Initialize the guess for root,
+            double dxold = Math.Abs(x2 - x1); // the “stepsize before last,”
+            double dx = dxold; // and the last step.
+            (double f, double df) = fu(rts);
+            if (f == 0) return rts;
+            for (int j = 0; j < MAXIT; j++)
+            {
+                if ((((rts - xh) * df - f) * ((rts - xl) * df - f) > 0.0)   // Bisect if Newton out of range,
+                    || (Math.Abs(2.0 * f) > Math.Abs(dxold * df)))          // or not decreasing fast enough
+                {
+                    dxold = dx;
+                    dx = 0.5 * (xh - xl);
+                    rts = xl + dx;
+                    if (xl == rts) return rts;
+                }
+                else
+                {
+                    dxold = dx;
+                    dx = f / df;
+                    double temp = rts;
+                    rts -= dx;
+                    if (temp == rts) return rts;
+                }
+                (f, df) = fu(rts);
+                if (Math.Abs(dx) < atol + rtol * Math.Abs(rts) || f == 0) return rts;
+                if (f < 0.0)  // Maintain the bracket on the root.
+                    xl = rts;
+                else
+                    xh = rts;
+            }
+            throw new Exception("Maximum number of iterations exceeded in rtsafe");
+        }
     }
 }
 
-// TODO: Newton
+// TODO: Newton Safe
+// TODO: Newton Test Bond
+// TODO: Newton test Math.NET
 // TODO: Test Newton
 // TODO: Halley
 // TODO: Root_Cubic
