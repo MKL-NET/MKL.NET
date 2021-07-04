@@ -93,6 +93,15 @@ try
     Copy-Item packages/inteltbb.devel.linux/runtimes/linux-x86/native/*.so runtimes/linux-x86/native
     Remove-Item packages/inteltbb.devel.linux -Force -Recurse
 
+    # https://software.intel.com/content/www/us/en/develop/tools/oneapi/components/onemkl/download.html
+    # https://registrationcenter-download.intel.com/akdlm/irc_nas/17960/m_onemkl_p_2021.3.0.517_offline.dmg
+    # Had to install on a Mac to extract the lib files, yuk.
+    New-Item runtimes/osx-x64/native -ItemType Directory | Out-Null
+    7z x -opackages/mkl_osx_2021_3 ./packages/mkl_osx_2021_3.zip
+    Copy-Item packages/mkl_osx_2021_3/mkl/2021.3.0/lib/*.dylib runtimes/osx-x64/native
+    Remove-Item packages/mkl_osx_2021_3 -Force -Recurse
+    Move-Item runtimes/osx-x64/native/libmkl_rt.1.dylib runtimes/osx-x64/native/libmkl_rt.dylib
+    
     # GetPackage intelmkl.devel.osx-x64 2021.2.0.269
     # New-Item runtimes/osx-x64/native -ItemType Directory | Out-Null
     # Copy-Item packages/intelmkl.devel.osx-x64/lib/native/osx-x64/*.dylib runtimes/osx-x64/native
@@ -105,8 +114,6 @@ try
     # Remove-Item runtimes/osx-x64/native/libmkl_sequential.dylib
     # Remove-Item runtimes/osx-x64/native/libmkl_tbb_thread.dylib
     # Move-Item runtimes/osx-x64/native/libmkl_rt.1.dylib runtimes/osx-x64/native/libmkl_rt.dylib
-
-    # https://registrationcenter-download.intel.com/akdlm/irc_nas/17960/m_onemkl_p_2021.3.0.517_offline.dmg
 
     GetPackage intelopenmp.devel.osx 2021.3.0.3375
     Copy-Item packages/intelopenmp.devel.osx/lib/native/osx-x64/*.dylib runtimes/osx-x64/native
@@ -121,7 +128,7 @@ try
     dotnet pack MKL.NET.linux-x64 -o packages -p:Version=2021.3.0.520
     dotnet pack MKL.NET.linux-x64.b -o packages -p:Version=2021.3.0.520
     dotnet pack MKL.NET.linux-x86 -o packages -p:Version=2021.3.0.520
-    dotnet pack MKL.NET.osx-x64 -o packages -p:Version=2021.2.0.269
+    dotnet pack MKL.NET.osx-x64 -o packages -p:Version=2021.3.0.517
 }
 finally { Pop-Location }
 
