@@ -80,7 +80,7 @@ let all =
                     Check.equal 154 problems.Length
                     let mutable count = 0
                     for i = 0 to problems.Length - 1 do
-                        let struct (F, _, Min, Max) = problems.[i]
+                        let struct (F, _, _, Min, Max) = problems.[i]
                         let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
                         Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                     testAssert count
@@ -95,21 +95,21 @@ let all =
 
             test_solver "hybrid_6" 1e-6 Optimize.Root (Check.equal 2162)
             test_solver "hybrid_7" 1e-7 Optimize.Root (Check.equal 2256)
-            test_solver "hybrid_9" 1e-9 Optimize.Root (Check.between 2311 2311)
-            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2347 2347)
+            test_solver "hybrid_9" 1e-9 Optimize.Root (Check.equal 2311)
+            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.equal 2347)
 
             test "newton_11" {
                 let tol = 1e-11
                 let problems = Optimization.TestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
-                    let struct (F, G, Min, Max) = problems.[i]
+                    let struct (F, G, _, Min, Max) = problems.[i]
                     let f x =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x))
                     let x = Optimize.Root(tol, 0.0, Func<_,_> f, Min, Max)
                     Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
-                Check.equal 2902 count
+                Check.equal 2792 count
             }
 
             test "newton_nr_11" {
@@ -117,13 +117,13 @@ let all =
                 let problems = Optimization.TestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
-                    let struct (F, G, Min, Max) = problems.[i]
+                    let struct (F, G, _, Min, Max) = problems.[i]
                     let f x =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x))
                     let x = Optimize.Root_Newton(tol, 0.0, Func<_,_> f, Min, Max)
                     Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
-                Check.equal 4142 count
+                Check.equal 3598 count
             }
 
             //test "newton_mathnet_11" { // f / df = 0 / 0 bug
@@ -138,6 +138,20 @@ let all =
             //        Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
             //    Check.equal 2902 count
             //}
+
+            test "halley_11" {
+                let tol = 1e-11
+                let problems = Optimization.TestProblems
+                let mutable count = 0
+                for i = 0 to problems.Length - 1 do
+                    let struct (F, G, H, Min, Max) = problems.[i]
+                    let f x =
+                        count <- count + 1
+                        struct (F.Invoke(x), G.Invoke(x), H.Invoke(x))
+                    let x = Optimize.Root(tol, 0.0, Func<_,_> f, Min, Max)
+                    Check.isTrue (Optimize.Root_Bound(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                Check.equal 2747 count
+            }
 
             test "bond_spread" {
                 let tol = 1e-11

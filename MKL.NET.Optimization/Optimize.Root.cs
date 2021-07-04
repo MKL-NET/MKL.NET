@@ -385,6 +385,202 @@ namespace MKLNET
         public static double Root(double atol, double rtol, Func<double, (double, double)> f, double xmin, double xmax)
             => Root(atol, rtol, f, xmin, (xmin + xmax) * 0.5, xmax);
 
+        static double Root_Halley(double a, double fa, double dfa, double ddfa, double b, double fb, double dfb, double ddfb)
+        {
+            if (Math.Abs(fa) < Math.Abs(fb))
+            {
+                var x = Root_Halley(a, fa, dfa, ddfa);
+                if (a < x && x < b) return x;
+                x = Root_Halley(b, fb, dfb, ddfb);
+                if (a < x && x < b) return x;
+            }
+            else
+            {
+                var x = Root_Halley(b, fb, dfb, ddfb);
+                if (a < x && x < b) return x;
+                x = Root_Halley(a, fa, dfa, ddfa);
+                if (a < x && x < b) return x;
+            }
+            return Root_Linear(a, fa, b, fb); // Could be grad cubic
+        }
+
+        static double Root_Halley_Bound(double atol, double rtol, Func<double, (double, double, double)> f,
+            double a, double fa, double dfa, double ddfa, double b, double fb, double dfb, double ddfb, double c, double fc)
+        {
+            int level = 0;
+            int check = 0;
+            while (Tol_Average_Not_Within(atol, rtol, a, b))
+            {
+                if (check++ == 100) System.Diagnostics.Debugger.Break();
+                double x;
+                if (Tol_Average_Within_2(atol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
+                else if (level == 1) x = Tol_Not_Too_Close(atol, rtol, a, b, /*double.IsNaN(c) ?*/ Root_Linear(a, fa, b, fb) /*: Root_Quadratic(a, fa, b, fb, c, fc)*/);
+                else x = Tol_Not_Too_Close(atol, rtol, a, b, Root_Halley(a, fa, dfa, ddfa, b, fb, dfb, ddfb));
+                var (fx, dfx, ddfx) = f(x); if (fx == 0.0) return x;
+                if (Root_Bound(fa, fx))
+                {
+                    level = b - x < 0.4 * (b - a) ? level + 1 : 0;
+                    if (c > b || b - x < a - c) { c = b; fc = fb; }
+                    b = x; fb = fx; dfb = dfx; ddfb = ddfx;
+                }
+                else
+                {
+                    level = x - a < 0.4 * (b - a) ? level + 1 : 0;
+                    if (c < a || x - a < c - b) { c = a; fc = fa; }
+                    a = x; fa = fx; dfa = dfx; ddfa = ddfx;
+                }
+            }
+            return (a + b) * 0.5;
+        }
+
+        /// <summary>
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xlower < xupper < xmax.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function with derivative to find the root of.</param>
+        /// <param name="xmin">The minimum x value.</param>
+        /// <param name="xlower">The lower guess x value.</param>
+        /// <param name="xupper">The upper guess x value.</param>
+        /// <param name="xmax">The maximum x value.</param>
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, (double, double, double)> f, double xmin, double xlower, double xupper, double xmax)
+        {
+            var xguess = (xlower + xupper) * 0.5;
+            var (fguess, dguess, ddguess) = f(xguess); if (fguess == 0) return xguess;
+            var xinterp = Root_Halley(xguess, fguess, dguess, ddguess);
+            if (xinterp > xlower && xinterp < xguess)
+            {
+                var xlower2 = xinterp - (xinterp - xlower) * 0.2;
+                var (flower2, dlower2, ddlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
+                if (Root_Bound(flower2, fguess)) return Root_Halley_Bound(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                var (flower, dlower, ddlower) = f(xlower); if (flower == 0.0) return xlower;
+                if (Root_Bound(flower, flower2)) return Root_Halley_Bound(atol, rtol, f, xlower, flower, dlower, ddlower, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, flower)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xlower2, flower2);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else if (xinterp > xguess && xinterp < xupper)
+            {
+                var xupper2 = xinterp + (xupper - xinterp) * 0.2;
+                var (fupper2, dupper2, ddupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
+                if (Root_Bound(fguess, fupper2)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
+                var (fupper, dupper, ddupper) = f(xupper); if (fupper == 0.0) return xupper;
+                if (Root_Bound(fupper2, fupper)) return Root_Halley_Bound(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xupper, fupper, dupper, ddupper, xguess, fguess);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fupper, fmax)) return Root_Halley_Bound(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xupper2, fupper2);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else if (xinterp > xmin && xinterp < xguess)
+            {
+                var xlower2 = xinterp - (xinterp - xmin) * 0.2;
+                var (flower2, dlower2, ddlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
+                if (Root_Bound(flower2, fguess)) return Root_Halley_Bound(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, flower2)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else if (xinterp > xguess && xinterp < xmax)
+            {
+                var xupper2 = xinterp + (xmax - xinterp) * 0.2;
+                var (fupper2, dupper2, ddupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
+                if (Root_Bound(fguess, fupper2)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fupper2, fmax)) return Root_Halley_Bound(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xmax, fmax, dmax, ddmax, xguess, fguess);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else if (xinterp < xguess)
+            {
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else
+            {
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+        }
+
+        /// <summary>
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xguess < xmax.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function with derivative to find the root of.</param>
+        /// <param name="xmin">The minimum x value.</param>
+        /// <param name="xguess">A guess x value.</param>
+        /// <param name="xmax">The maximum x value.</param>
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, (double, double, double)> f, double xmin, double xguess, double xmax)
+        {
+            var (fguess, dguess, ddguess) = f(xguess); if (fguess == 0) return xguess;
+            var xinterp = Root_Halley(xguess, fguess, dguess, ddguess);
+            if (xinterp > xmin && xinterp < xguess)
+            {
+                var xlower = xinterp - (xinterp - xmin) * 0.2;
+                var (flower, dlower, ddlower) = f(xlower); if (flower == 0.0) return xlower;
+                if (Root_Bound(flower, fguess)) return Root_Halley_Bound(atol, rtol, f, xlower, flower, dlower, ddlower, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, flower)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xguess, fguess);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower, flower);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else if (xinterp > xguess && xinterp < xmax)
+            {
+                var xupper = xinterp + (xmax - xinterp) * 0.2;
+                var (fupper, dupper, ddupper) = f(xupper); if (fupper == 0) return xupper;
+                if (Root_Bound(fguess, fupper)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper, fupper, dupper, ddupper, double.NaN, 0);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fupper, fmax)) return Root_Halley_Bound(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xguess, fguess);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper, fupper);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else if (xinterp < xguess)
+            {
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+            else
+            {
+                var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
+                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
+                var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
+                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
+                return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
+            }
+        }
+
+        /// <summary>
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function with derivative to find the root of.</param>
+        /// <param name="xmin">The minimum x value.</param>
+        /// <param name="xmax">The maximum x value.</param>
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root(double atol, double rtol, Func<double, (double, double, double)> f, double xmin, double xmax)
+            => Root(atol, rtol, f, xmin, (xmin + xmax) * 0.5, xmax);
+
         /// <summary>
         /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
         /// </summary>
@@ -765,10 +961,8 @@ namespace MKLNET
     }
 }
 
-// TODO: Newton Safe
-// TODO: Newton Test Bond
-// TODO: Newton test Math.NET
-// TODO: Test Newton
-// TODO: Halley
+// TODO: 2nd Deriv and Deriv
+// TODO: Halley Bond Test
 // TODO: Root_Cubic
 // TODO: Hybrid with Cubic
+// TODO: All docs

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Transactions;
 
 public static class Optimization
 {
-    public readonly static (Func<double, double> F, Func<double, double> G, double Min, double Max)[] TestProblems = Problems().ToArray();
-    static IEnumerable<(Func<double, double> F, Func<double, double> G, double Min, double Max)> Problems()
+    public readonly static (Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)[] TestProblems = Problems().ToArray();
+    static IEnumerable<(Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)> Problems()
     {
         static double Sqr(double x) => x * x;
         static double Cube(double x) => x * x * x;
+        static double Pow5(double x) => x * x * x * x * x;
         static IEnumerable<int> Range(int start, int step, int finish)
         {
             for (int i = start; i <= finish; i += step)
@@ -18,13 +20,15 @@ public static class Optimization
         yield return (
             x => Math.Sin(x) - 0.5 * x,
             x => Math.Cos(x) - 0.5,
+            x => -Math.Sin(x),
             Math.PI * 0.5,
             Math.PI
         );
         for (int n = 1; n <= 10; n++)
             yield return (
-                x => -2.0 * Enumerable.Range(1, 20).Sum(i => Sqr(2 * i - 5.0) / Cube(x - i * i)),
-                x => -2.0 * Enumerable.Range(1, 20).Sum(i => -12 * Sqr(i - 2.5) / Sqr(Sqr(x - i * i))),
+                x => -2.0 * Enumerable.Range(1, 20).Sum(i => Sqr(2 * i - 5) / Cube(x - i * i)),
+                x => -2.0 * Enumerable.Range(1, 20).Sum(i => -3 * Sqr(2 * i - 5) / Sqr(Sqr(x - i * i))),
+                x => -2.0 * Enumerable.Range(1, 20).Sum(i => 12 * Sqr(2 * i - 5) / Pow5(x - i * i)),
                 Sqr(n) + 1e-9,
                 Sqr(n + 1) - 1e-9
             );
@@ -32,6 +36,7 @@ public static class Optimization
             yield return (
                 x => a * x * Math.Exp(b * x),
                 x => a * (b * x + 1) * Math.Exp(b * x),
+                x => a * b * (b * x + 2) * Math.Exp(b * x),
                 -9,
                 31
             );
@@ -40,6 +45,7 @@ public static class Optimization
                 yield return (
                     x => Math.Pow(x, n) - a,
                     x => n * Math.Pow(x, n - 1),
+                    x => n * (n - 1) * Math.Pow(x, n - 2),
                     0,
                     5
                 );
@@ -47,12 +53,14 @@ public static class Optimization
             yield return (
                 x => Math.Pow(x, n) - 1,
                 x => n * Math.Pow(x, n - 1),
+                x => n * (n - 1) * Math.Pow(x, n - 2),
                 -0.95,
                 4.05
             );
         yield return (
             x => Math.Sin(x) - 0.5,
             x => Math.Cos(x),
+            x => -Math.Sin(x),
             0,
             1.5
         );
@@ -60,6 +68,7 @@ public static class Optimization
             yield return (
                 x => 2 * x * Math.Exp(-n) - 2 * Math.Exp(-n * x) + 1,
                 x => 2 * Math.Exp(-n) + 2 * n * Math.Exp(-n * x),
+                x => -2 * Sqr(n) * Math.Exp(-n * x),
                 0,
                 1
             );
@@ -67,6 +76,7 @@ public static class Optimization
             yield return (
                 x => (1 + Sqr(1 - n)) * x - Sqr(1 - n * x),
                 x => Sqr(n) * (1 - 2 * x) + 2,
+                x => Sqr(n) * -2,
                 0,
                 1
             );
@@ -74,6 +84,7 @@ public static class Optimization
             yield return (
                 x => Sqr(x) - Math.Pow(1 - x, n),
                 x => 2 * x + n * Math.Pow(1 - x, n - 1),
+                x => 2 - n * (n - 1) * Math.Pow(1 - x, n - 2),
                 0,
                 1
             );
@@ -81,6 +92,7 @@ public static class Optimization
             yield return (
                 x => (1 + Math.Pow(1 - n, 4)) * x - Math.Pow(1 - n * x, 4),
                 x => (1 + Math.Pow(1 - n, 4)) + 4 * n * Math.Pow(1 - n * x, 3),
+                x => -12 * Sqr(n) * Math.Pow(1 - n * x, 2),
                 0,
                 1
             );
@@ -88,6 +100,7 @@ public static class Optimization
             yield return (
                 x => Math.Exp(-n * x) * (x - 1) + Math.Pow(x, n),
                 x => Math.Exp(-n * x) * (1 - n * (x - 1)) + n * Math.Pow(x, n - 1),
+                x => -n * Math.Exp(-n * x) * (2 - n * (x - 1)) + n * (n - 1) * Math.Pow(x, n - 2),
                 0,
                 1
             );
@@ -95,6 +108,7 @@ public static class Optimization
             yield return (
                 x => (n * x - 1) / ((n - 1) * x),
                 x => 1.0 / (n - 1.0) / Sqr(x),
+                x => -2.0 / (n - 1.0) / Cube(x),
                 0.01,
                 1
             );
@@ -102,12 +116,14 @@ public static class Optimization
             yield return (
                 x => Math.Pow(x, 1.0 / n) - Math.Pow(n, 1.0 / n),
                 x => Math.Pow(x, 1.0 / n - 1.0) / n,
+                x => Math.Pow(x, 1.0 / n - 2.0) / n * (1.0 / n - 1.0),
                 0,
                 100
             );
         yield return (
             x => x == 0 ? 0 : x * Math.Exp(-Math.Pow(x, -2)),
-            x => x == 0 ? 0 : Math.Exp(-Math.Pow(x, -2)) * (Sqr(x) + 2) / Sqr(x),
+            x => x == 0 ? 0 : Math.Exp(-Math.Pow(x, -2)) * (1 + 2 / Sqr(x)),
+            x => x == 0 ? 0 : Math.Exp(-Math.Pow(x, -2)) * 2 / Cube(x) * (2 / Sqr(x) - 1),
             -1,
             4
         );
@@ -115,6 +131,7 @@ public static class Optimization
             yield return (
                 x => x >= 0 ? 0.05 * n * (x / 1.5 + Math.Sin(x) - 1) : -0.05 * n,
                 x => x >= 0 ? 0.05 * n * (1.5 + Math.Cos(x)) : 0,
+                x => x >= 0 ? -0.05 * n * Math.Sin(x) : 0,
                 -1e4,
                 Math.PI * 0.5
             );
@@ -125,7 +142,10 @@ public static class Optimization
                     : Math.Exp((n + 1) * x / 2e-3) - 1.859,
                 x => x < 0 ? 0
                     : x > 2e-3 / (1 + n) ? 0
-                    : (n + 1) * x / 2e-3 * Math.Exp((n + 1) * x / 2e-3),
+                    : (n + 1) / 2e-3 * Math.Exp((n + 1) * x / 2e-3),
+                x => x < 0 ? 0
+                    : x > 2e-3 / (1 + n) ? 0
+                    : Sqr((n + 1) / 2e-3) * Math.Exp((n + 1) * x / 2e-3),
                 -1e4,
                 1e-4
             );

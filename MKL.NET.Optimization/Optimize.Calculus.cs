@@ -17,6 +17,26 @@ namespace MKLNET
             => (f(x + epsilon) - f(x - epsilon)) * 0.5 / epsilon;
 
         /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function. The error is O(epsilon^2).
+        /// </summary>
+        /// <param name="f">The function of which to determine the derivative.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The small value used to increment x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Forward(Func<double, double> f, double x, double epsilon)
+            => (f(x + epsilon) - f(x)) / epsilon;
+
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function. The error is O(epsilon^2).
+        /// </summary>
+        /// <param name="f">The function of which to determine the derivative.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The small value used to decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Backward(Func<double, double> f, double x, double epsilon)
+            => (f(x) - f(x - epsilon)) * 0.5 / epsilon;
+
+        /// <summary>
         /// Finite-difference approximation of the derivative of a scalar function. The function is called in parallel. The error is O(epsilon^2).
         /// </summary>
         /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
@@ -27,6 +47,32 @@ namespace MKLNET
         {
             var f0 = Task.Run(() => f(x - epsilon));
             return (f(x + epsilon) - f0.Result) * 0.5 / epsilon;
+        }
+
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function. The function is called in parallel. The error is O(epsilon^2).
+        /// </summary>
+        /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The small value used to increment and decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Forward_Parallel(Func<double, double> f, double x, double epsilon)
+        {
+            var f0 = Task.Run(() => f(x));
+            return (f(x + epsilon) - f0.Result) / epsilon;
+        }
+
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function. The function is called in parallel. The error is O(epsilon^2).
+        /// </summary>
+        /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The small value used to increment and decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Backward_Parallel(Func<double, double> f, double x, double epsilon)
+        {
+            var f0 = Task.Run(() => f(x - epsilon));
+            return (f(x) - f0.Result) / epsilon;
         }
 
         /// <summary>
@@ -73,11 +119,47 @@ namespace MKLNET
             }
         }
 
+        static IEnumerable<double> Derivative_Estimates_Forward(Func<double, double> f, double x, double epsilon)
+        {
+            while (true)
+            {
+                yield return Derivative_Approx_Forward(f, x, epsilon);
+                epsilon *= 0.5;
+            }
+        }
+
+        static IEnumerable<double> Derivative_Estimates_Backward(Func<double, double> f, double x, double epsilon)
+        {
+            while (true)
+            {
+                yield return Derivative_Approx_Backward(f, x, epsilon);
+                epsilon *= 0.5;
+            }
+        }
+
         static IEnumerable<double> Derivative_Estimates_Parallel(Func<double, double> f, double x, double epsilon)
         {
             while (true)
             {
                 yield return Derivative_Approx_Parallel(f, x, epsilon);
+                epsilon *= 0.5;
+            }
+        }
+
+        static IEnumerable<double> Derivative_Estimates_Forward_Parallel(Func<double, double> f, double x, double epsilon)
+        {
+            while (true)
+            {
+                yield return Derivative_Approx_Forward_Parallel(f, x, epsilon);
+                epsilon *= 0.5;
+            }
+        }
+
+        static IEnumerable<double> Derivative_Estimates_Backward_Parallel(Func<double, double> f, double x, double epsilon)
+        {
+            while (true)
+            {
+                yield return Derivative_Approx_Backward_Parallel(f, x, epsilon);
                 epsilon *= 0.5;
             }
         }
@@ -162,12 +244,64 @@ namespace MKLNET
         /// </summary>
         /// <param name="atol">The absolute tolerance of the derivative required.</param>
         /// <param name="rtol">The relative tolerance of the derivative required.</param>
+        /// <param name="f">The function of which to determine the derivative.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The starting small value used to increment x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Forward(double atol, double rtol, Func<double, double> f, double x, double epsilon)
+            => Richardson_Extrapolation(atol, rtol, Derivative_Estimates_Forward(f, x, epsilon));
+
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// The first Richardson estimate possible has error O(epsilon^6).
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the derivative required.</param>
+        /// <param name="rtol">The relative tolerance of the derivative required.</param>
+        /// <param name="f">The function of which to determine the derivative.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The starting small value used to decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Backward(double atol, double rtol, Func<double, double> f, double x, double epsilon)
+            => Richardson_Extrapolation(atol, rtol, Derivative_Estimates_Backward(f, x, epsilon));
+
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// The first Richardson estimate possible has error O(epsilon^6).
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the derivative required.</param>
+        /// <param name="rtol">The relative tolerance of the derivative required.</param>
         /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
         /// <param name="x">The value at which to determine the derivative.</param>
         /// <param name="epsilon">The starting small value used to increment and decrement x to determine the derivative.</param>
         /// <returns>The derivative of the function at x.</returns>
         public static double Derivative_Approx_Parallel(double atol, double rtol, Func<double, double> f, double x, double epsilon)
             => Richardson_Extrapolation(atol, rtol, Derivative_Estimates_Parallel(f, x, epsilon));
+
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// The first Richardson estimate possible has error O(epsilon^6).
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the derivative required.</param>
+        /// <param name="rtol">The relative tolerance of the derivative required.</param>
+        /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The starting small value used to increment x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Forward_Parallel(double atol, double rtol, Func<double, double> f, double x, double epsilon)
+            => Richardson_Extrapolation(atol, rtol, Derivative_Estimates_Forward_Parallel(f, x, epsilon));
+
+        /// <summary>
+        /// Finite-difference approximation of the derivative of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// The first Richardson estimate possible has error O(epsilon^6).
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the derivative required.</param>
+        /// <param name="rtol">The relative tolerance of the derivative required.</param>
+        /// <param name="f">The function of which to determine the derivative, called in parallel.</param>
+        /// <param name="x">The value at which to determine the derivative.</param>
+        /// <param name="epsilon">The starting small value used to decrement x to determine the derivative.</param>
+        /// <returns>The derivative of the function at x.</returns>
+        public static double Derivative_Approx_Backward_Parallel(double atol, double rtol, Func<double, double> f, double x, double epsilon)
+            => Richardson_Extrapolation(atol, rtol, Derivative_Estimates_Backward_Parallel(f, x, epsilon));
 
         /// <summary>
         /// Finite-element approximatiom of the integral of a scalar function accurate to a tolerance using Richardson extrapolation.
