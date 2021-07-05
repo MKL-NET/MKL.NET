@@ -73,6 +73,56 @@ let all =
             Check.between a b x
         }
 
+        test "root_cubic_between" {
+            let! a, _, b, _, _, _, _, _, x =
+                let genD = Gen.Double
+                let genC = genD.Select(genD)
+                Gen.Select(genC, genC, genC, genC)
+                    .Where(fun struct ((a, fa), (b, fb), (c, _), (d, _)) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bound(fa, fb))
+                    .Select(fun struct ((a, fa), (b, fb), (c, fc), (d, fd)) -> a, fa, b, fb, c, fc, d, fd, Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
+            Check.between a b x
+        }
+
+        test "root_cubic_correct_1" {
+            let! root1 = Gen.Double.[-10.0, -4.0]
+            let! notRoot = Gen.Double.[4.0, 10.0]
+            let f x = (x - root1) * (x*x + notRoot)
+            let! x =
+                let genD = Gen.Double.[root1 * 3.0, notRoot * 3.0]
+                Gen.Select(genD, genD, genD, genD)
+                    .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
+                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bound(fa, fb))
+                    .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
+            Check.close Low root1 x
+        }
+
+        test "root_cubic_correct_2" {
+            let! root1 = Gen.Double.[-10.0, -4.0]
+            let! root2 = Gen.Double.[4.0, 10.0]
+            let f x = (x - root1) * (x - root2) * (x - root2)
+            let! x =
+                let genD = Gen.Double.[root1 * 3.0, root2 * 3.0]
+                Gen.Select(genD, genD, genD, genD)
+                    .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
+                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bound(fa, fb))
+                    .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
+            Check.close Medium root1 x ||| Check.close Low root2 x
+        }
+
+        test "root_cubic_correct_3" {
+            let! root1 = Gen.Double.[-10.0, -4.0]
+            let! root2 = Gen.Double.[-3.0, 3.0]
+            let! root3 = Gen.Double.[4.0, 10.0]
+            let f x = (x - root1) * (x - root2) * (x - root3)
+            let! x =
+                let genD = Gen.Double.[root1 * 3.0, root3 * 3.0]
+                Gen.Select(genD, genD, genD, genD)
+                    .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
+                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bound(fa, fb))
+                    .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
+            Check.close Medium root1 x ||| Check.close Medium root2 x ||| Check.close Medium root3 x
+        }
+
         test "test_problems" {
             let test_solver name tol solver (testAssert:int -> TestResult) =
                 test name {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace MKLNET
 {
@@ -30,6 +31,51 @@ namespace MKLNET
                   + fa / (fb - fa) * fc / (fb - fc) * b
                   + fa / (fc - fa) * fb / (fc - fb) * c;
             if (a < x && x < b) return x;
+            return Root_Quadratic(a, fa, b, fb, c, fc);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static double Cbrt(double x) => x < 0.0 ? -Math.Pow(-x, 1.0 / 3.0) : Math.Pow(x, 1.0 / 3.0);
+
+        public static double Root_Cubic(double a, double fa, double b, double fb, double c, double fc, double d, double fd)
+        {
+            var a0 = -fa * (b * c * d) / ((a - b) * (a - c) * (a - d)) - fb * (a * c * d) / ((b - a) * (b - c) * (b - d)) - fc * (a * b * d) / ((c - a) * (c - b) * (c - d)) - fd * (a * b * c) / ((d - a) * (d - b) * (d - c));
+            var a1 = fa * (b * c + b * d + c * d) / ((a - b) * (a - c) * (a - d)) + fb * (a * c + a * d + c * d) / ((b - a) * (b - c) * (b - d)) + fc * (a * b + a * d + b * d) / ((c - a) * (c - b) * (c - d)) + fd * (a * b + a * c + b * c) / ((d - a) * (d - b) * (d - c));
+            var a2 = -fa * (b + c + d) / ((a - b) * (a - c) * (a - d)) - fb * (a + c + d) / ((b - a) * (b - c) * (b - d)) - fc * (a + b + d) / ((c - a) * (c - b) * (c - d)) - fd * (a + b + c) / ((d - a) * (d - b) * (d - c));
+            var a3 = fa / ((a - b) * (a - c) * (a - d)) + fb / ((b - a) * (b - c) * (b - d)) + fc / ((c - a) * (c - b) * (c - d)) + fd / ((d - a) * (d - b) * (d - c));
+            a0 /= a3; a1 /= a3; a2 /= a3;
+            var Q = (3 * a1 - a2 * a2) / 9;
+            var R = (9 * a2 * a1 - 27 * a0 - 2 * a2 * a2 * a2) / 54;
+            var Q3 = Q * Q * Q;
+            var D = Q3 + R * R;
+            var shift = a2 / -3;
+            if (D >= 0)
+            {
+                if (D == 0)
+                {
+                    var S = Cbrt(R);
+                    var x = shift + 2 * S;
+                    if (a < x && x < b) return x;
+                    x = shift - S;
+                    if (a < x && x < b) return x;
+                }
+                else
+                {
+                    var sqrtD = Math.Sqrt(D);
+                    var x = Cbrt(R + sqrtD) + Cbrt(R - sqrtD) + shift;
+                    if (a < x && x < b) return x;
+                }
+            }
+            else
+            {
+                var theta = Math.Acos(R / Math.Sqrt(-Q3));
+                var x = 2 * Math.Sqrt(-Q) * Math.Cos(theta / 3) + shift;
+                if (a < x && x < b) return x;
+                x = 2 * Math.Sqrt(-Q) * Math.Cos((theta + Math.PI * 2) / 3) + shift;
+                if (a < x && x < b) return x;
+                x = 2 * Math.Sqrt(-Q) * Math.Cos((theta - Math.PI * 2) / 3) + shift;
+                if (a < x && x < b) return x;
+            }
             return Root_Quadratic(a, fa, b, fb, c, fc);
         }
 
@@ -961,6 +1007,5 @@ namespace MKLNET
     }
 }
 
-// TODO: Root_Cubic
 // TODO: Hybrid with Cubic
 // TODO: All docs
