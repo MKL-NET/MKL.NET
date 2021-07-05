@@ -961,8 +961,6 @@ namespace MKLNET
     }
 }
 
-// TODO: 2nd Deriv and Deriv
-// TODO: Halley Bond Test
 // TODO: Root_Cubic
 // TODO: Hybrid with Cubic
 // TODO: All docs

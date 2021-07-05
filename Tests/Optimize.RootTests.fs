@@ -177,6 +177,20 @@ let all =
                 let root_newton, root_newton_i = run_newton Optimize.Root_Newton
                 Check.isTrue (abs(root - root_newton) < tol * 2.0)
                 Check.equal 15 root_newton_i
+
+                let run_halley solver =
+                    let mutable count = 0
+                    let f x =
+                        count <- count + 1;
+                        let obj x = 0.9 - Optimization.BondPrice(x, 0.075, 0.035, 20.0)
+                        let struct (g, h) = Optimize.Derivative_2_Approx(1e-11, 0.0, Func<_,_> obj, x, 0.1)
+                        struct (obj x, g, h)
+                    let x = solver(tol, 0.0, Func<_,_> f, -0.1, 1.0)
+                    x, count
+
+                let root_halley, root_halley_i = run_halley Optimize.Root
+                Check.isTrue (abs(root - root_halley) < tol * 2.0)
+                Check.equal 32 root_halley_i
             }
 
             test "option_volatility" {
