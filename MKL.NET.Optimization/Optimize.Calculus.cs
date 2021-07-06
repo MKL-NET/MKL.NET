@@ -113,7 +113,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finite-element approximatiom of the integral of a scalar function. The error is O(((b - a) / n)^2).
+        /// Finite-element approximation of the integral of a scalar function. The error is O(((b - a) / n)^2).
         /// </summary>
         /// <param name="n">The number of elements to divide the region.</param>
         /// <param name="f">The function of which to determine the integral.</param>
@@ -129,7 +129,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finite-element approximatiom of the integral of a scalar function. The function is called in parallel. The error is O(((b - a) / n)^2).
+        /// Finite-element approximation of the integral of a scalar function. The function is called in parallel. The error is O(((b - a) / n)^2).
         /// </summary>
         /// <param name="n">The number of elements to divide the region.</param>
         /// <param name="f">The function of which to determine the integral, called in parallel.</param>
@@ -360,7 +360,7 @@ namespace MKLNET
             => Richardson_Extrapolation(atol, rtol, Derivative_Estimates_Forward_Parallel(f, x, epsilon));
 
         /// <summary>
-        /// Finite-element approximatiom of the integral of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// Finite-element approximation of the integral of a scalar function accurate to a tolerance using Richardson extrapolation.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the integral required.</param>
         /// <param name="rtol">The relative tolerance of the integral required.</param>
@@ -372,7 +372,7 @@ namespace MKLNET
             => Richardson_Extrapolation(atol, rtol, Integral_Estimates(f, a, b));
 
         /// <summary>
-        /// Finite-element approximatiom of the integral of a scalar function accurate to a tolerance using Richardson extrapolation.
+        /// Finite-element approximation of the integral of a scalar function accurate to a tolerance using Richardson extrapolation.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the integral required.</param>
         /// <param name="rtol">The relative tolerance of the integral required.</param>

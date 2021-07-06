@@ -5,19 +5,46 @@ namespace MKLNET
 {
     public static partial class Optimize
     {
-        public static bool Root_Bound(double fa, double fb) => (fa < 0.0 && fb > 0.0) || (fb < 0.0 && fa > 0.0);
+        /// <summary>Test if a root is bracketed by the function outputs.</summary>
+        /// <param name="fa">First function output.</param>
+        /// <param name="fb">Second function output.</param>
+        /// <returns>True if the function outputs have the opposite sign.</returns>
+        public static bool Root_Bracketed(double fa, double fb)
+            => (fa < 0.0 && fb > 0.0) || (fb < 0.0 && fa > 0.0);
 
+        /// <summary>Root estimate using bisection i.e. the centre of the two inputs.</summary>
+        /// <param name="a">First input.</param>
+        /// <param name="b">Second input.</param>
+        /// <returns>The centre of the two inputs.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static double Root_Bisect(double a, double b) => (a + b) * 0.5;
+        static double Root_Bisect(double a, double b)
+            => (a + b) * 0.5;
 
+        /// <summary>Root estmate using linear interpolation. Also called false position or regula falsi.</summary>
+        /// <param name="a">First function input.</param>
+        /// <param name="fa">First function output.</param>
+        /// <param name="b">Second function input.</param>
+        /// <param name="fb">Second function output.</param>
+        /// <returns>The linear interpolation root estimate.</returns>
         public static double Root_Linear(double a, double fa, double b, double fb)
         {
             var r = fa / (fa - fb);
             return a - r * a + r * b; // Rounding error mitigation.
         }
 
+        /// <summary>
+        /// Root estmate between a and b using quadratic interpolation, falling back to linear interpolation.
+        /// See <see href="https://en.wikipedia.org/wiki/Muller%27s_method">Muller's method</see>.
+        /// </summary>
+        /// <param name="a">First function input.</param>
+        /// <param name="fa">First function output.</param>
+        /// <param name="b">Second function input.</param>
+        /// <param name="fb">Second function output.</param>
+        /// <param name="c">Third function input.</param>
+        /// <param name="fc">Third function output.</param>
+        /// <returns>The root estimate between a and b.</returns>
         public static double Root_Quadratic(double a, double fa, double b, double fb, double c, double fc)
-        { // https://en.wikipedia.org/wiki/Muller%27s_method
+        {
             var r = (fb - fa) / (b - a) - (fc - fb) / (c - b);
             var w = (fc - fa) / (c - a) + r;
             r = Math.Sqrt(w * w - 4 * fa * r / (a - c));
@@ -28,8 +55,19 @@ namespace MKLNET
             return Root_Linear(a, fa, b, fb); // Rounding errors, it must be near a or b, Root_Linear will work.
         }
 
+        /// <summary>
+        /// Root estmate between a and b using inverse quadratic interpolation, falling back to quadratic then linear interpolation.
+        /// See <see href="https://en.wikipedia.org/wiki/Inverse_quadratic_interpolation">Inverse quadratic interpolation</see>.
+        /// </summary>
+        /// <param name="a">First function input.</param>
+        /// <param name="fa">First function output.</param>
+        /// <param name="b">Second function input.</param>
+        /// <param name="fb">Second function output.</param>
+        /// <param name="c">Third function input.</param>
+        /// <param name="fc">Third function output.</param>
+        /// <returns>The root estimate between a and b.</returns>
         public static double Root_InverseQuadratic(double a, double fa, double b, double fb, double c, double fc)
-        { // https://en.wikipedia.org/wiki/Inverse_quadratic_interpolation
+        {
             var x = fb / (fa - fb) * fc / (fa - fc) * a
                   + fa / (fb - fa) * fc / (fb - fc) * b
                   + fa / (fc - fa) * fb / (fc - fb) * c;
@@ -44,6 +82,20 @@ namespace MKLNET
         static double Cbrt(double x) => x < 0.0 ? -Math.Pow(-x, 1.0 / 3.0) : Math.Pow(x, 1.0 / 3.0);
 #endif
 
+        /// <summary>
+        /// Root estmate between a and b using cubic interpolation, falling back to quadratic then linear interpolation.
+        /// See <see href="https://en.wikipedia.org/wiki/Lagrange_polynomial">Lagrange polynomial</see> and
+        /// <see href="https://mathworld.wolfram.com/CubicFormula.html">Cubic formula</see>.
+        /// </summary>
+        /// <param name="a">First function input.</param>
+        /// <param name="fa">First function output.</param>
+        /// <param name="b">Second function input.</param>
+        /// <param name="fb">Second function output.</param>
+        /// <param name="c">Third function input.</param>
+        /// <param name="fc">Third function output.</param>
+        /// <param name="d">Fourth function input.</param>
+        /// <param name="fd">Fourth function output.</param>
+        /// <returns>The root estimate between a and b.</returns>
         public static double Root_Cubic(double a, double fa, double b, double fb, double c, double fc, double d, double fd)
         {
             // https://en.wikipedia.org/wiki/Lagrange_polynomial
@@ -86,6 +138,18 @@ namespace MKLNET
             return Root_Quadratic(a, fa, b, fb, c, fc);
         }
 
+        /// <summary>
+        /// Root estmate between a and b using inverse cubic interpolation, falling back to inverse quadratic, quadratic then linear interpolation.
+        /// </summary>
+        /// <param name="a">First function input.</param>
+        /// <param name="fa">First function output.</param>
+        /// <param name="b">Second function input.</param>
+        /// <param name="fb">Second function output.</param>
+        /// <param name="c">Third function input.</param>
+        /// <param name="fc">Third function output.</param>
+        /// <param name="d">Fourth function input.</param>
+        /// <param name="fd">Fourth function output.</param>
+        /// <returns>The root estimate between a and b.</returns>
         public static double Root_InverseCubic(double a, double fa, double b, double fb, double c, double fc, double d, double fd)
         {
             var Q11 = (c - d) * fc / (fd - fc);
@@ -97,25 +161,37 @@ namespace MKLNET
             var Q32 = (D31 - Q21) * fa / (fc - fa);
             var D32 = (D31 - Q21) * fc / (fc - fa);
             var Q33 = (D32 - Q22) * fa / (fd - fa);
-            var x = a + (Q31 + Q32 + Q33);
+            var x = Q31 + Q32 + Q33 + a;
             if (a < x && x < b) return x;
             return Root_InverseQuadratic(a, fa, b, fb, c, fc);
         }
 
-        // https://en.wikipedia.org/wiki/Newton%27s_method
-        public static double Root_Newton(double x, double fx, double dfx) => x - fx / dfx;
+        /// <summary>Root estimate using <see href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton's method</see>.</summary>
+        /// <param name="x">Function input.</param>
+        /// <param name="fx">Function output.</param>
+        /// <param name="df_dx">Function derivative.</param>
+        /// <returns>The root estimate.</returns>
+        public static double Root_Newton(double x, double fx, double df_dx)
+            => x - fx / df_dx;
 
-        // https://en.wikipedia.org/wiki/Halley%27s_method
-        public static double Root_Halley(double x, double fx, double dfx, double ddfx) => x - fx / (dfx - 0.5 * fx / dfx * ddfx);
+        /// <summary>Root estimate using <see href="https://en.wikipedia.org/wiki/Halley%27s_method">Halley's method</see>.</summary>
+        /// <param name="x">Function input.</param>
+        /// <param name="fx">Function output.</param>
+        /// <param name="df_dx">Function derivative.</param>
+        /// <param name="d2f_dx2">Function second derivative.</param>
+        /// <returns>The root estimate.</returns>
+        public static double Root_Halley(double x, double fx, double df_dx, double d2f_dx2)
+            => x - fx / (df_dx - 0.5 * fx / df_dx * d2f_dx2);
 
         /// <summary>
         /// The tolarance calculated at a point.
         /// </summary>
         /// <param name="atol">The absolute tolerance.</param>
-        /// <param name="rtol">The relative tolerance</param>
+        /// <param name="rtol">The relative tolerance.</param>
         /// <param name="x">The point at which to calcuate the tolerance.</param>
         /// <returns>tol = atol + rtol * x</returns>
-        public static double Tol(double atol, double rtol, double x) => atol + rtol * Math.Abs(x);
+        public static double Tol(double atol, double rtol, double x)
+            => atol + rtol * Math.Abs(x);
 
         static bool Tol_Average_Not_Within(double atol, double rtol, double a, double b)
             => b - a > atol * 2 + rtol * (a + b);
@@ -132,7 +208,7 @@ namespace MKLNET
         static bool Tol_Average_Within_2(double atol, double rtol, double a, double b)
             => b - a < atol * 4 + rtol * (a + b) * 2;
 
-        static double Root_Hybrid_Bound(double atol, double rtol, Func<double, double> f,
+        static double Root_Hybrid_Bracketed(double atol, double rtol, Func<double, double> f,
             double a, double fa, double b, double fb, double c, double fc, double d, double fd)
         {
             int level = 0;
@@ -144,7 +220,7 @@ namespace MKLNET
                       : level == 2 ? Tol_Not_Too_Close(atol, rtol, a, b, (a + b) * 0.25 + Root_Linear(a, fa, b, fb) * 0.5)
                       : Root_Bisect(a, b);
                 var fx = f(x); if (fx == 0.0) return x;
-                if (Root_Bound(fa, fx))
+                if (Root_Bracketed(fa, fx))
                 {
                     level = b - x < 0.4 * (b - a) ? level + 1 : 0;
                     if (c > b || b - x < a - c) { d = c; fd = fc; c = b; fc = fb; } else { d = b; fd = fb; }
@@ -161,7 +237,10 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xlower < xupper < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xlower &lt; xupper &lt; xmax.
+        /// This is a hybrid method that uses cubic and inverse quadratic interpolation.
+        /// It's more than 20% less function evaluations than Brent and also less than Newton and Halley for test problems.
+        /// Prefer this method to all others.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="atol">The relative tolerance of the root required.</param>
@@ -176,55 +255,58 @@ namespace MKLNET
             var flower = f(xlower); if (flower == 0) return xlower;
             var fupper = f(xupper); if (fupper == 0) return xupper;
             var xinterp = Root_Linear(xlower, flower, xupper, fupper);
-            if (Root_Bound(flower, fupper))
+            if (Root_Bracketed(flower, fupper))
             {
                 var xmid = Tol_Not_Too_Close(atol, rtol, xlower, xupper, xinterp);
                 var fxmid = f(xmid); if (fxmid == 0) return xmid;
-                return Root_Bound(flower, fxmid) ? Root_Hybrid_Bound(atol, rtol, f, xlower, flower, xmid, fxmid, xupper, fupper, double.NaN, 0)
-                                                 : Root_Hybrid_Bound(atol, rtol, f, xmid, fxmid, xupper, fupper, xlower, flower, double.NaN, 0);
+                return Root_Bracketed(flower, fxmid) ? Root_Hybrid_Bracketed(atol, rtol, f, xlower, flower, xmid, fxmid, xupper, fupper, double.NaN, 0)
+                                                     : Root_Hybrid_Bracketed(atol, rtol, f, xmid, fxmid, xupper, fupper, xlower, flower, double.NaN, 0);
             }
             if (xinterp > xmin && xinterp <= xlower)
             {
                 var xlower2 = Tol_Not_Too_Close(atol, rtol, xmin, xmax, xinterp - (xinterp - xmin) * 0.2);
                 var flower2 = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, flower)) return Root_Hybrid_Bound(atol, rtol, f, xlower2, flower2, xlower, flower, xupper, fupper, double.NaN, 0);
+                if (Root_Bracketed(flower2, flower)) return Root_Hybrid_Bracketed(atol, rtol, f, xlower2, flower2, xlower, flower, xupper, fupper, double.NaN, 0);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower2)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower2, flower2, xlower, flower, xupper, fupper);
+                if (Root_Bracketed(fmin, flower2)) return Root_Hybrid_Bracketed(atol, rtol, f, xmin, fmin, xlower2, flower2, xlower, flower, xupper, fupper);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, xlower2, flower2);
+                if (Root_Bracketed(fupper, fmax)) Root_Hybrid_Bracketed(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp >= xupper && xinterp < xmax)
             {
                 var xupper2 = Tol_Not_Too_Close(atol, rtol, xmin, xmax, xinterp + (xmax - xinterp) * 0.2);
                 var fupper2 = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fupper, fupper2)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xupper2, fupper2, xlower, flower, double.NaN, 0);
+                if (Root_Bracketed(fupper, fupper2)) return Root_Hybrid_Bracketed(atol, rtol, f, xupper, fupper, xupper2, fupper2, xlower, flower, double.NaN, 0);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper2, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper2, fupper2, xmax, fmax, xupper, fupper, xlower, flower);
+                if (Root_Bracketed(fupper2, fmax)) return Root_Hybrid_Bracketed(atol, rtol, f, xupper2, fupper2, xmax, fmax, xupper, fupper, xlower, flower);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, xupper2, fupper2);
+                if (Root_Bracketed(fmin, flower)) return Root_Hybrid_Bracketed(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp <= xlower)
             {
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, double.NaN, 0);
+                if (Root_Bracketed(fmin, flower)) return Root_Hybrid_Bracketed(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, double.NaN, 0);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, xmin, fmin);
+                if (Root_Bracketed(fupper, fmax)) return Root_Hybrid_Bracketed(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, double.NaN, 0);
+                if (Root_Bracketed(fupper, fmax)) return Root_Hybrid_Bracketed(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, double.NaN, 0);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, xmax, fmax);
+                if (Root_Bracketed(fmin, flower)) return Root_Hybrid_Bracketed(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xguess < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xguess &lt; xmax.
+        /// This is a hybrid method that uses cubic and inverse quadratic interpolation.
+        /// It's more than 20% less function evaluations than Brent and also less than Newton and Halley for test problems.
+        /// Prefer this method to all others.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -237,7 +319,10 @@ namespace MKLNET
             => Root(atol, rtol, f, xmin, xguess - (xguess - xmin) * 0.01, xguess + (xmax - xguess) * 0.01, xmax);
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xmax.
+        /// This is a hybrid method that uses cubic and inverse quadratic interpolation.
+        /// It's more than 20% less function evaluations than Brent and also less than Newton and Halley for test problems.
+        /// Prefer this method to all others.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -264,10 +349,10 @@ namespace MKLNET
                 x = Root_Newton(a, fa, dfa);
                 if (a < x && x < b) return x;
             }
-            return Root_Linear(a, fa, b, fb); // Could be grad cubic
+            return Root_Linear(a, fa, b, fb);
         }
 
-        static double Root_Newton_Bound(double atol, double rtol, Func<double, (double, double)> f,
+        static double Root_Newton_Bracketed(double atol, double rtol, Func<double, (double, double)> f,
             double a, double fa, double dfa, double b, double fb, double dfb, double c, double fc)
         {
             int level = 0;
@@ -278,7 +363,7 @@ namespace MKLNET
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Linear(a, fa, b, fb))
                       : Root_Bisect(a, b);
                 var (fx, dfx) = f(x); if (fx == 0.0) return x;
-                if (Root_Bound(fa, fx))
+                if (Root_Bracketed(fa, fx))
                 {
                     level = b - x < 0.4 * (b - a) ? level + 1 : 0;
                     if (c > b || b - x < a - c) { c = b; fc = fb; }
@@ -295,7 +380,9 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xlower < xupper < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xlower &lt; xupper &lt; xmax.
+        /// This is a hybrid method that uses Newton's, linear and bisection interpolation.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -314,70 +401,72 @@ namespace MKLNET
             {
                 var xlower2 = xinterp - (xinterp - xlower) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, flower2)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2, xguess, fguess);
+                if (Root_Bracketed(flower, flower2)) return Root_Newton_Bracketed(atol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2, xguess, fguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xlower2, flower2);
+                if (Root_Bracketed(fmin, flower)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xlower2, flower2);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xupper)
             {
                 var xupper2 = xinterp + (xupper - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
                 var (fupper, dupper) = f(xupper); if (fupper == 0.0) return xupper;
-                if (Root_Bound(fupper2, fupper)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper, xguess, fguess);
+                if (Root_Bracketed(fupper2, fupper)) return Root_Newton_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper, xguess, fguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xupper2, fupper2);
+                if (Root_Bracketed(fupper, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xupper2, fupper2);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xmin && xinterp < xguess)
             {
                 var xlower2 = xinterp - (xinterp - xmin) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower2)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2, xguess, fguess);
+                if (Root_Bracketed(fmin, flower2)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2, xguess, fguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper2 = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper2, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax, xguess, fguess);
+                if (Root_Bracketed(fupper2, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax, xguess, fguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xguess < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xguess &lt; xmax.
+        /// This is a hybrid method that uses Newton's, linear and bisection interpolation.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -394,44 +483,46 @@ namespace MKLNET
             {
                 var xlower = xinterp - (xinterp - xmin) * 0.2;
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, fguess)) return Root_Newton_Bound(atol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(flower, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xguess, fguess);
+                if (Root_Bracketed(fmin, flower)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xguess, fguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower, flower);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower, flower);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper, dupper) = f(xupper); if (fupper == 0) return xupper;
-                if (Root_Bound(fguess, fupper)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Newton_Bound(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xguess, fguess);
+                if (Root_Bracketed(fupper, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xguess, fguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper, fupper);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper, fupper);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Newton_Bound(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Newton_Bound(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xmax.
+        /// This is a hybrid method that uses Newton's, linear and bisection interpolation.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -461,7 +552,7 @@ namespace MKLNET
             return Root_Linear(a, fa, b, fb); // Could be grad cubic
         }
 
-        static double Root_Halley_Bound(double atol, double rtol, Func<double, (double, double, double)> f,
+        static double Root_Halley_Bracketed(double atol, double rtol, Func<double, (double, double, double)> f,
             double a, double fa, double dfa, double ddfa, double b, double fb, double dfb, double ddfb, double c, double fc)
         {
             int level = 0;
@@ -472,7 +563,7 @@ namespace MKLNET
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Linear(a, fa, b, fb))
                       : Root_Bisect(a, b);
                 var (fx, dfx, ddfx) = f(x); if (fx == 0.0) return x;
-                if (Root_Bound(fa, fx))
+                if (Root_Bracketed(fa, fx))
                 {
                     level = b - x < 0.4 * (b - a) ? level + 1 : 0;
                     if (c > b || b - x < a - c) { c = b; fc = fb; }
@@ -489,7 +580,9 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xlower < xupper < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xlower &lt; xupper &lt; xmax.
+        /// This is a hybrid method that uses Halley's, linear and bisection interpolation.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -508,70 +601,72 @@ namespace MKLNET
             {
                 var xlower2 = xinterp - (xinterp - xlower) * 0.2;
                 var (flower2, dlower2, ddlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Halley_Bound(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
                 var (flower, dlower, ddlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, flower2)) return Root_Halley_Bound(atol, rtol, f, xlower, flower, dlower, ddlower, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
+                if (Root_Bracketed(flower, flower2)) return Root_Halley_Bracketed(atol, rtol, f, xlower, flower, dlower, ddlower, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xlower2, flower2);
+                if (Root_Bracketed(fmin, flower)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xlower2, flower2);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xupper)
             {
                 var xupper2 = xinterp + (xupper - xinterp) * 0.2;
                 var (fupper2, dupper2, ddupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
                 var (fupper, dupper, ddupper) = f(xupper); if (fupper == 0.0) return xupper;
-                if (Root_Bound(fupper2, fupper)) return Root_Halley_Bound(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xupper, fupper, dupper, ddupper, xguess, fguess);
+                if (Root_Bracketed(fupper2, fupper)) return Root_Halley_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xupper, fupper, dupper, ddupper, xguess, fguess);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Halley_Bound(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xupper2, fupper2);
+                if (Root_Bracketed(fupper, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xupper2, fupper2);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xmin && xinterp < xguess)
             {
                 var xlower2 = xinterp - (xinterp - xmin) * 0.2;
                 var (flower2, dlower2, ddlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, fguess)) return Root_Halley_Bound(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower2)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
+                if (Root_Bracketed(fmin, flower2)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper2 = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper2, dupper2, ddupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fguess, fupper2)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper2, fmax)) return Root_Halley_Bound(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xmax, fmax, dmax, ddmax, xguess, fguess);
+                if (Root_Bracketed(fupper2, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xmax, fmax, dmax, ddmax, xguess, fguess);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xguess < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xguess &lt; xmax.
+        /// This is a hybrid method that uses Halley's, linear and bisection interpolation.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -588,44 +683,46 @@ namespace MKLNET
             {
                 var xlower = xinterp - (xinterp - xmin) * 0.2;
                 var (flower, dlower, ddlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bound(flower, fguess)) return Root_Halley_Bound(atol, rtol, f, xlower, flower, dlower, ddlower, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(flower, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower, flower, dlower, ddlower, xguess, fguess, dguess, ddguess, double.NaN, 0);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xguess, fguess);
+                if (Root_Bracketed(fmin, flower)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xguess, fguess);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower, flower);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower, flower);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper, dupper, ddupper) = f(xupper); if (fupper == 0) return xupper;
-                if (Root_Bound(fguess, fupper)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper, fupper, dupper, ddupper, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper, fupper, dupper, ddupper, double.NaN, 0);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Halley_Bound(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xguess, fguess);
+                if (Root_Bracketed(fupper, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xguess, fguess);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper, fupper);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper, fupper);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fguess, fmax)) return Root_Halley_Bound(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, fguess)) return Root_Halley_Bound(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xmax.
+        /// This is a hybrid method that uses Halley's, linear and bisection interpolation.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -637,7 +734,9 @@ namespace MKLNET
             => Root(atol, rtol, f, xmin, (xmin + xmax) * 0.5, xmax);
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xmax.
+        /// This is Brent's method from Chapter 4 in "Algorithms for Minimization without Derivatives".
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -724,7 +823,9 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin < xmax.
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xmax.
+        /// This is the Toms748 method ported from <see href="https://github.com/scipy/scipy/blob/master/scipy/optimize/zeros.py#L885">SciPy</see>.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double)"/>.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
         /// <param name="rtol">The relative tolerance of the root required.</param>
@@ -733,7 +834,7 @@ namespace MKLNET
         /// <param name="xmax">The maximum x value.</param>
         /// <returns>The root accurate to tol = atol + rtol * root.</returns>
         public static double Root_Toms748(double atol, double rtol, Func<double, double> f, double xmin, double xmax)
-        { //https://github.com/scipy/scipy/blob/master/scipy/optimize/zeros.py#L885
+        {
             const double MU = 0.5, EPS = 2.2204460492503131e-016; const int k = 1;
 
             var a = xmin; var b = xmax;
@@ -827,7 +928,7 @@ namespace MKLNET
             double d, fd, e = double.NaN, fe = double.NaN;
 
             // update bracket
-            if (Root_Bound(fa, fc))
+            if (Root_Bracketed(fa, fc))
             {
                 d = b;
                 fd = fb;
@@ -861,7 +962,7 @@ namespace MKLNET
                     e = d;
                     fe = fd;
                     // update bracket
-                    if (Root_Bound(fa, fc))
+                    if (Root_Bracketed(fa, fc))
                     {
                         d = b;
                         fd = fb;
@@ -921,7 +1022,7 @@ namespace MKLNET
                 e = d;
                 fe = fd;
                 // update bracket
-                if (Root_Bound(fa, fc))
+                if (Root_Bracketed(fa, fc))
                 {
                     d = b;
                     fd = fb;
@@ -943,7 +1044,7 @@ namespace MKLNET
                     e = d;
                     fe = fd;
                     // update bracket
-                    if (Root_Bound(fa, fz))
+                    if (Root_Bracketed(fa, fz))
                     {
                         d = b;
                         fd = fb;
@@ -963,33 +1064,44 @@ namespace MKLNET
             }
         }
 
-        public static double Root_Newton(double atol, double rtol, Func<double, (double, double)> fu, double x1, double x2)
+        /// <summary>
+        /// Finds the solution f(root) = 0 accurate to tol = atol + rtol * root where xmin &lt; xmax.
+        /// This is the Newton's safe method ported from <see href="http://www.numerical.recipes/">Numerical Recipes</see>.
+        /// Included for completeness, prefer <see cref="Root(double, double, Func{double, double}, double, double)"/>.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function to find the root of.</param>
+        /// <param name="xmin">The minimum x value.</param>
+        /// <param name="xmax">The maximum x value.</param>
+        /// <returns>The root accurate to tol = atol + rtol * root.</returns>
+        public static double Root_Newton_Safe(double atol, double rtol, Func<double, (double, double)> f, double xmin, double xmax)
         {
             const int MAXIT = 100; //Maximum allowed number of iterations.
             double xh, xl;
-            (double fl, double _) = fu(x1);
-            (double fh, double _) = fu(x2);
-            if (fl == 0) return x1;
-            if (fh == 0) return x2;
+            (double fl, double _) = f(xmin);
+            (double fh, double _) = f(xmax);
+            if (fl == 0) return xmin;
+            if (fh == 0) return xmax;
             if (fl < 0)
             {
-                xl = x1;
-                xh = x2;
+                xl = xmin;
+                xh = xmax;
             }
             else
             {
-                xh = x1;
-                xl = x2;
+                xh = xmin;
+                xl = xmax;
             }
-            double rts = 0.5 * (x1 + x2); // Initialize the guess for root,
-            double dxold = Math.Abs(x2 - x1); // the “stepsize before last,”
+            double rts = 0.5 * (xmin + xmax); // Initialize the guess for root,
+            double dxold = Math.Abs(xmax - xmin); // the “stepsize before last,”
             double dx = dxold; // and the last step.
-            (double f, double df) = fu(rts);
-            if (f == 0) return rts;
+            (double frts, double dfrts) = f(rts);
+            if (frts == 0) return rts;
             for (int j = 0; j < MAXIT; j++)
             {
-                if ((((rts - xh) * df - f) * ((rts - xl) * df - f) > 0.0)   // Bisect if Newton out of range,
-                    || (Math.Abs(2.0 * f) > Math.Abs(dxold * df)))          // or not decreasing fast enough
+                if ((((rts - xh) * dfrts - frts) * ((rts - xl) * dfrts - frts) > 0.0)   // Bisect if Newton out of range,
+                    || (Math.Abs(2.0 * frts) > Math.Abs(dxold * dfrts)))          // or not decreasing fast enough
                 {
                     dxold = dx;
                     dx = 0.5 * (xh - xl);
@@ -999,14 +1111,14 @@ namespace MKLNET
                 else
                 {
                     dxold = dx;
-                    dx = f / df;
+                    dx = frts / dfrts;
                     double temp = rts;
                     rts -= dx;
                     if (temp == rts) return rts;
                 }
-                (f, df) = fu(rts);
-                if (Math.Abs(dx) < atol + rtol * Math.Abs(rts) || f == 0) return rts;
-                if (f < 0.0)  // Maintain the bracket on the root.
+                (frts, dfrts) = f(rts);
+                if (Math.Abs(dx) < atol + rtol * Math.Abs(rts) || frts == 0) return rts;
+                if (frts < 0.0)  // Maintain the bracket on the root.
                     xl = rts;
                 else
                     xh = rts;
@@ -1015,5 +1127,3 @@ namespace MKLNET
         }
     }
 }
-
-// TODO: All docs

@@ -7,6 +7,4 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <NoWarn>CA1050</NoWarn>
     </PropertyGroup>
-    <ItemGroup>
-    </ItemGroup>
 </Project>
