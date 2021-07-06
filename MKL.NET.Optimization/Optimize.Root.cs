@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MKLNET
 {
+    /// <summary>Optimization and root finding algorithms.</summary>
     public static partial class Optimize
     {
         /// <summary>Test if a root is bracketed by the function outputs.</summary>
@@ -243,7 +244,7 @@ namespace MKLNET
         /// Prefer this method to all others.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the root required.</param>
-        /// <param name="atol">The relative tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
         /// <param name="f">The function to find the root of.</param>
         /// <param name="xmin">The minimum x value.</param>
         /// <param name="xlower">The lower guess x value.</param>
