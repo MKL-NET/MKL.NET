@@ -7,6 +7,9 @@ namespace MKLNET
     {
         public static bool Root_Bound(double fa, double fb) => (fa < 0.0 && fb > 0.0) || (fb < 0.0 && fa > 0.0);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static double Root_Bisect(double a, double b) => (a + b) * 0.5;
+
         public static double Root_Linear(double a, double fa, double b, double fb)
         {
             var r = fa / (fa - fb);
@@ -94,7 +97,9 @@ namespace MKLNET
             var Q32 = (D31 - Q21) * fa / (fc - fa);
             var D32 = (D31 - Q21) * fc / (fc - fa);
             var Q33 = (D32 - Q22) * fa / (fd - fa);
-            return a + (Q31 + Q32 + Q33);
+            var x = a + (Q31 + Q32 + Q33);
+            if (a < x && x < b) return x;
+            return Root_InverseQuadratic(a, fa, b, fb, c, fc);
         }
 
         // https://en.wikipedia.org/wiki/Newton%27s_method
@@ -127,30 +132,32 @@ namespace MKLNET
         static bool Tol_Average_Within_2(double atol, double rtol, double a, double b)
             => b - a < atol * 4 + rtol * (a + b) * 2;
 
-        static double Root_Hybrid_Bound(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double fb, double c, double fc)
+        static double Root_Hybrid_Bound(double atol, double rtol, Func<double, double> f,
+            double a, double fa, double b, double fb, double c, double fc, double d, double fd)
         {
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
-                double x;
-                if (Tol_Average_Within_2(atol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
-                else if (level == 0) x = Tol_Not_Too_Close(atol, rtol, a, b, Root_Quadratic(a, fa, b, fb, c, fc));
-                else x = Tol_Not_Too_Close(atol, rtol, a, b, Root_InverseQuadratic(a, fa, b, fb, c, fc));
+                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Root_Bisect(a, b)
+                      : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Cubic(a, fa, b, fb, c, fc, d, fd))
+                      : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_InverseQuadratic(a, fa, b, fb, c, fc))
+                      : level == 2 ? Tol_Not_Too_Close(atol, rtol, a, b, (a + b) * 0.25 + Root_Linear(a, fa, b, fb) * 0.5)
+                      : Root_Bisect(a, b);
                 var fx = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
                 {
                     level = b - x < 0.4 * (b - a) ? level + 1 : 0;
-                    if (c > b || b - x < a - c) { c = b; fc = fb; }
+                    if (c > b || b - x < a - c) { d = c; fd = fc; c = b; fc = fb; } else { d = b; fd = fb; }
                     b = x; fb = fx;
                 }
                 else
                 {
                     level = x - a < 0.4 * (b - a) ? level + 1 : 0;
-                    if (c < a || x - a < c - b) { c = a; fc = fa; }
+                    if (c < a || x - a < c - b) { d = c; fd = fc; c = a; fc = fa; } else { d = a; fd = fa; }
                     a = x; fa = fx;
                 }
             }
-            return (a + b) * 0.5;
+            return Root_Bisect(a, b);
         }
 
         /// <summary>
@@ -168,50 +175,50 @@ namespace MKLNET
         {
             var flower = f(xlower); if (flower == 0) return xlower;
             var fupper = f(xupper); if (fupper == 0) return xupper;
+            var xinterp = Root_Linear(xlower, flower, xupper, fupper);
             if (Root_Bound(flower, fupper))
             {
-                var xmid = Tol_Not_Too_Close(atol, rtol, xlower, xupper, Root_Linear(xlower, flower, xupper, fupper));
+                var xmid = Tol_Not_Too_Close(atol, rtol, xlower, xupper, xinterp);
                 var fxmid = f(xmid); if (fxmid == 0) return xmid;
-                return Root_Bound(flower, fxmid) ? Root_Hybrid_Bound(atol, rtol, f, xlower, flower, xmid, fxmid, xupper, fupper)
-                                                 : Root_Hybrid_Bound(atol, rtol, f, xmid, fxmid, xupper, fupper, xlower, flower);
+                return Root_Bound(flower, fxmid) ? Root_Hybrid_Bound(atol, rtol, f, xlower, flower, xmid, fxmid, xupper, fupper, double.NaN, 0)
+                                                 : Root_Hybrid_Bound(atol, rtol, f, xmid, fxmid, xupper, fupper, xlower, flower, double.NaN, 0);
             }
-            var xinterp = Root_Linear(xlower, flower, xupper, fupper);
-            if (xinterp > xmin && xinterp < xlower)
+            if (xinterp > xmin && xinterp <= xlower)
             {
-                var xlower2 = xinterp - (xinterp - xmin) * 0.2;
+                var xlower2 = Tol_Not_Too_Close(atol, rtol, xmin, xmax, xinterp - (xinterp - xmin) * 0.2);
                 var flower2 = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bound(flower2, flower)) return Root_Hybrid_Bound(atol, rtol, f, xlower2, flower2, xlower, flower, xupper, fupper);
+                if (Root_Bound(flower2, flower)) return Root_Hybrid_Bound(atol, rtol, f, xlower2, flower2, xlower, flower, xupper, fupper, double.NaN, 0);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower2)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower2, flower2, xlower, flower);
+                if (Root_Bound(fmin, flower2)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower2, flower2, xlower, flower, xupper, fupper);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
+                if (Root_Bound(fupper, fmax)) Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, xlower2, flower2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
-            else if (xinterp > xupper && xinterp < xmax)
+            else if (xinterp >= xupper && xinterp < xmax)
             {
-                var xupper2 = xinterp + (xmax - xinterp) * 0.2;
+                var xupper2 = Tol_Not_Too_Close(atol, rtol, xmin, xmax, xinterp + (xmax - xinterp) * 0.2);
                 var fupper2 = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bound(fupper, fupper2)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xupper2, fupper2, xlower, flower);
+                if (Root_Bound(fupper, fupper2)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xupper2, fupper2, xlower, flower, double.NaN, 0);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper2, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper2, fupper2, xmax, fmax, xupper, fupper);
+                if (Root_Bound(fupper2, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper2, fupper2, xmax, fmax, xupper, fupper, xlower, flower);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
+                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, xupper2, fupper2);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
-            else if (Math.Abs(flower) < Math.Abs(fupper))
+            else if (xinterp <= xlower)
             {
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
+                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, double.NaN, 0);
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
+                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, xmin, fmin);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var fmax = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower);
+                if (Root_Bound(fupper, fmax)) return Root_Hybrid_Bound(atol, rtol, f, xupper, fupper, xmax, fmax, xlower, flower, double.NaN, 0);
                 var fmin = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper);
+                if (Root_Bound(fmin, flower)) return Root_Hybrid_Bound(atol, rtol, f, xmin, fmin, xlower, flower, xupper, fupper, xmax, fmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
@@ -266,10 +273,10 @@ namespace MKLNET
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
-                double x;
-                if (Tol_Average_Within_2(atol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
-                else if (level == 1) x = Tol_Not_Too_Close(atol, rtol, a, b, /*double.IsNaN(c) ?*/ Root_Linear(a, fa, b, fb) /*: Root_Quadratic(a, fa, b, fb, c, fc)*/);
-                else x = Tol_Not_Too_Close(atol, rtol, a, b, Root_Newton(a, fa, dfa, b, fb, dfb));
+                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Root_Bisect(a, b)
+                      : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Newton(a, fa, dfa, b, fb, dfb))
+                      : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Linear(a, fa, b, fb))
+                      : Root_Bisect(a, b);
                 var (fx, dfx) = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
                 {
@@ -284,7 +291,7 @@ namespace MKLNET
                     a = x; fa = fx; dfa = dfx;
                 }
             }
-            return (a + b) * 0.5;
+            return Root_Bisect(a, b);
         }
 
         /// <summary>
@@ -458,14 +465,12 @@ namespace MKLNET
             double a, double fa, double dfa, double ddfa, double b, double fb, double dfb, double ddfb, double c, double fc)
         {
             int level = 0;
-            int check = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
-                if (check++ == 100) System.Diagnostics.Debugger.Break();
-                double x;
-                if (Tol_Average_Within_2(atol, rtol, a, b) || level == 2) x = (a + b) * 0.5;
-                else if (level == 1) x = Tol_Not_Too_Close(atol, rtol, a, b, /*double.IsNaN(c) ?*/ Root_Linear(a, fa, b, fb) /*: Root_Quadratic(a, fa, b, fb, c, fc)*/);
-                else x = Tol_Not_Too_Close(atol, rtol, a, b, Root_Halley(a, fa, dfa, ddfa, b, fb, dfb, ddfb));
+                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Root_Bisect(a, b)
+                      : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Halley(a, fa, dfa, ddfa, b, fb, dfb, ddfb))
+                      : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Linear(a, fa, b, fb))
+                      : Root_Bisect(a, b);
                 var (fx, dfx, ddfx) = f(x); if (fx == 0.0) return x;
                 if (Root_Bound(fa, fx))
                 {
@@ -480,7 +485,7 @@ namespace MKLNET
                     a = x; fa = fx; dfa = dfx; ddfa = ddfx;
                 }
             }
-            return (a + b) * 0.5;
+            return Root_Bisect(a, b);
         }
 
         /// <summary>
@@ -817,7 +822,7 @@ namespace MKLNET
             var fa = f(a); if (fa == 0) return a;
             var fb = f(b); if (fb == 0) return b;
             var c = Root_Linear(a, fa, b, fb);
-            if (c <= a || c >= b) c = (a + b) * 0.5;
+            if (c <= a || c >= b) c = Root_Bisect(a, b);
             var fc = f(c); if (fc == 0) return c;
             double d, fd, e = double.NaN, fe = double.NaN;
 
@@ -887,7 +892,7 @@ namespace MKLNET
                 c = u - 2 * fu / (fb - fa) * (b - a);
 
                 if (Math.Abs(c - u) > 0.5 * (b - a))
-                    c = (a + b) * 0.5;
+                    c = Root_Bisect(a, b);
                 else
                 {
                     if (IsClose(c, u, EPS, 0))
@@ -908,7 +913,7 @@ namespace MKLNET
                             var adj = Math.Abs(c) * rtol + atol;
                             c = Math.Abs(fa) < Math.Abs(fb) ? u + adj : u - adj;
                         }
-                        if (c <= a || c >= b) c = (a + b) * 0.5;
+                        if (c <= a || c >= b) c = Root_Bisect(a, b);
                     }
                 }
 
@@ -933,7 +938,7 @@ namespace MKLNET
 
                 if (b - a > MU * ab_width)
                 {
-                    var z = (a + b) * 0.5;
+                    var z = Root_Bisect(a, b);
                     var fz = f(z); if (fz == 0) return z;
                     e = d;
                     fe = fd;
@@ -954,7 +959,7 @@ namespace MKLNET
                     }
                 }
 
-                if (IsClose(a, b, rtol, atol)) return (a + b) * 0.5;
+                if (IsClose(a, b, rtol, atol)) return Root_Bisect(a, b);
             }
         }
 
@@ -1011,5 +1016,4 @@ namespace MKLNET
     }
 }
 
-// TODO: Hybrid with Cubic
 // TODO: All docs
