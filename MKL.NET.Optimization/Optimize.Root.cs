@@ -353,7 +353,7 @@ namespace MKLNET
         }
 
         static double Root_Newton_Bracketed(double atol, double rtol, Func<double, (double, double)> f,
-            double a, double fa, double dfa, double b, double fb, double dfb, double c, double fc)
+            double a, double fa, double dfa, double b, double fb, double dfb)
         {
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
@@ -366,13 +366,11 @@ namespace MKLNET
                 if (Root_Bracketed(fa, fx))
                 {
                     level = b - x < 0.4 * (b - a) ? level + 1 : 0;
-                    if (c > b || b - x < a - c) { c = b; fc = fb; }
                     b = x; fb = fx; dfb = dfx;
                 }
                 else
                 {
                     level = x - a < 0.4 * (b - a) ? level + 1 : 0;
-                    if (c < a || x - a < c - b) { c = a; fc = fa; }
                     a = x; fa = fx; dfa = dfx;
                 }
             }
@@ -401,64 +399,64 @@ namespace MKLNET
             {
                 var xlower2 = xinterp - (xinterp - xlower) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bracketed(flower2, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bracketed(flower, flower2)) return Root_Newton_Bracketed(atol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2, xguess, fguess);
+                if (Root_Bracketed(flower, flower2)) return Root_Newton_Bracketed(atol, rtol, f, xlower, flower, dlower, xlower2, flower2, dlower2);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, flower)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xlower2, flower2);
+                if (Root_Bracketed(fmin, flower)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xupper)
             {
                 var xupper2 = xinterp + (xupper - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bracketed(fguess, fupper2)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
                 var (fupper, dupper) = f(xupper); if (fupper == 0.0) return xupper;
-                if (Root_Bracketed(fupper2, fupper)) return Root_Newton_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper, xguess, fguess);
+                if (Root_Bracketed(fupper2, fupper)) return Root_Newton_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, xupper, fupper, dupper);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fupper, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xupper2, fupper2);
+                if (Root_Bracketed(fupper, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xmin && xinterp < xguess)
             {
                 var xlower2 = xinterp - (xinterp - xmin) * 0.2;
                 var (flower2, dlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bracketed(flower2, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, xguess, fguess, dguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, flower2)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2, xguess, fguess);
+                if (Root_Bracketed(fmin, flower2)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower2, flower2, dlower2);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper2 = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper2, dupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bracketed(fguess, fupper2)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper2, fupper2, dupper2);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fupper2, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax, xguess, fguess);
+                if (Root_Bracketed(fupper2, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
@@ -483,38 +481,38 @@ namespace MKLNET
             {
                 var xlower = xinterp - (xinterp - xmin) * 0.2;
                 var (flower, dlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bracketed(flower, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(flower, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xlower, flower, dlower, xguess, fguess, dguess);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, flower)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower, xguess, fguess);
+                if (Root_Bracketed(fmin, flower)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xlower, flower, dlower);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xlower, flower);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper, dupper) = f(xupper); if (fupper == 0) return xupper;
-                if (Root_Bracketed(fguess, fupper)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xupper, fupper, dupper);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fupper, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax, xguess, fguess);
+                if (Root_Bracketed(fupper, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xupper, fupper, dupper, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xupper, fupper);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Newton_Bracketed(atol, rtol, f, xguess, fguess, dguess, xmax, fmax, dmax);
                 var (fmin, dmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Newton_Bracketed(atol, rtol, f, xmin, fmin, dmin, xguess, fguess, dguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
@@ -553,7 +551,7 @@ namespace MKLNET
         }
 
         static double Root_Halley_Bracketed(double atol, double rtol, Func<double, (double, double, double)> f,
-            double a, double fa, double dfa, double ddfa, double b, double fb, double dfb, double ddfb, double c, double fc)
+            double a, double fa, double dfa, double ddfa, double b, double fb, double dfb, double ddfb)
         {
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
@@ -566,13 +564,11 @@ namespace MKLNET
                 if (Root_Bracketed(fa, fx))
                 {
                     level = b - x < 0.4 * (b - a) ? level + 1 : 0;
-                    if (c > b || b - x < a - c) { c = b; fc = fb; }
                     b = x; fb = fx; dfb = dfx; ddfb = ddfx;
                 }
                 else
                 {
                     level = x - a < 0.4 * (b - a) ? level + 1 : 0;
-                    if (c < a || x - a < c - b) { c = a; fc = fa; }
                     a = x; fa = fx; dfa = dfx; ddfa = ddfx;
                 }
             }
@@ -601,64 +597,64 @@ namespace MKLNET
             {
                 var xlower2 = xinterp - (xinterp - xlower) * 0.2;
                 var (flower2, dlower2, ddlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bracketed(flower2, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess);
                 var (flower, dlower, ddlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bracketed(flower, flower2)) return Root_Halley_Bracketed(atol, rtol, f, xlower, flower, dlower, ddlower, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
+                if (Root_Bracketed(flower, flower2)) return Root_Halley_Bracketed(atol, rtol, f, xlower, flower, dlower, ddlower, xlower2, flower2, dlower2, ddlower2);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, flower)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xlower2, flower2);
+                if (Root_Bracketed(fmin, flower)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xupper)
             {
                 var xupper2 = xinterp + (xupper - xinterp) * 0.2;
                 var (fupper2, dupper2, ddupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bracketed(fguess, fupper2)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2);
                 var (fupper, dupper, ddupper) = f(xupper); if (fupper == 0.0) return xupper;
-                if (Root_Bracketed(fupper2, fupper)) return Root_Halley_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xupper, fupper, dupper, ddupper, xguess, fguess);
+                if (Root_Bracketed(fupper2, fupper)) return Root_Halley_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xupper, fupper, dupper, ddupper);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fupper, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xupper2, fupper2);
+                if (Root_Bracketed(fupper, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xmin && xinterp < xguess)
             {
                 var xlower2 = xinterp - (xinterp - xmin) * 0.2;
                 var (flower2, dlower2, ddlower2) = f(xlower2); if (flower2 == 0.0) return xlower2;
-                if (Root_Bracketed(flower2, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(flower2, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower2, flower2, dlower2, ddlower2, xguess, fguess, dguess, ddguess);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, flower2)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower2, flower2, dlower2, ddlower2, xguess, fguess);
+                if (Root_Bracketed(fmin, flower2)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower2, flower2, dlower2, ddlower2);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower2, flower2);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper2 = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper2, dupper2, ddupper2) = f(xupper2); if (fupper2 == 0) return xupper2;
-                if (Root_Bracketed(fguess, fupper2)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper2)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper2, fupper2, dupper2, ddupper2);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fupper2, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xmax, fmax, dmax, ddmax, xguess, fguess);
+                if (Root_Bracketed(fupper2, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper2, fupper2, dupper2, ddupper2, xmax, fmax, dmax, ddmax);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper2, fupper2);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
@@ -683,38 +679,38 @@ namespace MKLNET
             {
                 var xlower = xinterp - (xinterp - xmin) * 0.2;
                 var (flower, dlower, ddlower) = f(xlower); if (flower == 0.0) return xlower;
-                if (Root_Bracketed(flower, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower, flower, dlower, ddlower, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(flower, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xlower, flower, dlower, ddlower, xguess, fguess, dguess, ddguess);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, flower)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower, xguess, fguess);
+                if (Root_Bracketed(fmin, flower)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xlower, flower, dlower, ddlower);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xlower, flower);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp > xguess && xinterp < xmax)
             {
                 var xupper = xinterp + (xmax - xinterp) * 0.2;
                 var (fupper, dupper, ddupper) = f(xupper); if (fupper == 0) return xupper;
-                if (Root_Bracketed(fguess, fupper)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper, fupper, dupper, ddupper, double.NaN, 0);
+                if (Root_Bracketed(fguess, fupper)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xupper, fupper, dupper, ddupper);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fupper, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax, xguess, fguess);
+                if (Root_Bracketed(fupper, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xupper, fupper, dupper, ddupper, xmax, fmax, dmax, ddmax);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xupper, fupper);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else if (xinterp < xguess)
             {
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, double.NaN, 0);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess);
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, xmin, fmin);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
             else
             {
                 var (fmax, dmax, ddmax) = f(xmax); if (fmax == 0) return xmax;
-                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax, double.NaN, 0);
+                if (Root_Bracketed(fguess, fmax)) return Root_Halley_Bracketed(atol, rtol, f, xguess, fguess, dguess, ddguess, xmax, fmax, dmax, ddmax);
                 var (fmin, dmin, ddmin) = f(xmin); if (fmin == 0) return xmin;
-                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess, xmax, fmax);
+                if (Root_Bracketed(fmin, fguess)) return Root_Halley_Bracketed(atol, rtol, f, xmin, fmin, dmin, ddmin, xguess, fguess, dguess, ddguess);
                 return Math.Abs(fmin) < Math.Abs(fmax) ? xmin : xmax;
             }
         }
