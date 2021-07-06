@@ -11,13 +11,13 @@
         <DelaySign>false</DelaySign>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
         <Description>
-Added Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley.
-Added Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.
+Optimization and root finding based on cross platform MKL.NET.
         </Description>
         <PackageReleaseNotes>
-Preview
+Added Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley.
+Added Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.
         </PackageReleaseNotes>
-        <Version>0.1.0</Version>
+        <Version>0.1.1</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
