@@ -9,6 +9,7 @@
         <SignAssembly>true</SignAssembly>
         <DelaySign>false</DelaySign>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Description>
 Statistics functions based on cross platform MKL.NET.
         </Description>
