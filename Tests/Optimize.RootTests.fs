@@ -146,7 +146,7 @@ let all =
             test_solver "hybrid_6" 1e-6 Optimize.Root (Check.between 2109 2110)
             test_solver "hybrid_7" 1e-7 Optimize.Root (Check.between 2154 2155)
             test_solver "hybrid_9" 1e-9 Optimize.Root (Check.between 2210 2213)
-            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2302 2305)
+            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2302 2306)
 
             test "newton_11" {
                 let tol = 1e-11
