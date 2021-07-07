@@ -79,8 +79,8 @@ Simple and high performance optimization and root finding library loosely based 
 The aim is to include the latest algorithms such as Toms748, robustly tested with [CsCheck](https://github.com/AnthonyLloyd/CsCheck).
 Full use of MKL.NET will be made to improve performance. Algorithms will be performance tested and default to the best for given inputs.
 
-Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley.
-Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.
+- Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley.  
+- Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.
 
 WIP minimize scalar
 
