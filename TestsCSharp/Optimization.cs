@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 public static class Optimization
 {
-    public readonly static (Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)[] TestProblems = Problems().ToArray();
-    static IEnumerable<(Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)> Problems()
+    // https://en.wikipedia.org/wiki/Test_functions_for_optimization
+
+
+    public readonly static (Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)[] RootTestProblems
+        = RootProblems().ToArray();
+    static IEnumerable<(Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)> RootProblems()
     {
         static double Sqr(double x) => x * x;
         static double Cube(double x) => x * x * x;
@@ -173,5 +177,66 @@ public static class Optimization
         var d1 = (Math.Log(s / x) + (r + v * v / 2.0) * t) / (v * Math.Sqrt(t));
         var d2 = d1 - v * Math.Sqrt(t);
         return call ? s * CND(d1) - x * Math.Exp(-r * t) * CND(d2) : x * Math.Exp(-r * t) * CND(-d2) - s * CND(-d1);
+    }
+
+    public readonly static (Func<double, double> F, double Min, double Low, double Max)[] MinimizeTestProblems
+        = MinimizeProblems().ToArray();
+    static IEnumerable<(Func<double, double> F, double Min, double Low, double Max)> MinimizeProblems()
+    {
+        static double Sqr(double x) => x * x;
+        static IEnumerable<int> Range(int start, int step, int finish)
+        {
+            for (int i = start; i <= finish; i += step)
+                yield return i;
+        }
+
+        yield return (
+            x => Math.Cos(x) + 0.25 * x * x,
+            Math.PI * 0.5,
+            Math.PI * 0.6,
+            Math.PI
+        );
+        for (int n = 1; n <= 10; n++)
+            yield return (
+                x => Enumerable.Range(1, 20).Sum(i => Sqr(2 * i - 5) / Sqr(x - i * i)),
+                Sqr(n) + 1e-9,
+                Sqr(n + 0.5) + 1e-9,
+                Sqr(n + 1) - 1e-9
+            );
+        foreach (var (a, b) in new[] { (-40, -1), (-100, -2), (-200, -3) })
+            yield return (
+                x => (a - a * b * x) / Sqr(b) * Math.Exp(b * x),
+                -9,
+                20,
+                31
+            );
+        foreach (var a in new[] { 0.2, 1 })
+            foreach (var n in Range(4, 2, 12))
+                yield return (
+                    x => Math.Pow(x, n + 1) / (n + 1) - a * x,
+                    0,
+                    0.5,
+                    5
+                );
+        foreach (var n in Range(8, 2, 14))
+            yield return (
+                x => Math.Pow(x, n + 1) / (n + 1) - x,
+                -0.95,
+                -0.9,
+                4.05
+            );
+        yield return (
+            x => -Math.Cos(x) - 0.5 * x,
+            0,
+            0.75,
+            1.5
+        );
+        foreach (var n in Range(1, 1, 5).Concat(Range(20, 20, 100)))
+            yield return (
+                x => x * x * Math.Exp(-n) + 2.0 / n * Math.Exp(-n * x) + x,
+                0,
+                0.0125,
+                1
+            );
     }
 }

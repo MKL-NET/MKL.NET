@@ -126,12 +126,13 @@ let all =
         test "test_problems" {
             let test_solver name tol solver (testAssert:int -> TestResult) =
                 test name {
-                    let problems = Optimization.TestProblems
+                    let problems = Optimization.RootTestProblems
                     Check.equal 154 problems.Length
                     let mutable count = 0
                     for i = 0 to problems.Length - 1 do
-                        let struct (F, _, _, Min, Max) = problems.[i]
-                        let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), Min, Max)
+                        let struct (F, _, _, min, max) = problems.[i]
+                        Check.isTrue (Optimize.Root_Bracketed(F.Invoke(min), F.Invoke(max)))
+                        let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), min, max)
                         Check.isTrue (Optimize.Root_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                     testAssert count
                 }
@@ -150,7 +151,7 @@ let all =
 
             test "newton_11" {
                 let tol = 1e-11
-                let problems = Optimization.TestProblems
+                let problems = Optimization.RootTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
                     let struct (F, G, _, Min, Max) = problems.[i]
@@ -164,7 +165,7 @@ let all =
 
             test "newton_safe_11" {
                 let tol = 1e-11
-                let problems = Optimization.TestProblems
+                let problems = Optimization.RootTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
                     let struct (F, G, _, Min, Max) = problems.[i]
@@ -176,12 +177,12 @@ let all =
                 Check.equal 3598 count
             }
 
-            //test "newton_mathnet_11" { // f / df = 0 / 0 bug
+            //test "newton_mathnet_11" {
             //    let tol = 1e-11
-            //    let problems = Optimization.TestProblems
+            //    let problems = Optimization.RootTestProblems
             //    let mutable count = 0
             //    for i = 0 to problems.Length - 1 do
-            //        let struct (F, G, Min, Max) = problems.[i]
+            //        let struct (F, G, _, Min, Max) = problems.[i]
             //        let f x = count <- count + 1; F.Invoke(x)
             //        let g x = count <- count + 1; G.Invoke(x)
             //        let x = MathNet.Numerics.RootFinding.RobustNewtonRaphson.FindRoot(Func<_,_> f, Func<_,_> g, Min, Max, 1e-11, 1000)
@@ -191,7 +192,7 @@ let all =
 
             test "halley_11" {
                 let tol = 1e-11
-                let problems = Optimization.TestProblems
+                let problems = Optimization.RootTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
                     let struct (F, G, H, Min, Max) = problems.[i]

@@ -104,7 +104,7 @@ let all =
         }
 
         test "derivative_check_problems" {
-            let problems = Optimization.TestProblems
+            let problems = Optimization.RootTestProblems
             for i = 0 to problems.Length - 1 do
                 let struct (F, G, H, Min, Max) = problems.[i]
                 let check1 = Seq.forall (fun r ->

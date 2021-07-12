@@ -1,5 +1,6 @@
 ﻿module Optimize.MinimizeTests
 
+open System
 open MKLNET
 open CsCheck
 
@@ -27,4 +28,24 @@ let all =
                     .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Minimize_Quadratic(a, fa, b, fb, c, fc))
             Check.between a c x
         }
+
+        let test_solver name tol solver (testAssert:int -> TestResult) =
+            test name {
+                let problems = Optimization.MinimizeTestProblems
+                let mutable count = 0
+                for i = 0 to problems.Length - 1 do
+                    let struct (F, min, low, max) = problems.[i]
+                    let fmin = F.Invoke(min)
+                    let flow = F.Invoke(low)
+                    let fmax = F.Invoke(max)
+                    Check.greaterThan flow fmin |> Check.message "flow > fmin (%f,%f,%f)" fmin flow fmax
+                    Check.greaterThan flow fmax |> Check.message "flow > fmax (%f,%f,%f)" fmin flow fmax
+                    let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), min, low, max)
+                    let Fx = F.Invoke(x)
+                    Check.greaterThanOrEqual Fx (F.Invoke(x - tol))
+                    Check.greaterThanOrEqual Fx (F.Invoke(x + tol))
+                testAssert count
+            }
+
+        test_solver "brent_6" 1e-6 Optimize.Minimize_Brent (Check.equal 1080)
     }
