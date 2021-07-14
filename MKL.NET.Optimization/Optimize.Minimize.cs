@@ -53,21 +53,21 @@ namespace MKLNET
         /// <returns></returns>
         public static double Minimize_Brent(double atol, double rtol, Func<double, double> f, double xmin, double xlow, double xmax)
         {
+            static double SIGN(double v, double d) => d >= 0 ? v : -v;
             const double CGOLD = 0.3819660;
             double d = 0.0, etemp, fu, fv, fw, fx;
             double p, q, r, tol1, tol2, u, v, w, x, xm;
             double e = 0.0;
             x = w = v = xlow;
             fw = fv = fx = f(xlow);
-            for (int iter = 0; iter < 500; iter++)
+            for (int iter = 0; iter < 100; iter++)
             {
-                if (iter > 200) System.Diagnostics.Debugger.Break();
                 xm = 0.5 * (xmin + xmax);
                 tol1 = Tol(atol, rtol, x);
                 tol2 = 2.0 * tol1;
                 if (xmax - xmin < 2 * Tol(atol, rtol, xm)) return xm;
                 //if (Math.Abs(x - xm) <= (tol2 - 0.5 * (xmax - xmin))) return x;
-                if (Math.Abs(e) > tol1)
+                if (Math.Abs(e) > tol1 && xmax - xmin > tol1 * 4)
                 {
                     r = (x - w) * (fx - fv);
                     q = (x - v) * (fx - fw);
@@ -80,20 +80,21 @@ namespace MKLNET
                     if (Math.Abs(p) >= Math.Abs(0.5 * q * etemp) || p <= q * (xmin - x)
                             || p >= q * (xmax - x))
                     {
-                        d = CGOLD * (e = (x >= xm ? xmin - x : xmax - x));
+                        d = CGOLD * (e = x >= xm ? xmin - x : xmax - x);
                         u = x + d;
                     }
                     else
                     {
                         d = p / q;
-                        u = Math.Abs(d) >= tol1 ? x + d : x + tol1 * Math.Sign(d);
+                        u = x + d;
                         if (u - xmin < tol2 || xmax - u < tol2)
-                            d = tol1 * Math.Sign(xm - x);
+                            d = SIGN(tol1, xm - x);
+                        u = Math.Abs(d) >= tol1 ? x + d : x + SIGN(tol1, d);
                     }
                 }
                 else
                 {
-                    d = CGOLD * (e = (x >= xm ? xmin - x : xmax - x));
+                    d = CGOLD * (e = x >= xm ? xmin - x : xmax - x);
                     u = x + d;
                 }
                 fu = f(u);

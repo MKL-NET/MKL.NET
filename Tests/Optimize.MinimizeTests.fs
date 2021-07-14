@@ -1,6 +1,7 @@
 ﻿module Optimize.MinimizeTests
 
 open System
+open System.Collections.Generic
 open MKLNET
 open CsCheck
 
@@ -40,12 +41,29 @@ let all =
                     let fmax = F.Invoke(max)
                     Check.greaterThan flow fmin |> Check.message "flow > fmin (%f,%f,%f)" fmin flow fmax
                     Check.greaterThan flow fmax |> Check.message "flow > fmax (%f,%f,%f)" fmin flow fmax
-                    let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), min, low, max)
-                    let Fx = F.Invoke(x)
-                    Check.greaterThanOrEqual Fx (F.Invoke(x - tol))
-                    Check.greaterThanOrEqual Fx (F.Invoke(x + tol))
+                    let mutable xlowest  = Double.MaxValue
+                    let mutable Fxlowest = Double.MaxValue
+                    let evals = Dictionary<_,_>()
+                    let f x =
+                        count <- count + 1
+                        let Fx = F.Invoke(x)
+                        evals.Add(x, Fx)
+                        if Fx <= Fxlowest then
+                            xlowest <- x
+                            Fxlowest <- Fx
+                        Fx
+                    let x = solver(tol, 0.0, Func<_,_> f, min, low, max)
+                    let xlower = evals.Keys |> Seq.where (fun x -> x < xlowest) |> Seq.max
+                    let xupper = evals.Keys |> Seq.where (fun x -> x > xlowest) |> Seq.min
+                    Check.between (x - tol) (x + tol) xlowest
+                    Check.between (x - tol) (x + tol) xlower
+                    Check.between (x - tol) (x + tol) xupper
+                    Check.greaterThanOrEqual Fxlowest evals.[xlower]
+                    Check.greaterThanOrEqual Fxlowest evals.[xupper]
                 testAssert count
             }
 
-        test_solver "brent_6" 1e-6 Optimize.Minimize_Brent (Check.equal 1080)
+        test_solver "brent_7" 1e-7 Optimize.Minimize_Brent (Check.equal 5310)
+        test_solver "brent_9" 1e-9 Optimize.Minimize_Brent (Check.equal 6433)
+        test_solver "brent_11" 1e-11 Optimize.Minimize_Brent (Check.equal 7593)
     }

@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 public static class Optimization
 {
-    // https://en.wikipedia.org/wiki/Test_functions_for_optimization
-
-
     public readonly static (Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)[] RootTestProblems
         = RootProblems().ToArray();
+
     static IEnumerable<(Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)> RootProblems()
     {
         static double Sqr(double x) => x * x;
@@ -184,6 +182,7 @@ public static class Optimization
     static IEnumerable<(Func<double, double> F, double Min, double Low, double Max)> MinimizeProblems()
     {
         static double Sqr(double x) => x * x;
+        static double Cube(double x) => x * x * x;
         static IEnumerable<int> Range(int start, int step, int finish)
         {
             for (int i = start; i <= finish; i += step)
@@ -237,6 +236,64 @@ public static class Optimization
                 0,
                 0.0125,
                 1
+            );
+        foreach (var n in new[] { 5, 10, 20 })
+            yield return (
+                x => 0.5 * (1 + Sqr(1 - n)) * x * x + Cube(1 - n * x) / n / 3,
+                0,
+                0.001,
+                1
+            );
+        foreach (var n in new[] { 2, 5, 10, 15, 20 })
+            yield return (
+                x => Cube(x) / 3 + Math.Pow(1 - x, n + 1) / (n + 1),
+                0,
+                0.5,
+                1
+            );
+        foreach (var n in new[] { 1, 2, 4, 5, 8, 15, 20 })
+            yield return (
+                x => (1 + Math.Pow(1 - n, 4)) * x * x * 0.5 + Math.Pow(1 - n * x, 5) / n * 0.5,
+                0,
+                0.00001,
+                1
+            );
+        foreach (var n in new[] { 1, 5, 10, 15, 20 })
+            yield return (
+                x => Math.Exp(-n * x) * (n - n * x - 1) / Sqr(n) + Math.Pow(x, n + 1) / (n + 1),
+                0,
+                0.5,
+                1
+            );
+        foreach (var n in new[] { 2, 5, 15, 20 })
+            yield return (
+                x => (n * x - Math.Log(x)) / (n - 1),
+                0.01,
+                n == 2 ? 0.9 : 0.1,
+                1
+            );
+        foreach (var n in Range(2, 1, 6).Concat(Range(7, 2, 33)))
+            yield return (
+                x => Math.Pow(x, 1.0 / n + 1.0) / (1.0 / n + 1.0) - Math.Pow(n, 1.0 / n) * x,
+                0,
+                0.1,
+                100
+            );
+        foreach (var n in Range(1, 1, 40))
+            yield return (
+                x => x >= 0 ? 0.05 * n * (x * x / 3 - Math.Cos(x) - x) : -0.05 * n * x,
+                -1e4,
+                Math.PI * 0.25,
+                Math.PI * 0.5
+            );
+        foreach (var n in Range(20, 1, 40).Concat(Range(100, 100, 1000)))
+            yield return (
+                x => x < 0 ? 2e-3 / (n + 1) - 0.859 * x
+                    : x > 2e-3 / (1 + n) ? (Math.E - 1.859) * x
+                    : Math.Exp((n + 1) * x / 2e-3) * 2e-3 / (n + 1) - 1.859 * x,
+                -1e4,
+                5e-5,
+                1e-4
             );
     }
 }
