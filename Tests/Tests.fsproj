@@ -32,7 +32,7 @@
         <Compile Include="PerfTests.fs" />
         <Compile Include="Optimize.CalculusTests.fs" />
         <Compile Include="Optimize.RootTests.fs" />
-        <Compile Include="Optimize.MinimizeTests.fs" />
+        <Compile Include="Optimize.MinimumTests.fs" />
         <Compile Include="Main.fs" />
   </ItemGroup>
 </Project>

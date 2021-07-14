@@ -1,4 +1,4 @@
-﻿module Optimize.MinimizeTests
+﻿module Optimize.MinimumTests
 
 open System
 open System.Collections.Generic
@@ -6,9 +6,9 @@ open MKLNET
 open CsCheck
 
 let all =
-    test "optimize_minimize" {
+    test "optimize_minimum" {
 
-        test "minimize_quadratic_correct" {
+        test "Minimum_quadratic_correct" {
             let! root1 = Gen.Double.[-10.0, 10.0]
             let! root2 = Gen.Double.[-10.0, 10.0]
             let f x = (x - root1) * (x - root2)
@@ -17,22 +17,22 @@ let all =
                 Gen.Select(genD, genD, genD)
                     .Where(fun struct (a, b, c) -> a < b && b < c)
                     .Select(fun struct (a, b, c) -> a, f(a), b, f(b), c, f(c))
-                    .Select(fun (a, fa, b, fb, c, fc) -> Optimize.Minimize_Quadratic(a, fa, b, fb, c, fc))
+                    .Select(fun (a, fa, b, fb, c, fc) -> Optimize.Minimum_Quadratic(a, fa, b, fb, c, fc))
             Check.close Low ((root1 + root2) * 0.5) x
         }
 
-        test "minimize_quadratic_between" {
+        test "Minimum_quadratic_between" {
             let! a, _, _, _, c, _, x =
                 let genD = Gen.Double.[-1e100, 1e100]
                 Gen.Select(genD, genD, genD, genD, genD, genD)
-                    .Where(fun struct (a, fa, b, fb, c, fc) -> a < b && b < c && Optimize.Minimize_Bracketed(fa, fb, fc))
-                    .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Minimize_Quadratic(a, fa, b, fb, c, fc))
+                    .Where(fun struct (a, fa, b, fb, c, fc) -> a < b && b < c && Optimize.Minimum_Bracketed(fa, fb, fc))
+                    .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Minimum_Quadratic(a, fa, b, fb, c, fc))
             Check.between a c x
         }
 
         let test_solver name tol solver (testAssert:int -> TestResult) =
             test name {
-                let problems = Optimization.MinimizeTestProblems
+                let problems = Optimization.MinimumTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
                     let struct (F, min, low, max) = problems.[i]
@@ -63,7 +63,11 @@ let all =
                 testAssert count
             }
 
-        test_solver "brent_7" 1e-7 Optimize.Minimize_Brent (Check.equal 5310)
-        test_solver "brent_9" 1e-9 Optimize.Minimize_Brent (Check.equal 6433)
-        test_solver "brent_11" 1e-11 Optimize.Minimize_Brent (Check.equal 7593)
+        test_solver "brent_7" 1e-7 Optimize.Minimum_Brent (Check.between 5310 5313)
+        test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6433)
+        test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7608)
+
+        //test_solver "hybrid_7" 1e-7 Optimize.Minimum (Check.equal 5310)
+        //test_solver "hybrid_9" 1e-9 Optimize.Minimum (Check.equal 6433)
+        //test_solver "hybrid_11" 1e-11 Optimize.Minimum (Check.equal 7593)
     }

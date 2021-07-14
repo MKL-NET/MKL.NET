@@ -177,9 +177,9 @@ public static class Optimization
         return call ? s * CND(d1) - x * Math.Exp(-r * t) * CND(d2) : x * Math.Exp(-r * t) * CND(-d2) - s * CND(-d1);
     }
 
-    public readonly static (Func<double, double> F, double Min, double Low, double Max)[] MinimizeTestProblems
-        = MinimizeProblems().ToArray();
-    static IEnumerable<(Func<double, double> F, double Min, double Low, double Max)> MinimizeProblems()
+    public readonly static (Func<double, double> F, double Min, double Low, double Max)[] MinimumTestProblems
+        = MinimumProblems().ToArray();
+    static IEnumerable<(Func<double, double> F, double Min, double Low, double Max)> MinimumProblems()
     {
         static double Sqr(double x) => x * x;
         static double Cube(double x) => x * x * x;
