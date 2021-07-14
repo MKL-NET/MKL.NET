@@ -49,8 +49,9 @@ namespace MKLNET
         public static double Minimum_Quadratic(double a, double fa, double b, double fb, double c, double fc)
         {
             var x = b - 0.5 * (Sqr(b - a) * (fb - fc) - Sqr(b - c) * (fb - fa)) / ((b - a) * (fb - fc) - (b - c) * (fb - fa));
-            if (a < x && x < c) return x;
-            return Minimum_GoldenSection(a, b, c);
+            return x;
+            //if (a < x && x < c) return x;
+            //return Minimum_GoldenSection(a, b, c);
         }
 
         /// <summary>
