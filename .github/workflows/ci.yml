@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=LINUX
       - name: Test
-        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --memo 130
+        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
   osx:
       runs-on: macos-latest
       env:
@@ -50,4 +50,4 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=OSX
       - name: Test
-        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10
+        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
