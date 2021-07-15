@@ -41,25 +41,16 @@ let all =
                     let fmax = F.Invoke(max)
                     Check.greaterThan flow fmin |> Check.message "flow > fmin (%f,%f,%f)" fmin flow fmax
                     Check.greaterThan flow fmax |> Check.message "flow > fmax (%f,%f,%f)" fmin flow fmax
-                    let mutable xlowest  = Double.MaxValue
-                    let mutable Fxlowest = Double.MaxValue
-                    let evals = Dictionary<_,_>()
-                    let f x =
-                        count <- count + 1
-                        let Fx = F.Invoke(x)
-                        evals.Add(x, Fx)
-                        if Fx <= Fxlowest then
-                            xlowest <- x
-                            Fxlowest <- Fx
-                        Fx
-                    let x = solver(tol, 0.0, Func<_,_> f, min, low, max)
-                    let xlower = evals.Keys |> Seq.where (fun x -> x < xlowest) |> Seq.max
-                    let xupper = evals.Keys |> Seq.where (fun x -> x > xlowest) |> Seq.min
-                    Check.between (x - tol) (x + tol) xlowest
-                    Check.between (x - tol) (x + tol) xlower
-                    Check.between (x - tol) (x + tol) xupper
-                    Check.greaterThanOrEqual Fxlowest evals.[xlower]
-                    Check.greaterThanOrEqual Fxlowest evals.[xupper]
+                    let evals = Dictionary()
+                    let x = solver(tol, 0.0, Func<_,_> (fun x -> let Fx = F.Invoke(x) in evals.Add(x, Fx); Fx), min, low, max)
+                    count <- count + evals.Count
+                    let inRangeFx = evals |> Seq.where (fun i -> i.Key >= x - tol * 1.01 && i.Key <= x + tol * 1.01)
+                                    |> Seq.sortBy (fun i -> i.Key)
+                                    |> Seq.map (fun i -> i.Value)
+                                    |> Seq.toArray
+                    Check.equal 3 inRangeFx.Length
+                    Check.equal (Seq.min inRangeFx) (Seq.min evals.Values)
+                    Check.isTrue (Optimize.Minimum_Bracketed(inRangeFx.[0], inRangeFx.[1], inRangeFx.[2]))
                 testAssert count
             }
 
@@ -67,7 +58,7 @@ let all =
         test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6433)
         test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7608)
 
-        //test_solver "hybrid_7" 1e-7 Optimize.Minimum (Check.equal 5310)
-        //test_solver "hybrid_9" 1e-9 Optimize.Minimum (Check.equal 6433)
-        //test_solver "hybrid_11" 1e-11 Optimize.Minimum (Check.equal 7593)
+        test_solver "hybrid_7" 1e-7 Optimize.Minimum (Check.equal 2875)
+        test_solver "hybrid_9" 1e-9 Optimize.Minimum (Check.equal 3478)
+        test_solver "hybrid_11" 1e-11 Optimize.Minimum (Check.equal 4453)
     }

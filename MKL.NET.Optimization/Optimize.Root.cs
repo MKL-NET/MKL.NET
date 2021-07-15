@@ -18,7 +18,7 @@ namespace MKLNET
         /// <param name="b">Second input.</param>
         /// <returns>The centre of the two inputs.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static double Root_Bisect(double a, double b)
+        static double Bisect(double a, double b)
             => (a + b) * 0.5;
 
         /// <summary>Root estmate using linear interpolation. Also called false position or regula falsi.</summary>
@@ -215,11 +215,11 @@ namespace MKLNET
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
-                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Root_Bisect(a, b)
+                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Bisect(a, b)
                       : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Cubic(a, fa, b, fb, c, fc, d, fd))
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_InverseQuadratic(a, fa, b, fb, c, fc))
                       : level == 2 ? Tol_Not_Too_Close(atol, rtol, a, b, (a + b) * 0.25 + Root_Linear(a, fa, b, fb) * 0.5)
-                      : Root_Bisect(a, b);
+                      : Bisect(a, b);
                 var fx = f(x); if (fx == 0.0) return x;
                 if (Root_Bracketed(fa, fx))
                 {
@@ -234,7 +234,7 @@ namespace MKLNET
                     a = x; fa = fx;
                 }
             }
-            return Root_Bisect(a, b);
+            return Bisect(a, b);
         }
 
         /// <summary>
@@ -359,10 +359,10 @@ namespace MKLNET
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
-                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Root_Bisect(a, b)
+                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Bisect(a, b)
                       : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Newton(a, fa, dfa, b, fb, dfb))
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Linear(a, fa, b, fb))
-                      : Root_Bisect(a, b);
+                      : Bisect(a, b);
                 var (fx, dfx) = f(x); if (fx == 0.0) return x;
                 if (Root_Bracketed(fa, fx))
                 {
@@ -375,7 +375,7 @@ namespace MKLNET
                     a = x; fa = fx; dfa = dfx;
                 }
             }
-            return Root_Bisect(a, b);
+            return Bisect(a, b);
         }
 
         /// <summary>
@@ -557,10 +557,10 @@ namespace MKLNET
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, b))
             {
-                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Root_Bisect(a, b)
+                var x = Tol_Average_Within_2(atol, rtol, a, b) ? Bisect(a, b)
                       : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Halley(a, fa, dfa, ddfa, b, fb, dfb, ddfb))
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, Root_Linear(a, fa, b, fb))
-                      : Root_Bisect(a, b);
+                      : Bisect(a, b);
                 var (fx, dfx, ddfx) = f(x); if (fx == 0.0) return x;
                 if (Root_Bracketed(fa, fx))
                 {
@@ -573,7 +573,7 @@ namespace MKLNET
                     a = x; fa = fx; dfa = dfx; ddfa = ddfx;
                 }
             }
-            return Root_Bisect(a, b);
+            return Bisect(a, b);
         }
 
         /// <summary>
@@ -920,7 +920,7 @@ namespace MKLNET
             var fa = f(a); if (fa == 0) return a;
             var fb = f(b); if (fb == 0) return b;
             var c = Root_Linear(a, fa, b, fb);
-            if (c <= a || c >= b) c = Root_Bisect(a, b);
+            if (c <= a || c >= b) c = Bisect(a, b);
             var fc = f(c); if (fc == 0) return c;
             double d, fd, e = double.NaN, fe = double.NaN;
 
@@ -990,7 +990,7 @@ namespace MKLNET
                 c = u - 2 * fu / (fb - fa) * (b - a);
 
                 if (Math.Abs(c - u) > 0.5 * (b - a))
-                    c = Root_Bisect(a, b);
+                    c = Bisect(a, b);
                 else
                 {
                     if (IsClose(c, u, EPS, 0))
@@ -1011,7 +1011,7 @@ namespace MKLNET
                             var adj = Math.Abs(c) * rtol + atol;
                             c = Math.Abs(fa) < Math.Abs(fb) ? u + adj : u - adj;
                         }
-                        if (c <= a || c >= b) c = Root_Bisect(a, b);
+                        if (c <= a || c >= b) c = Bisect(a, b);
                     }
                 }
 
@@ -1036,7 +1036,7 @@ namespace MKLNET
 
                 if (b - a > MU * ab_width)
                 {
-                    var z = Root_Bisect(a, b);
+                    var z = Bisect(a, b);
                     var fz = f(z); if (fz == 0) return z;
                     e = d;
                     fe = fd;
@@ -1057,7 +1057,7 @@ namespace MKLNET
                     }
                 }
 
-                if (IsClose(a, b, rtol, atol)) return Root_Bisect(a, b);
+                if (IsClose(a, b, rtol, atol)) return Bisect(a, b);
             }
         }
 

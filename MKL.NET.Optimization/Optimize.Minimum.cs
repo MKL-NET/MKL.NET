@@ -13,7 +13,7 @@ namespace MKLNET
         /// <param name="fc"></param>
         /// <returns></returns>
         public static bool Minimum_Bracketed(double fa, double fb, double fc)
-            => fa > fb && fb < fc;
+            => fa >= fb && fb <= fc;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static double Minimum_Bisect(double atol, double rtol, double a, double b, double c)
@@ -49,9 +49,7 @@ namespace MKLNET
         public static double Minimum_Quadratic(double a, double fa, double b, double fb, double c, double fc)
         {
             var x = b - 0.5 * (Sqr(b - a) * (fb - fc) - Sqr(b - c) * (fb - fa)) / ((b - a) * (fb - fc) - (b - c) * (fb - fa));
-            return x;
-            //if (a < x && x < c) return x;
-            //return Minimum_GoldenSection(a, b, c);
+            return double.IsNaN(x) ? Minimum_GoldenSection(a, b, c) : x;
         }
 
         /// <summary>
@@ -166,7 +164,7 @@ namespace MKLNET
                     }
                 }
             }
-            return Root_Bisect(a, c);
+            return Bisect(a, c);
         }
 
         /// <summary>
