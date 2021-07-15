@@ -58,7 +58,7 @@ let all =
         test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6433)
         test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7608)
 
-        test_solver "hybrid_7" 1e-7 Optimize.Minimum (Check.equal 2875)
-        test_solver "hybrid_9" 1e-9 Optimize.Minimum (Check.equal 3478)
-        test_solver "hybrid_11" 1e-11 Optimize.Minimum (Check.equal 4453)
+        test_solver "hybrid_7" 1e-7 Optimize.Minimum (Check.equal 2591)
+        test_solver "hybrid_9" 1e-9 Optimize.Minimum (Check.equal 3231)
+        test_solver "hybrid_11" 1e-11 Optimize.Minimum (Check.equal 4259)
     }

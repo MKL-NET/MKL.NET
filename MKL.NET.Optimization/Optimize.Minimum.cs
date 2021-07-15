@@ -16,7 +16,7 @@ namespace MKLNET
             => fa >= fb && fb <= fc;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static double Minimum_Bisect(double atol, double rtol, double a, double b, double c)
+        static double Minimum_BiSection(double atol, double rtol, double a, double b, double c)
         {
             var x = (a + c) * 0.5;
             if (x == b) return x + Tol(atol, rtol, x) * 0.1;
@@ -35,6 +35,17 @@ namespace MKLNET
         /// <returns></returns>
         public static double Minimum_GoldenSection(double a, double b, double c)
             => b - a >= c - b ? b + (a - b) * 0.381966011250105 : b + (c - b) * 0.381966011250105;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        /// <param name="factor"></param>
+        /// <returns></returns>
+        public static double Minimum_FactorSection(double a, double b, double c, double factor)
+            => b - a >= c - b ? b + (a - b) * factor : b + (c - b) * factor;
 
         /// <summary>
         /// 
@@ -114,33 +125,32 @@ namespace MKLNET
         /// <returns></returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a, double b, double c)
         {
-            var fa = f(a);
-            var fb = f(b);
-            var fc = f(c);
-            var d = double.PositiveInfinity;
-            var fd = 0.0;
-            int level = 0;
+            double fa = f(a);
+            double fb = f(b);
+            double fc = f(c);
+            double d = double.PositiveInfinity, fd = 0;
+            int level = 1;
             while (Tol_Average_Not_Within(atol, rtol, a, c))
             {
-                var x = Tol_Average_Within_2(atol, rtol, a, c) ? Minimum_Bisect(atol, rtol, a, b, c)
-                      : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, c, double.IsInfinity(d) ? Minimum_Quadratic(a, fa, b, fb, c, fc) : Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
+                var x = Tol_Average_Within_2(atol, rtol, a, c) ? Minimum_BiSection(atol, rtol, a, b, c)
+                      : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, c, Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, c, Minimum_Quadratic(a, fa, b, fb, c, fc))
-                      : Minimum_GoldenSection(a, b, c);
+                      : Minimum_FactorSection(a, b, c, 0.2);
                 if (!(x > a && x < c)) throw new Exception();
                 var fx = f(x); if (fx == 0.0) return x;
+                const double levelFactor = 0.4;
                 if (x < b)
                 {
-                    
                     if (Minimum_Bracketed(fa, fx, fb))
                     {
-                        level = c - b < 0.4 * (c - a) ? level + 1 : 0;
+                        level = c - b < levelFactor * (c - a) ? level + 1 : 0;
                         if (d > c || a - d > c - b) { d = c; fd = fc; }
                         c = b; b = x;
                         fc = fb; fb = fx;
                     }
                     else
                     {
-                        level = b - a < 0.4 * (c - a) ? level + 1 : 0;
+                        level = b - a < levelFactor * (c - a) ? level + 1 : 0;
                         if (d < a || d - c > x - a) { d = a; fd = fa; }
                         a = x;
                         fa = fx;
@@ -150,14 +160,14 @@ namespace MKLNET
                 {
                     if (Minimum_Bracketed(fb, fx, fc))
                     {
-                        level = b - a < 0.4 * (c - a) ? level + 1 : 0;
+                        level = b - a < levelFactor * (c - a) ? level + 1 : 0;
                         if (d < a || d - c > b - a) { d = c; fd = fc; }
                         a = b; b = x;
                         fa = fb; fb = fx;
                     }
                     else
                     {
-                        level = c - b < 0.4 * (c - a) ? level + 1 : 0;
+                        level = c - b < levelFactor * (c - a) ? level + 1 : 0;
                         if (d > c || a - d > c - x) { d = c; fd = fc; }
                         c = x;
                         fc = fx;
