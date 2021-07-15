@@ -92,7 +92,7 @@ let close accuracy (expected:'a) (actual:'a) =
             else
                 Failure(Normal "Length differs. expected: " + Numeric e.Length + " actual: " + Numeric a.Length)
         let inline closeDefault (e:'b) (a:'b) =
-            Failure(Normal "Actual=" + Numeric a + " expected=" + Numeric e
+            Failure(Normal "actual=" + Numeric a + " expected=" + Numeric e
             + " (difference " + Numeric(Accuracy.areCloseLhs a e)
             + " not less than " + Numeric(Accuracy.areCloseRhs accuracy a e)
             + ")."

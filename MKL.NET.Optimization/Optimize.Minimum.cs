@@ -86,11 +86,11 @@ namespace MKLNET
 
             // https://www.themathdoctors.org/max-and-min-of-a-cubic-without-calculus/
             var r = Math.Sqrt(a2 * a2 - 3 * a3 * a1);
-            var x = (r - b) / a / 3;
+            var x = (r - a2) / a3 / 3;
             if (a < x && x < c) return x;
-            x = (-r - b) / a / 3;
+            x = (-r - a2) / a3 / 3;
             if (a < x && x < c) return x;
-            return Minimum_Quadratic(a, fa, b, fb, c, fc); // TODO: Test if needed
+            return Minimum_Quadratic(a, fa, b, fb, c, fc);
         }
 
         static double Tol_Not_Too_Close(double atol, double rtol, double a, double b, double c, double x)
@@ -135,10 +135,9 @@ namespace MKLNET
                 var x = Tol_Average_Within_2(atol, rtol, a, c) ? Minimum_BiSection(atol, rtol, a, b, c)
                       : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, c, Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, c, Minimum_Quadratic(a, fa, b, fb, c, fc))
-                      : Minimum_FactorSection(a, b, c, 0.2);
-                if (!(x > a && x < c)) throw new Exception();
+                      : Minimum_FactorSection(a, b, c, 0.1);
                 var fx = f(x); if (fx == 0.0) return x;
-                const double levelFactor = 0.4;
+                const double levelFactor = 1.0 / 3;
                 if (x < b)
                 {
                     if (Minimum_Bracketed(fa, fx, fb))
@@ -199,10 +198,9 @@ namespace MKLNET
             for (int iter = 0; iter < 100; iter++)
             {
                 xm = 0.5 * (xmin + xmax);
-                tol1 = Tol(atol, rtol, x);
+                tol1 = Tol(atol, rtol, xm);
                 tol2 = 2.0 * tol1;
-                if (xmax - xmin < 2 * Tol(atol, rtol, xm)) return xm;
-                //if (Math.Abs(x - xm) <= (tol2 - 0.5 * (xmax - xmin))) return x;
+                if (xmax - xmin < tol2) return xm;
                 if (Math.Abs(e) > tol1 && xmax - xmin > tol1 * 4)
                 {
                     r = (x - w) * (fx - fv);
