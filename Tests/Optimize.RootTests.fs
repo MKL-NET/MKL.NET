@@ -10,22 +10,22 @@ let all =
         test "Root_Bracketed" {
             let fa = 1e-162
             let fb = -1e-162
-            Check.isTrue (Optimize.Root_Bracketed(fa, fb))
+            Check.isTrue (Optimize.Root_Is_Bracketed(fa, fb))
             let Root_Bracketed_Bad fa fb = fa * fb < 0.0
             Check.isFalse (Root_Bracketed_Bad fa fb)
             let! fa = Gen.Double.Positive
             let! fb = Gen.Double.Negative
-            Check.isTrue (Optimize.Root_Bracketed(fa, fb))
-            Check.isTrue (Optimize.Root_Bracketed(fb, fa))
-            Check.isFalse (Optimize.Root_Bracketed(fa, -fb))
-            Check.isFalse (Optimize.Root_Bracketed(-fa, fb))
+            Check.isTrue (Optimize.Root_Is_Bracketed(fa, fb))
+            Check.isTrue (Optimize.Root_Is_Bracketed(fb, fa))
+            Check.isFalse (Optimize.Root_Is_Bracketed(fa, -fb))
+            Check.isFalse (Optimize.Root_Is_Bracketed(-fa, fb))
         }
 
         test "root_linear_between" {
             let! a, _, b, _, x =
                 let genD = Gen.Double
                 Gen.Select(genD, genD, genD, genD)
-                    .Where(fun struct (a, fa, b, fb) -> a < b && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun struct (a, fa, b, fb) -> a < b && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun struct (a, fa, b, fb) -> a, fa, b, fb, Optimize.Root_Linear(a, fa, b, fb))
             Check.between a b x
         }
@@ -37,7 +37,7 @@ let all =
                 let genD = Gen.Double.[root * -3.0, root * 3.0]
                 Gen.Select(genD, genD)
                     .Select(fun struct (a, b) -> a, f(a), b, f(b))
-                    .Where(fun (a, fa, b, fb) -> a < b && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun (a, fa, b, fb) -> a < b && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb) -> Optimize.Root_Linear(a, fa, b, fb))
             Check.close High root x
         }
@@ -46,7 +46,7 @@ let all =
             let! a, _, b, _, _, _, x =
                 let genD = Gen.Double
                 Gen.Select(genD, genD, genD, genD, genD, genD)
-                    .Where(fun struct (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun struct (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Root_Quadratic(a, fa, b, fb, c, fc))
             Check.between a b x
         }
@@ -59,7 +59,7 @@ let all =
                 let genD = Gen.Double.[root1 * 3.0, root2 * 3.0]
                 Gen.Select(genD, genD, genD)
                     .Select(fun struct (a, b, c) -> a, f(a), b, f(b), c, f(c))
-                    .Where(fun (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb, c, fc) -> Optimize.Root_Quadratic(a, fa, b, fb, c, fc))
             Check.close Medium root1 x ||| Check.close Medium root2 x
         }
@@ -68,7 +68,7 @@ let all =
             let! a, _, b, _, _, _, x =
                 let genD = Gen.Double
                 Gen.Select(genD, genD, genD, genD, genD, genD)
-                    .Where(fun struct (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun struct (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Root_InverseQuadratic(a, fa, b, fb, c, fc))
             Check.between a b x
         }
@@ -78,7 +78,7 @@ let all =
                 let genD = Gen.Double
                 let genC = genD.Select(genD)
                 Gen.Select(genC, genC, genC, genC)
-                    .Where(fun struct ((a, fa), (b, fb), (c, _), (d, _)) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun struct ((a, fa), (b, fb), (c, _), (d, _)) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun struct ((a, fa), (b, fb), (c, fc), (d, fd)) -> a, fa, b, fb, c, fc, d, fd, Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.between a b x
         }
@@ -91,7 +91,7 @@ let all =
                 let genD = Gen.Double.[root1 * 3.0, notRoot * 3.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.close Low root1 x
         }
@@ -104,7 +104,7 @@ let all =
                 let genD = Gen.Double.[root1 * 3.0, root2 * 3.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.close Medium root1 x ||| Check.close Low root2 x
         }
@@ -118,7 +118,7 @@ let all =
                 let genD = Gen.Double.[root1 * 3.0, root3 * 3.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Bracketed(fa, fb))
+                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.close Medium root1 x ||| Check.close Medium root2 x ||| Check.close Medium root3 x
         }
@@ -131,9 +131,9 @@ let all =
                     let mutable count = 0
                     for i = 0 to problems.Length - 1 do
                         let struct (F, _, _, min, max) = problems.[i]
-                        Check.isTrue (Optimize.Root_Bracketed(F.Invoke(min), F.Invoke(max)))
+                        Check.isTrue (Optimize.Root_Is_Bracketed(F.Invoke(min), F.Invoke(max)))
                         let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), min, max)
-                        Check.isTrue (Optimize.Root_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                        Check.isTrue (Optimize.Root_Is_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                     testAssert count
                 }
 
@@ -159,7 +159,7 @@ let all =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x))
                     let x = Optimize.Root(tol, 0.0, Func<_,_> f, Min, Max)
-                    Check.isTrue (Optimize.Root_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                    Check.isTrue (Optimize.Root_Is_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                 Check.equal 2792 count
             }
 
@@ -173,7 +173,7 @@ let all =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x))
                     let x = Optimize.Root_Newton_Safe(tol, 0.0, Func<_,_> f, Min, Max)
-                    Check.isTrue (Optimize.Root_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                    Check.isTrue (Optimize.Root_Is_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                 Check.equal 3598 count
             }
 
@@ -200,7 +200,7 @@ let all =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x), H.Invoke(x))
                     let x = Optimize.Root(tol, 0.0, Func<_,_> f, Min, Max)
-                    Check.isTrue (Optimize.Root_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
+                    Check.isTrue (Optimize.Root_Is_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
                 Check.equal 2747 count
             }
 

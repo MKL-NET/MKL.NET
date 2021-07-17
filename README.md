@@ -80,9 +80,10 @@ The aim is to include the latest algorithms such as Toms748, robustly tested wit
 Full use of MKL.NET will be made to improve performance. Algorithms will be performance tested and default to the best for given inputs.
 
 - Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley.  
-- Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.
+- Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.  
+- Minimum - minimum finding algorithms in one dimension. Default algorithm has 50% fewer function calls than Brent.
 
-WIP minimize scalar
+WIP minimum n dimensions.
 
 ## MKL.NET.Statistics
 

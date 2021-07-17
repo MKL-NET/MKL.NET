@@ -5,14 +5,12 @@ namespace MKLNET
 {
     public static partial class Optimize
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fa"></param>
-        /// <param name="fb"></param>
-        /// <param name="fc"></param>
-        /// <returns></returns>
-        public static bool Minimum_Bracketed(double fa, double fb, double fc)
+        /// <summary>Test if a minimum is bracketed by the function outputs.</summary>
+        /// <param name="fa">First function output.</param>
+        /// <param name="fb">Middle function output.</param>
+        /// <param name="fc">Third function output.</param>
+        /// <returns>True if the middle function output is less than or equals to the two outer.</returns>
+        public static bool Minimum_Is_Bracketed(double fa, double fb, double fc)
             => fa >= fb && fb <= fc;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -28,37 +26,33 @@ namespace MKLNET
 
         const double GOLD = 0.381966011250105;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <param name="c"></param>
-        /// <returns></returns>
+        /// <summary>Minmimum estimate using golden section a &lt; b &lt; c.</summary>
+        /// <param name="a">First input.</param>
+        /// <param name="b">Middle input.</param>
+        /// <param name="c">Third input.</param>
+        /// <returns>Golden section of the three inputs.</returns>
         public static double Minimum_GoldenSection(double a, double b, double c)
             => b - a >= c - b ? b + (a - b) * GOLD : b + (c - b) * GOLD;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <param name="c"></param>
-        /// <param name="factor"></param>
-        /// <returns></returns>
+        /// <summary>Minmimum estimate using factor section a &lt; b &lt; c.</summary>
+        /// <param name="a">First input.</param>
+        /// <param name="b">Middle input.</param>
+        /// <param name="c">Third input.</param>
+        /// <param name="factor">The factor.</param>
+        /// <returns>Factor section of the three inputs.</returns>
         public static double Minimum_FactorSection(double a, double b, double c, double factor)
             => b - a >= c - b ? b + (a - b) * factor : b + (c - b) * factor;
 
         /// <summary>
-        /// 
+        /// Minimum estmate using quadratic interpolation, falling back to golden section.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="fa"></param>
-        /// <param name="b"></param>
-        /// <param name="fb"></param>
-        /// <param name="c"></param>
-        /// <param name="fc"></param>
-        /// <returns></returns>
+        /// <param name="a">First function input.</param>
+        /// <param name="fa">First function output.</param>
+        /// <param name="b">Second function input.</param>
+        /// <param name="fb">Second function output.</param>
+        /// <param name="c">Third function input.</param>
+        /// <param name="fc">Third function output.</param>
+        /// <returns>The minimum estimate.</returns>
         public static double Minimum_Quadratic(double a, double fa, double b, double fb, double c, double fc)
         {
             var x = b - 0.5 * (Sqr(b - a) * (fb - fc) - Sqr(b - c) * (fb - fa)) / ((b - a) * (fb - fc) - (b - c) * (fb - fa));
@@ -66,7 +60,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// 
+        /// Minimum estmate between a and c using cubic interpolation, falling back to quadratic then golden interpolation a &lt; b &lt; c.
         /// See <see href="https://en.wikipedia.org/wiki/Lagrange_polynomial">Lagrange polynomial</see> and
         /// <see href="https://www.themathdoctors.org/max-and-min-of-a-cubic-without-calculus/">Cubic max and min</see>.
         /// </summary>
@@ -78,7 +72,7 @@ namespace MKLNET
         /// <param name="fc">Third function output.</param>
         /// <param name="d">Fourth function input.</param>
         /// <param name="fd">Fourth function output.</param>
-        /// <returns>The root estimate between a and b.</returns>
+        /// <returns>The cubic estimate between a and c.</returns>
         public static double Minimum_Cubic(double a, double fa, double b, double fb, double c, double fc, double d, double fd)
         {
             // https://en.wikipedia.org/wiki/Lagrange_polynomial
@@ -116,20 +110,20 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// 
+        /// Brackets a minimum for f given two starting points a and b so that f(a) &lt;= f(b) &gt;= f(c).
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="a"></param>
-        /// <param name="fa"></param>
-        /// <param name="b"></param>
-        /// <param name="fb"></param>
-        /// <param name="c"></param>
-        /// <param name="fc"></param>
-        /// <param name="d"></param>
-        /// <param name="fd"></param>
-        public static void Minimum_Bracket(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function to bracket the minimum of.</param>
+        /// <param name="a">First input.</param>
+        /// <param name="fa">f(a) output.</param>
+        /// <param name="b">Second input.</param>
+        /// <param name="fb">f(b) output.</param>
+        /// <param name="c">c output.</param>
+        /// <param name="fc">f(c) output.</param>
+        /// <param name="d">Additonal outer point d &lt; a or d &gt; c. Can be infinity if no more than three function evaluations are needed.</param>
+        /// <param name="fd">f(d) output. Can be zero if no more than three function evaluations are needed.</param>
+        public static void Minimum_Bracketed(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
             out double c, out double fc, out double d, out double fd)
         {
             fa = f(a);
@@ -148,7 +142,7 @@ namespace MKLNET
             }
             d = double.PositiveInfinity;
             fd = 0;
-            while (!Minimum_Bracketed(fa, fb, fc))
+            while (!Minimum_Is_Bracketed(fa, fb, fc))
             {
                 var x = Minimum_Quadratic(a, fa, b, fb, c, fc);
                 if (fa <= fb)
@@ -193,22 +187,22 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// 
+        /// Finds the minimum of f accurate to tol = atol + rtol * x for bracketed inputs a &lt; b &lt; c and f(a) &lt;= f(b) &gt;= f(c).
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="a"></param>
-        /// <param name="fa"></param>
-        /// <param name="b"></param>
-        /// <param name="fb"></param>
-        /// <param name="c"></param>
-        /// <param name="fc"></param>
-        /// <param name="d"></param>
-        /// <param name="fd"></param>
-        /// <returns></returns>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function to find the minimum of.</param>
+        /// <param name="a">The first function input.</param>
+        /// <param name="fa">f(a) input.</param>
+        /// <param name="b">The second funtion input and also the minimum.</param>
+        /// <param name="fb">f(b) input.</param>
+        /// <param name="c">The third function input.</param>
+        /// <param name="fc">f(c) input.</param>
+        /// <param name="d">Additonal outer point d &lt; a or d &gt; c.</param>
+        /// <param name="fd">f(d) input.</param>
+        /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
         public static double Minimum_Bracketed(double atol, double rtol, Func<double, double> f,
-            double a, double fa, double b, double fb, double c, double fc, double d, double fd)
+            double a, double fa, double b, double fb, double c, double fc, double d = double.PositiveInfinity, double fd = 0)
         {
             int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, c))
@@ -221,7 +215,7 @@ namespace MKLNET
                 const double levelFactor = 1.0 / 3;
                 if (x < b)
                 {
-                    if (Minimum_Bracketed(fa, fx, fb))
+                    if (Minimum_Is_Bracketed(fa, fx, fb))
                     {
                         level = c - b < levelFactor * (c - a) ? level + 1 : 0;
                         if (d > c || a - d > c - b) { d = c; fd = fc; }
@@ -238,7 +232,7 @@ namespace MKLNET
                 }
                 else
                 {
-                    if (Minimum_Bracketed(fb, fx, fc))
+                    if (Minimum_Is_Bracketed(fb, fx, fc))
                     {
                         level = b - a < levelFactor * (c - a) ? level + 1 : 0;
                         if (d < a || d - c > b - a) { d = c; fd = fc; }
@@ -257,62 +251,58 @@ namespace MKLNET
             return Bisect(a, c);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        /// <summary>Finds the minimum of f accurate to tol = atol + rtol * x given two starting function inputs.</summary>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function to find the minimum of.</param>
+        /// <param name="a">The first starting input.</param>
+        /// <param name="b">The second starting input.</param>
+        /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a, double b)
         {
-            Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            Minimum_Bracketed(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        /// <summary>Finds the minimum of f accurate to tol = atol + rtol * x given a starting function input.</summary>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function to find the minimum of.</param>
+        /// <param name="a">The starting input.</param>
+        /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a)
         {
             var b = a + Tol(atol, rtol, a) * 1000;
-            Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            Minimum_Bracketed(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
         /// <summary>
-        /// 
+        /// Finds the minimum of f using Brent accurate to tol = atol + rtol * x for bracketed inputs a &lt; b &lt; c and f(a) &lt;= f(b) &gt;= f(c).
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="xmin"></param>
-        /// <param name="xlow"></param>
-        /// <param name="xmax"></param>
-        /// <returns></returns>
-        public static double Minimum_Brent(double atol, double rtol, Func<double, double> f, double xmin, double xlow, double xmax)
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function to find the minimum of.</param>
+        /// <param name="a">The first function input.</param>
+        /// <param name="b">The second funtion input and also the minimum.</param>
+        /// <param name="c">The third function input.</param>
+        /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
+        public static double Minimum_Brent(double atol, double rtol, Func<double, double> f, double a, double b, double c)
         {
             static double SIGN(double v, double d) => d >= 0 ? v : -v;
             const double CGOLD = 0.3819660;
             double d = 0.0, etemp, fu, fv, fw, fx;
             double p, q, r, tol1, tol2, u, v, w, x, xm;
             double e = 0.0;
-            x = w = v = xlow;
-            fw = fv = fx = f(xlow);
+            x = w = v = b;
+            fw = fv = fx = f(b);
             for (int iter = 0; iter < 100; iter++)
             {
-                xm = 0.5 * (xmin + xmax);
+                xm = 0.5 * (a + c);
                 tol1 = Tol(atol, rtol, xm);
                 tol2 = 2.0 * tol1;
-                if (xmax - xmin < tol2) return xm;
-                if (Math.Abs(e) > tol1 && xmax - xmin > tol1 * 4)
+                if (c - a < tol2) return xm;
+                if (Math.Abs(e) > tol1 && c - a > tol1 * 4)
                 {
                     r = (x - w) * (fx - fv);
                     q = (x - v) * (fx - fw);
@@ -322,36 +312,36 @@ namespace MKLNET
                     q = Math.Abs(q);
                     etemp = e;
                     e = d;
-                    if (Math.Abs(p) >= Math.Abs(0.5 * q * etemp) || p <= q * (xmin - x)
-                            || p >= q * (xmax - x))
+                    if (Math.Abs(p) >= Math.Abs(0.5 * q * etemp) || p <= q * (a - x)
+                            || p >= q * (c - x))
                     {
-                        d = CGOLD * (e = x >= xm ? xmin - x : xmax - x);
+                        d = CGOLD * (e = x >= xm ? a - x : c - x);
                         u = x + d;
                     }
                     else
                     {
                         d = p / q;
                         u = x + d;
-                        if (u - xmin < tol2 || xmax - u < tol2)
+                        if (u - a < tol2 || c - u < tol2)
                             d = SIGN(tol1, xm - x);
                         u = Math.Abs(d) >= tol1 ? x + d : x + SIGN(tol1, d);
                     }
                 }
                 else
                 {
-                    d = CGOLD * (e = x >= xm ? xmin - x : xmax - x);
+                    d = CGOLD * (e = x >= xm ? a - x : c - x);
                     u = x + d;
                 }
                 fu = f(u);
                 if (fu <= fx)
                 {
-                    if (u >= x) xmin = x; else xmax = x;
+                    if (u >= x) a = x; else c = x;
                     v = w; w = x; x = u;
                     fv = fw; fw = fx; fx = fu;
                 }
                 else
                 {
-                    if (u <= x) xmin = u; else xmax = u;
+                    if (u <= x) a = u; else c = u;
                     if (fu <= fw || w == x)
                     {
                         v = w; w = u;

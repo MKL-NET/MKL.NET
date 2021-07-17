@@ -12,7 +12,7 @@ let all =
             let! a, _, _, _, c, _, x =
                 let genD = Gen.Double.[-1e100, 1e100]
                 Gen.Select(genD, genD, genD, genD, genD, genD)
-                    .Where(fun struct (a, fa, b, fb, c, fc) -> a < b && b < c && Optimize.Minimum_Bracketed(fa, fb, fc))
+                    .Where(fun struct (a, fa, b, fb, c, fc) -> a < b && b < c && Optimize.Minimum_Is_Bracketed(fa, fb, fc))
                     .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Minimum_Quadratic(a, fa, b, fb, c, fc))
             Check.between a c x
         }
@@ -35,7 +35,7 @@ let all =
                 let genD = Gen.Double.[-1e100, 1e100]
                 let genC = genD.Select(genD)
                 Gen.Select(genC, genC, genC, genC)
-                    .Where(fun struct ((a, fa), (b, fb), (c, fc), (d, _)) -> a < b && b < c && (d < a || d > c) && Optimize.Minimum_Bracketed(fa, fb, fc))
+                    .Where(fun struct ((a, fa), (b, fb), (c, fc), (d, _)) -> a < b && b < c && (d < a || d > c) && Optimize.Minimum_Is_Bracketed(fa, fb, fc))
                     .Select(fun struct ((a, fa), (b, fb), (c, fc), (d, fd)) -> a, fa, b, fb, c, fc, d, fd, Optimize.Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.between a c x
         }
@@ -49,7 +49,7 @@ let all =
                 let genD = Gen.Double.[root2, root3 * 2.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, fc, d, _) -> a < b && b < c && (d < a || d > c) && Optimize.Minimum_Bracketed(fa, fb, fc))
+                    .Where(fun (a, fa, b, fb, c, fc, d, _) -> a < b && b < c && (d < a || d > c) && Optimize.Minimum_Is_Bracketed(fa, fb, fc))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.greaterThan (f(x)) (f(x - (root3 - root2) * 0.001))
             Check.greaterThan (f(x)) (f(x + (root3 - root2) * 0.001))
@@ -76,10 +76,10 @@ let all =
                     Check.between 3 4 inRangeFx.Length
                     Check.equal (Seq.min inRangeFx) (Seq.min evals.Values)
                     if inRangeFx.Length = 3 then
-                        Check.isTrue (Optimize.Minimum_Bracketed(inRangeFx.[0], inRangeFx.[1], inRangeFx.[2]))
+                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx.[0], inRangeFx.[1], inRangeFx.[2]))
                     else
-                        Check.isTrue (Optimize.Minimum_Bracketed(inRangeFx.[0], inRangeFx.[1], inRangeFx.[2])) |||
-                        Check.isTrue (Optimize.Minimum_Bracketed(inRangeFx.[1], inRangeFx.[2], inRangeFx.[3]))
+                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx.[0], inRangeFx.[1], inRangeFx.[2])) |||
+                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx.[1], inRangeFx.[2], inRangeFx.[3]))
                 testAssert count
             }
 
@@ -87,7 +87,7 @@ let all =
         test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6433)
         test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7608)
 
-        let minimum_bracketed (atol, rtol, f, a, b, c) =
+        let minimum_bracketed (atol, rtol, f:Func<_,_>, a, b, c) =
             Optimize.Minimum_Bracketed(atol, rtol, f, a, f.Invoke(a), b, f.Invoke(b), c, f.Invoke(c), Double.PositiveInfinity, 0.0)
 
         test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2721)

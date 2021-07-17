@@ -15,10 +15,9 @@
 Optimization and root finding based on cross platform MKL.NET.
         </Description>
         <PackageReleaseNotes>
-Added Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley.
-Added Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.
+Added Minimum - minimum finding algorithms in one dimension. Default algorithm has 50% fewer function calls than Brent.
         </PackageReleaseNotes>
-        <Version>0.1.2</Version>
+        <Version>0.2.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
