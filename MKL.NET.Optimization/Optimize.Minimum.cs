@@ -118,6 +118,8 @@ namespace MKLNET
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
         /// <param name="f"></param>
         /// <param name="a"></param>
         /// <param name="fa"></param>
@@ -127,7 +129,7 @@ namespace MKLNET
         /// <param name="fc"></param>
         /// <param name="d"></param>
         /// <param name="fd"></param>
-        public static void Minimum_Bracket(Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
+        public static void Minimum_Bracket(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
             out double c, out double fc, out double d, out double fd)
         {
             fa = f(a);
@@ -148,23 +150,44 @@ namespace MKLNET
             fd = 0;
             while (!Minimum_Bracketed(fa, fb, fc))
             {
-                if (fa < fb)
+                var x = Minimum_Quadratic(a, fa, b, fb, c, fc);
+                if (fa <= fb)
                 {
-                    var x = a - (c - a);
-                    var fx = f(x);
-                    d = c; fd = fc;
-                    c = b; fc = fb;
-                    b = a; fb = fa;
-                    a = x; fa = fx;
+                    if (x > a + Tol(atol, rtol, a) && x < b - Tol(atol, rtol, b))
+                    {
+                        var fx = f(x);
+                        d = c; fd = fc;
+                        c = b; fc = fb;
+                        b = x; fb = fx;
+                    }
+                    else
+                    {
+                        x = x < a - Tol(atol, rtol, a) ? Math.Max(x, a - (c - a) * 500) : a - (c - a);
+                        var fx = f(x);
+                        d = c; fd = fc;
+                        c = b; fc = fb;
+                        b = a; fb = fa;
+                        a = x; fa = fx;
+                    }
                 }
                 else
                 {
-                    var x = c + (c - a);
-                    var fx = f(x);
-                    d = a; fd = fa;
-                    a = b; fa = fb;
-                    b = c; fb = fc;
-                    c = x; fc = fx;
+                    if (x < c - Tol(atol, rtol, c) && a > b + Tol(atol, rtol, b))
+                    {
+                        var fx = f(x);
+                        d = a; fd = fa;
+                        a = b; fa = fb;
+                        b = x; fb = fx;
+                    }
+                    else
+                    {
+                        x = x > c + Tol(atol, rtol, c) ? Math.Min(x, c + (c - a) * 500) : c + (c - a);
+                        var fx = f(x);
+                        d = a; fd = fa;
+                        a = b; fa = fb;
+                        b = c; fb = fc;
+                        c = x; fc = fx;
+                    }
                 }
             }
         }
@@ -187,7 +210,7 @@ namespace MKLNET
         public static double Minimum_Bracketed(double atol, double rtol, Func<double, double> f,
             double a, double fa, double b, double fb, double c, double fc, double d, double fd)
         {
-            int level = 1;
+            int level = 0;
             while (Tol_Average_Not_Within(atol, rtol, a, c))
             {
                 var x = Tol_Average_Within_2(atol, rtol, a, c) ? Minimum_BiSection(atol, rtol, a, b, c)
@@ -245,7 +268,7 @@ namespace MKLNET
         /// <returns></returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a, double b)
         {
-            Minimum_Bracket(f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
@@ -259,8 +282,8 @@ namespace MKLNET
         /// <returns></returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a)
         {
-            var b = a + Tol(atol, rtol, a) * 100;
-            Minimum_Bracket(f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            var b = a + Tol(atol, rtol, a) * 1000;
+            Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 

@@ -87,10 +87,16 @@ let all =
         test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6433)
         test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7608)
 
-        let minimum (atol, rtol, f, a, b, c) =
+        let minimum_bracketed (atol, rtol, f, a, b, c) =
             Optimize.Minimum_Bracketed(atol, rtol, f, a, f.Invoke(a), b, f.Invoke(b), c, f.Invoke(c), Double.PositiveInfinity, 0.0)
 
-        test_solver "hybrid_7" 1e-7 minimum (Check.between 2701 2701)
-        test_solver "hybrid_9" 1e-9 minimum (Check.between 3181 3193)
-        test_solver "hybrid_11" 1e-11 minimum (Check.between 4078 4132)
+        test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2721)
+        test_solver "hybrid_bracketed_9" 1e-9 minimum_bracketed (Check.between 3217 3217)
+        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4179 4179)
+
+        let minimum (atol, rtol, f, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
+
+        test_solver "hybrid_7" 1e-7 minimum (Check.between 2264 2264)
+        test_solver "hybrid_9" 1e-9 minimum (Check.between 2863 2863)
+        test_solver "hybrid_11" 1e-11 minimum (Check.between 3947 3947)
     }
