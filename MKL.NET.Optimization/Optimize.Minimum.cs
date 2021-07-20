@@ -123,7 +123,7 @@ namespace MKLNET
         /// <param name="fc">f(c) output.</param>
         /// <param name="d">Additonal outer point d &lt; a or d &gt; c. Can be infinity if no more than three function evaluations are needed.</param>
         /// <param name="fd">f(d) output. Can be zero if no more than three function evaluations are needed.</param>
-        public static void Minimum_Bracketed(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
+        public static void Minimum_Bracket(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
             out double c, out double fc, out double d, out double fd)
         {
             fa = f(a);
@@ -211,7 +211,7 @@ namespace MKLNET
                       : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, c, Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
                       : level == 1 ? Tol_Not_Too_Close(atol, rtol, a, b, c, Minimum_Quadratic(a, fa, b, fb, c, fc))
                       : Minimum_FactorSection(a, b, c, 0.1);
-                var fx = f(x); if (fx == 0.0) return x;
+                var fx = f(x);
                 const double levelFactor = 1.0 / 3;
                 if (x < b)
                 {
@@ -260,7 +260,7 @@ namespace MKLNET
         /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a, double b)
         {
-            Minimum_Bracketed(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
@@ -273,7 +273,7 @@ namespace MKLNET
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a)
         {
             var b = a + Tol(atol, rtol, a) * 1000;
-            Minimum_Bracketed(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
