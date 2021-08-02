@@ -356,5 +356,89 @@ namespace MKLNET
             }
             throw new Exception("Too many iterations in brent");
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="x"></param>
+        /// <param name="p"></param>
+        /// <param name="x2"></param>
+        public static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, vector p, vector x2)
+        {
+            var a = Minimum(atol, rtol, a => {
+                x2 = x + (a * p).Reuse(x2);
+                return f(x2.Array);
+            }, 0);
+            x2 = x + (a * p).Reuse(x2);
+        }
+
+        static void Calc_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df)
+        {
+            var fx = f(x);
+            for (int i = 0; i < x.Length; i++)
+            {
+                var tol = Tol(atol, rtol, x[i]);
+                x[i] += tol;
+                df[i] = (fx - f(x)) / tol;
+                x[i] -= tol;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static void Minimum_Wikipedia(double atol, double rtol, Func<double[], double> f, double[] x)
+        { // https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
+            vector df1 = new(x.Length);
+            Calc_NegGrad(atol, rtol, f, x, df1.Array);
+            vector x1 = new(x.Length, x);
+            vector x2 = new(x.Length);
+            vector p = Vector.Copy(df1);
+            Minimum_LineSearch(atol, rtol, f, x1, p, x2);
+            vector df2 = new(x.Length);
+            Calc_NegGrad(atol, rtol, f, x2.Array, df2.Array);
+
+            vector s = x2 - x1.Reuse();
+            vector y = df1.Reuse() - df2;
+            var sTy = s.T * y;
+            matrix H = (sTy + y.T * y) / sTy / sTy * s * s.T
+                     - (y * s.T + s * y.T) / sTy;
+
+            while (true)
+            {
+                x1 = x2; x2 = s;
+                df1 = df2; df2 = y;
+                p = (H * df1).Reuse(p);
+                Minimum_LineSearch(atol, rtol, f, x1, p, x2);
+                Calc_NegGrad(atol, rtol, f, x2.Array, df2.Array);
+                // If any are +ive check the other directions
+                // If grad is low return
+                s = x2 - x1.Reuse();
+                y = df1.Reuse() - df2;
+                sTy = s.T * y;
+                vector Hy = H * y;
+                H = ((sTy + y.T * Hy) / sTy / sTy * s * s.T).Reuse(H)
+                  - (Hy * s.T + s * Hy.T) / sTy;
+            }
+        }
+
+        static matrix Test_Numeric_Recipies(matrix H, vector s, vector y)
+        {
+            var sTy = s.T * y;
+            using vector Hy = H * y;
+            var yTHy = y.T * Hy;
+            using vector u = s / sTy - H * y / yTHy;
+            H = H + s * s.T / sTy - Hy * Hy.T / yTHy
+              + yTHy * u * u.T;
+            return H;
+        }
     }
 }

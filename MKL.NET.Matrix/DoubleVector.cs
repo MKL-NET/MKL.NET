@@ -18,11 +18,12 @@ namespace MKLNET
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        internal double[] Reuse()
+        internal double[] ReuseArray()
         {
             GC.SuppressFinalize(this);
             return Array;
         }
+        public VectorExpression Reuse() => new VectorReuse(this);
         ~vector() => matrix.Pool.Return(Array);
         public double this[int i]
         {
@@ -42,6 +43,7 @@ namespace MKLNET
         public static VectorExpression operator -(VectorExpression a, vector b) => new VectorSub(a, b);
         public static VectorExpression operator *(vector a, double s) => new VectorScale(a, s);
         public static VectorExpression operator *(double s, vector a) => new VectorScale(a, s);
+        public static VectorExpression operator /(vector a, double s) => new VectorScale(a, 1 / s);
         public static double operator *(vectorT vt, vector v) => (VectorTExpression)vt * (VectorExpression)v;
         public static double operator *(VectorTExpression vt, vector v) => vt * (VectorExpression)v;
         public static MatrixExpression operator *(vector v, vectorT vt) => (VectorExpression)v * (VectorTExpression)vt;
@@ -62,11 +64,12 @@ namespace MKLNET
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        internal double[] Reuse()
+        internal double[] ReuseArray()
         {
             GC.SuppressFinalize(this);
             return Array;
         }
+        public VectorTExpression Reuse() => new VectorTReuse(this);
         ~vectorT() => matrix.Pool.Return(Array);
         public double this[int i]
         {
@@ -86,18 +89,17 @@ namespace MKLNET
         public static VectorTExpression operator -(VectorTExpression a, vectorT b) => new VectorTSub(a, b);
         public static VectorTExpression operator *(vectorT vt, double s) => new VectorTScale(vt, s);
         public static VectorTExpression operator *(double s, vectorT vt) => new VectorTScale(vt, s);
+        public static VectorTExpression operator /(vectorT vt, double s) => new VectorTScale(vt, 1 / s);
         public static double operator *(vectorT vt, vector v) => vt * (VectorExpression)v;
         public static double operator *(vectorT vt, VectorExpression v) => (VectorTExpression)vt * v;
         public static MatrixExpression operator *(VectorExpression v, vectorT vt) => v * (VectorTExpression)vt;
         public static MatrixExpression operator *(vector v, vectorT vt) => (VectorExpression)v * vt;
-        public static VectorTExpression operator *(vectorT vt, matrix m) => new VectorTMatrixMultiply(vt, m);
-        public static VectorTExpression operator *(vectorT vt, MatrixExpression m) => new VectorTMatrixMultiply(vt, m);
+        public static VectorTExpression operator *(vectorT vt, matrix m) => new VectorTMatrixMultiply(vt, m, null);
+        public static VectorTExpression operator *(vectorT vt, MatrixExpression m) => new VectorTMatrixMultiply(vt, m, null);
     }
 
     public static class Vector
     {
-        public static VectorExpression Reuse(vector v) => new VectorReuse(v);
-        public static VectorTExpression Reuse(vectorT v) => new VectorTReuse(v);
         public static VectorExpression Abs(VectorExpression v) => new MatrixToVector(new MatrixAbs(v.ToMatrix()));
         public static VectorTExpression Abs(VectorTExpression v) => new MatrixToVectorT(new MatrixAbs(v.ToMatrix()));
         public static VectorExpression Sqr(VectorExpression v) => new MatrixToVector(new MatrixSqr(v.ToMatrix()));

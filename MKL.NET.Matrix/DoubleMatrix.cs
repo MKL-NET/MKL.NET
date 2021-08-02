@@ -26,11 +26,12 @@ namespace MKLNET
             Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        internal double[] Reuse()
+        internal double[] ReuseArray()
         {
             GC.SuppressFinalize(this);
             return Array;
         }
+        public MatrixExpression Reuse() => new MatrixReuse(this);
         ~matrix() => Pool.Return(Array);
         public MatrixExpression T => new MatrixTranspose(this);
         public static MatrixExpression operator +(matrix a, double s) => new MatrixAddScalar(a, s);
@@ -45,13 +46,14 @@ namespace MKLNET
         public static MatrixExpression operator -(matrix a, MatrixExpression b) => (MatrixExpression)a - b;
         public static MatrixExpression operator *(matrix a, double s) => new MatrixScale(a, s);
         public static MatrixExpression operator *(double s, matrix a) => new MatrixScale(a, s);
-        public static MatrixExpression operator *(matrix a, matrix b) => new MatrixMultiply(a, b);
-        public static MatrixExpression operator *(matrix a, MatrixExpression b) => new MatrixMultiply(a, b);
-        public static MatrixExpression operator *(MatrixExpression a, matrix b) => new MatrixMultiply(a, b);
-        public static VectorExpression operator *(matrix m, vector v) => new MatrixVectorMultiply(m, v);
-        public static VectorExpression operator *(matrix m, VectorExpression v) => new MatrixVectorMultiply(m, v);
-        public static VectorTExpression operator *(vectorT vt, matrix m) => new VectorTMatrixMultiply(vt, m);
-        public static VectorTExpression operator *(VectorTExpression vt, matrix m) => new VectorTMatrixMultiply(vt, m);
+        public static MatrixExpression operator /(matrix a, double s) => new MatrixScale(a, 1 / s);
+        public static MatrixExpression operator *(matrix a, matrix b) => new MatrixMultiply(a, b, null);
+        public static MatrixExpression operator *(matrix a, MatrixExpression b) => new MatrixMultiply(a, b, null);
+        public static MatrixExpression operator *(MatrixExpression a, matrix b) => new MatrixMultiply(a, b, null);
+        public static VectorExpression operator *(matrix m, vector v) => new MatrixVectorMultiply(m, v, null);
+        public static VectorExpression operator *(matrix m, VectorExpression v) => new MatrixVectorMultiply(m, v, null);
+        public static VectorTExpression operator *(vectorT vt, matrix m) => new VectorTMatrixMultiply(vt, m, null);
+        public static VectorTExpression operator *(VectorTExpression vt, matrix m) => new VectorTMatrixMultiply(vt, m, null);
     }
 
     public static class Matrix
@@ -61,7 +63,6 @@ namespace MKLNET
             Pool.Int = new(maxArrayLength, maxArraysPerBucket);
             matrix.Pool = new(maxArrayLength, maxArraysPerBucket);
         }
-        public static MatrixExpression Reuse(matrix m) => new MatrixReuse(m);
         public static MatrixExpression Abs(MatrixExpression m) => new MatrixAbs(m);
         public static MatrixExpression Sqr(MatrixExpression m) => new MatrixSqr(m);
         public static MatrixExpression Sqrt(MatrixExpression m) => new MatrixSqrt(m);
@@ -226,6 +227,15 @@ namespace MKLNET
             var w = new vector(v.Rows);
             ThrowHelper.Check(Lapack.syev(Layout.ColMajor, 'V', UpLoChar.Lower, v.Rows, v.Array, v.Rows, w.Array));
             return (v, w);
+        }
+
+        public static matrix Identity(int n)
+        {
+            var m = new matrix(n, n);
+            var a = m.Array;
+            for(int i = 0; i < n * n; i++)
+                a[i] = i % (n + 1) == 0 ? 1 : 0;
+            return m;
         }
     }
 }

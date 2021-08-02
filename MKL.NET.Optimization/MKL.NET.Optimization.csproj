@@ -20,7 +20,8 @@ Added Minimum - minimum finding algorithms in one dimension. Default algorithm h
         <Version>0.2.0</Version>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
+        <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />
+        <ProjectReference Include="..\MKL.NET.Matrix\MKL.NET.Matrix.csproj" />
         <None Include="../matrix.png" Pack="true" PackagePath="" />
     </ItemGroup>
 </Project>
