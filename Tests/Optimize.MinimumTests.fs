@@ -92,7 +92,7 @@ let all =
 
         test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2721)
         test_solver "hybrid_bracketed_9" 1e-9 minimum_bracketed (Check.between 3217 3217)
-        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4179 4179)
+        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4171 4179)
 
         let minimum (atol, rtol, f, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
 
