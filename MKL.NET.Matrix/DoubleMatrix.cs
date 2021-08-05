@@ -38,7 +38,7 @@ namespace MKLNET
         public static MatrixExpression operator +(double s, matrix a) => new MatrixAddScalar(a, s);
         public static MatrixExpression operator -(matrix a, double s) => new MatrixAddScalar(a, -s);
         public static MatrixExpression operator -(double s, matrix a) => s - (MatrixExpression)a;
-        public static MatrixExpression operator +(matrix a, matrix b) => new MatrixAddSimple(a, b);
+        public static MatrixExpression operator +(matrix a, matrix b) => new MatrixAddSimple(a, b, null);
         public static MatrixExpression operator +(matrix a, MatrixExpression b) => (MatrixExpression)a + b;
         public static MatrixExpression operator +(MatrixExpression a, matrix b) => a + (MatrixExpression)b;
         public static MatrixExpression operator -(matrix a, matrix b) => new MatrixSubSimple(a, b);

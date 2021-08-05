@@ -1,4 +1,6 @@
-﻿namespace MKLNET.Expression
+﻿using System;
+
+namespace MKLNET.Expression
 {
     public abstract class MatrixExpression
     {
@@ -7,7 +9,7 @@
         public static implicit operator matrix(MatrixExpression a) => a.EvaluateMatrix();
         public MatrixExpression Reuse(matrix m) =>
               this is MatrixMultiply mm ? new MatrixMultiply(mm.Ea, mm.Eb, m.ReuseArray())
-            : this;
+            : throw new NotSupportedException();
         public static MatrixExpression operator +(MatrixExpression a, double s) => new MatrixAddScalar(a, s);
         public static MatrixExpression operator +(double s, MatrixExpression b) => new MatrixAddScalar(b, s);
         public static MatrixExpression operator -(MatrixExpression a, double s) => new MatrixAddScalar(a, -s);
@@ -23,9 +25,9 @@
                 var (eb, tb, sb) = b is MatrixScale msb ? (msb.E is MatrixTranspose mtb ? (mtb.E, true, msb.S) : (msb.E, false, msb.S))
                                  : b is MatrixTranspose mtb2 ? (mtb2.E, true, 1.0)
                                  : (b, false, 1.0);
-                return new MatrixAdd(ea, ta, sa, eb, tb, sb);
+                return new MatrixAdd(ea, ta, sa, eb, tb, sb, null);
             }
-            return new MatrixAddSimple(a, b);
+            return new MatrixAddSimple(a, b, null);
         }
         public static MatrixExpression operator -(MatrixExpression a, MatrixExpression b)
         {
@@ -37,23 +39,23 @@
                 var (eb, tb, sb) = b is MatrixScale msb ? (msb.E is MatrixTranspose mtb ? (mtb.E, true, -msb.S) : (msb.E, false, -msb.S))
                                  : b is MatrixTranspose mtb2 ? (mtb2.E, true, -1.0)
                                  : (b, false, -1.0);
-                return new MatrixAdd(ea, ta, sa, eb, tb, sb);
+                return new MatrixAdd(ea, ta, sa, eb, tb, sb, null);
             }
             return new MatrixSubSimple(a, b);
         }
         public static MatrixExpression operator *(MatrixExpression a, double s) =>
               a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s)
             : a is MatrixMultiply mm ? new MatrixMultiply(mm.Ea * s, mm.Eb, mm.R)
-            : a is MatrixAdd ma ? new MatrixAdd(ma.Ea, ma.Transa, ma.Sa * s, ma.Eb, ma.Transb, ma.Sb * s)
-            : a is MatrixAddSimple mas ? new MatrixAdd(mas.Ea, false, s, mas.Eb, false, s)
-            : a is MatrixSubSimple mss ? new MatrixAdd(mss.Ea, false, s, mss.Eb, false, -s)
+            : a is MatrixAdd ma ? new MatrixAdd(ma.Ea, ma.Transa, ma.Sa * s, ma.Eb, ma.Transb, ma.Sb * s, null)
+            : a is MatrixAddSimple mas ? new MatrixAdd(mas.Ea, false, s, mas.Eb, false, s, null)
+            : a is MatrixSubSimple mss ? new MatrixAdd(mss.Ea, false, s, mss.Eb, false, -s, null)
             : new MatrixScale(a, s);
         public static MatrixExpression operator *(double s, MatrixExpression a) =>
               a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s)
             : a is MatrixMultiply mm ? new MatrixMultiply(mm.Ea * s, mm.Eb, mm.R)
-            : a is MatrixAdd ma ? new MatrixAdd(ma.Ea, ma.Transa, ma.Sa * s, ma.Eb, ma.Transb, ma.Sb * s)
-            : a is MatrixAddSimple mas ? new MatrixAdd(mas.Ea, false, s, mas.Eb, false, s)
-            : a is MatrixSubSimple mss ? new MatrixAdd(mss.Ea, false, s, mss.Eb, false, -s)
+            : a is MatrixAdd ma ? new MatrixAdd(ma.Ea, ma.Transa, ma.Sa * s, ma.Eb, ma.Transb, ma.Sb * s, null)
+            : a is MatrixAddSimple mas ? new MatrixAdd(mas.Ea, false, s, mas.Eb, false, s, null)
+            : a is MatrixSubSimple mss ? new MatrixAdd(mss.Ea, false, s, mss.Eb, false, -s, null)
             : new MatrixScale(a, s);
         public static MatrixExpression operator /(MatrixExpression a, double s) => a * (1 / s);
         public static MatrixExpression operator *(MatrixExpression a, MatrixExpression b) => new MatrixMultiply(a, b, null);
@@ -61,9 +63,9 @@
               this is MatrixTranspose t ? t.E
             : this is MatrixScale ms ? new MatrixScale(ms.E.T, ms.S)
             : this is MatrixMultiply mm ? new MatrixMultiply(mm.Eb.T, mm.Ea.T, mm.R)
-            : this is MatrixAdd ma ? new MatrixAdd(ma.Ea, !ma.Transa, ma.Sa, ma.Eb, !ma.Transb, ma.Sb)
-            : this is MatrixAddSimple mas ? new MatrixAdd(mas.Ea, true, 1.0, mas.Eb, true, 1.0)
-            : this is MatrixSubSimple mss ? new MatrixAdd(mss.Ea, true, 1.0, mss.Eb, true, -1.0)
+            : this is MatrixAdd ma ? new MatrixAdd(ma.Ea, !ma.Transa, ma.Sa, ma.Eb, !ma.Transb, ma.Sb, null)
+            : this is MatrixAddSimple mas ? new MatrixAdd(mas.Ea, true, 1.0, mas.Eb, true, 1.0, null)
+            : this is MatrixSubSimple mss ? new MatrixAdd(mss.Ea, true, 1.0, mss.Eb, true, -1.0, null)
             : new MatrixTranspose(this);
         public static VectorExpression operator *(MatrixExpression m, vector v) => new MatrixVectorMultiply(m, v, null);
         public static VectorExpression operator *(MatrixExpression m, VectorExpression v) => new MatrixVectorMultiply(m, v, null);
@@ -196,17 +198,20 @@
     public class MatrixAddSimple : MatrixExpression
     {
         public readonly MatrixExpression Ea, Eb;
-        public MatrixAddSimple(MatrixExpression a, MatrixExpression b)
+        public readonly double[]? R;
+        public MatrixAddSimple(MatrixExpression a, MatrixExpression b, double[]? reuse)
         {
             Ea = a;
             Eb = b;
+            R = reuse;
         }
         public override matrix EvaluateMatrix()
         {
             var a = Ea.EvaluateMatrix();
             var b = Eb.EvaluateMatrix();
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var r = Ea is not MatrixInput ? a
+            var r = R is not null ? new matrix(a.Rows, a.Cols, R)
+                  : Ea is not MatrixInput ? a
                   : Eb is not MatrixInput ? b
                   : new matrix(a.Rows, a.Cols);
             Vml.Add(a.Length, a.Array, b.Array, r.Array);
@@ -242,7 +247,8 @@
         public readonly MatrixExpression Ea, Eb;
         public readonly double Sa, Sb;
         public readonly bool Transa, Transb;
-        public MatrixAdd(MatrixExpression a, bool transa, double sa, MatrixExpression b, bool transb, double sb)
+        public readonly double[]? R;
+        public MatrixAdd(MatrixExpression a, bool transa, double sa, MatrixExpression b, bool transb, double sb, double[]? reuse)
         {
             Ea = a;
             Eb = b;
@@ -250,6 +256,7 @@
             Sb = sb;
             Transa = transa;
             Transb = transb;
+            R = reuse;
         }
         public override matrix EvaluateMatrix()
         {
@@ -257,7 +264,8 @@
             var b = Eb.EvaluateMatrix();
             if ((Transa == Transb && (a.Rows != b.Rows || a.Cols != b.Cols))
                || (Transa != Transb && (a.Rows != b.Cols || a.Cols != b.Rows))) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var r = Ea is not MatrixInput ? (Transa ? new matrix(a.Cols, a.Rows, a.ReuseArray()) : a)
+            var r = R is not null ? Transa ? new matrix(a.Cols, a.Rows, R) : new matrix(a.Rows, a.Cols, R)
+                  : Ea is not MatrixInput ? (Transa ? new matrix(a.Cols, a.Rows, a.ReuseArray()) : a)
                   : Eb is not MatrixInput ? (Transb ? new matrix(b.Cols, b.Rows, b.ReuseArray()) : b)
                   : Transa ? new matrix(a.Cols, a.Rows) : new matrix(a.Rows, a.Cols);
             Blas.omatadd(LayoutChar.ColMajor, Transa ? TransChar.Yes : TransChar.No, Transb ? TransChar.Yes : TransChar.No,

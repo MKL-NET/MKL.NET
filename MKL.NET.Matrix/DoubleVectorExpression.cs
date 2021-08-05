@@ -23,10 +23,12 @@ namespace MKLNET.Expression
             : new VectorToMatrix(this);
         public VectorExpression Reuse(vector v) =>
               this is MatrixVectorMultiply m ? new MatrixVectorMultiply(m.M, m.V, v.ReuseArray())
-            : this;
+            : this is VectorAdd va ? new VectorAdd(va.A, va.B, v.ReuseArray())
+            : throw new NotSupportedException();
         public VectorExpression Reuse(vectorT v) =>
               this is MatrixVectorMultiply m ? new MatrixVectorMultiply(m.M, m.V, v.ReuseArray())
-            : this;
+            : this is VectorAdd va ? new VectorAdd(va.A, va.B, v.ReuseArray())
+            : throw new NotSupportedException();
         public static implicit operator VectorExpression(vector a) => new VectorInput(a);
         public static implicit operator vector(VectorExpression a) => a.EvaluateVector();
         public static VectorExpression operator +(VectorExpression a, double s) => new VectorAddScalar(a, s);
@@ -34,8 +36,8 @@ namespace MKLNET.Expression
         public static VectorExpression operator -(VectorExpression a, double s) => new VectorAddScalar(a, -s);
         public static VectorExpression operator -(double s, VectorExpression a) =>
             new VectorAddScalar(a is VectorScale sm ? new VectorScale(sm.E, -sm.S) : new VectorScale(a, -1.0), s);
-        public static VectorExpression operator +(VectorExpression a, VectorExpression b) => new VectorAdd(a, b);
-        public static VectorExpression operator -(VectorExpression a, VectorExpression b) => new VectorSub(a, b);
+        public static VectorExpression operator +(VectorExpression a, VectorExpression b) => new VectorAdd(a, b, null);
+        public static VectorExpression operator -(VectorExpression a, VectorExpression b) => new VectorSub(a, b, null);
         public static VectorExpression operator *(VectorExpression a, double s) =>
             a is VectorScale sa ? new VectorScale(sa.E, sa.S * s) : new VectorScale(a, s);
         public static VectorExpression operator *(double s, VectorExpression a) =>
@@ -76,10 +78,14 @@ namespace MKLNET.Expression
             : new VectorTToMatrix(this);
         public VectorTExpression Reuse(vectorT v) =>
               this is VectorTMatrixMultiply m ? new VectorTMatrixMultiply(m.VT, m.M, v.ReuseArray())
-            : this;
+            : this is VectorTAdd va ? new VectorTAdd(va.A, va.B, v.ReuseArray())
+            : this is VectorTSub vs ? new VectorTSub(vs.A, vs.B, v.ReuseArray())
+            : throw new NotSupportedException();
         public VectorTExpression Reuse(vector v) =>
               this is VectorTMatrixMultiply m ? new VectorTMatrixMultiply(m.VT, m.M, v.ReuseArray())
-            : this;
+            : this is VectorTAdd va ? new VectorTAdd(va.A, va.B, v.ReuseArray())
+            : this is VectorTSub vs ? new VectorTSub(vs.A, vs.B, v.ReuseArray())
+            : throw new NotSupportedException();
         public static implicit operator VectorTExpression(vectorT a) => new VectorTInput(a);
         public static implicit operator vectorT(VectorTExpression a) => a.EvaluateVector();
         public static VectorTExpression operator +(VectorTExpression a, double s) => new VectorTAddScalar(a, s);
@@ -87,8 +93,8 @@ namespace MKLNET.Expression
         public static VectorTExpression operator -(VectorTExpression a, double s) => new VectorTAddScalar(a, -s);
         public static VectorTExpression operator -(double s, VectorTExpression a) =>
             new VectorTAddScalar(a is VectorTScale sm ? new VectorTScale(sm.E, -sm.S) : new VectorTScale(a, -1.0), s);
-        public static VectorTExpression operator +(VectorTExpression a, VectorTExpression b) => new VectorTAdd(a, b);
-        public static VectorTExpression operator -(VectorTExpression a, VectorTExpression b) => new VectorTSub(a, b);
+        public static VectorTExpression operator +(VectorTExpression a, VectorTExpression b) => new VectorTAdd(a, b, null);
+        public static VectorTExpression operator -(VectorTExpression a, VectorTExpression b) => new VectorTSub(a, b, null);
         public static VectorTExpression operator *(VectorTExpression a, double s) =>
             a is VectorTScale sa ? new VectorTScale(sa.E, sa.S * s) : new VectorTScale(a, s);
         public static VectorTExpression operator *(double s, VectorTExpression a) =>
@@ -235,60 +241,80 @@ namespace MKLNET.Expression
 
     public class VectorAdd : VectorExpression
     {
-        readonly VectorExpression A, B;
-        public VectorAdd(VectorExpression a, VectorExpression b)
+        public readonly VectorExpression A, B;
+        public readonly double[]? R;
+        public VectorAdd(VectorExpression a, VectorExpression b, double[]? reuse)
         {
             A = a;
             B = b;
+            R = reuse;
         }
         public override vector EvaluateVector()
         {
-            matrix m = A.ToMatrix() + B.ToMatrix();
+            var e = A.ToMatrix() + B.ToMatrix();
+            if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
+            else if (e is MatrixAdd ma) e = new MatrixAdd(ma.Ea, ma.Transa, ma.Sa, ma.Eb, ma.Transb, ma.Sb, R);
+            matrix m = e;
             return new(m.Rows, m.ReuseArray());
         }
     }
 
     public class VectorTAdd : VectorTExpression
     {
-        readonly VectorTExpression A, B;
-        public VectorTAdd(VectorTExpression a, VectorTExpression b)
+        public readonly VectorTExpression A, B;
+        public readonly double[]? R;
+        public VectorTAdd(VectorTExpression a, VectorTExpression b, double[]? reuse)
         {
             A = a;
             B = b;
+            R = reuse;
         }
         public override vectorT EvaluateVector()
         {
-            matrix m = A.ToMatrix() + B.ToMatrix();
+            var e = A.ToMatrix() + B.ToMatrix();
+            if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
+            else if (e is MatrixAdd ma) e = new MatrixAdd(ma.Ea, ma.Transa, ma.Sa, ma.Eb, ma.Transb, ma.Sb, R);
+            matrix m = e;
             return new(m.Cols, m.ReuseArray());
         }
     }
 
     public class VectorSub : VectorExpression
     {
-        readonly VectorExpression A, B;
-        public VectorSub(VectorExpression a, VectorExpression b)
+        public readonly VectorExpression A, B;
+        public readonly double[]? R;
+        public VectorSub(VectorExpression a, VectorExpression b, double[]? reuse)
         {
             A = a;
             B = b;
+            R = reuse;
         }
         public override vector EvaluateVector()
         {
-            matrix m = A.ToMatrix() - B.ToMatrix();
+            var e = A.ToMatrix() - B.ToMatrix();
+            if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
+            else if (e is MatrixAdd ma) e = new MatrixAdd(ma.Ea, ma.Transa, ma.Sa, ma.Eb, ma.Transb, ma.Sb, R);
+            matrix m = e;
             return new(m.Rows, m.ReuseArray());
         }
     }
 
     public class VectorTSub : VectorTExpression
     {
-        readonly VectorTExpression A, B;
-        public VectorTSub(VectorTExpression a, VectorTExpression b)
+        public readonly VectorTExpression A, B;
+        public readonly double[]? R;
+        public VectorTSub(VectorTExpression a, VectorTExpression b, double[]? reuse)
         {
             A = a;
             B = b;
+            R = reuse;
         }
         public override vectorT EvaluateVector()
         {
-            matrix m = A.ToMatrix() - B.ToMatrix();
+            var e = A.ToMatrix() - B.ToMatrix();
+            if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
+            else if (e is MatrixAdd ma) e = new MatrixAdd(ma.Ea, ma.Transa, ma.Sa, ma.Eb, ma.Transb, ma.Sb, R);
+            matrix m = e;
             return new(m.Cols, m.ReuseArray());
         }
     }

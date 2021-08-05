@@ -94,9 +94,14 @@ let all =
         test_solver "hybrid_bracketed_9" 1e-9 minimum_bracketed (Check.between 3217 3217)
         test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4171 4179)
 
-        let minimum (atol, rtol, f, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
+        let minimum (atol, rtol, f:Func<float,float>, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
 
         test_solver "hybrid_7" 1e-7 minimum (Check.between 2264 2264)
         test_solver "hybrid_9" 1e-9 minimum (Check.between 2863 2863)
         test_solver "hybrid_11" 1e-11 minimum (Check.between 3947 3947)
+
+        //test "rosen_5" {
+        //    let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
+        //    Optimize.Minimum(1e-7, 0.0, Func<_,_> Optimization.Rosen, x);
+        //}
     }

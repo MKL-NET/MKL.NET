@@ -1,23 +1,27 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public static class Optimization
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    static double Sqr(double x) => x * x;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    static double Cube(double x) => x * x * x;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    static double Pow5(double x) => x * x * x * x * x;
+    static IEnumerable<int> Range(int start, int step, int finish)
+    {
+        for (int i = start; i <= finish; i += step)
+            yield return i;
+    }
+
     public readonly static (Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)[] RootTestProblems
         = RootProblems().ToArray();
 
     static IEnumerable<(Func<double, double> F, Func<double, double> G, Func<double, double> H, double Min, double Max)> RootProblems()
     {
-        static double Sqr(double x) => x * x;
-        static double Cube(double x) => x * x * x;
-        static double Pow5(double x) => x * x * x * x * x;
-        static IEnumerable<int> Range(int start, int step, int finish)
-        {
-            for (int i = start; i <= finish; i += step)
-                yield return i;
-        }
-
         yield return (
             x => Math.Sin(x) - 0.5 * x,
             x => Math.Cos(x) - 0.5,
@@ -181,14 +185,6 @@ public static class Optimization
         = MinimumProblems().ToArray();
     static IEnumerable<(Func<double, double> F, double Min, double Low, double Max)> MinimumProblems()
     {
-        static double Sqr(double x) => x * x;
-        static double Cube(double x) => x * x * x;
-        static IEnumerable<int> Range(int start, int step, int finish)
-        {
-            for (int i = start; i <= finish; i += step)
-                yield return i;
-        }
-
         yield return (
             x => Math.Cos(x) + 0.25 * x * x,
             Math.PI * 0.5,
@@ -295,5 +291,15 @@ public static class Optimization
                 5e-5,
                 1e-4
             );
+    }
+
+    public static double Rosen(double[] x)
+    {
+        var sum = 0.0;
+        for (int i = 1; i < x.Length; i++)
+        {
+            sum += 100.0 * Sqr(x[i] - x[i - 1] * x[i - 1]) + Sqr(1.0 - x[i - 1]);
+        }
+        return sum;
     }
 }
