@@ -294,11 +294,21 @@ namespace MKLNET
             return r;
         }
 
+        public static void Copy(vector a, vector b)
+        {
+            Blas.copy(a.Length, a.Array, 0, 1, b.Array, 0, 1);
+        }
+
         public static vectorT Copy(vectorT v)
         {
             var r = new vectorT(v.Length);
             Blas.copy(v.Length, v.Array, 0, 1, r.Array, 0, 1);
             return r;
+        }
+
+        public static void Copy(vectorT a, vectorT b)
+        {
+            Blas.copy(a.Length, a.Array, 0, 1, b.Array, 0, 1);
         }
 
         public static (vector, vector) SinCos(VectorExpression a)

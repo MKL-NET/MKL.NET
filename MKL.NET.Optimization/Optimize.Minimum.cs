@@ -368,14 +368,13 @@ namespace MKLNET
         /// <param name="x2"></param>
         public static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, vector p, vector x2)
         {
+            var norm = Vector.Nrm2(p);
             var a = Minimum(atol, rtol, a => {
-                x2 = (x + a * p).Reuse(x2);
+                x2 = (x + a / norm * p).Reuse(x2);
                 return f(x2.Array);
             }, 0);
-            x2 = (x + a * p).Reuse(x2);
+            x2 = (x + a / norm * p).Reuse(x2);
         }
-
-        // TODO: MatrixSub reuse
 
         /// <summary>
         /// 
@@ -390,30 +389,39 @@ namespace MKLNET
 
             static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df)
             {
-                bool isMinimum = true;
                 var fx = f(x);
+                bool isMinimum = true;
                 for (int i = 0; i < x.Length; i++)
                 {
-                    var tol = Tol(atol, rtol, x[i]);
-                    x[i] += tol;
-                    var dfi = (fx - f(x)) / tol;
-                    if (dfi > 0) isMinimum = false;
-                    df[i] = dfi;
-                    x[i] -= tol;
+                    var x_i = x[i];
+                    var tol = Tol(atol, rtol, x_i);
+                    x[i] = x_i - tol;
+                    var dfi = f(x);
+                    x[i] = x_i;
+                    if (dfi < fx)
+                    {
+                        isMinimum = false;
+                        break;
+                    }
+                    x[i] = x_i + tol;
+                    dfi = f(x);
+                    x[i] = x_i;
+                    if (dfi < fx)
+                    {
+                        isMinimum = false;
+                        break;
+                    }
                 }
-                if (isMinimum)
+                if (!isMinimum)
                 {
                     for (int i = 0; i < x.Length; i++)
                     {
-                        var tol = Tol(atol, rtol, x[i]);
-                        x[i] -= tol;
-                        var dfi = f(x);
-                        x[i] += tol;
-                        if (dfi < fx)
-                        {
-                            df[i] = (dfi - fx) / tol;
-                            return false;
-                        }
+                        var x_i = x[i];
+                        var tol = Tol(atol, rtol, x_i) / 100;
+                        x[i] = x_i + tol;
+                        var dfi = (fx - f(x)) / (x_i + tol - x_i);
+                        x[i] = x_i;
+                        df[i] = dfi;
                     }
                 }
                 return isMinimum;
@@ -442,13 +450,14 @@ namespace MKLNET
             vector s = x2 - x1.Reuse();
             vector y = df1.Reuse() - df2;
             double sTy = s.T * y;
-            matrix H = (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
+            matrix H = Matrix.Identity(2).Reuse() + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
             vector Hy = new(x.Length);
 
-            while (true)
+            int MAX_ITER = 30;
+            while (MAX_ITER-- > 0)
             {
-                x1 = x2; x2 = s;
-                df1 = df2; df2 = y;
+                Vector.Copy(x2, x1);
+                Vector.Copy(df2, df1);
                 p = (H * df1).Reuse(p);
                 Minimum_LineSearch(atol, rtol, f, x1, p, x2);
                 if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array))
@@ -462,10 +471,12 @@ namespace MKLNET
                     return;
                 }
                 s = x2 - x1.Reuse();
+                //Console.WriteLine($"{x2.Array[0]},{x2.Array[1]},{s.Array[0]},{s.Array[1]},{p.Array[0]},{p.Array[1]},{df1.Array[0]},{df1.Array[1]}");
                 y = df1.Reuse() - df2;
                 sTy = s.T * y;
                 Hy = (H * y).Reuse(Hy);
-                H = ((sTy + y.T * Hy) / sTy / sTy * s * s.T).Reuse(H) - (Hy * s.T + s * Hy.T) / sTy;
+                if (sTy == 0) System.Diagnostics.Debugger.Break();
+                H = H.Reuse() + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
             }
         }
 

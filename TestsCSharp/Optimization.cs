@@ -293,12 +293,12 @@ public static class Optimization
             );
     }
 
-    public static double Rosen(double[] x)
+    public static double Rosenbrock(double[] x)
     {
         var sum = 0.0;
         for (int i = 1; i < x.Length; i++)
         {
-            sum += 100.0 * Sqr(x[i] - x[i - 1] * x[i - 1]) + Sqr(1.0 - x[i - 1]);
+            sum += 100.0 * Sqr(x[i] - Sqr(x[i - 1])) + Sqr(1- x[i - 1]);
         }
         return sum;
     }
