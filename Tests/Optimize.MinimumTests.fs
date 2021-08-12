@@ -101,7 +101,9 @@ let all =
         test_solver "hybrid_11" 1e-11 minimum (Check.between 3947 3947)
 
         test "rosen_5" {
-            let x = [|1.3; 0.7(*; 0.8; 1.9; 1.2*)|]
+            let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
             Optimize.Minimum(1e-7, 0.0, Func<_,_> Optimization.Rosenbrock, x);
+            for xi in x do
+                Check.close Medium 1.0 xi
         }
     }

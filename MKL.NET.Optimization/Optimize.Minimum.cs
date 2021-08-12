@@ -272,7 +272,7 @@ namespace MKLNET
         /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a)
         {
-            var b = a + Tol(atol, rtol, a) * 1000;
+            var b = a + Tol(atol, rtol, a) * 100;
             Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
@@ -450,11 +450,10 @@ namespace MKLNET
             vector s = x2 - x1.Reuse();
             vector y = df1.Reuse() - df2;
             double sTy = s.T * y;
-            matrix H = Matrix.Identity(2).Reuse() + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
+            matrix H = Matrix.Identity(x.Length).Reuse() + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
             vector Hy = new(x.Length);
 
-            int MAX_ITER = 30;
-            while (MAX_ITER-- > 0)
+            while (true)
             {
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
@@ -471,23 +470,11 @@ namespace MKLNET
                     return;
                 }
                 s = x2 - x1.Reuse();
-                //Console.WriteLine($"{x2.Array[0]},{x2.Array[1]},{s.Array[0]},{s.Array[1]},{p.Array[0]},{p.Array[1]},{df1.Array[0]},{df1.Array[1]}");
                 y = df1.Reuse() - df2;
                 sTy = s.T * y;
                 Hy = (H * y).Reuse(Hy);
-                if (sTy == 0) System.Diagnostics.Debugger.Break();
                 H = H.Reuse() + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
             }
         }
-
-        //static matrix Test_Numeric_Recipies(matrix H, vector s, vector y)
-        //{
-        //    var sTy = s.T * y;
-        //    using vector Hy = H * y;
-        //    var yTHy = y.T * Hy;
-        //    using vector u = s / sTy - Hy / yTHy;
-        //    H = H + s * s.T / sTy - Hy * Hy.T / yTHy + yTHy * u * u.T;
-        //    return H;
-        //}
     }
 }
