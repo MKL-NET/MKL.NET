@@ -4,14 +4,14 @@ namespace MKLNET.Expression
 {
     public abstract class VectorExpression
     {
-        public abstract vector EvaluateVector();
+        public abstract vector Evaluate();
         public VectorTExpression T =>
               this is VectorTTranspose t ? t.E
             : this is VectorScale s ? new VectorTScale(s.E.T, s.S)
             : new VectorTranspose(this);
         MatrixExpression InputToMatrix()
         {
-            var v = EvaluateVector();
+            var v = Evaluate();
             var m = new matrix(v.Length, 1, v.Array);
             GC.SuppressFinalize(m); // v owns the array, m will never be disposed
             return new MatrixInput(m);
@@ -30,7 +30,7 @@ namespace MKLNET.Expression
             : this is VectorAdd va ? new VectorAdd(va.A, va.B, v.ReuseArray())
             : throw new NotSupportedException();
         public static implicit operator VectorExpression(vector a) => new VectorInput(a);
-        public static implicit operator vector(VectorExpression a) => a.EvaluateVector();
+        public static implicit operator vector(VectorExpression a) => a.Evaluate();
         public static VectorExpression operator +(VectorExpression a, double s) => new VectorAddScalar(a, s);
         public static VectorExpression operator +(double s, VectorExpression a) => new VectorAddScalar(a, s);
         public static VectorExpression operator -(VectorExpression a, double s) => new VectorAddScalar(a, -s);
@@ -46,8 +46,8 @@ namespace MKLNET.Expression
             a is VectorScale sa ? new VectorScale(sa.E, sa.S / s) : new VectorScale(a, 1 / s);
         public static double operator *(VectorTExpression vt, VectorExpression v)
         {
-            var a = vt.EvaluateVector();
-            var b = v.EvaluateVector();
+            var a = vt.Evaluate();
+            var b = v.Evaluate();
             if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
             if (vt is not VectorTInput) a.Dispose();
@@ -59,14 +59,14 @@ namespace MKLNET.Expression
 
     public abstract class VectorTExpression
     {
-        public abstract vectorT EvaluateVector();
+        public abstract vectorT Evaluate();
         public VectorExpression T =>
               this is VectorTranspose t ? t.E
             : this is VectorTScale s ? new VectorScale(s.E.T, s.S)
             : new VectorTTranspose(this);
         MatrixExpression InputToMatrix()
         {
-            var v = EvaluateVector();
+            var v = Evaluate();
             var m = new matrix(1, v.Length, v.Array);
             GC.SuppressFinalize(m); // v owns the array, m will never be disposed
             return new MatrixInput(m);
@@ -87,7 +87,7 @@ namespace MKLNET.Expression
             : this is VectorTSub vs ? new VectorTSub(vs.A, vs.B, v.ReuseArray())
             : throw new NotSupportedException();
         public static implicit operator VectorTExpression(vectorT a) => new VectorTInput(a);
-        public static implicit operator vectorT(VectorTExpression a) => a.EvaluateVector();
+        public static implicit operator vectorT(VectorTExpression a) => a.Evaluate();
         public static VectorTExpression operator +(VectorTExpression a, double s) => new VectorTAddScalar(a, s);
         public static VectorTExpression operator +(double s, VectorTExpression a) => new VectorTAddScalar(a, s);
         public static VectorTExpression operator -(VectorTExpression a, double s) => new VectorTAddScalar(a, -s);
@@ -107,35 +107,35 @@ namespace MKLNET.Expression
     {
         readonly vector V;
         public VectorInput(vector a) => V = a;
-        public override vector EvaluateVector() => V;
+        public override vector Evaluate() => V;
     }
 
     public class VectorTInput : VectorTExpression
     {
         readonly vectorT V;
         public VectorTInput(vectorT a) => V = a;
-        public override vectorT EvaluateVector() => V;
+        public override vectorT Evaluate() => V;
     }
 
     public class VectorReuse : VectorExpression
     {
         readonly vector V;
         public VectorReuse(vector a) => V = a;
-        public override vector EvaluateVector() => V;
+        public override vector Evaluate() => V;
     }
 
     public class VectorTReuse : VectorTExpression
     {
         readonly vectorT V;
         public VectorTReuse(vectorT a) => V = a;
-        public override vectorT EvaluateVector() => V;
+        public override vectorT Evaluate() => V;
     }
 
     public class VectorToMatrix : MatrixExpression
     {
         readonly VectorExpression E;
         public VectorToMatrix(VectorExpression a) => E = a;
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
             vector v = E;
             return new(v.Length, 1, v.ReuseArray());
@@ -146,7 +146,7 @@ namespace MKLNET.Expression
     {
         readonly VectorTExpression E;
         public VectorTToMatrix(VectorTExpression a) => E = a;
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
             vectorT v = E;
             return new(1, v.Length, v.ReuseArray());
@@ -162,7 +162,7 @@ namespace MKLNET.Expression
             E = a;
             S = s;
         }
-        public override vector EvaluateVector()
+        public override vector Evaluate()
         {
             matrix m = E.ToMatrix() * S;
             return new(m.Rows, m.ReuseArray());
@@ -178,7 +178,7 @@ namespace MKLNET.Expression
             E = a;
             S = s;
         }
-        public override vectorT EvaluateVector()
+        public override vectorT Evaluate()
         {
             matrix m = E.ToMatrix() * S;
             return new(m.Cols, m.ReuseArray());
@@ -189,7 +189,7 @@ namespace MKLNET.Expression
     {
         public readonly VectorExpression E;
         public VectorTranspose(VectorExpression a) => E = a;
-        public override vectorT EvaluateVector()
+        public override vectorT Evaluate()
         {
             matrix m = E.ToMatrix().T;
             return new(m.Cols, m.ReuseArray());
@@ -200,7 +200,7 @@ namespace MKLNET.Expression
     {
         public readonly VectorTExpression E;
         public VectorTTranspose(VectorTExpression a) => E = a;
-        public override vector EvaluateVector()
+        public override vector Evaluate()
         {
             matrix m = E.ToMatrix().T;
             return new(m.Rows, m.ReuseArray());
@@ -216,7 +216,7 @@ namespace MKLNET.Expression
             E = a;
             S = s;
         }
-        public override vector EvaluateVector()
+        public override vector Evaluate()
         {
             matrix m = E.ToMatrix() + S;
             return new(m.Rows, m.ReuseArray());
@@ -232,7 +232,7 @@ namespace MKLNET.Expression
             E = a;
             S = s;
         }
-        public override vectorT EvaluateVector()
+        public override vectorT Evaluate()
         {
             matrix m = E.ToMatrix() + S;
             return new(m.Cols, m.ReuseArray());
@@ -249,7 +249,7 @@ namespace MKLNET.Expression
             B = b;
             R = reuse;
         }
-        public override vector EvaluateVector()
+        public override vector Evaluate()
         {
             var e = A.ToMatrix() + B.ToMatrix();
             if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
@@ -269,7 +269,7 @@ namespace MKLNET.Expression
             B = b;
             R = reuse;
         }
-        public override vectorT EvaluateVector()
+        public override vectorT Evaluate()
         {
             var e = A.ToMatrix() + B.ToMatrix();
             if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
@@ -289,10 +289,10 @@ namespace MKLNET.Expression
             B = b;
             R = reuse;
         }
-        public override vector EvaluateVector()
+        public override vector Evaluate()
         {
             var e = A.ToMatrix() - B.ToMatrix();
-            if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
+            if (e is MatrixSubSimple mss) e = new MatrixSubSimple(mss.Ea, mss.Eb, R);
             else if (e is MatrixAdd ma) e = new MatrixAdd(ma.Ea, ma.Transa, ma.Sa, ma.Eb, ma.Transb, ma.Sb, R);
             matrix m = e;
             return new(m.Rows, m.ReuseArray());
@@ -309,10 +309,10 @@ namespace MKLNET.Expression
             B = b;
             R = reuse;
         }
-        public override vectorT EvaluateVector()
+        public override vectorT Evaluate()
         {
             var e = A.ToMatrix() - B.ToMatrix();
-            if (e is MatrixAddSimple mas) e = new MatrixAddSimple(mas.Ea, mas.Eb, R);
+            if (e is MatrixSubSimple mss) e = new MatrixSubSimple(mss.Ea, mss.Eb, R);
             else if (e is MatrixAdd ma) e = new MatrixAdd(ma.Ea, ma.Transa, ma.Sa, ma.Eb, ma.Transb, ma.Sb, R);
             matrix m = e;
             return new(m.Cols, m.ReuseArray());
@@ -330,7 +330,7 @@ namespace MKLNET.Expression
             V = v;
             R = reuse;
         }
-        public override vector EvaluateVector()
+        public override vector Evaluate()
         {
             matrix r = new MatrixMultiply(M, V.ToMatrix(), R);
             return new(r.Rows, r.ReuseArray());
@@ -348,7 +348,7 @@ namespace MKLNET.Expression
             M = m;
             R = reuse;
         }
-        public override vectorT EvaluateVector()
+        public override vectorT Evaluate()
         {
             matrix r = new MatrixMultiply(VT.ToMatrix(), M, R);
             return new(r.Cols, r.ReuseArray());
@@ -359,7 +359,7 @@ namespace MKLNET.Expression
     {
         readonly MatrixExpression E;
         public MatrixToVector(MatrixExpression a) => E = a;
-        public override vector EvaluateVector()
+        public override vector Evaluate()
         {
             matrix i = E;
             return new(i.Rows, i.ReuseArray());
@@ -370,7 +370,7 @@ namespace MKLNET.Expression
     {
         readonly MatrixExpression E;
         public MatrixToVectorT(MatrixExpression a) => E = a;
-        public override vectorT EvaluateVector()
+        public override vectorT Evaluate()
         {
             matrix i = E;
             return new(i.Cols, i.ReuseArray());

@@ -26,7 +26,7 @@ namespace MKLNET
             Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        internal double[] ReuseArray()
+        public double[] ReuseArray()
         {
             GC.SuppressFinalize(this);
             return Array;
@@ -41,7 +41,7 @@ namespace MKLNET
         public static MatrixExpression operator +(matrix a, matrix b) => new MatrixAddSimple(a, b, null);
         public static MatrixExpression operator +(matrix a, MatrixExpression b) => (MatrixExpression)a + b;
         public static MatrixExpression operator +(MatrixExpression a, matrix b) => a + (MatrixExpression)b;
-        public static MatrixExpression operator -(matrix a, matrix b) => new MatrixSubSimple(a, b);
+        public static MatrixExpression operator -(matrix a, matrix b) => new MatrixSubSimple(a, b, null);
         public static MatrixExpression operator -(MatrixExpression a, matrix b) => a - (MatrixExpression)b;
         public static MatrixExpression operator -(matrix a, MatrixExpression b) => (MatrixExpression)a - b;
         public static MatrixExpression operator *(matrix a, double s) => new MatrixScale(a, s);
@@ -148,7 +148,7 @@ namespace MKLNET
 
         public static double Asum(MatrixExpression a)
         {
-            var i = a.EvaluateMatrix();
+            var i = a.Evaluate();
             var r = Blas.asum(i.Length, i.Array, 0, 1);
             if (a is not MatrixInput) i.Dispose();
             return r;
@@ -156,7 +156,7 @@ namespace MKLNET
 
         public static double Nrm2(MatrixExpression a)
         {
-            var i = a.EvaluateMatrix();
+            var i = a.Evaluate();
             var r = Blas.nrm2(i.Length, i.Array, 0, 1);
             if (a is not MatrixInput) i.Dispose();
             return r;
@@ -164,7 +164,7 @@ namespace MKLNET
 
         public static (int, int) Iamax(MatrixExpression a)
         {
-            var i = a.EvaluateMatrix();
+            var i = a.Evaluate();
             int r = Blas.iamax(i.Length, i.Array, 0, 1);
             if (a is not MatrixInput) i.Dispose();
             int col = Math.DivRem(r, i.Rows, out int row);
@@ -173,7 +173,7 @@ namespace MKLNET
 
         public static (int, int) Iamin(MatrixExpression a)
         {
-            var i = a.EvaluateMatrix();
+            var i = a.Evaluate();
             int r = Blas.iamin(i.Length, i.Array, 0, 1);
             if (a is not MatrixInput) i.Dispose();
             int col = Math.DivRem(r, i.Rows, out int row);
@@ -189,7 +189,7 @@ namespace MKLNET
 
         public static (matrix, matrix) SinCos(MatrixExpression a)
         {
-            var sin = a.EvaluateMatrix();
+            var sin = a.Evaluate();
             if (a is MatrixInput) sin = Copy(sin);
             var cos = new matrix(sin.Rows, sin.Cols);
             Vml.SinCos(sin.Length, sin.Array, sin.Array, cos.Array);
@@ -198,7 +198,7 @@ namespace MKLNET
 
         public static double Det(MatrixExpression a)
         {
-            var m = a.EvaluateMatrix();
+            var m = a.Evaluate();
             if (a is MatrixInput) m = Copy(m);
             var ipiv = Pool.Int.Rent(m.Rows);
             ThrowHelper.Check(Lapack.getrf(Layout.ColMajor, m.Rows, m.Rows, m.Array, m.Rows, ipiv));
@@ -212,7 +212,7 @@ namespace MKLNET
 
         public static (matrix, matrix) Modf(MatrixExpression a)
         {
-            var tru = a.EvaluateMatrix();
+            var tru = a.Evaluate();
             if (a is MatrixInput) tru = Copy(tru);
             var rem = new matrix(tru.Rows, tru.Cols);
             Vml.Modf(tru.Length, tru.Array, tru.Array, rem.Array);
@@ -221,7 +221,7 @@ namespace MKLNET
 
         public static (matrix, vector) Eigens(MatrixExpression a)
         {
-            var v = a.EvaluateMatrix();
+            var v = a.Evaluate();
             if (v.Rows != v.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (a is MatrixInput) v = Copy(v);
             var w = new vector(v.Rows);
@@ -229,13 +229,13 @@ namespace MKLNET
             return (v, w);
         }
 
-        public static matrix Identity(int n)
+        public static MatrixExpression Identity(int n)
         {
             var m = new matrix(n, n);
             var a = m.Array;
             for(int i = 0; i < n * n; i++)
                 a[i] = i % (n + 1) == 0 ? 1 : 0;
-            return m;
+            return new MatrixReuse(m);
         }
     }
 }

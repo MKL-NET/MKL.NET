@@ -369,11 +369,12 @@ namespace MKLNET
         public static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, vector p, vector x2)
         {
             var norm = Vector.Nrm2(p);
-            var a = Minimum(atol, rtol, a => {
-                x2 = (x + a / norm * p).Reuse(x2);
+            var a = Minimum(atol, rtol, a =>
+            {
+                x2.Set(x + a / norm * p);
                 return f(x2.Array);
             }, 0);
-            x2 = (x + a / norm * p).Reuse(x2);
+            x2.Set(x + a / norm * p);
         }
 
         /// <summary>
@@ -427,52 +428,40 @@ namespace MKLNET
                 return isMinimum;
             }
 
-            vector df1 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array))
-            {
-                df1.Dispose();
-                return;
-            }
-            vector x2 = new(x.Length, x);
-            vector x1 = Vector.Copy(x2);
-            vector p = Vector.Copy(df1);
-            Minimum_LineSearch(atol, rtol, f, x1, p, x2);
-            vector df2 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array))
-            {
-                x1.Dispose();
-                p.Dispose();
-                df1.Dispose();
-                df2.Dispose();
-                return;
-            }
+            using vector df1 = new(x.Length);
+            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array)) return;
 
-            vector s = x2 - x1.Reuse();
-            vector y = df1.Reuse() - df2;
+            vector x2 = new(x.Length, x);
+            x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
+            using vector x1 = Vector.Copy(x2);
+            using vector p = Vector.Copy(df1);
+            Minimum_LineSearch(atol, rtol, f, x1, p, x2);
+            using vector df2 = new(x.Length);
+            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
+
+            vector s = x1, y = df1; // Alias for the formula below so no need to use using
+
+            s.Set(x2 - x1);
+            y.Set(df1 - df2);
             double sTy = s.T * y;
-            matrix H = Matrix.Identity(x.Length).Reuse() + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
-            vector Hy = new(x.Length);
+            matrix H = Matrix.Identity(x.Length) + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
+            using vector Hy = new(x.Length);
 
             while (true)
             {
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
-                p = (H * df1).Reuse(p);
+                p.Set(H * df1);
                 Minimum_LineSearch(atol, rtol, f, x1, p, x2);
                 if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array))
                 {
-                    x1.Dispose();
-                    p.Dispose();
-                    df1.Dispose();
-                    df2.Dispose();
-                    Hy.Dispose();
                     H.Dispose();
                     return;
                 }
-                s = x2 - x1.Reuse();
-                y = df1.Reuse() - df2;
+                s.Set(x2 - x1);
+                y.Set(df1 - df2);
                 sTy = s.T * y;
-                Hy = (H * y).Reuse(Hy);
+                Hy.Set(H * y);
                 H = H.Reuse() + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
             }
         }

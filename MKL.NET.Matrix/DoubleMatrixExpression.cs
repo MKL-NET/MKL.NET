@@ -4,9 +4,9 @@ namespace MKLNET.Expression
 {
     public abstract class MatrixExpression
     {
-        public abstract matrix EvaluateMatrix();
+        public abstract matrix Evaluate();
         public static implicit operator MatrixExpression(matrix a) => new MatrixInput(a);
-        public static implicit operator matrix(MatrixExpression a) => a.EvaluateMatrix();
+        public static implicit operator matrix(MatrixExpression a) => a.Evaluate();
         public MatrixExpression Reuse(matrix m) =>
               this is MatrixMultiply mm ? new MatrixMultiply(mm.Ea, mm.Eb, m.ReuseArray())
             : throw new NotSupportedException();
@@ -41,7 +41,7 @@ namespace MKLNET.Expression
                                  : (b, false, -1.0);
                 return new MatrixAdd(ea, ta, sa, eb, tb, sb, null);
             }
-            return new MatrixSubSimple(a, b);
+            return new MatrixSubSimple(a, b, null);
         }
         public static MatrixExpression operator *(MatrixExpression a, double s) =>
               a is MatrixScale sa ? new MatrixScale(sa.E, sa.S * s)
@@ -77,14 +77,14 @@ namespace MKLNET.Expression
     {
         readonly protected matrix m;
         public MatrixInput(matrix a) => m = a;
-        public override matrix EvaluateMatrix() => m;
+        public override matrix Evaluate() => m;
     }
 
     public class MatrixReuse : MatrixExpression
     {
         readonly protected matrix m;
         public MatrixReuse(matrix a) => m = a;
-        public override matrix EvaluateMatrix() => m;
+        public override matrix Evaluate() => m;
     }
 
     public class MatrixScale : MatrixExpression
@@ -96,12 +96,12 @@ namespace MKLNET.Expression
             E = a;
             S = s;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
 
             if (E is MatrixTranspose mt)
             {
-                var a = mt.E.EvaluateMatrix();
+                var a = mt.E.Evaluate();
                 if (mt.E is MatrixInput)
                 {
                     var r = new matrix(a.Cols, a.Rows);
@@ -117,7 +117,7 @@ namespace MKLNET.Expression
             }
             else
             {
-                var a = E.EvaluateMatrix();
+                var a = E.Evaluate();
                 if (E is MatrixInput)
                 {
                     var r = new matrix(a.Rows, a.Cols);
@@ -140,9 +140,9 @@ namespace MKLNET.Expression
         {
             E = a;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = E.EvaluateMatrix();
+            var a = E.Evaluate();
             if (E is MatrixInput)
             {
                 var r = new matrix(a.Cols, a.Rows);
@@ -163,9 +163,9 @@ namespace MKLNET.Expression
         readonly MatrixExpression E;
         public MatrixUnary(MatrixExpression a) => E = a;
         protected abstract void Evaluate(matrix a, matrix r);
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = E.EvaluateMatrix();
+            var a = E.Evaluate();
             var r = E is MatrixInput ? new matrix(a.Rows, a.Cols) : a;
             Evaluate(a, r);
             return r;
@@ -181,10 +181,10 @@ namespace MKLNET.Expression
             Eb = b;
         }
         protected abstract void Evaluate(matrix a, matrix b, matrix r);
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = Ea.EvaluateMatrix();
-            var b = Eb.EvaluateMatrix();
+            var a = Ea.Evaluate();
+            var b = Eb.Evaluate();
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = Ea is not MatrixInput ? a
                   : Eb is not MatrixInput ? b
@@ -205,10 +205,10 @@ namespace MKLNET.Expression
             Eb = b;
             R = reuse;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = Ea.EvaluateMatrix();
-            var b = Eb.EvaluateMatrix();
+            var a = Ea.Evaluate();
+            var b = Eb.Evaluate();
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = R is not null ? new matrix(a.Rows, a.Cols, R)
                   : Ea is not MatrixInput ? a
@@ -223,17 +223,20 @@ namespace MKLNET.Expression
     public class MatrixSubSimple : MatrixExpression
     {
         public readonly MatrixExpression Ea, Eb;
-        public MatrixSubSimple(MatrixExpression a, MatrixExpression b)
+        public readonly double[]? R;
+        public MatrixSubSimple(MatrixExpression a, MatrixExpression b, double[]? reuse)
         {
             Ea = a;
             Eb = b;
+            R = reuse;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = Ea.EvaluateMatrix();
-            var b = Eb.EvaluateMatrix();
+            var a = Ea.Evaluate();
+            var b = Eb.Evaluate();
             if (a.Rows != b.Rows || a.Cols != b.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var r = Ea is not MatrixInput ? a
+            var r = R is not null ? new matrix(a.Rows, a.Cols, R)
+                  : Ea is not MatrixInput ? a
                   : Eb is not MatrixInput ? b
                   : new matrix(a.Rows, a.Cols);
             Vml.Sub(a.Length, a.Array, b.Array, r.Array);
@@ -258,10 +261,10 @@ namespace MKLNET.Expression
             Transb = transb;
             R = reuse;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = Ea.EvaluateMatrix();
-            var b = Eb.EvaluateMatrix();
+            var a = Ea.Evaluate();
+            var b = Eb.Evaluate();
             if ((Transa == Transb && (a.Rows != b.Rows || a.Cols != b.Cols))
                || (Transa != Transb && (a.Rows != b.Cols || a.Cols != b.Rows))) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = R is not null ? Transa ? new matrix(a.Cols, a.Rows, R) : new matrix(a.Rows, a.Cols, R)
@@ -284,10 +287,10 @@ namespace MKLNET.Expression
             E = a;
             S = s;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
             var (e, sa) = E is MatrixScale Es ? (Es.E, Es.S) : (E, 1.0);
-            var a = e.EvaluateMatrix();
+            var a = e.Evaluate();
             var r = e is MatrixInput ? new matrix(a.Rows, a.Cols) : a;
             Vml.LinearFrac(a.Length, a.Array, a.Array, sa, S, 0.0, 1.0, r.Array);
             return r;
@@ -304,7 +307,7 @@ namespace MKLNET.Expression
             Eb = b;
             R = reuse;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
             var (ea, ta, sa) = Ea is MatrixScale msa ? (msa.E is MatrixTranspose mta ? (mta.E, Trans.Yes, msa.S) : (msa.E, Trans.No, msa.S))
                              : Ea is MatrixTranspose mta2 ? (mta2.E, Trans.Yes, 1.0)
@@ -312,8 +315,8 @@ namespace MKLNET.Expression
             var (eb, tb, sb) = Eb is MatrixScale msb ? (msb.E is MatrixTranspose mtb ? (mtb.E, Trans.Yes, msb.S) : (msb.E, Trans.No, msb.S))
                              : Eb is MatrixTranspose mtb2 ? (mtb2.E, Trans.Yes, 1.0)
                              : (Eb, Trans.No, 1.0);
-            var a = ea.EvaluateMatrix();
-            var b = eb.EvaluateMatrix();
+            var a = ea.Evaluate();
+            var b = eb.Evaluate();
             var k = ta == Trans.Yes ? a.Rows : a.Cols;
             if (k != (tb == Trans.Yes ? b.Cols : b.Rows)) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             var r = R is null ? new matrix(ta == Trans.Yes ? a.Cols : a.Rows, tb == Trans.Yes ? b.Rows : b.Cols)
@@ -856,9 +859,9 @@ namespace MKLNET.Expression
     {
         readonly MatrixExpression E;
         public MatrixInverse(MatrixExpression a) => E = a;
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = E.EvaluateMatrix();
+            var a = E.Evaluate();
             if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (E is MatrixInput) a = Matrix.Copy(a);
             var ipiv = Pool.Int.Rent(a.Rows);
@@ -873,9 +876,9 @@ namespace MKLNET.Expression
     {
         readonly MatrixExpression E;
         public MatrixLower(MatrixExpression a) => E = a;
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = E.EvaluateMatrix();
+            var a = E.Evaluate();
             if (E is MatrixInput) a = Matrix.Copy(a);
             for (int c = 1; c < a.Cols; c++)
                 for (int r = 0; r < c; r++)
@@ -888,9 +891,9 @@ namespace MKLNET.Expression
     {
         readonly MatrixExpression E;
         public MatrixUpper(MatrixExpression a) => E = a;
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = E.EvaluateMatrix();
+            var a = E.Evaluate();
             if (E is MatrixInput) a = Matrix.Copy(a);
             for (int c = 0; c < a.Cols; c++)
                 for (int r = c + 1; r < a.Rows; r++)
@@ -903,9 +906,9 @@ namespace MKLNET.Expression
     {
         readonly MatrixExpression E;
         public MatrixCholesky(MatrixExpression a) => E = a;
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = new MatrixLower(E).EvaluateMatrix();
+            var a = new MatrixLower(E).Evaluate();
             if (a.Rows != a.Cols) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             ThrowHelper.Check(Lapack.potrf2(Layout.ColMajor, UpLoChar.Lower, a.Rows, a.Array, a.Rows));
             return a;
@@ -920,10 +923,10 @@ namespace MKLNET.Expression
             Ea = a;
             Eb = b;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = Ea.EvaluateMatrix();
-            var b = Eb.EvaluateMatrix();
+            var a = Ea.Evaluate();
+            var b = Eb.Evaluate();
             if (a.Rows != a.Cols || a.Rows != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (Ea is MatrixInput) a = Matrix.Copy(a);
             if (Eb is MatrixInput) b = Matrix.Copy(b);
@@ -943,10 +946,10 @@ namespace MKLNET.Expression
             Ea = a;
             Eb = b;
         }
-        public override matrix EvaluateMatrix()
+        public override matrix Evaluate()
         {
-            var a = Ea.EvaluateMatrix();
-            var b = Eb.EvaluateMatrix();
+            var a = Ea.Evaluate();
+            var b = Eb.Evaluate();
             if (a.Rows != b.Rows) ThrowHelper.ThrowIncorrectDimensionsForOperation();
             if (Ea is MatrixInput) a = Matrix.Copy(a);
             if (Eb is MatrixInput) b = Matrix.Copy(b);

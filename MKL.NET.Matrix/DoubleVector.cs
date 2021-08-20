@@ -18,12 +18,19 @@ namespace MKLNET
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        internal double[] ReuseArray()
+        public double[] ReuseArray()
         {
             GC.SuppressFinalize(this);
             return Array;
         }
         public VectorExpression Reuse() => new VectorReuse(this);
+        public void Set(VectorExpression ve)
+        {
+            if (ve is MatrixVectorMultiply m) new MatrixVectorMultiply(m.M, m.V, Array).Evaluate().ReuseArray();
+            else if (ve is VectorAdd va) new VectorAdd(va.A, va.B, Array).Evaluate().ReuseArray();
+            else if (ve is VectorSub vs) new VectorSub(vs.A, vs.B, Array).Evaluate().ReuseArray();
+            else throw new NotSupportedException();
+        }
         ~vector() => matrix.Pool.Return(Array);
         public double this[int i]
         {
@@ -64,7 +71,7 @@ namespace MKLNET
             matrix.Pool.Return(Array);
             GC.SuppressFinalize(this);
         }
-        internal double[] ReuseArray()
+        public double[] ReuseArray()
         {
             GC.SuppressFinalize(this);
             return Array;
@@ -257,7 +264,7 @@ namespace MKLNET
 
         public static int Iamax(VectorExpression a)
         {
-            var v = a.EvaluateVector();
+            var v = a.Evaluate();
             int r = Blas.iamax(v.Length, v.Array, 0, 1);
             if (a is not VectorInput) v.Dispose();
             return r;
@@ -265,7 +272,7 @@ namespace MKLNET
 
         public static int Iamax(VectorTExpression a)
         {
-            var v = a.EvaluateVector();
+            var v = a.Evaluate();
             int r = Blas.iamax(v.Length, v.Array, 0, 1);
             if (a is not VectorTInput) v.Dispose();
             return r;
@@ -273,7 +280,7 @@ namespace MKLNET
 
         public static int Iamin(VectorExpression a)
         {
-            var vt = a.EvaluateVector();
+            var vt = a.Evaluate();
             int r = Blas.iamin(vt.Length, vt.Array, 0, 1);
             if (a is not VectorInput) vt.Dispose();
             return r;
@@ -281,7 +288,7 @@ namespace MKLNET
 
         public static int Iamin(VectorTExpression a)
         {
-            var vt = a.EvaluateVector();
+            var vt = a.Evaluate();
             int r = Blas.iamin(vt.Length, vt.Array, 0, 1);
             if (a is not VectorTInput) vt.Dispose();
             return r;
@@ -313,7 +320,7 @@ namespace MKLNET
 
         public static (vector, vector) SinCos(VectorExpression a)
         {
-            var sin = a.EvaluateVector();
+            var sin = a.Evaluate();
             if (a is VectorInput) sin = Copy(sin);
             var cos = new vector(sin.Length);
             Vml.SinCos(sin.Length, sin.Array, sin.Array, cos.Array);
@@ -322,7 +329,7 @@ namespace MKLNET
 
         public static (vectorT, vectorT) SinCos(VectorTExpression a)
         {
-            var sin = a.EvaluateVector();
+            var sin = a.Evaluate();
             if (a is VectorTInput) sin = Copy(sin);
             var cos = new vectorT(sin.Length);
             Vml.SinCos(sin.Length, sin.Array, sin.Array, cos.Array);
@@ -331,7 +338,7 @@ namespace MKLNET
 
         public static (vector, vector) Modf(VectorExpression a)
         {
-            var tru = a.EvaluateVector();
+            var tru = a.Evaluate();
             if (a is VectorInput) tru = Copy(tru);
             var rem = new vector(tru.Length);
             Vml.Modf(tru.Length, tru.Array, tru.Array, rem.Array);
@@ -340,7 +347,7 @@ namespace MKLNET
 
         public static (vectorT, vectorT) Modf(VectorTExpression a)
         {
-            var tru = a.EvaluateVector();
+            var tru = a.Evaluate();
             if (a is VectorTInput) tru = Copy(tru);
             var rem = new vectorT(tru.Length);
             Vml.Modf(tru.Length, tru.Array, tru.Array, rem.Array);
