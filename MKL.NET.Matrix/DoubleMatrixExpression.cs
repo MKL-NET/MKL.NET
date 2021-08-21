@@ -7,9 +7,6 @@ namespace MKLNET.Expression
         public abstract matrix Evaluate();
         public static implicit operator MatrixExpression(matrix a) => new MatrixInput(a);
         public static implicit operator matrix(MatrixExpression a) => a.Evaluate();
-        public MatrixExpression Reuse(matrix m) =>
-              this is MatrixMultiply mm ? new MatrixMultiply(mm.Ea, mm.Eb, m.ReuseArray())
-            : throw new NotSupportedException();
         public static MatrixExpression operator +(MatrixExpression a, double s) => new MatrixAddScalar(a, s);
         public static MatrixExpression operator +(double s, MatrixExpression b) => new MatrixAddScalar(b, s);
         public static MatrixExpression operator -(MatrixExpression a, double s) => new MatrixAddScalar(a, -s);

@@ -102,8 +102,10 @@ let all =
 
         test "rosen_5" {
             let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
-            Optimize.Minimum(1e-7, 0.0, Func<_,_> Optimization.Rosenbrock, x);
+            let mutable count = 0
+            Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Rosenbrock x), x);
             for xi in x do
                 Check.close Medium 1.0 xi
+            Check.between 259 260 count
         }
     }

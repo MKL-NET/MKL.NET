@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 using MKLNET.Expression;
 
 namespace MKLNET
@@ -236,6 +237,59 @@ namespace MKLNET
             for(int i = 0; i < n * n; i++)
                 a[i] = i % (n + 1) == 0 ? 1 : 0;
             return new MatrixReuse(m);
+        }
+
+        public static void Symmetric_Multiply_Update(matrix A, vector b, vector c)
+        {
+            Blas.symm(Layout.ColMajor, Side.Left, UpLo.Lower, b.Length, 1, 1, A.Array, A.Rows, b.Array, b.Length, 0, c.Array, c.Length);
+        }
+
+        /// <summary>
+        /// Performs a symmetric rank-k update. C = alpha * A * A.T + beta * C.
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <param name="A"></param>
+        /// <param name="beta"></param>
+        /// <param name="C"></param>
+        public static void Symmetric_Rank_k_Update(double alpha, matrix A, double beta, matrix C)
+        {
+            Blas.syrk(Layout.ColMajor, UpLo.Lower, Trans.No, A.Rows, A.Cols, alpha, A.Array, A.Rows, beta, C.Array, C.Rows);
+        }
+
+        /// <summary>
+        /// Performs a symmetric rank-k update. C = alpha * A * A.T + beta * C.
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <param name="A"></param>
+        /// <param name="beta"></param>
+        /// <param name="C"></param>
+        public static void Symmetric_Rank_k_Update(double alpha, vector A, double beta, matrix C)
+        {
+            Blas.syrk(Layout.ColMajor, UpLo.Lower, Trans.No, A.Length, 1, alpha, A.Array, A.Length, beta, C.Array, C.Rows);
+        }
+
+        /// <summary>
+        /// Performs a symmetric rank-2k update. C = alpha * A * B.T + alpha * B * A.T + beta * C.
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <param name="A"></param>
+        /// <param name="beta"></param>
+        /// <param name="C"></param>
+        public static void Symmetric_Rank_2k_Update(double alpha, matrix A, matrix B, double beta, matrix C)
+        {
+            Blas.syr2k(Layout.ColMajor, UpLo.Lower, Trans.No, A.Rows, A.Cols, alpha, A.Array, A.Rows, B.Array, B.Rows, beta, C.Array, C.Rows);
+        }
+
+        /// <summary>
+        /// Performs a symmetric rank-2k update. C = alpha * A * B.T + alpha * B * A.T + beta * C.
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <param name="A"></param>
+        /// <param name="beta"></param>
+        /// <param name="C"></param>
+        public static void Symmetric_Rank_2k_Update(double alpha, vector A, vector B, double beta, matrix C)
+        {
+            Blas.syr2k(Layout.ColMajor, UpLo.Lower, Trans.No, A.Length, 1, alpha, A.Array, A.Length, B.Array, B.Length, beta, C.Array, C.Rows);
         }
     }
 }

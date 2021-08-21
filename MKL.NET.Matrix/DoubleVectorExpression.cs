@@ -21,14 +21,6 @@ namespace MKLNET.Expression
             : this is VectorTTranspose vt ? vt.E.ToMatrix().T
             : this is VectorScale s ? s.E.ToMatrix() * s.S
             : new VectorToMatrix(this);
-        public VectorExpression Reuse(vector v) =>
-              this is MatrixVectorMultiply m ? new MatrixVectorMultiply(m.M, m.V, v.ReuseArray())
-            : this is VectorAdd va ? new VectorAdd(va.A, va.B, v.ReuseArray())
-            : throw new NotSupportedException();
-        public VectorExpression Reuse(vectorT v) =>
-              this is MatrixVectorMultiply m ? new MatrixVectorMultiply(m.M, m.V, v.ReuseArray())
-            : this is VectorAdd va ? new VectorAdd(va.A, va.B, v.ReuseArray())
-            : throw new NotSupportedException();
         public static implicit operator VectorExpression(vector a) => new VectorInput(a);
         public static implicit operator vector(VectorExpression a) => a.Evaluate();
         public static VectorExpression operator +(VectorExpression a, double s) => new VectorAddScalar(a, s);
@@ -76,16 +68,6 @@ namespace MKLNET.Expression
             : this is VectorTranspose vt ? vt.E.ToMatrix().T
             : this is VectorTScale s ? s.E.ToMatrix() * s.S
             : new VectorTToMatrix(this);
-        public VectorTExpression Reuse(vectorT v) =>
-              this is VectorTMatrixMultiply m ? new VectorTMatrixMultiply(m.VT, m.M, v.ReuseArray())
-            : this is VectorTAdd va ? new VectorTAdd(va.A, va.B, v.ReuseArray())
-            : this is VectorTSub vs ? new VectorTSub(vs.A, vs.B, v.ReuseArray())
-            : throw new NotSupportedException();
-        public VectorTExpression Reuse(vector v) =>
-              this is VectorTMatrixMultiply m ? new VectorTMatrixMultiply(m.VT, m.M, v.ReuseArray())
-            : this is VectorTAdd va ? new VectorTAdd(va.A, va.B, v.ReuseArray())
-            : this is VectorTSub vs ? new VectorTSub(vs.A, vs.B, v.ReuseArray())
-            : throw new NotSupportedException();
         public static implicit operator VectorTExpression(vectorT a) => new VectorTInput(a);
         public static implicit operator vectorT(VectorTExpression a) => a.Evaluate();
         public static VectorTExpression operator +(VectorTExpression a, double s) => new VectorTAddScalar(a, s);

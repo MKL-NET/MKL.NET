@@ -430,7 +430,6 @@ namespace MKLNET
 
             using vector df1 = new(x.Length);
             if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array)) return;
-
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
@@ -438,31 +437,29 @@ namespace MKLNET
             Minimum_LineSearch(atol, rtol, f, x1, p, x2);
             using vector df2 = new(x.Length);
             if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
-
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
-
             s.Set(x2 - x1);
             y.Set(df1 - df2);
             double sTy = s.T * y;
-            matrix H = Matrix.Identity(x.Length) + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
+            // H = I + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
+            using matrix H = Matrix.Identity(x.Length);
+            Matrix.Symmetric_Rank_k_Update((sTy + y.T * y) / sTy / sTy, s, 1, H);
+            Matrix.Symmetric_Rank_2k_Update(-1 / sTy, y, s, 1, H);
             using vector Hy = new(x.Length);
-
             while (true)
             {
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
-                p.Set(H * df1);
+                Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
                 Minimum_LineSearch(atol, rtol, f, x1, p, x2);
-                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array))
-                {
-                    H.Dispose();
-                    return;
-                }
+                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
                 s.Set(x2 - x1);
                 y.Set(df1 - df2);
                 sTy = s.T * y;
-                Hy.Set(H * y);
-                H = H.Reuse() + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
+                Matrix.Symmetric_Multiply_Update(H, y, Hy); // Hy = H * y
+                //H = H + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
+                Matrix.Symmetric_Rank_k_Update((sTy + y.T * Hy) / sTy / sTy, s, 1, H);
+                Matrix.Symmetric_Rank_2k_Update(-1 / sTy, Hy, s, 1, H);
             }
         }
     }
