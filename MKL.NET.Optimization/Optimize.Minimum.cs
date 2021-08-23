@@ -371,7 +371,7 @@ namespace MKLNET
         public static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, vector p, double dx, vector x2)
         {
             var norm = Vector.Nrm2(p);
-            if (norm == 0) System.Diagnostics.Debugger.Break();
+            if (norm == 0) throw new Exception("p is zero");
             var a = Minimum(atol, rtol, a =>
             {
                 x2.Set(x + a / norm * p);
@@ -394,42 +394,42 @@ namespace MKLNET
             static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df)
             {
                 var fx = f(x);
-                bool isMinimum = true;
+                int nonMinimum = -1;
+                double dfi_tol = 0;
                 for (int i = 0; i < x.Length; i++)
                 {
                     var x_i = x[i];
                     var tol = Tol(atol, rtol, x_i);
                     x[i] = x_i - tol;
-                    var dfi = f(x);
-                    x[i] = x_i;
-                    if (dfi < fx)
+                    dfi_tol = f(x);
+                    if (dfi_tol < fx)
                     {
-                        isMinimum = false;
+                        x[i] = x_i;
+                        dfi_tol = (dfi_tol - fx) / tol;
+                        nonMinimum = i;
                         break;
                     }
                     x[i] = x_i + tol;
-                    dfi = f(x);
+                    dfi_tol = f(x);
                     x[i] = x_i;
-                    if (dfi < fx)
+                    if (dfi_tol < fx)
                     {
-                        isMinimum = false;
+                        dfi_tol = (fx - dfi_tol) / tol;
+                        nonMinimum = i;
                         break;
                     }
                 }
-                if (!isMinimum)
+                if (nonMinimum == -1) return true;
+                for (int i = 0; i < x.Length; i++)
                 {
-                    for (int i = 0; i < x.Length; i++)
-                    {
-                        var x_i = x[i];
-                        var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.01;
-                        x[i] = x_i_d;
-                        var dfi = (fx - f(x)) / (x_i_d - x_i);
-                        x[i] = x_i;
-                        df[i] = dfi;
-                    }
+                    var x_i = x[i];
+                    var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.01;
+                    x[i] = x_i_d;
+                    df[i] = (fx - f(x)) / (x_i_d - x_i);
+                    x[i] = x_i;
                 }
-                if (Blas.nrm2(df) == 0) System.Diagnostics.Debugger.Break();
-                return isMinimum;
+                if (Blas.nrm2(x.Length, df, 0, 1) == 0) df[nonMinimum] = dfi_tol;
+                return false;
             }
 
             using vector df1 = new(x.Length);
@@ -443,6 +443,7 @@ namespace MKLNET
             if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
+            double dx = Vector.Nrm2(s);
             y.Set(df1 - df2);
             double sTy = s.T * y;
             // H = I + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
@@ -452,19 +453,31 @@ namespace MKLNET
             using vector Hy = new(x.Length);
             while (true)
             {
-                double dx = Vector.Nrm2(s);
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
                 Minimum_LineSearch(atol, rtol, f, x1, p, dx, x2);
                 if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
                 s.Set(x2 - x1);
+                dx = Vector.Nrm2(s);
+                if (dx == 0) throw new Exception("dx is zero");
                 y.Set(df1 - df2);
                 sTy = s.T * y;
-                Matrix.Symmetric_Multiply_Update(H, y, Hy); // Hy = H * y
-                //H = H + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
-                Matrix.Symmetric_Rank_k_Update((sTy + y.T * Hy) / sTy / sTy, s, 1, H);
-                Matrix.Symmetric_Rank_2k_Update(-1 / sTy, Hy, s, 1, H);
+                //if (sTy == 0) throw new Exception("sTy is zero");
+                if (sTy == 0)
+                {
+                    var n = x.Length;
+                    var ha = H.Array;
+                    for (int i = 0; i < n * n; i++)
+                        ha[i] = i % (n + 1) == 0 ? 1 : 0;
+                }
+                else
+                {
+                    Matrix.Symmetric_Multiply_Update(H, y, Hy); // Hy = H * y
+                    //H = H + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
+                    Matrix.Symmetric_Rank_k_Update((sTy + y.T * Hy) / sTy / sTy, s, 1, H);
+                    Matrix.Symmetric_Rank_2k_Update(-1 / sTy, Hy, s, 1, H);
+                }
             }
         }
     }
@@ -474,4 +487,3 @@ namespace MKLNET
 // TODO: Uphill test?
 // TODO: Accept grad so more accurate than / 100
 // TODO: More tests
-

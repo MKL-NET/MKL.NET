@@ -151,7 +151,7 @@ let all =
         //    for xi in x do
         //        Check.info "x: %.9f" xi
         //        Check.close Medium -2.903534 xi
-        //    Check.between 251 251 count
+        //    Check.between 205 205 count
         //}
 
         test "stybl_5_mathnet" {
