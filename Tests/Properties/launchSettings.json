@@ -2,7 +2,7 @@
   "profiles": {
     "Tests": {
       "commandName": "Project",
-      "commandLineArgs": "optimize_minimum.rosen_5 --info --iter 1 --wait 1000"
+      "commandLineArgs": "optimize_minimum.stybl_5_mklnet --info --iter 1 --wait 1000"
     }
   }
 }

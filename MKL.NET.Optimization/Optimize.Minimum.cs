@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MKLNET.Expression;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace MKLNET
@@ -365,15 +366,17 @@ namespace MKLNET
         /// <param name="f"></param>
         /// <param name="x"></param>
         /// <param name="p"></param>
+        /// <param name="dx"></param>
         /// <param name="x2"></param>
-        public static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, vector p, vector x2)
+        public static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, vector p, double dx, vector x2)
         {
             var norm = Vector.Nrm2(p);
+            if (norm == 0) System.Diagnostics.Debugger.Break();
             var a = Minimum(atol, rtol, a =>
             {
                 x2.Set(x + a / norm * p);
                 return f(x2.Array);
-            }, 0);
+            }, 0, dx * 0.25);
             x2.Set(x + a / norm * p);
         }
 
@@ -418,13 +421,14 @@ namespace MKLNET
                     for (int i = 0; i < x.Length; i++)
                     {
                         var x_i = x[i];
-                        var tol = Tol(atol, rtol, x_i) / 100;
-                        x[i] = x_i + tol;
-                        var dfi = (fx - f(x)) / (x_i + tol - x_i);
+                        var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.01;
+                        x[i] = x_i_d;
+                        var dfi = (fx - f(x)) / (x_i_d - x_i);
                         x[i] = x_i;
                         df[i] = dfi;
                     }
                 }
+                if (Blas.nrm2(df) == 0) System.Diagnostics.Debugger.Break();
                 return isMinimum;
             }
 
@@ -434,7 +438,7 @@ namespace MKLNET
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
-            Minimum_LineSearch(atol, rtol, f, x1, p, x2);
+            Minimum_LineSearch(atol, rtol, f, x1, p, Tol(atol, rtol, x1[0]) * 1000, x2);
             using vector df2 = new(x.Length);
             if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
@@ -448,10 +452,11 @@ namespace MKLNET
             using vector Hy = new(x.Length);
             while (true)
             {
+                double dx = Vector.Nrm2(s);
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
-                Minimum_LineSearch(atol, rtol, f, x1, p, x2);
+                Minimum_LineSearch(atol, rtol, f, x1, p, dx, x2);
                 if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
                 s.Set(x2 - x1);
                 y.Set(df1 - df2);
@@ -464,3 +469,9 @@ namespace MKLNET
         }
     }
 }
+
+// TODO: If df1 = 0 or p = 0 what next
+// TODO: Uphill test?
+// TODO: Accept grad so more accurate than / 100
+// TODO: More tests
+

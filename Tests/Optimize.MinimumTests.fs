@@ -125,22 +125,41 @@ let all =
                 x.[i] <- r.MinimizingPoint.[i]
             count
 
-        test "rosen_5" {
+        test "rosen_5_mklnet" {
             let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
             let mutable count = 0
             Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Rosenbrock x), x);
             for xi in x do
                 Check.info "x: %.9f" xi
                 Check.close Medium 1.0 xi
-            Check.between 251 251 count
+            Check.between 248 248 count
         }
 
-        test "rosen_mathnet_5" {
+        test "rosen_5_mathnet" {
             let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
             let count = MathNet_Minimum 1e-7 Optimization.Rosenbrock x
             for xi in x do
                 Check.info "x: %.9f" xi
                 Check.close Medium 1.0 xi
             Check.between 728 728 count
+        }
+
+        //test "stybl_5_mklnet" {
+        //    let x = [|-1.0; -0.5; -0.5; -0.5; -0.5|]
+        //    let mutable count = 0
+        //    Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.StyblinskiTang x), x);
+        //    for xi in x do
+        //        Check.info "x: %.9f" xi
+        //        Check.close Medium -2.903534 xi
+        //    Check.between 251 251 count
+        //}
+
+        test "stybl_5_mathnet" {
+            let x = [|-1.0; -0.5; -0.5; -0.5; -0.5|]
+            let count = MathNet_Minimum 1e-7 Optimization.StyblinskiTang x
+            for xi in x do
+                Check.info "x: %.9f" xi
+                Check.close Medium -2.903534 xi
+            Check.between 455 455 count
         }
     }

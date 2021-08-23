@@ -10,6 +10,12 @@ public static class Optimization
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static double Cube(double x) => x * x * x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    static double Pow4(double x)
+    {
+        var r = x * x;
+        return r * r;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static double Pow5(double x) => x * x * x * x * x;
     static IEnumerable<int> Range(int start, int step, int finish)
     {
@@ -301,5 +307,16 @@ public static class Optimization
             sum += 100.0 * Sqr(x[i] - Sqr(x[i - 1])) + Sqr(1- x[i - 1]);
         }
         return sum;
+    }
+
+    public static double StyblinskiTang(double[] x)
+    {
+        var sum = 0.0;
+        for (int i = 0; i < x.Length; i++)
+        {
+            var x_i = Math.Max(-5, Math.Min(5, x[i]));
+            sum += Pow4(x_i) - 16 * Sqr(x_i) + 5 * x_i;
+        }
+        return sum * 0.5;
     }
 }
