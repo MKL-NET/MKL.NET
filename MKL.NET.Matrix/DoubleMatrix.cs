@@ -234,14 +234,20 @@ namespace MKLNET
         {
             var m = new matrix(n, n);
             var a = m.Array;
-            for(int i = 0; i < n * n; i++)
+            for (int i = 0; i < n * n; i++)
                 a[i] = i % (n + 1) == 0 ? 1 : 0;
             return new MatrixReuse(m);
         }
 
-        public static void Symmetric_Multiply_Update(matrix A, vector b, vector c)
+        /// <summary>
+        /// Multiply for a symmetric matrix S. c = S * b
+        /// </summary>
+        /// <param name="A"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        public static void Symmetric_Multiply_Update(matrix S, vector b, vector c)
         {
-            Blas.symm(Layout.ColMajor, Side.Left, UpLo.Lower, b.Length, 1, 1, A.Array, A.Rows, b.Array, b.Length, 0, c.Array, c.Length);
+            Blas.symm(Layout.ColMajor, Side.Left, UpLo.Lower, b.Length, 1, 1, S.Array, S.Rows, b.Array, b.Length, 0, c.Array, c.Length);
         }
 
         /// <summary>

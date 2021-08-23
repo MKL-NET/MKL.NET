@@ -272,7 +272,7 @@ namespace MKLNET
         /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a)
         {
-            var b = a + Tol(atol, rtol, a) * 100;
+            var b = a + Tol(atol, rtol, a) * 1000;
             Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }

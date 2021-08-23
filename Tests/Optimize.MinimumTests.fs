@@ -100,12 +100,47 @@ let all =
         test_solver "hybrid_9" 1e-9 minimum (Check.between 2863 2863)
         test_solver "hybrid_11" 1e-11 minimum (Check.between 3947 3947)
 
+        let MathNet_Minimum tol func (x:float[]) =
+            let mutable count = 0
+            let obf = MathNet.Numerics.Optimization.ObjectiveFunction.Gradient(
+                        Func<_,_>(fun v -> count <- count + 1; func(v.AsArray())),
+                        Func<_,_>(fun v ->
+                            let x = v.AsArray()
+                            count <- count + 1
+                            let fx = func x
+                            let r = Array.init x.Length (fun i ->
+                                let x_i = x.[i];
+                                x.[i] <- x_i + tol / 100.0
+                                count <- count + 1
+                                let dfi = (func x - fx) / (x_i + (tol / 100.0) - x_i)
+                                x.[i] <- x_i
+                                dfi
+                            )
+                            MathNet.Numerics.LinearAlgebra.CreateVector.Dense(r)
+                        ))
+            let DOESNT_SEEM_TO_BE_USED = 0.0
+            let r = MathNet.Numerics.Optimization.BfgsMinimizer(tol, tol, DOESNT_SEEM_TO_BE_USED)
+                        .FindMinimum(obf, MathNet.Numerics.LinearAlgebra.CreateVector.Dense(x))
+            for i = 0 to x.Length-1 do
+                x.[i] <- r.MinimizingPoint.[i]
+            count
+
         test "rosen_5" {
             let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
             let mutable count = 0
             Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Rosenbrock x), x);
             for xi in x do
+                Check.info "x: %.9f" xi
                 Check.close Medium 1.0 xi
-            Check.between 259 260 count
+            Check.between 251 251 count
+        }
+
+        test "rosen_mathnet_5" {
+            let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
+            let count = MathNet_Minimum 1e-7 Optimization.Rosenbrock x
+            for xi in x do
+                Check.info "x: %.9f" xi
+                Check.close Medium 1.0 xi
+            Check.between 728 728 count
         }
     }
