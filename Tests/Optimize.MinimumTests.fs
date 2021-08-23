@@ -98,7 +98,7 @@ let all =
 
         test_solver "hybrid_7" 1e-7 minimum (Check.between 2264 2264)
         test_solver "hybrid_9" 1e-9 minimum (Check.between 2863 2863)
-        test_solver "hybrid_11" 1e-11 minimum (Check.between 3947 3947)
+        test_solver "hybrid_11" 1e-11 minimum (Check.between 3947 3953)
 
         let MathNet_Minimum tol func (x:float[]) =
             let mutable count = 0
