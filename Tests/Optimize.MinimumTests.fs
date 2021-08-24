@@ -118,8 +118,7 @@ let all =
                             )
                             MathNet.Numerics.LinearAlgebra.CreateVector.Dense(r)
                         ))
-            let DOESNT_SEEM_TO_BE_USED = 0.0
-            let r = MathNet.Numerics.Optimization.BfgsMinimizer(tol, tol, DOESNT_SEEM_TO_BE_USED)
+            let r = MathNet.Numerics.Optimization.BfgsMinimizer(tol, tol, 0.0)
                         .FindMinimum(obf, MathNet.Numerics.LinearAlgebra.CreateVector.Dense(x))
             for i = 0 to x.Length-1 do
                 x.[i] <- r.MinimizingPoint.[i]
@@ -162,4 +161,142 @@ let all =
                 Check.close Medium -2.903534 xi
             Check.between 455 455 count
         }
+
+        test "beale_mklnet" {
+            let mutable x = 0.0
+            let mutable y = 0.0
+            let mutable count = 0
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Beale(x, y)), &x, &y);
+            Check.info "x: %.9f" x
+            Check.info "y: %.9f" y
+            Check.close Medium 3.0 x
+            Check.close Medium 0.5 y
+            Check.between 146 146 count
+        }
+
+        test "beale_mathnet" {
+            let x = [|0.0; 0.0|]
+            let mutable count = 0
+            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Beale(xi.[0], xi.[1])) x
+            Check.info "x: %.9f" x.[0]
+            Check.info "y: %.9f" x.[1]
+            Check.close Medium 3.0 x.[0]
+            Check.close Medium 0.5 x.[1]
+            Check.between 152 152 count
+        }
+
+        test "goldp_mklnet" {
+            let mutable x = -2.0
+            let mutable y = -2.0
+            let mutable count = 0
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.GoldsteinPrice(x, y)), &x, &y);
+            Check.info "x: %.9f" x
+            Check.info "y: %.9f" y
+            Check.close Medium 0.0 x
+            Check.close Medium -1.0 y
+            Check.between 140 140 count
+        }
+
+        test "goldp_mathnet" {
+            let x = [|-2.0; -2.0|]
+            let mutable count = 0
+            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
+            Check.info "x: %.9f" x.[0]
+            Check.info "y: %.9f" x.[1]
+            Check.close Medium 0.0 x.[0]
+            Check.close Medium -1.0 x.[1]
+            Check.between 296 296 count
+        }
+
+        test "booth_mklnet" {
+            let mutable x = 0.0
+            let mutable y = 0.0
+            let mutable count = 0
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Booth(x, y)), &x, &y);
+            Check.info "x: %.9f" x
+            Check.info "y: %.9f" y
+            Check.close Medium 1.0 x
+            Check.close Medium 3.0 y
+            Check.between 46 46 count
+        }
+
+        test "booth_mathnet" {
+            let x = [|0.0; 0.0|]
+            let mutable count = 0
+            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Booth(xi.[0], xi.[1])) x
+            Check.info "x: %.9f" x.[0]
+            Check.info "y: %.9f" x.[1]
+            Check.close Medium 1.0 x.[0]
+            Check.close Medium 3.0 x.[1]
+            Check.between 112 112 count
+        }
+
+        test "matyas_mklnet" {
+            let mutable x = 1.0
+            let mutable y = -1.0
+            let mutable count = 0
+            Optimize.Minimum(5e-8, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Matyas(x, y)), &x, &y);
+            Check.info "x: %.9f" x
+            Check.info "y: %.9f" y
+            Check.close Medium 0.0 x
+            Check.close Medium 0.0 y
+            Check.between 19 19 count
+        }
+
+        test "matyas_mathnet" {
+            let x = [|1.0; -1.0|]
+            let mutable count = 0
+            let count = MathNet_Minimum 5e-8 (fun xi -> count <- count + 1; Optimization.Matyas(xi.[0], xi.[1])) x
+            Check.info "x: %.9f" x.[0]
+            Check.info "y: %.9f" x.[1]
+            Check.close Medium 0.0 x.[0]
+            Check.close Medium 0.0 x.[1]
+            Check.between 80 80 count
+        }
+
+        test "himmel_mklnet" {
+            let mutable x = 4.0
+            let mutable y = 4.0
+            let mutable count = 0
+            Optimize.Minimum(5e-8, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Himmelblau(x, y)), &x, &y);
+            Check.info "x: %.9f" x
+            Check.info "y: %.9f" y
+            Check.close Medium 3.0 x
+            Check.close Medium 2.0 y
+            Check.between 92 92 count
+        }
+
+        test "himmel_mathnet" {
+            let x = [|4.0; 4.0|]
+            let mutable count = 0
+            let count = MathNet_Minimum 5e-8 (fun xi -> count <- count + 1; Optimization.Himmelblau(xi.[0], xi.[1])) x
+            Check.info "x: %.9f" x.[0]
+            Check.info "y: %.9f" x.[1]
+            Check.close Medium 3.0 x.[0]
+            Check.close Medium 2.0 x.[1]
+            Check.between 180 180 count
+        }
+
+        test "mccorm_mklnet" {
+            let mutable x = 0.0
+            let mutable y = 0.0
+            let mutable count = 0
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.McCormick(x, y)), &x, &y);
+            Check.info "x: %.9f" x
+            Check.info "y: %.9f" y
+            Check.close Medium -0.547197 x
+            Check.close Medium -1.547197 y
+            Check.between 95 95 count
+        }
+
+        //test "mccorm_mathnet" { // fails to find minimum
+        //    let x = [|0.0; 0.0|]
+        //    let mutable count = 0
+        //    let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.McCormick(xi.[0], xi.[1])) x
+        //    Check.info "x: %.9f" x.[0]
+        //    Check.info "y: %.9f" x.[1]
+        //    Check.close Medium -0.547197 x.[0]
+        //    Check.close Medium -1.547197 x.[1]
+        //    Check.between 180 180 count
+        //}
     }

@@ -319,4 +319,35 @@ public static class Optimization
         }
         return sum * 0.5;
     }
+
+    public static double Beale(double x, double y)
+    {
+        return Sqr(1.5 - x + x * y) + Sqr(2.25 - x + x * Sqr(y)) + Sqr(2.625 - x + x * Cube(y));
+    }
+
+    public static double GoldsteinPrice(double x, double y)
+    {
+        return (1 + Sqr(x + y + 1) * (19 - 14 * x + 3 * x * x - 14 * y + 6 * x * y + 3 * y * y))
+             * (30 + Sqr(2 * x - 3 * y) * (18 - 32 * x + 12 * x * x + 48 * y - 36 * x * y + 27 * y * y));
+    }
+
+    public static double Booth(double x, double y)
+    {
+        return Sqr(x + 2 * y - 7) + Sqr(2 * x + y - 5);
+    }
+
+    public static double Matyas(double x, double y)
+    {
+        return 0.26 * (x * x + y * y) - 0.48 * x * y;
+    }
+
+    public static double Himmelblau(double x, double y)
+    {
+        return Sqr(x*x + y - 11) + Sqr(x + y * y - 7);
+    }
+
+    public static double McCormick(double x, double y)
+    {
+        return Math.Sin(x + y) + Sqr(x - y) - 1.5 * x + 2.5 * y + 1;
+    }
 }
