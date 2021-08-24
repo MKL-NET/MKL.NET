@@ -144,15 +144,15 @@ let all =
             Check.between 728 728 count
         }
 
-        //test "stybl_5_mklnet" {
-        //    let x = [|-1.0; -0.5; -0.5; -0.5; -0.5|]
-        //    let mutable count = 0
-        //    Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.StyblinskiTang x), x);
-        //    for xi in x do
-        //        Check.info "x: %.9f" xi
-        //        Check.close Medium -2.903534 xi
-        //    Check.between 205 205 count
-        //}
+        test "stybl_5_mklnet" {
+            let x = [|-1.0; -0.5; -0.5; -0.5; -0.5|]
+            let mutable count = 0
+            Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.StyblinskiTang x), x);
+            for xi in x do
+                Check.info "x: %.9f" xi
+                Check.close Medium -2.903534 xi
+            Check.between 313 313 count
+        }
 
         test "stybl_5_mathnet" {
             let x = [|-1.0; -0.5; -0.5; -0.5; -0.5|]

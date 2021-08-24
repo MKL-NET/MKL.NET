@@ -376,7 +376,7 @@ namespace MKLNET
             {
                 x2.Set(x + a / norm * p);
                 return f(x2.Array);
-            }, 0, dx * 0.25);
+            }, 0, Math.Max(dx * 0.25, atol * 2));
             x2.Set(x + a / norm * p);
         }
 
@@ -391,7 +391,7 @@ namespace MKLNET
         public static void Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
         { // https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
 
-            static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df)
+            static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, bool endGame)
             {
                 var fx = f(x);
                 int nonMinimum = -1;
@@ -420,6 +420,13 @@ namespace MKLNET
                     }
                 }
                 if (nonMinimum == -1) return true;
+                if (endGame)
+                {
+                    for (int i = 0; i < x.Length; i++)
+                        df[i] = 0;
+                    df[nonMinimum] = dfi_tol;
+                    return false;
+                }
                 for (int i = 0; i < x.Length; i++)
                 {
                     var x_i = x[i];
@@ -428,19 +435,19 @@ namespace MKLNET
                     df[i] = (fx - f(x)) / (x_i_d - x_i);
                     x[i] = x_i;
                 }
-                if (Blas.nrm2(x.Length, df, 0, 1) == 0) df[nonMinimum] = dfi_tol;
+                if (Blas.nrm2(x.Length, df, 0, 1) == 0) df[nonMinimum] = dfi_tol; // Could calc the others
                 return false;
             }
 
             using vector df1 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array)) return;
+            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array, false)) return;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
             Minimum_LineSearch(atol, rtol, f, x1, p, Tol(atol, rtol, x1[0]) * 1000, x2);
             using vector df2 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
+            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, false)) return;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -457,13 +464,11 @@ namespace MKLNET
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
                 Minimum_LineSearch(atol, rtol, f, x1, p, dx, x2);
-                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array)) return;
+                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, sTy == 0)) return;
                 s.Set(x2 - x1);
                 dx = Vector.Nrm2(s);
-                if (dx == 0) throw new Exception("dx is zero");
                 y.Set(df1 - df2);
-                sTy = s.T * y;
-                //if (sTy == 0) throw new Exception("sTy is zero");
+                if(sTy != 0) sTy = s.T * y;
                 if (sTy == 0)
                 {
                     var n = x.Length;
