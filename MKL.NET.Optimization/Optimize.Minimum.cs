@@ -485,10 +485,56 @@ namespace MKLNET
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="x1"></param>
+        /// <param name="x2"></param>
+        public static void Minimum(double atol, double rtol, Func<double, double, double> f, ref double x1, ref double x2)
+        {
+            var x = new[] { x1, x2 };
+            Minimum(atol, rtol, (double[] x) => f(x[0], x[1]), x);
+            x1 = x[0];
+            x2 = x[1];
+        }
+
+        /// <summary>
+        /// Solve a non-linear least-squares problem.
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="x"></param>
+        /// <param name="residuals"></param>
+        public static void LeastSquares(double atol, double rtol, Action<double[], double[]> f, double[] x, double[] residuals)
+        {
+            Minimum(atol, rtol, (double[] x) => { f(x, residuals); return Blas.dot(residuals, residuals); }, x);
+        }
+
+        /// <summary>
+        /// Use non-linear least squares to fit a function, f, to data.
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="p"></param>
+        public static void CurveFit(double atol, double rtol, Func<double[], double, double> f, double[] x, double[] y, double[] p)
+        {
+            Minimum(atol, rtol, (double[] param) => {
+                var total = 0.0;
+                for (int i = 0; i < x.Length; i++)
+                {
+                    var y2 = f(param, x[i]);
+                    total += y2 * y2;
+                }
+                return total;
+            }, p);
+        }
     }
 }
-
-// TODO: If df1 = 0 or p = 0 what next
-// TODO: Uphill test?
-// TODO: Accept grad so more accurate than / 100
-// TODO: More tests
