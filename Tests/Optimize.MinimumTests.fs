@@ -192,8 +192,8 @@ let all =
             Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.GoldsteinPrice(x, y)), &x, &y);
             Check.info "x: %.9f" x
             Check.info "y: %.9f" y
-            Check.close Low 0.0 x
-            Check.close Low -1.0 y
+            Check.close Medium 0.0 x
+            Check.close Medium -1.0 y
             Check.between 140 140 count
         }
 
@@ -203,8 +203,8 @@ let all =
             let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
-            Check.close Low 0.0 x.[0]
-            Check.close Low -1.0 x.[1]
+            Check.close Medium 0.0 x.[0]
+            Check.close Medium -1.0 x.[1]
             Check.between 296 296 count
         }
 
@@ -258,23 +258,23 @@ let all =
             let mutable x = 4.0
             let mutable y = 4.0
             let mutable count = 0
-            Optimize.Minimum(5e-8, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Himmelblau(x, y)), &x, &y);
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Himmelblau(x, y)), &x, &y);
             Check.info "x: %.9f" x
             Check.info "y: %.9f" y
             Check.close Medium 3.0 x
             Check.close Medium 2.0 y
-            Check.between 92 92 count
+            Check.between 94 94 count
         }
 
         test "himmel_mathnet" {
             let x = [|4.0; 4.0|]
             let mutable count = 0
-            let count = MathNet_Minimum 5e-8 (fun xi -> count <- count + 1; Optimization.Himmelblau(xi.[0], xi.[1])) x
+            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Himmelblau(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
             Check.close Medium 3.0 x.[0]
             Check.close Medium 2.0 x.[1]
-            Check.between 180 180 count
+            Check.between 176 176 count
         }
 
         test "mccorm_mklnet" {
