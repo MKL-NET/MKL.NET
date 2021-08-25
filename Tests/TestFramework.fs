@@ -707,17 +707,11 @@ module Tests =
             let startTime = Stopwatch.GetTimestamp()
             counts.Tests <- tests.Length
             let rec randomTest (pcg:PCG) =
-                let c = counts.Tests
-                if c=0 then None
+                if counts.Tests=0 then None
                 else
-                    let rec loop i t =
-                        if i = tests.Length then None
-                        else
-                            if tests.[i].Skip=0 && t=0 then Some i
-                            else loop (i+1) (if t=0 then t else t-1)
-                    match loop 0 (int(pcg.Next(uint32 c))) with
-                    | Some test -> Some test
-                    | None -> randomTest pcg
+                    let i = int(pcg.Next(uint32 tests.Length))
+                    if tests.[i].Skip=0 then Some i
+                    else randomTest pcg
             let workers, progress =
                 let skip = List.contains Skip config
                 let stopOnError = List.contains Stop config
