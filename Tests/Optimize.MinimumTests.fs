@@ -131,7 +131,7 @@ let all =
             for xi in x do
                 Check.info "x: %.9f" xi
                 Check.close Medium 1.0 xi
-            Check.between 248 248 count
+            Check.between 246 248 count
         }
 
         test "rosen_5_mathnet" {
