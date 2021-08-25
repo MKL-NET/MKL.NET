@@ -150,7 +150,7 @@ let all =
             for xi in x do
                 Check.info "x: %.9f" xi
                 Check.close Medium -2.903534 xi
-            Check.between 246 246 count
+            Check.between 246 299 count
         }
 
         test "stybl_5_mathnet" {
@@ -171,7 +171,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium 3.0 x
             Check.close Medium 0.5 y
-            Check.between 146 146 count
+            Check.between 146 147 count
         }
 
         test "beale_mathnet" {
@@ -192,8 +192,8 @@ let all =
             Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.GoldsteinPrice(x, y)), &x, &y);
             Check.info "x: %.9f" x
             Check.info "y: %.9f" y
-            Check.close Medium 0.0 x
-            Check.close Medium -1.0 y
+            Check.close Low 0.0 x
+            Check.close Low -1.0 y
             Check.between 140 140 count
         }
 
@@ -203,8 +203,8 @@ let all =
             let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
-            Check.close Medium 0.0 x.[0]
-            Check.close Medium -1.0 x.[1]
+            Check.close Low 0.0 x.[0]
+            Check.close Low -1.0 x.[1]
             Check.between 296 296 count
         }
 
@@ -217,7 +217,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium 1.0 x
             Check.close Medium 3.0 y
-            Check.between 46 46 count
+            Check.between 46 49 count
         }
 
         test "booth_mathnet" {
@@ -263,7 +263,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium 3.0 x
             Check.close Medium 2.0 y
-            Check.between 94 94 count
+            Check.between 94 95 count
         }
 
         test "himmel_mathnet" {
@@ -286,7 +286,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium -0.547197 x
             Check.close Medium -1.547197 y
-            Check.between 95 95 count
+            Check.between 91 103 count
         }
 
         //test "mccorm_mathnet" { // fails to find minimum
