@@ -424,24 +424,24 @@ namespace MKLNET
                 {
                     for (int i = 0; i < x.Length; i++) df[i] = 0;
                     df[nonMinimum] = dfi_tol;
-                    //for (int i = nonMinimum + 1; i < x.Length; i++)
-                    //{
-                    //    var x_i = x[i];
-                    //    var tol = Tol(atol, rtol, x_i);
-                    //    x[i] = x_i - tol;
-                    //    dfi_tol = f(x);
-                    //    if (dfi_tol < fx)
-                    //    {
-                    //        x[i] = x_i;
-                    //        df[i] = (dfi_tol - fx) / tol;
-                    //        break;
-                    //    }
-                    //    x[i] = x_i + tol;
-                    //    dfi_tol = f(x);
-                    //    x[i] = x_i;
-                    //    if (dfi_tol < fx)
-                    //        df[i] = (fx - dfi_tol) / tol;
-                    //}
+                    for (int i = nonMinimum + 1; i < x.Length; i++)
+                    {
+                        var x_i = x[i];
+                        var tol = Tol(atol, rtol, x_i);
+                        x[i] = x_i - tol;
+                        dfi_tol = f(x);
+                        if (dfi_tol < fx)
+                        {
+                            x[i] = x_i;
+                            df[i] = (dfi_tol - fx) / tol;
+                            continue;
+                        }
+                        x[i] = x_i + tol;
+                        dfi_tol = f(x);
+                        x[i] = x_i;
+                        if (dfi_tol < fx)
+                            df[i] = (fx - dfi_tol) / tol;
+                    }
                     return false;
                 }
                 bool allZero = true;
@@ -457,26 +457,26 @@ namespace MKLNET
                 }
                 if (allZero)
                 {
-                    //endGame = true;
+                    endGame = true;
                     df[nonMinimum] = dfi_tol;
-                    //for (int i = nonMinimum + 1; i < x.Length; i++)
-                    //{
-                    //    var x_i = x[i];
-                    //    var tol = Tol(atol, rtol, x_i);
-                    //    x[i] = x_i - tol;
-                    //    dfi_tol = f(x);
-                    //    if (dfi_tol < fx)
-                    //    {
-                    //        x[i] = x_i;
-                    //        df[i] = (dfi_tol - fx) / tol;
-                    //        break;
-                    //    }
-                    //    x[i] = x_i + tol;
-                    //    dfi_tol = f(x);
-                    //    x[i] = x_i;
-                    //    if (dfi_tol < fx)
-                    //        df[i] = (fx - dfi_tol) / tol;
-                    //}
+                    for (int i = nonMinimum + 1; i < x.Length; i++)
+                    {
+                        var x_i = x[i];
+                        var tol = Tol(atol, rtol, x_i);
+                        x[i] = x_i - tol;
+                        dfi_tol = f(x);
+                        if (dfi_tol < fx)
+                        {
+                            x[i] = x_i;
+                            df[i] = (dfi_tol - fx) / tol;
+                            continue;
+                        }
+                        x[i] = x_i + tol;
+                        dfi_tol = f(x);
+                        x[i] = x_i;
+                        if (dfi_tol < fx)
+                            df[i] = (fx - dfi_tol) / tol;
+                    }
                 }
                 return false;
             }
@@ -515,7 +515,6 @@ namespace MKLNET
                 if (sTy == 0 || endGame)
                 {
                     endGame = true;
-                    // end game
                     while (true)
                     {
                         Vector.Copy(x2, x1);
@@ -575,7 +574,8 @@ namespace MKLNET
         /// <param name="p"></param>
         public static void CurveFit(double atol, double rtol, Func<double[], double, double> f, double[] x, double[] y, double[] p)
         {
-            Minimum(atol, rtol, (double[] param) => {
+            Minimum(atol, rtol, (double[] param) =>
+            {
                 var total = 0.0;
                 for (int i = 0; i < x.Length; i++)
                 {
