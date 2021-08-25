@@ -391,7 +391,7 @@ namespace MKLNET
         public static void Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
         { // https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
 
-            static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, bool endGame)
+            static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, ref bool endGame)
             {
                 var fx = f(x);
                 int nonMinimum = -1;
@@ -422,32 +422,75 @@ namespace MKLNET
                 if (nonMinimum == -1) return true;
                 if (endGame)
                 {
-                    for (int i = 0; i < x.Length; i++)
-                        df[i] = 0;
+                    for (int i = 0; i < x.Length; i++) df[i] = 0;
                     df[nonMinimum] = dfi_tol;
+                    //for (int i = nonMinimum + 1; i < x.Length; i++)
+                    //{
+                    //    var x_i = x[i];
+                    //    var tol = Tol(atol, rtol, x_i);
+                    //    x[i] = x_i - tol;
+                    //    dfi_tol = f(x);
+                    //    if (dfi_tol < fx)
+                    //    {
+                    //        x[i] = x_i;
+                    //        df[i] = (dfi_tol - fx) / tol;
+                    //        break;
+                    //    }
+                    //    x[i] = x_i + tol;
+                    //    dfi_tol = f(x);
+                    //    x[i] = x_i;
+                    //    if (dfi_tol < fx)
+                    //        df[i] = (fx - dfi_tol) / tol;
+                    //}
                     return false;
                 }
+                bool allZero = true;
                 for (int i = 0; i < x.Length; i++)
                 {
                     var x_i = x[i];
                     var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.01;
                     x[i] = x_i_d;
-                    df[i] = (fx - f(x)) / (x_i_d - x_i);
+                    var df_i = (fx - f(x)) / (x_i_d - x_i);
+                    df[i] = df_i;
+                    if (df_i != 0) allZero = false;
                     x[i] = x_i;
                 }
-                if (Blas.nrm2(x.Length, df, 0, 1) == 0) df[nonMinimum] = dfi_tol; // Could calc the others
+                if (allZero)
+                {
+                    //endGame = true;
+                    df[nonMinimum] = dfi_tol;
+                    //for (int i = nonMinimum + 1; i < x.Length; i++)
+                    //{
+                    //    var x_i = x[i];
+                    //    var tol = Tol(atol, rtol, x_i);
+                    //    x[i] = x_i - tol;
+                    //    dfi_tol = f(x);
+                    //    if (dfi_tol < fx)
+                    //    {
+                    //        x[i] = x_i;
+                    //        df[i] = (dfi_tol - fx) / tol;
+                    //        break;
+                    //    }
+                    //    x[i] = x_i + tol;
+                    //    dfi_tol = f(x);
+                    //    x[i] = x_i;
+                    //    if (dfi_tol < fx)
+                    //        df[i] = (fx - dfi_tol) / tol;
+                    //}
+                }
                 return false;
             }
 
             using vector df1 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array, false)) return;
+            bool endGame = false;
+            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array, ref endGame)) return;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
             Minimum_LineSearch(atol, rtol, f, x1, p, Tol(atol, rtol, x1[0]) * 1000, x2);
             using vector df2 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, false)) return;
+            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame)) return;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -464,17 +507,23 @@ namespace MKLNET
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
                 Minimum_LineSearch(atol, rtol, f, x1, p, dx, x2);
-                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, sTy == 0)) return;
+                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame)) return;
                 s.Set(x2 - x1);
                 dx = Vector.Nrm2(s);
                 y.Set(df1 - df2);
-                if(sTy != 0) sTy = s.T * y;
-                if (sTy == 0)
+                sTy = s.T * y;
+                if (sTy == 0 || endGame)
                 {
-                    var n = x.Length;
-                    var ha = H.Array;
-                    for (int i = 0; i < n * n; i++)
-                        ha[i] = i % (n + 1) == 0 ? 1 : 0;
+                    endGame = true;
+                    // end game
+                    while (true)
+                    {
+                        Vector.Copy(x2, x1);
+                        Minimum_LineSearch(atol, rtol, f, x1, df2, dx, x2);
+                        if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame)) return;
+                        s.Set(x2 - x1);
+                        dx = Vector.Nrm2(s);
+                    }
                 }
                 else
                 {
