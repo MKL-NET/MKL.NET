@@ -89,7 +89,11 @@ namespace MKLNET
                 var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(x, Fx);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(x, Fx);
+                    }
                     else if (request == CALCULATE_JACOBIAN)
                     {
                         IntPtr jacHandle;
@@ -97,7 +101,10 @@ namespace MKLNET
                         status = djacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
+                            {
+                                if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
                                 F(x, jacRequest == 1 ? f1 : f2);
+                            }
                         djacobi_delete(&jacHandle);
                     }
                     else if (request != ONE_ITERATION)
@@ -133,11 +140,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(x, Fx);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(x, Fx);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -194,8 +209,16 @@ namespace MKLNET
                 var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, &jeps);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(&m, &n, xp, Fxp);
+                    }
+                    else if (request == CALCULATE_JACOBIAN)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        status = djacobi(F, &n, &m, jacp, xp, &jeps);
+                    }
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
@@ -229,11 +252,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(&m, &n, xp, Fxp);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -294,7 +325,11 @@ namespace MKLNET
                 var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(x, Fx);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(x, Fx);
+                    }
                     else if (request == CALCULATE_JACOBIAN)
                     {
                         IntPtr jacHandle;
@@ -302,7 +337,10 @@ namespace MKLNET
                         status = djacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = djacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
+                            {
+                                if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
                                 F(x, jacRequest == 1 ? f1 : f2);
+                            }
                         djacobi_delete(&jacHandle);
                     }
                     else if (request != ONE_ITERATION)
@@ -340,11 +378,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(x, Fx);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(x, Fx);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -409,8 +455,16 @@ namespace MKLNET
                 var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = djacobi(F, &n, &m, jacp, xp, &jeps);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(&m, &n, xp, Fxp);
+                    }
+                    else if (request == CALCULATE_JACOBIAN)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        status = djacobi(F, &n, &m, jacp, xp, &jeps);
+                    }
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
@@ -448,11 +502,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(&m, &n, xp, Fxp);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -515,7 +577,11 @@ namespace MKLNET
                 var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(x, Fx);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(x, Fx);
+                    }
                     else if (request == CALCULATE_JACOBIAN)
                     {
                         IntPtr jacHandle;
@@ -523,7 +589,10 @@ namespace MKLNET
                         status = sjacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = sjacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
+                            {
+                                if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
                                 F(x, jacRequest == 1 ? f1 : f2);
+                            }
                         sjacobi_delete(&jacHandle);
                     }
                     else if (request != ONE_ITERATION)
@@ -559,11 +628,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(x, Fx);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(x, Fx);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -620,8 +697,16 @@ namespace MKLNET
                 var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = sjacobi(F, &n, &m, jacp, xp, &jeps);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(&m, &n, xp, Fxp);
+                    }
+                    else if (request == CALCULATE_JACOBIAN)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        status = sjacobi(F, &n, &m, jacp, xp, &jeps);
+                    }
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
@@ -655,11 +740,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(&m, &n, xp, Fxp);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -720,7 +813,11 @@ namespace MKLNET
                 var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(x, Fx);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(x, Fx);
+                    }
                     else if (request == CALCULATE_JACOBIAN)
                     {
                         IntPtr jacHandle;
@@ -728,7 +825,10 @@ namespace MKLNET
                         status = sjacobi_init(&jacHandle, &n, &m, xp, jacp, &jeps);
                         if (status == SUCCESS)
                             while ((status = sjacobi_solve(&jacHandle, f1p, f2p, &jacRequest)) == SUCCESS && jacRequest != 0)
+                            {
+                                if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
                                 F(x, jacRequest == 1 ? f1 : f2);
+                            }
                         sjacobi_delete(&jacHandle);
                     }
                     else if (request != ONE_ITERATION)
@@ -766,11 +866,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(x, Fx);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(x, Fx);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -835,8 +943,16 @@ namespace MKLNET
                 var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
                 while (status == SUCCESS && (status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
-                    if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                    else if (request == CALCULATE_JACOBIAN) status = sjacobi(F, &n, &m, jacp, xp, &jeps);
+                    if (request == CALCULATE_FUNCTION)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        F(&m, &n, xp, Fxp);
+                    }
+                    else if (request == CALCULATE_JACOBIAN)
+                    {
+                        if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                        status = sjacobi(F, &n, &m, jacp, xp, &jeps);
+                    }
                     else if (request != ONE_ITERATION)
                     {
                         status = request;
@@ -872,11 +988,19 @@ namespace MKLNET
                 IntPtr handle;
                 int request;
                 var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
-                if(status == SUCCESS)
+                if (status == SUCCESS)
                     while ((status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                     {
-                        if (request == CALCULATE_FUNCTION) F(&m, &n, xp, Fxp);
-                        else if (request == CALCULATE_JACOBIAN) J(x, jac);
+                        if (request == CALCULATE_FUNCTION)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            F(&m, &n, xp, Fxp);
+                        }
+                        else if (request == CALCULATE_JACOBIAN)
+                        {
+                            if (double.IsNaN(x[0])) return SolveResult.NAN_PARAMETER;
+                            J(x, jac);
+                        }
                         else if (request != ONE_ITERATION)
                         {
                             status = request;
@@ -927,5 +1051,6 @@ namespace MKLNET
         F_J_S_LESS_THAN_EPS4 = -6,
         INVALID_OPTION = 1502,
         OUT_OF_MEMORY = 1503,
+        NAN_PARAMETER = 10000,
     }
 }

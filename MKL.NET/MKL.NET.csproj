@@ -18,9 +18,9 @@
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
     <PackageReleaseNotes>
-Added Xml documentation file.
+Added NaN parameter handling in Solve.
     </PackageReleaseNotes>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />
