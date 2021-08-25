@@ -194,7 +194,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Low 0.0 x
             Check.close Low -1.0 y
-            Check.between 140 140 count
+            Check.between 140 161 count
         }
 
         test "goldp_mathnet" {
