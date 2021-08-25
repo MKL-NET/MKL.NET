@@ -92,13 +92,13 @@ let all =
 
         test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2721)
         test_solver "hybrid_bracketed_9" 1e-9 minimum_bracketed (Check.between 3216 3235)
-        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4129 4179)
+        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4129 4187)
 
         let minimum (atol, rtol, f:Func<float,float>, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
 
-        test_solver "hybrid_7" 1e-7 minimum (Check.between 2260 2266)
+        test_solver "hybrid_7" 1e-7 minimum (Check.between 2260 2273)
         test_solver "hybrid_9" 1e-9 minimum (Check.between 2850 2863)
-        test_solver "hybrid_11" 1e-11 minimum (Check.between 3927 3953)
+        test_solver "hybrid_11" 1e-11 minimum (Check.between 3867 3953)
 
         let MathNet_Minimum tol func (x:float[]) =
             let mutable count = 0
@@ -194,7 +194,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Low 0.0 x
             Check.close Low -1.0 y
-            Check.between 140 140 count
+            Check.between 140 161 count
         }
 
         test "goldp_mathnet" {
@@ -286,7 +286,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium -0.547197 x
             Check.close Medium -1.547197 y
-            Check.between 95 116 count
+            Check.between 91 116 count
         }
 
         //test "mccorm_mathnet" { // fails to find minimum
