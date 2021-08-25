@@ -38,13 +38,26 @@ namespace MKLNET.Expression
             a is VectorScale sa ? new VectorScale(sa.E, sa.S / s) : new VectorScale(a, 1 / s);
         public static double operator *(VectorTExpression vt, VectorExpression v)
         {
-            var a = vt.Evaluate();
-            var b = v.Evaluate();
-            if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
-            var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
-            if (vt is not VectorTInput) a.Dispose();
-            if (v is not VectorInput) b.Dispose();
-            return r;
+            if (vt is VectorTranspose vtt)
+            {
+                var a = vtt.E.Evaluate();
+                var b = v.Evaluate();
+                if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+                var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
+                if (vtt.E is not VectorInput) a.Dispose();
+                if (v is not VectorInput) b.Dispose();
+                return r;
+            }
+            else
+            {
+                var a = vt.Evaluate();
+                var b = v.Evaluate();
+                if (a.Length != b.Length) ThrowHelper.ThrowIncorrectDimensionsForOperation();
+                var r = Blas.dot(a.Length, a.Array, 0, 1, b.Array, 0, 1);
+                if (vt is not VectorTInput) a.Dispose();
+                if (v is not VectorInput) b.Dispose();
+                return r;
+            }
         }
         public static MatrixExpression operator *(VectorExpression v, VectorTExpression vt) => new MatrixMultiply(v.ToMatrix(), vt.ToMatrix(), null);
     }
