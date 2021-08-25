@@ -90,9 +90,9 @@ let all =
         let minimum_bracketed (atol, rtol, f:Func<_,_>, a, b, c) =
             Optimize.Minimum_Bracketed(atol, rtol, f, a, f.Invoke(a), b, f.Invoke(b), c, f.Invoke(c), Double.PositiveInfinity, 0.0)
 
-        test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2721)
+        test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2722)
         test_solver "hybrid_bracketed_9" 1e-9 minimum_bracketed (Check.between 3215 3235)
-        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4129 4187)
+        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4105 4187)
 
         let minimum (atol, rtol, f:Func<float,float>, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
 
