@@ -15,7 +15,7 @@
 Optimization and root finding based on cross platform MKL.NET.
         </Description>
         <PackageReleaseNotes>
-Added Minimum - minimum finding algorithm in n dimensions. Optimised no array allocation in main loop. ~ 2-3 times fewer function calls than other BFGS algorithms.
+Added Minimum - minimum finding algorithm in N dimensions. Optimised no array allocation in main loop. ~ 2-3 times fewer function calls than other BFGS algorithms.
 Added CurveFit and non-linear LeastSquares.
         </PackageReleaseNotes>
         <Version>0.3.0</Version>
