@@ -110,24 +110,9 @@ namespace MKLNET
             return x;
         }
 
-        /// <summary>
-        /// Brackets a minimum for f given two starting points a and b so that f(a) &lt;= f(b) &gt;= f(c).
-        /// </summary>
-        /// <param name="atol">The absolute tolerance of the root required.</param>
-        /// <param name="rtol">The relative tolerance of the root required.</param>
-        /// <param name="f">The function to bracket the minimum of.</param>
-        /// <param name="a">First input.</param>
-        /// <param name="fa">f(a) output.</param>
-        /// <param name="b">Second input.</param>
-        /// <param name="fb">f(b) output.</param>
-        /// <param name="c">c output.</param>
-        /// <param name="fc">f(c) output.</param>
-        /// <param name="d">Additonal outer point d &lt; a or d &gt; c. Can be infinity if no more than three function evaluations are needed.</param>
-        /// <param name="fd">f(d) output. Can be zero if no more than three function evaluations are needed.</param>
-        public static void Minimum_Bracket(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
-            out double c, out double fc, out double d, out double fd)
+        static void Minimum_Bracket_Fa(double atol, double rtol, Func<double, double> f, ref double a, ref double fa, ref double b, out double fb,
+    out double c, out double fc, out double d, out double fd)
         {
-            fa = f(a);
             fb = f(b);
             if (fa < fb)
             {
@@ -185,6 +170,28 @@ namespace MKLNET
                     }
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Brackets a minimum for f given two starting points a and b so that f(a) &lt;= f(b) &gt;= f(c).
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the root required.</param>
+        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="f">The function to bracket the minimum of.</param>
+        /// <param name="a">First input.</param>
+        /// <param name="fa">f(a) output.</param>
+        /// <param name="b">Second input.</param>
+        /// <param name="fb">f(b) output.</param>
+        /// <param name="c">c output.</param>
+        /// <param name="fc">f(c) output.</param>
+        /// <param name="d">Additonal outer point d &lt; a or d &gt; c. Can be infinity if no more than three function evaluations are needed.</param>
+        /// <param name="fd">f(d) output. Can be zero if no more than three function evaluations are needed.</param>
+        public static void Minimum_Bracket(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
+            out double c, out double fc, out double d, out double fd)
+        {
+            fa = f(a);
+            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out fb, out c, out fc, out d, out fd);
         }
 
         /// <summary>
@@ -262,6 +269,12 @@ namespace MKLNET
         public static double Minimum(double atol, double rtol, Func<double, double> f, double a, double b)
         {
             Minimum_Bracket(atol, rtol, f, ref a, out var fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
+        }
+
+        static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b)
+        {
+            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
@@ -358,25 +371,14 @@ namespace MKLNET
             throw new Exception("Too many iterations in brent");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="x"></param>
-        /// <param name="p"></param>
-        /// <param name="dx"></param>
-        /// <param name="x2"></param>
-        public static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, vector p, double dx, vector x2)
+        static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2)
         {
             var norm = Vector.Nrm2(p);
-            if (norm == 0) throw new Exception("p is zero");
-            var a = Minimum(atol, rtol, a =>
+            var a = Minimum_Fa(atol, rtol, a =>
             {
                 x2.Set(x + a / norm * p);
                 return f(x2.Array);
-            }, 0, Math.Max(dx * 0.25, atol * 2));
+            }, 0, fx, Math.Max(dx, Tol(atol, rtol, Vector.Nrm2(x))) * 0.25);
             x2.Set(x + a / norm * p);
         }
 
@@ -391,9 +393,9 @@ namespace MKLNET
         public static void Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
         { // https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
 
-            static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, ref bool endGame)
+            static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, ref bool endGame, out double fx)
             {
-                var fx = f(x);
+                fx = f(x);
                 int nonMinimum = -1;
                 double dfi_tol = 0;
                 for (int i = 0; i < x.Length; i++)
@@ -420,44 +422,24 @@ namespace MKLNET
                     }
                 }
                 if (nonMinimum == -1) return true;
+                if (!endGame)
+                {
+                    bool allZero = true;
+                    for (int i = 0; i < x.Length; i++)
+                    {
+                        var x_i = x[i];
+                        var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.01;
+                        x[i] = x_i_d;
+                        var df_i = (fx - f(x)) / (x_i_d - x_i);
+                        df[i] = df_i;
+                        if (df_i != 0) allZero = false;
+                        x[i] = x_i;
+                    }
+                    if (allZero) endGame = true;
+                }
                 if (endGame)
                 {
                     for (int i = 0; i < x.Length; i++) df[i] = 0;
-                    df[nonMinimum] = dfi_tol;
-                    for (int i = nonMinimum + 1; i < x.Length; i++)
-                    {
-                        var x_i = x[i];
-                        var tol = Tol(atol, rtol, x_i);
-                        x[i] = x_i - tol;
-                        dfi_tol = f(x);
-                        if (dfi_tol < fx)
-                        {
-                            x[i] = x_i;
-                            df[i] = (dfi_tol - fx) / tol;
-                            continue;
-                        }
-                        x[i] = x_i + tol;
-                        dfi_tol = f(x);
-                        x[i] = x_i;
-                        if (dfi_tol < fx)
-                            df[i] = (fx - dfi_tol) / tol;
-                    }
-                    return false;
-                }
-                bool allZero = true;
-                for (int i = 0; i < x.Length; i++)
-                {
-                    var x_i = x[i];
-                    var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.01;
-                    x[i] = x_i_d;
-                    var df_i = (fx - f(x)) / (x_i_d - x_i);
-                    df[i] = df_i;
-                    if (df_i != 0) allZero = false;
-                    x[i] = x_i;
-                }
-                if (allZero)
-                {
-                    endGame = true;
                     df[nonMinimum] = dfi_tol;
                     for (int i = nonMinimum + 1; i < x.Length; i++)
                     {
@@ -483,14 +465,14 @@ namespace MKLNET
 
             using vector df1 = new(x.Length);
             bool endGame = false;
-            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array, ref endGame)) return;
+            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array, ref endGame, out var fx)) return;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
-            Minimum_LineSearch(atol, rtol, f, x1, p, Tol(atol, rtol, x1[0]) * 1000, x2);
+            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, x1[0]) * 1000, x2);
             using vector df2 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame)) return;
+            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -506,20 +488,23 @@ namespace MKLNET
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
-                Minimum_LineSearch(atol, rtol, f, x1, p, dx, x2);
-                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame)) return;
-                s.Set(x2 - x1);
-                dx = Vector.Nrm2(s);
-                y.Set(df1 - df2);
-                sTy = s.T * y;
-                if (sTy == 0 || endGame)
+                Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2);
+                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
+                if (!endGame)
                 {
-                    endGame = true;
+                    s.Set(x2 - x1);
+                    dx = Vector.Nrm2(s);
+                    y.Set(df1 - df2);
+                    sTy = s.T * y;
+                    if (sTy == 0) endGame = true;
+                }
+                if (endGame)
+                {
                     while (true)
                     {
                         Vector.Copy(x2, x1);
-                        Minimum_LineSearch(atol, rtol, f, x1, df2, dx, x2);
-                        if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame)) return;
+                        Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2);
+                        if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
                         s.Set(x2 - x1);
                         dx = Vector.Nrm2(s);
                     }
@@ -560,7 +545,7 @@ namespace MKLNET
         /// <param name="residuals"></param>
         public static void LeastSquares(double atol, double rtol, Action<double[], double[]> f, double[] x, double[] residuals)
         {
-            Minimum(atol, rtol, (double[] x) => { f(x, residuals); return Blas.dot(residuals, residuals); }, x);
+            Minimum(atol, rtol, (double[] x) => { f(x, residuals); return Blas.nrm2(residuals); }, x);
         }
 
         /// <summary>
@@ -579,7 +564,7 @@ namespace MKLNET
                 var total = 0.0;
                 for (int i = 0; i < x.Length; i++)
                 {
-                    var y2 = f(param, x[i]);
+                    var y2 = f(param, x[i]) - y[i];
                     total += y2 * y2;
                 }
                 return total;
