@@ -176,8 +176,8 @@ namespace MKLNET
         /// <summary>
         /// Brackets a minimum for f given two starting points a and b so that f(a) &lt;= f(b) &gt;= f(c).
         /// </summary>
-        /// <param name="atol">The absolute tolerance of the root required.</param>
-        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The function to bracket the minimum of.</param>
         /// <param name="a">First input.</param>
         /// <param name="fa">f(a) output.</param>
@@ -197,8 +197,8 @@ namespace MKLNET
         /// <summary>
         /// Finds the minimum of f accurate to tol = atol + rtol * x for bracketed inputs a &lt; b &lt; c and f(a) &lt;= f(b) &gt;= f(c).
         /// </summary>
-        /// <param name="atol">The absolute tolerance of the root required.</param>
-        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The function to find the minimum of.</param>
         /// <param name="a">The first function input.</param>
         /// <param name="fa">f(a) input.</param>
@@ -260,8 +260,8 @@ namespace MKLNET
         }
 
         /// <summary>Finds the minimum of f accurate to tol = atol + rtol * x given two starting function inputs.</summary>
-        /// <param name="atol">The absolute tolerance of the root required.</param>
-        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The function to find the minimum of.</param>
         /// <param name="a">The first starting input.</param>
         /// <param name="b">The second starting input.</param>
@@ -279,8 +279,8 @@ namespace MKLNET
         }
 
         /// <summary>Finds the minimum of f accurate to tol = atol + rtol * x given a starting function input.</summary>
-        /// <param name="atol">The absolute tolerance of the root required.</param>
-        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The function to find the minimum of.</param>
         /// <param name="a">The starting input.</param>
         /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
@@ -294,8 +294,8 @@ namespace MKLNET
         /// <summary>
         /// Finds the minimum of f using Brent accurate to tol = atol + rtol * x for bracketed inputs a &lt; b &lt; c and f(a) &lt;= f(b) &gt;= f(c).
         /// </summary>
-        /// <param name="atol">The absolute tolerance of the root required.</param>
-        /// <param name="rtol">The relative tolerance of the root required.</param>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The function to find the minimum of.</param>
         /// <param name="a">The first function input.</param>
         /// <param name="b">The second funtion input and also the minimum.</param>
@@ -382,23 +382,55 @@ namespace MKLNET
             x2.Set(x + a / norm * p);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public static void Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
-        { // https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
-
-            static bool WithinTol_NegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, ref bool endGame, out double fx)
+        static bool WithinTol_CalcNegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, ref bool endGame, out double fx)
+        {
+            fx = f(x);
+            int nonMinimum = -1;
+            double dfi_tol = 0;
+            for (int i = 0; i < x.Length; i++)
             {
-                fx = f(x);
-                int nonMinimum = -1;
-                double dfi_tol = 0;
+                var x_i = x[i];
+                var tol = Tol(atol, rtol, x_i);
+                x[i] = x_i - tol;
+                dfi_tol = f(x);
+                if (dfi_tol < fx)
+                {
+                    x[i] = x_i;
+                    dfi_tol = (dfi_tol - fx) / tol;
+                    nonMinimum = i;
+                    break;
+                }
+                x[i] = x_i + tol;
+                dfi_tol = f(x);
+                x[i] = x_i;
+                if (dfi_tol < fx)
+                {
+                    dfi_tol = (fx - dfi_tol) / tol;
+                    nonMinimum = i;
+                    break;
+                }
+            }
+            if (nonMinimum == -1) return true;
+            if (!endGame)
+            {
+                bool allZero = true;
                 for (int i = 0; i < x.Length; i++)
+                {
+                    var x_i = x[i];
+                    var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.05;
+                    x[i] = x_i_d;
+                    var df_i = (fx - f(x)) / (x_i_d - x_i);
+                    df[i] = df_i;
+                    if (df_i != 0) allZero = false;
+                    x[i] = x_i;
+                }
+                if (allZero) endGame = true;
+            }
+            if (endGame)
+            {
+                for (int i = 0; i < x.Length; i++) df[i] = 0;
+                df[nonMinimum] = dfi_tol;
+                for (int i = nonMinimum + 1; i < x.Length; i++)
                 {
                     var x_i = x[i];
                     var tol = Tol(atol, rtol, x_i);
@@ -407,72 +439,39 @@ namespace MKLNET
                     if (dfi_tol < fx)
                     {
                         x[i] = x_i;
-                        dfi_tol = (dfi_tol - fx) / tol;
-                        nonMinimum = i;
-                        break;
+                        df[i] = (dfi_tol - fx) / tol;
+                        continue;
                     }
                     x[i] = x_i + tol;
                     dfi_tol = f(x);
                     x[i] = x_i;
                     if (dfi_tol < fx)
-                    {
-                        dfi_tol = (fx - dfi_tol) / tol;
-                        nonMinimum = i;
-                        break;
-                    }
+                        df[i] = (fx - dfi_tol) / tol;
                 }
-                if (nonMinimum == -1) return true;
-                if (!endGame)
-                {
-                    bool allZero = true;
-                    for (int i = 0; i < x.Length; i++)
-                    {
-                        var x_i = x[i];
-                        var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.01;
-                        x[i] = x_i_d;
-                        var df_i = (fx - f(x)) / (x_i_d - x_i);
-                        df[i] = df_i;
-                        if (df_i != 0) allZero = false;
-                        x[i] = x_i;
-                    }
-                    if (allZero) endGame = true;
-                }
-                if (endGame)
-                {
-                    for (int i = 0; i < x.Length; i++) df[i] = 0;
-                    df[nonMinimum] = dfi_tol;
-                    for (int i = nonMinimum + 1; i < x.Length; i++)
-                    {
-                        var x_i = x[i];
-                        var tol = Tol(atol, rtol, x_i);
-                        x[i] = x_i - tol;
-                        dfi_tol = f(x);
-                        if (dfi_tol < fx)
-                        {
-                            x[i] = x_i;
-                            df[i] = (dfi_tol - fx) / tol;
-                            continue;
-                        }
-                        x[i] = x_i + tol;
-                        dfi_tol = f(x);
-                        x[i] = x_i;
-                        if (dfi_tol < fx)
-                            df[i] = (fx - dfi_tol) / tol;
-                    }
-                }
-                return false;
             }
+            return false;
+        }
 
+        /// <summary>
+        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="x">The starting position and the minimum position found.</param>
+        /// <returns></returns>
+        public static void Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
+        { // https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
             using vector df1 = new(x.Length);
             bool endGame = false;
-            if (WithinTol_NegGrad(atol, rtol, f, x, df1.Array, ref endGame, out var fx)) return;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x, df1.Array, ref endGame, out var fx)) return;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
-            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, x1[0]) * 1000, x2);
+            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2);
             using vector df2 = new(x.Length);
-            if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -489,7 +488,7 @@ namespace MKLNET
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
                 Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2);
-                if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
+                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
                 if (!endGame)
                 {
                     s.Set(x2 - x1);
@@ -504,60 +503,89 @@ namespace MKLNET
                     {
                         Vector.Copy(x2, x1);
                         Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2);
-                        if (WithinTol_NegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
+                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
                         s.Set(x2 - x1);
                         dx = Vector.Nrm2(s);
                     }
                 }
-                else
-                {
-                    Matrix.Symmetric_Multiply_Update(H, y, Hy); // Hy = H * y
-                    //H = H + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
-                    Matrix.Symmetric_Rank_k_Update((sTy + y.T * Hy) / sTy / sTy, s, 1, H);
-                    Matrix.Symmetric_Rank_2k_Update(-1 / sTy, Hy, s, 1, H);
-                }
+                Matrix.Symmetric_Multiply_Update(H, y, Hy); // Hy = H * y
+                //H = H + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
+                Matrix.Symmetric_Rank_k_Update((sTy + y.T * Hy) / sTy / sTy, s, 1, H);
+                Matrix.Symmetric_Rank_2k_Update(-1 / sTy, Hy, s, 1, H);
             }
         }
 
         /// <summary>
-        /// 
+        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="x1"></param>
-        /// <param name="x2"></param>
-        public static void Minimum(double atol, double rtol, Func<double, double, double> f, ref double x1, ref double x2)
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="x0">The starting position and the minimum position found.</param>
+        /// <param name="x1">The starting position and the minimum position found.</param>
+        public static void Minimum(double atol, double rtol, Func<double, double, double> f, ref double x0, ref double x1)
         {
-            var x = new[] { x1, x2 };
-            Minimum(atol, rtol, (double[] x) => f(x[0], x[1]), x);
-            x1 = x[0];
-            x2 = x[1];
+            var x = new[] { x0, x1 };
+            Minimum(atol, rtol, x => f(x[0], x[1]), x);
+            x0 = x[0]; x1 = x[1];
+        }
+
+        /// <summary>
+        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="x0">The starting position and the minimum position found.</param>
+        /// <param name="x1">The starting position and the minimum position found.</param>
+        /// <param name="x2">The starting position and the minimum position found.</param>
+        public static void Minimum(double atol, double rtol, Func<double, double, double, double> f, ref double x0, ref double x1, ref double x2)
+        {
+            var x = new[] { x0, x1, x2 };
+            Minimum(atol, rtol, x => f(x[0], x[1], x[2]), x);
+            x0 = x[0]; x1 = x[1]; x2 = x[2];
+        }
+
+        /// <summary>
+        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="x0">The starting position and the minimum position found.</param>
+        /// <param name="x1">The starting position and the minimum position found.</param>
+        /// <param name="x2">The starting position and the minimum position found.</param>
+        /// <param name="x3">The starting position and the minimum position found.</param>
+        public static void Minimum(double atol, double rtol, Func<double, double, double, double, double> f, ref double x0, ref double x1, ref double x2, ref double x3)
+        {
+            var x = new[] { x0, x1, x2, x3 };
+            Minimum(atol, rtol, x => f(x[0], x[1], x[2], x[3]), x);
+            x0 = x[0]; x1 = x[1]; x2 = x[2]; x3 = x[3];
         }
 
         /// <summary>
         /// Solve a non-linear least-squares problem.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="x"></param>
-        /// <param name="residuals"></param>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to calculate the residuals.</param>
+        /// <param name="x">The starting position and the minimum position found.</param>
+        /// <param name="residuals">Working residual array.</param>
         public static void LeastSquares(double atol, double rtol, Action<double[], double[]> f, double[] x, double[] residuals)
         {
             Minimum(atol, rtol, (double[] x) => { f(x, residuals); return Blas.nrm2(residuals); }, x);
         }
 
         /// <summary>
-        /// Use non-linear least squares to fit a function, f, to data.
+        /// Use non-linear least squares to fit a function y = f(parameters, x) to data.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="p"></param>
-        public static void CurveFit(double atol, double rtol, Func<double[], double, double> f, double[] x, double[] y, double[] p)
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(parameters, x).</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        /// <param name="parameters">The starting parameters and the best fit parameters found.</param>
+        public static void CurveFit(double atol, double rtol, Func<double[], double, double> f, double[] x, double[] y, double[] parameters)
         {
             Minimum(atol, rtol, (double[] param) =>
             {
@@ -568,7 +596,7 @@ namespace MKLNET
                     total += y2 * y2;
                 }
                 return total;
-            }, p);
+            }, parameters);
         }
     }
 }
