@@ -286,7 +286,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium -0.547197 x
             Check.close Medium -1.547197 y
-            Check.between 91 103 count
+            Check.between 91 114 count
         }
 
         //test "mccorm_mathnet" { // fails to find minimum
