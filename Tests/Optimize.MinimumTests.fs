@@ -131,7 +131,7 @@ let all =
             for xi in x do
                 Check.info "x: %.9f" xi
                 Check.close Medium 1.0 xi
-            Check.between 232 234 count
+            Check.between 212 212 count
         }
 
         test "rosen_5_mathnet" {
@@ -150,7 +150,7 @@ let all =
             for xi in x do
                 Check.info "x: %.9f" xi
                 Check.close Medium -2.903534 xi
-            Check.between 205 246 count
+            Check.between 243 243 count
         }
 
         test "stybl_5_mathnet" {
@@ -171,7 +171,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium 3.0 x
             Check.close Medium 0.5 y
-            Check.between 137 138 count
+            Check.between 123 123 count
         }
 
         test "beale_mathnet" {
@@ -194,7 +194,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Low 0.0 x
             Check.close Low -1.0 y
-            Check.between 132 133 count
+            Check.between 127 127 count
         }
 
         test "goldp_mathnet" {
@@ -217,7 +217,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium 1.0 x
             Check.close Medium 3.0 y
-            Check.between 35 36 count
+            Check.between 34 34 count
         }
 
         test "booth_mathnet" {
@@ -263,7 +263,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium 3.0 x
             Check.close Medium 2.0 y
-            Check.between 88 89 count
+            Check.between 81 81 count
         }
 
         test "himmel_mathnet" {
@@ -286,7 +286,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium -0.547197 x
             Check.close Medium -1.547197 y
-            Check.between 75 76 count
+            Check.between 66 66 count
         }
 
         //test "mccorm_mathnet" { // fails to find minimum

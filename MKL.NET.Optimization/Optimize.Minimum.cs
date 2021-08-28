@@ -373,12 +373,14 @@ namespace MKLNET
 
         static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2)
         {
+            var tol = Tol(atol, rtol, Vector.Nrm2(x));
+            if (dx > tol * 1e5) { atol *= 1e3; rtol *= 1e3; }
             var norm = Vector.Nrm2(p);
             var a = Minimum_Fa(atol, rtol, a =>
             {
                 x2.Set(x + a / norm * p);
                 return f(x2.Array);
-            }, 0, fx, Math.Max(dx, Tol(atol, rtol, Vector.Nrm2(x))) * 0.25);
+            }, 0, fx, Math.Max(dx, tol) * 0.25);
             x2.Set(x + a / norm * p);
         }
 
