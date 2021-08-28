@@ -315,7 +315,7 @@ let all =
             Check.close Medium 1.0 x2
             Check.close Medium 1.0 x3
             Check.close Medium 1.0 x4
-            Check.between 610 610 count
+            Check.between 607 610 count
         }
 
         test "wood_4_mathnet" {
