@@ -299,4 +299,37 @@ let all =
         //    Check.close Medium -1.547197 x.[1]
         //    Check.between 180 180 count
         //}
+
+        test "wood_4_mklnet" {
+            let mutable x1 = -3.0
+            let mutable x2 = -1.0
+            let mutable x3 = -3.0
+            let mutable x4 = -1.0
+            let mutable count = 0
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_,_,_>(fun x1 x2 x3 x4 -> count <- count + 1; Optimization.Wood(x1, x2, x3, x4)), &x1, &x2, &x3, &x4);
+            Check.info "x1: %.9f" x1
+            Check.info "x2: %.9f" x2
+            Check.info "x3: %.9f" x3
+            Check.info "x4: %.9f" x4
+            Check.close Medium 1.0 x1
+            Check.close Medium 1.0 x2
+            Check.close Medium 1.0 x3
+            Check.close Medium 1.0 x4
+            Check.between 610 610 count
+        }
+
+        test "wood_4_mathnet" {
+            let x = [|-3.0; -1.0; -3.0; -1.0|]
+            let mutable count = 0
+            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Wood(xi.[0], xi.[1], xi.[2], xi.[3])) x
+            Check.info "x1: %.9f" x.[0]
+            Check.info "x2: %.9f" x.[1]
+            Check.info "x3: %.9f" x.[2]
+            Check.info "x4: %.9f" x.[3]
+            Check.close Medium 1.0 x.[0]
+            Check.close Medium 1.0 x.[1]
+            Check.close Medium 1.0 x.[2]
+            Check.close Medium 1.0 x.[3]
+            Check.between 924 924 count
+        }
     }

@@ -350,4 +350,9 @@ public static class Optimization
     {
         return Math.Sin(x + y) + Sqr(x - y) - 1.5 * x + 2.5 * y + 1;
     }
+
+    public static double Wood(double x1, double x2, double x3, double x4)
+    {
+        return 100 * Sqr(x2 - x1 * x1) + Sqr(1 - x1) + 90 * Sqr(x4 - x3 * x3) + Sqr(1 - x3) + 10 * Sqr(x2 + x4 - 2) + 0.1 * Sqr(x2 - x4);
+    }
 }

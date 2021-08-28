@@ -455,7 +455,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
+        /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
@@ -463,7 +463,7 @@ namespace MKLNET
         /// <param name="x">The starting position and the minimum position found.</param>
         /// <returns></returns>
         public static void Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
-        { // https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
+        {
             using vector df1 = new(x.Length);
             bool endGame = false;
             if (WithinTol_CalcNegGrad(atol, rtol, f, x, df1.Array, ref endGame, out var fx)) return;
@@ -518,7 +518,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
+        /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
@@ -533,7 +533,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
+        /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
@@ -549,7 +549,7 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// Finds the minimum of n dimensional function f using BFGS accurate to tol x_i = atol + rtol * x_i.
+        /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
