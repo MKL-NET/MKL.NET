@@ -217,7 +217,7 @@ let all =
             Check.info "y: %.9f" y
             Check.close Medium 1.0 x
             Check.close Medium 3.0 y
-            Check.between 33 34 count
+            Check.between 32 34 count
         }
 
         test "booth_mathnet" {
