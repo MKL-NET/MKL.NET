@@ -176,8 +176,7 @@ let all =
 
         test "beale_mathnet" {
             let x = [|0.0; 0.0|]
-            let mutable count = 0
-            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Beale(xi.[0], xi.[1])) x
+            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Beale(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
             Check.close Medium 3.0 x.[0]
@@ -199,8 +198,7 @@ let all =
 
         test "goldp_mathnet" {
             let x = [|-2.0; -2.0|]
-            let mutable count = 0
-            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
+            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
             Check.close Low 0.0 x.[0]
@@ -222,8 +220,7 @@ let all =
 
         test "booth_mathnet" {
             let x = [|0.0; 0.0|]
-            let mutable count = 0
-            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Booth(xi.[0], xi.[1])) x
+            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Booth(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
             Check.close Medium 1.0 x.[0]
@@ -245,8 +242,7 @@ let all =
 
         test "matyas_mathnet" {
             let x = [|1.0; -1.0|]
-            let mutable count = 0
-            let count = MathNet_Minimum 5e-8 (fun xi -> count <- count + 1; Optimization.Matyas(xi.[0], xi.[1])) x
+            let count = MathNet_Minimum 5e-8 (fun xi -> Optimization.Matyas(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
             Check.close Medium 0.0 x.[0]
@@ -268,8 +264,7 @@ let all =
 
         test "himmel_mathnet" {
             let x = [|4.0; 4.0|]
-            let mutable count = 0
-            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Himmelblau(xi.[0], xi.[1])) x
+            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Himmelblau(xi.[0], xi.[1])) x
             Check.info "x: %.9f" x.[0]
             Check.info "y: %.9f" x.[1]
             Check.close Medium 3.0 x.[0]
@@ -300,6 +295,38 @@ let all =
         //    Check.between 180 180 count
         //}
 
+        test "guas_3_mklnet" {
+            let x = [|1.0; 2.0; 1.0|]
+            let mutable count = 0
+            Optimize.CurveFit(1e-7, 0.0, Func<_,_,_>(fun pp xx -> count <- count + 1; Optimization.Gaussian(pp, xx)), Optimization.GaussianT, Optimization.GaussianY, x);
+            count <- count / Optimization.GaussianT.Length
+            Check.info "x1: %.9f" x.[0]
+            Check.info "x2: %.9f" x.[1]
+            Check.info "x3: %.9f" x.[2]
+            Check.close Medium 0.3989561 x.[0]
+            Check.close Low 1.0 x.[1]
+            Check.close Low 0.0 x.[2]
+            Check.between 140 140 count
+        }
+
+        test "guas_3_mathnet" {
+            let x = [|1.0; 2.0; 1.0|]
+            let count = MathNet_Minimum 1e-7 (fun xi ->
+                            let mutable sum = 0.0
+                            for i = 0 to Optimization.GaussianT.Length - 1 do
+                                let d = Optimization.Gaussian(xi, Optimization.GaussianT.[i]) - Optimization.GaussianY.[i]
+                                sum <- sum + d * d
+                            sqrt sum
+                        ) x
+            Check.info "x1: %.9f" x.[0]
+            Check.info "x2: %.9f" x.[1]
+            Check.info "x3: %.9f" x.[2]
+            Check.close Medium 0.3989561 x.[0]
+            Check.close Low 1.0 x.[1]
+            Check.close Low 0.0 x.[2]
+            Check.between 350 350 count
+        }
+
         test "wood_4_mklnet" {
             let mutable x1 = -3.0
             let mutable x2 = -1.0
@@ -320,8 +347,7 @@ let all =
 
         test "wood_4_mathnet" {
             let x = [|-3.0; -1.0; -3.0; -1.0|]
-            let mutable count = 0
-            let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.Wood(xi.[0], xi.[1], xi.[2], xi.[3])) x
+            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Wood(xi.[0], xi.[1], xi.[2], xi.[3])) x
             Check.info "x1: %.9f" x.[0]
             Check.info "x2: %.9f" x.[1]
             Check.info "x3: %.9f" x.[2]

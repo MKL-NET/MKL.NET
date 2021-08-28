@@ -355,4 +355,11 @@ public static class Optimization
     {
         return 100 * Sqr(x2 - x1 * x1) + Sqr(1 - x1) + 90 * Sqr(x4 - x3 * x3) + Sqr(1 - x3) + 10 * Sqr(x2 + x4 - 2) + 0.1 * Sqr(x2 - x4);
     }
+
+    public static double Gaussian(double[] x, double t)
+    {
+        return x[0] * Math.Exp(-0.5 * x[1] * Sqr(t - x[2]));
+    }
+    public static double[] GaussianT = { - 3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5 };
+    public static double[] GaussianY = { 0.0009, 0.0044, 0.0175, 0.0540, 0.1295, 0.2420, 0.3521, 0.3989, 0.3521, 0.2420, 0.1295, 0.0540, 0.0175, 0.0044, 0.0009 };
 }
