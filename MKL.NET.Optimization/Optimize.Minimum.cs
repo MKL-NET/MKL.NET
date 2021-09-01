@@ -455,6 +455,28 @@ namespace MKLNET
         }
 
         /// <summary>
+        /// Bounds an n dimensional function for optimisation by applying a penalty beyond the boundary.
+        /// </summary>
+        /// <param name="f">The n dimensional function to bound.</param>
+        /// <param name="lower">The lower boundary value.</param>
+        /// <param name="upper">The lower boundary value.</param>
+        /// <param name="penalty">The initial penalty value at the boundary.</param>
+        /// <returns>The bounded n dimensional function.</returns>
+        public static Func<double[], double> Bounded(Func<double[], double> f, double[] lower, double[] upper, double penalty = 1e20)
+        {
+            return x =>
+            {
+                double outside = 0.0;
+                for (int i = 0; i < x.Length; i++)
+                {
+                    if (x[i] < lower[i]) outside += Sqr(lower[i] - x[i]);
+                    else if (x[i] > upper[i]) outside += Sqr(x[i] - upper[i]);
+                }
+                return outside == 0.0 ? f(x) : penalty * (Math.Sqrt(outside) + 1.0);
+            };
+        }
+
+        /// <summary>
         /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
@@ -566,39 +588,266 @@ namespace MKLNET
         }
 
         /// <summary>
+        /// Use ordinary least squares to fit a function y = f(p, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p, x).</param>
+        /// <param name="p">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_OLS(double atol, double rtol, Func<double[], double, double> f, double[] p, double[] x, double[] y)
+        {
+            Minimum(atol, rtol, (double[] param) =>
+            {
+                var total = 0.0;
+                for (int i = 0; i < x.Length; i++)
+                    total += Sqr(f(param, x[i]) - y[i]);
+                return total;
+            }, p);
+        }
+
+        /// <summary>
+        /// Use ordinary least squares to fit a function y = f(p, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p, x).</param>
+        /// <param name="p">The starting parameter and the best fit parameter found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_OLS(double atol, double rtol, Func<double, double, double> f,
+            ref double p, double[] x, double[] y)
+        {
+            p = Minimum(atol, rtol, p =>
+            {
+                var total = 0.0;
+                for (int i = 0; i < x.Length; i++)
+                    total += Sqr(f(p, x[i]) - y[i]);
+                return total;
+            }, p);
+        }
+
+        /// <summary>
+        /// Use ordinary least squares to fit a function y = f(p0, p1, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p0, p1, x).</param>
+        /// <param name="p0">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p1">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_OLS(double atol, double rtol, Func<double, double, double, double> f,
+            ref double p0, ref double p1, double[] x, double[] y)
+        {
+            var p = new[] { p0, p1 };
+            CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], x), p, x, y);
+            p0 = p[0]; p1 = p[1];
+        }
+
+        /// <summary>
+        /// Use ordinary least squares to fit a function y = f(p0, p1, p2, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p0, p1, p2, x).</param>
+        /// <param name="p0">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p1">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p2">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_OLS(double atol, double rtol, Func<double, double, double, double, double> f,
+            ref double p0, ref double p1, ref double p2, double[] x, double[] y)
+        {
+            var p = new[] { p0, p1, p2 };
+            CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], p[2], x), p, x, y);
+            p0 = p[0]; p1 = p[1]; p2 = p[2];
+        }
+
+        /// <summary>
+        /// Use ordinary least squares to fit a function y = f(p0, p1, p2, p3, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p0, p1, p2, p3, x).</param>
+        /// <param name="p0">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p1">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p2">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p3">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_OLS(double atol, double rtol, Func<double, double, double, double, double, double> f,
+            ref double p0, ref double p1, ref double p2, ref double p3, double[] x, double[] y)
+        {
+            var p = new[] { p0, p1, p2, p3 };
+            CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], p[2], p[3], x), p, x, y);
+            p0 = p[0]; p1 = p[1]; p2 = p[2]; p3 = p[3];
+        }
+
+        /// <summary>
+        /// Use least absolute deviation to fit a function y = f(p, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p, x).</param>
+        /// <param name="p">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_LAD(double atol, double rtol, Func<double[], double, double> f, double[] p, double[] x, double[] y)
+        {
+            Minimum(atol, rtol, (double[] param) =>
+            {
+                var total = 0.0;
+                for (int i = 0; i < x.Length; i++)
+                    total += Math.Abs(f(param, x[i]) - y[i]);
+                return total;
+            }, p);
+        }
+
+        /// <summary>
+        /// Use least absolute deviation to fit a function y = f(p, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p, x).</param>
+        /// <param name="p">The starting parameter and the best fit parameter found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_LAD(double atol, double rtol, Func<double, double, double> f,
+            ref double p, double[] x, double[] y)
+        {
+            p = Minimum(atol, rtol, p =>
+            {
+                var total = 0.0;
+                for (int i = 0; i < x.Length; i++)
+                    total += Math.Abs(f(p, x[i]) - y[i]);
+                return total;
+            }, p);
+        }
+
+        /// <summary>
+        /// Use least absolute deviation to fit a function y = f(p0, p1, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p0, p1, x).</param>
+        /// <param name="p0">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p1">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_LAD(double atol, double rtol, Func<double, double, double, double> f,
+            ref double p0, ref double p1, double[] x, double[] y)
+        {
+            var p = new[] { p0, p1 };
+            CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], x), p, x, y);
+            p0 = p[0]; p1 = p[1];
+        }
+
+        /// <summary>
+        /// Use least absolute deviation to fit a function y = f(p0, p1, p2, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p0, p1, p2, x).</param>
+        /// <param name="p0">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p1">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p2">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_LAD(double atol, double rtol, Func<double, double, double, double, double> f,
+            ref double p0, ref double p1, ref double p2, double[] x, double[] y)
+        {
+            var p = new[] { p0, p1, p2 };
+            CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], p[2], x), p, x, y);
+            p0 = p[0]; p1 = p[1]; p2 = p[2];
+        }
+
+        /// <summary>
+        /// Use least absolute deviation to fit a function y = f(p0, p1, p2, p3, x) to data.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The function to fit y = f(p0, p1, p2, p3, x).</param>
+        /// <param name="p0">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p1">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p2">The starting parameters and the best fit parameters found.</param>
+        /// <param name="p3">The starting parameters and the best fit parameters found.</param>
+        /// <param name="x">The x data values.</param>
+        /// <param name="y">The y data values.</param>
+        public static void CurveFit_LAD(double atol, double rtol, Func<double, double, double, double, double, double> f,
+            ref double p0, ref double p1, ref double p2, ref double p3, double[] x, double[] y)
+        {
+            var p = new[] { p0, p1, p2, p3 };
+            CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], p[2], p[3], x), p, x, y);
+            p0 = p[0]; p1 = p[1]; p2 = p[2]; p3 = p[3];
+        }
+
+        /// <summary>
         /// Solve a non-linear least-squares problem.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The n dimensional function to calculate the residuals.</param>
         /// <param name="x">The starting position and the minimum position found.</param>
-        /// <param name="residuals">Working residual array.</param>
+        /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
         public static void LeastSquares(double atol, double rtol, Action<double[], double[]> f, double[] x, double[] residuals)
         {
-            Minimum(atol, rtol, (double[] x) => { f(x, residuals); return Blas.nrm2(residuals); }, x);
+            Minimum(atol, rtol, x => { f(x, residuals); return Blas.nrm2(residuals); }, x);
         }
 
         /// <summary>
-        /// Use non-linear least squares to fit a function y = f(parameters, x) to data.
+        /// Solve a non-linear least-squares problem.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
-        /// <param name="f">The function to fit y = f(parameters, x).</param>
-        /// <param name="x">The x data values.</param>
-        /// <param name="y">The y data values.</param>
-        /// <param name="parameters">The starting parameters and the best fit parameters found.</param>
-        public static void CurveFit(double atol, double rtol, Func<double[], double, double> f, double[] x, double[] y, double[] parameters)
+        /// <param name="f">The n dimensional function to calculate the residuals.</param>
+        /// <param name="x0">The starting position and the minimum position found.</param>
+        /// <param name="x1">The starting position and the minimum position found.</param>
+        /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
+        public static void LeastSquares(double atol, double rtol, Action<double, double, double[]> f,
+            ref double x0, ref double x1, double[] residuals)
         {
-            Minimum(atol, rtol, (double[] param) =>
-            {
-                var total = 0.0;
-                for (int i = 0; i < x.Length; i++)
-                {
-                    var y2 = f(param, x[i]) - y[i];
-                    total += y2 * y2;
-                }
-                return total;
-            }, parameters);
+            var x = new[] { x0, x1 };
+            LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], r), x, residuals);
+            x0 = x[0]; x1 = x[1];
+        }
+
+        /// <summary>
+        /// Solve a non-linear least-squares problem.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to calculate the residuals.</param>
+        /// <param name="x0">The starting position and the minimum position found.</param>
+        /// <param name="x1">The starting position and the minimum position found.</param>
+        /// <param name="x2">The starting position and the minimum position found.</param>
+        /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
+        public static void LeastSquares(double atol, double rtol, Action<double, double, double, double[]> f,
+            ref double x0, ref double x1, ref double x2, double[] residuals)
+        {
+            var x = new[] { x0, x1, x2 };
+            LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], x[2], r), x, residuals);
+            x0 = x[0]; x1 = x[1]; x2 = x[2];
+        }
+
+        /// <summary>
+        /// Solve a non-linear least-squares problem.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to calculate the residuals.</param>
+        /// <param name="x0">The starting position and the minimum position found.</param>
+        /// <param name="x1">The starting position and the minimum position found.</param>
+        /// <param name="x2">The starting position and the minimum position found.</param>
+        /// <param name="x3">The starting position and the minimum position found.</param>
+        /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
+        public static void LeastSquares(double atol, double rtol, Action<double, double, double, double, double[]> f,
+            ref double x0, ref double x1, ref double x2, ref double x3, double[] residuals)
+        {
+            var x = new[] { x0, x1, x2, x3 };
+            LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], x[2], x[3], r), x, residuals);
+            x0 = x[0]; x1 = x[1]; x2 = x[2]; x3 = x[3];
         }
     }
 }

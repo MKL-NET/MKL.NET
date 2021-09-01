@@ -298,7 +298,7 @@ let all =
         test "guas_3_mklnet" {
             let x = [|1.0; 2.0; 1.0|]
             let mutable count = 0
-            Optimize.CurveFit(1e-7, 0.0, Func<_,_,_>(fun pp xx -> count <- count + 1; Optimization.Gaussian(pp, xx)), Optimization.GaussianT, Optimization.GaussianY, x);
+            Optimize.CurveFit_OLS(1e-7, 0.0, Func<_,_,_>(fun p x -> count <- count + 1; Optimization.Gaussian(p, x)), x, Optimization.GaussianT, Optimization.GaussianY);
             count <- count / Optimization.GaussianT.Length
             Check.info "x1: %.9f" x.[0]
             Check.info "x2: %.9f" x.[1]
