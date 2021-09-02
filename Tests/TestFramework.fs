@@ -689,8 +689,8 @@ module Tests =
                                 | None -> 0.0, None
                                 | Some(rs,seed) ->
                                     let m = Message "Duration " + Numeric((1000.0*me.Median/double Stopwatch.Frequency).ToString("#0.000")) +
-                                            "ms[-" + Numeric((1000.0*me.LowerQuartile/double Stopwatch.Frequency).ToString("#0.000")) +
-                                            "..+" + Numeric((1000.0*me.UpperQuartile/double Stopwatch.Frequency).ToString("#0.000")) + "]"
+                                            "ms[" + Numeric((1000.0*me.LowerQuartile/double Stopwatch.Frequency).ToString("#0.000")) +
+                                            ".." + Numeric((1000.0*me.UpperQuartile/double Stopwatch.Frequency).ToString("#0.000")) + "]"
                                     let time = TestText.toText m |> Text.toANSI |> Information
                                     me.Median, testResultWriteLine config t.Name (time::rs,seed)
                             ) tests mes

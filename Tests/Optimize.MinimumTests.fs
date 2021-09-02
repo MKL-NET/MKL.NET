@@ -370,4 +370,42 @@ let all =
             Check.between 2304 2304 count
             Check.close High 0.0 ols
         }
+
+        test "bound_20_mklnet" {
+            let n = 20
+            let h = 1.0 / float(n + 1)
+            let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
+            let mutable count = 0
+            let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Boundary x), x)
+            Check.between 585 585 count
+            Check.close High 0.0 ols
+        }
+
+        test "bound_20_mathnet" {
+            let n = 20
+            let h = 1.0 / float(n + 1)
+            let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
+            let count, ols = MathNet_Minimum 1e-7 Optimization.Boundary x
+            Check.between 1430 1430 count
+            Check.close High 0.0 ols
+        }
+
+        test "integ_75_mklnet" {
+            let n = 75
+            let h = 1.0 / float(n + 1)
+            let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
+            let mutable count = 0
+            let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Integral x), x)
+            Check.between 239 239 count
+            Check.close High 0.0 ols
+        }
+
+        test "integ_75_mathnet" {
+            let n = 75
+            let h = 1.0 / float(n + 1)
+            let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
+            let count, ols = MathNet_Minimum 1e-7 Optimization.Integral x
+            Check.between 1463 1463 count
+            Check.close High 0.0 ols
+        }
     }

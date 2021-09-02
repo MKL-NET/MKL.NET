@@ -304,7 +304,7 @@ public static class Optimization
         var sum = 0.0;
         for (int i = 1; i < x.Length; i++)
         {
-            sum += 100.0 * Sqr(x[i] - Sqr(x[i - 1])) + Sqr(1- x[i - 1]);
+            sum += 100.0 * Sqr(x[i] - Sqr(x[i - 1])) + Sqr(1 - x[i - 1]);
         }
         return sum;
     }
@@ -343,7 +343,7 @@ public static class Optimization
 
     public static double Himmelblau(double x, double y)
     {
-        return Sqr(x*x + y - 11) + Sqr(x + y * y - 7);
+        return Sqr(x * x + y - 11) + Sqr(x + y * y - 7);
     }
 
     public static double McCormick(double x, double y)
@@ -360,7 +360,7 @@ public static class Optimization
     {
         return x[0] * Math.Exp(-0.5 * x[1] * Sqr(t - x[2]));
     }
-    public static double[] GaussianT = { - 3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5 };
+    public static double[] GaussianT = { -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5 };
     public static double[] GaussianY = { 0.0009, 0.0044, 0.0175, 0.0540, 0.1295, 0.2420, 0.3521, 0.3989, 0.3521, 0.2420, 0.1295, 0.0540, 0.0175, 0.0044, 0.0009 };
 
     public static double Osbourne(double[] x, double t)
@@ -378,6 +378,35 @@ public static class Optimization
             total += Sqr((3 - 2 * x[i]) * x[i] - x[i - 1] - 2 * x[i + 1] + 1);
         }
         total += Sqr((3 - 2 * x[x.Length - 1]) * x[x.Length - 1] - x[x.Length - 2] + 1);
+        return total;
+    }
+
+    public static double Boundary(double[] x)
+    {
+        var h = 1 / (x.Length + 1);
+        var total = Sqr(2 * x[0] - x[1] + h * h * Cube(x[0] + h + 1) * 0.5);
+        for (int i = 1; i < x.Length - 1; i++)
+        {
+            total += Sqr(2 * x[i] - x[i - 1] - x[i + 1] + h * h * Cube(x[i] + (i + 1) * h + 1) * 0.5);
+        }
+        total += Sqr(2 * x[x.Length - 1] - x[x.Length - 2] + h * h * Cube(x[x.Length - 1] + x.Length * h + 1) * 0.5);
+        return total;
+    }
+
+    public static double Integral(double[] x)
+    {
+        var h = 1 / (x.Length + 1);
+        double t(int i) => i * h;
+        double xi(int i) => i == 0 ? 0 : i == x.Length ? 0 : x[i];
+        var total = 0.0;
+        for (int i = 1; i <= x.Length; i++)
+        {
+            var sum1 = 0.0;
+            for (int j = 1; j <= i; j++) sum1 += t(j) * Cube(xi(j) + t(j) + 1);
+            var sum2 = 0.0;
+            for (int j = i + 1; j <= x.Length; j++) sum2 += (1 - t(j)) * Cube(xi(j) + t(j) + 1);
+            total += Sqr(xi(i) + h * ((1 - t(i)) * sum1 + t(i) * sum2)) * 0.5;
+        }
         return total;
     }
 }
