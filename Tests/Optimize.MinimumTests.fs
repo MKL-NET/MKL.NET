@@ -122,23 +122,21 @@ let all =
                         .FindMinimum(obf, MathNet.Numerics.LinearAlgebra.CreateVector.Dense(x))
             for i = 0 to x.Length-1 do
                 x.[i] <- r.MinimizingPoint.[i]
-            count
+            count, r.FunctionInfoAtMinimum.Value
 
         test "rosen_5_mklnet" {
             let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Rosenbrock x), x);
+            Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Rosenbrock x), x) |> ignore
             for xi in x do
-                Check.info "x: %.9f" xi
                 Check.close Medium 1.0 xi
             Check.between 212 215 count
         }
 
         test "rosen_5_mathnet" {
             let x = [|1.3; 0.7; 0.8; 1.9; 1.2|]
-            let count = MathNet_Minimum 1e-7 Optimization.Rosenbrock x
+            let count,_ = MathNet_Minimum 1e-7 Optimization.Rosenbrock x
             for xi in x do
-                Check.info "x: %.9f" xi
                 Check.close Medium 1.0 xi
             Check.between 728 728 count
         }
@@ -146,18 +144,16 @@ let all =
         test "stybl_5_mklnet" {
             let x = [|-1.0; -0.5; -0.5; -0.5; -0.5|]
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.StyblinskiTang x), x);
+            Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.StyblinskiTang x), x) |> ignore
             for xi in x do
-                Check.info "x: %.9f" xi
                 Check.close Medium -2.903534 xi
             Check.between 206 256 count
         }
 
         test "stybl_5_mathnet" {
             let x = [|-1.0; -0.5; -0.5; -0.5; -0.5|]
-            let count = MathNet_Minimum 1e-7 Optimization.StyblinskiTang x
+            let count,_ = MathNet_Minimum 1e-7 Optimization.StyblinskiTang x
             for xi in x do
-                Check.info "x: %.9f" xi
                 Check.close Medium -2.903534 xi
             Check.between 455 455 count
         }
@@ -166,9 +162,7 @@ let all =
             let mutable x = 0.0
             let mutable y = 0.0
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Beale(x, y)), &x, &y);
-            Check.info "x: %.9f" x
-            Check.info "y: %.9f" y
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Beale(x, y)), &x, &y) |> ignore
             Check.close Medium 3.0 x
             Check.close Medium 0.5 y
             Check.between 123 123 count
@@ -176,9 +170,7 @@ let all =
 
         test "beale_mathnet" {
             let x = [|0.0; 0.0|]
-            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Beale(xi.[0], xi.[1])) x
-            Check.info "x: %.9f" x.[0]
-            Check.info "y: %.9f" x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Beale(xi.[0], xi.[1])) x
             Check.close Medium 3.0 x.[0]
             Check.close Medium 0.5 x.[1]
             Check.between 152 152 count
@@ -188,9 +180,7 @@ let all =
             let mutable x = -2.0
             let mutable y = -2.0
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.GoldsteinPrice(x, y)), &x, &y);
-            Check.info "x: %.9f" x
-            Check.info "y: %.9f" y
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.GoldsteinPrice(x, y)), &x, &y) |> ignore
             Check.close Low 0.0 x
             Check.close Low -1.0 y
             Check.between 125 127 count
@@ -198,9 +188,7 @@ let all =
 
         test "goldp_mathnet" {
             let x = [|-2.0; -2.0|]
-            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
-            Check.info "x: %.9f" x.[0]
-            Check.info "y: %.9f" x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
             Check.close Low 0.0 x.[0]
             Check.close Low -1.0 x.[1]
             Check.between 296 296 count
@@ -210,9 +198,7 @@ let all =
             let mutable x = 0.0
             let mutable y = 0.0
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Booth(x, y)), &x, &y);
-            Check.info "x: %.9f" x
-            Check.info "y: %.9f" y
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Booth(x, y)), &x, &y) |> ignore
             Check.close Medium 1.0 x
             Check.close Medium 3.0 y
             Check.between 32 34 count
@@ -220,9 +206,7 @@ let all =
 
         test "booth_mathnet" {
             let x = [|0.0; 0.0|]
-            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Booth(xi.[0], xi.[1])) x
-            Check.info "x: %.9f" x.[0]
-            Check.info "y: %.9f" x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Booth(xi.[0], xi.[1])) x
             Check.close Medium 1.0 x.[0]
             Check.close Medium 3.0 x.[1]
             Check.between 112 112 count
@@ -232,9 +216,7 @@ let all =
             let mutable x = 1.0
             let mutable y = -1.0
             let mutable count = 0
-            Optimize.Minimum(5e-8, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Matyas(x, y)), &x, &y);
-            Check.info "x: %.9f" x
-            Check.info "y: %.9f" y
+            Optimize.Minimum(5e-8, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Matyas(x, y)), &x, &y) |> ignore
             Check.close Medium 0.0 x
             Check.close Medium 0.0 y
             Check.between 18 18 count
@@ -242,9 +224,7 @@ let all =
 
         test "matyas_mathnet" {
             let x = [|1.0; -1.0|]
-            let count = MathNet_Minimum 5e-8 (fun xi -> Optimization.Matyas(xi.[0], xi.[1])) x
-            Check.info "x: %.9f" x.[0]
-            Check.info "y: %.9f" x.[1]
+            let count,_ = MathNet_Minimum 5e-8 (fun xi -> Optimization.Matyas(xi.[0], xi.[1])) x
             Check.close Medium 0.0 x.[0]
             Check.close Medium 0.0 x.[1]
             Check.between 80 80 count
@@ -254,9 +234,7 @@ let all =
             let mutable x = 4.0
             let mutable y = 4.0
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Himmelblau(x, y)), &x, &y);
-            Check.info "x: %.9f" x
-            Check.info "y: %.9f" y
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.Himmelblau(x, y)), &x, &y) |> ignore
             Check.close Medium 3.0 x
             Check.close Medium 2.0 y
             Check.between 81 81 count
@@ -264,9 +242,7 @@ let all =
 
         test "himmel_mathnet" {
             let x = [|4.0; 4.0|]
-            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Himmelblau(xi.[0], xi.[1])) x
-            Check.info "x: %.9f" x.[0]
-            Check.info "y: %.9f" x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Himmelblau(xi.[0], xi.[1])) x
             Check.close Medium 3.0 x.[0]
             Check.close Medium 2.0 x.[1]
             Check.between 176 176 count
@@ -276,9 +252,7 @@ let all =
             let mutable x = 0.0
             let mutable y = 0.0
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.McCormick(x, y)), &x, &y);
-            Check.info "x: %.9f" x
-            Check.info "y: %.9f" y
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.McCormick(x, y)), &x, &y) |> ignore
             Check.close Medium -0.547197 x
             Check.close Medium -1.547197 y
             Check.between 66 66 count
@@ -298,33 +272,23 @@ let all =
         test "guas_3_mklnet" {
             let x = [|1.0; 2.0; 1.0|]
             let mutable count = 0
-            Optimize.CurveFit_OLS(1e-7, 0.0, Func<_,_,_>(fun p x -> count <- count + 1; Optimization.Gaussian(p, x)), x, Optimization.GaussianT, Optimization.GaussianY);
+            let ols = Optimize.CurveFit_OLS(1e-7, 0.0, Func<_,_,_>(fun p x -> count <- count + 1; Optimization.Gaussian(p, x)), x, Optimization.GaussianT, Optimization.GaussianY)
             count <- count / Optimization.GaussianT.Length
-            Check.info "x1: %.9f" x.[0]
-            Check.info "x2: %.9f" x.[1]
-            Check.info "x3: %.9f" x.[2]
-            Check.close Medium 0.3989561 x.[0]
-            Check.close Low 1.0 x.[1]
-            Check.close Low 0.0 x.[2]
             Check.between 140 140 count
+            Check.close Medium 1.12793e-8 ols
         }
 
         test "guas_3_mathnet" {
             let x = [|1.0; 2.0; 1.0|]
-            let count = MathNet_Minimum 1e-7 (fun xi ->
-                            let mutable sum = 0.0
-                            for i = 0 to Optimization.GaussianT.Length - 1 do
-                                let d = Optimization.Gaussian(xi, Optimization.GaussianT.[i]) - Optimization.GaussianY.[i]
-                                sum <- sum + d * d
-                            sqrt sum
-                        ) x
-            Check.info "x1: %.9f" x.[0]
-            Check.info "x2: %.9f" x.[1]
-            Check.info "x3: %.9f" x.[2]
-            Check.close Medium 0.3989561 x.[0]
-            Check.close Low 1.0 x.[1]
-            Check.close Low 0.0 x.[2]
-            Check.between 350 350 count
+            let count, ols = MathNet_Minimum 1e-7 (fun xi ->
+                                let mutable sum = 0.0
+                                for i = 0 to Optimization.GaussianT.Length - 1 do
+                                    let d = Optimization.Gaussian(xi, Optimization.GaussianT.[i]) - Optimization.GaussianY.[i]
+                                    sum <- sum + d * d
+                                sum
+                             ) x
+            Check.between 150 150 count
+            Check.close Medium 1.12793e-8 ols
         }
 
         test "wood_4_mklnet" {
@@ -333,11 +297,7 @@ let all =
             let mutable x3 = -3.0
             let mutable x4 = -1.0
             let mutable count = 0
-            Optimize.Minimum(1e-7, 0.0, Func<_,_,_,_,_>(fun x1 x2 x3 x4 -> count <- count + 1; Optimization.Wood(x1, x2, x3, x4)), &x1, &x2, &x3, &x4);
-            Check.info "x1: %.9f" x1
-            Check.info "x2: %.9f" x2
-            Check.info "x3: %.9f" x3
-            Check.info "x4: %.9f" x4
+            Optimize.Minimum(1e-7, 0.0, Func<_,_,_,_,_>(fun x1 x2 x3 x4 -> count <- count + 1; Optimization.Wood(x1, x2, x3, x4)), &x1, &x2, &x3, &x4) |> ignore
             Check.close Medium 1.0 x1
             Check.close Medium 1.0 x2
             Check.close Medium 1.0 x3
@@ -347,15 +307,67 @@ let all =
 
         test "wood_4_mathnet" {
             let x = [|-3.0; -1.0; -3.0; -1.0|]
-            let count = MathNet_Minimum 1e-7 (fun xi -> Optimization.Wood(xi.[0], xi.[1], xi.[2], xi.[3])) x
-            Check.info "x1: %.9f" x.[0]
-            Check.info "x2: %.9f" x.[1]
-            Check.info "x3: %.9f" x.[2]
-            Check.info "x4: %.9f" x.[3]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Wood(xi.[0], xi.[1], xi.[2], xi.[3])) x
             Check.close Medium 1.0 x.[0]
             Check.close Medium 1.0 x.[1]
             Check.close Medium 1.0 x.[2]
             Check.close Medium 1.0 x.[3]
             Check.between 924 924 count
+        }
+
+        test "osbo_11_mklnet" {
+            let x = [|1.3; 0.65; 0.65; 0.7; 0.6; 3.0; 5.0; 7.0; 2.0; 4.5; 5.5|]
+            let mutable count = 0
+            let ols = Optimize.CurveFit_OLS(1e-7, 0.0, Func<_,_,_>(fun p x -> count <- count + 1; Optimization.Osbourne(p, x)), x, Optimization.OsbourneT, Optimization.OsbourneY)
+            count <- count / Optimization.OsbourneT.Length
+            Check.between 1025 1025 count
+            Check.close Medium 0.0401377 ols
+        }
+
+        test "osbo_11_mathnet" {
+            let x = [|1.3; 0.65; 0.65; 0.7; 0.6; 3.0; 5.0; 7.0; 2.0; 4.5; 5.5|]
+            let count, ols = MathNet_Minimum 1e-7 (fun xi ->
+                                let mutable sum = 0.0
+                                for i = 0 to Optimization.OsbourneT.Length - 1 do
+                                    let d = Optimization.Osbourne(xi, Optimization.OsbourneT.[i]) - Optimization.OsbourneY.[i]
+                                    sum <- sum + d * d
+                                sum
+                             ) x
+            Check.between 1287 1287 count
+            Check.close Medium 0.0401377 ols
+        }
+
+        test "broyd_5_mklnet" {
+            let n = 5
+            let x = Array.create n -1.0
+            let mutable count = 0
+            let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Broyden x), x)
+            Check.between 164 164 count
+            Check.close High 0.0 ols
+        }
+
+        test "broyd_5_mathnet" {
+            let n = 5
+            let x = Array.create n -1.0
+            let count, ols = MathNet_Minimum 1e-7 Optimization.Broyden x
+            Check.between 392 392 count
+            Check.close High 0.0 ols
+        }
+
+        test "broyd_16_mklnet" {
+            let n = 16
+            let x = Array.create n -1.0
+            let mutable count = 0
+            let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Broyden x), x)
+            Check.between 581 581 count
+            Check.close High 0.0 ols
+        }
+
+        test "broyd_16_mathnet" {
+            let n = 16
+            let x = Array.create n -1.0
+            let count, ols = MathNet_Minimum 1e-7 Optimization.Broyden x
+            Check.between 2304 2304 count
+            Check.close High 0.0 ols
         }
     }

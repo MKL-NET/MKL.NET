@@ -483,19 +483,19 @@ namespace MKLNET
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The n dimensional function to find the minimum of.</param>
         /// <param name="x">The starting position and the minimum position found.</param>
-        /// <returns></returns>
-        public static void Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
+        /// <returns>f(x) at the minimum position found.</returns>
+        public static double Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
         {
             using vector df1 = new(x.Length);
             bool endGame = false;
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x, df1.Array, ref endGame, out var fx)) return;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x, df1.Array, ref endGame, out var fx)) return fx;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
             Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2);
             using vector df2 = new(x.Length);
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return fx;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -512,7 +512,7 @@ namespace MKLNET
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
                 Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2);
-                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
+                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return fx;
                 if (!endGame)
                 {
                     s.Set(x2 - x1);
@@ -527,7 +527,7 @@ namespace MKLNET
                     {
                         Vector.Copy(x2, x1);
                         Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2);
-                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return;
+                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return fx;
                         s.Set(x2 - x1);
                         dx = Vector.Nrm2(s);
                     }
@@ -547,11 +547,13 @@ namespace MKLNET
         /// <param name="f">The n dimensional function to find the minimum of.</param>
         /// <param name="x0">The starting position and the minimum position found.</param>
         /// <param name="x1">The starting position and the minimum position found.</param>
-        public static void Minimum(double atol, double rtol, Func<double, double, double> f, ref double x0, ref double x1)
+        /// <returns>f(x) at the minimum position found.</returns>
+        public static double Minimum(double atol, double rtol, Func<double, double, double> f, ref double x0, ref double x1)
         {
             var x = new[] { x0, x1 };
-            Minimum(atol, rtol, x => f(x[0], x[1]), x);
+            var fx = Minimum(atol, rtol, x => f(x[0], x[1]), x);
             x0 = x[0]; x1 = x[1];
+            return fx;
         }
 
         /// <summary>
@@ -563,11 +565,13 @@ namespace MKLNET
         /// <param name="x0">The starting position and the minimum position found.</param>
         /// <param name="x1">The starting position and the minimum position found.</param>
         /// <param name="x2">The starting position and the minimum position found.</param>
-        public static void Minimum(double atol, double rtol, Func<double, double, double, double> f, ref double x0, ref double x1, ref double x2)
+        /// <returns>f(x) at the minimum position found.</returns>
+        public static double Minimum(double atol, double rtol, Func<double, double, double, double> f, ref double x0, ref double x1, ref double x2)
         {
             var x = new[] { x0, x1, x2 };
-            Minimum(atol, rtol, x => f(x[0], x[1], x[2]), x);
+            var fx = Minimum(atol, rtol, x => f(x[0], x[1], x[2]), x);
             x0 = x[0]; x1 = x[1]; x2 = x[2];
+            return fx;
         }
 
         /// <summary>
@@ -580,11 +584,13 @@ namespace MKLNET
         /// <param name="x1">The starting position and the minimum position found.</param>
         /// <param name="x2">The starting position and the minimum position found.</param>
         /// <param name="x3">The starting position and the minimum position found.</param>
-        public static void Minimum(double atol, double rtol, Func<double, double, double, double, double> f, ref double x0, ref double x1, ref double x2, ref double x3)
+        /// <returns>f(x) at the minimum position found.</returns>
+        public static double Minimum(double atol, double rtol, Func<double, double, double, double, double> f, ref double x0, ref double x1, ref double x2, ref double x3)
         {
             var x = new[] { x0, x1, x2, x3 };
-            Minimum(atol, rtol, x => f(x[0], x[1], x[2], x[3]), x);
+            var fx = Minimum(atol, rtol, x => f(x[0], x[1], x[2], x[3]), x);
             x0 = x[0]; x1 = x[1]; x2 = x[2]; x3 = x[3];
+            return fx;
         }
 
         /// <summary>
@@ -596,9 +602,10 @@ namespace MKLNET
         /// <param name="p">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_OLS(double atol, double rtol, Func<double[], double, double> f, double[] p, double[] x, double[] y)
+        /// <returns>least squares total at the best fit.</returns>
+        public static double CurveFit_OLS(double atol, double rtol, Func<double[], double, double> f, double[] p, double[] x, double[] y)
         {
-            Minimum(atol, rtol, (double[] param) =>
+            return Minimum(atol, rtol, (double[] param) =>
             {
                 var total = 0.0;
                 for (int i = 0; i < x.Length; i++)
@@ -638,12 +645,14 @@ namespace MKLNET
         /// <param name="p1">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_OLS(double atol, double rtol, Func<double, double, double, double> f,
+        /// <returns>least squares total at the best fit.</returns>
+        public static double CurveFit_OLS(double atol, double rtol, Func<double, double, double, double> f,
             ref double p0, ref double p1, double[] x, double[] y)
         {
             var p = new[] { p0, p1 };
-            CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], x), p, x, y);
+            var ols = CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], x), p, x, y);
             p0 = p[0]; p1 = p[1];
+            return ols;
         }
 
         /// <summary>
@@ -657,12 +666,14 @@ namespace MKLNET
         /// <param name="p2">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_OLS(double atol, double rtol, Func<double, double, double, double, double> f,
+        /// <returns>least squares total at the best fit.</returns>
+        public static double CurveFit_OLS(double atol, double rtol, Func<double, double, double, double, double> f,
             ref double p0, ref double p1, ref double p2, double[] x, double[] y)
         {
             var p = new[] { p0, p1, p2 };
-            CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], p[2], x), p, x, y);
+            var ols = CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], p[2], x), p, x, y);
             p0 = p[0]; p1 = p[1]; p2 = p[2];
+            return ols;
         }
 
         /// <summary>
@@ -677,12 +688,14 @@ namespace MKLNET
         /// <param name="p3">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_OLS(double atol, double rtol, Func<double, double, double, double, double, double> f,
+        /// <returns>least squares total at the best fit.</returns>
+        public static double CurveFit_OLS(double atol, double rtol, Func<double, double, double, double, double, double> f,
             ref double p0, ref double p1, ref double p2, ref double p3, double[] x, double[] y)
         {
             var p = new[] { p0, p1, p2, p3 };
-            CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], p[2], p[3], x), p, x, y);
+            var ols = CurveFit_OLS(atol, rtol, (p, x) => f(p[0], p[1], p[2], p[3], x), p, x, y);
             p0 = p[0]; p1 = p[1]; p2 = p[2]; p3 = p[3];
+            return ols;
         }
 
         /// <summary>
@@ -694,9 +707,10 @@ namespace MKLNET
         /// <param name="p">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_LAD(double atol, double rtol, Func<double[], double, double> f, double[] p, double[] x, double[] y)
+        /// <returns>least absolute deviation at the best fit.</returns>
+        public static double CurveFit_LAD(double atol, double rtol, Func<double[], double, double> f, double[] p, double[] x, double[] y)
         {
-            Minimum(atol, rtol, (double[] param) =>
+            return Minimum(atol, rtol, (double[] param) =>
             {
                 var total = 0.0;
                 for (int i = 0; i < x.Length; i++)
@@ -736,12 +750,14 @@ namespace MKLNET
         /// <param name="p1">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_LAD(double atol, double rtol, Func<double, double, double, double> f,
+        /// <returns>least absolute deviation at the best fit.</returns>
+        public static double CurveFit_LAD(double atol, double rtol, Func<double, double, double, double> f,
             ref double p0, ref double p1, double[] x, double[] y)
         {
             var p = new[] { p0, p1 };
-            CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], x), p, x, y);
+            var lad = CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], x), p, x, y);
             p0 = p[0]; p1 = p[1];
+            return lad;
         }
 
         /// <summary>
@@ -755,12 +771,14 @@ namespace MKLNET
         /// <param name="p2">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_LAD(double atol, double rtol, Func<double, double, double, double, double> f,
+        /// <returns>least absolute deviation at the best fit.</returns>
+        public static double CurveFit_LAD(double atol, double rtol, Func<double, double, double, double, double> f,
             ref double p0, ref double p1, ref double p2, double[] x, double[] y)
         {
             var p = new[] { p0, p1, p2 };
-            CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], p[2], x), p, x, y);
+            var lad = CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], p[2], x), p, x, y);
             p0 = p[0]; p1 = p[1]; p2 = p[2];
+            return lad;
         }
 
         /// <summary>
@@ -775,12 +793,14 @@ namespace MKLNET
         /// <param name="p3">The starting parameters and the best fit parameters found.</param>
         /// <param name="x">The x data values.</param>
         /// <param name="y">The y data values.</param>
-        public static void CurveFit_LAD(double atol, double rtol, Func<double, double, double, double, double, double> f,
+        /// <returns>least absolute deviation at the best fit.</returns>
+        public static double CurveFit_LAD(double atol, double rtol, Func<double, double, double, double, double, double> f,
             ref double p0, ref double p1, ref double p2, ref double p3, double[] x, double[] y)
         {
             var p = new[] { p0, p1, p2, p3 };
-            CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], p[2], p[3], x), p, x, y);
+            var lad = CurveFit_LAD(atol, rtol, (p, x) => f(p[0], p[1], p[2], p[3], x), p, x, y);
             p0 = p[0]; p1 = p[1]; p2 = p[2]; p3 = p[3];
+            return lad;
         }
 
         /// <summary>
@@ -791,9 +811,10 @@ namespace MKLNET
         /// <param name="f">The n dimensional function to calculate the residuals.</param>
         /// <param name="x">The starting position and the minimum position found.</param>
         /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
-        public static void LeastSquares(double atol, double rtol, Action<double[], double[]> f, double[] x, double[] residuals)
+        /// <returns>least squares total at the best fit.</returns>
+        public static double LeastSquares(double atol, double rtol, Action<double[], double[]> f, double[] x, double[] residuals)
         {
-            Minimum(atol, rtol, x => { f(x, residuals); return Blas.nrm2(residuals); }, x);
+            return Minimum(atol, rtol, x => { f(x, residuals); return Blas.dot(residuals, residuals); }, x);
         }
 
         /// <summary>
@@ -805,12 +826,14 @@ namespace MKLNET
         /// <param name="x0">The starting position and the minimum position found.</param>
         /// <param name="x1">The starting position and the minimum position found.</param>
         /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
-        public static void LeastSquares(double atol, double rtol, Action<double, double, double[]> f,
+        /// <returns>least squares total at the best fit.</returns>
+        public static double LeastSquares(double atol, double rtol, Action<double, double, double[]> f,
             ref double x0, ref double x1, double[] residuals)
         {
             var x = new[] { x0, x1 };
-            LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], r), x, residuals);
+            var ols = LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], r), x, residuals);
             x0 = x[0]; x1 = x[1];
+            return ols;
         }
 
         /// <summary>
@@ -823,12 +846,14 @@ namespace MKLNET
         /// <param name="x1">The starting position and the minimum position found.</param>
         /// <param name="x2">The starting position and the minimum position found.</param>
         /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
-        public static void LeastSquares(double atol, double rtol, Action<double, double, double, double[]> f,
+        /// <returns>least squares total at the best fit.</returns>
+        public static double LeastSquares(double atol, double rtol, Action<double, double, double, double[]> f,
             ref double x0, ref double x1, ref double x2, double[] residuals)
         {
             var x = new[] { x0, x1, x2 };
-            LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], x[2], r), x, residuals);
+            var ols = LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], x[2], r), x, residuals);
             x0 = x[0]; x1 = x[1]; x2 = x[2];
+            return ols;
         }
 
         /// <summary>
@@ -842,12 +867,14 @@ namespace MKLNET
         /// <param name="x2">The starting position and the minimum position found.</param>
         /// <param name="x3">The starting position and the minimum position found.</param>
         /// <param name="residuals">Working residual array. Values can be anything on entry.</param>
-        public static void LeastSquares(double atol, double rtol, Action<double, double, double, double, double[]> f,
+        /// <returns>least squares total at the best fit.</returns>
+        public static double LeastSquares(double atol, double rtol, Action<double, double, double, double, double[]> f,
             ref double x0, ref double x1, ref double x2, ref double x3, double[] residuals)
         {
             var x = new[] { x0, x1, x2, x3 };
-            LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], x[2], x[3], r), x, residuals);
+            var ols = LeastSquares(atol, rtol, (x, r) => f(x[0], x[1], x[2], x[3], r), x, residuals);
             x0 = x[0]; x1 = x[1]; x2 = x[2]; x3 = x[3];
+            return ols;
         }
     }
 }
