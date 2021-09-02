@@ -320,7 +320,7 @@ let all =
             let mutable count = 0
             let ols = Optimize.CurveFit_OLS(1e-7, 0.0, Func<_,_,_>(fun p x -> count <- count + 1; Optimization.Osbourne(p, x)), x, Optimization.OsbourneT, Optimization.OsbourneY)
             count <- count / Optimization.OsbourneT.Length
-            Check.between 1025 1025 count
+            Check.between 1025 1232 count
             Check.close Medium 0.0401377 ols
         }
 
@@ -333,7 +333,7 @@ let all =
                                     sum <- sum + d * d
                                 sum
                              ) x
-            Check.between 1287 1287 count
+            Check.between 1287 1417 count
             Check.close Medium 0.0401377 ols
         }
 
@@ -359,7 +359,7 @@ let all =
             let x = Array.create n -1.0
             let mutable count = 0
             let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Broyden x), x)
-            Check.between 581 581 count
+            Check.between 581 582 count
             Check.close High 0.0 ols
         }
 
@@ -377,7 +377,7 @@ let all =
             let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
             let mutable count = 0
             let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Boundary x), x)
-            Check.between 585 585 count
+            Check.between 585 588 count
             Check.close High 0.0 ols
         }
 
