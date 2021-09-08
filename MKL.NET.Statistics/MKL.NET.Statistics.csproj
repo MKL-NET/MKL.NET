@@ -16,10 +16,11 @@ Statistics functions based on cross platform MKL.NET.
         <PackageReleaseNotes>
 Preview
         </PackageReleaseNotes>
-        <Version>0.1.0-preview</Version>
+        <Version>0.1.0</Version>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
+        <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />
+        <ProjectReference Include="..\MKL.NET.Matrix\MKL.NET.Matrix.csproj" />
         <None Include="../matrix.png" Pack="true" PackagePath="" />
     </ItemGroup>
 </Project>

@@ -33,6 +33,7 @@
         <Compile Include="Optimize.CalculusTests.fs" />
         <Compile Include="Optimize.RootTests.fs" />
         <Compile Include="Optimize.MinimumTests.fs" />
+        <Compile Include="Stats.SummaryTests.fs" />
         <Compile Include="Main.fs" />
   </ItemGroup>
 </Project>

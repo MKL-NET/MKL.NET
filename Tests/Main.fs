@@ -16,6 +16,7 @@ let all =
         Optimize.CalculusTests.all
         Optimize.RootTests.all
         Optimize.MinimumTests.all
+        Stats.SummaryTests.all
     }
 
 [<EntryPoint>]

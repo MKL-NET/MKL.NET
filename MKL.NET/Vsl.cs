@@ -840,6 +840,11 @@ namespace MKLNET
             var np = task.Pinned.Add(new[] { quant_order_n, (int)order_stats_storage });
             return vsldSSEditQuantiles(task.Ptr, np, task.Pinned.Add(quant_order), task.Pinned.Add(quants), task.Pinned.Add(order_stats), IntPtr.Add(np, sizeof(int)));
         }
+        public static int SSEditQuantiles(VsldSSTask task, double[] quant_order, double[] quants)
+        {
+            var np = task.Pinned.Add(new[] { quant_order.Length });
+            return vsldSSEditQuantiles(task.Ptr, np, task.Pinned.Add(quant_order), task.Pinned.Add(quants), IntPtr.Zero, IntPtr.Zero);
+        }
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int vslsSSEditQuantiles(IntPtr task, IntPtr quant_order_n, IntPtr quant_order, IntPtr quants, IntPtr order_stats, IntPtr order_stats_storage);
@@ -983,6 +988,34 @@ namespace MKLNET
             task.Pinned.Free();
             var t = task.Ptr;
             return vslSSDeleteTask(&t);
+        }
+
+        /// <summary>
+        /// Calculates an array of quantiles for matrix of data stored column major.
+        /// </summary>
+        /// <param name="rows">The number of rows in data.</param>
+        /// <param name="cols">The number of columns in data.</param>
+        /// <param name="data">The rows x cols column major data.</param>
+        /// <param name="quantiles">The quantiles to calculate.</param>
+        /// <param name="results">The calculated quantiles are set. This needs to be at least of length quantiles.Length x cols.</param>
+        public static void Quantiles(int rows, int cols, double[] data, double[] quantiles, double[] results)
+        {
+            IntPtr task;
+            var storage = VslStorage.ROWS;
+            int quantilesLength = quantiles.Length;
+            fixed (double* xp = &data[0], qp = &quantiles[0], rp = &results[0])
+            {
+                var status = vsldSSNewTask(&task, new IntPtr(&cols), new IntPtr(&rows), new IntPtr(&storage),
+                    new IntPtr(xp), IntPtr.Zero, IntPtr.Zero);
+                if (status != 0) throw new Exception("vsldSSNewTask non zero status: " + status);
+                status = vsldSSEditQuantiles(task, new IntPtr(&quantilesLength), new IntPtr(qp),
+                    new IntPtr(rp), IntPtr.Zero, IntPtr.Zero);
+                if (status != 0) throw new Exception("vsldSSEditQuantiles non zero status: " + status);
+                status = vsldSSCompute(task, VslEstimate.QUANTS, VslMethod.FAST);
+                if (status != 0) throw new Exception("vsldSSCompute non zero status: " + status);
+                status = vslSSDeleteTask(&task);
+                if (status != 0) throw new Exception("vslSSDeleteTask non zero status: " + status);
+            }
         }
     }
 }
