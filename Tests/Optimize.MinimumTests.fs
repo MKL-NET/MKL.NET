@@ -359,7 +359,7 @@ let all =
             let x = Array.create n -1.0
             let mutable count = 0
             let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Broyden x), x)
-            Check.between 581 582 count
+            Check.between 580 582 count
             Check.close High 0.0 ols
         }
 
