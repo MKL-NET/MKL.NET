@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="data">The data to calculate the quantiles of.</param>
         /// <param name="quantiles">The quantiles to calculate in the range 0.0 - 1.0.</param>
-        /// <returns>quantiles.Length x data.Cols matrix of quartiles.</returns>
+        /// <returns>quantiles.Length x data.Cols matrix of quantiles.</returns>
         public static matrix Quantiles(matrix data, double[] quantiles)
         {
             var quants = new matrix(quantiles.Length, data.Cols);

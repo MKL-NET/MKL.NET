@@ -216,7 +216,7 @@ namespace MKLNET
         {
             var r = new Complex[x.Length];
             DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.REAL, 1, x.Length);
-            SetValue(handle, DftiConfigParam.PLACEMENT, DftiConfigValue.NOT_INPLACE);
+            DftiSetValue(handle, DftiConfigParam.PLACEMENT, __arglist(DftiConfigValue.NOT_INPLACE));
             DftiCommitDescriptor(handle);
             DftiComputeForward(handle, x, r);
             DftiFreeDescriptor(ref handle);
@@ -227,7 +227,7 @@ namespace MKLNET
         {
             var r = new Complex[x.Length];
             DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
-            SetValue(handle, DftiConfigParam.PLACEMENT, DftiConfigValue.NOT_INPLACE);
+            DftiSetValue(handle, DftiConfigParam.PLACEMENT, __arglist(DftiConfigValue.NOT_INPLACE));
             DftiCommitDescriptor(handle);
             DftiComputeForward(handle, x, r);
             DftiFreeDescriptor(ref handle);
