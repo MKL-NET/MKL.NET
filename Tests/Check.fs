@@ -1,6 +1,7 @@
 ﻿module Check
 
 open System
+open System.Numerics
 open System.Diagnostics
 open MKLNET
 
@@ -53,6 +54,7 @@ let equal (expected:'a) (actual:'a) =
             else equalDefault e a
         | (:? (double[]) as e), (:? (double[]) as a) -> equalArray e a
         | (:? (single[]) as e), (:? (single[]) as a) -> equalArray e a
+        | (:? (Complex[]) as e), (:? (Complex[]) as a) -> equalArray e a
         | e, a ->
             if a=e then Success
             else equalDefault e a

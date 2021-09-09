@@ -9,6 +9,7 @@ let all =
         BlasTests.all
         LapackTests.all
         MKLTests.all
+        DftiTests.all
         VectorTests.all
         MatrixTests.all
         if Environment.Is64BitProcess then SolveTests.all else []
