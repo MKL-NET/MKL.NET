@@ -16,7 +16,7 @@ namespace MKLNET
         const string DLL = "mkl_rt.dll";
 #endif
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, long dimension, int length);
+        static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus CreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length)
             => DftiCreateDescriptor(out handle, precision, forward_domain, dimension, length);
