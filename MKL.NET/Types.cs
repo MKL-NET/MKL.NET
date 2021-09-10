@@ -611,20 +611,20 @@ namespace MKLNET
     public struct Vararg
     {
         public int Int0;
-#if LINUX
+//#if LINUX
+//        public int Int1;
+//        public int Int2;
+//        public int Int3;
+//        public int Int4;
+//        public int Int5;
+//#elif OSX
+//        public int Int1;
+//        public int Int2;
+//        public int Int3;
+//        public int Int4;
+//        public int Int5;
+//#else
         public int Int1;
-        public int Int2;
-        public int Int3;
-        public int Int4;
-        public int Int5;
-#elif OSX
-        public int Int1;
-        public int Int2;
-        public int Int3;
-        public int Int4;
-        public int Int5;
-#else
-        public int Int1;
-#endif
+//#endif
     }
 }
