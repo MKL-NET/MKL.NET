@@ -229,7 +229,7 @@ namespace MKLNET
         {
             DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
             DftiCommitDescriptor(handle);
-            DftiComputeForward(handle, x);
+            //DftiComputeForward(handle, x);
             DftiFreeDescriptor(ref handle);
         }
 
