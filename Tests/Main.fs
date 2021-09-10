@@ -1,6 +1,7 @@
 ﻿module Main
 
 open System
+open System.Runtime.InteropServices
 
 let all =
     test null {
@@ -9,7 +10,7 @@ let all =
         BlasTests.all
         LapackTests.all
         MKLTests.all
-        if OperatingSystem.IsWindows() then DftiTests.all else []
+        if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then DftiTests.all else []
         VectorTests.all
         MatrixTests.all
         if Environment.Is64BitProcess then SolveTests.all else []
