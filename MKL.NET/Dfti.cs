@@ -16,10 +16,10 @@ namespace MKLNET
         const string DLL = "mkl_rt.dll";
 #endif
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length);
+        static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, Vararg length);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus CreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length)
-            => DftiCreateDescriptor(out handle, precision, forward_domain, dimension, length);
+            => DftiCreateDescriptor(out handle, precision, forward_domain, dimension, new Vararg { Int0 = length });
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, long dimension, long[] length);
@@ -206,7 +206,7 @@ namespace MKLNET
         public static Complex[] ComputeForward(double[] x)
         {
             var r = new Complex[x.Length];
-            DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.REAL, 1, x.Length);
+            CreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.REAL, 1, x.Length);
             DftiSetValue(handle, DftiConfigParam.PLACEMENT, __arglist(DftiConfigValue.NOT_INPLACE));
             DftiCommitDescriptor(handle);
             DftiComputeForward(handle, x, r);
@@ -217,7 +217,7 @@ namespace MKLNET
         public static Complex[] ComputeForward(Complex[] x)
         {
             var r = new Complex[x.Length];
-            DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
+            CreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
             DftiSetValue(handle, DftiConfigParam.PLACEMENT, __arglist(DftiConfigValue.NOT_INPLACE));
             DftiCommitDescriptor(handle);
             DftiComputeForward(handle, x, r);
@@ -227,7 +227,7 @@ namespace MKLNET
 
         public static void ComputeForwardInplace(Complex[] x)
         {
-            DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
+            CreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
             DftiCommitDescriptor(handle);
             //DftiComputeForward(handle, x);
             DftiFreeDescriptor(ref handle);
@@ -236,7 +236,7 @@ namespace MKLNET
         public static Complex[] ComputeBackward(Complex[] x)
         {
             var r = new Complex[x.Length];
-            DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
+            CreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
             DftiSetValue(handle, DftiConfigParam.BACKWARD_SCALE, __arglist(1.0 / x.Length));
             DftiSetValue(handle, DftiConfigParam.PLACEMENT, __arglist(DftiConfigValue.NOT_INPLACE));
             DftiCommitDescriptor(handle);
@@ -247,7 +247,7 @@ namespace MKLNET
 
         public static void ComputeBackwardInplace(Complex[] x)
         {
-            DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
+            CreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
             DftiSetValue(handle, DftiConfigParam.BACKWARD_SCALE, __arglist(1.0 / x.Length));
             DftiCommitDescriptor(handle);
             DftiComputeBackward(handle, x);
