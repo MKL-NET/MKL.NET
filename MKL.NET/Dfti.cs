@@ -15,11 +15,10 @@ namespace MKLNET
 #else
         const string DLL = "mkl_rt.dll";
 #endif
-
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, long dimension, long length);
+        static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static DfdiStatus CreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, long dimension, long length)
+        public static DfdiStatus CreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length)
             => DftiCreateDescriptor(out handle, precision, forward_domain, dimension, length);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -41,7 +40,7 @@ namespace MKLNET
             => DftiCommitDescriptor(handle);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, double[] x_inout);
+        static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In, Out] double[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, double[] x_inout)
             => DftiComputeForward(handle, x_inout);
@@ -59,7 +58,7 @@ namespace MKLNET
             => DftiComputeForward(handle, x_in, x_out);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, float[] x_inout);
+        static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In, Out] float[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, float[] x_inout)
             => DftiComputeForward(handle, x_inout);
@@ -71,7 +70,7 @@ namespace MKLNET
             => DftiComputeForward(handle, x_in, x_out);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, Complex[] x_inout);
+        static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In, Out] Complex[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, Complex[] x_inout)
             => DftiComputeForward(handle, x_inout);
@@ -83,7 +82,7 @@ namespace MKLNET
             => DftiComputeForward(handle, x_in, x_out);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, double[] x_inout);
+        static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In, Out] double[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, double[] x_inout)
             => DftiComputeBackward(handle, x_inout);
@@ -95,7 +94,7 @@ namespace MKLNET
             => DftiComputeBackward(handle, x_in, x_out);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, float[] x_inout);
+        static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In, Out] float[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, float[] x_inout)
             => DftiComputeBackward(handle, x_inout);
@@ -107,7 +106,7 @@ namespace MKLNET
             => DftiComputeBackward(handle, x_in, x_out);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, Complex[] x_inout);
+        static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In, Out] Complex[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, Complex[] x_inout)
             => DftiComputeBackward(handle, x_inout);
@@ -118,13 +117,11 @@ namespace MKLNET
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, Complex[] x_in, Complex[] x_out)
             => DftiComputeBackward(handle, x_in, x_out);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiSetValue(DftiDescriptor handle, DftiConfigParam config_param, int config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, int config_value)
-            => DftiSetValue(handle, config_param, config_value);
+            => DftiSetValue(handle, config_param, __arglist(config_value));
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, DftiConfigValue config_value)
-            => DftiSetValue(handle, config_param, (int)config_value);
+            => DftiSetValue(handle, config_param, __arglist((int)config_value));
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiSetValue(DftiDescriptor handle, DftiConfigParam config_param, __arglist);
@@ -137,23 +134,17 @@ namespace MKLNET
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, double config_value)
             => DftiSetValue(handle, config_param, __arglist(config_value));
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiSetValue(DftiDescriptor handle, DftiConfigParam config_param, int[] config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, int[] config_value)
-            => DftiSetValue(handle, config_param, config_value);
+            => DftiSetValue(handle, config_param, __arglist(config_value));
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiSetValue(DftiDescriptor handle, DftiConfigParam config_param, float[] config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, float[] config_value)
-            => DftiSetValue(handle, config_param, config_value);
+            => DftiSetValue(handle, config_param, __arglist(config_value));
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern DfdiStatus DftiSetValue(DftiDescriptor handle, DftiConfigParam config_param, double[] config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, double[] config_value)
-            => DftiSetValue(handle, config_param, config_value);
+            => DftiSetValue(handle, config_param, __arglist(config_value));
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out int config_value);
@@ -234,16 +225,33 @@ namespace MKLNET
             return r;
         }
 
+        public static void ComputeForwardInplace(Complex[] x)
+        {
+            DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
+            DftiCommitDescriptor(handle);
+            DftiComputeForward(handle, x);
+            DftiFreeDescriptor(ref handle);
+        }
+
         public static Complex[] ComputeBackward(Complex[] x)
         {
             var r = new Complex[x.Length];
             DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
-            SetValue(handle, DftiConfigParam.BACKWARD_SCALE, 1.0 / x.Length);
-            SetValue(handle, DftiConfigParam.PLACEMENT, DftiConfigValue.NOT_INPLACE);
+            DftiSetValue(handle, DftiConfigParam.BACKWARD_SCALE, __arglist(1.0 / x.Length));
+            DftiSetValue(handle, DftiConfigParam.PLACEMENT, __arglist(DftiConfigValue.NOT_INPLACE));
             DftiCommitDescriptor(handle);
             DftiComputeBackward(handle, x, r);
             DftiFreeDescriptor(ref handle);
             return r;
+        }
+
+        public static void ComputeBackwardInplace(Complex[] x)
+        {
+            DftiCreateDescriptor(out var handle, DftiConfigValue.DOUBLE, DftiConfigValue.COMPLEX, 1, x.Length);
+            DftiSetValue(handle, DftiConfigParam.BACKWARD_SCALE, __arglist(1.0 / x.Length));
+            DftiCommitDescriptor(handle);
+            DftiComputeBackward(handle, x);
+            DftiFreeDescriptor(ref handle);
         }
     }
 }
