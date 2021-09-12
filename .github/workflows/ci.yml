@@ -22,7 +22,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: MKL.NET.Native.dll win-x64
+          name: win-x64
           path: MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll
   windows_native_86:
       runs-on: windows-latest
@@ -41,7 +41,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: MKL.NET.Native.dll win-x86
+          name: win-x86
           path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
   windows_core_64:
       runs-on: windows-latest
@@ -108,7 +108,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: MKL.NET.Native.so linux-x64
+          name: linux-x64
           path: MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so
   linux_core_64:
       runs-on: ubuntu-latest
@@ -141,7 +141,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: MKL.NET.Native.dylib osx-x64
+          name: osx-x64
           path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib
   osx_core_64:
       runs-on: macos-latest
@@ -165,9 +165,9 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: |
-                MKL.NET.Native.dll win-x64
-                MKL.NET.Native.dll win-x86
-                MKL.NET.Native.dylib osx-x64
-                MKL.NET.Native.so linux-x64
+                win-x64
+                win-x86
+                osx-x64
+                linux-x64
       - name: Display structure of downloaded files
         run: ls
