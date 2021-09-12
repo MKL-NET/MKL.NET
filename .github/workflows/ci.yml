@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  windows_native:
+  windows_native_64:
       runs-on: windows-latest
       env:
         DOTNET_NOLOGO: true
@@ -15,16 +15,16 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
-      - name: Build Native 64
+      - name: Build
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
              cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
-      - name: Upload Native 64
+      - name: Upload
         uses: actions/upload-artifact@v2
         with:
           name: MKL.NET.Native.dll win-x64
           path: MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll
-  windows_core:
+  windows_native_86:
       runs-on: windows-latest
       env:
         DOTNET_NOLOGO: true
@@ -34,20 +34,28 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
-      - name: Test 64
+      - name: Build
+        run: |
+             cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
+             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: MKL.NET.Native.dll win-x86
+          path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
+  windows_core_64:
+      runs-on: windows-latest
+      env:
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
+      - name: Test
         run: dotnet run -p Tests -c Release -f net5.0 -- -perf --info --nost --time 60 --wait 10 --skip
-      - name: Build Native 86
-        run: |
-             cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
-             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
-      - name: Upload 86
-        uses: actions/upload-artifact@v2
-        with:
-          name: MKL.NET.Native.dll win-x86
-          path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
-      - name: Test Core 86
-        run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
-  windows_framework:
+  windows_core_86:
       runs-on: windows-latest
       env:
         DOTNET_NOLOGO: true
@@ -57,20 +65,33 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
-      - name: Test 64
-        run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 30 --wait 10 --skip
-      - name: Build Native 86
-        run: |
-             cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
-             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
-      - name: Upload Native 86
-        uses: actions/upload-artifact@v2
+      - name: Test
+        run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
+  windows_framework_64:
+      runs-on: windows-latest
+      env:
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
         with:
-          name: MKL.NET.Native.dll win-x86
-          path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
-      - name: Test 86
-        run: dotnet run -p Tests -c Release -f net48 -r win-x86 -- -perf --info --nost --time 30 --wait 10 --skip
-  linux:
+          dotnet-version: '5.0.100'
+      - name: Test
+        run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
+  windows_framework_86:
+      runs-on: windows-latest
+      env:
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
+      - name: Test
+        run: dotnet run -p Tests -c Release -f net48 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
+  linux_native_64:
       runs-on: ubuntu-latest
       env:
         DOTNET_NOLOGO: true
@@ -80,20 +101,30 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
-      - name: Build Native
+      - name: Build
         run: |
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
              cmake --build MKL.NET.Native/bin/build/linux-x64 --config Release
-      - name: Upload Native
+      - name: Upload
         uses: actions/upload-artifact@v2
         with:
           name: MKL.NET.Native.so linux-x64
           path: MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so
+  linux_core_64:
+      runs-on: ubuntu-latest
+      env:
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=LINUX
       - name: Test
         run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
-  osx:
+  osx_native_64:
       runs-on: macos-latest
       env:
         DOTNET_NOLOGO: true
@@ -103,15 +134,25 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
-      - name: Build Native
+      - name: Build
         run: |
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/osx-x64
              cmake --build MKL.NET.Native/bin/build/osx-x64 --config Release
-      - name: Upload Native
+      - name: Upload
         uses: actions/upload-artifact@v2
         with:
           name: MKL.NET.Native.dylib osx-x64
           path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib
+  osx_core_64:
+      runs-on: macos-latest
+      env:
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=OSX
       - name: Test
