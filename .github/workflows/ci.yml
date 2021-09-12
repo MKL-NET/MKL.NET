@@ -19,6 +19,11 @@ jobs:
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
              cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
+      - name: Upload Native 64
+        uses: actions/upload-artifact@v2
+        with:
+          name: MKL.NET.Native.dll 64
+          path: MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll
       - name: Test Framework 64
         run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 30 --wait 10 --skip
       - name: Test Core 64
@@ -27,6 +32,11 @@ jobs:
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
+      - name: Upload Native 86
+        uses: actions/upload-artifact@v2
+        with:
+          name: MKL.NET.Native.dll 86
+          path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
       - name: Test Core 86
         run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
       - name: Test Framework 86
