@@ -164,10 +164,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: |
-                win-x64
-                win-x86
-                osx-x64
-                linux-x64
+          name: win-x64
       - name: Display structure of downloaded files
         run: ls
