@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  windows:
+  windows_native:
       runs-on: windows-latest
       env:
         DOTNET_NOLOGO: true
@@ -24,10 +24,41 @@ jobs:
         with:
           name: MKL.NET.Native.dll win-x64
           path: MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll
-      - name: Test Framework 64
-        run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 30 --wait 10 --skip
-      - name: Test Core 64
+  windows_core:
+      runs-on: windows-latest
+      env:
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
+      - name: Test 64
         run: dotnet run -p Tests -c Release -f net5.0 -- -perf --info --nost --time 60 --wait 10 --skip
+      - name: Build Native 86
+        run: |
+             cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
+             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
+      - name: Upload 86
+        uses: actions/upload-artifact@v2
+        with:
+          name: MKL.NET.Native.dll win-x86
+          path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
+      - name: Test Core 86
+        run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
+  windows_framework:
+      runs-on: windows-latest
+      env:
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
+      - name: Test 64
+        run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 30 --wait 10 --skip
       - name: Build Native 86
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
@@ -37,9 +68,7 @@ jobs:
         with:
           name: MKL.NET.Native.dll win-x86
           path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
-      - name: Test Core 86
-        run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
-      - name: Test Framework 86
+      - name: Test 86
         run: dotnet run -p Tests -c Release -f net48 -r win-x86 -- -perf --info --nost --time 30 --wait 10 --skip
   linux:
       runs-on: ubuntu-latest
@@ -58,7 +87,7 @@ jobs:
       - name: Upload Native
         uses: actions/upload-artifact@v2
         with:
-          name: MKL.NET.Native.dll linux-x64
+          name: MKL.NET.Native.so linux-x64
           path: MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=LINUX
@@ -81,8 +110,8 @@ jobs:
       - name: Upload Native
         uses: actions/upload-artifact@v2
         with:
-          name: MKL.NET.Native.dll osx-x64
-          path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.so
+          name: MKL.NET.Native.dylib osx-x64
+          path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=OSX
       - name: Test
