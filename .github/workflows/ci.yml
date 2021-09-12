@@ -43,7 +43,7 @@ jobs:
           dotnet-version: '5.0.100'
       - name: Build Native
         run: |
-             cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
+             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
              cmake --build MKL.NET.Native/bin/build/linux-x64 --config Release
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=LINUX
