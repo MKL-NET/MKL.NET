@@ -59,6 +59,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
+      - name: Build Native
         run: |
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/osx-x64
              cmake --build MKL.NET.Native/bin/build/osx-x64 --config Release
