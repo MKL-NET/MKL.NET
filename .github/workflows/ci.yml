@@ -157,3 +157,13 @@ jobs:
         run: dotnet build Tests -c Release -f net5.0 -p:OS=OSX
       - name: Test
         run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
+  native_package:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          path: runtimes
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: runtimes
