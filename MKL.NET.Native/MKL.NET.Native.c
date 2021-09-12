@@ -6,7 +6,7 @@
 #  define EXPORTIT __attribute__((visibility("default")))
 #endif
 
-EXPORTIT void test(int i)
+EXPORTIT int test(int i)
 {
-
+    return i;
 }
