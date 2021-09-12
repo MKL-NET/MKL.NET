@@ -6,7 +6,6 @@
             "configurationType": "Release",
             "inheritEnvironments": [ "msvc_x64_x64" ],
             "buildRoot": "${projectDir}\\bin\\build\\${name}",
-            "installRoot": "${projectDir}\\bin\\install\\${name}",
             "cmakeCommandArgs": "",
             "buildCommandArgs": "",
             "ctestCommandArgs": ""
@@ -17,7 +16,6 @@
             "configurationType": "Release",
             "inheritEnvironments": [ "msvc_x86" ],
             "buildRoot": "${projectDir}\\bin\\build\\${name}",
-            "installRoot": "${projectDir}\\bin\\install\\${name}",
             "cmakeCommandArgs": "",
             "buildCommandArgs": "",
             "ctestCommandArgs": ""
@@ -28,7 +26,6 @@
             "configurationType": "Release",
             "inheritEnvironments": [ "linux_x64" ],
             "buildRoot": "${projectDir}\\bin\\build\\${name}",
-            "installRoot": "${projectDir}\\bin\\install\\${name}",
             "cmakeExecutable": "cmake",
             "wslPath": "${defaultWSLPath}",
             "cmakeCommandArgs": "",
@@ -41,7 +38,6 @@
             "configurationType": "Release",
             "inheritEnvironments": [ "linux_x86" ],
             "buildRoot": "${projectDir}\\bin\\build\\${name}",
-            "installRoot": "${projectDir}\\bin\\install\\${name}",
             "cmakeExecutable": "cmake",
             "wslPath": "${defaultWSLPath}",
             "cmakeCommandArgs": "",
