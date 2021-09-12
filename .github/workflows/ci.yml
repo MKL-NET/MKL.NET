@@ -15,6 +15,8 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
+      - name: Native
+        run: cmake --version
       - name: Test Framework 64
         run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 30 --wait 10 --skip
       - name: Test Core 64
@@ -33,6 +35,8 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
+      - name: Native
+        run: cmake --version
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=LINUX
       - name: Test
@@ -47,6 +51,8 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
+      - name: Native
+        run: cmake --version
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=OSX
       - name: Test
