@@ -163,7 +163,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          path: runtimes
+          name: |
+                MKL.NET.Native.dll win-x64
+                MKL.NET.Native.dll win-x86
+                MKL.NET.Native.dylib osx-x64
+                MKL.NET.Native.so linux-x64
       - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: runtimes
+        run: ls
