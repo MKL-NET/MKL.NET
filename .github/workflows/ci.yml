@@ -15,14 +15,18 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
-      - name: Native 64
-        run: cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64 && cmake --build MKL.NET.Native/bin/build/win-x64
+      - name: Build Native 64
+        run: |
+             cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
+             cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
       - name: Test Framework 64
         run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 30 --wait 10 --skip
       - name: Test Core 64
         run: dotnet run -p Tests -c Release -f net5.0 -- -perf --info --nost --time 60 --wait 10 --skip
-      - name: Native 64
-        run: cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86 && cmake --build MKL.NET.Native/bin/build/win-x86
+      - name: Build Native 86
+        run: |
+             cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
+             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Test Core 86
         run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
       - name: Test Framework 86
@@ -37,8 +41,10 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.100'
-      - name: Native
-        run: cmake --version
+      - name: Build Native
+        run: |
+             cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
+             cmake --build MKL.NET.Native/bin/build/linux-x64 --config Release
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:OS=LINUX
       - name: Test
