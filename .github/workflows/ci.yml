@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build Native
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build Native
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
@@ -58,7 +58,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build Native
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
@@ -74,7 +74,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build Native
         run: |
              cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build
         run: |
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
@@ -111,7 +111,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=linux-x64
       - name: Test
@@ -125,7 +125,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build
         run: |
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/osx-x64
@@ -144,7 +144,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.9'
+          dotnet-version: '5.0.400'
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=osx-x64
       - name: Test
