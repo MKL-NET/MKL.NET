@@ -45,7 +45,7 @@ Added NaN all parameter handling in Solve.
              Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" />
     <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so') And $(MKLNET_RID)=='linux-x64'"
              Include="../MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so" Pack="false" CopyToOutputDirectory="PreserveNewest" />
-    <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x86/Release/MKL.NET.Native.so') And $(MKLNET_RID)=='win-x86'"
+    <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x86/Release/MKL.NET.Native.so') And $(MKLNET_RID)=='linux-x86'"
              Include="../MKL.NET.Native/bin/build/linux-x86/Release/MKL.NET.Native.so" Pack="false" CopyToOutputDirectory="PreserveNewest" />
     <Content Condition="Exists('../MKL.NET.Native/bin/build/osx-x64/Release/MKL.NET.Native.dylib') And $(MKLNET_RID)=='osx-x64'"
              Include="../MKL.NET.Native/bin/build/osx-x64/Release/MKL.NET.Native.dylib" Pack="false" CopyToOutputDirectory="PreserveNewest" />
