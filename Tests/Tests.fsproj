@@ -2,6 +2,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFrameworks>net5.0;net48</TargetFrameworks>
+        <MKLNET_RID Condition="'$(MKLNET_RID)'==''">win-x64</MKLNET_RID>
+        <RuntimeIdentifer Condition="'$(RuntimeIdentifer)'==''">$(MKLNET_RID)</RuntimeIdentifer>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Update="FSharp.Core" Version="5.0.2" />
@@ -37,7 +39,4 @@
         <Compile Include="Stats.SummaryTests.fs" />
         <Compile Include="Main.fs" />
   </ItemGroup>
-    <Target Name="TestMessage" BeforeTargets="Build" >
-        <Message Text="'-$(RuntimeIdentifier)-'" Importance="high"/>
-    </Target>
 </Project>
