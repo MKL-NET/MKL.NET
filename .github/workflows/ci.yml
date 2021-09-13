@@ -48,7 +48,7 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=win-x86
       - name: Test
-        run: dotnet run --project Tests -c Release -f net5.0 -r win-x86 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
   windows_framework_64:
       runs-on: windows-latest
       env:
@@ -82,7 +82,7 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net48 -p:MKLNET_RID=win-x86
       - name: Test
-        run: dotnet run --project Tests -c Release -f net48 -r win-x86 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run -p Tests -c Release -f net48 -r win-x86 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
   linux_native_64:
       runs-on: ubuntu-latest
       env:
