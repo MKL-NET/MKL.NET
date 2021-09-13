@@ -37,4 +37,7 @@
         <Compile Include="Stats.SummaryTests.fs" />
         <Compile Include="Main.fs" />
   </ItemGroup>
+    <Target Name="TestMessage" BeforeTargets="Build" >
+        <Message Text="'-$(RuntimeIdentifier)-'" Importance="high"/>
+    </Target>
 </Project>
