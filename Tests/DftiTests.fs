@@ -144,4 +144,8 @@ let all =
                 Check.equal (if i &&& 1 = 0 then 1.0 else -1.0) input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
         }
+
+        test "native_test" {
+            Check.equal 17 (Dfti.Test 17)
+        }
     }

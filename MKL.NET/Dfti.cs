@@ -253,5 +253,18 @@ namespace MKLNET
             DftiComputeBackward(handle, x);
             DftiFreeDescriptor(ref handle);
         }
+
+#if LINUX
+        const string MKLNET_NATIVE = "MKL.NET.Native.so";
+#elif OSX
+        const string MKLNET_NATIVE = "MKL.NET.Native.dylib";
+#else
+        const string MKLNET_NATIVE = "MKL.NET.Native.dll";
+#endif
+
+        [DllImport(MKLNET_NATIVE, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int test(int i);
+
+        public static int Test(int i) => test(i);
     }
 }
