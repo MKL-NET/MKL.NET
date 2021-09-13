@@ -10,7 +10,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>NU5128;NU5131;IDE1006</NoWarn>
-    <MKLNET_RID Condition="'$(MKLNET_RID)'==''" >win-x64</MKLNET_RID>
+    <MKLNET_RID Condition="'$(MKLNET_RID)'==''">win-x64</MKLNET_RID>
+    <RuntimeIdentifer Condition="'$(RuntimeIdentifer)'==''">$(MKLNET_RID)</RuntimeIdentifer>
     <DefineConstants Condition="$(MKLNET_RID)=='linux-x64' Or $(MKLNET_RID)=='linux-x86'">$(DefineConstants);LINUX</DefineConstants>
     <DefineConstants Condition="$(MKLNET_RID)=='osx-x64' Or $(MKLNET_RID)=='osx-x86'">$(DefineConstants);OSX</DefineConstants>
     <ProduceOnlyReferenceAssembly Condition="$(MKLNET_RID)=='ref'">true</ProduceOnlyReferenceAssembly>

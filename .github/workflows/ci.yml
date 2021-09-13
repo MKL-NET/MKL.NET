@@ -25,7 +25,7 @@ jobs:
           name: win-x64
           path: MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll
       - name: Test
-        run: dotnet run -p Tests -c Release -f net5.0 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net5.0 -- -perf --info --nost --time 60 --wait 10 --skip
   windows_core_86:
       runs-on: windows-latest
       env:
@@ -48,7 +48,7 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=win-x86
       - name: Test
-        run: dotnet run -p Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net5.0 -r win-x86 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
   windows_framework_64:
       runs-on: windows-latest
       env:
@@ -64,7 +64,7 @@ jobs:
              cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
              cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
       - name: Test
-        run: dotnet run -p Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
   windows_framework_86:
       runs-on: windows-latest
       env:
@@ -82,7 +82,7 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net48 -p:MKLNET_RID=win-x86
       - name: Test
-        run: dotnet run -p Tests -c Release -f net48 -r win-x86 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net48 -r win-x86 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
   linux_native_64:
       runs-on: ubuntu-latest
       env:
@@ -115,7 +115,7 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=linux-x64
       - name: Test
-        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
+        run: dotnet run --project Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
   osx_native_64:
       runs-on: macos-latest
       env:
@@ -148,7 +148,7 @@ jobs:
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=osx-x64
       - name: Test
-        run: dotnet run -p Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
   native_package:
       runs-on: ubuntu-latest
       needs: [windows_core_64, windows_core_86, linux_native_64, osx_native_64]
