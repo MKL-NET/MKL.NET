@@ -40,7 +40,7 @@ jobs:
       - name: Build Native
         run: |
              cmake --version
-             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
+             cmake -A Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Upload Native
         uses: actions/upload-artifact@v2
@@ -79,7 +79,7 @@ jobs:
       - name: Build Native
         run: |
              cmake --version
-             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
+             cmake -A Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Test
         run: dotnet run --project Tests -c win-x86 -f net48 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
