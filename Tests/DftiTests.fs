@@ -147,14 +147,6 @@ let all =
         //}
 
         test "native_test" {
-            let dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
-            if Directory.EnumerateFiles(dir, "MKL.NET.Native.*") |> Seq.isEmpty then Check.info "MKL.NET.Native.* missing"
-            else
-                let mutable e = null
-                do
-                    try
-                        e <- Dfti.Test 17 |> box       
-                    with x -> e <- x
-                Check.info "%s" (string e)
+            Check.equal 17 (Dfti.Test 17)
         }
     }

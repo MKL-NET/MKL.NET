@@ -23,7 +23,7 @@
 Added NaN all parameter handling in Solve.
     </PackageReleaseNotes>
     <Version>1.2.3</Version>
-      <Optimize>true</Optimize>
+    <Optimize>true</Optimize>
     <Configurations>win-x64;win-x86;linux-x64;linux-x86;osx-x64;ref</Configurations>
   </PropertyGroup>
   <ItemGroup>
