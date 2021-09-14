@@ -2,7 +2,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFrameworks>net5.0;net48</TargetFrameworks>
-        <RuntimeIdentifer>win-x64</RuntimeIdentifer>
+        <Optimize>true</Optimize>
+        <Tailcalls>true</Tailcalls>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Update="FSharp.Core" Version="5.0.2" />

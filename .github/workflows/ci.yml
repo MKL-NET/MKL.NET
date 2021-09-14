@@ -17,6 +17,7 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
+             cmake --version
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
              cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
       - name: Upload Native
@@ -25,7 +26,7 @@ jobs:
           name: win-x64
           path: MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll
       - name: Test
-        run: dotnet run --project Tests -c Release -f net5.0 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c win-x64 -f net5.0 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
   windows_core_86:
       runs-on: windows-latest
       env:
@@ -38,6 +39,7 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
+             cmake --version
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Upload Native
@@ -46,7 +48,7 @@ jobs:
           name: win-x86
           path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
       - name: Test
-        run: dotnet run --project Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c win-x86 -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
   windows_framework_64:
       runs-on: windows-latest
       env:
@@ -59,10 +61,11 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
+             cmake --version
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
              cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
       - name: Test
-        run: dotnet run --project Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c win-x64 -f net48 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
   windows_framework_86:
       runs-on: windows-latest
       env:
@@ -79,7 +82,7 @@ jobs:
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Test
-        run: dotnet run --project Tests -c Release -f net48 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c win-x86 -f net48 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
   linux_core_64:
       runs-on: ubuntu-latest
       env:
@@ -101,7 +104,7 @@ jobs:
           name: linux-x64
           path: MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so
       - name: Test
-        run: dotnet run --project Tests -c Release -f net5.0 -r linux-x64 -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
+        run: dotnet run --project Tests -c linux-x64 -f net5.0 -r linux-x64 -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
   osx_core_64:
       runs-on: macos-latest
       env:
@@ -123,7 +126,7 @@ jobs:
           name: osx-x64
           path: MKL.NET.Native/bin/build/osx-x64/Release/MKL.NET.Native.dylib
       - name: Test
-        run: dotnet run --project Tests -c Release -f net5.0 -r osx-x64 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c osx-x64 -f net5.0 -r osx-x64 -- -perf --info --nost --time 60 --wait 10 --skip
   native_package:
       runs-on: ubuntu-latest
       needs: [windows_core_64, windows_core_86, linux_core_64, osx_core_64]
