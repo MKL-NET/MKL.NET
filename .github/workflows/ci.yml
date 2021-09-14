@@ -17,7 +17,7 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
-             cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
+             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
              cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
       - name: Upload Native
         uses: actions/upload-artifact@v2
@@ -38,7 +38,7 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
-             cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
+             cmake -D COMPILE_OPTIONS=-m32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Upload Native
         uses: actions/upload-artifact@v2
@@ -61,7 +61,7 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
-             cmake -DCMAKE_GENERATOR_PLATFORM=x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
+             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
              cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
       - name: Test
         run: dotnet run --project Tests -c Release -f net48 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
@@ -77,7 +77,7 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
-             cmake -DCMAKE_GENERATOR_PLATFORM=Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
+             cmake -D COMPILE_OPTIONS=-m32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Build
         run: dotnet build Tests -c Release -f net48 -p:MKLNET_RID=win-x86
