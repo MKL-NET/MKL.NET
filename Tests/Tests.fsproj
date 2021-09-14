@@ -2,8 +2,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFrameworks>net5.0;net48</TargetFrameworks>
-        <MKLNET_RID Condition="'$(MKLNET_RID)'==''">win-x64</MKLNET_RID>
-        <RuntimeIdentifer Condition="'$(RuntimeIdentifer)'==''">$(MKLNET_RID)</RuntimeIdentifer>
+        <RuntimeIdentifer>win-x64</RuntimeIdentifer>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Update="FSharp.Core" Version="5.0.2" />
