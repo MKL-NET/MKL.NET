@@ -77,6 +77,7 @@ jobs:
           dotnet-version: '5.0.400'
       - name: Build Native
         run: |
+             cmake --version
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
              cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
       - name: Build
