@@ -8,110 +8,103 @@ namespace MKLNET
     [SuppressUnmanagedCodeSecurity]
     public static class Dfti
     {
-#if LINUX
-        const string DLL = "libmkl_rt.so";
-#elif OSX
-        const string DLL = "libmkl_rt.dylib";
-#else
-        const string DLL = "mkl_rt.dll";
-#endif
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus CreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, int dimension, int length)
             => DftiCreateDescriptor(out handle, precision, forward_domain, dimension, length);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiCreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, long dimension, long[] length);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus CreateDescriptor(out DftiDescriptor handle, DftiConfigValue precision, DftiConfigValue forward_domain, long dimension, long[] length)
             => DftiCreateDescriptor(out handle, precision, forward_domain, dimension, length);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiCopyDescriptor(DftiDescriptor original, out DftiDescriptor copy);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus CopyDescriptor(DftiDescriptor original, out DftiDescriptor copy)
             => DftiCopyDescriptor(original, out copy);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiCommitDescriptor(DftiDescriptor handle);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus CommitDescriptor(DftiDescriptor handle)
             => DftiCommitDescriptor(handle);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In, Out] double[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, double[] x_inout)
             => DftiComputeForward(handle, x_inout);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In] double[] x_in, [Out] double[] x_out);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, double[] x_in, double[] x_out)
             => DftiComputeForward(handle, x_in, x_out);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In] double[] x_in, [Out] Complex[] x_out);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, double[] x_in, Complex[] x_out)
             => DftiComputeForward(handle, x_in, x_out);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In, Out] float[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, float[] x_inout)
             => DftiComputeForward(handle, x_inout);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In] float[] x_in, [Out] float[] x_out);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, float[] x_in, float[] x_out)
             => DftiComputeForward(handle, x_in, x_out);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In, Out] Complex[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, Complex[] x_inout)
             => DftiComputeForward(handle, x_inout);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeForward(DftiDescriptor handle, [In] Complex[] x_in, [Out] Complex[] x_out);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeForward(DftiDescriptor handle, Complex[] x_in, Complex[] x_out)
             => DftiComputeForward(handle, x_in, x_out);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In, Out] double[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, double[] x_inout)
             => DftiComputeBackward(handle, x_inout);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In] double[] x_in, [Out] double[] x_out);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, double[] x_in, double[] x_out)
             => DftiComputeBackward(handle, x_in, x_out);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In, Out] float[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, float[] x_inout)
             => DftiComputeBackward(handle, x_inout);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In] float[] x_in, [Out] float[] x_out);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, float[] x_in, float[] x_out)
             => DftiComputeBackward(handle, x_in, x_out);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In, Out] Complex[] x_inout);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, Complex[] x_inout)
             => DftiComputeBackward(handle, x_inout);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiComputeBackward(DftiDescriptor handle, [In] Complex[] x_in, [Out] Complex[] x_out);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ComputeBackward(DftiDescriptor handle, Complex[] x_in, Complex[] x_out)
@@ -123,7 +116,7 @@ namespace MKLNET
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, DftiConfigValue config_value)
             => DftiSetValue(handle, config_param, __arglist((int)config_value));
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiSetValue(DftiDescriptor handle, DftiConfigParam config_param, __arglist);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -146,7 +139,7 @@ namespace MKLNET
         public static DfdiStatus SetValue(DftiDescriptor handle, DftiConfigParam config_param, double[] config_value)
             => DftiSetValue(handle, config_param, __arglist(config_value));
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out int config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out int config_value)
@@ -158,45 +151,45 @@ namespace MKLNET
             return status;
         }
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out float config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out float config_value)
             => DftiGetValue(handle, config_param, out config_value);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out double config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out double config_value)
             => DftiGetValue(handle, config_param, out config_value);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out int[] config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out int[] config_value)
             => DftiGetValue(handle, config_param, out config_value);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out float[] config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out float[] config_value)
             => DftiGetValue(handle, config_param, out config_value);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiGetValue(DftiDescriptor handle, DftiConfigParam config_param, out double[] config_value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus GetValue(DftiDescriptor handle, DftiConfigParam config_param, out double[] config_value)
             => DftiGetValue(handle, config_param, out config_value);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiFreeDescriptor(ref DftiDescriptor handle);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus FreeDescriptor(DftiDescriptor handle)
             => DftiFreeDescriptor(ref handle);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static unsafe extern char* DftiErrorMessage(DfdiStatus status);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern DfdiStatus DftiErrorClass(DfdiStatus status, DftiErrorClass error_class);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DfdiStatus ErrorClass(DfdiStatus status, DftiErrorClass error_class)

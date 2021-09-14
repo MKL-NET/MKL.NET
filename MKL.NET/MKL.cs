@@ -6,11 +6,11 @@ namespace MKLNET
     public static class MKL
     {
 #if LINUX
-        const string DLL = "libmkl_rt.so";
+        internal const string DLL = "libmkl_rt.so";
 #elif OSX
-        const string DLL = "libmkl_rt.dylib";
+        internal const string DLL = "libmkl_rt.dylib";
 #else
-        const string DLL = "mkl_rt.dll";
+        internal const string DLL = "mkl_rt.dll";
 #endif
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int mkl_get_version(ref MKLVersion_ version);

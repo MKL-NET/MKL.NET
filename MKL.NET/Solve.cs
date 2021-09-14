@@ -7,53 +7,45 @@ namespace MKLNET
     [SuppressUnmanagedCodeSecurity]
     public unsafe static class Solve
     {
-#if LINUX
-        const string DLL = "libmkl_rt.so";
-#elif OSX
-        const string DLL = "libmkl_rt.dylib";
-#else
-        const string DLL = "mkl_rt.dll";
-#endif
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int dtrnlsp_init(IntPtr* handle, int* n, int* m, double* x, double* eps, int* iter1, int* iter2, double* rs);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int dtrnlsp_solve(IntPtr* handle, double* fvec, double* fjac, int* RCI_Request);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int dtrnlsp_delete(IntPtr* handle);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int dtrnlspbc_init(IntPtr* handle, int* n, int* m, double* x, double* lower, double* upper, double* eps, int* iter1, int* iter2, double* rs);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int dtrnlspbc_solve(IntPtr* handle, double* fvec, double* fjac, int* RCI_Request);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int dtrnlspbc_delete(IntPtr* handle);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int djacobi_init(IntPtr* handle, int* n, int* m, double* x, double* fjac, double* eps);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int djacobi_solve(IntPtr* handle, double* f1, double* f2, int* RCI_Request);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int djacobi_delete(IntPtr* handle);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int djacobi(SolveFn fcn, int* n, int* m, double* fjac, double* x, double* eps);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int strnlsp_init(IntPtr* handle, int* n, int* m, float* x, float* eps, int* iter1, int* iter2, float* rs);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int strnlsp_solve(IntPtr* handle, float* fvec, float* fjac, int* RCI_Request);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int strnlsp_delete(IntPtr* handle);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int strnlspbc_init(IntPtr* handle, int* n, int* m, float* x, float* lower, float* upper, float* eps, int* iter1, int* iter2, float* rs);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int strnlspbc_solve(IntPtr* handle, float* fvec, float* fjac, int* RCI_Request);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int strnlspbc_delete(IntPtr* handle);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int sjacobi_init(IntPtr* handle, int* n, int* m, float* x, float* fjac, float* eps);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int sjacobi_solve(IntPtr* handle, float* f1, float* f2, int* RCI_Request);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int sjacobi_delete(IntPtr* handle);
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int sjacobi(SolveFnF fcn, int* n, int* m, float* fjac, float* x, float* eps);
 
         const int ONE_ITERATION = 0;
