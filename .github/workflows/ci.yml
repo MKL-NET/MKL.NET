@@ -105,28 +105,6 @@ jobs:
           path: MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so
       - name: Test
         run: dotnet run --project Tests -c linux-x64 -f net5.0 -r linux-x64 -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
-  linux_core_86:
-      runs-on: ubuntu-latest
-      env:
-        DOTNET_NOLOGO: true
-        DOTNET_CLI_TELEMETRY_OPTOUT: true
-      steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.400'
-      - name: Build Native
-        run: |
-             cmake --version
-             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x86/Release
-             cmake --build MKL.NET.Native/bin/build/linux-x86/Release --config Release
-      - name: Upload Native
-        uses: actions/upload-artifact@v2
-        with:
-          name: linux-x86
-          path: MKL.NET.Native/bin/build/linux-x86/Release/MKL.NET.Native.so
-      - name: Test
-        run: dotnet run --project Tests -c linux-x86 -f net5.0 -r linux-x86 -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
   osx_core_64:
       runs-on: macos-latest
       env:

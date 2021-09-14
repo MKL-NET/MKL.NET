@@ -11,7 +11,7 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>NU5128;NU5131;IDE1006</NoWarn>
     <RuntimeIdentifer Condition="$(Configuration)!='ref'">$(Configuration)</RuntimeIdentifer>
-    <DefineConstants Condition="$(Configuration)=='linux-x64' Or $(Configuration)=='linux-x86'">$(DefineConstants);LINUX</DefineConstants>
+    <DefineConstants Condition="$(Configuration)=='linux-x64'">$(DefineConstants);LINUX</DefineConstants>
     <DefineConstants Condition="$(Configuration)=='osx-x64' Or $(Configuration)=='osx-x86'">$(DefineConstants);OSX</DefineConstants>
     <ProduceOnlyReferenceAssembly Condition="$(Configuration)=='ref'">true</ProduceOnlyReferenceAssembly>
     <GenerateDocumentationFile Condition="$(Configuration)!='ref'">true</GenerateDocumentationFile>
@@ -24,7 +24,7 @@ Added NaN all parameter handling in Solve.
     </PackageReleaseNotes>
     <Version>1.2.3</Version>
     <Optimize>true</Optimize>
-    <Configurations>win-x64;win-x86;linux-x64;linux-x86;osx-x64;ref</Configurations>
+    <Configurations>win-x64;win-x86;linux-x64;osx-x64;ref</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />
@@ -33,17 +33,14 @@ Added NaN all parameter handling in Solve.
     <None Include="bin/win-x64/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x64/lib/netstandard2.0" />
     <None Include="bin/win-x86/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x86/lib/netstandard2.0" />
     <None Include="bin/linux-x64/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="runtimes/linux-x64/lib/netstandard2.0" />
-    <None Include="bin/linux-x86/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="runtimes/linux-x86/lib/netstandard2.0" />
     <None Include="bin/osx-x64/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="runtimes/osx-x64/lib/netstandard2.0" />
     <None Include="../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     <None Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
     <None Include="../MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
-    <None Include="../MKL.NET.Native/bin/build/linux-x86/Release/MKL.NET.Native.so" Pack="true" PackagePath="runtimes/linux-x86/native" />
     <None Include="../MKL.NET.Native/bin/build/osx-x64/Release/MKL.NET.Native.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" />
     <Content Condition="Exists('../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll') And $(Configuration)=='win-x64'" Include="../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" />
     <Content Condition="Exists('../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll') And $(Configuration)=='win-x86'" Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" />
     <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so') And $(Configuration)=='linux-x64'" Include="../MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so" Pack="false" CopyToOutputDirectory="PreserveNewest" />
-    <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x86/Release/MKL.NET.Native.so') And $(Configuration)=='linux-x86'" Include="../MKL.NET.Native/bin/build/linux-x86/Release/MKL.NET.Native.so" Pack="false" CopyToOutputDirectory="PreserveNewest" />
     <Content Condition="Exists('../MKL.NET.Native/bin/build/osx-x64/Release/MKL.NET.Native.dylib') And $(Configuration)=='osx-x64'" Include="../MKL.NET.Native/bin/build/osx-x64/Release/MKL.NET.Native.dylib" Pack="false" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
