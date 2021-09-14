@@ -146,6 +146,8 @@ let all =
         }
 
         test "native_test" {
+            let dir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
+            Check.isTrue (System.IO.File.Exists(System.IO.Path.Combine(dir, "MKL.NET.Native.dll"))) |> Check.message "MKL.NET.Native.dll missing"
             Check.equal 17 (Dfti.Test 17)
         }
     }
