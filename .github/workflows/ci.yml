@@ -84,25 +84,6 @@ jobs:
         run: dotnet build Tests -c Release -f net48 -p:MKLNET_RID=win-x86
       - name: Test
         run: dotnet run --project Tests -c Release -f net48 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
-  linux_native_64:
-      runs-on: ubuntu-latest
-      env:
-        DOTNET_NOLOGO: true
-        DOTNET_CLI_TELEMETRY_OPTOUT: true
-      steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.400'
-      - name: Build
-        run: |
-             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
-             cmake --build MKL.NET.Native/bin/build/linux-x64 --config Release
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: linux-x64
-          path: MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so
   linux_core_64:
       runs-on: ubuntu-latest
       env:
@@ -113,29 +94,20 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.400'
+      - name: Build Native
+        run: |
+             cmake --version
+             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
+             cmake --build MKL.NET.Native/bin/build/linux-x64 --config Release
+      - name: Upload Native
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-x64
+          path: MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=linux-x64
       - name: Test
         run: dotnet run --project Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
-  osx_native_64:
-      runs-on: macos-latest
-      env:
-        DOTNET_NOLOGO: true
-        DOTNET_CLI_TELEMETRY_OPTOUT: true
-      steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.400'
-      - name: Build
-        run: |
-             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/osx-x64
-             cmake --build MKL.NET.Native/bin/build/osx-x64 --config Release
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: osx-x64
-          path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib
   osx_core_64:
       runs-on: macos-latest
       env:
@@ -146,13 +118,23 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.400'
+      - name: Build Native
+        run: |
+             cmake --version
+             cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/osx-x64
+             cmake --build MKL.NET.Native/bin/build/osx-x64 --config Release
+      - name: Upload Native
+        uses: actions/upload-artifact@v2
+        with:
+          name: osx-x64
+          path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib
       - name: Build
         run: dotnet build Tests -c Release -f net5.0 -p:MKLNET_RID=osx-x64
       - name: Test
         run: dotnet run --project Tests -c Release -f net5.0 --no-build -- -perf --info --nost --time 60 --wait 10 --skip
   native_package:
       runs-on: ubuntu-latest
-      needs: [windows_core_64, windows_core_86, linux_native_64, osx_native_64]
+      needs: [windows_core_64, windows_core_86, linux_core_64, osx_core_64]
       steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
