@@ -10,7 +10,7 @@ function GetPackage([string]$name, [string]$version)
 }
 
 if(Test-Path $dir) { Remove-Item $dir -Force -Recurse }
-if(!(Test-Path $dir)) { New-Item $dir }
+if(!(Test-Path $dir)) { New-Item $dir -ItemType Directory | Out-Null }
 if($args.count -eq 0 -or $args[0] -eq 'win-x64') { GetPackage intelmkl.devel.win-x64 2021.3.0.524 }
 if($args.count -eq 0 -or $args[0] -eq 'win-x86') { GetPackage intelmkl.devel.win-x86 2021.3.0.524 }
 if($args.count -eq 0 -or $args[0] -eq 'linux-x64') { GetPackage intelmkl.devel.linux-x64 2021.3.0.524 }
