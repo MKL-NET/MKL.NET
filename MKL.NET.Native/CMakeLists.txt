@@ -3,7 +3,6 @@
 project ("MKL.NET.Native")
 
 set (CMAKE_SHARED_LIBRARY_PREFIX "")
-set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 if (CMAKE_BINARY_DIR MATCHES "win-x64$")
     add_library (MKL.NET.Native SHARED "Test.c" "Dfti.c")
