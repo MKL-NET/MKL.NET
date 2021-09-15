@@ -110,7 +110,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: linux-x64
-          path: MKL.NET.Native/bin/build/linux-x64/Release/MKL.NET.Native.so
+          path: MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so
       - name: Test
         run: dotnet run --project Tests -c linux-x64 -f net5.0 -r linux-x64 -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
   osx_core_64:
@@ -132,6 +132,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: osx-x64
-          path: MKL.NET.Native/bin/build/osx-x64/Release/MKL.NET.Native.dylib
+          path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib
       - name: Test
         run: dotnet run --project Tests -c osx-x64 -f net5.0 -r osx-x64 -- -perf --info --nost --time 60 --wait 10 --skip
