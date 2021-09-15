@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30404.54
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A51AA470-C12D-444E-885A-D5FDAF5C4163}"
 	ProjectSection(SolutionItems) = preProject
-		buildMKL.NET.ps1 = buildMKL.NET.ps1
-		buildNative.ps1 = buildNative.ps1
 		.github\workflows\ci.yml = .github\workflows\ci.yml
 		Directory.Build.props = Directory.Build.props
 		NuGet.Config = NuGet.Config
@@ -39,6 +37,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsCSharp", "TestsCSharp\TestsCSharp.csproj", "{8B5B3808-4C38-437E-87B0-ACF7A2A5A97A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MKL.NET.linux-x64.b", "MKL.NET.linux-x64.b\MKL.NET.linux-x64.b.csproj", "{B71288EC-41DF-439D-B814-8F5F029E702C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4AE73698-BA0C-4A79-92E7-DBF256DD6FA0}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\Download-Devel.ps1 = Scripts\Download-Devel.ps1
+		Scripts\Package-MKL.NET.ps1 = Scripts\Package-MKL.NET.ps1
+		Scripts\Package-Native.ps1 = Scripts\Package-Native.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

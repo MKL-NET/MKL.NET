@@ -1,8 +1,8 @@
-Push-Location $PSScriptRoot
+Push-Location $PSScriptRoot/..
 
 function GetPackage([string]$name, [string]$version)
 {
-    $filename = "$PSScriptRoot/packages/$name.$version.nupkg"
+    $filename = "$PSScriptRoot/../packages/$name.$version.nupkg"
     if(!(Test-Path $filename))
     {
         $wc = New-Object System.Net.WebClient
