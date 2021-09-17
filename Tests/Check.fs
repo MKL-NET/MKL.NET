@@ -60,6 +60,9 @@ let equal (expected:'a) (actual:'a) =
             else equalDefault e a
     equal expected actual
 
+let zero (actual:'a) =
+    equal (Unchecked.defaultof<_>) actual
+
 let between (startInclusive:'a) (endInclusive:'a) (actual:'a) =
     if actual < startInclusive then
         Failure(Normal "actual " + Numeric actual + " is less than start " + Numeric startInclusive + ".")

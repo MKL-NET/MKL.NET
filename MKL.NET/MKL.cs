@@ -89,5 +89,18 @@ namespace MKLNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void free_buffers()
             => mkl_free_buffers();
+
+#if LINUX
+        internal const string NATIVE_DLL = "MKL.NET.Native.so";
+#elif OSX
+        internal const string NATIVE_DLL = "MKL.NET.Native.dylib";
+#else
+        internal const string NATIVE_DLL = "MKL.NET.Native.dll";
+#endif
+
+        [DllImport(NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int test(int i);
+
+        public static int Test(int i) => test(i);
     }
 }

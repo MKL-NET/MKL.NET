@@ -12,6 +12,7 @@
 *.props text eol=lf crlf=input
 *.ps1 text eol=lf crlf=input
 *.c text eol=lf crlf=input
+*.h text eol=lf crlf=input
 *.txt text eol=lf crlf=input
 *.json text eol=lf crlf=input
 

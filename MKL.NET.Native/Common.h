@@ -1,5 +1,10 @@
+#ifndef _MKLNET_COMMON_H_
+#define _MKLNET_COMMON_H_
+
 #ifdef _WIN32
-#  define EXPORTIT __declspec( dllexport )
+#  define DLLEXPORT __declspec( dllexport )
 #else
-#  define EXPORTIT __attribute__((visibility("default")))
+#  define DLLEXPORT __attribute__((visibility("default")))
+#endif
+
 #endif

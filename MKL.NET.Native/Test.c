@@ -1,6 +1,6 @@
-﻿#include "Common.h"
+﻿#include "common.h"
 
-EXPORTIT int test(int i)
+DLLEXPORT int test(int i)
 {
     return i;
 }
