@@ -10,7 +10,7 @@ let all =
         BlasTests.all
         LapackTests.all
         MKLTests.all
-        if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then DftiTests.all else []
+        DftiTests.all
         VectorTests.all
         MatrixTests.all
         if Environment.Is64BitProcess then SolveTests.all else []
