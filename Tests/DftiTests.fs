@@ -6,9 +6,15 @@ open MKLNET
 let all =
     test "Dfti" {
 
+        let checkStatus status =
+            Check.isTrue (status = 0L || Dfti.ErrorClass(status, DftiErrorClass.NO_ERROR) <> 0L)
+            |> Check.message "status = %i" status
+            
+
         test "forward_zero_real" {
             let input = Array.zeroCreate<double> 64
-            let output = Dfti.ComputeForward input
+            let output, status = Dfti.ComputeForward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal 0.0 input.[i]
                 Check.equal 0.0 output.[i].Real
@@ -17,7 +23,8 @@ let all =
 
         test "forward_zero_complex" {
             let input = Array.zeroCreate<Complex> 64
-            let output = Dfti.ComputeForward input
+            let output, status = Dfti.ComputeForward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal 0.0 input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -27,7 +34,7 @@ let all =
 
         test "forward_zero_inplace" {
             let input = Array.zeroCreate<Complex> 64
-            Dfti.ComputeForwardInplace input |> Check.zero
+            Dfti.ComputeForwardInplace input |> checkStatus
             for i = 0 to 63 do
                 Check.equal 0.0 input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -35,7 +42,8 @@ let all =
 
         test "backward_zero" {
             let input = Array.zeroCreate 64
-            let output = Dfti.ComputeBackward input
+            let output, status = Dfti.ComputeBackward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal 0.0 input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -45,7 +53,7 @@ let all =
 
         test "backward_zero_inplace" {
             let input = Array.zeroCreate 64
-            Dfti.ComputeBackwardInplace input |> Check.zero
+            Dfti.ComputeBackwardInplace input |> checkStatus
             for i = 0 to 63 do
                 Check.equal 0.0 input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -53,7 +61,8 @@ let all =
 
         test "forward_one_real" {
             let input = Array.create 64 1.0
-            let output = Dfti.ComputeForward input
+            let output, status = Dfti.ComputeForward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal 1.0 input.[i]
                 Check.equal (if i = 0 then 64.0 else 0.0) output.[i].Real
@@ -62,7 +71,8 @@ let all =
 
         test "forward_one_complex" {
             let input = Array.create 64 (Complex(1.0, 0.0))
-            let output = Dfti.ComputeForward input
+            let output, status = Dfti.ComputeForward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal 1.0 input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -72,7 +82,7 @@ let all =
 
         test "forward_one_inplace" {
             let input = Array.create 64 (Complex(1.0, 0.0))
-            Check.equal 0L (Dfti.ComputeForwardInplace input) |> Check.message "status!"
+            Dfti.ComputeForwardInplace input |> checkStatus
             for i = 0 to 63 do
                 Check.equal (if i = 0 then 64.0 else 0.0) input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -81,7 +91,8 @@ let all =
         test "backward_one" {
             let input = Array.zeroCreate 64
             input.[0] <- Complex(64.0, 0.0)
-            let output = Dfti.ComputeBackward input
+            let output, status = Dfti.ComputeBackward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal (if i = 0 then 64.0 else 0.0) input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -92,7 +103,7 @@ let all =
         test "backward_one_inplace" {
             let input = Array.zeroCreate 64
             input.[0] <- Complex(64.0, 0.0)
-            Dfti.ComputeBackwardInplace input |> Check.zero
+            Dfti.ComputeBackwardInplace input |> checkStatus
             for i = 0 to 63 do
                 Check.equal 1.0 input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -100,7 +111,8 @@ let all =
 
         test "forward_alternate_real" {
             let input = Array.init 64 (fun i -> if i &&& 1 = 0 then 1.0 else -1.0)
-            let output = Dfti.ComputeForward input
+            let output, status = Dfti.ComputeForward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal (if i &&& 1 = 0 then 1.0 else -1.0) input.[i]
                 Check.equal (if i = 32 then 64.0 else 0.0) output.[i].Real
@@ -109,7 +121,8 @@ let all =
 
         test "forward_alternate_complex" {
             let input = Array.init 64 (fun i -> Complex((if i &&& 1 = 0 then 1.0 else -1.0), 0.0))
-            let output = Dfti.ComputeForward input
+            let output, status = Dfti.ComputeForward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal (if i &&& 1 = 0 then 1.0 else -1.0) input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -119,7 +132,7 @@ let all =
 
         test "forward_alternate_inplace" {
             let input = Array.init 64 (fun i -> Complex((if i &&& 1 = 0 then 1.0 else -1.0), 0.0))
-            Dfti.ComputeForwardInplace input |> Check.zero
+            Dfti.ComputeForwardInplace input |> checkStatus
             for i = 0 to 63 do
                 Check.equal (if i = 32 then 64.0 else 0.0) input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -128,7 +141,8 @@ let all =
         test "backward_alternate" {
             let input = Array.zeroCreate 64
             input.[32] <- Complex(64.0, 0.0)
-            let output = Dfti.ComputeBackward input
+            let output, status = Dfti.ComputeBackward input
+            checkStatus status
             for i = 0 to 63 do
                 Check.equal (if i = 32 then 64.0 else 0.0) input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -139,7 +153,7 @@ let all =
         test "backward_alternate_inplace" {
             let input = Array.zeroCreate 64
             input.[32] <- Complex(64.0, 0.0)
-            Dfti.ComputeBackwardInplace input |> Check.zero
+            Dfti.ComputeBackwardInplace input |> checkStatus
             for i = 0 to 63 do
                 Check.equal (if i &&& 1 = 0 then 1.0 else -1.0) input.[i].Real
                 Check.equal 0.0 input.[i].Imaginary
@@ -147,9 +161,5 @@ let all =
 
         test "asum" {
             Check.equal 6.0 (Dfti.Test_asum([|1.0;2.0;3.0|]))
-        }
-
-        test "error" {
-            Check.info "%s" (Dfti.ErrorMessage(8589934595L))
         }
     }

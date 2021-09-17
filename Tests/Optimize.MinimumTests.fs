@@ -377,7 +377,7 @@ let all =
             let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
             let mutable count = 0
             let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Boundary x), x)
-            Check.between 585 593 count
+            Check.between 585 594 count
             Check.close High 0.0 ols
         }
 
