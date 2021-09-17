@@ -31,18 +31,6 @@
             "cmakeCommandArgs": "",
             "buildCommandArgs": "",
             "ctestCommandArgs": ""
-        },
-        {
-            "name": "linux-x86",
-            "generator": "Ninja",
-            "configurationType": "Release",
-            "inheritEnvironments": [ "linux_x86" ],
-            "buildRoot": "${projectDir}\\bin\\build\\${name}",
-            "cmakeExecutable": "cmake",
-            "wslPath": "${defaultWSLPath}",
-            "cmakeCommandArgs": "",
-            "buildCommandArgs": "",
-            "ctestCommandArgs": ""
         }
     ]
 }

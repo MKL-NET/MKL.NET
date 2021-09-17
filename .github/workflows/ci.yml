@@ -101,6 +101,9 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.400'
+      - name: Download Native
+        shell: pwsh
+        run: ./Scripts/Download-Devel linux-x64
       - name: Build Native
         run: |
              cmake --version
@@ -123,6 +126,9 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.400'
+      - name: Download Native
+        shell: pwsh
+        run: ./Scripts/Download-Devel osx-x64
       - name: Build Native
         run: |
              cmake --version
