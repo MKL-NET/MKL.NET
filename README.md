@@ -30,7 +30,7 @@ The correct native libraries will be included and loaded at runtime.
 
 - Use freely available Intel MKL packages repackaged to work for each runtime.
 - The MKL.NET API is just a thin .NET wrapper around the native API keeping the syntax as close as possible.
-- The project is well defined with no business logic and could benefit from external input.
+- The project is well defined, with an open design, and no business logic and could benefit from external input.
 - Cross platform testing is easy and free using Github actions.
 - MKL.NET native packages can just be referenced for needed runtimes at library or application level.
 
@@ -88,6 +88,6 @@ Full use of MKL.NET will be made to improve performance. Algorithms will be perf
 
 ## MKL.NET.Statistics
 
-Simple and high performance statistics functions loosely based on the [scipy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html) API.
+Simple and high performance statistics functions.
 
 WIP ...

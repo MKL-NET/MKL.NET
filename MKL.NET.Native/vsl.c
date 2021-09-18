@@ -1,7 +1,7 @@
 ﻿#include "common.h"
 #include "mkl_vsl.h"
 
-DLLEXPORT MKL_LONG Quantiles(const int rows, const int cols, double data[], int quantiles_n, double quantiles[], double results[])
+DLLEXPORT MKL_LONG Quantiles(const int rows, const int cols, double data[], const int quantiles_n, double quantiles[], double results[])
 {
     VSLSSTaskPtr task;
     const int storage = VSL_SS_MATRIX_STORAGE_ROWS;

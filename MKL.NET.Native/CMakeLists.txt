@@ -15,7 +15,7 @@ else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
-add_library (MKL.NET.Native SHARED "vsl.c" "dfti.c" "blas.c")
+add_library (MKL.NET.Native SHARED "vsl.c" "dfti.c")
 target_include_directories (MKL.NET.Native PRIVATE "${PROJECT_SOURCE_DIR}/../packages/devel/intelmkl.devel.${MKLNET_RUNTIME}/lib/native/include")
 target_link_directories (MKL.NET.Native PRIVATE "${PROJECT_SOURCE_DIR}/../packages/devel/intelmkl.devel.${MKLNET_RUNTIME}/lib/native/${MKLNET_RUNTIME}")
 

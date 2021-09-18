@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="data">The data to calculate the quartiles and min and max of.</param>
         /// <returns>5 x data.Cols matrix of quartiles.</returns>
-        public static matrix Quartiles_MinMax(matrix data)
+        public static matrix QuartilesMinMax(matrix data)
         {
             var quants = new matrix(5, data.Cols);
             Vsl.Quantiles(data.Rows, data.Cols, data.Array, quartiles_minmax, quants.Array);
