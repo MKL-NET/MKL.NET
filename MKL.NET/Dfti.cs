@@ -10,24 +10,6 @@ namespace MKLNET
     public static class Dfti
     {
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern long DftiCopyDescriptor(DftiDescriptor original, out DftiDescriptor copy);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long CopyDescriptor(DftiDescriptor original, out DftiDescriptor copy)
-            => DftiCopyDescriptor(original, out copy);
-
-        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern long DftiCommitDescriptor(DftiDescriptor handle);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long CommitDescriptor(DftiDescriptor handle)
-            => DftiCommitDescriptor(handle);
-
-        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern long DftiFreeDescriptor(ref DftiDescriptor handle);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long FreeDescriptor(DftiDescriptor handle)
-            => DftiFreeDescriptor(ref handle);
-
-        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static unsafe extern IntPtr DftiErrorMessage(long status);
         public static string ErrorMessage(long status)
             => Marshal.PtrToStringAnsi(DftiErrorMessage(status));
@@ -39,45 +21,53 @@ namespace MKLNET
             => DftiErrorClass(status, error_class);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern long ComputeForwardInplace(int n, [In, Out] Complex[] x);
-        public static long ComputeForwardInplace(Complex[] x)
-            => ComputeForwardInplace(x.Length, x);
+        static extern long ComputeForwardInplace(int n, [In, Out] Complex[] x_inout);
+        public static long ComputeForward(Complex[] x_inout)
+            => ComputeForwardInplace(x_inout.Length, x_inout);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern long ComputeForwardReal(int n, [In] double[] x, [Out] Complex[] y);
-        public static Complex[] ComputeForward(double[] x, out long status)
-        {
-            var r = new Complex[x.Length];
-            status = ComputeForwardReal(x.Length, x, r);
-            return r;
-        }
+        static extern long ComputeForwardReal(int n, [In] double[] x_in, [Out] Complex[] y_out);
+        public static long ComputeForward(double[] x_in, Complex[] y_out)
+            => ComputeForwardReal(x_in.Length, x_in, y_out);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern long ComputeForward(int n, [In] Complex[] x, [Out] Complex[] y);
-        public static Complex[] ComputeForward(Complex[] x, out long status)
-        {
-            var r = new Complex[x.Length];
-            status = ComputeForward(x.Length, x, r);
-            return r;
-        }
+        static extern long ComputeForward(int n, [In] Complex[] x_in, [Out] Complex[] y_out);
+        public static long ComputeForward(Complex[] x_in, Complex[] y_out)
+            => ComputeForward(x_in.Length, x_in, y_out);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern long ComputeForwardScaleInplace(int n, [In, Out] Complex[] x_inout, double scale);
+        public static long ComputeForward(Complex[] x_inout, double scale)
+            => ComputeForwardScaleInplace(x_inout.Length, x_inout, scale);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern long ComputeForwardScaleReal(int n, [In] double[] x_in, [Out] Complex[] y_out, double scale);
+        public static long ComputeForward(double[] x_in, Complex[] y_out, double scale)
+            => ComputeForwardScaleReal(x_in.Length, x_in, y_out, scale);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern long ComputeForwardScale(int n, [In] Complex[] x_in, [Out] Complex[] y_out, double scale);
+        public static long ComputeForward(Complex[] x_in, Complex[] y_out, double scale)
+            => ComputeForwardScale(x_in.Length, x_in, y_out, scale);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern long ComputeBackward(int n, [In] Complex[] x, [Out] Complex[] y);
-        public static Complex[] ComputeBackward(Complex[] x, out long status)
-        {
-            var r = new Complex[x.Length];
-            status = ComputeBackward(x.Length, x, r);
-            return r;
-        }
+        public static long ComputeBackward(Complex[] x_in, Complex[] y_out)
+            => ComputeBackward(x_in.Length, x_in, y_out);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern long ComputeBackwardInplace(int n, [In, Out] Complex[] x);
-        public static long ComputeBackwardInplace(Complex[] x)
-            => ComputeBackwardInplace(x.Length, x);
+        static extern long ComputeBackwardInplace(int n, [In, Out] Complex[] x_inout);
+        public static long ComputeBackward(Complex[] x_inout)
+            => ComputeBackwardInplace(x_inout.Length, x_inout);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        static extern double test_asum(int n, double[] x, int step);
-        public static double Test_asum(double[] x)
-            => test_asum(x.Length, x, 1);
+        static extern long ComputeBackwardScale(int n, [In] Complex[] x, [Out] Complex[] y, double scale);
+        public static long ComputeBackward(Complex[] x_in, Complex[] y_out, double scale)
+            => ComputeBackwardScale(x_in.Length, x_in, y_out, scale);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern long ComputeBackwardScaleInplace(int n, [In, Out] Complex[] x_inout, double scale);
+        public static long ComputeBackward(Complex[] x_inout, double scale)
+            => ComputeBackwardScaleInplace(x_inout.Length, x_inout, scale);
     }
 }

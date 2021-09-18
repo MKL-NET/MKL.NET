@@ -145,11 +145,6 @@ namespace MKLNET
     {
         readonly IntPtr Ptr;
     }
-
-    public struct DftiDescriptor
-    {
-        readonly IntPtr Ptr;
-    }
 #pragma warning restore IDE0051 // Remove unused private members
 
     internal struct Pinned

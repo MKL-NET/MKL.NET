@@ -633,7 +633,7 @@ module Tests =
                     | FasterAgg fa ->
                         if fa.Error || info then
                             let me = fa.Median
-                            let range = "%[-" + Numeric((me.LowerQuartile*100.0).ToString("#0.0")) + "%..+" + Numeric((me.UpperQuartile*100.0).ToString("#0.0")) + "%]"
+                            let range = "%[" + Numeric((me.LowerQuartile*100.0).ToString("#0.0")) + "%.." + Numeric((me.UpperQuartile*100.0).ToString("#0.0")) + "%]"
                             let result = if me.Median >= 0.0 then Numeric((me.Median*100.0).ToString("#0.0")) + range + " faster"
                                          else Numeric((me.Median*100.0 / (-1.0 - me.Median)).ToString("#0.0")) + range + " slower"
                             if fa.Error then Alert "  FAIL: " + Message fa.Message + result

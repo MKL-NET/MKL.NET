@@ -982,6 +982,9 @@ namespace MKLNET
             return vslSSDeleteTask(&t);
         }
 
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        static extern int Quantiles(int rows, int cols, double[] data, int quantiles_n, double[] quantiles, double[] results);
+
         /// <summary>
         /// Calculates an array of quantiles for matrix of data stored column major.
         /// </summary>
@@ -990,24 +993,7 @@ namespace MKLNET
         /// <param name="data">The rows x cols column major data.</param>
         /// <param name="quantiles">The quantiles to calculate.</param>
         /// <param name="results">The calculated quantiles are set. This needs to be at least of length quantiles.Length x cols.</param>
-        public static void Quantiles(int rows, int cols, double[] data, double[] quantiles, double[] results)
-        {
-            IntPtr task;
-            var storage = VslStorage.ROWS;
-            int quantilesLength = quantiles.Length;
-            fixed (double* xp = &data[0], qp = &quantiles[0], rp = &results[0])
-            {
-                var status = vsldSSNewTask(&task, new IntPtr(&cols), new IntPtr(&rows), new IntPtr(&storage),
-                    new IntPtr(xp), IntPtr.Zero, IntPtr.Zero);
-                if (status != 0) throw new Exception("vsldSSNewTask non zero status: " + status);
-                status = vsldSSEditQuantiles(task, new IntPtr(&quantilesLength), new IntPtr(qp),
-                    new IntPtr(rp), IntPtr.Zero, IntPtr.Zero);
-                if (status != 0) throw new Exception("vsldSSEditQuantiles non zero status: " + status);
-                status = vsldSSCompute(task, VslEstimate.QUANTS, VslMethod.FAST);
-                if (status != 0) throw new Exception("vsldSSCompute non zero status: " + status);
-                status = vslSSDeleteTask(&task);
-                if (status != 0) throw new Exception("vslSSDeleteTask non zero status: " + status);
-            }
-        }
+        public static int Quantiles(int rows, int cols, double[] data, double[] quantiles, double[] results)
+            => Quantiles(rows, cols, data, quantiles.Length, quantiles, results);
     }
 }

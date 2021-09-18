@@ -41,8 +41,4 @@ let all =
         //    let i = MKL.set_threading_layer(MklThreading.SEQUENTIAL)
         //    Check.info "%A" i
         //}
-
-        test "native_test" {
-            Check.equal 17 (MKL.Test 17)
-        }
     }
