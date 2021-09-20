@@ -8,8 +8,8 @@ let all =
     test "stats_summary" {
 
         test "quartiles" {
-            let! obvs = Gen.Int.[1000,2000]
-            and! vars = Gen.Int.[5,10]
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
             let! a = Gen.Double.OneTwo.Array.[obvs*vars]
             let m = new matrix(obvs, vars, a)
             m.ReuseArray() |> ignore
@@ -31,8 +31,8 @@ let all =
         let sqr x = x * x
 
         test "moments" {
-            let! obvs = Gen.Int.[1000,2000]
-            and! vars = Gen.Int.[5,10]
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
             let! a = Gen.Double.OneTwo.Array.[obvs*vars]
             let m = new matrix(obvs, vars, a)
             m.ReuseArray() |> ignore
@@ -48,8 +48,8 @@ let all =
         }
 
         test "covariance" {
-            let! obvs = Gen.Int.[1000,2000]
-            and! vars = Gen.Int.[5,10]
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
             let! a = Gen.Double.OneTwo.Array.[obvs*vars]
             let m = new matrix(obvs, vars, a)
             m.ReuseArray() |> ignore
@@ -71,9 +71,41 @@ let all =
             Check.close High expectedCov cov
         }
 
+        test "covariance_weighted" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            let! a = Gen.Double.OneTwo.Array.[obvs*vars]
+            let m = new matrix(obvs, vars, a)
+            m.ReuseArray() |> ignore
+            let weight = Array.init obvs (fun i -> double(i+1))
+            let w = new vector(obvs, weight)
+            w.ReuseArray() |> ignore
+            let cov, mean = Stats.Covariance(m, w);
+            use expectedMean = new vectorT(vars)
+            let mutable W, B = 0.0, 0.0
+            for i = 0 to obvs - 1 do
+                W <- W + w.[i]
+                B <- B + sqr(w.[i])
+            B <- W - B / W
+            for i = 0 to vars - 1 do
+                let mutable total = 0.0
+                for j = 0 to obvs - 1 do
+                    total <- total + w.[j] * a.[i * obvs + j]
+                expectedMean.[i] <- total / W
+            use expectedCov = new matrix(vars, vars)
+            for i = 0 to vars - 1 do
+                for j = 0 to vars - 1 do
+                    let mutable total = 0.0
+                    for k = 0 to obvs - 1 do
+                        total <- total + w.[k] * (m.[k, i]-mean.[i]) * (m.[k, j]-mean.[j])
+                    expectedCov.[i, j] <- total / B
+            Check.close High expectedMean mean
+            Check.close High expectedCov cov
+        }
+
         test "correlation" {
-            let! obvs = Gen.Int.[1000,2000]
-            and! vars = Gen.Int.[5,10]
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
             let! a = Gen.Double.OneTwo.Array.[obvs*vars]
             let m = new matrix(obvs, vars, a)
             m.ReuseArray() |> ignore
@@ -91,6 +123,43 @@ let all =
                     for k = 0 to obvs - 1 do
                         total <- total + (m.[k, i]-mean.[i]) * (m.[k, j]-mean.[j])
                     expectedCor.[i,j] <- total / double(obvs-1)
+            for i = 0 to vars - 1 do
+                for j = 0 to vars - 1 do
+                    expectedCor.[i, j] <-
+                        if i=j then expectedCor.[i,j]
+                        else expectedCor.[i, j] / sqrt(expectedCor.[i, i] * expectedCor.[j, j])
+            Check.close High expectedMean mean
+            Check.close High expectedCor cor
+        }
+
+        test "correlation_weighted" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            let! a = Gen.Double.OneTwo.Array.[obvs*vars]
+            let m = new matrix(obvs, vars, a)
+            m.ReuseArray() |> ignore
+            let weight = Array.init obvs (fun i -> double(i+1))
+            let w = new vector(obvs, weight)
+            w.ReuseArray() |> ignore
+            let cor, mean = Stats.Correlation(m, w);
+            let mutable W, B = 0.0, 0.0
+            for i = 0 to obvs - 1 do
+                W <- W + w.[i]
+                B <- B + sqr(w.[i])
+            B <- W - B / W
+            use expectedMean = new vectorT(vars)
+            for j = 0 to vars - 1 do
+                let mutable total = 0.0
+                for i = 0 to obvs - 1 do
+                    total <- total + w.[i] * m.[i, j]
+                expectedMean.[j] <- total / W
+            use expectedCor = new matrix(vars, vars)
+            for i = 0 to vars - 1 do
+                for j = 0 to vars - 1 do
+                    let mutable total = 0.0
+                    for k = 0 to obvs - 1 do
+                        total <- total + w.[k] * (m.[k, i]-mean.[i]) * (m.[k, j]-mean.[j])
+                    expectedCor.[i,j] <- total / B
             for i = 0 to vars - 1 do
                 for j = 0 to vars - 1 do
                     expectedCor.[i, j] <-
