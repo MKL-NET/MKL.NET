@@ -132,6 +132,19 @@ let close accuracy (expected:'a) (actual:'a) =
                     | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
                     | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
                 check 0
+        | (:? vectorT as e), (:? vectorT as a) ->
+            if e.Length <> a.Length then Failure(Normal "VectorT size differs. expected: "
+                                            + Numeric e.Length + " actual: "
+                                            + Numeric a.Length)
+            else
+                let rec check i =
+                    match close e.[i] a.[i] with
+                    | Success ->
+                        if i+1=e.Length then Success
+                        else check (i+1)
+                    | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
+                    | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
+                check 0
         | (:? matrix as e), (:? matrix as a) ->
             if e.Rows <> a.Rows || e.Cols <> a.Cols then Failure(Normal "Matrix size differs. expected: ("
                                                          + Numeric e.Rows + "," + Numeric e.Cols + ") actual: ("

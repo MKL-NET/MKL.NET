@@ -995,5 +995,20 @@ namespace MKLNET
         /// <param name="results">The calculated quantiles are set. This needs to be at least of length quantiles.Length x cols.</param>
         public static int Quantiles(int rows, int cols, double[] data, double[] quantiles, double[] results)
             => Quantiles(rows, cols, data, quantiles.Length, quantiles, results);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int Moments(int rows, int cols, double[] data, double[] mean, double[] mom2c);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int Covariance(int rows, int cols, double[] data, double[] mean, double[] cov);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int CovarianceWeighted(int rows, int cols, double[] data, double[] weight, double[] mean, double[] cov);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int Correlation(int rows, int cols, double[] data, double[] mean, double[] cor);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int CorrelationWeighted(int rows, int cols, double[] data, double[] weight, double[] mean, double[] cor);
     }
 }
