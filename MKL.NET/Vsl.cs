@@ -997,7 +997,13 @@ namespace MKLNET
             => Quantiles(rows, cols, data, quantiles.Length, quantiles, results);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int Moments(int rows, int cols, double[] data, double[] mean, double[] mom2c);
+        public static extern int MomentsRaw3(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsStandard3(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsCentral3(int rows, int cols, double[] data, double[] moments);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int Covariance(int rows, int cols, double[] data, double[] mean, double[] cov);

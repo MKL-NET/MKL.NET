@@ -48,12 +48,35 @@
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static (vectorT, vectorT) Moments(matrix data)
+        public static matrix MomentsRaw3(matrix data)
         {
-            var mean = new vectorT(data.Cols);
-            var mom2c = new vectorT(data.Cols);
-            ThrowHelper.Check(Vsl.Moments(data.Rows, data.Cols, data.Array, mean.Array, mom2c.Array));
-            return (mean, mom2c);
+            var moments = new matrix(3, data.Cols);
+            ThrowHelper.Check(Vsl.MomentsRaw3(data.Rows, data.Cols, data.Array, moments.Array));
+            return moments;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static matrix MomentsCentral3(matrix data)
+        {
+            var moments = new matrix(3, data.Cols);
+            ThrowHelper.Check(Vsl.MomentsCentral3(data.Rows, data.Cols, data.Array, moments.Array));
+            return moments;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static matrix MomentsStandard3(matrix data)
+        {
+            var moments = new matrix(3, data.Cols);
+            ThrowHelper.Check(Vsl.MomentsStandard3(data.Rows, data.Cols, data.Array, moments.Array));
+            return moments;
         }
 
         /// <summary>

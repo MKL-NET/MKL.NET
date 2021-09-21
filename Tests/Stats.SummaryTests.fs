@@ -27,20 +27,60 @@ let all =
         }
 
         let sqr x = x * x
+        let cub x = x * x * x
 
-        test "moments" {
+        test "moments_raw_3" {
             let! obvs = Gen.Int.[10,20]
             and! vars = Gen.Int.[4,7]
             use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
-            let struct (mean, mom2c) = Stats.Moments(m);
+            let moments = Stats.MomentsRaw3(m);
             for var = 0 to vars - 1 do
                 let meanExpected = Blas.asum(obvs, m.Array, var*obvs, 1) / float obvs
-                let mutable mom2cExpected = 0.0
+                let mutable mom2, mom3 = 0.0, 0.0
                 for i = var*obvs to var*obvs + obvs - 1 do
-                    mom2cExpected <- mom2cExpected + sqr(m.Array.[i] - meanExpected)
-                mom2cExpected <- mom2cExpected / float(obvs - 1)
-                Check.close High meanExpected mean.[var] |> Check.message "mean"
-                Check.close High mom2cExpected mom2c.[var] |> Check.message "mom2c"
+                    mom2 <- mom2 + sqr(m.Array.[i])
+                    mom3 <- mom3 + cub(m.Array.[i])
+                mom2 <- mom2 / float obvs
+                mom3 <- mom3 / float obvs
+                Check.close High meanExpected moments.[0, var] |> Check.message "mean %i" var
+                Check.close High mom2 moments.[1, var] |> Check.message "mom2r %i" var
+                Check.close High mom3 moments.[2, var] |> Check.message "mom3r %i" var
+        }
+
+        test "moments_central_3" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            let moments = Stats.MomentsCentral3(m);
+            for var = 0 to vars - 1 do
+                let meanExpected = Blas.asum(obvs, m.Array, var*obvs, 1) / float obvs
+                let mutable mom2, mom3 = 0.0, 0.0
+                for i = var*obvs to var*obvs + obvs - 1 do
+                    mom2 <- mom2 + sqr(m.Array.[i] - meanExpected)
+                    mom3 <- mom3 + cub(m.Array.[i] - meanExpected)
+                mom2 <- mom2 / float(obvs - 1)
+                mom3 <- mom3 / float obvs
+                Check.close High meanExpected moments.[0, var] |> Check.message "mean %i" var
+                Check.close High mom2 moments.[1, var] |> Check.message "mom2c %i" var
+                Check.close High mom3 moments.[2, var] |> Check.message "mom3c %i" var
+        }
+
+        test "moments_standard_3" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            let moments = Stats.MomentsStandard3(m);
+            for var = 0 to vars - 1 do
+                let meanExpected = Blas.asum(obvs, m.Array, var*obvs, 1) / float obvs
+                let mutable mom2, mom3 = 0.0, 0.0
+                for i = var*obvs to var*obvs + obvs - 1 do
+                    mom2 <- mom2 + sqr(m.Array.[i] - meanExpected)
+                    mom3 <- mom3 + cub(m.Array.[i] - meanExpected)
+                mom2 <- mom2 / float(obvs - 1)
+                mom3 <- mom3 / float obvs / Math.Pow(mom2, 1.5)
+                Check.close High meanExpected moments.[0, var] |> Check.message "mean %i" var
+                Check.close High mom2 moments.[1, var] |> Check.message "mom2c %i" var
+                Check.close High mom3 moments.[2, var] |> Check.message "mom3c %i" var
         }
 
         test "covariance" {
