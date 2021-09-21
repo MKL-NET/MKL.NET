@@ -12,7 +12,19 @@ namespace MKLNET
             Length = length;
             Array = reuse;
         }
-        public vector(int length) : this(length, matrix.Pool.Rent(length)) { }
+        public vector(int length)
+        {
+            Length = length;
+            Array = matrix.Pool.Rent(length);
+        }
+        public vector(int length, Func<int, double> init)
+        {
+            Length = length;
+            var a = matrix.Pool.Rent(length);
+            for (int i = 0; i < length; i++)
+                a[i] = init(i);
+            Array = a;
+        }
         public void Dispose()
         {
             matrix.Pool.Return(Array);
@@ -65,7 +77,19 @@ namespace MKLNET
             Length = length;
             Array = reuse;
         }
-        public vectorT(int length) : this(length, matrix.Pool.Rent(length)) { }
+        public vectorT(int length)
+        {
+            Length = length;
+            Array = matrix.Pool.Rent(length);
+        }
+        public vectorT(int length, Func<int, double> init)
+        {
+            Length = length;
+            var a = matrix.Pool.Rent(length);
+            for (int i = 0; i < length; i++)
+                a[i] = init(i);
+            Array = a;
+        }
         public void Dispose()
         {
             matrix.Pool.Return(Array);

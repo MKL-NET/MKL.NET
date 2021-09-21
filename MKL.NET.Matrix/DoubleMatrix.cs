@@ -16,7 +16,22 @@ namespace MKLNET
             Cols = cols;
             Array = reuse;
         }
-        public matrix(int rows, int cols) : this(rows, cols, Pool.Rent(rows * cols)) { }
+        public matrix(int rows, int cols)
+        {
+            Rows = rows;
+            Cols = cols;
+            Array = Pool.Rent(rows * cols);
+        }
+        public matrix(int rows, int cols, Func<int, int, double> init)
+        {
+            Rows = rows;
+            Cols = cols;
+            var a = Pool.Rent(rows * cols);
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    a[j + rows * i] = init(i, j);
+            Array = a;
+        }
         public double this[int row, int col]
         {
             get => Array[col * Rows + row];

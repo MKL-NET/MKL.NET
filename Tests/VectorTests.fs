@@ -77,8 +77,8 @@ let add = test "add" {
 
     test "vv" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a 1.0 b
         use actual = a + b |> impV
         Check.close High expected actual
@@ -86,8 +86,8 @@ let add = test "add" {
 
     test "vv_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a 1.0 b
         use actual = (a + 0.0) + (b + 0.0) |> impV
         Check.close High expected actual
@@ -95,8 +95,8 @@ let add = test "add" {
 
     test "vvS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a s b
         use actual = a + s * b |> impV
@@ -105,8 +105,8 @@ let add = test "add" {
 
     test "vvS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a s b
         use actual = (a + 0.0) + (s * b + 0.0) |> impV
@@ -115,8 +115,8 @@ let add = test "add" {
 
     test "vTvT" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a 1.0 b
         use actual = (a.T + b.T).T |> impV
         Check.close High expected actual
@@ -124,8 +124,8 @@ let add = test "add" {
 
     test "vTvT_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a 1.0 b
         use actual = ((a.T + 0.0) + (b.T + 0.0)).T |> impV
         Check.close High expected actual
@@ -133,8 +133,8 @@ let add = test "add" {
 
     test "vTvTS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a s b
         use actual = (a.T + s * b.T).T |> impV
@@ -143,8 +143,8 @@ let add = test "add" {
 
     test "vTvTS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a s b
         use actual = ((a.T + 0.0) + (s * b.T + 0.0)).T |> impV
@@ -153,8 +153,8 @@ let add = test "add" {
 
     test "vSv" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a 1.0 b
         use actual = s * a + b |> impV
@@ -163,8 +163,8 @@ let add = test "add" {
 
     test "vSv_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a 1.0 b
         use actual = (s * a + 0.0) + (b + 0.0) |> impV
@@ -173,8 +173,8 @@ let add = test "add" {
 
     test "vSvS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a s2 b
@@ -184,8 +184,8 @@ let add = test "add" {
 
     test "vSvS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a s2 b
@@ -195,8 +195,8 @@ let add = test "add" {
 
     test "vTSvT" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a 1.0 b
         use actual = (s * a.T + b.T).T |> impV
@@ -205,8 +205,8 @@ let add = test "add" {
 
     test "vTSvT_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a 1.0 b
         use actual = ((s * a.T + 0.0) + (b.T + 0.0)).T |> impV
@@ -215,8 +215,8 @@ let add = test "add" {
 
     test "vTSvTS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a s2 b
@@ -226,8 +226,8 @@ let add = test "add" {
 
     test "vTSvTS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a s2 b
@@ -348,8 +348,8 @@ let sub = test "sub" {
 
     test "vv" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a -1.0 b
         use actual = a - b |> impV
         Check.close High expected actual
@@ -357,8 +357,8 @@ let sub = test "sub" {
 
     test "vv_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a -1.0 b
         use actual = (a + 0.0) - (b + 0.0) |> impV
         Check.close High expected actual
@@ -366,8 +366,8 @@ let sub = test "sub" {
 
     test "vvS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a -s b
         use actual = a - s * b |> impV
@@ -376,8 +376,8 @@ let sub = test "sub" {
 
     test "vvS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a -s b
         use actual = (a + 0.0) - (s * b + 0.0) |> impV
@@ -386,8 +386,8 @@ let sub = test "sub" {
 
     test "vTvT" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a -1.0 b
         use actual = (a.T - b.T).T |> impV
         Check.close High expected actual
@@ -395,8 +395,8 @@ let sub = test "sub" {
 
     test "vTvT_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         use expected = add_vv 1.0 a -1.0 b
         use actual = ((a.T + 0.0) - (b.T + 0.0)).T |> impV
         Check.close High expected actual
@@ -404,8 +404,8 @@ let sub = test "sub" {
 
     test "vTvTS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a -s b
         use actual = (a.T - s * b.T).T |> impV
@@ -414,8 +414,8 @@ let sub = test "sub" {
 
     test "vTvTS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv 1.0 a -s b
         use actual = ((a.T + 0.0) - (s * b.T + 0.0)).T |> impV
@@ -424,8 +424,8 @@ let sub = test "sub" {
 
     test "vSv" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a -1.0 b
         use actual = s * a - b |> impV
@@ -434,8 +434,8 @@ let sub = test "sub" {
 
     test "vSv_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a -1.0 b
         use actual = (s * a + 0.0) - (b + 0.0) |> impV
@@ -444,8 +444,8 @@ let sub = test "sub" {
 
     test "vSvS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a -s2 b
@@ -455,8 +455,8 @@ let sub = test "sub" {
 
     test "vSvS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a -s2 b
@@ -466,8 +466,8 @@ let sub = test "sub" {
 
     test "vTSvT" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a -1.0 b
         use actual = (s * a.T - b.T).T |> impV
@@ -476,8 +476,8 @@ let sub = test "sub" {
 
     test "vTSvT_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = add_vv s a -1.0 b
         use actual = ((s * a.T + 0.0) - (b.T + 0.0)).T |> impV
@@ -486,8 +486,8 @@ let sub = test "sub" {
 
     test "vTSvTS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a -s2 b
@@ -497,8 +497,8 @@ let sub = test "sub" {
 
     test "vTSvTS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = add_vv s1 a -s2 b
@@ -511,8 +511,8 @@ let mul = test "mul" {
 
     test "vvT" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         use expected = mul_vvT 1.0 a b
         use actual = (a * b.T) |> impM
         Check.close High expected actual
@@ -520,8 +520,8 @@ let mul = test "mul" {
 
     test "vvT_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         use expected = mul_vvT 1.0 a b
         use actual = ((a + 0.0) * (b.T + 0.0)) |> impM
         Check.close High expected actual
@@ -529,8 +529,8 @@ let mul = test "mul" {
 
     test "vvTS" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = mul_vvT s a b
         use actual = a * (s * b.T) |> impM
@@ -539,8 +539,8 @@ let mul = test "mul" {
 
     test "vvTS_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = mul_vvT s a b
         use actual = (a + 0.0) * (s * b.T + 0.0) |> impM
@@ -549,8 +549,8 @@ let mul = test "mul" {
 
     test "vTv" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let expected = mul_vTv a b
         let actual = a.T * b
         Check.close High expected actual
@@ -558,8 +558,8 @@ let mul = test "mul" {
 
     test "vTv_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let expected = mul_vTv a b
         let actual = (a.T + 0.0) * (b + 0.0)
         Check.close High expected actual
@@ -567,8 +567,8 @@ let mul = test "mul" {
 
     test "vTvS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         let expected = mul_vTv a b * s
         let actual = a.T * (b * s)
@@ -577,8 +577,8 @@ let mul = test "mul" {
 
     test "vTvS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         let expected = mul_vTv a b * s
         let actual = (a.T + 0.0) * (b * s + 0.0)
@@ -587,8 +587,8 @@ let mul = test "mul" {
 
     test "vSvT" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = mul_vvT s a b
         use actual = (s * a) * b.T |> impM
@@ -597,8 +597,8 @@ let mul = test "mul" {
 
     test "vSvT_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         use expected = mul_vvT s a b
         use actual = (s * a + 0.0) * (b.T + 0.0) |> impM
@@ -607,8 +607,8 @@ let mul = test "mul" {
 
     test "vSvTS" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_vvT (s1*s2) a b
@@ -618,8 +618,8 @@ let mul = test "mul" {
 
     test "vSvTS_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! b = genVector n
+        use! a = genVector m
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_vvT (s1*s2) a b
@@ -629,8 +629,8 @@ let mul = test "mul" {
 
     test "vTSv" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         let expected = s * mul_vTv a b
         let actual = (s * a.T) * b
@@ -639,8 +639,8 @@ let mul = test "mul" {
 
     test "vTSv_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s = Gen.Double.OneTwo
         let expected = s * mul_vTv a b
         let actual = (s * a.T + 0.0) * (b + 0.0)
@@ -649,8 +649,8 @@ let mul = test "mul" {
 
     test "vTSvS" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         let expected = s1 * mul_vTv a b * s2
@@ -660,8 +660,8 @@ let mul = test "mul" {
 
     test "vTSvS_reuse" {
         let! n = gen1D
-        let! a = genVector n
-        let! b = genVector n
+        use! a = genVector n
+        use! b = genVector n
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         let expected = s1 * mul_vTv a b * s2
@@ -671,8 +671,8 @@ let mul = test "mul" {
 
     test "vTm" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix m n
+        use! a = genVector m
+        use! B = genMatrix m n
         use expected = mul_vTm 1.0 a B
         use actual = (a.T * B).T |> impV
         Check.close High expected actual
@@ -680,8 +680,8 @@ let mul = test "mul" {
 
     test "vTm_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix m n
+        use! a = genVector m
+        use! B = genMatrix m n
         use expected = mul_vTm 1.0 a B
         use actual = ((a.T + 0.0) * (B + 0.0)).T |> impV
         Check.close High expected actual
@@ -689,8 +689,8 @@ let mul = test "mul" {
 
     test "vTmT" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         use expected = mul_vTmT 1.0 a B
         use actual = (a.T * B.T).T |> impV
         Check.close High expected actual
@@ -698,8 +698,8 @@ let mul = test "mul" {
 
     test "vTmT_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         use expected = mul_vTmT 1.0 a B
         use actual = ((a.T + 0.0) * (B.T + 0.0)).T |> impV
         Check.close High expected actual
@@ -707,8 +707,8 @@ let mul = test "mul" {
 
     test "vTmTS" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = mul_vTmT s a B
         use actual = (a.T * (s * B.T)).T |> impV
@@ -717,8 +717,8 @@ let mul = test "mul" {
 
     test "vTmTS_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = mul_vTmT s a B
         use actual = ((a.T + 0.0) * (s * B.T + 0.0)).T |> impV
@@ -727,8 +727,8 @@ let mul = test "mul" {
 
     test "vTSm" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix m n
+        use! a = genVector m
+        use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = mul_vTm s a B
         use actual = ((s * a.T) * B).T |> impV
@@ -737,8 +737,8 @@ let mul = test "mul" {
 
     test "vTSm_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix m n
+        use! a = genVector m
+        use! B = genMatrix m n
         let! s = Gen.Double.OneTwo
         use expected = mul_vTm s a B
         use actual = ((s * a.T + 0.0) * (B + 0.0)).T |> impV
@@ -747,8 +747,8 @@ let mul = test "mul" {
 
     test "vTSmT" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = mul_vTmT s a B
         use actual = ((s * a.T) * B.T).T |> impV
@@ -757,8 +757,8 @@ let mul = test "mul" {
 
     test "vTSmT_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         let! s = Gen.Double.OneTwo
         use expected = mul_vTmT s a B
         use actual = ((s * a.T + 0.0) * (B.T + 0.0)).T |> impV
@@ -767,8 +767,8 @@ let mul = test "mul" {
 
     test "vTSmTS" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_vTmT (s1*s2) a B
@@ -778,8 +778,8 @@ let mul = test "mul" {
 
     test "vTSmTS_reuse" {
         let! m,n = gen2D
-        let! a = genVector m
-        let! B = genMatrix n m
+        use! a = genVector m
+        use! B = genMatrix n m
         let! s1 = Gen.Double.OneTwo
         let! s2 = Gen.Double.OneTwo
         use expected = mul_vTmT (s1*s2) a B

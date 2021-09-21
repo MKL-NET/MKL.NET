@@ -7,6 +7,7 @@ open System.Globalization
 open System.Runtime.CompilerServices
 open System.Runtime.InteropServices
 open CsCheck
+open MKLNET
 
 [<AutoOpen>]
 module Auto =
@@ -819,4 +820,17 @@ module Tests =
         | dups, invalid ->
             List.iter (fun (n:string list) -> Alert "Duplicate test name: " + TestName(String.Join(".",n)) |> print) dups
             List.iter (fun (n:string) -> Alert "Invalid test name (A-Z,a-z,0-9,-,_): " + TestName n |> print) invalid
-            4
+            4  
+
+[<Extension>]
+type GenMatrixExtension() =
+    [<Extension>]
+    static member Matrix (gen:Gen<double>, rows, cols) =
+        Gen.Create(GenDelegate(fun pcg min size ->
+            let m = new matrix(rows, cols)
+            let a = m.Array
+            let mutable si = Unchecked.defaultof<_>
+            for i = 0 to rows * cols - 1 do
+                a.[i] <- gen.Generate(pcg, null, &si)
+            m
+        ))
