@@ -983,6 +983,66 @@ namespace MKLNET
         }
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int Mean(int rows, int cols, double[] data, double[] results);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MeanWeighted(int rows, int cols, double[] data, double[] weight, double[] results);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int Median(int rows, int cols, double[] data, double[] results);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MedianWeighted(int rows, int cols, double[] data, double[] weight, double[] results);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsRaw2(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsRaw2Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsCentral2(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsCentral2Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsRaw3(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsRaw3Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsCentral3(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsCentral3Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsStandard3(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsStandard3Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsRaw4(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsRaw4Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsCentral4(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsCentral4Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsStandard4(int rows, int cols, double[] data, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MomentsStandard4Weighted(int rows, int cols, double[] data, double[] weight, double[] moments);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         static extern int Quantiles(int rows, int cols, double[] data, int quantiles_n, double[] quantiles, double[] results);
 
         /// <summary>
@@ -997,13 +1057,19 @@ namespace MKLNET
             => Quantiles(rows, cols, data, quantiles.Length, quantiles, results);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int MomentsRaw3(int rows, int cols, double[] data, double[] moments);
+        static extern int QuantilesWeighted(int rows, int cols, double[] data, double[] weight, int quantiles_n, double[] quantiles, double[] results);
 
-        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int MomentsStandard3(int rows, int cols, double[] data, double[] moments);
-
-        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int MomentsCentral3(int rows, int cols, double[] data, double[] moments);
+        /// <summary>
+        /// Calculates an array of quantiles for matrix of data stored column major.
+        /// </summary>
+        /// <param name="rows">The number of rows in data.</param>
+        /// <param name="cols">The number of columns in data.</param>
+        /// <param name="data">The rows x cols column major data.</param>
+        /// <param name="weight"></param>
+        /// <param name="quantiles">The quantiles to calculate.</param>
+        /// <param name="results">The calculated quantiles are set. This needs to be at least of length quantiles.Length x cols.</param>
+        public static int QuantilesWeighted(int rows, int cols, double[] data, double[] weight, double[] quantiles, double[] results)
+            => QuantilesWeighted(rows, cols, data, weight, quantiles.Length, quantiles, results);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int Covariance(int rows, int cols, double[] data, double[] mean, double[] cov);
