@@ -6,6 +6,26 @@
 const int storage = VSL_SS_MATRIX_STORAGE_ROWS;
 const int format = VSL_MATRIX_STORAGE_FULL;
 
+DLLEXPORT int Sum(const int rows, const int cols, double data[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
+    status = vsldSSEditTask(task, VSL_SS_ED_SUM, sum);
+    status = vsldSSCompute(task, VSL_SS_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    return status;
+}
+
+DLLEXPORT int SumWeighted(const int rows, const int cols, double data[], double weight[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
+    status = vsldSSEditTask(task, VSL_SS_ED_SUM, sum);
+    status = vsldSSCompute(task, VSL_SS_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    return status;
+}
+
 DLLEXPORT int Mean(const int rows, const int cols, double data[], double mean[])
 {
     VSLSSTaskPtr task;

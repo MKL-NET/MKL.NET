@@ -8,6 +8,31 @@
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        public static vectorT Sum(matrix data)
+        {
+            var r = new vectorT(data.Cols);
+            ThrowHelper.Check(Vsl.Sum(data.Rows, data.Cols, data.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static vectorT Sum(matrix data, vector weight)
+        {
+            var r = new vectorT(data.Cols);
+            ThrowHelper.Check(Vsl.SumWeighted(data.Rows, data.Cols, data.Array, weight.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static vectorT Mean(matrix data)
         {
             var r = new vectorT(data.Cols);

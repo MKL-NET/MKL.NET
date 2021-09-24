@@ -983,6 +983,12 @@ namespace MKLNET
         }
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int Sum(int rows, int cols, double[] data, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int SumWeighted(int rows, int cols, double[] data, double[] weight, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int Mean(int rows, int cols, double[] data, double[] results);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

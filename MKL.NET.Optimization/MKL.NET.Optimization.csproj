@@ -19,7 +19,7 @@ Added Bounded - transform N dimension function to add boundary conditions by pen
 Added CurveFit_LAD - CurveFit using least absolute deviation.
 Updated Minimum, CurveFit, LeastSquares - now return the function value at the minimum (or best fit).
         </PackageReleaseNotes>
-        <Version>0.4.0</Version>
+        <Version>0.4.1</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />

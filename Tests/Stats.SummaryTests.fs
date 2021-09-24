@@ -7,6 +7,38 @@ open CsCheck
 let all =
     test "stats_summary" {
 
+        test "sum" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            let sum = Stats.Sum(m);
+            use expectedSum = new vectorT(vars, fun i ->
+                let mutable total = 0.0
+                for j = 0 to obvs - 1 do
+                    total <- total + m.[j, i]
+                total
+            )
+            Check.close High expectedSum sum
+        }
+
+        test "sum_weighted" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            use w = new vector(obvs, fun i -> double(i+1))
+            let sum = Stats.Sum(m,w);
+            let mutable W = 0.0
+            for i = 0 to obvs - 1 do
+                W <- W + w.[i]
+            use expectedSum = new vectorT(vars, fun i ->
+                let mutable total = 0.0
+                for j = 0 to obvs - 1 do
+                    total <- total + w.[j] * m.[j, i]
+                total
+            )
+            Check.close High expectedSum sum
+        }
+
         test "mean" {
             let! obvs = Gen.Int.[10,20]
             and! vars = Gen.Int.[4,7]

@@ -25,7 +25,7 @@ Added Set inplace update for optimisation.
 Added Matrix.Identity.
 Optimised v1.T * v2 to not array allocate.
         </PackageReleaseNotes>
-        <Version>0.7.0</Version>
+        <Version>0.7.1</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
