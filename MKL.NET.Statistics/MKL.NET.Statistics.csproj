@@ -22,5 +22,6 @@ Preview
         <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />
         <ProjectReference Include="..\MKL.NET.Matrix\MKL.NET.Matrix.csproj" />
         <None Include="../matrix.png" Pack="true" PackagePath="" />
+        <None Include="../README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 </Project>

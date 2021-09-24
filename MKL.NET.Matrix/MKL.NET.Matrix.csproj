@@ -30,5 +30,6 @@ Optimised v1.T * v2 to not array allocate.
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
         <None Include="../matrix.png" Pack="true" PackagePath="" />
+        <None Include="../README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 </Project>

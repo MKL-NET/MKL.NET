@@ -7,6 +7,7 @@
   <ItemGroup>
     <Content Include="../runtimes/win-x64/native/*" Pack="true" PackagePath="runtimes/win-x64/native" />
     <Content Include="../matrix.png" Pack="true" PackagePath="" />
+    <None Include="../README.md" Pack="true" PackagePath="" />
     <Content Include="../THIRD_PARTY_INTEL_LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
   </ItemGroup>
 </Project>

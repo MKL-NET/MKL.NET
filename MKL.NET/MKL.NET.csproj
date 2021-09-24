@@ -28,6 +28,7 @@ Added NaN all parameter handling in Solve.
   </PropertyGroup>
   <ItemGroup>
     <None Include="../matrix.png" Pack="true" PackagePath="" />
+    <None Include="../README.md" Pack="true" PackagePath="" />
     <None Include="bin/ref/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="ref/netstandard2.0" />
     <None Include="bin/win-x64/netstandard2.0/MKL.NET.xml" Pack="true" PackagePath="ref/netstandard2.0" />
     <None Include="bin/win-x64/netstandard2.0/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x64/lib/netstandard2.0" />
