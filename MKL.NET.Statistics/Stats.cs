@@ -57,6 +57,35 @@
         /// 
         /// </summary>
         /// <param name="data"></param>
+        /// <param name="mad"></param>
+        /// <returns></returns>
+        public static vectorT MedianMAD(matrix data, out vectorT mad)
+        {
+            var median = new vectorT(data.Cols);
+            mad = new vectorT(data.Cols);
+            ThrowHelper.Check(Vsl.MedianMAD(data.Rows, data.Cols, data.Array, median.Array, mad.Array));
+            return median;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="weight"></param>
+        /// <param name="mad"></param>
+        /// <returns></returns>
+        public static vectorT MedianMAD(matrix data, vector weight, out vectorT mad)
+        {
+            var median = new vectorT(data.Cols);
+            mad = new vectorT(data.Cols);
+            ThrowHelper.Check(Vsl.MedianMADWeighted(data.Rows, data.Cols, data.Array, weight.Array, median.Array, mad.Array));
+            return median;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         /// <returns></returns>
         public static matrix MomentsRaw2(matrix data)
         {

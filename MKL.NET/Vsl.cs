@@ -995,6 +995,12 @@ namespace MKLNET
         public static extern int MedianWeighted(int rows, int cols, double[] data, double[] weight, double[] results);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MedianMAD(int rows, int cols, double[] data, double[] median, double[] mad);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int MedianMADWeighted(int rows, int cols, double[] data, double[] weight, double[] median, double[] mad);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int MomentsRaw2(int rows, int cols, double[] data, double[] moments);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

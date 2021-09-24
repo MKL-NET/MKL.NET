@@ -50,6 +50,32 @@ DLLEXPORT int MedianWeighted(const int rows, const int cols, double data[], doub
     return status;
 }
 
+DLLEXPORT int MedianMAD(const int rows, const int cols, double data[], double median[], double mad[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
+    const int quantiles_n = 1;
+    const double quantiles = 0.5;
+    status = vsldSSEditQuantiles(task, &quantiles_n, &quantiles, median, 0, 0);
+    status = vsldSSEditTask(task, VSL_SS_ED_MDAD, mad);
+    status = vsldSSCompute(task, VSL_SS_QUANTS | VSL_SS_MDAD, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    return status;
+}
+
+DLLEXPORT int MedianMADWeighted(const int rows, const int cols, double data[], double weight[], double median[], double mad[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
+    const int quantiles_n = 1;
+    const double quantiles = 0.5;
+    status = vsldSSEditQuantiles(task, &quantiles_n, &quantiles, median, 0, 0);
+    status = vsldSSEditTask(task, VSL_SS_ED_MDAD, mad);
+    status = vsldSSCompute(task, VSL_SS_QUANTS | VSL_SS_MDAD, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    return status;
+}
+
 DLLEXPORT int MomentsRaw2(const int rows, const int cols, double data[], double moments[])
 {
     VSLSSTaskPtr task;

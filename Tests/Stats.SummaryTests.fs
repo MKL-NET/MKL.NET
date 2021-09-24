@@ -43,13 +43,13 @@ let all =
             let! obvs = Gen.Int.[10,20]
             and! vars = Gen.Int.[4,7]
             use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
-            let mean = Stats.Median(m);
-            use expectedMean = new vectorT(vars, fun i ->
+            let median = Stats.Median(m);
+            use expectedMedian = new vectorT(vars, fun i ->
                 Array.Sort(m.Array, i*obvs, obvs)
                 if obvs % 2 = 1 then m.Array.[i*obvs+obvs/2]
                 else (m.Array.[i*obvs+obvs/2] + m.Array.[i*obvs+obvs/2-1]) * 0.5
             )
-            Check.close High expectedMean mean
+            Check.close High expectedMedian median
         }
 
         test "median_weighted" {
@@ -57,16 +57,64 @@ let all =
             and! vars = Gen.Int.[4,7]
             use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
             use w = new vector(obvs, fun _ -> 1.0)
-            let mean = Stats.Median(m,w);
+            let median = Stats.Median(m,w);
             let mutable W = 0.0
             for i = 0 to obvs - 1 do
                 W <- W + w.[i]
-            use expectedMean = new vectorT(vars, fun i ->
+            use expectedMedian = new vectorT(vars, fun i ->
                 Array.Sort(m.Array, i*obvs, obvs)
                 if obvs % 2 = 1 then m.Array.[i*obvs+obvs/2]
                 else (m.Array.[i*obvs+obvs/2] + m.Array.[i*obvs+obvs/2-1]) * 0.5
             )
-            Check.close High expectedMean mean
+            Check.close High expectedMedian median
+        }
+
+        test "median_mad" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            let median, mad = Stats.MedianMAD(m);
+            use expectedMedian = new vectorT(vars, fun i ->
+                Array.Sort(m.Array, i*obvs, obvs)
+                if obvs % 2 = 1 then m.Array.[i*obvs+obvs/2]
+                else (m.Array.[i*obvs+obvs/2] + m.Array.[i*obvs+obvs/2-1]) * 0.5
+            )
+            use expectedMAD = new vectorT(vars, fun i ->
+                let median = expectedMedian.[i]
+                for j = i*obvs to i*obvs + obvs - 1 do
+                    m.Array.[j] <- abs(m.Array.[j] - median)
+                Array.Sort(m.Array, i*obvs, obvs)
+                if obvs % 2 = 1 then m.Array.[i*obvs+obvs/2]
+                else (m.Array.[i*obvs+obvs/2] + m.Array.[i*obvs+obvs/2-1]) * 0.5
+            )
+            Check.close High expectedMedian median
+            Check.close High expectedMAD mad
+        }
+
+        test "median_mad_weighted" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            use w = new vector(obvs, fun _ -> 1.0)
+            let median, mad = Stats.MedianMAD(m,w);
+            let mutable W = 0.0
+            for i = 0 to obvs - 1 do
+                W <- W + w.[i]
+            use expectedMedian = new vectorT(vars, fun i ->
+                Array.Sort(m.Array, i*obvs, obvs)
+                if obvs % 2 = 1 then m.Array.[i*obvs+obvs/2]
+                else (m.Array.[i*obvs+obvs/2] + m.Array.[i*obvs+obvs/2-1]) * 0.5
+            )
+            use expectedMAD = new vectorT(vars, fun i ->
+                let median = expectedMedian.[i]
+                for j = i*obvs to i*obvs + obvs - 1 do
+                    m.Array.[j] <- abs(m.Array.[j] - median)
+                Array.Sort(m.Array, i*obvs, obvs)
+                if obvs % 2 = 1 then m.Array.[i*obvs+obvs/2]
+                else (m.Array.[i*obvs+obvs/2] + m.Array.[i*obvs+obvs/2-1]) * 0.5
+            )
+            Check.close High expectedMedian median
+            Check.close High expectedMAD mad
         }
 
         let sqr x = x * x
