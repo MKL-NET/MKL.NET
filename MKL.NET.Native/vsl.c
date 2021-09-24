@@ -16,7 +16,7 @@ DLLEXPORT int Mean(const int rows, const int cols, double data[], double mean[])
     return status;
 }
 
-DLLEXPORT int MeanWeigted(const int rows, const int cols, double data[], double weight[], double mean[])
+DLLEXPORT int MeanWeighted(const int rows, const int cols, double data[], double weight[], double mean[])
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
@@ -61,7 +61,7 @@ DLLEXPORT int MomentsRaw2(const int rows, const int cols, double data[], double 
     return status;
 }
 
-DLLEXPORT int MomentsRaw2Weigted(const int rows, const int cols, double data[], double weight[], double moments[])
+DLLEXPORT int MomentsRaw2Weighted(const int rows, const int cols, double data[], double weight[], double moments[])
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);

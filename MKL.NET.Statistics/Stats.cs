@@ -69,6 +69,19 @@
         /// 
         /// </summary>
         /// <param name="data"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static matrix MomentsRaw2(matrix data, vector weight)
+        {
+            var moments = new matrix(2, data.Cols);
+            ThrowHelper.Check(Vsl.MomentsRaw2Weighted(data.Rows, data.Cols, data.Array, weight.Array, moments.Array));
+            return moments;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         /// <returns></returns>
         public static matrix MomentsCentral2(matrix data)
         {
