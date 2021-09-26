@@ -10,6 +10,7 @@
         <DelaySign>false</DelaySign>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <Description>
 Statistics functions based on cross platform MKL.NET.
         </Description>

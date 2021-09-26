@@ -10,6 +10,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <SignAssembly>true</SignAssembly>
         <DelaySign>false</DelaySign>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
         <Description>
 Optimization and root finding based on cross platform MKL.NET.

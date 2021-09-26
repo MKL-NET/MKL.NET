@@ -9,6 +9,7 @@
         <NoWarn>IDE1006,CA1816</NoWarn>
         <SignAssembly>true</SignAssembly>
         <DelaySign>false</DelaySign>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
         <Description>
 Performance and memory optimised matrix algebra library based on cross platform MKL.NET.
