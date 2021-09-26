@@ -26,6 +26,72 @@ DLLEXPORT int SumWeighted(const int rows, const int cols, double data[], double 
     return status;
 }
 
+DLLEXPORT int SumRaw2(const int rows, const int cols, double data[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
+    status = vsldSSEditSums(task, sum, sum + cols, 0, 0, 0, 0, 0);
+    status = vsldSSCompute(task, VSL_SS_SUM | VSL_SS_2R_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    MKL_Dimatcopy('C', 'T', cols, 2, 1.0, sum, cols, 2);
+    return status;
+}
+
+DLLEXPORT int SumRaw2Weighted(const int rows, const int cols, double data[], double weight[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
+    status = vsldSSEditSums(task, sum, sum + cols, 0, 0, 0, 0, 0);
+    status = vsldSSCompute(task, VSL_SS_SUM | VSL_SS_2R_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    MKL_Dimatcopy('C', 'T', cols, 2, 1.0, sum, cols, 2);
+    return status;
+}
+
+DLLEXPORT int SumRaw3(const int rows, const int cols, double data[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
+    status = vsldSSEditSums(task, sum, sum + cols, sum + cols * 2, 0, 0, 0, 0);
+    status = vsldSSCompute(task, VSL_SS_SUM | VSL_SS_2R_SUM | VSL_SS_3R_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    MKL_Dimatcopy('C', 'T', cols, 3, 1.0, sum, cols, 3);
+    return status;
+}
+
+DLLEXPORT int SumRaw3Weighted(const int rows, const int cols, double data[], double weight[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
+    status = vsldSSEditSums(task, sum, sum + cols, sum + cols * 2, 0, 0, 0, 0);
+    status = vsldSSCompute(task, VSL_SS_SUM | VSL_SS_2R_SUM | VSL_SS_3R_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    MKL_Dimatcopy('C', 'T', cols, 3, 1.0, sum, cols, 3);
+    return status;
+}
+
+DLLEXPORT int SumRaw4(const int rows, const int cols, double data[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
+    status = vsldSSEditSums(task, sum, sum + cols, sum + cols * 2, sum + cols * 3, 0, 0, 0);
+    status = vsldSSCompute(task, VSL_SS_SUM | VSL_SS_2R_SUM | VSL_SS_3R_SUM | VSL_SS_4R_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    MKL_Dimatcopy('C', 'T', cols, 4, 1.0, sum, cols, 4);
+    return status;
+}
+
+DLLEXPORT int SumRaw4Weighted(const int rows, const int cols, double data[], double weight[], double sum[])
+{
+    VSLSSTaskPtr task;
+    int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
+    status = vsldSSEditSums(task, sum, sum + cols, sum + cols * 2, sum + cols * 3, 0, 0, 0);
+    status = vsldSSCompute(task, VSL_SS_SUM | VSL_SS_2R_SUM | VSL_SS_3R_SUM | VSL_SS_4R_SUM, VSL_SS_METHOD_FAST);
+    status = vslSSDeleteTask(&task);
+    MKL_Dimatcopy('C', 'T', cols, 4, 1.0, sum, cols, 4);
+    return status;
+}
+
 DLLEXPORT int Mean(const int rows, const int cols, double data[], double mean[])
 {
     VSLSSTaskPtr task;

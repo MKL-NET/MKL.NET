@@ -989,6 +989,24 @@ namespace MKLNET
         public static extern int SumWeighted(int rows, int cols, double[] data, double[] weight, double[] sum);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int SumRaw2(int rows, int cols, double[] data, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int SumRaw2Weighted(int rows, int cols, double[] data, double[] weight, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int SumRaw3(int rows, int cols, double[] data, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int SumRaw3Weighted(int rows, int cols, double[] data, double[] weight, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int SumRaw4(int rows, int cols, double[] data, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int SumRaw4Weighted(int rows, int cols, double[] data, double[] weight, double[] sum);
+
+        [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int Mean(int rows, int cols, double[] data, double[] results);
 
         [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

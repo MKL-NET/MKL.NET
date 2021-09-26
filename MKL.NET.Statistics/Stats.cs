@@ -33,6 +33,81 @@
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        public static matrix Sum2(matrix data)
+        {
+            var r = new matrix(2, data.Cols);
+            ThrowHelper.Check(Vsl.SumRaw2(data.Rows, data.Cols, data.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static matrix Sum2(matrix data, vector weight)
+        {
+            var r = new matrix(2, data.Cols);
+            ThrowHelper.Check(Vsl.SumRaw2Weighted(data.Rows, data.Cols, data.Array, weight.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static matrix Sum3(matrix data)
+        {
+            var r = new matrix(3, data.Cols);
+            ThrowHelper.Check(Vsl.SumRaw3(data.Rows, data.Cols, data.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static matrix Sum3(matrix data, vector weight)
+        {
+            var r = new matrix(3, data.Cols);
+            ThrowHelper.Check(Vsl.SumRaw3Weighted(data.Rows, data.Cols, data.Array, weight.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static matrix Sum4(matrix data)
+        {
+            var r = new matrix(4, data.Cols);
+            ThrowHelper.Check(Vsl.SumRaw4(data.Rows, data.Cols, data.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static matrix Sum4(matrix data, vector weight)
+        {
+            var r = new matrix(4, data.Cols);
+            ThrowHelper.Check(Vsl.SumRaw4Weighted(data.Rows, data.Cols, data.Array, weight.Array, r.Array));
+            return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static vectorT Mean(matrix data)
         {
             var r = new vectorT(data.Cols);

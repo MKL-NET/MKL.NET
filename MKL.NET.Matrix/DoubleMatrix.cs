@@ -29,7 +29,7 @@ namespace MKLNET
             var a = Pool.Rent(rows * cols);
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
-                    a[j + rows * i] = init(i, j);
+                    a[j * rows + i] = init(i, j);
             Array = a;
         }
         public double this[int row, int col]

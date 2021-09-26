@@ -7,6 +7,10 @@ open CsCheck
 let all =
     test "stats_summary" {
 
+        let sqr x = x * x
+        let cube x = x * x * x
+        let quad x = sqr x |> sqr
+
         test "sum" {
             let! obvs = Gen.Int.[10,20]
             and! vars = Gen.Int.[4,7]
@@ -35,6 +39,93 @@ let all =
                 for j = 0 to obvs - 1 do
                     total <- total + w.[j] * m.[j, i]
                 total
+            )
+            Check.close High expectedSum sum
+        }
+
+        test "sum_raw_2" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            let sum = Stats.Sum2(m);
+            use expectedSum = new matrix(2, vars, fun i j ->
+                let mutable s = 0.0
+                for k = 0 to obvs - 1 do
+                    s <- s + pown m.[k, j] (i+1)
+                s
+            )
+            Check.close High expectedSum sum
+        }
+
+        test "sum_raw_2_weighted" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            use w = new vector(obvs, fun _ -> 1.0)
+            let sum = Stats.Sum2(m,w);
+            use expectedSum = new matrix(2, vars, fun i j ->
+                let mutable s = 0.0
+                for k = 0 to obvs - 1 do
+                    s <- s + pown m.[k, j] (i+1)
+                s
+            )
+            Check.close High expectedSum sum
+        }
+
+        test "sum_raw_3" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            let sum = Stats.Sum3(m);
+            use expectedSum = new matrix(3, vars, fun i j ->
+                let mutable s = 0.0
+                for k = 0 to obvs - 1 do
+                    s <- s + pown m.[k, j] (i+1)
+                s
+            )
+            Check.close High expectedSum sum
+        }
+
+        test "sum_raw_3_weighted" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            use w = new vector(obvs, fun _ -> 1.0)
+            let sum = Stats.Sum3(m,w);
+            use expectedSum = new matrix(3, vars, fun i j ->
+                let mutable s = 0.0
+                for k = 0 to obvs - 1 do
+                    s <- s + pown m.[k, j] (i+1)
+                s
+            )
+            Check.close High expectedSum sum
+        }
+
+        test "sum_raw_4" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            let sum = Stats.Sum4(m);
+            use expectedSum = new matrix(4, vars, fun i j ->
+                let mutable s = 0.0
+                for k = 0 to obvs - 1 do
+                    s <- s + pown m.[k, j] (i+1)
+                s
+            )
+            Check.close High expectedSum sum
+        }
+
+        test "sum_raw_4_weighted" {
+            let! obvs = Gen.Int.[10,20]
+            and! vars = Gen.Int.[4,7]
+            use! m = Gen.Double.OneTwo.Matrix(obvs, vars)
+            use w = new vector(obvs, fun _ -> 1.0)
+            let sum = Stats.Sum4(m,w);
+            use expectedSum = new matrix(4, vars, fun i j ->
+                let mutable s = 0.0
+                for k = 0 to obvs - 1 do
+                    s <- s + pown m.[k, j] (i+1)
+                s
             )
             Check.close High expectedSum sum
         }
@@ -148,10 +239,6 @@ let all =
             Check.close High expectedMedian median
             Check.close High expectedMAD mad
         }
-
-        let sqr x = x * x
-        let cube x = x * x * x
-        let quad x = sqr x |> sqr 
 
         test "moments_raw_2" {
             let! obvs = Gen.Int.[10,20]
