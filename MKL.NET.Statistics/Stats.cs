@@ -4,10 +4,10 @@
     public static class Stats
     {
         /// <summary>
-        /// 
+        /// Calculates the sum on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>The sum vectorT.</returns>
         public static vectorT Sum(matrix data)
         {
             var r = new vectorT(data.Cols);
@@ -16,11 +16,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted sum on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>The sum vectorT.</returns>
         public static vectorT Sum(matrix data, vector weight)
         {
             var r = new vectorT(data.Cols);
@@ -29,10 +29,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the sum and sum ^ 2 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>2 x data.Cols matrix.</returns>
         public static matrix Sum2(matrix data)
         {
             var r = new matrix(2, data.Cols);
@@ -41,11 +41,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted sum and sum ^ 2 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>2 x data.Cols matrix.</returns>
         public static matrix Sum2(matrix data, vector weight)
         {
             var r = new matrix(2, data.Cols);
@@ -54,10 +54,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the sum ... sum ^ 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix Sum3(matrix data)
         {
             var r = new matrix(3, data.Cols);
@@ -66,11 +66,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted sum ... sum ^ 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix Sum3(matrix data, vector weight)
         {
             var r = new matrix(3, data.Cols);
@@ -79,10 +79,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the sum ... sum ^ 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix Sum4(matrix data)
         {
             var r = new matrix(4, data.Cols);
@@ -91,11 +91,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted sum ... sum ^ 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix Sum4(matrix data, vector weight)
         {
             var r = new matrix(4, data.Cols);
@@ -104,10 +104,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the mean on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>The mean vectorT.</returns>
         public static vectorT Mean(matrix data)
         {
             var r = new vectorT(data.Cols);
@@ -116,11 +116,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted mean on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>The mean vectorT.</returns>
         public static vectorT Mean(matrix data, vector weight)
         {
             var r = new vectorT(data.Cols);
@@ -129,10 +129,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the median on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>The median vectorT.</returns>
         public static vectorT Median(matrix data)
         {
             var r = new vectorT(data.Cols);
@@ -141,11 +141,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted median on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>The median vectorT.</returns>
         public static vectorT Median(matrix data, vector weight)
         {
             var r = new vectorT(data.Cols);
@@ -154,11 +154,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the median and MAD on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mad"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="mad">The calculated MAD.</param>
+        /// <returns>The median vectorT.</returns>
         public static vectorT MedianMAD(matrix data, out vectorT mad)
         {
             var median = new vectorT(data.Cols);
@@ -168,12 +168,12 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted median and MAD on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <param name="mad"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <param name="mad">The calculated MAD.</param>
+        /// <returns>The median vectorT.</returns>
         public static vectorT MedianMAD(matrix data, vector weight, out vectorT mad)
         {
             var median = new vectorT(data.Cols);
@@ -183,10 +183,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the raw moments to order 2 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>2 x data.Cols matrix.</returns>
         public static matrix MomentsRaw2(matrix data)
         {
             var moments = new matrix(2, data.Cols);
@@ -195,11 +195,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted raw moments to order 2 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>2 x data.Cols matrix.</returns>
         public static matrix MomentsRaw2(matrix data, vector weight)
         {
             var moments = new matrix(2, data.Cols);
@@ -208,10 +208,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the central moments to order 2 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>2 x data.Cols matrix.</returns>
         public static matrix MomentsCentral2(matrix data)
         {
             var moments = new matrix(2, data.Cols);
@@ -220,11 +220,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted central moments to order 2 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>2 x data.Cols matrix.</returns>
         public static matrix MomentsCentral2(matrix data, vector weight)
         {
             var moments = new matrix(2, data.Cols);
@@ -233,10 +233,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the raw moments to order 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix MomentsRaw3(matrix data)
         {
             var moments = new matrix(3, data.Cols);
@@ -245,11 +245,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted raw moments to order 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix MomentsRaw3(matrix data, vector weight)
         {
             var moments = new matrix(3, data.Cols);
@@ -258,10 +258,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the central moments to order 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix MomentsCentral3(matrix data)
         {
             var moments = new matrix(3, data.Cols);
@@ -270,11 +270,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted central moments to order 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix MomentsCentral3(matrix data, vector weight)
         {
             var moments = new matrix(3, data.Cols);
@@ -283,10 +283,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the standard moments to order 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix MomentsStandard3(matrix data)
         {
             var moments = new matrix(3, data.Cols);
@@ -295,11 +295,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted standard moments to order 3 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>3 x data.Cols matrix.</returns>
         public static matrix MomentsStandard3(matrix data, vector weight)
         {
             var moments = new matrix(3, data.Cols);
@@ -308,10 +308,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the raw moments to order 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix MomentsRaw4(matrix data)
         {
             var moments = new matrix(4, data.Cols);
@@ -320,11 +320,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted raw moments to order 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix MomentsRaw4(matrix data, vector weight)
         {
             var moments = new matrix(4, data.Cols);
@@ -333,10 +333,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the central moments to order 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix MomentsCentral4(matrix data)
         {
             var moments = new matrix(4, data.Cols);
@@ -345,11 +345,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted central moments to order 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix MomentsCentral4(matrix data, vector weight)
         {
             var moments = new matrix(4, data.Cols);
@@ -358,10 +358,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the standard moments to order 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix MomentsStandard4(matrix data)
         {
             var moments = new matrix(4, data.Cols);
@@ -370,11 +370,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted standard moments to order 4 on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>4 x data.Cols matrix.</returns>
         public static matrix MomentsStandard4(matrix data, vector weight)
         {
             var moments = new matrix(4, data.Cols);
@@ -396,11 +396,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted quartiles on the columns of data. Q1 = 25%, Q2 = 50% (median), Q3 = 75%
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>3 x data.Cols matrix of quartiles.</returns>
         public static matrix Quartiles(matrix data, vector weight)
         {
             var quants = new matrix(3, data.Cols);
@@ -422,11 +422,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted quartiles plus min and max on the columns of data. Min = 0%, Q1 = 25%, Q2 = 50% (median), Q3 = 75%, Max = 100%
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <returns>5 x data.Cols matrix of quartiles.</returns>
         public static matrix QuartilesMinMax(matrix data, vector weight)
         {
             var quants = new matrix(5, data.Cols);
@@ -435,7 +435,7 @@
         }
 
         /// <summary>
-        /// Calculates the quantiles the columns of data.
+        /// Calculates the quantiles on the columns of data.
         /// </summary>
         /// <param name="data">The data to calculate the quantiles of.</param>
         /// <param name="quantiles">The quantiles to calculate in the range 0.0 - 1.0.</param>
@@ -448,12 +448,12 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted quantiles on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <param name="quantiles"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <param name="quantiles">The quantiles to calculate in the range 0.0 - 1.0.</param>
+        /// <returns>quantiles.Length x data.Cols matrix of quantiles.</returns>
         public static matrix Quantiles(matrix data, vector weight, double[] quantiles)
         {
             var quants = new matrix(quantiles.Length, data.Cols);
@@ -462,11 +462,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the covariance on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mean"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="mean">The calculated mean.</param>
+        /// <returns>data.Cols x data.Cols matrix.</returns>
         public static matrix Covariance(matrix data, out vectorT mean)
         {
             mean = new vectorT(data.Cols);
@@ -476,12 +476,12 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted covariance on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <param name="mean"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <param name="mean">The calculated mean.</param>
+        /// <returns>data.Cols x data.Cols matrix.</returns>
         public static matrix Covariance(matrix data, vector weight, out vectorT mean)
         {
             mean = new vectorT(data.Cols);
@@ -491,11 +491,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the correlation on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mean"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="mean">The calculated mean.</param>
+        /// <returns>data.Cols x data.Cols matrix.</returns>
         public static matrix Correlation(matrix data, out vectorT mean)
         {
             mean = new vectorT(data.Cols);
@@ -505,12 +505,12 @@
         }
 
         /// <summary>
-        /// 
+        /// Calculates the weighted correlation on the columns of data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="weight"></param>
-        /// <param name="mean"></param>
-        /// <returns></returns>
+        /// <param name="data">The data columns to calculate on.</param>
+        /// <param name="weight">The weights to use on the data columns (must be length data.Rows).</param>
+        /// <param name="mean">The calculated mean.</param>
+        /// <returns>data.Cols x data.Cols matrix.</returns>
         public static matrix Correlation(matrix data, vector weight, out vectorT mean)
         {
             mean = new vectorT(data.Cols);
