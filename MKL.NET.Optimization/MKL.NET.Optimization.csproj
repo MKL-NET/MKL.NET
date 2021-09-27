@@ -16,11 +16,9 @@
 Optimization and root finding based on cross platform MKL.NET.
         </Description>
         <PackageReleaseNotes>
-Added Bounded - transform N dimension function to add boundary conditions by penalty method.
-Added CurveFit_LAD - CurveFit using least absolute deviation.
-Updated Minimum, CurveFit, LeastSquares - now return the function value at the minimum (or best fit).
+Changes for MKL.NET.Statistics.
         </PackageReleaseNotes>
-        <Version>0.4.1</Version>
+        <Version>0.4.2</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />

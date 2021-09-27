@@ -25,7 +25,7 @@ Added cross platform Fourier transform functions.
 Added Vsl statistics summary native functions.
     </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
     <Optimize>true</Optimize>
     <Configurations>win-x64;win-x86;linux-x64;osx-x64;ref</Configurations>
   </PropertyGroup>

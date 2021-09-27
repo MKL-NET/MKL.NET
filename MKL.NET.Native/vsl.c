@@ -1,7 +1,7 @@
-﻿#include <stdlib.h>
-#include "common.h"
+﻿#include "common.h"
 #include "mkl_vsl.h"
 #include "mkl_trans.h"
+#include "mkl_service.h"
 
 const int storage = VSL_SS_MATRIX_STORAGE_ROWS;
 const int format = VSL_MATRIX_STORAGE_FULL;
@@ -232,11 +232,11 @@ DLLEXPORT int MomentsCentral3(const int rows, const int cols, double data[], dou
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
-    double* mom2r = (double*)malloc(cols * 2 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 2 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, 0, moments + cols, moments + cols * 2, 0);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_2C_MOM | VSL_SS_3C_MOM, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 3, 1.0, moments, cols, 3);
     return status;
 }
@@ -245,11 +245,11 @@ DLLEXPORT int MomentsCentral3Weighted(const int rows, const int cols, double dat
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
-    double* mom2r = (double*)malloc(cols * 2 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 2 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, 0, moments + cols, moments + cols * 2, 0);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_2C_MOM | VSL_SS_3C_MOM, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 3, 1.0, moments, cols, 3);
     return status;
 }
@@ -258,12 +258,12 @@ DLLEXPORT int MomentsStandard3(const int rows, const int cols, double data[], do
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
-    double* mom2r = (double*)malloc(cols * 2 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 2 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, 0, moments + cols, moments + cols * 2, 0);
     status = vsldSSEditTask(task, VSL_SS_ED_SKEWNESS, moments + cols * 2);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_SKEWNESS, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 3, 1.0, moments, cols, 3);
     return status;
 }
@@ -272,12 +272,12 @@ DLLEXPORT int MomentsStandard3Weighted(const int rows, const int cols, double da
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
-    double* mom2r = (double*)malloc(cols * 2 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 2 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, 0, moments + cols, moments + cols * 2, 0);
     status = vsldSSEditTask(task, VSL_SS_ED_SKEWNESS, moments + cols * 2);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_SKEWNESS, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 3, 1.0, moments, cols, 3);
     return status;
 }
@@ -308,11 +308,11 @@ DLLEXPORT int MomentsCentral4(const int rows, const int cols, double data[], dou
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
-    double* mom2r = (double*)malloc(cols * 3 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 3 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, mom2r + cols * 2, moments + cols, moments + cols * 2, moments + cols * 3);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_2C_MOM | VSL_SS_3C_MOM | VSL_SS_4C_MOM, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 4, 1.0, moments, cols, 4);
     return status;
 }
@@ -321,11 +321,11 @@ DLLEXPORT int MomentsCentral4Weighted(const int rows, const int cols, double dat
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
-    double* mom2r = (double*)malloc(cols * 3 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 3 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, mom2r + cols * 2, moments + cols, moments + cols * 2, moments + cols * 3);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_2C_MOM | VSL_SS_3C_MOM | VSL_SS_4C_MOM, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 4, 1.0, moments, cols, 4);
     return status;
 }
@@ -334,13 +334,13 @@ DLLEXPORT int MomentsStandard4(const int rows, const int cols, double data[], do
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, 0, 0);
-    double* mom2r = (double*)malloc(cols * 3 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 3 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, mom2r + cols * 2, moments + cols, moments + cols * 2, moments + cols * 3);
     status = vsldSSEditTask(task, VSL_SS_ED_SKEWNESS, moments + cols * 2);
     status = vsldSSEditTask(task, VSL_SS_ED_KURTOSIS, moments + cols * 3);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_SKEWNESS | VSL_SS_KURTOSIS, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 4, 1.0, moments, cols, 4);
     return status;
 }
@@ -349,13 +349,13 @@ DLLEXPORT int MomentsStandard4Weighted(const int rows, const int cols, double da
 {
     VSLSSTaskPtr task;
     int status = vsldSSNewTask(&task, &cols, &rows, &storage, data, weight, 0);
-    double* mom2r = (double*)malloc(cols * 3 * sizeof(double));
+    double* mom2r = (double*)MKL_malloc(cols * 3 * sizeof(double), 64);
     status = vsldSSEditMoments(task, moments, mom2r, mom2r + cols, mom2r + cols * 2, moments + cols, moments + cols * 2, moments + cols * 3);
     status = vsldSSEditTask(task, VSL_SS_ED_SKEWNESS, moments + cols * 2);
     status = vsldSSEditTask(task, VSL_SS_ED_KURTOSIS, moments + cols * 3);
     status = vsldSSCompute(task, VSL_SS_MEAN | VSL_SS_SKEWNESS | VSL_SS_KURTOSIS, VSL_SS_METHOD_FAST);
     status = vslSSDeleteTask(&task);
-    free(mom2r);
+    MKL_free(mom2r);
     MKL_Dimatcopy('C', 'T', cols, 4, 1.0, moments, cols, 4);
     return status;
 }

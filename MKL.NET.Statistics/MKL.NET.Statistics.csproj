@@ -15,7 +15,7 @@
 Statistics functions based on cross platform MKL.NET.
         </Description>
         <PackageReleaseNotes>
-Preview
+Summary - Sum, Mean, Median, MAD, Raw/Central/Standard Moments, Quartiles, Quantiles, Covariance, Correlation. All can be weighted.
         </PackageReleaseNotes>
         <Version>0.1.0</Version>
     </PropertyGroup>
