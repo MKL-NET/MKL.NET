@@ -21,7 +21,7 @@ jobs:
         run: |
              cmake --version
              cmake -A x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
-             cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
+             cmake --build MKL.NET.Native/bin/build/win-x64 --config Release --verbose
       - name: Upload Native
         uses: actions/upload-artifact@v2
         with:
@@ -45,7 +45,7 @@ jobs:
         run: |
              cmake --version
              cmake -A Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
-             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
+             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release --verbose
       - name: Upload Native
         uses: actions/upload-artifact@v2
         with:
@@ -69,7 +69,7 @@ jobs:
         run: |
              cmake --version
              cmake -A x64 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x64
-             cmake --build MKL.NET.Native/bin/build/win-x64 --config Release
+             cmake --build MKL.NET.Native/bin/build/win-x64 --config Release --verbose
       - name: Test
         run: dotnet run --project Tests -c win-x64 -f net48 -r win-x64 -- -perf --info --nost --time 60 --wait 10 --skip
   windows_framework_86:
@@ -88,7 +88,7 @@ jobs:
         run: |
              cmake --version
              cmake -A Win32 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
-             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release
+             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release --verbose
       - name: Test
         run: dotnet run --project Tests -c win-x86 -f net48 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
   linux_core_64:
@@ -108,7 +108,7 @@ jobs:
         run: |
              cmake --version
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/linux-x64
-             cmake --build MKL.NET.Native/bin/build/linux-x64 --config Release
+             cmake --build MKL.NET.Native/bin/build/linux-x64 --config Release --verbose
       - name: Upload Native
         uses: actions/upload-artifact@v2
         with:
@@ -133,7 +133,7 @@ jobs:
         run: |
              cmake --version
              cmake -S MKL.NET.Native -B MKL.NET.Native/bin/build/osx-x64
-             cmake --build MKL.NET.Native/bin/build/osx-x64 --config Release
+             cmake --build MKL.NET.Native/bin/build/osx-x64 --config Release --verbose
       - name: Upload Native
         uses: actions/upload-artifact@v2
         with:

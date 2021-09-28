@@ -6,8 +6,6 @@ string (REGEX MATCH "win-x64|win-x86|linux-x64|osx-x64" MKLNET_RUNTIME ${CMAKE_B
 message(STATUS "MKLNET_RUNTIME = ${MKLNET_RUNTIME}")
 
 set (CMAKE_SHARED_LIBRARY_PREFIX "")
-set (CMAKE_OPTIMIZE_DEPENDENCIES True)
-set (CMAKE_INTERPROCEDURAL_OPTIMIZATION True)
 
 if (MKLNET_RUNTIME STREQUAL "win-x64" OR MKLNET_RUNTIME STREQUAL "win-x86")
     add_compile_options(/W4 /WX /MT)
@@ -19,10 +17,9 @@ add_library (MKL.NET.Native SHARED "vsl.c" "dfti.c")
 target_include_directories (MKL.NET.Native PRIVATE "${PROJECT_SOURCE_DIR}/../packages/devel/intelmkl.devel.${MKLNET_RUNTIME}/lib/native/include")
 target_link_directories (MKL.NET.Native PRIVATE "${PROJECT_SOURCE_DIR}/../packages/devel/intelmkl.devel.${MKLNET_RUNTIME}/lib/native/${MKLNET_RUNTIME}")
 
-if (MKLNET_RUNTIME STREQUAL "win-x64")    
-    target_link_libraries (MKL.NET.Native mkl_intel_lp64_dll mkl_intel_thread_dll mkl_core_dll)
-elseif(MKLNET_RUNTIME STREQUAL "win-x86")
-    target_link_libraries (MKL.NET.Native mkl_intel_c_dll mkl_intel_thread_dll mkl_core_dll)
+if (MKLNET_RUNTIME STREQUAL "win-x64" OR MKLNET_RUNTIME STREQUAL "win-x86")
+    target_link_libraries (MKL.NET.Native mkl_rt)
 else()
-    target_link_libraries (MKL.NET.Native mkl_intel_lp64 mkl_intel_thread mkl_core)
+    target_link_options (MKL.NET.Native PRIVATE "LINKER:--no-as-needed")
+    target_link_libraries (MKL.NET.Native mkl_rt pthread m dl)
 endif()

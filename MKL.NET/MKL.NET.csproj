@@ -20,12 +20,10 @@
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
     <PackageReleaseNotes>
-Added MKL.NET.Native to help support cross platform and improve performance.
-Added cross platform Fourier transform functions.
-Added Vsl statistics summary native functions.
+Bug fix for MKL.NET.Native dynamic linking.
     </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.3.1</Version>
+    <Version>1.3.2</Version>
     <Optimize>true</Optimize>
     <Configurations>win-x64;win-x86;linux-x64;osx-x64;ref</Configurations>
   </PropertyGroup>
