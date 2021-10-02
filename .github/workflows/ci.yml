@@ -15,6 +15,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+          include-prerelease: true
       - name: Download Native
         run: ./Scripts/Download-Devel win-x64
       - name: Build Native
@@ -39,6 +40,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+          include-prerelease: true
       - name: Download Native
         run: ./Scripts/Download-Devel win-x86
       - name: Build Native
@@ -63,6 +65,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+          include-prerelease: true
       - name: Download Native
         run: ./Scripts/Download-Devel win-x64
       - name: Build Native
@@ -82,6 +85,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+          include-prerelease: true
       - name: Download Native
         run: ./Scripts/Download-Devel win-x86
       - name: Build Native
@@ -101,6 +105,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+          include-prerelease: true
       - name: Download Native
         shell: pwsh
         run: ./Scripts/Download-Devel linux-x64
@@ -126,6 +131,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+          include-prerelease: true
       - name: Download Native
         shell: pwsh
         run: ./Scripts/Download-Devel osx-x64
