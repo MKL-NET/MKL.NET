@@ -73,7 +73,7 @@ let impM (m:MatrixExpression) = MatrixExpression.op_Implicit m
 let impV (m:VectorExpression) = VectorExpression.op_Implicit m
 let impVE (m:vector) = VectorExpression.op_Implicit m
 
-let add = test "add" {
+let add1 = test "add1" {
 
     test "vv" {
         let! n = gen1D
@@ -234,6 +234,9 @@ let add = test "add" {
         use actual = ((s1 * a.T + 0.0) + (s2 * b.T + 0.0)).T |> impV
         Check.close High expected actual
     }
+}
+
+let add2 = test "add2" {
 
     test "vd" {
         let! n = gen1D
@@ -344,7 +347,7 @@ let add = test "add" {
     }
 }
 
-let sub = test "sub" {
+let sub1 = test "sub1" {
 
     test "vv" {
         let! n = gen1D
@@ -474,6 +477,10 @@ let sub = test "sub" {
         Check.close High expected actual
     }
 
+}
+
+let sub2 = test "sub2" {
+
     test "vTSvT_reuse" {
         let! n = gen1D
         use! a = genVector n
@@ -507,7 +514,7 @@ let sub = test "sub" {
     }
 }
 
-let mul = test "mul" {
+let mul1 = test "mul1" {
 
     test "vvT" {
         let! m,n = gen2D
@@ -646,6 +653,9 @@ let mul = test "mul" {
         let actual = (s * a.T + 0.0) * (b + 0.0)
         Check.close High expected actual
     }
+}
+
+let mul2 = test "mul2" {
 
     test "vTSvS" {
         let! n = gen1D
@@ -807,7 +817,7 @@ let testUnary name
         Check.close High expected actual
     }
 
-let functions = test "functions" {
+let functions1 = test "functions1" {
 
     testUnary "Abs" abs Vector.Abs Vector.Abs
     testUnary "Sqr" (fun x -> x*x) Vector.Sqr Vector.Sqr
@@ -833,6 +843,9 @@ let functions = test "functions" {
 #if NETCOREAPP
     testUnary "Logb" (fun i -> Math.ILogB(i) |> double) Vector.Logb Vector.Logb
 #endif
+}
+
+let functions2 = test "functions2" {
     testUnary "Cos" cos Vector.Cos Vector.Cos
     testUnary "Sin" sin Vector.Sin Vector.Sin
     testUnary "Tan" tan Vector.Tan Vector.Tan
@@ -877,8 +890,12 @@ let functions = test "functions" {
 
 let all =
     test "vector" {
-        add
-        sub
-        mul
-        functions
+        add1
+        add2
+        sub1
+        sub2
+        mul1
+        mul2
+        functions1
+        functions2
     }

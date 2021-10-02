@@ -155,7 +155,7 @@ let implicit = test "implicit" {
     }
 }
 
-let add = test "add" {
+let add1 = test "add1" {
 
     test "mm" {
         let! m,n = gen2D
@@ -382,6 +382,10 @@ let add = test "add" {
         Check.close High expected actual
     }
 
+}
+
+let add2 = test "add2" {
+
     test "mSmTS_reuse" {
         let! m,n = gen2D
         use! A = genMatrix m n
@@ -594,7 +598,7 @@ let add = test "add" {
     }
 }
 
-let sub = test "sub" {
+let sub1 = test "sub1" {
 
     test "mm" {
         let! m,n = gen2D
@@ -871,6 +875,10 @@ let sub = test "sub" {
         use actual = (s * A.T + 0.0) - (B.T + 0.0) |> impM
         Check.close High expected actual
     }
+
+}
+
+let sub2 = test "sub2" {
 
     test "mTSmS" {
         let! m,n = gen2D
@@ -1149,7 +1157,7 @@ let sub = test "sub" {
     }
 }
 
-let mul = test "mul" {
+let mul1 = test "mul1" {
 
     test "mm" {
         let! m,k,n = gen3D
@@ -1396,6 +1404,10 @@ let mul = test "mul" {
         use actual = (s * A.T) * B |> impM
         Check.close High expected actual
     }
+
+}
+
+let mul2 = test "mul2" {
 
     test "mTSm_reuse" {
         let! m,k,n = gen3D
@@ -1649,7 +1661,7 @@ let testUnary name
         Check.close High expected actual
     }
 
-let functions = test "functions" {
+let functions1 = test "functions1" {
 
     testUnary "Abs" abs Matrix.Abs
     testUnary "Sqr" (fun x -> x*x) Matrix.Sqr
@@ -1698,6 +1710,10 @@ let functions = test "functions" {
     testUnary "Asinh" Math.Asinh Matrix.Asinh
     testUnary "Atanh" Math.Atanh Matrix.Atanh
 #endif
+}
+
+let functions2 = test "functions2" {
+
     testUnary "Erf" erf Matrix.Erf
     testUnary "Erfc" erfc Matrix.Erfc
     testUnary "ErfInv" erfinv Matrix.ErfInv
@@ -1742,8 +1758,12 @@ let functions = test "functions" {
 let all =
     test "matrix" {
         implicit
-        add
-        sub
-        mul
-        functions
+        add1
+        add2
+        sub1
+        sub2
+        mul1
+        mul2
+        functions1
+        functions2
     }

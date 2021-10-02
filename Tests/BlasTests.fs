@@ -7,8 +7,8 @@ open CsCheck
 let ROWS_MAX = 5
 let COLS_MAX = 3
 
-let blas_1 =
-    test "1" {
+let blas_1a =
+    test "1a" {
 
         test "asum_double" {
             let! x = Gen.Double.Array.[1,ROWS_MAX]
@@ -311,6 +311,10 @@ let blas_1 =
                 Check.close Medium expectedx.[i] x.[i*cols+ini]
                 Check.close Medium expectedy.[i] y.[i*cols+ini]
         }
+    }
+
+let blas_1b =
+    test "1b" {
 
         test "rotg_double" {
             let! a = Gen.Double.Unit
@@ -1233,7 +1237,8 @@ let blas_like =
 
 let all =
     test "blas" {
-        blas_1
+        blas_1a
+        blas_1b
         blas_2
         blas_3
         if Environment.Is64BitProcess then blas_like_64_only else []

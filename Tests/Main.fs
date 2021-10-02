@@ -1,7 +1,6 @@
 ﻿module Main
 
 open System
-open System.Runtime.InteropServices
 
 let all =
     test null {

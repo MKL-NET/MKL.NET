@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net5.0;net48</TargetFrameworks>
+        <TargetFrameworks>net5.0;net6.0;net48</TargetFrameworks>
         <Optimize>true</Optimize>
         <Tailcalls>true</Tailcalls>
         <Configurations>win-x64;win-x86;linux-x64;osx-x64;ref</Configurations>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Update="FSharp.Core" Version="5.0.2" />
         <PackageReference Include="CsCheck" Version="2.3.2" />
         <!--<PackageReference Include="MKL.NET" Version="1.1.0" />-->
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
