@@ -44,4 +44,39 @@ let all =
                     for x in xs do e.AddValue x
                 )
         }
+
+        test "quartile_add_same" {
+            let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+            and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+            let qe1 = QuartileEstimator()
+            for x in xs1 do qe1.Add x
+            let qe2 = QuartileEstimator()
+            for x in xs2 do qe2.Add x
+            let qe3 = qe1 + qe2
+            qe1.Add qe2
+            Check.equal qe3.N qe1.N
+            Check.equal qe3.Q0 qe1.Q0
+            Check.equal qe3.Q1 qe1.Q1
+            Check.equal qe3.Q2 qe1.Q2
+            Check.equal qe3.Q3 qe1.Q3
+            Check.equal qe3.Q4 qe1.Q4
+        }
+
+        test "quartile_add" {
+            let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+            and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+            let qe3 = QuartileEstimator()
+            let qe1 = QuartileEstimator()
+            for x in xs1 do
+                qe1.Add x
+                qe3.Add x
+            let qe2 = QuartileEstimator()
+            for x in xs2 do
+                qe2.Add x
+                qe3.Add x
+            qe1.Add qe2
+            Check.equal qe3.N qe1.N
+            Check.equal qe3.Q0 qe1.Q0
+            Check.equal qe3.Q4 qe1.Q4
+        }
     }
