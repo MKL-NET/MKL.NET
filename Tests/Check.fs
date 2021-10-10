@@ -162,25 +162,15 @@ let close accuracy (expected:'a) (actual:'a) =
         | _ -> failwithf "Unknown type %s" (actual.GetType().Name)
     close expected actual
 
-let faster (expected:unit->'a) (actual:unit->'a) =
-    let t1 = Stopwatch.GetTimestamp()
-    let aa,ta,ae,te =
-        if t1 &&& 1L = 1L then
-            let aa = actual()
-            let t1 = Stopwatch.GetTimestamp() - t1
-            let t2 = Stopwatch.GetTimestamp()
-            let ae = expected()
-            let t2 = Stopwatch.GetTimestamp() - t2
-            aa,t1,ae,t2
-        else
-            let ae = expected()
-            let t1 = Stopwatch.GetTimestamp() - t1
-            let t2 = Stopwatch.GetTimestamp()
-            let aa = actual()
-            let t2 = Stopwatch.GetTimestamp() - t2
-            aa,t2,ae,t1
-    match equal aa ae with
-    | Success -> Faster("",if te>ta then double(te-ta)/double te else double(te-ta)/double ta)
+let faster (faster:unit->'a) (slower:unit->'a) =
+    let tf = Stopwatch.GetTimestamp()
+    let rf = faster()
+    let tf = Stopwatch.GetTimestamp() - tf
+    let ts = Stopwatch.GetTimestamp()
+    let rs = slower()
+    let ts = Stopwatch.GetTimestamp() - ts
+    match equal rf rs with
+    | Success -> Faster("",if ts>tf then double(ts-tf)/double ts else double(ts-tf)/double tf)
     | fail -> fail
 
 /// Chi-squared test to 6 standard deviations.

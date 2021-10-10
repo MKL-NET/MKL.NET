@@ -32,16 +32,16 @@ let all =
             Check.greaterThanOrEqual actual.Q3 actual.Q4
         }
 
-        //test "quartile_faster" {
-        //    let! xs = Gen.Double.OneTwo.Array.[1000]
-        //    Check.faster
-        //        (fun () ->
-        //            let e = P2QuantileEstimator(0.5)
-        //            for x in xs do e.AddValue x
-        //        )
-        //        (fun () ->
-        //            let e = QuartileEstimator()
-        //            for x in xs do e.Add x
-        //        )
-        //}
+        test "quartile_faster" {
+            let! xs = Gen.Double.OneTwo.Array
+            Check.faster
+                (fun () ->
+                    let e = QuartileEstimator()
+                    for x in xs do e.Add x
+                )
+                (fun () ->
+                    let e = P2QuantileEstimator(0.5)
+                    for x in xs do e.AddValue x
+                )
+        }
     }
