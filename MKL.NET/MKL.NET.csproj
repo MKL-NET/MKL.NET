@@ -13,11 +13,9 @@
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <DefineConstants Condition="$(RuntimeIdentifier)=='linux-x64'">$(DefineConstants);LINUX</DefineConstants>
         <DefineConstants Condition="$(RuntimeIdentifier)=='osx-x64'">$(DefineConstants);OSX</DefineConstants>
-        <!--<ProduceOnlyReferenceAssembly Condition="$(Configuration)=='ref'">true</ProduceOnlyReferenceAssembly>
-        <GenerateDocumentationFile Condition="$(Configuration)!='ref'">true</GenerateDocumentationFile>
-        <NoWarn Condition="$(Configuration)!='ref'">CS1591</NoWarn>-->
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <NoWarn>CS1591</NoWarn>
+        <ProduceOnlyReferenceAssembly Condition="$(RuntimeIdentifier)=='osx-x86'">true</ProduceOnlyReferenceAssembly>
+        <GenerateDocumentationFile Condition="$(RuntimeIdentifier)!='osx-x86'">true</GenerateDocumentationFile>
+        <NoWarn Condition="$(RuntimeIdentifier)!='osx-x86'">CS1591</NoWarn>
         <SignAssembly>true</SignAssembly>
         <DelaySign>false</DelaySign>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
@@ -31,12 +29,12 @@ Bug fix for MKL.NET.Native dynamic linking.
     <ItemGroup>
         <None Include="../matrix.png" Pack="true" PackagePath="" />
         <None Include="../README.md" Pack="true" PackagePath="" />
-        <None Include="bin/netstandard2.0/ref/MKL.NET.dll" Pack="true" PackagePath="ref/netstandard2.0" />
-        <None Include="bin/netstandard2.0/win-x64/MKL.NET.xml" Pack="true" PackagePath="ref/netstandard2.0" />
-        <None Include="bin/netstandard2.0/win-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x64/lib/netstandard2.0" />
-        <None Include="bin/netstandard2.0/win-x86/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x86/lib/netstandard2.0" />
-        <None Include="bin/netstandard2.0/linux-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/linux-x64/lib/netstandard2.0" />
-        <None Include="bin/netstandard2.0/osx-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/osx-x64/lib/netstandard2.0" />
+        <None Include="bin/Release/netstandard2.0/osx-x86/MKL.NET.dll" Pack="true" PackagePath="ref/netstandard2.0" />
+        <None Include="bin/Release/netstandard2.0/win-x64/MKL.NET.xml" Pack="true" PackagePath="ref/netstandard2.0" />
+        <None Include="bin/Release/netstandard2.0/win-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x64/lib/netstandard2.0" />
+        <None Include="bin/Release/netstandard2.0/win-x86/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x86/lib/netstandard2.0" />
+        <None Include="bin/Release/netstandard2.0/linux-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/linux-x64/lib/netstandard2.0" />
+        <None Include="bin/Release/netstandard2.0/osx-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/osx-x64/lib/netstandard2.0" />
         <None Include="../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
         <None Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
         <None Include="../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
