@@ -11,6 +11,7 @@
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <Description>
 Statistics functions based on cross platform MKL.NET.
         </Description>

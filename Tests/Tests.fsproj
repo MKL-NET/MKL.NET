@@ -4,8 +4,8 @@
         <TargetFrameworks>net5.0;net6.0;net48</TargetFrameworks>
         <Optimize>true</Optimize>
         <Tailcalls>true</Tailcalls>
-        <Configurations>win-x64;win-x86;linux-x64;osx-x64;ref</Configurations>
         <LangVersion>preview</LangVersion>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Update="FSharp.Core" Version="6.0.0" />

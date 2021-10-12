@@ -12,6 +12,7 @@
         <DelaySign>false</DelaySign>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <Description>
 Optimization and root finding based on cross platform MKL.NET.
         </Description>

@@ -163,12 +163,22 @@ let close accuracy (expected:'a) (actual:'a) =
     close expected actual
 
 let faster (faster:unit->'a) (slower:unit->'a) =
-    let tf = Stopwatch.GetTimestamp()
-    let rf = faster()
-    let tf = Stopwatch.GetTimestamp() - tf
-    let ts = Stopwatch.GetTimestamp()
-    let rs = slower()
-    let ts = Stopwatch.GetTimestamp() - ts
+    let t1 = Stopwatch.GetTimestamp()
+    let rf,tf,rs,ts =
+        if t1 &&& 1L = 1L then
+            let rf = faster()
+            let t1 = Stopwatch.GetTimestamp() - t1
+            let t2 = Stopwatch.GetTimestamp()
+            let rs = slower()
+            let t2 = Stopwatch.GetTimestamp() - t2
+            rf,t1,rs,t2
+        else
+            let rs = slower()
+            let t1 = Stopwatch.GetTimestamp() - t1
+            let t2 = Stopwatch.GetTimestamp()
+            let rf = faster()
+            let t2 = Stopwatch.GetTimestamp() - t2
+            rf,t2,rs,t1
     match equal rf rs with
     | Success -> Faster("",if ts>tf then double(ts-tf)/double ts else double(ts-tf)/double tf)
     | fail -> fail

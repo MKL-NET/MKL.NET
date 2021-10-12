@@ -11,6 +11,7 @@
         <DelaySign>false</DelaySign>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <Description>
 Performance and memory optimised matrix algebra library based on cross platform MKL.NET.
 

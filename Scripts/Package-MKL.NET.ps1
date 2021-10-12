@@ -1,5 +1,5 @@
-dotnet build MKL.NET -c win-x64
-dotnet build MKL.NET -c win-x86
-dotnet build MKL.NET -c linux-x64
-dotnet build MKL.NET -c osx-x64
-dotnet pack MKL.NET -c ref -o packages
+dotnet build MKL.NET -c Release -r win-x64
+dotnet build MKL.NET -c Release -r win-x86
+dotnet build MKL.NET -c Release -r linux-x64
+dotnet build MKL.NET -c Release -r osx-x64
+dotnet pack MKL.NET -c Release -r ref -o packages

@@ -1,6 +1,5 @@
 ﻿module PerfTests
 
-open System
 open MKLNET
 open CsCheck
 
