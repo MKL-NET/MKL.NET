@@ -144,11 +144,11 @@ let moment4 = test "moment4" {
             (fun () ->
                 let e = Moment4Estimator()
                 for x in xs do e.Add x
-            )
+            |> repeat 100)
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            )
+            |> repeat 100)
     }
 
     test "add_same" {
@@ -209,11 +209,11 @@ let moment3 = test "moment3" {
             (fun () ->
                 let e = Moment3Estimator()
                 for x in xs do e.Add x
-            )
+            |> repeat 100)
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            )
+            |> repeat 100)
     }
 
     test "add_same" {
@@ -271,11 +271,11 @@ let moment2 = test "moment2" {
             (fun () ->
                 let e = Moment2Estimator()
                 for x in xs do e.Add x
-            )
+            |> repeat 100)
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            )
+            |> repeat 100)
     }
 
     test "add_same" {
