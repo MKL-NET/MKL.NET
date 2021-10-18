@@ -24,7 +24,7 @@ let quartile = test "quartile" {
         for x in xs do
             expected.AddValue x
             actual.Add x
-        Check.equal (expected.GetQuantile()) actual.Median
+        Check.close VeryHigh (expected.GetQuantile()) actual.Median
         Check.greaterThanOrEqual actual.Q0 actual.Q1
         Check.greaterThanOrEqual actual.Q1 actual.Q2
         Check.greaterThanOrEqual actual.Q2 actual.Q3
@@ -80,6 +80,45 @@ let quartile = test "quartile" {
         Check.between (min qe1.Q2 qe2.Q2) (max qe1.Q2 qe2.Q2) qe4.Q2
         Check.between (min qe1.Q3 qe2.Q3) (max qe1.Q3 qe2.Q3) qe4.Q3
         Check.equal qe3.Q4 qe4.Q4
+    }
+}
+
+let quantile = test "quantile" {
+
+    test "vs_p2" {
+        let! xs = Gen.Double.[-1000.0, 1000.0].Array.[6, 50]
+        let expected = P2QuantileEstimator(0.6)
+        let actual = QuantileEstimator(0.6)
+        for x in xs do
+            expected.AddValue x
+            actual.Add x
+        Check.close VeryHigh (expected.GetQuantile()) actual.Quantile
+    }
+
+    test "faster" {
+        let! xs = Gen.Double.OneTwo.Array
+        Check.faster
+            (fun () ->
+                let e = QuantileEstimator(0.6)
+                for x in xs do e.Add x
+            )
+            (fun () ->
+                let e = P2QuantileEstimator(0.6)
+                for x in xs do e.AddValue x
+            )
+    }
+
+    test "add_same" {
+        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let qe1 = QuantileEstimator(0.6)
+        for x in xs1 do qe1.Add x
+        let qe2 = QuantileEstimator(0.6)
+        for x in xs2 do qe2.Add x
+        let qe3 = qe1 + qe2
+        qe1.Add qe2
+        Check.equal qe3.N qe1.N
+        Check.equal qe3.Quantile qe1.Quantile
     }
 }
 
@@ -275,6 +314,7 @@ let moment2 = test "moment2" {
 let all =
     test "stats_estimator" {
         quartile
+        quantile
         moment4
         moment3
         moment2

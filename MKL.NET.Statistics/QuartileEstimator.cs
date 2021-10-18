@@ -70,20 +70,20 @@ public class QuartileEstimator
             else if (s <= -1.0 && N2 - N1 > 1)
             {
                 double q = Q2 - ((N2 - N1 - 1) * (Q3 - Q2) / (N3 - N2) + (N3 - N2 + 1) * (Q2 - Q1) / (N2 - N1)) / (N3 - N1);
-                Q2 = Q1 < q && q < Q3 ? q : Q2 - (Q1 - Q2) / (N1 - N2);
+                Q2 = Q1 < q && q < Q3 ? q : Q2 + (Q1 - Q2) / (N2 - N1);
                 N2--;
             }
             s = (N - 1) * 0.75 - N3;
             if (s >= 1.0 && N - N3 > 2)
             {
                 double q = Q3 + ((N3 - N2 + 1) * (Q4 - Q3) / (N - N3 - 1) + (N - N3 - 2) * (Q3 - Q2) / (N3 - N2)) / (N - N2 - 1);
-                Q3 = Q2 < q && q < Q4 ? q : Q3 + (Q4 - Q3) / (N - 1 - N3);
+                Q3 = Q2 < q && q < Q4 ? q : Q3 + (Q4 - Q3) / (N - N3 - 1);
                 N3++;
             }
             else if (s <= -1.0 && N3 - N2 > 1)
             {
                 double q = Q3 - ((N3 - N2 - 1) * (Q4 - Q3) / (N - N3 - 1) + (N - N3) * (Q3 - Q2) / (N3 - N2)) / (N - N2 - 1);
-                Q3 = Q2 < q && q < Q4 ? q : Q3 - (Q2 - Q3) / (N2 - N3);
+                Q3 = Q2 < q && q < Q4 ? q : Q3 + (Q2 - Q3) / (N3 - N2);
                 N3--;
             }
         }

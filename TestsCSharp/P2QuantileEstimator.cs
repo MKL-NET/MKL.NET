@@ -66,8 +66,13 @@ namespace TestsCSharp
 
             for (int i = k + 1; i < 5; i++)
                 n[i]++;
+
             for (int i = 0; i < 5; i++)
                 ns[i] += dns[i];
+
+            ns[1] = count * p * 0.5;
+            ns[2] = count * p;
+            ns[3] = count * (1 + p) * 0.5;
 
             for (int i = 1; i <= 3; i++)
             {
