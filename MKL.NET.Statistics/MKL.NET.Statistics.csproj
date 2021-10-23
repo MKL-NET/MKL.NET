@@ -23,7 +23,7 @@ Summary - Sum, Mean, Median, MAD, Raw/Central/Standard Moments, Quartiles, Quant
     <ItemGroup>
         <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />
         <ProjectReference Include="..\MKL.NET.Matrix\MKL.NET.Matrix.csproj" />
-        <None Include="../matrix.png" Pack="true" PackagePath="" />
-        <None Include="../README.md" Pack="true" PackagePath="" />
+        <None Include="../matrix.png" Pack="true" PackagePath="" Visible="False" />
+        <None Include="../README.md" Pack="true" PackagePath="" Visible="False" />
     </ItemGroup>
 </Project>

@@ -188,6 +188,28 @@ let moment4 = test "moment4" {
     }
 }
 
+let histogram = test "histogram" {
+
+    test "vs_quartile" {
+        let! xs = Gen.Double.[-1000.0, 1000.0].Array.[5, 50]
+        let expected = QuartileEstimator()
+        let actual = HistogramEstimator(5)
+        for x in xs do
+            expected.Add x
+            actual.Add x
+        Check.equal 1 actual.N.[0]
+        Check.equal (expected.N1+1) actual.N.[1]
+        Check.equal (expected.N2+1) actual.N.[2]
+        Check.equal (expected.N3+1) actual.N.[3]
+        Check.equal expected.N actual.N.[4]
+        Check.close VeryHigh expected.Q0 actual.Q.[0] |> Check.message "Q0"
+        Check.close VeryHigh expected.Q1 actual.Q.[1] |> Check.message "Q1"
+        Check.close VeryHigh expected.Q2 actual.Q.[2] |> Check.message "Q2"
+        Check.close VeryHigh expected.Q3 actual.Q.[3] |> Check.message "Q3"
+        Check.close VeryHigh expected.Q4 actual.Q.[4] |> Check.message "Q4"
+    }
+}
+
 let moment3 = test "moment3" {
 
     test "vs_mathnet" {
@@ -315,6 +337,7 @@ let all =
     test "stats_estimator" {
         quartile
         quantile
+        histogram
         moment4
         moment3
         moment2

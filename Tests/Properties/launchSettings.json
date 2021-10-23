@@ -2,7 +2,7 @@
   "profiles": {
     "Tests": {
       "commandName": "Project",
-      "commandLineArgs": "median_ --info --iter 1 --wait 100000"
+      "commandLineArgs": "stats_estimator.histogram.vs_quartile --seed 4CmWCe2HjPO9 --iter 1 --wait 100000"
     }
   }
 }
