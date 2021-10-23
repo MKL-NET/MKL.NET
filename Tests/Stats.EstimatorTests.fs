@@ -144,11 +144,11 @@ let moment4 = test "moment4" {
             (fun () ->
                 let e = Moment4Estimator()
                 for x in xs do e.Add x
-            |> repeat 100)
+            |> repeat 300)
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 100)
+            |> repeat 300)
     }
 
     test "add_same" {
@@ -198,15 +198,12 @@ let histogram = test "histogram" {
             expected.Add x
             actual.Add x
         Check.equal 1 actual.N.[0]
-        Check.equal (expected.N1+1) actual.N.[1]
-        Check.equal (expected.N2+1) actual.N.[2]
-        Check.equal (expected.N3+1) actual.N.[3]
         Check.equal expected.N actual.N.[4]
-        Check.close VeryHigh expected.Q0 actual.Q.[0] |> Check.message "Q0"
-        Check.close VeryHigh expected.Q1 actual.Q.[1] |> Check.message "Q1"
-        Check.close VeryHigh expected.Q2 actual.Q.[2] |> Check.message "Q2"
-        Check.close VeryHigh expected.Q3 actual.Q.[3] |> Check.message "Q3"
-        Check.close VeryHigh expected.Q4 actual.Q.[4] |> Check.message "Q4"
+        Check.close VeryHigh expected.Q0 actual.Q.[0]
+        Check.close VeryHigh expected.Q1 actual.Q.[1]
+        Check.close VeryHigh expected.Q2 actual.Q.[2]
+        Check.close VeryHigh expected.Q3 actual.Q.[3]
+        Check.close VeryHigh expected.Q4 actual.Q.[4]
     }
 }
 
