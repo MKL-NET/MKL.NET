@@ -10,13 +10,9 @@ public class QuantileEstimator
     public int N;
     int N1 = 1, N2 = 2, N3 = 3;
     double Q0, Q1, Q3, Q4;
-    /// <summary>
-    /// The quantile estimate.
-    /// </summary>
+    /// <summary>The quantile estimate.</summary>
     public double Quantile;
-    /// <summary>
-    /// A quantile estimator.
-    /// </summary>
+    /// <summary>A quantile estimator.</summary>
     /// <param name="p">The quantile 0.0-1.0 to estimate.</param>
     public QuantileEstimator(double p) => this.p = p;
     /// <summary>Add a sample observation.</summary>

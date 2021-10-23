@@ -2,26 +2,22 @@
 
 namespace MKLNET;
 
-/// <summary></summary>
+/// <summary>A histogram estimator.</summary>
 public class HistogramEstimator
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>The cumulative number of observations below this histgram point inclusive.</summary>
     public readonly int[] N;
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>The value estimate at this histogram point.</summary>
     public readonly double[] Q;
-    /// <summary></summary>
-    /// <param name="n"></param>
+    /// <summary>A histogram estimator.</summary>
+    /// <param name="n">The number of histogram point including min and max.</param>
     public HistogramEstimator(int n)
     {
         N = new int[n];
         Q = new double[n];
     }
-    /// <summary></summary>
-    /// <param name="s"></param>
+    /// <summary>Add a sample observation.</summary>
+    /// <param name="s">Sample observation value.</param>
     public void Add(double s)
     {
         if (N[N.Length - 1] < N.Length)
