@@ -31,9 +31,17 @@ public class HistogramEstimator
             return;
         }
 
-        if (s < Q[0])
+        if (s <= Q[0])
         {
-            Q[0] = s;
+            if (s == Q[0])
+            {
+                N[0]++;
+            }
+            else
+            {
+                Q[0] = s;
+                N[0] = 1;
+            }
             for (int i = 1; i < N.Length; i++) N[i]++;
         }
         else if (s > Q[Q.Length - 1])
@@ -44,7 +52,7 @@ public class HistogramEstimator
         else
         {
             N[N.Length - 1]++;
-            for (int i = N.Length - 2; i > 0 && s < Q[i]; i--) N[i]++;
+            for (int i = N.Length - 2; i > 0 && s <= Q[i]; i--) N[i]++;
         }
 
         for (int i = 1; i < N.Length - 1; i++)

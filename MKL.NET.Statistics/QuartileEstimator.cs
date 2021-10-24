@@ -5,7 +5,7 @@ public class QuartileEstimator
 {
     /// <summary>The number of sample observations.</summary>
     public int N;
-    int N1 = 1, N2 = 2, N3 = 3;
+    int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
     /// <summary>The minimum or 0th percentile.</summary>
     public double Q0;
     /// <summary>The first, lower quartile, or 25th percentile.</summary>
@@ -32,35 +32,46 @@ public class QuartileEstimator
     {
         if (++N > 5)
         {
-            if (s < Q3)
+            if (s <= Q3)
             {
                 N3++;
-                if (s < Q2)
+                if (s <= Q2)
                 {
                     N2++;
-                    if (s < Q1)
+                    if (s <= Q1)
                     {
                         N1++;
-                        if (s < Q0) Q0 = s;
+                        if (s <= Q0)
+                        {
+                            if (s == Q0)
+                            {
+                                N0++;
+                            }
+                            else
+                            {
+                                Q0 = s;
+                                N0 = 1;
+                            }
+                        }
                     }
                 }
             }
             else if (s > Q4) Q4 = s;
 
-            s = (N - 1) * 0.25 - N1;
+            s = (N - 1) * 0.25 + 1 - N1;
             if (s >= 1.0 && N2 - N1 > 1)
             {
-                double q = Q1 + ((N1 + 1) * (Q2 - Q1) / (N2 - N1) + (N2 - N1 - 1) * (Q1 - Q0) / N1) / N2;
+                double q = Q1 + ((N1 - N0 + 1) * (Q2 - Q1) / (N2 - N1) + (N2 - N1 - 1) * (Q1 - Q0) / (N1 - N0)) / (N2 - N0);
                 Q1 = Q0 < q && q < Q2 ? q : Q1 + (Q2 - Q1) / (N2 - N1);
                 N1++;
             }
-            else if (s <= -1.0 && N1 > 1)
+            else if (s <= -1.0 && N1 - N0 > 1)
             {
-                double q = Q1 - ((N1 - 1) * (Q2 - Q1) / (N2 - N1) + (N2 - N1 + 1) * (Q1 - Q0) / N1) / N2;
-                Q1 = Q0 < q && q < Q2 ? q : Q1 + (Q0 - Q1) / N1;
+                double q = Q1 - ((N1 - N0 - 1) * (Q2 - Q1) / (N2 - N1) + (N2 - N1 + 1) * (Q1 - Q0) / (N1 - N0)) / (N2 - N0);
+                Q1 = Q0 < q && q < Q2 ? q : Q1 + (Q0 - Q1) / (N1 - N0);
                 N1--;
             }
-            s = (N - 1) * 0.50 - N2;
+            s = (N - 1) * 0.50 + 1 - N2;
             if (s >= 1.0 && N3 - N2 > 1)
             {
                 double q = Q2 + ((N2 - N1 + 1) * (Q3 - Q2) / (N3 - N2) + (N3 - N2 - 1) * (Q2 - Q1) / (N2 - N1)) / (N3 - N1);
@@ -73,16 +84,16 @@ public class QuartileEstimator
                 Q2 = Q1 < q && q < Q3 ? q : Q2 + (Q1 - Q2) / (N2 - N1);
                 N2--;
             }
-            s = (N - 1) * 0.75 - N3;
-            if (s >= 1.0 && N - N3 > 2)
+            s = (N - 1) * 0.75 + 1 - N3;
+            if (s >= 1.0 && N - N3 > 1)
             {
-                double q = Q3 + ((N3 - N2 + 1) * (Q4 - Q3) / (N - N3 - 1) + (N - N3 - 2) * (Q3 - Q2) / (N3 - N2)) / (N - N2 - 1);
-                Q3 = Q2 < q && q < Q4 ? q : Q3 + (Q4 - Q3) / (N - N3 - 1);
+                double q = Q3 + ((N3 - N2 + 1) * (Q4 - Q3) / (N - N3) + (N - N3 - 1) * (Q3 - Q2) / (N3 - N2)) / (N - N2);
+                Q3 = Q2 < q && q < Q4 ? q : Q3 + (Q4 - Q3) / (N - N3);
                 N3++;
             }
             else if (s <= -1.0 && N3 - N2 > 1)
             {
-                double q = Q3 - ((N3 - N2 - 1) * (Q4 - Q3) / (N - N3 - 1) + (N - N3) * (Q3 - Q2) / (N3 - N2)) / (N - N2 - 1);
+                double q = Q3 - ((N3 - N2 - 1) * (Q4 - Q3) / (N - N3) + (N - N3 + 1) * (Q3 - Q2) / (N3 - N2)) / (N - N2);
                 Q3 = Q2 < q && q < Q4 ? q : Q3 + (Q2 - Q3) / (N3 - N2);
                 N3--;
             }

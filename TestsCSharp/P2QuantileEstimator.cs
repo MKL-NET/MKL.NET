@@ -70,6 +70,7 @@ namespace TestsCSharp
             for (int i = 0; i < 5; i++)
                 ns[i] += dns[i];
 
+            // rounding bug correction
             ns[1] = count * p * 0.5;
             ns[2] = count * p;
             ns[3] = count * (1 + p) * 0.5;
