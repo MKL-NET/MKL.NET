@@ -5,7 +5,10 @@ public class QuartileEstimator
 {
     /// <summary>The number of sample observations.</summary>
     public int N;
-    int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
+    /// <summary>
+    /// 
+    /// </summary>
+    public int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
     /// <summary>The minimum or 0th percentile.</summary>
     public double Q0;
     /// <summary>The first, lower quartile, or 25th percentile.</summary>

@@ -8,7 +8,10 @@ public class QuantileEstimator
     readonly double p;
     /// <summary>The number of sample observations.</summary>
     public int N;
-    int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
+    /// <summary>
+    /// 
+    /// </summary>
+    public int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
     double Q0, Q1, Q3, Q4;
     /// <summary>The quantile estimate.</summary>
     public double Quantile;

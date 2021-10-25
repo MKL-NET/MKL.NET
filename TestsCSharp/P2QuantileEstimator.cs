@@ -44,19 +44,28 @@ namespace TestsCSharp
                 return;
             }
 
+            // CDF <= correction
             int k;
-            if (x < q[0])
+            if (x <= q[0])
             {
-                q[0] = x;
+                if (x == q[0])
+                {
+                    n[0]++;
+                }
+                else
+                {
+                    q[0] = x;
+                    n[0] = 0;
+                }
                 k = 0;
             }
-            else if (x < q[1])
+            else if (x <= q[1])
                 k = 0;
-            else if (x < q[2])
+            else if (x <= q[2])
                 k = 1;
-            else if (x < q[3])
+            else if (x <= q[3])
                 k = 2;
-            else if (x < q[4])
+            else if (x <= q[4])
                 k = 3;
             else
             {
@@ -95,10 +104,16 @@ namespace TestsCSharp
 
         private double Parabolic(int i, double d)
         {
-            return q[i] + d / (n[i + 1] - n[i - 1]) * (
-                (n[i] - n[i - 1] + d) * (q[i + 1] - q[i]) / (n[i + 1] - n[i]) +
-                (n[i + 1] - n[i] - d) * (q[i] - q[i - 1]) / (n[i] - n[i - 1])
-            );
+            if(d == 1.0)
+                return q[i] +  (
+                    (n[i] - n[i - 1] + 1) * (q[i + 1] - q[i]) / (n[i + 1] - n[i]) +
+                    (n[i + 1] - n[i] - 1) * (q[i] - q[i - 1]) / (n[i] - n[i - 1])
+                ) / (n[i + 1] - n[i - 1]);
+            else
+                return q[i] - (
+                    (n[i] - n[i - 1] - 1) * (q[i + 1] - q[i]) / (n[i + 1] - n[i]) +
+                    (n[i + 1] - n[i] + 1) * (q[i] - q[i - 1]) / (n[i] - n[i - 1])
+                ) / (n[i + 1] - n[i - 1]);
         }
 
         private double Linear(int i, int d)
