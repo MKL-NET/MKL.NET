@@ -19,7 +19,7 @@ let quartile = test "quartile" {
 
     test "vs_p2" {
         let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
-        let expected = P2QuantileEstimator(0.5)
+        let expected = P2QuantileEstimatorPatched(0.5)
         let actual = QuartileEstimator()
         for x in xs do
             expected.AddValue x
@@ -39,7 +39,7 @@ let quartile = test "quartile" {
                 for x in xs do e.Add x
             )
             (fun () ->
-                let e = P2QuantileEstimator(0.5)
+                let e = P2QuantileEstimatorOriginal(0.5)
                 for x in xs do e.AddValue x
             )
     }
@@ -87,7 +87,7 @@ let quantile = test "quantile" {
 
     test "vs_p2" {
         let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
-        let expected = P2QuantileEstimator(0.6)
+        let expected = P2QuantileEstimatorPatched(0.6)
         let actual = QuantileEstimator(0.6)
         for x in xs do
             expected.AddValue x
@@ -103,7 +103,7 @@ let quantile = test "quantile" {
                 for x in xs do e.Add x
             )
             (fun () ->
-                let e = P2QuantileEstimator(0.6)
+                let e = P2QuantileEstimatorOriginal(0.6)
                 for x in xs do e.AddValue x
             )
     }
@@ -166,11 +166,11 @@ let moment4 = test "moment4" {
             (fun () ->
                 let e = Moment4Estimator()
                 for x in xs do e.Add x
-            |> repeat 300)
+            |> repeat 500)
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 300)
+            |> repeat 500)
     }
 
     test "add_same" {
@@ -231,11 +231,11 @@ let moment3 = test "moment3" {
             (fun () ->
                 let e = Moment3Estimator()
                 for x in xs do e.Add x
-            |> repeat 100)
+            |> repeat 500)
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 100)
+            |> repeat 500)
     }
 
     test "add_same" {
@@ -293,11 +293,11 @@ let moment2 = test "moment2" {
             (fun () ->
                 let e = Moment2Estimator()
                 for x in xs do e.Add x
-            |> repeat 100)
+            |> repeat 500)
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 100)
+            |> repeat 500)
     }
 
     test "add_same" {

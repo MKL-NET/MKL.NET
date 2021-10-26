@@ -1,8 +1,14 @@
-﻿using System;
+﻿// Copyright(c) 2020 Andrey Akinshin
+// Copyright (c) 2013–2020.NET Foundation and contributors
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
 
 namespace TestsCSharp
 {
-    public class P2QuantileEstimator
+    public class P2QuantileEstimatorOriginal
     {
         private readonly double p;
         private readonly int[] n = new int[5]; // marker positions
@@ -11,7 +17,7 @@ namespace TestsCSharp
         private readonly double[] q = new double[5]; // marker heights
         private int count;
 
-        public P2QuantileEstimator(double probability)
+        public P2QuantileEstimatorOriginal(double probability)
         {
             p = probability;
         }
@@ -44,28 +50,19 @@ namespace TestsCSharp
                 return;
             }
 
-            // CDF <= correction
             int k;
-            if (x <= q[0])
+            if (x < q[0])
             {
-                if (x == q[0])
-                {
-                    n[0]++;
-                }
-                else
-                {
-                    q[0] = x;
-                    n[0] = 0;
-                }
+                q[0] = x;
                 k = 0;
             }
-            else if (x <= q[1])
+            else if (x < q[1])
                 k = 0;
-            else if (x <= q[2])
+            else if (x < q[2])
                 k = 1;
-            else if (x <= q[3])
+            else if (x < q[3])
                 k = 2;
-            else if (x <= q[4])
+            else if (x < q[4])
                 k = 3;
             else
             {
@@ -78,11 +75,6 @@ namespace TestsCSharp
 
             for (int i = 0; i < 5; i++)
                 ns[i] += dns[i];
-
-            // rounding bug correction
-            ns[1] = count * p * 0.5;
-            ns[2] = count * p;
-            ns[3] = count * (1 + p) * 0.5;
 
             for (int i = 1; i <= 3; i++)
             {
