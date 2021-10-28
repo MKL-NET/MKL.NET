@@ -341,4 +341,10 @@ let all =
         moment4
         moment3
         moment2
+
+        test "pchip" {
+            let expected = PCHIP.HermiteInterpolation(2.1, 1.1, 3.2, 1.3, 3.0, 2.0)
+            let actual = PCHIP.HermiteInterpolationOne(3.2, -1.3, 2.1, -1.1, 3.0)
+            Check.equal expected actual
+        }
     }
