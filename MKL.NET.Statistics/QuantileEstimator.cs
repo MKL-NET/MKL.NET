@@ -27,9 +27,11 @@ namespace MKLNET
         double Q0, Q1, Q3, Q4;
         /// <summary>The quantile estimate.</summary>
         public double Quantile;
+
         /// <summary>A quantile estimator.</summary>
         /// <param name="p">The quantile 0.0-1.0 to estimate.</param>
         public QuantileEstimator(double p) => this.p = p;
+
         /// <summary>Add a sample observation.</summary>
         /// <param name="s">Sample observation value.</param>
         public void Add(double s)
@@ -65,40 +67,58 @@ namespace MKLNET
                 s = (N - 1) * p * 0.5 + 1 - N1;
                 if (s >= 1.0 && N2 - N1 > 1)
                 {
-                    double q = Q1 + ((N1 - N0 + 1) * (Quantile - Q1) / (N2 - N1) + (N2 - N1 - 1) * (Q1 - Q0) / (N1 - N0)) / (N2 - N0);
-                    Q1 = Q0 < q && q < Quantile ? q : Q1 + (Quantile - Q1) / (N2 - N1);
+                    var h1 = N2 - N1;
+                    var delta1 = (Quantile - Q1) / h1;
+                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
+                    var d2 = Derivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
+                    Q1 = HermiteInterpolationOne(Q1, d1, d2, h1, delta1);
                     N1++;
                 }
                 else if (s <= -1.0 && N1 - N0 > 1)
                 {
-                    double q = Q1 - ((N1 - N0 - 1) * (Quantile - Q1) / (N2 - N1) + (N2 - N1 + 1) * (Q1 - Q0) / (N1 - N0)) / (N2 - N0);
-                    Q1 = Q0 < q && q < Quantile ? q : Q1 + (Q0 - Q1) / (N1 - N0);
+                    var h0 = N1 - N0;
+                    var delta0 = (Q1 - Q0) / h0;
+                    var d0 = DerivativeEnd(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
+                    var d1 = Derivative(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
+                    Q1 = HermiteInterpolationOne(Q1, -d1, -d0, h0, -delta0);
                     N1--;
                 }
                 s = (N - 1) * p + 1 - N2;
                 if (s >= 1.0 && N3 - N2 > 1)
                 {
-                    double q = Quantile + ((N2 - N1 + 1) * (Q3 - Quantile) / (N3 - N2) + (N3 - N2 - 1) * (Quantile - Q1) / (N2 - N1)) / (N3 - N1);
-                    Quantile = Q1 < q && q < Q3 ? q : Quantile + (Q3 - Quantile) / (N3 - N2);
+                    var h2 = N3 - N2;
+                    var delta2 = (Q3 - Quantile) / h2;
+                    var d2 = Derivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
+                    var d3 = Derivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
+                    Quantile = HermiteInterpolationOne(Quantile, d2, d3, h2, delta2);
                     N2++;
                 }
                 else if (s <= -1.0 && N2 - N1 > 1)
                 {
-                    double q = Quantile - ((N2 - N1 - 1) * (Q3 - Quantile) / (N3 - N2) + (N3 - N2 + 1) * (Quantile - Q1) / (N2 - N1)) / (N3 - N1);
-                    Quantile = Q1 < q && q < Q3 ? q : Quantile + (Q1 - Quantile) / (N2 - N1);
+                    var h1 = N2 - N1;
+                    var delta1 = (Quantile - Q1) / h1;
+                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
+                    var d2 = Derivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
+                    Quantile = HermiteInterpolationOne(Quantile, -d2, -d1, h1, -delta1);
                     N2--;
                 }
                 s = (N - 1) * (1 + p) * 0.5 + 1 - N3;
                 if (s >= 1.0 && N - N3 > 1)
                 {
-                    double q = Q3 + ((N3 - N2 + 1) * (Q4 - Q3) / (N - N3) + (N - N3 - 1) * (Q3 - Quantile) / (N3 - N2)) / (N - N2);
-                    Q3 = Quantile < q && q < Q4 ? q : Q3 + (Q4 - Q3) / (N - N3);
+                    var h3 = N - N3;
+                    var delta3 = (Q4 - Q3) / h3;
+                    var d3 = Derivative(N3 - N2, (Q3 - Quantile) / (N3 - N2), h3, delta3);
+                    var d4 = DerivativeEnd(h3, delta3, N3 - N2, (Q3 - Quantile) / (N3 - N2));
+                    Q3 = HermiteInterpolationOne(Q3, d3, d4, h3, delta3);
                     N3++;
                 }
                 else if (s <= -1.0 && N3 - N2 > 1)
                 {
-                    double q = Q3 - ((N3 - N2 - 1) * (Q4 - Q3) / (N - N3) + (N - N3 + 1) * (Q3 - Quantile) / (N3 - N2)) / (N - N2);
-                    Q3 = Quantile < q && q < Q4 ? q : Q3 + (Quantile - Q3) / (N3 - N2);
+                    var h2 = N3 - N2;
+                    var delta2 = (Q3 - Quantile) / h2;
+                    var d2 = Derivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
+                    var d3 = Derivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
+                    Q3 = HermiteInterpolationOne(Q3, -d3, -d2, h2, -delta2);
                     N3--;
                 }
             }
@@ -180,6 +200,28 @@ namespace MKLNET
             }
             else Quantile = s;
         }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        static double Derivative(int h1, double delta1, int h2, double delta2)
+        {
+            return (h1 + h2) * 3 * delta1 * delta2 / ((h1 * 2 + h2) * delta1 + (h2 * 2 + h1) * delta2);
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        static double DerivativeEnd(int h1, double delta1, int h2, double delta2)
+        {
+            double d = (delta1 - delta2) * h1 / (h1 + h2) + delta1;
+            return d < 0.0 ? 0.0
+                 : d > 3 * delta1 ? 3 * delta1
+                 : d;
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        static double HermiteInterpolationOne(double y1, double d1, double d2, int h1, double delta1)
+        {
+            return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
+        }
+
         /// <summary>Combine another QuartileEstimator.</summary>
         /// <param name="qe">QuartileEstimator</param>
         public void Add(QuantileEstimator qe)
@@ -195,6 +237,7 @@ namespace MKLNET
             Quantile += (qe.Quantile - Quantile) * w;
             Q3 += (qe.Q3 - Q3) * w;
         }
+
         /// <summary>Combine two QuartileEstimators.</summary>
         /// <param name="a">First QuartileEstimator</param>
         /// <param name="b">Second QuartileEstimator</param>

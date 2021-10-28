@@ -21,6 +21,7 @@ namespace MKLNET
         public readonly int[] N;
         /// <summary>The value estimate at this histogram point.</summary>
         public readonly double[] Q;
+
         /// <summary>A histogram estimator.</summary>
         /// <param name="n">The number of histogram point including min and max.</param>
         public HistogramEstimator(int n)
@@ -28,6 +29,7 @@ namespace MKLNET
             N = new int[n];
             Q = new double[n];
         }
+
         /// <summary>Add a sample observation.</summary>
         /// <param name="s">Sample observation value.</param>
         public void Add(double s)
@@ -72,17 +74,62 @@ namespace MKLNET
                 var d = (N[N.Length - 1] - 1) * (double)i / (N.Length - 1) + 1 - N[i];
                 if (d >= 1.0 && N[i + 1] - N[i] > 1)
                 {
-                    var q = Q[i] + ((N[i] - N[i - 1] + 1) * (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]) + (N[i + 1] - N[i] - 1) * (Q[i] - Q[i - 1]) / (N[i] - N[i - 1])) / (N[i + 1] - N[i - 1]);
-                    Q[i] = Q[i - 1] < q && q < Q[i + 1] ? q : Q[i] + (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]);
+                    var h = N[i + 1] - N[i];
+                    var delta = (Q[i + 1] - Q[i]) / h;
+                    if (i == N.Length - 2)
+                    {
+                        var d1 = Derivative(N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]), h, delta);
+                        var d2 = DerivativeEnd(h, delta, N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]));
+                        Q[i] = HermiteInterpolationOne(Q[i], d1, d2, h, delta);
+                    }
+                    else
+                    {
+                        var d1 = Derivative(N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]), h, delta);
+                        var d2 = Derivative(h, delta, N[i + 2] - N[i + 1], (Q[i + 2] - Q[i + 1]) / (N[i + 2] - N[i + 1]));
+                        Q[i] = HermiteInterpolationOne(Q[i], d1, d2, h, delta);
+                    }
                     N[i]++;
                 }
                 else if (d <= -1.0 && N[i] - N[i - 1] > 1)
                 {
-                    var q = Q[i] - ((N[i] - N[i - 1] - 1) * (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]) + (N[i + 1] - N[i] + 1) * (Q[i] - Q[i - 1]) / (N[i] - N[i - 1])) / (N[i + 1] - N[i - 1]);
-                    Q[i] = Q[i - 1] < q && q < Q[i + 1] ? q : Q[i] + (Q[i - 1] - Q[i]) / (N[i] - N[i - 1]);
+                    var h = N[i] - N[i - 1];
+                    var delta = (Q[i] - Q[i - 1]) / h;
+                    if (i == 1)
+                    {
+                        var d1 = DerivativeEnd(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
+                        var d2 = Derivative(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
+                        Q[i] = HermiteInterpolationOne(Q[i], -d2, -d1, h, -delta);
+                    }
+                    else
+                    {
+                        var d1 = Derivative(N[i - 1] - N[i - 2], (Q[i - 1] - Q[i - 2]) / (N[i - 1] - N[i - 2]), h, delta);
+                        var d2 = Derivative(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
+                        Q[i] = HermiteInterpolationOne(Q[i], -d2, -d1, h, -delta);
+                    }
                     N[i]--;
                 }
             }
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        static double Derivative(int h1, double delta1, int h2, double delta2)
+        {
+            return (h1 + h2) * 3 * delta1 * delta2 / ((h1 * 2 + h2) * delta1 + (h2 * 2 + h1) * delta2);
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        static double DerivativeEnd(int h1, double delta1, int h2, double delta2)
+        {
+            double d = (delta1 - delta2) * h1 / (h1 + h2) + delta1;
+            return d < 0.0 ? 0.0
+                 : d > 3 * delta1 ? 3 * delta1
+                 : d;
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        static double HermiteInterpolationOne(double y1, double d1, double d2, int h1, double delta1)
+        {
+            return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
         }
     }
 }

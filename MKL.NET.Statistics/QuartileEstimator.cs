@@ -43,6 +43,7 @@ namespace MKLNET
         public double UpperQuartile => Q3;
         /// <summary>The maximum or 100th percentile.</summary>
         public double Maximum => Q4;
+
         /// <summary>Add a sample observation.</summary>
         /// <param name="s">Sample observation value.</param>
         public void Add(double s)
@@ -78,52 +79,58 @@ namespace MKLNET
                 s = (N - 1) * 0.25 + 1 - N1;
                 if (s >= 1.0 && N2 - N1 > 1)
                 {
-                    var h = N2 - N1;
-                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h, (Q2 - Q1) / h);
-                    var d2 = Derivative(h, (Q2 - Q1) / h, N3 - N2, (Q3 - Q2) / (N3 - N2));
-                    Q1 = HermiteInterpolationOne(Q1, d1, Q2, d2, h);
+                    var h1 = N2 - N1;
+                    var delta1 = (Q2 - Q1) / h1;
+                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
+                    var d2 = Derivative(h1, delta1, N3 - N2, (Q3 - Q2) / (N3 - N2));
+                    Q1 = HermiteInterpolationOne(Q1, d1, d2, h1, delta1);
                     N1++;
                 }
                 else if (s <= -1.0 && N1 - N0 > 1)
                 {
-                    var h = N1 - N0;
-                    var d0 = DerivativeEnd(h, (Q1 - Q0) / h, N2 - N1, (Q2 - Q1) / (N2 - N1));
-                    var d1 = Derivative(h, (Q1 - Q0) / h, N2 - N1, (Q2 - Q1) / (N2 - N1));
-                    Q1 = HermiteInterpolationOne(Q1, -d1, Q0, -d0, h);
+                    var h0 = N1 - N0;
+                    var delta0 = (Q1 - Q0) / h0;
+                    var d0 = DerivativeEnd(h0, delta0, N2 - N1, (Q2 - Q1) / (N2 - N1));
+                    var d1 = Derivative(h0, delta0, N2 - N1, (Q2 - Q1) / (N2 - N1));
+                    Q1 = HermiteInterpolationOne(Q1, -d1, -d0, h0, -delta0);
                     N1--;
                 }
                 s = (N - 1) * 0.50 + 1 - N2;
                 if (s >= 1.0 && N3 - N2 > 1)
                 {
-                    var h = N3 - N2;
-                    var d2 = Derivative(N2 - N1, (Q2 - Q1) / (N2 - N1), h, (Q3 - Q2) / h);
-                    var d3 = Derivative(h, (Q3 - Q2) / h, N - N3, (Q4 - Q3) / (N - N3));
-                    Q2 = HermiteInterpolationOne(Q2, d2, Q3, d3, h);
+                    var h2 = N3 - N2;
+                    var delta2 = (Q3 - Q2) / h2;
+                    var d2 = Derivative(N2 - N1, (Q2 - Q1) / (N2 - N1), h2, delta2);
+                    var d3 = Derivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
+                    Q2 = HermiteInterpolationOne(Q2, d2, d3, h2, delta2);
                     N2++;
                 }
                 else if (s <= -1.0 && N2 - N1 > 1)
                 {
-                    var h = N2 - N1;
-                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h, (Q2 - Q1) / h);
-                    var d2 = Derivative(h, (Q2 - Q1) / h, N3 - N2, (Q3 - Q2) / (N3 - N2));
-                    Q2 = HermiteInterpolationOne(Q2, -d2, Q1, -d1, h);
+                    var h1 = N2 - N1;
+                    var delta1 = (Q2 - Q1) / h1;
+                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
+                    var d2 = Derivative(h1, delta1, N3 - N2, (Q3 - Q2) / (N3 - N2));
+                    Q2 = HermiteInterpolationOne(Q2, -d2, -d1, h1, -delta1);
                     N2--;
                 }
                 s = (N - 1) * 0.75 + 1 - N3;
                 if (s >= 1.0 && N - N3 > 1)
                 {
-                    var h = N - N3;
-                    var d3 = Derivative(N3 - N2, (Q3 - Q2) / (N3 - N2), h, (Q4 - Q3) / h);
-                    var d4 = DerivativeEnd(h, (Q4 - Q3) / h, N3 - N2, (Q3 - Q2) / (N3 - N2));
-                    Q3 = HermiteInterpolationOne(Q3, d3, Q4, d4, h);
+                    var h3 = N - N3;
+                    var delta3 = (Q4 - Q3) / h3;
+                    var d3 = Derivative(N3 - N2, (Q3 - Q2) / (N3 - N2), h3, delta3);
+                    var d4 = DerivativeEnd(h3, delta3, N3 - N2, (Q3 - Q2) / (N3 - N2));
+                    Q3 = HermiteInterpolationOne(Q3, d3, d4, h3, delta3);
                     N3++;
                 }
                 else if (s <= -1.0 && N3 - N2 > 1)
                 {
-                    var h = N3 - N2;
-                    var d2 = Derivative(N2 - N1, (Q2 - Q1) / (N2 - N1), h, (Q3 - Q2) / h);
-                    var d3 = Derivative(h, (Q3 - Q2) / h, N - N3, (Q4 - Q3) / (N - N3));
-                    Q3 = HermiteInterpolationOne(Q3, -d3, Q2, -d2, h);
+                    var h2 = N3 - N2;
+                    var delta2 = (Q3 - Q2) / h2;
+                    var d2 = Derivative(N2 - N1, (Q2 - Q1) / (N2 - N1), h2, delta2);
+                    var d3 = Derivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
+                    Q3 = HermiteInterpolationOne(Q3, -d3, -d2, h2, -delta2);
                     N3--;
                 }
             }
@@ -207,25 +214,24 @@ namespace MKLNET
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double HermiteInterpolationOne(double y0, double d0, double y1, double d1, int h)
+        static double Derivative(int h1, double delta1, int h2, double delta2)
         {
-            var delta = (y1 - y0) / h;
-            return ((d0 + d1 - 2 * delta) / h + 3 * delta - 2 * d0 - d1) / h + y0 + d0;
+            return (h1 + h2) * 3 * delta1 * delta2 / ((h1 * 2 + h2) * delta1 + (h2 * 2 + h1) * delta2);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double Derivative(int h0, double delta0, int h1, double delta1)
+        static double DerivativeEnd(int h1, double delta1, int h2, double delta2)
         {
-            return (h0 + h1) * 3 * delta0 * delta1 / ((2 * h0 + h1) * delta0 + (h0 + 2 * h1) * delta1);
-        }
-
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double DerivativeEnd(int h0, double delta0, int h1, double delta1)
-        {
-            double d = delta0 + (delta0 - delta1) / (h0 + h1) * h0;
+            double d = (delta1 - delta2) * h1 / (h1 + h2) + delta1;
             return d < 0.0 ? 0.0
-                 : d > 3 * delta0 ? 3 * delta0
+                 : d > 3 * delta1 ? 3 * delta1
                  : d;
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        static double HermiteInterpolationOne(double y1, double d1, double d2, int h1, double delta1)
+        {
+            return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
         }
 
         /// <summary>Combine another QuartileEstimator.</summary>
@@ -243,6 +249,7 @@ namespace MKLNET
             Q2 += (qe.Q2 - Q2) * w;
             Q3 += (qe.Q3 - Q3) * w;
         }
+
         /// <summary>Combine two QuartileEstimators.</summary>
         /// <param name="a">First QuartileEstimator</param>
         /// <param name="b">Second QuartileEstimator</param>
