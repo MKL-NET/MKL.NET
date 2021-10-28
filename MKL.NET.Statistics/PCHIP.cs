@@ -32,11 +32,6 @@ namespace MKLNET
             return ((d0 + d1 - 2 * delta) / h + 3 * delta - 2 * d0 - d1) / h + y0 + d0;
         }
 
-        public static double HarmonicAverageWeight(double delta0, double w0, double delta1, double w1)
-        {
-            return (w0 + w1) / (w0 / delta0 + w1 / delta1);
-        }
-
         public static double Derivative(double h0, double delta0, double h1, double delta1)
         {
             return (h0 + h1) / ((2 * h1 + h0) / delta0 + (2 * h0 + h1) / delta1) * 3;

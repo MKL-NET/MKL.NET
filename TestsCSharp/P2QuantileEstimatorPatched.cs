@@ -11,10 +11,10 @@ namespace TestsCSharp
     public class P2QuantileEstimatorPatched
     {
         private readonly double p;
-        private readonly int[] n = new int[5]; // marker positions
+        public readonly int[] n = new int[5]; // marker positions
         private readonly double[] ns = new double[5]; // desired marker positions
         private readonly double[] dns = new double[5];
-        private readonly double[] q = new double[5]; // marker heights
+        public readonly double[] q = new double[5]; // marker heights
         private int count;
 
         public P2QuantileEstimatorPatched(double probability)
@@ -94,38 +94,17 @@ namespace TestsCSharp
             for (int i = 1; i <= 3; i++)
             {
                 double d = ns[i] - n[i];
-                if (d >= 1 && n[i + 1] - n[i] > 1 || d <= -1 && n[i - 1] - n[i] < -1)
+                if ((d >= 1 && n[i + 1] - n[i] > 1) || (d <= -1 && n[i - 1] - n[i] < -1))
                 {
                     int dInt = Math.Sign(d);
-                    double qs = Parabolic(i, dInt);
-                    if (q[i - 1] < qs && qs < q[i + 1])
-                        q[i] = qs;
-                    else
-                        q[i] = Linear(i, dInt);
+                    q[i] = MathNet.Numerics.Interpolation.CubicSpline
+                            .InterpolatePchip(System.Linq.Enumerable.Select(n, i => (double)i), q)
+                            .Interpolate(n[i] + dInt);
                     n[i] += dInt;
                 }
             }
 
             count++;
-        }
-
-        private double Parabolic(int i, double d)
-        {
-            if(d == 1.0)
-                return q[i] +  (
-                    (n[i] - n[i - 1] + 1) * (q[i + 1] - q[i]) / (n[i + 1] - n[i]) +
-                    (n[i + 1] - n[i] - 1) * (q[i] - q[i - 1]) / (n[i] - n[i - 1])
-                ) / (n[i + 1] - n[i - 1]);
-            else
-                return q[i] - (
-                    (n[i] - n[i - 1] - 1) * (q[i + 1] - q[i]) / (n[i + 1] - n[i]) +
-                    (n[i + 1] - n[i] + 1) * (q[i] - q[i - 1]) / (n[i] - n[i - 1])
-                ) / (n[i + 1] - n[i - 1]);
-        }
-
-        private double Linear(int i, int d)
-        {
-            return q[i] + d * (q[i + d] - q[i]) / (n[i + d] - n[i]);
         }
 
         public double GetQuantile()

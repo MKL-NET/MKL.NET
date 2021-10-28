@@ -18,17 +18,44 @@ let quartile = test "quartile" {
     }
 
     test "vs_p2" {
-        let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        //let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs = Gen.Double.[-10, 10].Array.[5, 50]
         let expected = P2QuantileEstimatorPatched(0.5)
         let actual = QuartileEstimator()
         for x in xs do
             expected.AddValue x
             actual.Add x
-        Check.close VeryHigh (expected.GetQuantile()) actual.Median
+
         Check.greaterThanOrEqual actual.Q0 actual.Q1
         Check.greaterThanOrEqual actual.Q1 actual.Q2
         Check.greaterThanOrEqual actual.Q2 actual.Q3
         Check.greaterThanOrEqual actual.Q3 actual.Q4
+
+        Check.equal (expected.n[0]+1) actual.N0 |> Check.message "N0"
+        Check.equal (expected.n[1]+1) actual.N1 |> Check.message "N1"
+        Check.equal (expected.n[2]+1) actual.N2 |> Check.message "N2"
+        Check.equal (expected.n[3]+1) actual.N3 |> Check.message "N3"
+        Check.equal (expected.n[4]+1) actual.N  |> Check.message "N4"
+
+        Check.close VeryHigh expected.q[0] actual.Q0 |> Check.message "Q0"
+        Check.close VeryHigh expected.q[1] actual.Q1 |> Check.message "Q1"
+        Check.close VeryHigh expected.q[2] actual.Q2 |> Check.message "Q2"
+        Check.close VeryHigh expected.q[3] actual.Q3 |> Check.message "Q3"
+        Check.close VeryHigh expected.q[4] actual.Q4 |> Check.message "Q4"
+
+        Check.info "L = %i" xs.Length
+
+        Check.info "N0 = %i" actual.N0
+        Check.info "N1 = %i" actual.N1
+        Check.info "N2 = %i" actual.N2
+        Check.info "N3 = %i" actual.N3
+        Check.info "N4 = %i" actual.N
+
+        Check.info "Q0 = %f" actual.Q0
+        Check.info "Q1 = %f" actual.Q1
+        Check.info "Q2 = %f" actual.Q2
+        Check.info "Q3 = %f" actual.Q3
+        Check.info "Q4 = %f" actual.Q4
     }
 
     test "faster" {
@@ -341,10 +368,4 @@ let all =
         moment4
         moment3
         moment2
-
-        test "pchip" {
-            let expected = PCHIP.HermiteInterpolation(2.1, 1.1, 3.2, 1.3, 3.0, 2.0)
-            let actual = PCHIP.HermiteInterpolationOne(3.2, -1.3, 2.1, -1.1, 3.0)
-            Check.equal expected actual
-        }
     }

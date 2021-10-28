@@ -8,4 +8,7 @@
         <NoWarn>CA1050</NoWarn>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0-alpha02" />
+    </ItemGroup>
 </Project>
