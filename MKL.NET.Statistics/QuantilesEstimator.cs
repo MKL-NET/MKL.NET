@@ -25,7 +25,7 @@ namespace MKLNET
         public readonly double[] P;
 
         /// <summary>A quantiles estimator.</summary>
-        /// <param name="p">The sorted quantiles to estimate.</param>
+        /// <param name="p">The quantiles to estimate. Must be sorted.</param>
         public QuantilesEstimator(double[] p)
         {
             P = p;

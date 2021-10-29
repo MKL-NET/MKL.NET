@@ -21,25 +21,25 @@ namespace MKLNET
         public int N;
         /// <summary>The number of observations less than or equal to the quantile.</summary>
         public int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
-        /// <summary>The minimum or 0th percentile.</summary>
+        /// <summary>The minimum or 0th percentile value.</summary>
         public double Q0;
-        /// <summary>The first, lower quartile, or 25th percentile.</summary>
+        /// <summary>The first, lower quartile, or 25th percentile value.</summary>
         public double Q1;
-        /// <summary>The second quartile, median, or 50th percentile.</summary>
+        /// <summary>The second quartile, median, or 50th percentile value.</summary>
         public double Q2;
-        /// <summary>The third, upper quartile, or 75th percentile.</summary>
+        /// <summary>The third, upper quartile, or 75th percentile value.</summary>
         public double Q3;
-        /// <summary>The maximum or 100th percentile.</summary>
+        /// <summary>The maximum or 100th percentile value.</summary>
         public double Q4;
-        /// <summary>The minimum or 0th percentile.</summary>
+        /// <summary>The minimum or 0th percentile value.</summary>
         public double Minimum => Q0;
-        /// <summary>The first, lower quartile, or 25th percentile.</summary>
+        /// <summary>The first, lower quartile, or 25th percentile value.</summary>
         public double LowerQuartile => Q1;
-        /// <summary>The second quartile, median, or 50th percentile.</summary>
+        /// <summary>The second quartile, median, or 50th percentile value.</summary>
         public double Median => Q2;
-        /// <summary>The third, upper quartile, or 75th percentile.</summary>
+        /// <summary>The third, upper quartile, or 75th percentile value.</summary>
         public double UpperQuartile => Q3;
-        /// <summary>The maximum or 100th percentile.</summary>
+        /// <summary>The maximum or 100th percentile value.</summary>
         public double Maximum => Q4;
 
         /// <summary>Add a sample observation.</summary>
