@@ -15,7 +15,7 @@ let message format =
     Printf.kprintf (fun msg ->
         function
         | Failure f -> Failure(Message msg + ": " + f)
-        | Faster (_,s) -> Faster(msg,s)
+        | Faster (_,f,s) -> Faster(msg,f,s)
         | r -> r
     ) format
 
@@ -181,7 +181,7 @@ let faster (faster:unit->'a) (slower:unit->'a) =
             let t2 = Stopwatch.GetTimestamp() - t2
             rf,t2,rs,t1
     match equal rf rs with
-    | Success -> Faster("",if ts>tf then double(ts-tf)/double ts else double(ts-tf)/double tf)
+    | Success -> Faster("",tf,ts)
     | fail -> fail
 
 /// Chi-squared test to 6 standard deviations.

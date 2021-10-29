@@ -266,13 +266,9 @@ module TestText =
 [<AllowNullLiteral>]
 type FasterAggregation =
     val Message : string
-    val Median : MedianEstimator
-    val mutable Faster : int
-    val mutable Slower : int
+    val Result : FasterResult
     val mutable Error : bool
-    new(message:string) = {Message=message;Median=MedianEstimator();Faster=0;Slower=0;Error=false}
-    member m.Variance = double(m.Faster-m.Slower) * double(m.Faster-m.Slower) / double(m.Faster+m.Slower)
-    member m.Sigma = sqrt m.Variance
+    new(message:string) = {Message=message;Result=FasterResult(Median=MedianEstimator());Error=false}
 
 type TestResult =
     | Success
@@ -280,7 +276,7 @@ type TestResult =
     | Exception of exn
     | Information of string
     | Label of string
-    | Faster of message: string * sample: double
+    | Faster of message: string * faster: int64 * slower: int64
     | FasterAgg of FasterAggregation
     static member hasErrs (r:TestResult list) =
         List.exists (function | Failure _ | Exception _ -> true | FasterAgg fa when fa.Error -> true | _ -> false) r
@@ -305,15 +301,13 @@ type TestBuilder(name:string) =
         [<CallerLineNumberAttribute;Optional;DefaultParameterValue 0>]line:int) =
         match a with
         | Success -> zero
-        | Faster(m,s) ->
+        | Faster(m,f,s) ->
             lock faster (fun () ->
                 let fa = &faster.GetRef line
                 if isNull fa then fa <- FasterAggregation m
                 if fa.Error |> not then
-                    fa.Median.Add s
-                    if s>0.0 then fa.Faster <- fa.Faster + 1
-                    elif s<0.0 then fa.Slower <- fa.Slower + 1
-                    if fa.Faster < fa.Slower && fa.Variance > 36.0 then fa.Error <- true
+                    fa.Result.Add(f,s)
+                    if fa.Result.Faster < fa.Result.Slower && fa.Result.SigmaSquared > 36.0f then fa.Error <- true
                 let r = Some [FasterAgg fa]
                 Test(nameList, fun _ c -> c r)
             )
@@ -577,7 +571,7 @@ type private Worker(seed:PCG option,nextTest:unit->TestData option,tc:RunCounts,
                         if seed.IsSome && obj.ReferenceEquals(seed.Value,pcg) then
                             pcg <- PCG.ThreadPCG
                     else
-                        if skip && r |> List.exists (function |FasterAgg a -> a.Faster > a.Slower && a.Variance > 36.0 | _ -> false) then
+                        if skip && r |> List.exists (function |FasterAgg a -> a.Result.Faster > a.Result.Slower && a.Result.SigmaSquared > 36.0f | _ -> false) then
                             if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
                         Interlocked.Increment &tc.Passed |> ignore
                         if t.Result=None then
@@ -630,16 +624,21 @@ module Tests =
                         Alert "  EXCN: " + Message e.Message + " " +
                         Minor(string(e.GetType())) + "\n" + string e.StackTrace |> Some
                     | Information s -> if info then Some(Normal "  INFO: " + s) else None
-                    | Faster(_,_) -> failwith "Should be FasterAgg now"
+                    | Faster(_,_,_) -> failwith "Should be FasterAgg now"
                     | FasterAgg fa ->
                         if fa.Error || info then
-                            let me = fa.Median
-                            let range = "%[" + Numeric((me.LowerQuartile*100.0).ToString("#0.0")) + "%.." + Numeric((me.UpperQuartile*100.0).ToString("#0.0")) + "%]"
-                            let result = if me.Median >= 0.0 then Numeric((me.Median*100.0).ToString("#0.0")) + range + " faster"
-                                         else Numeric((me.Median*100.0 / (-1.0 - me.Median)).ToString("#0.0")) + range + " slower"
+                            let r = fa.Result
+                            let me = r.Median
+                            let result =
+                                if Double.IsNaN(me.Median) then Normal "Time resolution too small try using repeat"
+                                elif (me.Median >= 0.0) <> (r.Faster > r.Slower) then Normal "Inconsistent result try using repeat or increasing sigma."
+                                else Numeric((me.Median*100.0).ToString("#0.0"))
+                                   + "%[" + Numeric((me.LowerQuartile*100.0).ToString("#0.0"))
+                                   + "%.." + Numeric((me.UpperQuartile*100.0).ToString("#0.0")) + "%] "
+                                   + if me.Median >= 0.0 then "faster" else "slower"
                             if fa.Error then Alert "  FAIL: " + Message fa.Message + result
                             else Normal "  INFO: " + Message fa.Message + result
-                            + ", sigma=" + Numeric(fa.Sigma.ToString("#0.0")) + " ("+Numeric fa.Faster+" vs "+Numeric(fa.Slower)+")" |> Some
+                            + ", sigma=" + Numeric(sqrt(fa.Result.SigmaSquared).ToString("#0.0")) + " ("+Numeric fa.Result.Faster+" vs "+Numeric(fa.Result.Slower)+")" |> Some
                         else None
                 ) results
             if List.isEmpty rows then None
