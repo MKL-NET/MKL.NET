@@ -131,5 +131,56 @@ namespace MKLNET
         {
             return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
         }
+
+        /// <summary>Combine another HistogramEstimator.</summary>
+        /// <param name="e">HistogramEstimator</param>
+        public void Add(HistogramEstimator e)
+        {
+            for (int i = 1; i < N.Length; i++)
+                N[i] += e.N[i];
+            if (e.Q[0] == Q[0])
+            {
+                N[0] += e.N[0];
+            }
+            else if (e.Q[0] < Q[0])
+            {
+                Q[0] = e.Q[0];
+                N[0] = e.N[0];
+            }
+            if (e.Q[e.Q.Length - 1] > Q[Q.Length - 1]) Q[Q.Length - 1] = e.Q[e.Q.Length - 1];
+            var w = (double)e.N[e.N.Length - 1] / N[N.Length - 1];
+            for (int i = 1; i < Q.Length - 1; i++)
+                Q[i] += (e.Q[i] - Q[i]) * w;
+        }
+
+        /// <summary>Combine two HistogramEstimators.</summary>
+        /// <param name="a">First HistogramEstimator</param>
+        /// <param name="b">Second HistogramEstimator</param>
+        public static HistogramEstimator operator +(HistogramEstimator a, HistogramEstimator b)
+        {
+            var e = new HistogramEstimator(a.N.Length);
+            for (int i = 1; i < e.N.Length; i++)
+                e.N[i] = a.N[i] + b.N[i];
+            if (a.Q[0] == b.Q[0])
+            {
+                e.Q[0] = a.Q[0];
+                e.N[0] = a.N[0] + b.N[0];
+            }
+            else if (a.Q[0] < b.Q[0])
+            {
+                e.Q[0] = a.Q[0];
+                e.N[0] = a.N[0];
+            }
+            else
+            {
+                e.Q[0] = b.Q[0];
+                e.N[0] = b.N[0];
+            }
+            e.Q[e.Q.Length - 1] = a.Q[a.Q.Length - 1] > b.Q[b.Q.Length - 1] ? a.Q[a.Q.Length - 1] : b.Q[b.Q.Length - 1];
+            var w = (double)b.N[b.N.Length - 1] / (a.N[a.N.Length - 1] + b.N[b.N.Length - 1]);
+            for (int i = 1; i < e.Q.Length - 1; i++)
+                e.Q[i] += a.Q[i] + (b.Q[i] - a.Q[i]) * w;
+            return e;
+        }
     }
 }

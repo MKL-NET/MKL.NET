@@ -55,6 +55,7 @@ let equal (expected:'a) (actual:'a) =
         | (:? (double[]) as e), (:? (double[]) as a) -> equalArray e a
         | (:? (single[]) as e), (:? (single[]) as a) -> equalArray e a
         | (:? (Complex[]) as e), (:? (Complex[]) as a) -> equalArray e a
+        | (:? (int[]) as e), (:? (int[]) as a) -> equalArray e a
         | e, a ->
             if a=e then Success
             else equalDefault e a

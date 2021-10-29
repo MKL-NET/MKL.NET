@@ -96,6 +96,7 @@ let quartile = test "quartile" {
             qe2.Add x
             qe3.Add x
         let qe4 = qe1 + qe2
+        Check.equal qe3.N0 qe4.N0
         Check.equal qe3.N qe4.N
         Check.equal qe3.Q0 qe4.Q0
         Check.between (min qe1.Q1 qe2.Q1) (max qe1.Q1 qe2.Q1) qe4.Q1
@@ -173,6 +174,28 @@ let quantile = test "quantile" {
         Check.equal qe3.Q3 qe1.Q3
         Check.equal qe3.Q4 qe1.Q4
     }
+
+    test "add" {
+        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let qe3 = QuantileEstimator(0.6)
+        let qe1 = QuantileEstimator(0.6)
+        for x in xs1 do
+            qe1.Add x
+            qe3.Add x
+        let qe2 = QuantileEstimator(0.6)
+        for x in xs2 do
+            qe2.Add x
+            qe3.Add x
+        let qe4 = qe1 + qe2
+        Check.equal qe3.N0 qe4.N0
+        Check.equal qe3.N qe4.N
+        Check.equal qe3.Q0 qe4.Q0
+        Check.between (min qe1.Q1 qe2.Q1) (max qe1.Q1 qe2.Q1) qe4.Q1
+        Check.between (min qe1.Quantile qe2.Quantile) (max qe1.Quantile qe2.Quantile) qe4.Quantile
+        Check.between (min qe1.Q3 qe2.Q3) (max qe1.Q3 qe2.Q3) qe4.Q3
+        Check.equal qe3.Q4 qe4.Q4
+    }
 }
 
 let histogram = test "histogram" {
@@ -194,6 +217,55 @@ let histogram = test "histogram" {
         Check.close VeryHigh expected.Q2 actual.Q.[2]
         Check.close VeryHigh expected.Q3 actual.Q.[3]
         Check.close VeryHigh expected.Q4 actual.Q.[4]
+    }
+
+    test "faster" {
+        let! xs = Gen.Double.OneTwo.Array
+        Check.faster
+            (fun () ->
+                let e = HistogramEstimator(5)
+                for x in xs do e.Add x
+            )
+            (fun () ->
+                let e = P2QuantileEstimatorOriginal(0.5)
+                for x in xs do e.AddValue x
+            )
+    }
+
+    test "add_same" {
+        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let qe1 = HistogramEstimator(6)
+        for x in xs1 do qe1.Add x
+        let qe2 = HistogramEstimator(6)
+        for x in xs2 do qe2.Add x
+        let qe3 = qe1 + qe2
+        qe1.Add qe2
+        Check.equal qe3.N qe1.N
+        Check.equal qe3.Q qe1.Q
+    }
+
+    test "add" {
+        let! xs1 = Gen.Double.OneTwo.Array.[6, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[6, 50]
+        let qe3 = HistogramEstimator(6)
+        let qe1 = HistogramEstimator(6)
+        for x in xs1 do
+            qe1.Add x
+            qe3.Add x
+        let qe2 = HistogramEstimator(6)
+        for x in xs2 do
+            qe2.Add x
+            qe3.Add x
+        let qe4 = qe1 + qe2
+        Check.equal qe3.N[0] qe4.N[0] |> Check.message "N0"
+        Check.equal qe3.N[5] qe4.N[5] |> Check.message "N5"
+        Check.equal qe3.Q[0] qe4.Q[0] |> Check.message "Q0"
+        Check.between (min qe1.Q[1] qe2.Q[1]) (max qe1.Q[1] qe2.Q[1]) qe4.Q[1] |> Check.message "Q1"
+        Check.between (min qe1.Q[2] qe2.Q[2]) (max qe1.Q[2] qe2.Q[2]) qe4.Q[2] |> Check.message "Q2"
+        Check.between (min qe1.Q[3] qe2.Q[3]) (max qe1.Q[3] qe2.Q[3]) qe4.Q[3] |> Check.message "Q3"
+        Check.between (min qe1.Q[4] qe2.Q[4]) (max qe1.Q[4] qe2.Q[4]) qe4.Q[4] |> Check.message "Q4"
+        Check.equal qe3.Q[5] qe4.Q[5] |> Check.message "Q5"
     }
 }
 

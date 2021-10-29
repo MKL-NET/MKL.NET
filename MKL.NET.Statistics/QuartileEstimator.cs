@@ -235,19 +235,27 @@ namespace MKLNET
         }
 
         /// <summary>Combine another QuartileEstimator.</summary>
-        /// <param name="qe">QuartileEstimator</param>
-        public void Add(QuartileEstimator qe)
+        /// <param name="e">QuartileEstimator</param>
+        public void Add(QuartileEstimator e)
         {
-            N += qe.N;
-            N1 += qe.N1;
-            N2 += qe.N2;
-            N3 += qe.N3;
-            if (qe.Q0 < Q0) Q0 = qe.Q0;
-            if (qe.Q4 > Q4) Q4 = qe.Q4;
-            var w = (double)qe.N / N;
-            Q1 += (qe.Q1 - Q1) * w;
-            Q2 += (qe.Q2 - Q2) * w;
-            Q3 += (qe.Q3 - Q3) * w;
+            N += e.N;
+            N1 += e.N1;
+            N2 += e.N2;
+            N3 += e.N3;
+            if(e.Q0 == Q0)
+            {
+                N0 += e.N0;
+            }
+            else if (e.Q0 < Q0)
+            {
+                Q0 = e.Q0;
+                N0 = e.N0;
+            }
+            if (e.Q4 > Q4) Q4 = e.Q4;
+            var w = (double)e.N / N;
+            Q1 += (e.Q1 - Q1) * w;
+            Q2 += (e.Q2 - Q2) * w;
+            Q3 += (e.Q3 - Q3) * w;
         }
 
         /// <summary>Combine two QuartileEstimators.</summary>
@@ -259,6 +267,8 @@ namespace MKLNET
             return new QuartileEstimator
             {
                 N = a.N + b.N,
+                N0 = a.Q0 == b.Q0 ? a.N0 + b.N0
+                   : a.Q0 < b.Q0 ? a.N0 : b.N0,
                 N1 = a.N1 + b.N1,
                 N2 = a.N2 + b.N2,
                 N3 = a.N3 + b.N3,
