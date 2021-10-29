@@ -285,6 +285,7 @@ let quantiles = test "quantiles" {
         Check.close VeryHigh expected.Q4 actual.Q.[4]
     }
 
+#if NETCOREAPP
     test "faster" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
@@ -297,6 +298,7 @@ let quantiles = test "quantiles" {
                 for x in xs do e.AddValue x
             )
     }
+#endif
 
     test "add_same" {
         let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
@@ -350,6 +352,7 @@ let moment4 = test "moment4" {
         Check.close VeryHigh expected.Kurtosis actual.Kurtosis
     }
 
+#if NETCOREAPP
     test "faster" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
@@ -362,6 +365,7 @@ let moment4 = test "moment4" {
                 for x in xs do e.Push x
             |> repeat 500)
     }
+#endif
 
     test "add_same" {
         let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
