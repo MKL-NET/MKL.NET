@@ -78,15 +78,15 @@ namespace MKLNET
                     var delta = (Q[i + 1] - Q[i]) / h;
                     if (i == N.Length - 2)
                     {
-                        var d1 = Derivative(N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]), h, delta);
-                        var d2 = DerivativeEnd(h, delta, N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]));
-                        Q[i] = HermiteInterpolationOne(Q[i], d1, d2, h, delta);
+                        var d1 = PchipDerivative(N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]), h, delta);
+                        var d2 = PchipDerivativeEnd(h, delta, N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]));
+                        Q[i] = HermiteInterpolationOne(h, Q[i], delta, d1, d2);
                     }
                     else
                     {
-                        var d1 = Derivative(N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]), h, delta);
-                        var d2 = Derivative(h, delta, N[i + 2] - N[i + 1], (Q[i + 2] - Q[i + 1]) / (N[i + 2] - N[i + 1]));
-                        Q[i] = HermiteInterpolationOne(Q[i], d1, d2, h, delta);
+                        var d1 = PchipDerivative(N[i] - N[i - 1], (Q[i] - Q[i - 1]) / (N[i] - N[i - 1]), h, delta);
+                        var d2 = PchipDerivative(h, delta, N[i + 2] - N[i + 1], (Q[i + 2] - Q[i + 1]) / (N[i + 2] - N[i + 1]));
+                        Q[i] = HermiteInterpolationOne(h, Q[i], delta, d1, d2);
                     }
                     N[i]++;
                 }
@@ -96,15 +96,15 @@ namespace MKLNET
                     var delta = (Q[i] - Q[i - 1]) / h;
                     if (i == 1)
                     {
-                        var d1 = DerivativeEnd(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
-                        var d2 = Derivative(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
-                        Q[i] = HermiteInterpolationOne(Q[i], -d2, -d1, h, -delta);
+                        var d1 = PchipDerivativeEnd(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
+                        var d2 = PchipDerivative(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
+                        Q[i] = HermiteInterpolationOne(h, Q[i], -delta, -d2, -d1);
                     }
                     else
                     {
-                        var d1 = Derivative(N[i - 1] - N[i - 2], (Q[i - 1] - Q[i - 2]) / (N[i - 1] - N[i - 2]), h, delta);
-                        var d2 = Derivative(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
-                        Q[i] = HermiteInterpolationOne(Q[i], -d2, -d1, h, -delta);
+                        var d1 = PchipDerivative(N[i - 1] - N[i - 2], (Q[i - 1] - Q[i - 2]) / (N[i - 1] - N[i - 2]), h, delta);
+                        var d2 = PchipDerivative(h, delta, N[i + 1] - N[i], (Q[i + 1] - Q[i]) / (N[i + 1] - N[i]));
+                        Q[i] = HermiteInterpolationOne(h, Q[i], -delta, -d2, -d1);
                     }
                     N[i]--;
                 }
@@ -112,13 +112,13 @@ namespace MKLNET
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double Derivative(int h1, double delta1, int h2, double delta2)
+        static double PchipDerivative(int h1, double delta1, int h2, double delta2)
         {
             return (h1 + h2) * 3 * delta1 * delta2 / ((h1 * 2 + h2) * delta1 + (h2 * 2 + h1) * delta2);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double DerivativeEnd(int h1, double delta1, int h2, double delta2)
+        static double PchipDerivativeEnd(int h1, double delta1, int h2, double delta2)
         {
             double d = (delta1 - delta2) * h1 / (h1 + h2) + delta1;
             return d < 0.0 ? 0.0
@@ -127,7 +127,7 @@ namespace MKLNET
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double HermiteInterpolationOne(double y1, double d1, double d2, int h1, double delta1)
+        static double HermiteInterpolationOne(int h1, double y1, double delta1, double d1, double d2)
         {
             return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
         }

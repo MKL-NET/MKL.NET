@@ -24,7 +24,10 @@ namespace MKLNET
         /// 
         /// </summary>
         public int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
-        double Q0, Q1, Q3, Q4;
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Q0, Q1, Q3, Q4;
         /// <summary>The quantile estimate.</summary>
         public double Quantile;
 
@@ -69,18 +72,18 @@ namespace MKLNET
                 {
                     var h1 = N2 - N1;
                     var delta1 = (Quantile - Q1) / h1;
-                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
-                    var d2 = Derivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
-                    Q1 = HermiteInterpolationOne(Q1, d1, d2, h1, delta1);
+                    var d1 = PchipDerivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
+                    var d2 = PchipDerivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
+                    Q1 = HermiteInterpolationOne(h1, Q1, delta1, d1, d2);
                     N1++;
                 }
                 else if (s <= -1.0 && N1 - N0 > 1)
                 {
                     var h0 = N1 - N0;
                     var delta0 = (Q1 - Q0) / h0;
-                    var d0 = DerivativeEnd(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
-                    var d1 = Derivative(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
-                    Q1 = HermiteInterpolationOne(Q1, -d1, -d0, h0, -delta0);
+                    var d0 = PchipDerivativeEnd(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
+                    var d1 = PchipDerivative(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
+                    Q1 = HermiteInterpolationOne(h0, Q1, -delta0, -d1, -d0);
                     N1--;
                 }
                 s = (N - 1) * p + 1 - N2;
@@ -88,18 +91,18 @@ namespace MKLNET
                 {
                     var h2 = N3 - N2;
                     var delta2 = (Q3 - Quantile) / h2;
-                    var d2 = Derivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
-                    var d3 = Derivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
-                    Quantile = HermiteInterpolationOne(Quantile, d2, d3, h2, delta2);
+                    var d2 = PchipDerivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
+                    var d3 = PchipDerivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
+                    Quantile = HermiteInterpolationOne(h2, Quantile, delta2, d2, d3);
                     N2++;
                 }
                 else if (s <= -1.0 && N2 - N1 > 1)
                 {
                     var h1 = N2 - N1;
                     var delta1 = (Quantile - Q1) / h1;
-                    var d1 = Derivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
-                    var d2 = Derivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
-                    Quantile = HermiteInterpolationOne(Quantile, -d2, -d1, h1, -delta1);
+                    var d1 = PchipDerivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
+                    var d2 = PchipDerivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
+                    Quantile = HermiteInterpolationOne(h1, Quantile, -delta1, -d2, -d1);
                     N2--;
                 }
                 s = (N - 1) * (1 + p) * 0.5 + 1 - N3;
@@ -107,18 +110,18 @@ namespace MKLNET
                 {
                     var h3 = N - N3;
                     var delta3 = (Q4 - Q3) / h3;
-                    var d3 = Derivative(N3 - N2, (Q3 - Quantile) / (N3 - N2), h3, delta3);
-                    var d4 = DerivativeEnd(h3, delta3, N3 - N2, (Q3 - Quantile) / (N3 - N2));
-                    Q3 = HermiteInterpolationOne(Q3, d3, d4, h3, delta3);
+                    var d3 = PchipDerivative(N3 - N2, (Q3 - Quantile) / (N3 - N2), h3, delta3);
+                    var d4 = PchipDerivativeEnd(h3, delta3, N3 - N2, (Q3 - Quantile) / (N3 - N2));
+                    Q3 = HermiteInterpolationOne(h3, Q3, delta3, d3, d4);
                     N3++;
                 }
                 else if (s <= -1.0 && N3 - N2 > 1)
                 {
                     var h2 = N3 - N2;
                     var delta2 = (Q3 - Quantile) / h2;
-                    var d2 = Derivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
-                    var d3 = Derivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
-                    Q3 = HermiteInterpolationOne(Q3, -d3, -d2, h2, -delta2);
+                    var d2 = PchipDerivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
+                    var d3 = PchipDerivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
+                    Q3 = HermiteInterpolationOne(h2, Q3, -delta2, -d3, -d2);
                     N3--;
                 }
             }
@@ -202,13 +205,13 @@ namespace MKLNET
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double Derivative(int h1, double delta1, int h2, double delta2)
+        static double PchipDerivative(int h1, double delta1, int h2, double delta2)
         {
             return (h1 + h2) * 3 * delta1 * delta2 / ((h1 * 2 + h2) * delta1 + (h2 * 2 + h1) * delta2);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double DerivativeEnd(int h1, double delta1, int h2, double delta2)
+        static double PchipDerivativeEnd(int h1, double delta1, int h2, double delta2)
         {
             double d = (delta1 - delta2) * h1 / (h1 + h2) + delta1;
             return d < 0.0 ? 0.0
@@ -217,7 +220,7 @@ namespace MKLNET
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double HermiteInterpolationOne(double y1, double d1, double d2, int h1, double delta1)
+        static double HermiteInterpolationOne(int h1, double y1, double delta1, double d1, double d2)
         {
             return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
         }

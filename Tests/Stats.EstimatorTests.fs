@@ -26,22 +26,27 @@ let quartile = test "quartile" {
             expected.AddValue x
             actual.Add x
 
+        Check.greaterThan actual.N0 actual.N1
+        Check.greaterThan actual.N1 actual.N2
+        Check.greaterThan actual.N2 actual.N3
+        Check.greaterThan actual.N3 actual.N
+
         Check.greaterThanOrEqual actual.Q0 actual.Q1
         Check.greaterThanOrEqual actual.Q1 actual.Q2
         Check.greaterThanOrEqual actual.Q2 actual.Q3
         Check.greaterThanOrEqual actual.Q3 actual.Q4
 
-        Check.equal (expected.n[0]+1) actual.N0 |> Check.message "N0"
-        Check.equal (expected.n[1]+1) actual.N1 |> Check.message "N1"
-        Check.equal (expected.n[2]+1) actual.N2 |> Check.message "N2"
-        Check.equal (expected.n[3]+1) actual.N3 |> Check.message "N3"
-        Check.equal (expected.n[4]+1) actual.N  |> Check.message "N4"
+        Check.equal (expected.n[0]+1) actual.N0
+        Check.equal (expected.n[1]+1) actual.N1
+        Check.equal (expected.n[2]+1) actual.N2
+        Check.equal (expected.n[3]+1) actual.N3
+        Check.equal (expected.n[4]+1) actual.N
 
-        Check.close VeryHigh expected.q[0] actual.Q0 |> Check.message "Q0"
-        Check.close VeryHigh expected.q[1] actual.Q1 |> Check.message "Q1"
-        Check.close VeryHigh expected.q[2] actual.Q2 |> Check.message "Q2"
-        Check.close VeryHigh expected.q[3] actual.Q3 |> Check.message "Q3"
-        Check.close VeryHigh expected.q[4] actual.Q4 |> Check.message "Q4"
+        Check.close VeryHigh expected.q[0] actual.Q0
+        Check.close VeryHigh expected.q[1] actual.Q1
+        Check.close VeryHigh expected.q[2] actual.Q2
+        Check.close VeryHigh expected.q[3] actual.Q3
+        Check.close VeryHigh expected.q[4] actual.Q4
     }
 
     test "faster" {
@@ -66,6 +71,10 @@ let quartile = test "quartile" {
         for x in xs2 do qe2.Add x
         let qe3 = qe1 + qe2
         qe1.Add qe2
+        Check.equal qe3.N0 qe1.N0
+        Check.equal qe3.N1 qe1.N1
+        Check.equal qe3.N2 qe1.N2
+        Check.equal qe3.N3 qe1.N3
         Check.equal qe3.N qe1.N
         Check.equal qe3.Q0 qe1.Q0
         Check.equal qe3.Q1 qe1.Q1
@@ -106,7 +115,28 @@ let quantile = test "quantile" {
         for x in xs do
             expected.AddValue x
             actual.Add x
-        Check.close VeryHigh (expected.GetQuantile()) actual.Quantile
+
+        Check.greaterThan actual.N0 actual.N1
+        Check.greaterThan actual.N1 actual.N2
+        Check.greaterThan actual.N2 actual.N3
+        Check.greaterThan actual.N3 actual.N
+
+        Check.greaterThanOrEqual actual.Q0 actual.Q1
+        Check.greaterThanOrEqual actual.Q1 actual.Quantile
+        Check.greaterThanOrEqual actual.Quantile actual.Q3
+        Check.greaterThanOrEqual actual.Quantile actual.Q4
+
+        Check.equal (expected.n[0]+1) actual.N0
+        Check.equal (expected.n[1]+1) actual.N1
+        Check.equal (expected.n[2]+1) actual.N2
+        Check.equal (expected.n[3]+1) actual.N3
+        Check.equal (expected.n[4]+1) actual.N
+
+        Check.close VeryHigh expected.q[0] actual.Q0
+        Check.close VeryHigh expected.q[1] actual.Q1
+        Check.close VeryHigh expected.q[2] actual.Quantile
+        Check.close VeryHigh expected.q[3] actual.Q3
+        Check.close VeryHigh expected.q[4] actual.Q4
     }
 
     test "faster" {
@@ -131,8 +161,17 @@ let quantile = test "quantile" {
         for x in xs2 do qe2.Add x
         let qe3 = qe1 + qe2
         qe1.Add qe2
+
+        Check.equal qe3.N0 qe1.N0
+        Check.equal qe3.N1 qe1.N1
+        Check.equal qe3.N2 qe1.N2
+        Check.equal qe3.N3 qe1.N3
         Check.equal qe3.N qe1.N
+        Check.equal qe3.Q0 qe1.Q0
+        Check.equal qe3.Q1 qe1.Q1
         Check.equal qe3.Quantile qe1.Quantile
+        Check.equal qe3.Q3 qe1.Q3
+        Check.equal qe3.Q4 qe1.Q4
     }
 }
 
@@ -145,16 +184,16 @@ let histogram = test "histogram" {
         for x in xs do
             expected.Add x
             actual.Add x
-        Check.equal expected.N0 actual.N.[0] |> Check.message "N0"
-        Check.equal expected.N1 actual.N.[1] |> Check.message "N1"
-        Check.equal expected.N2 actual.N.[2] |> Check.message "N2"
-        Check.equal expected.N3 actual.N.[3] |> Check.message "N3"
-        Check.equal expected.N  actual.N.[4] |> Check.message "N4"
-        Check.close VeryHigh expected.Q0 actual.Q.[0] |> Check.message "Q0"
-        Check.close VeryHigh expected.Q1 actual.Q.[1] |> Check.message "Q1"
-        Check.close VeryHigh expected.Q2 actual.Q.[2] |> Check.message "Q2"
-        Check.close VeryHigh expected.Q3 actual.Q.[3] |> Check.message "Q3"
-        Check.close VeryHigh expected.Q4 actual.Q.[4] |> Check.message "Q4"
+        Check.equal expected.N0 actual.N.[0]
+        Check.equal expected.N1 actual.N.[1]
+        Check.equal expected.N2 actual.N.[2]
+        Check.equal expected.N3 actual.N.[3]
+        Check.equal expected.N  actual.N.[4]
+        Check.close VeryHigh expected.Q0 actual.Q.[0]
+        Check.close VeryHigh expected.Q1 actual.Q.[1]
+        Check.close VeryHigh expected.Q2 actual.Q.[2]
+        Check.close VeryHigh expected.Q3 actual.Q.[3]
+        Check.close VeryHigh expected.Q4 actual.Q.[4]
     }
 }
 
@@ -347,6 +386,61 @@ let moment2 = test "moment2" {
     }
 }
 
+let moment1 = test "moment1" {
+
+    test "vs_mathnet" {
+        let! xs = Gen.Double.[-1000.0, 1000.0].Array.[5, 500]
+        let expected = RunningStatistics()
+        let actual = Moment1Estimator()
+        for x in xs do
+            expected.Push x
+            actual.Add x
+        Check.close VeryHigh expected.Mean actual.Mean
+    }
+
+    test "faster" {
+        let! xs = Gen.Double.OneTwo.Array
+        Check.faster
+            (fun () ->
+                let e = Moment1Estimator()
+                for x in xs do e.Add x
+            |> repeat 500)
+            (fun () ->
+                let e = RunningStatistics()
+                for x in xs do e.Push x
+            |> repeat 500)
+    }
+
+    test "add_same" {
+        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let e1 = Moment1Estimator()
+        for x in xs1 do e1.Add x
+        let e2 = Moment1Estimator()
+        for x in xs2 do e2.Add x
+        let e3 = e1 + e2
+        e1.Add e2
+        Check.equal e3.N e1.N
+        Check.equal e3.M1 e1.M1
+    }
+
+    test "add" {
+        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let qe3 = Moment1Estimator()
+        let qe1 = Moment1Estimator()
+        for x in xs1 do
+            qe1.Add x
+            qe3.Add x
+        let qe2 = Moment1Estimator()
+        for x in xs2 do
+            qe2.Add x
+            qe3.Add x
+        let qe4 = qe1 + qe2
+        Check.close VeryHigh qe4.Mean qe3.Mean
+    }
+}
+
 let all =
     test "stats_estimator" {
         quartile
@@ -355,4 +449,5 @@ let all =
         moment4
         moment3
         moment2
+        moment1
     }
