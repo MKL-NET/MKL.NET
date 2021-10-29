@@ -19,9 +19,7 @@ namespace MKLNET
     {
         /// <summary>The number of sample observations.</summary>
         public int N;
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>The number of observations less than or equal to the quantile.</summary>
         public int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
         /// <summary>The minimum or 0th percentile.</summary>
         public double Q0;

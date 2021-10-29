@@ -630,15 +630,17 @@ module Tests =
                             let r = fa.Result
                             let me = r.Median
                             let result =
-                                if Double.IsNaN(me.Median) then Normal "Time resolution too small try using repeat"
-                                elif (me.Median >= 0.0) <> (r.Faster > r.Slower) then Normal "Inconsistent result try using repeat or increasing sigma."
+                                if Double.IsNaN(me.Median) then Normal "Time resolution too small try using repeat."
                                 else Numeric((me.Median*100.0).ToString("#0.0"))
                                    + "%[" + Numeric((me.LowerQuartile*100.0).ToString("#0.0"))
                                    + "%.." + Numeric((me.UpperQuartile*100.0).ToString("#0.0")) + "%] "
                                    + if me.Median >= 0.0 then "faster" else "slower"
-                            if fa.Error then Alert "  FAIL: " + Message fa.Message + result
-                            else Normal "  INFO: " + Message fa.Message + result
-                            + ", sigma=" + Numeric(sqrt(fa.Result.SigmaSquared).ToString("#0.0")) + " ("+Numeric fa.Result.Faster+" vs "+Numeric(fa.Result.Slower)+")" |> Some
+                            let result =
+                                if fa.Error then Alert "  FAIL: " + Message fa.Message + result
+                                else Normal "  INFO: " + Message fa.Message + result
+                                + ", sigma=" + Numeric(sqrt(fa.Result.SigmaSquared).ToString("#0.0")) + " ("+Numeric fa.Result.Faster+" vs "+Numeric(fa.Result.Slower)+")"
+                            if (me.Median >= 0.0) <> (r.Faster > r.Slower) then result + Normal ", inconsistent result try using repeat or increasing sigma" else result
+                            |> Some
                         else None
                 ) results
             if List.isEmpty rows then None

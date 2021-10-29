@@ -20,13 +20,9 @@ namespace MKLNET
         readonly double p;
         /// <summary>The number of sample observations.</summary>
         public int N;
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>The number of observations less than or equal to the quantile.</summary>
         public int N0 = 1, N1 = 2, N2 = 3, N3 = 4;
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>The quantile values Q0 = min, Q1 = p / 2, Q2 = p, Q3 = (1+p) / 2, Q4 = max.</summary>
         public double Q0, Q1, Q3, Q4;
         /// <summary>The quantile estimate.</summary>
         public double Quantile;

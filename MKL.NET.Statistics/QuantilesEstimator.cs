@@ -14,20 +14,23 @@
 
 namespace MKLNET
 {
-    /// <summary>A histogram estimator.</summary>
-    public class HistogramEstimator
+    /// <summary>A quantiles estimator.</summary>
+    public class QuantilesEstimator
     {
         /// <summary>The number of observations less than or equal at this histogram point.</summary>
         public readonly int[] N;
         /// <summary>The value estimate at this histogram point.</summary>
         public readonly double[] Q;
+        /// <summary>The quantiles estimated.</summary>
+        public readonly double[] P;
 
-        /// <summary>A histogram estimator.</summary>
-        /// <param name="n">The number of histogram point including min and max.</param>
-        public HistogramEstimator(int n)
+        /// <summary>A quantiles estimator.</summary>
+        /// <param name="p">The sorted quantiles to estimate.</param>
+        public QuantilesEstimator(double[] p)
         {
-            N = new int[n];
-            Q = new double[n];
+            P = p;
+            N = new int[p.Length + 2];
+            Q = new double[p.Length + 2];
         }
 
         /// <summary>Add a sample observation.</summary>
@@ -72,7 +75,7 @@ namespace MKLNET
 
             for (int i = 1; i < n.Length - 1; i++)
             {
-                var d = (n[n.Length - 1] - 1) * (double)i / (n.Length - 1) + 1 - n[i];
+                var d = (n[n.Length - 1] - 1) * P[i-1] + 1 - n[i];
                 if (d >= 1.0 && n[i + 1] - n[i] > 1)
                 {
                     var h = n[i + 1] - n[i];
@@ -133,9 +136,9 @@ namespace MKLNET
             return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
         }
 
-        /// <summary>Combine another HistogramEstimator.</summary>
-        /// <param name="e">HistogramEstimator</param>
-        public void Add(HistogramEstimator e)
+        /// <summary>Combine another QuantilesEstimator.</summary>
+        /// <param name="e">QuantilesEstimator</param>
+        public void Add(QuantilesEstimator e)
         {
             for (int i = 1; i < N.Length; i++)
                 N[i] += e.N[i];
@@ -154,12 +157,12 @@ namespace MKLNET
                 Q[i] += (e.Q[i] - Q[i]) * w;
         }
 
-        /// <summary>Combine two HistogramEstimators.</summary>
-        /// <param name="a">First HistogramEstimator</param>
-        /// <param name="b">Second HistogramEstimator</param>
-        public static HistogramEstimator operator +(HistogramEstimator a, HistogramEstimator b)
+        /// <summary>Combine two QuantilesEstimators.</summary>
+        /// <param name="a">First QuantilesEstimator</param>
+        /// <param name="b">Second QuantilesEstimator</param>
+        public static QuantilesEstimator operator +(QuantilesEstimator a, QuantilesEstimator b)
         {
-            var e = new HistogramEstimator(a.N.Length);
+            var e = new QuantilesEstimator(a.P);
             for (int i = 1; i < e.N.Length; i++)
                 e.N[i] = a.N[i] + b.N[i];
             if (a.Q[0] == b.Q[0])

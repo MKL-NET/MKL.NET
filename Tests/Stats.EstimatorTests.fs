@@ -269,6 +269,77 @@ let histogram = test "histogram" {
     }
 }
 
+let quantiles = test "quantiles" {
+
+    test "vs_quartile" {
+        let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let expected = QuartileEstimator()
+        let actual = QuantilesEstimator([|0.25;0.50;0.75|])
+        for x in xs do
+            expected.Add x
+            actual.Add x
+        Check.equal expected.N0 actual.N.[0]
+        Check.equal expected.N1 actual.N.[1]
+        Check.equal expected.N2 actual.N.[2]
+        Check.equal expected.N3 actual.N.[3]
+        Check.equal expected.N  actual.N.[4]
+        Check.close VeryHigh expected.Q0 actual.Q.[0]
+        Check.close VeryHigh expected.Q1 actual.Q.[1]
+        Check.close VeryHigh expected.Q2 actual.Q.[2]
+        Check.close VeryHigh expected.Q3 actual.Q.[3]
+        Check.close VeryHigh expected.Q4 actual.Q.[4]
+    }
+
+    test "faster" {
+        let! xs = Gen.Double.OneTwo.Array
+        Check.faster
+            (fun () ->
+                let e = QuantilesEstimator([|0.25;0.50;0.75|])
+                for x in xs do e.Add x
+            )
+            (fun () ->
+                let e = P2QuantileEstimatorOriginal(0.5)
+                for x in xs do e.AddValue x
+            )
+    }
+
+    test "add_same" {
+        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let qe1 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
+        for x in xs1 do qe1.Add x
+        let qe2 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
+        for x in xs2 do qe2.Add x
+        let qe3 = qe1 + qe2
+        qe1.Add qe2
+        Check.equal qe3.N qe1.N
+        Check.equal qe3.Q qe1.Q
+    }
+
+    test "add" {
+        let! xs1 = Gen.Double.OneTwo.Array.[6, 50]
+        and! xs2 = Gen.Double.OneTwo.Array.[6, 50]
+        let qe3 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
+        let qe1 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
+        for x in xs1 do
+            qe1.Add x
+            qe3.Add x
+        let qe2 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
+        for x in xs2 do
+            qe2.Add x
+            qe3.Add x
+        let qe4 = qe1 + qe2
+        Check.equal qe3.N[0] qe4.N[0] |> Check.message "N0"
+        Check.equal qe3.N[5] qe4.N[5] |> Check.message "N5"
+        Check.equal qe3.Q[0] qe4.Q[0] |> Check.message "Q0"
+        Check.between (min qe1.Q[1] qe2.Q[1]) (max qe1.Q[1] qe2.Q[1]) qe4.Q[1] |> Check.message "Q1"
+        Check.between (min qe1.Q[2] qe2.Q[2]) (max qe1.Q[2] qe2.Q[2]) qe4.Q[2] |> Check.message "Q2"
+        Check.between (min qe1.Q[3] qe2.Q[3]) (max qe1.Q[3] qe2.Q[3]) qe4.Q[3] |> Check.message "Q3"
+        Check.between (min qe1.Q[4] qe2.Q[4]) (max qe1.Q[4] qe2.Q[4]) qe4.Q[4] |> Check.message "Q4"
+        Check.equal qe3.Q[5] qe4.Q[5] |> Check.message "Q5"
+    }
+}
+
 let moment4 = test "moment4" {
 
     test "vs_mathnet" {
@@ -518,6 +589,7 @@ let all =
         quartile
         quantile
         histogram
+        quantiles
         moment4
         moment3
         moment2
