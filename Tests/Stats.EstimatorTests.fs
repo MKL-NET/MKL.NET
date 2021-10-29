@@ -18,7 +18,6 @@ let quartile = test "quartile" {
     }
 
     test "vs_p2" {
-        //let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
         let! xs = Gen.Double.[-10, 10].Array.[5, 50]
         let expected = P2QuantileEstimatorPatched(0.5)
         let actual = QuartileEstimator()
@@ -63,8 +62,8 @@ let quartile = test "quartile" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
         let qe1 = QuartileEstimator()
         for x in xs1 do qe1.Add x
         let qe2 = QuartileEstimator()
@@ -84,8 +83,8 @@ let quartile = test "quartile" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
         let qe3 = QuartileEstimator()
         let qe1 = QuartileEstimator()
         for x in xs1 do
@@ -96,7 +95,6 @@ let quartile = test "quartile" {
             qe2.Add x
             qe3.Add x
         let qe4 = qe1 + qe2
-        Check.equal qe3.N0 qe4.N0
         Check.equal qe3.N qe4.N
         Check.equal qe3.Q0 qe4.Q0
         Check.between (min qe1.Q1 qe2.Q1) (max qe1.Q1 qe2.Q1) qe4.Q1
@@ -109,7 +107,6 @@ let quartile = test "quartile" {
 let quantile = test "quantile" {
 
     test "vs_p2" {
-        //let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
         let! xs = Gen.Double.[-10, 10].Array.[5, 50]
         let expected = P2QuantileEstimatorPatched(0.6)
         let actual = QuantileEstimator(0.6)
@@ -154,8 +151,8 @@ let quantile = test "quantile" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
         let qe1 = QuantileEstimator(0.6)
         for x in xs1 do qe1.Add x
         let qe2 = QuantileEstimator(0.6)
@@ -176,8 +173,8 @@ let quantile = test "quantile" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
         let qe3 = QuantileEstimator(0.6)
         let qe1 = QuantileEstimator(0.6)
         for x in xs1 do
@@ -188,7 +185,6 @@ let quantile = test "quantile" {
             qe2.Add x
             qe3.Add x
         let qe4 = qe1 + qe2
-        Check.equal qe3.N0 qe4.N0
         Check.equal qe3.N qe4.N
         Check.equal qe3.Q0 qe4.Q0
         Check.between (min qe1.Q1 qe2.Q1) (max qe1.Q1 qe2.Q1) qe4.Q1
@@ -201,7 +197,7 @@ let quantile = test "quantile" {
 let histogram = test "histogram" {
 
     test "vs_quartile" {
-        let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs = Gen.Double.[-10, 10].Array.[5, 50]
         let expected = QuartileEstimator()
         let actual = HistogramEstimator(5)
         for x in xs do
@@ -233,8 +229,8 @@ let histogram = test "histogram" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
         let qe1 = HistogramEstimator(6)
         for x in xs1 do qe1.Add x
         let qe2 = HistogramEstimator(6)
@@ -246,8 +242,8 @@ let histogram = test "histogram" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[6, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[6, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
         let qe3 = HistogramEstimator(6)
         let qe1 = HistogramEstimator(6)
         for x in xs1 do
@@ -258,14 +254,13 @@ let histogram = test "histogram" {
             qe2.Add x
             qe3.Add x
         let qe4 = qe1 + qe2
-        Check.equal qe3.N[0] qe4.N[0] |> Check.message "N0"
-        Check.equal qe3.N[5] qe4.N[5] |> Check.message "N5"
-        Check.equal qe3.Q[0] qe4.Q[0] |> Check.message "Q0"
-        Check.between (min qe1.Q[1] qe2.Q[1]) (max qe1.Q[1] qe2.Q[1]) qe4.Q[1] |> Check.message "Q1"
-        Check.between (min qe1.Q[2] qe2.Q[2]) (max qe1.Q[2] qe2.Q[2]) qe4.Q[2] |> Check.message "Q2"
-        Check.between (min qe1.Q[3] qe2.Q[3]) (max qe1.Q[3] qe2.Q[3]) qe4.Q[3] |> Check.message "Q3"
-        Check.between (min qe1.Q[4] qe2.Q[4]) (max qe1.Q[4] qe2.Q[4]) qe4.Q[4] |> Check.message "Q4"
-        Check.equal qe3.Q[5] qe4.Q[5] |> Check.message "Q5"
+        Check.equal qe3.N[5] qe4.N[5]
+        Check.equal qe3.Q[0] qe4.Q[0]
+        Check.between (min qe1.Q[1] qe2.Q[1]) (max qe1.Q[1] qe2.Q[1]) qe4.Q[1]
+        Check.between (min qe1.Q[2] qe2.Q[2]) (max qe1.Q[2] qe2.Q[2]) qe4.Q[2]
+        Check.between (min qe1.Q[3] qe2.Q[3]) (max qe1.Q[3] qe2.Q[3]) qe4.Q[3]
+        Check.between (min qe1.Q[4] qe2.Q[4]) (max qe1.Q[4] qe2.Q[4]) qe4.Q[4]
+        Check.equal qe3.Q[5] qe4.Q[5]
     }
 }
 
@@ -304,8 +299,8 @@ let quantiles = test "quantiles" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
         let qe1 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
         for x in xs1 do qe1.Add x
         let qe2 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
@@ -317,8 +312,8 @@ let quantiles = test "quantiles" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[6, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[6, 50]
+        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
+        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
         let qe3 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
         let qe1 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
         for x in xs1 do
@@ -329,14 +324,13 @@ let quantiles = test "quantiles" {
             qe2.Add x
             qe3.Add x
         let qe4 = qe1 + qe2
-        Check.equal qe3.N[0] qe4.N[0] |> Check.message "N0"
-        Check.equal qe3.N[5] qe4.N[5] |> Check.message "N5"
-        Check.equal qe3.Q[0] qe4.Q[0] |> Check.message "Q0"
-        Check.between (min qe1.Q[1] qe2.Q[1]) (max qe1.Q[1] qe2.Q[1]) qe4.Q[1] |> Check.message "Q1"
-        Check.between (min qe1.Q[2] qe2.Q[2]) (max qe1.Q[2] qe2.Q[2]) qe4.Q[2] |> Check.message "Q2"
-        Check.between (min qe1.Q[3] qe2.Q[3]) (max qe1.Q[3] qe2.Q[3]) qe4.Q[3] |> Check.message "Q3"
-        Check.between (min qe1.Q[4] qe2.Q[4]) (max qe1.Q[4] qe2.Q[4]) qe4.Q[4] |> Check.message "Q4"
-        Check.equal qe3.Q[5] qe4.Q[5] |> Check.message "Q5"
+        Check.equal qe3.N[5] qe4.N[5]
+        Check.equal qe3.Q[0] qe4.Q[0]
+        Check.between (min qe1.Q[1] qe2.Q[1]) (max qe1.Q[1] qe2.Q[1]) qe4.Q[1]
+        Check.between (min qe1.Q[2] qe2.Q[2]) (max qe1.Q[2] qe2.Q[2]) qe4.Q[2]
+        Check.between (min qe1.Q[3] qe2.Q[3]) (max qe1.Q[3] qe2.Q[3]) qe4.Q[3]
+        Check.between (min qe1.Q[4] qe2.Q[4]) (max qe1.Q[4] qe2.Q[4]) qe4.Q[4]
+        Check.equal qe3.Q[5] qe4.Q[5]
     }
 }
 

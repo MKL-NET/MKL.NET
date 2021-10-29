@@ -72,7 +72,7 @@ namespace MKLNET
 
             for (int i = 1; i < n.Length - 1; i++)
             {
-                var d = (n[n.Length - 1] - 1) * (double)i / (n.Length - 1) + 1 - n[i];
+                var d = (n[n.Length - 1] - n[0]) * (double)i / (n.Length - 1) + n[0] - n[i];
                 if (d >= 1.0 && n[i + 1] - n[i] > 1)
                 {
                     var h = n[i + 1] - n[i];
