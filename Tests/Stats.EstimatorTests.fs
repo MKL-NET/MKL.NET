@@ -215,20 +215,18 @@ let histogram = test "histogram" {
         Check.close VeryHigh expected.Q4 actual.Q.[4]
     }
 
-#if NETCOREAPP
-    test "faster" {
-        let! xs = Gen.Double.OneTwo.Array
-        Check.faster
-            (fun () ->
-                let e = HistogramEstimator(5)
-                for x in xs do e.Add x
-            |> repeat 100)
-            (fun () ->
-                let e = P2QuantileEstimatorOriginal(0.5)
-                for x in xs do e.AddValue x
-            |> repeat 100)
-    }
-#endif
+    //test "faster" {
+    //    let! xs = Gen.Double.OneTwo.Array
+    //    Check.faster
+    //        (fun () ->
+    //            let e = HistogramEstimator(5)
+    //            for x in xs do e.Add x
+    //        |> repeat 100)
+    //        (fun () ->
+    //            let e = P2QuantileEstimatorOriginal(0.5)
+    //            for x in xs do e.AddValue x
+    //        |> repeat 100)
+    //}
 
     test "add_same" {
         let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
@@ -287,20 +285,18 @@ let quantiles = test "quantiles" {
         Check.close VeryHigh expected.Q4 actual.Q.[4]
     }
 
-#if NETCOREAPP
-    test "faster" {
-        let! xs = Gen.Double.OneTwo.Array
-        Check.faster
-            (fun () ->
-                let e = QuantilesEstimator([|0.25;0.50;0.75|])
-                for x in xs do e.Add x
-            |> repeat 100)
-            (fun () ->
-                let e = P2QuantileEstimatorOriginal(0.5)
-                for x in xs do e.AddValue x
-            |> repeat 100)
-    }
-#endif
+    //test "faster" {
+    //    let! xs = Gen.Double.OneTwo.Array
+    //    Check.faster
+    //        (fun () ->
+    //            let e = QuantilesEstimator([|0.25;0.50;0.75|])
+    //            for x in xs do e.Add x
+    //        |> repeat 100)
+    //        (fun () ->
+    //            let e = P2QuantileEstimatorOriginal(0.5)
+    //            for x in xs do e.AddValue x
+    //        |> repeat 100)
+    //}
 
     test "add_same" {
         let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
