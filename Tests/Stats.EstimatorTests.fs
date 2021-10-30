@@ -222,11 +222,11 @@ let histogram = test "histogram" {
             (fun () ->
                 let e = HistogramEstimator(5)
                 for x in xs do e.Add x
-            )
+            |> repeat 10)
             (fun () ->
                 let e = P2QuantileEstimatorOriginal(0.5)
                 for x in xs do e.AddValue x
-            )
+            |> repeat 10)
     }
 #endif
 
@@ -294,11 +294,11 @@ let quantiles = test "quantiles" {
             (fun () ->
                 let e = QuantilesEstimator([|0.25;0.50;0.75|])
                 for x in xs do e.Add x
-            )
+            |> repeat 10)
             (fun () ->
                 let e = P2QuantileEstimatorOriginal(0.5)
                 for x in xs do e.AddValue x
-            )
+            |> repeat 10)
     }
 #endif
 
