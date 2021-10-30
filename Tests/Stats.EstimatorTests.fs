@@ -215,18 +215,18 @@ let histogram = test "histogram" {
         Check.close VeryHigh expected.Q4 actual.Q.[4]
     }
 
-    //test "faster" {
-    //    let! xs = Gen.Double.OneTwo.Array
-    //    Check.faster
-    //        (fun () ->
-    //            let e = HistogramEstimator(5)
-    //            for x in xs do e.Add x
-    //        |> repeat 100)
-    //        (fun () ->
-    //            let e = P2QuantileEstimatorOriginal(0.5)
-    //            for x in xs do e.AddValue x
-    //        |> repeat 100)
-    //}
+    test "faster" {
+        let! xs = Gen.Double.OneTwo.Array
+        Check.faster
+            (fun () ->
+                let e = HistogramEstimator(5)
+                for x in xs do e.Add x
+            )
+            (fun () ->
+                let e = P2QuantileEstimatorOriginal(0.5)
+                for x in xs do e.AddValue x
+            )
+    }
 
     test "add_same" {
         let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
@@ -285,18 +285,18 @@ let quantiles = test "quantiles" {
         Check.close VeryHigh expected.Q4 actual.Q.[4]
     }
 
-    //test "faster" {
-    //    let! xs = Gen.Double.OneTwo.Array
-    //    Check.faster
-    //        (fun () ->
-    //            let e = QuantilesEstimator([|0.25;0.50;0.75|])
-    //            for x in xs do e.Add x
-    //        |> repeat 100)
-    //        (fun () ->
-    //            let e = P2QuantileEstimatorOriginal(0.5)
-    //            for x in xs do e.AddValue x
-    //        |> repeat 100)
-    //}
+    test "faster" {
+        let! xs = Gen.Double.OneTwo.Array
+        Check.faster
+            (fun () ->
+                let e = QuantilesEstimator([|0.25;0.50;0.75|])
+                for x in xs do e.Add x
+            )
+            (fun () ->
+                let e = P2QuantileEstimatorOriginal(0.5)
+                for x in xs do e.AddValue x
+            )
+    }
 
     test "add_same" {
         let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
@@ -356,11 +356,11 @@ let moment4 = test "moment4" {
             (fun () ->
                 let e = Moment4Estimator()
                 for x in xs do e.Add x
-            |> repeat 500)
+            )
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 500)
+            )
     }
 
     test "add_same" {
@@ -421,11 +421,11 @@ let moment3 = test "moment3" {
             (fun () ->
                 let e = Moment3Estimator()
                 for x in xs do e.Add x
-            |> repeat 500)
+            )
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 500)
+            )
     }
 
     test "add_same" {
@@ -483,11 +483,11 @@ let moment2 = test "moment2" {
             (fun () ->
                 let e = Moment2Estimator()
                 for x in xs do e.Add x
-            |> repeat 500)
+            )
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 500)
+            )
     }
 
     test "add_same" {
@@ -541,11 +541,11 @@ let moment1 = test "moment1" {
             (fun () ->
                 let e = Moment1Estimator()
                 for x in xs do e.Add x
-            |> repeat 500)
+            )
             (fun () ->
                 let e = RunningStatistics()
                 for x in xs do e.Push x
-            |> repeat 500)
+            )
     }
 
     test "add_same" {
