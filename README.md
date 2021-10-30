@@ -87,4 +87,4 @@ Full use of MKL.NET will be made to improve performance. Algorithms will be perf
 Simple and high performance statistics functions.
 
 - Summary - Sum, Mean, Median, MAD, Raw/Central/Standard Moments, Quartiles, Quantiles, Covariance, Correlation. All can be weighted.  
-- Estimator - Running high performance, low memory estimators for Quantile, Quartiles, Quantiles, Histogram, Raw/Standard Moments.  
+- Estimator - Running high performance, low memory estimators for Quantile, Quartiles, Quantiles, Histogram, Central/Standard Moments.  

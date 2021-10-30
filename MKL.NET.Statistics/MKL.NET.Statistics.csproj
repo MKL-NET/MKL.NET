@@ -16,7 +16,7 @@
 Statistics functions based on cross platform MKL.NET.
         </Description>
         <PackageReleaseNotes>
-Added Estimators - Running high performance, low memory estimators for Quantile, Quartiles, Quantiles, Histogram, Raw/Standard Moments.
+Added Estimators - Running high performance, low memory estimators for Quantile, Quartiles, Quantiles, Histogram, Central/Standard Moments.
         </PackageReleaseNotes>
         <Version>0.2.0</Version>
     </PropertyGroup>
