@@ -307,7 +307,7 @@ type TestBuilder(name:string) =
                 if isNull fa then fa <- FasterAggregation m
                 if fa.Error |> not then
                     fa.Result.Add(f,s)
-                    if fa.Result.Faster < fa.Result.Slower && fa.Result.SigmaSquared > 36.0f then fa.Error <- true
+                    if fa.Result.Faster < fa.Result.Slower && fa.Result.SigmaSquared > 64.0f then fa.Error <- true
                 let r = Some [FasterAgg fa]
                 Test(nameList, fun _ c -> c r)
             )
@@ -571,7 +571,7 @@ type private Worker(seed:PCG option,nextTest:unit->TestData option,tc:RunCounts,
                         if seed.IsSome && obj.ReferenceEquals(seed.Value,pcg) then
                             pcg <- PCG.ThreadPCG
                     else
-                        if skip && r |> List.exists (function |FasterAgg a -> a.Result.Faster > a.Result.Slower && a.Result.SigmaSquared > 36.0f | _ -> false) then
+                        if skip && r |> List.exists (function |FasterAgg a -> a.Result.Faster > a.Result.Slower && a.Result.SigmaSquared > 64.0f | _ -> false) then
                             if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
                         Interlocked.Increment &tc.Passed |> ignore
                         if t.Result=None then
