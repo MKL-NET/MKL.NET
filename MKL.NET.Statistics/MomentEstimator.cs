@@ -20,7 +20,7 @@ namespace MKLNET
     public class Moment4Estimator
     {
         /// <summary>The number of sample observations.</summary>
-        public long N;
+        public int N;
         /// <summary>The mean.</summary>
         public double M1;
         /// <summary>The second central sum.</summary>
@@ -47,7 +47,7 @@ namespace MKLNET
             var s = o / ++N;
             M1 += s;
             var term1 = (N - 1) * o * s;
-            S4 += (term1 * s * (N * N - 3 * N + 3) + 6 * s * S2 - 4 * S3) * s;
+            S4 += (term1 * s * ((double)(N - 3) * N + 3) + 6 * s * S2 - 4 * S3) * s;
             S3 += (term1 * (N - 2) - 3 * S2) * s;
             S2 += term1;
         }
@@ -93,7 +93,7 @@ namespace MKLNET
     public class Moment3Estimator
     {
         /// <summary>The number of sample observations.</summary>
-        public long N;
+        public int N;
         /// <summary>The mean.</summary>
         public double M1;
         /// <summary>The second central sum.</summary>
@@ -157,7 +157,7 @@ namespace MKLNET
     public class Moment2Estimator
     {
         /// <summary>The number of sample observations.</summary>
-        public long N;
+        public int N;
         /// <summary>The mean.</summary>
         public double M1;
         /// <summary>The second central sum.</summary>
@@ -212,7 +212,7 @@ namespace MKLNET
     public class Moment1Estimator
     {
         /// <summary>The number of sample observations.</summary>
-        public long N;
+        public int N;
         /// <summary>The mean.</summary>
         public double M1;
         /// <summary>The mean.</summary>

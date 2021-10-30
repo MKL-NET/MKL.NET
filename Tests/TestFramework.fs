@@ -632,14 +632,21 @@ module Tests =
                             let result =
                                 if Double.IsNaN(me.Median) then Normal "Time resolution too small try using repeat."
                                 else Numeric((me.Median*100.0).ToString("#0.0"))
-                                   + "%[" + Numeric((me.LowerQuartile*100.0).ToString("#0.0"))
-                                   + "%.." + Numeric((me.UpperQuartile*100.0).ToString("#0.0")) + "%] "
+                                   + "%[" + Numeric((me.Q1*100.0).ToString("#0.0"))
+                                   + "%.." + Numeric((me.Q3*100.0).ToString("#0.0")) + "%] "
                                    + if me.Median >= 0.0 then "faster" else "slower"
                             let result =
                                 if fa.Error then Alert "  FAIL: " + Message fa.Message + result
                                 else Normal "  INFO: " + Message fa.Message + result
                                 + ", sigma=" + Numeric(sqrt(fa.Result.SigmaSquared).ToString("#0.0")) + " ("+Numeric fa.Result.Faster+" vs "+Numeric(fa.Result.Slower)+")"
-                            if (me.Median >= 0.0) <> (r.Faster > r.Slower) then result + Normal ", inconsistent result try using repeat or increasing sigma" else result
+                            if (me.Median >= 0.0) <> (r.Faster > r.Slower) then
+                                result + Normal ", inconsistent result try using repeat or increasing sigma [" +
+                                "(" + Numeric(me.N0) + "," + Numeric((me.Q0*100.0).ToString("#0.0")) + ")," +
+                                "(" + Numeric(me.N1) + "," + Numeric((me.Q1*100.0).ToString("#0.0")) + ")," +
+                                "(" + Numeric(me.N2) + "," + Numeric((me.Q2*100.0).ToString("#0.0")) + ")," +
+                                "(" + Numeric(me.N3) + "," + Numeric((me.Q3*100.0).ToString("#0.0")) + ")," +
+                                "(" + Numeric(me.N ) + "," + Numeric((me.Q4*100.0).ToString("#0.0")) + ")]"
+                            else result
                             |> Some
                         else None
                 ) results
