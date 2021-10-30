@@ -47,8 +47,8 @@ namespace MKLNET
             var s = o / ++N;
             M1 += s;
             var term1 = (N - 1) * o * s;
-            S4 += (term1 * s * ((double)(N - 3) * N + 3) + 6 * s * S2 - 4 * S3) * s;
-            S3 += (term1 * (N - 2) - 3 * S2) * s;
+            S4 += ((((double)(N - 3) * N + 3) * term1 + S2 * 6) * s - S3 * 4) * s;
+            S3 += ((N - 2) * term1 - S2 * 3) * s;
             S2 += term1;
         }
         /// <summary>Combine another Moment4Estimator.</summary>
@@ -116,7 +116,7 @@ namespace MKLNET
             var s = o / ++N;
             M1 += s;
             var term1 = (N - 1) * o * s;
-            S3 += (term1 * (N - 2) - 3 * S2) * s;
+            S3 += ((N - 2) * term1 - S2 * 3) * s;
             S2 += term1;
         }
         /// <summary>Combine another Moment3Estimator.</summary>
