@@ -75,7 +75,7 @@ Simple and high performance optimization and root finding library loosely based 
 The aim is to include the latest algorithms such as Toms748, robustly tested with [CsCheck](https://github.com/AnthonyLloyd/CsCheck).
 Full use of MKL.NET will be made to improve performance. Algorithms will be performance tested and default to the best for given inputs.
 
-- Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley.  
+- Root - root finding algorithms. Default algorithm has 20% fewer function calls than Brent, Toms748, Newton and Halley. Further details [here](http://anthonylloyd.github.io/blog/2021/06/03/Root-finding).  
 - Calculus - derivative and integral numeric calculations and check to any precision using Richardson extrapolation.  
 - Minimum - minimum finding algorithms in one dimension. Default algorithm has 50% fewer function calls than Brent.  
 - Minimum - in N dimensions. Intuative tolerance parameters. Optimised no array allocation in main loop using in place symmetric MKL rank-k, rank-2k functions.  
@@ -87,4 +87,4 @@ Full use of MKL.NET will be made to improve performance. Algorithms will be perf
 Simple and high performance statistics functions.
 
 - Summary - Sum, Mean, Median, MAD, Raw/Central/Standard Moments, Quartiles, Quantiles, Covariance, Correlation. All can be weighted.  
-- Estimator - Running high performance, low memory estimators for Quantile, Quartiles, Quantiles, Histogram, Central/Standard Moments.  
+- Estimator - Running high performance, low memory estimators for Quantile, Quartiles, Quantiles, Histogram, Central/Standard Moments. Further details [here](http://anthonylloyd.github.io/blog/2021/11/01/statistic-estimators).  
