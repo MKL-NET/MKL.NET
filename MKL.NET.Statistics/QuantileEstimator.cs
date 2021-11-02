@@ -70,7 +70,7 @@ namespace MKLNET
                     var delta1 = (Quantile - Q1) / h1;
                     var d1 = PchipDerivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
                     var d2 = PchipDerivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
-                    Q1 = HermiteInterpolationOne(h1, Q1, delta1, d1, d2);
+                    Q1 += HermiteInterpolationOne(h1, delta1, d1, d2);
                     N1++;
                 }
                 else if (s <= -1.0 && N1 - N0 > 1)
@@ -79,7 +79,7 @@ namespace MKLNET
                     var delta0 = (Q1 - Q0) / h0;
                     var d0 = PchipDerivativeEnd(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
                     var d1 = PchipDerivative(h0, delta0, N2 - N1, (Quantile - Q1) / (N2 - N1));
-                    Q1 = HermiteInterpolationOne(h0, Q1, -delta0, -d1, -d0);
+                    Q1 += HermiteInterpolationOne(h0, -delta0, -d1, -d0);
                     N1--;
                 }
                 s = (N - 1) * p + 1 - N2;
@@ -89,7 +89,7 @@ namespace MKLNET
                     var delta2 = (Q3 - Quantile) / h2;
                     var d2 = PchipDerivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
                     var d3 = PchipDerivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
-                    Quantile = HermiteInterpolationOne(h2, Quantile, delta2, d2, d3);
+                    Quantile += HermiteInterpolationOne(h2, delta2, d2, d3);
                     N2++;
                 }
                 else if (s <= -1.0 && N2 - N1 > 1)
@@ -98,7 +98,7 @@ namespace MKLNET
                     var delta1 = (Quantile - Q1) / h1;
                     var d1 = PchipDerivative(N1 - N0, (Q1 - Q0) / (N1 - N0), h1, delta1);
                     var d2 = PchipDerivative(h1, delta1, N3 - N2, (Q3 - Quantile) / (N3 - N2));
-                    Quantile = HermiteInterpolationOne(h1, Quantile, -delta1, -d2, -d1);
+                    Quantile += HermiteInterpolationOne(h1, -delta1, -d2, -d1);
                     N2--;
                 }
                 s = (N - 1) * (1 + p) * 0.5 + 1 - N3;
@@ -108,7 +108,7 @@ namespace MKLNET
                     var delta3 = (Q4 - Q3) / h3;
                     var d3 = PchipDerivative(N3 - N2, (Q3 - Quantile) / (N3 - N2), h3, delta3);
                     var d4 = PchipDerivativeEnd(h3, delta3, N3 - N2, (Q3 - Quantile) / (N3 - N2));
-                    Q3 = HermiteInterpolationOne(h3, Q3, delta3, d3, d4);
+                    Q3 += HermiteInterpolationOne(h3, delta3, d3, d4);
                     N3++;
                 }
                 else if (s <= -1.0 && N3 - N2 > 1)
@@ -117,7 +117,7 @@ namespace MKLNET
                     var delta2 = (Q3 - Quantile) / h2;
                     var d2 = PchipDerivative(N2 - N1, (Quantile - Q1) / (N2 - N1), h2, delta2);
                     var d3 = PchipDerivative(h2, delta2, N - N3, (Q4 - Q3) / (N - N3));
-                    Q3 = HermiteInterpolationOne(h2, Q3, -delta2, -d3, -d2);
+                    Q3 += HermiteInterpolationOne(h2, -delta2, -d3, -d2);
                     N3--;
                 }
             }
@@ -210,15 +210,13 @@ namespace MKLNET
         static double PchipDerivativeEnd(int h1, double delta1, int h2, double delta2)
         {
             double d = (delta1 - delta2) * h1 / (h1 + h2) + delta1;
-            return d < 0.0 ? 0.0
-                 : d > 3 * delta1 ? 3 * delta1
-                 : d;
+            return d < 0 ? 0 : d;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double HermiteInterpolationOne(int h1, double y1, double delta1, double d1, double d2)
+        static double HermiteInterpolationOne(int h1, double delta1, double d1, double d2)
         {
-            return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
+            return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + d1;
         }
 
         /// <summary>Combine another QuartileEstimator.</summary>

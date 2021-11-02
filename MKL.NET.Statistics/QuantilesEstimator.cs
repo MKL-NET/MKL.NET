@@ -75,41 +75,27 @@ namespace MKLNET
 
             for (int i = 1; i < n.Length - 1; i++)
             {
-                var d = (n[n.Length - 1] - 1) * P[i-1] + 1 - n[i];
+                var d = (n[n.Length - 1] - 1) * P[i - 1] + 1 - n[i];
                 if (d >= 1.0 && n[i + 1] - n[i] > 1)
                 {
                     var h = n[i + 1] - n[i];
                     var delta = (q[i + 1] - q[i]) / h;
-                    if (i == n.Length - 2)
-                    {
-                        var d1 = PchipDerivative(n[i] - n[i - 1], (q[i] - q[i - 1]) / (n[i] - n[i - 1]), h, delta);
-                        var d2 = PchipDerivativeEnd(h, delta, n[i] - n[i - 1], (q[i] - q[i - 1]) / (n[i] - n[i - 1]));
-                        q[i] = HermiteInterpolationOne(h, q[i], delta, d1, d2);
-                    }
-                    else
-                    {
-                        var d1 = PchipDerivative(n[i] - n[i - 1], (q[i] - q[i - 1]) / (n[i] - n[i - 1]), h, delta);
-                        var d2 = PchipDerivative(h, delta, n[i + 2] - n[i + 1], (q[i + 2] - q[i + 1]) / (n[i + 2] - n[i + 1]));
-                        q[i] = HermiteInterpolationOne(h, q[i], delta, d1, d2);
-                    }
+                    var d1 = PchipDerivative(n[i] - n[i - 1], (q[i] - q[i - 1]) / (n[i] - n[i - 1]), h, delta);
+                    var d2 = i == n.Length - 2
+                        ? PchipDerivativeEnd(h, delta, n[i] - n[i - 1], (q[i] - q[i - 1]) / (n[i] - n[i - 1]))
+                        : PchipDerivative(h, delta, n[i + 2] - n[i + 1], (q[i + 2] - q[i + 1]) / (n[i + 2] - n[i + 1]));
+                    q[i] += HermiteInterpolationOne(h, delta, d1, d2);
                     n[i]++;
                 }
                 else if (d <= -1.0 && n[i] - n[i - 1] > 1)
                 {
                     var h = n[i] - n[i - 1];
                     var delta = (q[i] - q[i - 1]) / h;
-                    if (i == 1)
-                    {
-                        var d1 = PchipDerivativeEnd(h, delta, n[i + 1] - n[i], (q[i + 1] - q[i]) / (n[i + 1] - n[i]));
-                        var d2 = PchipDerivative(h, delta, n[i + 1] - n[i], (q[i + 1] - q[i]) / (n[i + 1] - n[i]));
-                        q[i] = HermiteInterpolationOne(h, q[i], -delta, -d2, -d1);
-                    }
-                    else
-                    {
-                        var d1 = PchipDerivative(n[i - 1] - n[i - 2], (q[i - 1] - q[i - 2]) / (n[i - 1] - n[i - 2]), h, delta);
-                        var d2 = PchipDerivative(h, delta, n[i + 1] - n[i], (q[i + 1] - q[i]) / (n[i + 1] - n[i]));
-                        q[i] = HermiteInterpolationOne(h, q[i], -delta, -d2, -d1);
-                    }
+                    var d1 = i == 1
+                        ? PchipDerivativeEnd(h, delta, n[i + 1] - n[i], (q[i + 1] - q[i]) / (n[i + 1] - n[i]))
+                        : PchipDerivative(n[i - 1] - n[i - 2], (q[i - 1] - q[i - 2]) / (n[i - 1] - n[i - 2]), h, delta);
+                    var d2 = PchipDerivative(h, delta, n[i + 1] - n[i], (q[i + 1] - q[i]) / (n[i + 1] - n[i]));
+                    q[i] += HermiteInterpolationOne(h, -delta, -d2, -d1);
                     n[i]--;
                 }
             }
@@ -125,15 +111,13 @@ namespace MKLNET
         static double PchipDerivativeEnd(int h1, double delta1, int h2, double delta2)
         {
             double d = (delta1 - delta2) * h1 / (h1 + h2) + delta1;
-            return d < 0.0 ? 0.0
-                 : d > 3 * delta1 ? 3 * delta1
-                 : d;
+            return d < 0 ? 0 : d;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        static double HermiteInterpolationOne(int h1, double y1, double delta1, double d1, double d2)
+        static double HermiteInterpolationOne(int h1, double delta1, double d1, double d2)
         {
-            return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + y1 + d1;
+            return ((d1 + d2 - delta1 * 2) / h1 + delta1 * 3 - d1 * 2 - d2) / h1 + d1;
         }
 
         /// <summary>Combine another QuantilesEstimator.</summary>
