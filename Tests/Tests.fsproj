@@ -6,7 +6,7 @@
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Update="FSharp.Core" Version="6.0.0" />
+        <PackageReference Update="FSharp.Core" Version="6.0.1" />
         <PackageReference Include="CsCheck" Version="2.4.1" />
         <!--<PackageReference Include="MKL.NET" Version="1.1.0" />-->
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
