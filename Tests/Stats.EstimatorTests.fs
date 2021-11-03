@@ -8,7 +8,7 @@ open MathNet.Numerics.Statistics
 let quartile = test "quartile" {
 
     test "5_order" {
-        let! xs = Gen.Double.OneTwo.Array.[5]
+        let! xs = Gen.Int.[-10, 10].Select(fun i -> float i * 0.1).Array.[5]
         let qe = QuartileEstimator()
         for x in xs do qe.Add x
         Check.greaterThanOrEqual qe.Q0 qe.Q1
