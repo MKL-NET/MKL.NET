@@ -549,39 +549,40 @@ type private RunCounts = {
 type private Worker(seed:PCG option,nextTest:unit->TestData option,tc:RunCounts,skip,stopOnError) as worker =
     [<DefaultValue>]
     val mutable Running : TestData option
-    do ThreadPool.UnsafeQueueUserWorkItem(WaitCallback worker.Execute, null) |> ignore
-    member _.Execute(_:obj) =
-        let mutable pcg = match seed with Some p -> p | None -> PCG.ThreadPCG
-        let mutable test = nextTest()
-        while test.IsSome do
-            worker.Running <- test
-            let t = test.Value
-            let stateBefore = pcg.State
-            t.Method pcg (fun r ->
-                match r with
-                | None -> Interlocked.Increment &tc.Skipped |> ignore
-                | Some r ->
-                    let seed = if pcg.State=stateBefore then None else Some(pcg,stateBefore)
-                    if TestResult.hasErrs r then
-                        if skip || Option.isNone seed then
-                            if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                        t.Result <- Some(r,seed)
-                        Interlocked.Increment &tc.Failed |> ignore
-                        if stopOnError then tc.Threads.Reset 0
-                        if seed.IsSome && obj.ReferenceEquals(seed.Value,pcg) then
-                            pcg <- PCG.ThreadPCG
-                    else
-                        if skip && r |> List.exists (function |FasterAgg a -> a.Result.Faster > a.Result.Slower && a.Result.SigmaSquared > 100.0f | _ -> false) then
-                            if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                        Interlocked.Increment &tc.Passed |> ignore
-                        if t.Result=None then
-                            if skip && Option.isNone seed && List.exists (function |FasterAgg _ -> true | _ -> false) r |> not then
+    do ThreadPool.UnsafeQueueUserWorkItem(worker, false) |> ignore
+    interface IThreadPoolWorkItem with
+        member _.Execute() =
+            let mutable pcg = match seed with Some p -> p | None -> PCG.ThreadPCG
+            let mutable test = nextTest()
+            while test.IsSome do
+                worker.Running <- test
+                let t = test.Value
+                let stateBefore = pcg.State
+                t.Method pcg (fun r ->
+                    match r with
+                    | None -> Interlocked.Increment &tc.Skipped |> ignore
+                    | Some r ->
+                        let seed = if pcg.State=stateBefore then None else Some(pcg,stateBefore)
+                        if TestResult.hasErrs r then
+                            if skip || Option.isNone seed then
                                 if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
-                            t.Result <- Some(r,None)
-            )
-            test <- nextTest()
-        worker.Running <- None
-        tc.Threads.Signal() |> ignore
+                            t.Result <- Some(r,seed)
+                            Interlocked.Increment &tc.Failed |> ignore
+                            if stopOnError then tc.Threads.Reset 0
+                            if seed.IsSome && obj.ReferenceEquals(seed.Value,pcg) then
+                                pcg <- PCG.ThreadPCG
+                        else
+                            if skip && r |> List.exists (function |FasterAgg a -> a.Result.Faster > a.Result.Slower && a.Result.SigmaSquared > 100.0f | _ -> false) then
+                                if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
+                            Interlocked.Increment &tc.Passed |> ignore
+                            if t.Result=None then
+                                if skip && Option.isNone seed && List.exists (function |FasterAgg _ -> true | _ -> false) r |> not then
+                                    if Interlocked.Increment &t.Skip = 1 then Interlocked.Decrement &tc.Tests |> ignore
+                                t.Result <- Some(r,None)
+                )
+                test <- nextTest()
+            worker.Running <- None
+            tc.Threads.Signal() |> ignore
 
 
 module Tests =
