@@ -337,7 +337,7 @@ let quantiles = test "quantiles" {
 let moment4 = test "moment4" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
+        let! xs = Gen.Double[-1000, 1000].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment4Estimator()
         for x in xs do
@@ -403,7 +403,7 @@ let moment4 = test "moment4" {
 let moment3 = test "moment3" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
+        let! xs = Gen.Double[-1000, 1000].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment3Estimator()
         for x in xs do
@@ -466,7 +466,7 @@ let moment3 = test "moment3" {
 let moment2 = test "moment2" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
+        let! xs = Gen.Double[-1000, 1000].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment2Estimator()
         for x in xs do
@@ -526,7 +526,7 @@ let moment2 = test "moment2" {
 let moment1 = test "moment1" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
+        let! xs = Gen.Double[-1000, 1000].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment1Estimator()
         for x in xs do

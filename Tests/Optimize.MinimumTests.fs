@@ -18,11 +18,11 @@ let all =
         }
 
         test "minimum_quadratic_correct" {
-            let! root1 = Gen.Double[-10.0, 10.0]
-            let! root2 = Gen.Double[-10.0, 10.0]
+            let! root1 = Gen.Double[-10, 10]
+            let! root2 = Gen.Double[-10, 10]
             let f x = (x - root1) * (x - root2)
             let! x =
-                let genD = Gen.Double[-20.0, 20.0]
+                let genD = Gen.Double[-20, 20]
                 Gen.Select(genD, genD, genD)
                     .Where(fun struct (a, b, c) -> a < b && b < c)
                     .Select(fun struct (a, b, c) -> a, f(a), b, f(b), c, f(c))
@@ -41,9 +41,9 @@ let all =
         }
 
         test "minimum_cubic_correct" {
-            let! root1 = Gen.Double[-10.0, -4.0]
-            let! root2 = Gen.Double[-3.0, 3.0]
-            let! root3 = Gen.Double[4.0, 10.0]
+            let! root1 = Gen.Double[-10, -4]
+            let! root2 = Gen.Double[-3, 3]
+            let! root3 = Gen.Double[4, 10]
             let f x = (x - root1) * (x - root2) * (x - root3)
             let! x =
                 let genD = Gen.Double[root2, root3 * 2.0]

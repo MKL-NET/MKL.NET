@@ -31,7 +31,7 @@ let all =
         }
 
         test "root_linear_correct" {
-            let! root = Gen.Double[1.0, 10.0]
+            let! root = Gen.Double[1, 10]
             let f x = x - root
             let! x =
                 let genD = Gen.Double[root * -3.0, root * 3.0]
@@ -52,8 +52,8 @@ let all =
         }
 
         test "root_quadratic_correct" {
-            let! root1 = Gen.Double[-10.0, -1.0]
-            let! root2 = Gen.Double[1.0, 10.0]
+            let! root1 = Gen.Double[-10, -1]
+            let! root2 = Gen.Double[1, 10]
             let f x = (x - root1) * (x - root2)
             let! x =
                 let genD = Gen.Double[root1 * 3.0, root2 * 3.0]
@@ -84,8 +84,8 @@ let all =
         }
 
         test "root_cubic_correct_1" {
-            let! root1 = Gen.Double[-10.0, -4.0]
-            let! notRoot = Gen.Double[4.0, 10.0]
+            let! root1 = Gen.Double[-10, -4]
+            let! notRoot = Gen.Double[4, 10]
             let f x = (x - root1) * (x*x + notRoot)
             let! x =
                 let genD = Gen.Double[root1 * 3.0, notRoot * 3.0]
@@ -97,8 +97,8 @@ let all =
         }
 
         test "root_cubic_correct_2" {
-            let! root1 = Gen.Double[-10.0, -4.0]
-            let! root2 = Gen.Double[4.0, 10.0]
+            let! root1 = Gen.Double[-10, -4]
+            let! root2 = Gen.Double[4, 10]
             let f x = (x - root1) * (x - root2) * (x - root2)
             let! x =
                 let genD = Gen.Double[root1 * 3.0, root2 * 3.0]
@@ -110,9 +110,9 @@ let all =
         }
 
         test "root_cubic_correct_3" {
-            let! root1 = Gen.Double[-10.0, -4.0]
-            let! root2 = Gen.Double[-3.0, 3.0]
-            let! root3 = Gen.Double[4.0, 10.0]
+            let! root1 = Gen.Double[-10, -4]
+            let! root2 = Gen.Double[-3, 3]
+            let! root3 = Gen.Double[4, 10]
             let f x = (x - root1) * (x - root2) * (x - root3)
             let! x =
                 let genD = Gen.Double[root1 * 3.0, root3 * 3.0]

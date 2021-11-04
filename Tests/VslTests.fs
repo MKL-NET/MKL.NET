@@ -915,8 +915,8 @@ let conv_corr =
     test "conv_corr" {
 
         test "corr_double" {
-            let! x = Gen.Double[0.0,100.0].Array[1,100]
-            let! y = Gen.Double[0.0,100.0].Array[1,100]
+            let! x = Gen.Double[0,100].Array[1,100]
+            let! y = Gen.Double[0,100].Array[1,100]
             let! lz = Gen.Int[1,min x.Length y.Length]
             let z = Array.zeroCreate lz
             let mutable task = Unchecked.defaultof<VsldCorrTask>
@@ -927,8 +927,8 @@ let conv_corr =
         }
 
         test "corr_single" {
-            let! x = Gen.Single[0.0f,100.0f].Array[1,100]
-            let! y = Gen.Single[0.0f,100.0f].Array[1,100]
+            let! x = Gen.Single[0f,100f].Array[1,100]
+            let! y = Gen.Single[0f,100f].Array[1,100]
             let! lz = Gen.Int[1,min x.Length y.Length]
             let z = Array.zeroCreate lz
             let mutable task = Unchecked.defaultof<VslsCorrTask>
@@ -939,8 +939,8 @@ let conv_corr =
         }
 
         test "conv_single" {
-            let! x = Gen.Single[0.0f,100.0f].Array[1,100]
-            let! y = Gen.Single[0.0f,100.0f].Array[1,100]
+            let! x = Gen.Single[0f,100f].Array[1,100]
+            let! y = Gen.Single[0f,100f].Array[1,100]
             let! lz = Gen.Int[1,min x.Length y.Length]
             let z = Array.zeroCreate lz
             let mutable task = Unchecked.defaultof<VslsConvTask>

@@ -146,19 +146,19 @@ let arithmetic =
             Vml.Mul Vml.Mul Vml.Mul Vml.Mul
             (*)
 
-        testBinary "Fmod_double" Gen.Double[0.01,10000.0]
+        testBinary "Fmod_double" Gen.Double[0.01,10000]
             Vml.Fmod Vml.Fmod Vml.Fmod Vml.Fmod
             (fun a b -> a - Math.Truncate(a/b) * b)
 
-        testBinary "Fmod_single" Gen.Single[0.01f,10000.0f]
+        testBinary "Fmod_single" Gen.Single[0.01f,10000f]
             Vml.Fmod Vml.Fmod Vml.Fmod Vml.Fmod
             (fun a b -> double a - Math.Truncate(double a/double b) * double b |> single)
 
-        testBinary "Remainder_double" Gen.Double[0.01,10000.0]
+        testBinary "Remainder_double" Gen.Double[0.01,10000]
             Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
             (fun a b -> a - Math.Round(a/b) * b)
 
-        testBinary "Remainder_single" Gen.Single[0.01f,10000.0f]
+        testBinary "Remainder_single" Gen.Single[0.01f,10000f]
             Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
             (fun a b -> double a - Math.Round(double a/double b) * double b |> single)
     }
@@ -250,11 +250,11 @@ let power =
             Vml.Pow Vml.Pow Vml.Pow Vml.Pow
             (fun a b -> Math.Pow(double a,double b) |> single)
 
-        testBinary "Powr_double" Gen.Double[0.01,100.0]
+        testBinary "Powr_double" Gen.Double[0.01,100]
             Vml.Powr Vml.Powr Vml.Powr Vml.Powr
             (fun a b -> Math.Pow(a,b))
 
-        testBinary "Powr_single" Gen.Single[0.01f,100.0f]
+        testBinary "Powr_single" Gen.Single[0.01f,100f]
             Vml.Powr Vml.Powr Vml.Powr Vml.Powr
             (fun a b -> Math.Pow(double a,double b) |> single)
     }
@@ -342,43 +342,43 @@ let exponential =
 let trigonometric =
     test "trigonometric" {
 
-        testUnary "Cos_double" Gen.Double[-65536.0,65536.0]
+        testUnary "Cos_double" Gen.Double[-65536,65536]
             Vml.Cos Vml.Cos Vml.Cos Vml.Cos
             cos
 
-        testUnary "Cos_single" Gen.Single[-8192.0f,8192.0f]
+        testUnary "Cos_single" Gen.Single[-8192f,8192f]
             Vml.Cos Vml.Cos Vml.Cos Vml.Cos
             (double >> cos >> single)
 
-        testUnary "Sin_double" Gen.Double[-65536.0,65536.0]
+        testUnary "Sin_double" Gen.Double[-65536,65536]
             Vml.Sin Vml.Sin Vml.Sin Vml.Sin
             sin
 
-        testUnary "Sin_single" Gen.Single[-8192.0f,8192.0f]
+        testUnary "Sin_single" Gen.Single[-8192f,8192f]
             Vml.Sin Vml.Sin Vml.Sin Vml.Sin
             (double >> sin >> single)
 
-        testUnary "Tan_double" Gen.Double[-1.0,1.0]
+        testUnary "Tan_double" Gen.Double[-1,1]
             Vml.Tan Vml.Tan Vml.Tan Vml.Tan
             tan
 
-        testUnary "Tan_single" Gen.Single[-1.0f,1.0f]
+        testUnary "Tan_single" Gen.Single[-1f,1f]
             Vml.Tan Vml.Tan Vml.Tan Vml.Tan
             (double >> tan >> single)
 
-        testUnary "Cospi_double" Gen.Double[-65536.0,65536.0]
+        testUnary "Cospi_double" Gen.Double[-65536,65536]
             Vml.Cospi Vml.Cospi Vml.Cospi Vml.Cospi
             (fun i -> cos(Math.PI*i))
 
-        testUnary "Cospi_single" Gen.Single[-4194304.0f,4194304.0f]
+        testUnary "Cospi_single" Gen.Single[-4194304f,4194304f]
             Vml.Cospi Vml.Cospi Vml.Cospi Vml.Cospi
             (fun i -> cos(Math.PI*double i) |> single)
 
-        testUnary "Sinpi_double" Gen.Double[-65536.0,65536.0]
+        testUnary "Sinpi_double" Gen.Double[-65536,65536]
             Vml.Sinpi Vml.Sinpi Vml.Sinpi Vml.Sinpi
             (fun i -> sin(Math.PI*i))
 
-        testUnary "Sinpi_single" Gen.Single[-4194304.0f,4194304.0f]
+        testUnary "Sinpi_single" Gen.Single[-4194304f,4194304f]
             Vml.Sinpi Vml.Sinpi Vml.Sinpi Vml.Sinpi
             (fun i -> sin(Math.PI*double i) |> single)
 
@@ -390,43 +390,43 @@ let trigonometric =
             Vml.Tanpi Vml.Tanpi Vml.Tanpi Vml.Tanpi
             (fun i -> tan(Math.PI*double i) |> single)
 
-        testUnary "Cosd_double" Gen.Double[-65536.0,65536.0]
+        testUnary "Cosd_double" Gen.Double[-65536,65536]
             Vml.Cosd Vml.Cosd Vml.Cosd Vml.Cosd
             (fun i -> cos(Math.PI/180.0*i))
 
-        testUnary "Cosd_single" Gen.Single[-4194304.0f,4194304.0f]
+        testUnary "Cosd_single" Gen.Single[-4194304f,4194304f]
             Vml.Cosd Vml.Cosd Vml.Cosd Vml.Cosd
             (fun i -> cos(Math.PI/180.0*double i) |> single)
 
-        testUnary "Sind_double" Gen.Double[-65536.0,65536.0]
+        testUnary "Sind_double" Gen.Double[-65536,65536]
             Vml.Sind Vml.Sind Vml.Sind Vml.Sind
             (fun i -> sin(Math.PI/180.0*i))
 
-        testUnary "Sind_single" Gen.Single[-4194304.0f,4194304.0f]
+        testUnary "Sind_single" Gen.Single[-4194304f,4194304f]
             Vml.Sind Vml.Sind Vml.Sind Vml.Sind
             (fun i -> sin(Math.PI/180.0*double i) |> single)
 
-        testUnary "Tand_double" Gen.Double[-57.0,57.0]
+        testUnary "Tand_double" Gen.Double[-57,57]
             Vml.Tand Vml.Tand Vml.Tand Vml.Tand
             (fun i -> tan(Math.PI/180.0*i))
 
-        testUnary "Tand_single" Gen.Single[-57.0f,57.0f]
+        testUnary "Tand_single" Gen.Single[-57f,57f]
             Vml.Tand Vml.Tand Vml.Tand Vml.Tand
             (fun i -> tan(Math.PI/180.0*double i) |> single)
 
-        testUnary "Acos_double" Gen.Double[-1.0,1.0]
+        testUnary "Acos_double" Gen.Double[-1,1]
             Vml.Acos Vml.Acos Vml.Acos Vml.Acos
             acos
 
-        testUnary "Acos_single" Gen.Single[-1.0f,1.0f]
+        testUnary "Acos_single" Gen.Single[-1f,1f]
             Vml.Acos Vml.Acos Vml.Acos Vml.Acos
             (double >> acos >> single)
 
-        testUnary "Asin_double" Gen.Double[-1.0,1.0]
+        testUnary "Asin_double" Gen.Double[-1,1]
             Vml.Asin Vml.Asin Vml.Asin Vml.Asin
             asin
 
-        testUnary "Asin_single" Gen.Single[-1.0f,1.0f]
+        testUnary "Asin_single" Gen.Single[-1f,1f]
             Vml.Asin Vml.Asin Vml.Asin Vml.Asin
             (double >> asin >> single)
 
@@ -438,19 +438,19 @@ let trigonometric =
             Vml.Atan Vml.Atan Vml.Atan Vml.Atan
             (double >> atan >> single)
 
-        testUnary "Acospi_double" Gen.Double[-1.0,1.0]
+        testUnary "Acospi_double" Gen.Double[-1,1]
             Vml.Acospi Vml.Acospi Vml.Acospi Vml.Acospi
             (fun i -> acos(i) / Math.PI)
 
-        testUnary "Acospi_single" Gen.Single[-1.0f,1.0f]
+        testUnary "Acospi_single" Gen.Single[-1f,1f]
             Vml.Acospi Vml.Acospi Vml.Acospi Vml.Acospi
             (fun i -> acos(double i) / Math.PI |> single)
 
-        testUnary "Asinpi_double" Gen.Double[-1.0,1.0]
+        testUnary "Asinpi_double" Gen.Double[-1,1]
             Vml.Asinpi Vml.Asinpi Vml.Asinpi Vml.Asinpi
             (fun i -> asin(i) / Math.PI)
 
-        testUnary "Asinpi_single" Gen.Single[-1.0f,1.0f]
+        testUnary "Asinpi_single" Gen.Single[-1f,1f]
             Vml.Asinpi Vml.Asinpi Vml.Asinpi Vml.Asinpi
             (fun i -> asin(double i) / Math.PI |> single)
 
@@ -523,11 +523,11 @@ let hyperbolic =
             Vml.Asinh Vml.Asinh Vml.Asinh Vml.Asinh
             (double >> Math.Asinh >> single)
 
-        testUnary "Atanh_double" Gen.Double[-1.0,1.0]
+        testUnary "Atanh_double" Gen.Double[-1,1]
             Vml.Atanh Vml.Atanh Vml.Atanh Vml.Atanh
             Math.Atanh
 
-        testUnary "Atanh_single" Gen.Single[-1.0f,1.0f]
+        testUnary "Atanh_single" Gen.Single[-1f,1f]
             Vml.Atanh Vml.Atanh Vml.Atanh Vml.Atanh
             (double >> Math.Atanh >> single)
 #endif
@@ -584,27 +584,27 @@ let special =
             Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv Vml.CdfNormInv
             (double >> normcdfinv >> single)
 
-        testUnary "LGamma_double" Gen.Double[0.0,10000.0]
+        testUnary "LGamma_double" Gen.Double[0,10000]
             Vml.LGamma Vml.LGamma Vml.LGamma Vml.LGamma
             lgamma
 
-        testUnary "LGamma_single" Gen.Single[0.0f,10000.0f]
+        testUnary "LGamma_single" Gen.Single[0f,10000f]
             Vml.LGamma Vml.LGamma Vml.LGamma Vml.LGamma
             (double >> lgamma >> single)
 
-        testUnary "TGamma_double" Gen.Double[0.0,100000.0]
+        testUnary "TGamma_double" Gen.Double[0,100000]
             Vml.TGamma Vml.TGamma Vml.TGamma Vml.TGamma
             gamma
 
-        testUnary "TGamma_single" Gen.Single[0.0f,100000.0f]
+        testUnary "TGamma_single" Gen.Single[0f,100000f]
             Vml.TGamma Vml.TGamma Vml.TGamma Vml.TGamma
             (double >> gamma >> single)
 
-        testUnary "ExpInt1_double" Gen.Double[0.0,100000.0]
+        testUnary "ExpInt1_double" Gen.Double[0,100000]
             Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
             (expint 1)
 
-        testUnary "ExpInt1_single" Gen.Single[0.0f,100000.0f]
+        testUnary "ExpInt1_single" Gen.Single[0f,100000f]
             Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1 Vml.ExpInt1
             (double >> (expint 1) >> single)
     }
@@ -802,7 +802,7 @@ let bespoke =
         }
 
         test "SinCos_double" {
-            let! a = Gen.Double[-65536.0,65536.0].Array[1,ROWS_MAX]
+            let! a = Gen.Double[-65536,65536].Array[1,ROWS_MAX]
             let expected1 = Array.map sin a
             let expected2 = Array.map cos a
             let actual1 = Array.zeroCreate a.Length
@@ -824,7 +824,7 @@ let bespoke =
         }
 
         test "SinCos_single" {
-            let! a = Gen.Single[-8192.0f,8192.0f].Array[1,ROWS_MAX]
+            let! a = Gen.Single[-8192f,8192f].Array[1,ROWS_MAX]
             let expected1 = Array.map sin a
             let expected2 = Array.map cos a
             let actual1 = Array.zeroCreate a.Length
@@ -890,12 +890,12 @@ let bespoke =
         }
 
         test "LinearFrac_double" {
-            let! a = Gen.Double[0.01,100.0].Array[1,ROWS_MAX]
-            let! b = Gen.Double[0.01,100.0].Array[a.Length]
-            let! scalea = Gen.Double[0.01,100.0]
-            let! shifta = Gen.Double[0.01,100.0]
-            let! scaleb = Gen.Double[0.01,100.0]
-            let! shiftb = Gen.Double[0.01,100.0]
+            let! a = Gen.Double[0.01,100].Array[1,ROWS_MAX]
+            let! b = Gen.Double[0.01,100].Array[a.Length]
+            let! scalea = Gen.Double[0.01,100]
+            let! shifta = Gen.Double[0.01,100]
+            let! scaleb = Gen.Double[0.01,100]
+            let! shiftb = Gen.Double[0.01,100]
             let expected =
                 Array.map2
                     (fun a b -> (a*scalea + shifta)/(b*scaleb + shiftb))
