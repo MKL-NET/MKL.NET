@@ -4,7 +4,7 @@
 A simple cross platform .NET API for Intel MKL.
 
 Exposing functions from MKL keeping the syntax as close to the
-[c developer reference](https://software.intel.com/content/www/us/en/develop/documentation/mkl-developer-reference-c/top.html) as possible.
+[c developer reference](https://www.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top.html) as possible.
 
 Reference the MKL.NET package and required runtime packages and use the static MKL functions.
 The correct native libraries will be included and loaded at runtime.
