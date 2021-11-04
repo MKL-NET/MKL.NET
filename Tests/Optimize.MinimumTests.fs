@@ -10,7 +10,7 @@ let all =
 
         test "minimum_quadratic_between" {
             let! a, _, _, _, c, _, x =
-                let genD = Gen.Double.[-1e100, 1e100]
+                let genD = Gen.Double[-1e100, 1e100]
                 Gen.Select(genD, genD, genD, genD, genD, genD)
                     .Where(fun struct (a, fa, b, fb, c, fc) -> a < b && b < c && Optimize.Minimum_Is_Bracketed(fa, fb, fc))
                     .Select(fun struct (a, fa, b, fb, c, fc) -> a, fa, b, fb, c, fc, Optimize.Minimum_Quadratic(a, fa, b, fb, c, fc))
@@ -18,11 +18,11 @@ let all =
         }
 
         test "minimum_quadratic_correct" {
-            let! root1 = Gen.Double.[-10.0, 10.0]
-            let! root2 = Gen.Double.[-10.0, 10.0]
+            let! root1 = Gen.Double[-10.0, 10.0]
+            let! root2 = Gen.Double[-10.0, 10.0]
             let f x = (x - root1) * (x - root2)
             let! x =
-                let genD = Gen.Double.[-20.0, 20.0]
+                let genD = Gen.Double[-20.0, 20.0]
                 Gen.Select(genD, genD, genD)
                     .Where(fun struct (a, b, c) -> a < b && b < c)
                     .Select(fun struct (a, b, c) -> a, f(a), b, f(b), c, f(c))
@@ -32,7 +32,7 @@ let all =
 
         test "minimum_cubic_between" {
             let! a, _, _, _, c, _, _, _, x =
-                let genD = Gen.Double.[-1e100, 1e100]
+                let genD = Gen.Double[-1e100, 1e100]
                 let genC = genD.Select(genD)
                 Gen.Select(genC, genC, genC, genC)
                     .Where(fun struct ((a, fa), (b, fb), (c, fc), (d, _)) -> a < b && b < c && (d < a || d > c) && Optimize.Minimum_Is_Bracketed(fa, fb, fc))
@@ -41,12 +41,12 @@ let all =
         }
 
         test "minimum_cubic_correct" {
-            let! root1 = Gen.Double.[-10.0, -4.0]
-            let! root2 = Gen.Double.[-3.0, 3.0]
-            let! root3 = Gen.Double.[4.0, 10.0]
+            let! root1 = Gen.Double[-10.0, -4.0]
+            let! root2 = Gen.Double[-3.0, 3.0]
+            let! root3 = Gen.Double[4.0, 10.0]
             let f x = (x - root1) * (x - root2) * (x - root3)
             let! x =
-                let genD = Gen.Double.[root2, root3 * 2.0]
+                let genD = Gen.Double[root2, root3 * 2.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
                     .Where(fun (a, fa, b, fb, c, fc, d, _) -> a < b && b < c && (d < a || d > c) && Optimize.Minimum_Is_Bracketed(fa, fb, fc))
@@ -60,7 +60,7 @@ let all =
                 let problems = Optimization.MinimumTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
-                    let struct (F, min, low, max) = problems.[i]
+                    let struct (F, min, low, max) = problems[i]
                     let fmin = F.Invoke(min)
                     let flow = F.Invoke(low)
                     let fmax = F.Invoke(max)
@@ -76,10 +76,10 @@ let all =
                     Check.between 3 4 inRangeFx.Length
                     Check.equal (Seq.min inRangeFx) (Seq.min evals.Values)
                     if inRangeFx.Length = 3 then
-                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx.[0], inRangeFx.[1], inRangeFx.[2]))
+                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx[0], inRangeFx[1], inRangeFx[2]))
                     else
-                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx.[0], inRangeFx.[1], inRangeFx.[2])) |||
-                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx.[1], inRangeFx.[2], inRangeFx.[3]))
+                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx[0], inRangeFx[1], inRangeFx[2])) |||
+                        Check.isTrue (Optimize.Minimum_Is_Bracketed(inRangeFx[1], inRangeFx[2], inRangeFx[3]))
                 testAssert count
             }
 
@@ -109,11 +109,11 @@ let all =
                             count <- count + 1
                             let fx = func x
                             let r = Array.init x.Length (fun i ->
-                                let x_i = x.[i];
-                                x.[i] <- x_i + tol / 100.0
+                                let x_i = x[i];
+                                x[i] <- x_i + tol / 100.0
                                 count <- count + 1
                                 let dfi = (func x - fx) / (x_i + (tol / 100.0) - x_i)
-                                x.[i] <- x_i
+                                x[i] <- x_i
                                 dfi
                             )
                             MathNet.Numerics.LinearAlgebra.CreateVector.Dense(r)
@@ -121,7 +121,7 @@ let all =
             let r = MathNet.Numerics.Optimization.BfgsMinimizer(tol, tol, 0.0)
                         .FindMinimum(obf, MathNet.Numerics.LinearAlgebra.CreateVector.Dense(x))
             for i = 0 to x.Length-1 do
-                x.[i] <- r.MinimizingPoint.[i]
+                x[i] <- r.MinimizingPoint[i]
             count, r.FunctionInfoAtMinimum.Value
 
         test "rosen_5_mklnet" {
@@ -170,9 +170,9 @@ let all =
 
         test "beale_mathnet" {
             let x = [|0.0; 0.0|]
-            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Beale(xi.[0], xi.[1])) x
-            Check.close Medium 3.0 x.[0]
-            Check.close Medium 0.5 x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Beale(xi[0], xi[1])) x
+            Check.close Medium 3.0 x[0]
+            Check.close Medium 0.5 x[1]
             Check.between 152 152 count
         }
 
@@ -188,9 +188,9 @@ let all =
 
         test "goldp_mathnet" {
             let x = [|-2.0; -2.0|]
-            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.GoldsteinPrice(xi.[0], xi.[1])) x
-            Check.close Low 0.0 x.[0]
-            Check.close Low -1.0 x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.GoldsteinPrice(xi[0], xi[1])) x
+            Check.close Low 0.0 x[0]
+            Check.close Low -1.0 x[1]
             Check.between 296 296 count
         }
 
@@ -206,9 +206,9 @@ let all =
 
         test "booth_mathnet" {
             let x = [|0.0; 0.0|]
-            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Booth(xi.[0], xi.[1])) x
-            Check.close Medium 1.0 x.[0]
-            Check.close Medium 3.0 x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Booth(xi[0], xi[1])) x
+            Check.close Medium 1.0 x[0]
+            Check.close Medium 3.0 x[1]
             Check.between 112 112 count
         }
 
@@ -224,9 +224,9 @@ let all =
 
         test "matyas_mathnet" {
             let x = [|1.0; -1.0|]
-            let count,_ = MathNet_Minimum 5e-8 (fun xi -> Optimization.Matyas(xi.[0], xi.[1])) x
-            Check.close Medium 0.0 x.[0]
-            Check.close Medium 0.0 x.[1]
+            let count,_ = MathNet_Minimum 5e-8 (fun xi -> Optimization.Matyas(xi[0], xi[1])) x
+            Check.close Medium 0.0 x[0]
+            Check.close Medium 0.0 x[1]
             Check.between 80 80 count
         }
 
@@ -242,9 +242,9 @@ let all =
 
         test "himmel_mathnet" {
             let x = [|4.0; 4.0|]
-            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Himmelblau(xi.[0], xi.[1])) x
-            Check.close Medium 3.0 x.[0]
-            Check.close Medium 2.0 x.[1]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Himmelblau(xi[0], xi[1])) x
+            Check.close Medium 3.0 x[0]
+            Check.close Medium 2.0 x[1]
             Check.between 176 176 count
         }
 
@@ -261,11 +261,11 @@ let all =
         //test "mccorm_mathnet" { // fails to find minimum
         //    let x = [|0.0; 0.0|]
         //    let mutable count = 0
-        //    let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.McCormick(xi.[0], xi.[1])) x
-        //    Check.info "x: %.9f" x.[0]
-        //    Check.info "y: %.9f" x.[1]
-        //    Check.close Medium -0.547197 x.[0]
-        //    Check.close Medium -1.547197 x.[1]
+        //    let count = MathNet_Minimum 1e-7 (fun xi -> count <- count + 1; Optimization.McCormick(xi[0], xi[1])) x
+        //    Check.info "x: %.9f" x[0]
+        //    Check.info "y: %.9f" x[1]
+        //    Check.close Medium -0.547197 x[0]
+        //    Check.close Medium -1.547197 x[1]
         //    Check.between 180 180 count
         //}
 
@@ -283,7 +283,7 @@ let all =
             let count, ols = MathNet_Minimum 1e-7 (fun xi ->
                                 let mutable sum = 0.0
                                 for i = 0 to Optimization.GaussianT.Length - 1 do
-                                    let d = Optimization.Gaussian(xi, Optimization.GaussianT.[i]) - Optimization.GaussianY.[i]
+                                    let d = Optimization.Gaussian(xi, Optimization.GaussianT[i]) - Optimization.GaussianY[i]
                                     sum <- sum + d * d
                                 sum
                              ) x
@@ -307,11 +307,11 @@ let all =
 
         test "wood_4_mathnet" {
             let x = [|-3.0; -1.0; -3.0; -1.0|]
-            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Wood(xi.[0], xi.[1], xi.[2], xi.[3])) x
-            Check.close Medium 1.0 x.[0]
-            Check.close Medium 1.0 x.[1]
-            Check.close Medium 1.0 x.[2]
-            Check.close Medium 1.0 x.[3]
+            let count,_ = MathNet_Minimum 1e-7 (fun xi -> Optimization.Wood(xi[0], xi[1], xi[2], xi[3])) x
+            Check.close Medium 1.0 x[0]
+            Check.close Medium 1.0 x[1]
+            Check.close Medium 1.0 x[2]
+            Check.close Medium 1.0 x[3]
             Check.between 924 924 count
         }
 
@@ -329,7 +329,7 @@ let all =
             let count, ols = MathNet_Minimum 1e-7 (fun xi ->
                                 let mutable sum = 0.0
                                 for i = 0 to Optimization.OsbourneT.Length - 1 do
-                                    let d = Optimization.Osbourne(xi, Optimization.OsbourneT.[i]) - Optimization.OsbourneY.[i]
+                                    let d = Optimization.Osbourne(xi, Optimization.OsbourneT[i]) - Optimization.OsbourneY[i]
                                     sum <- sum + d * d
                                 sum
                              ) x

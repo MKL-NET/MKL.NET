@@ -126,7 +126,7 @@ let close accuracy (expected:'a) (actual:'a) =
                                             + Numeric a.Length)
             else
                 let rec check i =
-                    match close e.[i] a.[i] with
+                    match close e[i] a[i] with
                     | Success ->
                         if i+1=e.Length then Success
                         else check (i+1)
@@ -139,7 +139,7 @@ let close accuracy (expected:'a) (actual:'a) =
                                             + Numeric a.Length)
             else
                 let rec check i =
-                    match close e.[i] a.[i] with
+                    match close e[i] a[i] with
                     | Success ->
                         if i+1=e.Length then Success
                         else check (i+1)
@@ -152,7 +152,7 @@ let close accuracy (expected:'a) (actual:'a) =
                                                          + Numeric a.Rows + "," + Numeric a.Cols + ")")
             else
                 let rec check r c =
-                    match close e.[r,c] a.[r,c] with
+                    match close e[r,c] a[r,c] with
                     | Success ->
                         let nr, nc = if r+1<e.Rows then r+1,c else 0,c+1
                         if nr=0 && nc=e.Cols then Success

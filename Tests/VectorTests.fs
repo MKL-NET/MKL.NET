@@ -6,7 +6,7 @@ open MKLNET.Expression
 open CsCheck
 
 let MAX_DIM = 5
-let gen1D = Gen.Int.[1,MAX_DIM]
+let gen1D = Gen.Int[1,MAX_DIM]
 let gen2D = Gen.Select(gen1D,gen1D)
 
 let genVector length =
@@ -16,7 +16,7 @@ let genVector length =
         let gen = Gen.Double.OneTwo
         for i =0 to length-1 do
             let d,_ = gen.Generate(pcg, null)
-            v.[i] <- d
+            v[i] <- d
         v
     )
 
@@ -28,27 +28,27 @@ let genMatrix rows cols =
         for r =0 to rows-1 do
             for c=0 to cols-1 do
                 let d,_ = gen.Generate(pcg, null)
-                m.[r,c] <- d
+                m[r,c] <- d
         m
     )
 
 let add_vv (aS:double) (a:vector) (bS:double) (b:vector) =
     let c = new vector(a.Length)
     for i = 0 to a.Length-1 do
-         c.[i] <- aS * a.[i] + bS * b.[i]
+         c[i] <- aS * a[i] + bS * b[i]
     c
 
 let mul_vvT (s:double) (a:vector) (b:vector) =
     let C = new matrix(a.Length, b.Length)
     for r = 0 to C.Rows-1 do
         for c=0 to C.Cols-1 do
-            C.[r,c] <- s * a.[r] * b.[c]
+            C[r,c] <- s * a[r] * b[c]
     C
 
 let mul_vTv (a:vector) (b:vector) =
     let mutable t = 0.0
     for i = 0 to a.Length-1 do
-        t <- t + a.[i] * b.[i]
+        t <- t + a[i] * b[i]
     t
 
 let mul_vTm (s:double) (a:vector) (B:matrix) =
@@ -56,8 +56,8 @@ let mul_vTm (s:double) (a:vector) (B:matrix) =
     for i = 0 to B.Cols - 1 do
         let mutable t = 0.0
         for r = 0 to a.Length - 1 do
-            t <- t + a.[r] * B.[r,i]
-        c.[i] <- s * t
+            t <- t + a[r] * B[r,i]
+        c[i] <- s * t
     c
 
 let mul_vTmT (s:double) (a:vector) (B:matrix) =
@@ -65,8 +65,8 @@ let mul_vTmT (s:double) (a:vector) (B:matrix) =
     for i = 0 to B.Rows - 1 do
         let mutable t = 0.0
         for r = 0 to a.Length - 1 do
-            t <- t + a.[r] * B.[i,r]
-        c.[i] <- s * t
+            t <- t + a[r] * B[i,r]
+        c[i] <- s * t
     c
 
 let impM (m:MatrixExpression) = MatrixExpression.op_Implicit m
@@ -245,7 +245,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- A.[i] + a
+                R[i] <- A[i] + a
             R
         use actual = A + a |> impV
         Check.close High expected actual
@@ -258,7 +258,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- A.[i] + a
+                R[i] <- A[i] + a
             R
         use actual = (A + 0.0) + a |> impV
         Check.close High expected actual
@@ -271,7 +271,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- A.[i] + a
+                R[i] <- A[i] + a
             R
         let actual = (A.T + a).T |> impV
         Check.close High expected actual
@@ -284,7 +284,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- A.[i] + a
+                R[i] <- A[i] + a
             R
         let actual = ((A.T + 0.0) + a).T |> impV
         Check.close High expected actual
@@ -298,7 +298,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- s * A.[i] + a
+                R[i] <- s * A[i] + a
             R
         use actual = (s * A) + a |> impV
         Check.close High expected actual
@@ -312,7 +312,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- s * A.[i] + a
+                R[i] <- s * A[i] + a
             R
         use actual = (s * A + 0.0) + a |> impV
         Check.close High expected actual
@@ -326,7 +326,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- (s * A.[i]) + a
+                R[i] <- (s * A[i]) + a
             R
         let actual = ((s * A.T) + a).T |> impV
         Check.close High expected actual
@@ -340,7 +340,7 @@ let add2 = test "add2" {
         use expected =
             let R = new vector(n)
             for i =0 to n-1 do
-                R.[i] <- (s * A.[i]) + a
+                R[i] <- (s * A[i]) + a
             R
         let actual = ((s * A.T + 0.0) + a).T |> impV
         Check.close High expected actual
@@ -805,7 +805,7 @@ let testUnary name
     let map (A:vector) =
         let E = new vector(A.Length)
         for i = 0 to A.Length-1 do
-            E.[i] <- fexpected(A.[i])
+            E[i] <- fexpected(A[i])
         E
     test name {
         let! n = gen1D

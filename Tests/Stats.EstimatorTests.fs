@@ -8,7 +8,7 @@ open MathNet.Numerics.Statistics
 let quartile = test "quartile" {
 
     test "5_order" {
-        let! xs = Gen.Int.[-10, 10].Select(fun i -> float i * 0.1).Array.[5]
+        let! xs = Gen.Int[-10, 10].Select(fun i -> float i * 0.1).Array[5]
         let qe = QuartileEstimator()
         for x in xs do qe.Add x
         Check.greaterThanOrEqual qe.Q0 qe.Q1
@@ -18,7 +18,7 @@ let quartile = test "quartile" {
     }
 
     test "vs_p2" {
-        let! xs = Gen.Double.[-10, 10].Array.[5, 50]
+        let! xs = Gen.Double[-10, 10].Array[5, 50]
         let expected = P2QuantileEstimatorPatched(0.5)
         let actual = QuartileEstimator()
         for x in xs do
@@ -62,8 +62,8 @@ let quartile = test "quartile" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
         let qe1 = QuartileEstimator()
         for x in xs1 do qe1.Add x
         let qe2 = QuartileEstimator()
@@ -83,8 +83,8 @@ let quartile = test "quartile" {
     }
 
     test "add" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
         let qe3 = QuartileEstimator()
         let qe1 = QuartileEstimator()
         for x in xs1 do
@@ -107,7 +107,7 @@ let quartile = test "quartile" {
 let quantile = test "quantile" {
 
     test "vs_p2" {
-        let! xs = Gen.Double.[-10, 10].Array.[5, 50]
+        let! xs = Gen.Double[-10, 10].Array[5, 50]
         let expected = P2QuantileEstimatorPatched(0.6)
         let actual = QuantileEstimator(0.6)
         for x in xs do
@@ -151,8 +151,8 @@ let quantile = test "quantile" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
         let qe1 = QuantileEstimator(0.6)
         for x in xs1 do qe1.Add x
         let qe2 = QuantileEstimator(0.6)
@@ -173,8 +173,8 @@ let quantile = test "quantile" {
     }
 
     test "add" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
         let qe3 = QuantileEstimator(0.6)
         let qe1 = QuantileEstimator(0.6)
         for x in xs1 do
@@ -197,22 +197,22 @@ let quantile = test "quantile" {
 let histogram = test "histogram" {
 
     test "vs_quartile" {
-        let! xs = Gen.Double.[-10, 10].Array.[5, 50]
+        let! xs = Gen.Double[-10, 10].Array[5, 50]
         let expected = QuartileEstimator()
         let actual = HistogramEstimator(5)
         for x in xs do
             expected.Add x
             actual.Add x
-        Check.equal expected.N0 actual.N.[0]
-        Check.equal expected.N1 actual.N.[1]
-        Check.equal expected.N2 actual.N.[2]
-        Check.equal expected.N3 actual.N.[3]
-        Check.equal expected.N  actual.N.[4]
-        Check.close VeryHigh expected.Q0 actual.Q.[0]
-        Check.close VeryHigh expected.Q1 actual.Q.[1]
-        Check.close VeryHigh expected.Q2 actual.Q.[2]
-        Check.close VeryHigh expected.Q3 actual.Q.[3]
-        Check.close VeryHigh expected.Q4 actual.Q.[4]
+        Check.equal expected.N0 actual.N[0]
+        Check.equal expected.N1 actual.N[1]
+        Check.equal expected.N2 actual.N[2]
+        Check.equal expected.N3 actual.N[3]
+        Check.equal expected.N  actual.N[4]
+        Check.close VeryHigh expected.Q0 actual.Q[0]
+        Check.close VeryHigh expected.Q1 actual.Q[1]
+        Check.close VeryHigh expected.Q2 actual.Q[2]
+        Check.close VeryHigh expected.Q3 actual.Q[3]
+        Check.close VeryHigh expected.Q4 actual.Q[4]
     }
 
     //test "faster" {
@@ -229,8 +229,8 @@ let histogram = test "histogram" {
     //}
 
     test "add_same" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
         let qe1 = HistogramEstimator(6)
         for x in xs1 do qe1.Add x
         let qe2 = HistogramEstimator(6)
@@ -242,8 +242,8 @@ let histogram = test "histogram" {
     }
 
     test "add" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[6, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[6, 50]
         let qe3 = HistogramEstimator(6)
         let qe1 = HistogramEstimator(6)
         for x in xs1 do
@@ -267,22 +267,22 @@ let histogram = test "histogram" {
 let quantiles = test "quantiles" {
 
     test "vs_quartile" {
-        let! xs = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[5, 50]
+        let! xs = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[5, 50]
         let expected = QuartileEstimator()
         let actual = QuantilesEstimator([|0.25;0.50;0.75|])
         for x in xs do
             expected.Add x
             actual.Add x
-        Check.equal expected.N0 actual.N.[0]
-        Check.equal expected.N1 actual.N.[1]
-        Check.equal expected.N2 actual.N.[2]
-        Check.equal expected.N3 actual.N.[3]
-        Check.equal expected.N  actual.N.[4]
-        Check.close VeryHigh expected.Q0 actual.Q.[0]
-        Check.close VeryHigh expected.Q1 actual.Q.[1]
-        Check.close VeryHigh expected.Q2 actual.Q.[2]
-        Check.close VeryHigh expected.Q3 actual.Q.[3]
-        Check.close VeryHigh expected.Q4 actual.Q.[4]
+        Check.equal expected.N0 actual.N[0]
+        Check.equal expected.N1 actual.N[1]
+        Check.equal expected.N2 actual.N[2]
+        Check.equal expected.N3 actual.N[3]
+        Check.equal expected.N  actual.N[4]
+        Check.close VeryHigh expected.Q0 actual.Q[0]
+        Check.close VeryHigh expected.Q1 actual.Q[1]
+        Check.close VeryHigh expected.Q2 actual.Q[2]
+        Check.close VeryHigh expected.Q3 actual.Q[3]
+        Check.close VeryHigh expected.Q4 actual.Q[4]
     }
 
     //test "faster" {
@@ -299,8 +299,8 @@ let quantiles = test "quantiles" {
     //}
 
     test "add_same" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[6, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[6, 50]
         let qe1 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
         for x in xs1 do qe1.Add x
         let qe2 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
@@ -312,8 +312,8 @@ let quantiles = test "quantiles" {
     }
 
     test "add" {
-        let! xs1 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
-        and! xs2 = Gen.Int.[-100, 100].Select(fun i -> float i * 0.1).Array.[6, 50]
+        let! xs1 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[6, 50]
+        and! xs2 = Gen.Int[-100, 100].Select(fun i -> float i * 0.1).Array[6, 50]
         let qe3 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
         let qe1 = QuantilesEstimator([|0.20;0.40;0.60;0.80|])
         for x in xs1 do
@@ -337,7 +337,7 @@ let quantiles = test "quantiles" {
 let moment4 = test "moment4" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double.[-1000.0, 1000.0].Array.[5, 500]
+        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment4Estimator()
         for x in xs do
@@ -364,8 +364,8 @@ let moment4 = test "moment4" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let e1 = Moment4Estimator()
         for x in xs1 do e1.Add x
         let e2 = Moment4Estimator()
@@ -380,8 +380,8 @@ let moment4 = test "moment4" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let qe3 = Moment4Estimator()
         let qe1 = Moment4Estimator()
         for x in xs1 do
@@ -403,7 +403,7 @@ let moment4 = test "moment4" {
 let moment3 = test "moment3" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double.[-1000.0, 1000.0].Array.[5, 500]
+        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment3Estimator()
         for x in xs do
@@ -429,8 +429,8 @@ let moment3 = test "moment3" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let e1 = Moment3Estimator()
         for x in xs1 do e1.Add x
         let e2 = Moment3Estimator()
@@ -444,8 +444,8 @@ let moment3 = test "moment3" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let qe3 = Moment3Estimator()
         let qe1 = Moment3Estimator()
         for x in xs1 do
@@ -466,7 +466,7 @@ let moment3 = test "moment3" {
 let moment2 = test "moment2" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double.[-1000.0, 1000.0].Array.[5, 500]
+        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment2Estimator()
         for x in xs do
@@ -491,8 +491,8 @@ let moment2 = test "moment2" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let e1 = Moment2Estimator()
         for x in xs1 do e1.Add x
         let e2 = Moment2Estimator()
@@ -505,8 +505,8 @@ let moment2 = test "moment2" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let qe3 = Moment2Estimator()
         let qe1 = Moment2Estimator()
         for x in xs1 do
@@ -526,7 +526,7 @@ let moment2 = test "moment2" {
 let moment1 = test "moment1" {
 
     test "vs_mathnet" {
-        let! xs = Gen.Double.[-1000.0, 1000.0].Array.[5, 500]
+        let! xs = Gen.Double[-1000.0, 1000.0].Array[5, 500]
         let expected = RunningStatistics()
         let actual = Moment1Estimator()
         for x in xs do
@@ -549,8 +549,8 @@ let moment1 = test "moment1" {
     }
 
     test "add_same" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let e1 = Moment1Estimator()
         for x in xs1 do e1.Add x
         let e2 = Moment1Estimator()
@@ -562,8 +562,8 @@ let moment1 = test "moment1" {
     }
 
     test "add" {
-        let! xs1 = Gen.Double.OneTwo.Array.[5, 50]
-        and! xs2 = Gen.Double.OneTwo.Array.[5, 50]
+        let! xs1 = Gen.Double.OneTwo.Array[5, 50]
+        and! xs2 = Gen.Double.OneTwo.Array[5, 50]
         let qe3 = Moment1Estimator()
         let qe1 = Moment1Estimator()
         for x in xs1 do

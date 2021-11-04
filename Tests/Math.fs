@@ -16,9 +16,9 @@ let private erfccheb x =
     let mutable d,dd = 0.0,0.0
     for j = cof.Length - 1 downto 1 do
         let tmp = d
-        d <- ty*d - dd + cof.[j]
+        d <- ty*d - dd + cof[j]
         dd <- tmp
-    t * exp(-x*x + 0.5*(cof.[0] + ty*d) - dd)
+    t * exp(-x*x + 0.5*(cof[0] + ty*d) - dd)
 
 /// Computes the error function. This function is defined by 2/sqrt(pi) * integral from 0 to x of exp (-t^2) dt
 let erf x = if x >= 0.0 then 1.0 - erfccheb x else erfccheb -x - 1.0
@@ -67,7 +67,7 @@ let lgamma x =
     let mutable ser = 0.999999999999997092
     for j = 0 to 13 do
         y <- y + 1.0
-        ser <- ser + lgammacof.[j] / y
+        ser <- ser + lgammacof[j] / y
     tmp + log(2.5066282746310005*ser/x)
 
 /// Computes the gamma function. n! = gamma(n+1)

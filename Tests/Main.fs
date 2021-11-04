@@ -30,7 +30,7 @@ let main args =
             String.Join(" ",errors) |> sprintf "ERROR: %s\n" |> Alert
             |> TestText.toText |> Text.toANSI |> Console.WriteLine
         let commandName =
-            Environment.GetCommandLineArgs().[0]
+            Environment.GetCommandLineArgs()[0]
             |> IO.Path.GetFileName
             |> fun f -> if f.EndsWith(".dll") then "dotnet " + f else f
         Config.usage commandName |> Console.Write

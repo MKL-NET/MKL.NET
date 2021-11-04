@@ -6,7 +6,7 @@ open MKLNET.Expression
 open CsCheck
 
 let MAX_DIM = 5
-let gen1D = Gen.Int.[1,MAX_DIM]
+let gen1D = Gen.Int[1,MAX_DIM]
 let gen2D = Gen.Select(gen1D,gen1D)
 let gen3D = Gen.Select(gen1D,gen1D,gen1D)
 
@@ -18,7 +18,7 @@ let genMatrix rows cols =
         for r =0 to rows-1 do
             for c=0 to cols-1 do
                 let d,_ = gen.Generate(pcg, null)
-                m.[r,c] <- d
+                m[r,c] <- d
         m
     )
 
@@ -26,28 +26,28 @@ let add_mm (aS:double) (A:matrix) (bS:double) (B:matrix) =
     let C = new matrix(A.Rows,A.Cols)
     for r=0 to A.Rows-1 do
         for c=0 to A.Cols-1 do
-            C.[r,c] <- aS * A.[r,c] + bS * B.[r,c]
+            C[r,c] <- aS * A[r,c] + bS * B[r,c]
     C
 
 let add_mmT (aS:double) (A:matrix) (bS:double) (B:matrix) =
     let C = new matrix(A.Rows,A.Cols)
     for r=0 to A.Rows-1 do
         for c=0 to A.Cols-1 do
-            C.[r,c] <- aS * A.[r,c] + bS * B.[c,r]
+            C[r,c] <- aS * A[r,c] + bS * B[c,r]
     C
 
 let add_mTm (aS:double) (A:matrix) (bS:double) (B:matrix) =
     let C = new matrix(A.Cols,A.Rows)
     for r=0 to A.Cols-1 do
         for c=0 to A.Rows-1 do
-            C.[r,c] <- aS * A.[c,r] + bS * B.[r,c]
+            C[r,c] <- aS * A[c,r] + bS * B[r,c]
     C
 
 let add_mTmT (aS:double) (A:matrix) (bS:double) (B:matrix) =
     let C = new matrix(A.Cols,A.Rows)
     for r=0 to A.Cols-1 do
         for c=0 to A.Rows-1 do
-            C.[r,c] <- aS * A.[c,r] + bS * B.[c,r]
+            C[r,c] <- aS * A[c,r] + bS * B[c,r]
     C
 
 let mul_mm (s:double) (A:matrix) (B:matrix) =
@@ -56,8 +56,8 @@ let mul_mm (s:double) (A:matrix) (B:matrix) =
         for c=0 to B.Cols-1 do
             let mutable t = 0.0
             for i = 0 to A.Cols-1 do
-                t <- t + A.[r,i] * B.[i,c]
-            C.[r,c] <- s * t
+                t <- t + A[r,i] * B[i,c]
+            C[r,c] <- s * t
     C
 
 let mul_mTm (s:double) (A:matrix) (B:matrix) =
@@ -66,8 +66,8 @@ let mul_mTm (s:double) (A:matrix) (B:matrix) =
         for c=0 to B.Cols-1 do
             let mutable t = 0.0
             for i = 0 to A.Rows-1 do
-                t <- t + A.[i,r] * B.[i,c]
-            C.[r,c] <- s * t
+                t <- t + A[i,r] * B[i,c]
+            C[r,c] <- s * t
     C
 
 let mul_mmT (s:double) (A:matrix) (B:matrix) =
@@ -76,8 +76,8 @@ let mul_mmT (s:double) (A:matrix) (B:matrix) =
         for c=0 to B.Rows-1 do
             let mutable t = 0.0
             for i = 0 to A.Cols-1 do
-                t <- t + A.[r,i] * B.[c,i]
-            C.[r,c] <- s * t
+                t <- t + A[r,i] * B[c,i]
+            C[r,c] <- s * t
     C
 
 let mul_mTmT (s:double) (A:matrix) (B:matrix) =
@@ -86,8 +86,8 @@ let mul_mTmT (s:double) (A:matrix) (B:matrix) =
         for c=0 to B.Rows-1 do
             let mutable t = 0.0
             for i = 0 to A.Rows-1 do
-                t <- t + A.[i,r] * B.[c,i]
-            C.[r,c] <- s * t
+                t <- t + A[i,r] * B[c,i]
+            C[r,c] <- s * t
     C
 
 let mul_mv (s:double) (A:matrix) (b:vector) =
@@ -95,8 +95,8 @@ let mul_mv (s:double) (A:matrix) (b:vector) =
     for r=0 to A.Rows-1 do
         let mutable t = 0.0
         for c=0 to A.Cols-1 do
-            t <- t + A.[r,c] * b.[c]
-        c.[r] <- s * t
+            t <- t + A[r,c] * b[c]
+        c[r] <- s * t
     c
 
 let mul_mTv (s:double) (A:matrix) (b:vector) =
@@ -104,8 +104,8 @@ let mul_mTv (s:double) (A:matrix) (b:vector) =
     for r=0 to A.Cols-1 do
         let mutable t = 0.0
         for c=0 to A.Rows-1 do
-            t <- t + A.[c,r] * b.[c]
-        c.[r] <- s * t
+            t <- t + A[c,r] * b[c]
+        c[r] <- s * t
     c
 
 let impM (m:MatrixExpression) = MatrixExpression.op_Implicit m
@@ -120,7 +120,7 @@ let implicit = test "implicit" {
             let T = new matrix(n,m)
             for r = 0 to n-1 do
                 for c = 0 to m-1 do
-                    T.[r,c] <- A.[c,r]
+                    T[r,c] <- A[c,r]
             T
         use actual = impM A.T
         Check.close High expected actual
@@ -134,7 +134,7 @@ let implicit = test "implicit" {
             let AT = new matrix(m,n)
             for r = 0 to m-1 do
                 for c = 0 to n-1 do
-                    AT.[r,c] <- s * A.[r,c]
+                    AT[r,c] <- s * A[r,c]
             AT
         use actual = impM (s * A)
         Check.close High expected actual
@@ -148,7 +148,7 @@ let implicit = test "implicit" {
             let T = new matrix(n,m)
             for r = 0 to n-1 do
                 for c = 0 to m-1 do
-                    T.[r,c] <- s * A.[c,r]
+                    T[r,c] <- s * A[c,r]
             T
         use actual = impM (s * A.T)
         Check.close High expected actual
@@ -489,7 +489,7 @@ let add2 = test "add2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- A.[r,c] + a
+                    R[r,c] <- A[r,c] + a
             R
         use actual = A + a |> impM
         Check.close High expected actual
@@ -503,7 +503,7 @@ let add2 = test "add2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- A.[r,c] + a
+                    R[r,c] <- A[r,c] + a
             R
         use actual = (A + 0.0) + a |> impM
         Check.close High expected actual
@@ -517,7 +517,7 @@ let add2 = test "add2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- A.[r,c] + a
+                    R[c,r] <- A[r,c] + a
             R
         use actual = A.T + a |> impM
         Check.close High expected actual
@@ -531,7 +531,7 @@ let add2 = test "add2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- A.[r,c] + a
+                    R[c,r] <- A[r,c] + a
             R
         use actual = (A.T + 0.0) + a |> impM
         Check.close High expected actual
@@ -546,7 +546,7 @@ let add2 = test "add2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- s * A.[r,c] + a
+                    R[r,c] <- s * A[r,c] + a
             R
         use actual = (s * A) + a |> impM
         Check.close High expected actual
@@ -561,7 +561,7 @@ let add2 = test "add2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- s * A.[r,c] + a
+                    R[r,c] <- s * A[r,c] + a
             R
         use actual = (s * A + 0.0) + a |> impM
         Check.close High expected actual
@@ -576,7 +576,7 @@ let add2 = test "add2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- s * A.[r,c] + a
+                    R[c,r] <- s * A[r,c] + a
             R
         use actual = (s * A.T) + a |> impM
         Check.close High expected actual
@@ -591,7 +591,7 @@ let add2 = test "add2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- s * A.[r,c] + a
+                    R[c,r] <- s * A[r,c] + a
             R
         use actual = (s * A.T + 0.0) + a |> impM
         Check.close High expected actual
@@ -932,7 +932,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- A.[r,c] - a
+                    R[r,c] <- A[r,c] - a
             R
         use actual = A - a |> impM
         Check.close High expected actual
@@ -946,7 +946,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- A.[r,c] - a
+                    R[r,c] <- A[r,c] - a
             R
         use actual = (A + 0.0) - a |> impM
         Check.close High expected actual
@@ -960,7 +960,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- A.[r,c] - a
+                    R[c,r] <- A[r,c] - a
             R
         use actual = A.T - a |> impM
         Check.close High expected actual
@@ -974,7 +974,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- A.[r,c] - a
+                    R[c,r] <- A[r,c] - a
             R
         use actual = (A.T + 0.0) - a |> impM
         Check.close High expected actual
@@ -989,7 +989,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- s * A.[r,c] - a
+                    R[r,c] <- s * A[r,c] - a
             R
         use actual = (s * A) - a |> impM
         Check.close High expected actual
@@ -1004,7 +1004,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- s * A.[r,c] - a
+                    R[r,c] <- s * A[r,c] - a
             R
         use actual = (s * A + 0.0) - a |> impM
         Check.close High expected actual
@@ -1019,7 +1019,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- s * A.[r,c] - a
+                    R[c,r] <- s * A[r,c] - a
             R
         use actual = (s * A.T) - a |> impM
         Check.close High expected actual
@@ -1034,7 +1034,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- s * A.[r,c] - a
+                    R[c,r] <- s * A[r,c] - a
             R
         use actual = (s * A.T + 0.0) - a |> impM
         Check.close High expected actual
@@ -1048,7 +1048,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- a - A.[r,c]
+                    R[r,c] <- a - A[r,c]
             R
         use actual = a - A |> impM
         Check.close High expected actual
@@ -1062,7 +1062,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- a - A.[r,c]
+                    R[r,c] <- a - A[r,c]
             R
         use actual = a - (A + 0.0) |> impM
         Check.close High expected actual
@@ -1076,7 +1076,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- a - A.[r,c]
+                    R[c,r] <- a - A[r,c]
             R
         use actual = a - A.T |> impM
         Check.close High expected actual
@@ -1090,7 +1090,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- a - A.[r,c]
+                    R[c,r] <- a - A[r,c]
             R
         use actual = a - (A.T + 0.0) |> impM
         Check.close High expected actual
@@ -1105,7 +1105,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- a - s * A.[r,c]
+                    R[r,c] <- a - s * A[r,c]
             R
         use actual = a - (s * A) |> impM
         Check.close High expected actual
@@ -1120,7 +1120,7 @@ let sub2 = test "sub2" {
             let R = new matrix(n,m)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[r,c] <- a - s * A.[r,c]
+                    R[r,c] <- a - s * A[r,c]
             R
         use actual = a - (s * A + 0.0) |> impM
         Check.close High expected actual
@@ -1135,7 +1135,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- a - s * A.[r,c]
+                    R[c,r] <- a - s * A[r,c]
             R
         use actual = (a - (s * A.T)) * 1.0 |> impM
         Check.close High expected actual
@@ -1150,7 +1150,7 @@ let sub2 = test "sub2" {
             let R = new matrix(m,n)
             for r =0 to n-1 do
                 for c=0 to m-1 do
-                    R.[c,r] <- a - s * A.[r,c]
+                    R[c,r] <- a - s * A[r,c]
             R
         use actual = (a - (s * A.T + 0.0)) * 1.0 |> impM
         Check.close High expected actual
@@ -1651,7 +1651,7 @@ let testUnary name
         let E = new matrix(A.Rows,A.Cols)
         for r = 0 to A.Rows-1 do
             for c = 0 to A.Cols-1 do
-                E.[r,c] <- fexpected(A.[r,c])
+                E[r,c] <- fexpected(A[r,c])
         E
     test name {
         let! m,n = gen2D
@@ -1734,22 +1734,22 @@ let functions2 = test "functions2" {
 
     test "Eigens" {
         use m = new matrix(3,3)
-        m.[0,0] <- 14165.; m.[0,1] <- 8437.; m.[0,2] <- 7554.
-        m.[1,0] <- 8437.; m.[1,1] <- 11902.; m.[1,2] <- 7962.
-        m.[2,0] <- 7554.; m.[2,1] <- 7962.; m.[2,2] <- 5940.
+        m[0,0] <- 14165.; m[0,1] <- 8437.; m[0,2] <- 7554.
+        m[1,0] <- 8437.; m[1,1] <- 11902.; m[1,2] <- 7962.
+        m[2,0] <- 7554.; m[2,1] <- 7962.; m[2,2] <- 5940.
         let struct (v,e) = Matrix.Eigens(impME m)
-        Check.close Accuracy.High 128.1346664 e.[0]
-        Check.close Accuracy.High 4698.444253 e.[1]
-        Check.close Accuracy.High 27180.42108 e.[2]
+        Check.close Accuracy.High 128.1346664 e[0]
+        Check.close Accuracy.High 4698.444253 e[1]
+        Check.close Accuracy.High 27180.42108 e[2]
         v.Dispose()
         e.Dispose()
     }
 
     test "Det" {
         use m = new matrix(3,3)
-        m.[0,0] <- 5.; m.[0,1] <- 7.; m.[0,2] <- 8.
-        m.[1,0] <- 3.; m.[1,1] <- 6.; m.[1,2] <- 3.
-        m.[2,0] <- 6.; m.[2,1] <- 4.; m.[2,2] <- 8.
+        m[0,0] <- 5.; m[0,1] <- 7.; m[0,2] <- 8.
+        m[1,0] <- 3.; m[1,1] <- 6.; m[1,2] <- 3.
+        m[2,0] <- 6.; m[2,1] <- 4.; m[2,2] <- 8.
         let d = Matrix.Det(impME m)
         Check.close Accuracy.High -54.0 d
     }

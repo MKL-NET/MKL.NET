@@ -373,9 +373,9 @@ let stats =
     test "SS" {
 
         test "sum_double" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let sum = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.SUM, sum) |> Check.equal 0
@@ -384,16 +384,16 @@ let stats =
             let expected = Array.init vars (fun i ->
                 let mutable total = 0.0
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total
             )
             Check.close VeryHigh expected sum
         }
 
         test "sum_single" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let sum = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.SUM, sum) |> Check.equal 0
@@ -402,16 +402,16 @@ let stats =
             let expected = Array.init vars (fun i ->
                 let mutable total = 0.0f
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total
             )
             Check.close High expected sum
         }
 
         test "mean_double" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
@@ -420,16 +420,16 @@ let stats =
             let expected = Array.init vars (fun i ->
                 let mutable total = 0.0
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total / double obvs
             )
             Check.close VeryHigh expected mean
         }
 
         test "mean_single" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MEAN, mean) |> Check.equal 0
@@ -438,16 +438,16 @@ let stats =
             let expected = Array.init vars (fun i ->
                 let mutable total = 0.0f
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total / single obvs
             )
             Check.close High expected mean
         }
 
         test "mean_weight_double" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let weight = Array.init obvs (fun i -> double(i+1))
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x, weight)
@@ -458,18 +458,18 @@ let stats =
                 let mutable total = 0.0
                 let mutable totalWeight = 0.0
                 for j = 0 to obvs - 1 do
-                    let w = weight.[j]
+                    let w = weight[j]
                     totalWeight <- totalWeight + w
-                    total <- total + x.[i * obvs + j] * w
+                    total <- total + x[i * obvs + j] * w
                 total / totalWeight
             )
             Check.close High expected mean
         }
 
         test "mean_weight_single" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let weight = Array.init obvs (fun i -> single(i+1))
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x, weight)
@@ -480,18 +480,18 @@ let stats =
                 let mutable total = 0.0f
                 let mutable totalWeight = 0.0f
                 for j = 0 to obvs - 1 do
-                    let w = weight.[j]
+                    let w = weight[j]
                     totalWeight <- totalWeight + w
-                    total <- total + x.[i * obvs + j] * w
+                    total <- total + x[i * obvs + j] * w
                 total / totalWeight
             )
             Check.close High expected mean
         }
 
         test "median_abs_dev_double" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[1,4]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[1,4]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let mad = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MDAD, mad) |> Check.equal 0
@@ -500,21 +500,21 @@ let stats =
             let expected = Array.init vars (fun i ->
                 Array.Sort(x, i*obvs, obvs)
                 let median =
-                    if obvs % 2 = 1 then x.[i*obvs+obvs/2]
-                    else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5
+                    if obvs % 2 = 1 then x[i*obvs+obvs/2]
+                    else (x[i*obvs+obvs/2] + x[i*obvs+obvs/2-1]) * 0.5
                 for j = i*obvs to (i+1)*obvs-1 do
-                    x.[j] <- abs(x.[j] - median)
+                    x[j] <- abs(x[j] - median)
                 Array.Sort(x, i*obvs, obvs)
-                if obvs % 2 = 1 then x.[i*obvs+obvs/2]
-                else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5
+                if obvs % 2 = 1 then x[i*obvs+obvs/2]
+                else (x[i*obvs+obvs/2] + x[i*obvs+obvs/2-1]) * 0.5
             )
             Check.close VeryHigh expected mad
         }
 
         test "median_abs_dev_single" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[1,4]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[1,4]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let mad = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MDAD, mad) |> Check.equal 0
@@ -523,21 +523,21 @@ let stats =
             let expected = Array.init vars (fun i ->
                 Array.Sort(x, i*obvs, obvs)
                 let median =
-                    if obvs % 2 = 1 then x.[i*obvs+obvs/2]
-                    else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5f
+                    if obvs % 2 = 1 then x[i*obvs+obvs/2]
+                    else (x[i*obvs+obvs/2] + x[i*obvs+obvs/2-1]) * 0.5f
                 for j = i*obvs to (i+1)*obvs-1 do
-                    x.[j] <- abs(x.[j] - median)
+                    x[j] <- abs(x[j] - median)
                 Array.Sort(x, i*obvs, obvs)
-                if obvs % 2 = 1 then x.[i*obvs+obvs/2]
-                else (x.[i*obvs+obvs/2] + x.[i*obvs+obvs/2-1]) * 0.5f
+                if obvs % 2 = 1 then x[i*obvs+obvs/2]
+                else (x[i*obvs+obvs/2] + x[i*obvs+obvs/2-1]) * 0.5f
             )
             Check.close Medium expected mad
         }
 
         test "mean_abs_dev_double" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[1,4]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[1,4]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let mad = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MNAD, mad) |> Check.equal 0
@@ -546,20 +546,20 @@ let stats =
             let expected = Array.init vars (fun i ->
                 let mutable m = 0.0
                 for j = i*obvs to (i+1)*obvs-1 do
-                    m <- m + x.[j]
+                    m <- m + x[j]
                 m <- m / double obvs
                 let mutable t = 0.0
                 for j = i*obvs to (i+1)*obvs-1 do
-                    t <- t + abs(x.[j] - m)
+                    t <- t + abs(x[j] - m)
                 t / double obvs
             )
             Check.close VeryHigh expected mad
         }
 
         test "mean_abs_dev_single" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[1,4]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[1,4]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let mad = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
             Vsl.SSEditTask(task, VslEdit.MNAD, mad) |> Check.equal 0
@@ -568,20 +568,20 @@ let stats =
             let expected = Array.init vars (fun i ->
                 let mutable m = 0.0f
                 for j = i*obvs to (i+1)*obvs-1 do
-                    m <- m + x.[j]
+                    m <- m + x[j]
                 m <- m / single obvs
                 let mutable t = 0.0f
                 for j = i*obvs to (i+1)*obvs-1 do
-                    t <- t + abs(x.[j] - m)
+                    t <- t + abs(x[j] - m)
                 t / single obvs
             )
             Check.close Medium expected mad
         }
 
         test "max_min_double" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let max = Array.zeroCreate<double> vars
             let min = Array.zeroCreate<double> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -592,7 +592,7 @@ let stats =
             let expectedMax = Array.init vars (fun i ->
                 let mutable max = -infinity
                 for j = i*obvs to (i+1)*obvs-1 do
-                    let xj = x.[j]
+                    let xj = x[j]
                     if xj > max then max <- xj
                 max
             )
@@ -600,7 +600,7 @@ let stats =
             let expectedMin = Array.init vars (fun i ->
                 let mutable min = infinity
                 for j = i*obvs to (i+1)*obvs-1 do
-                    let xj = x.[j]
+                    let xj = x[j]
                     if xj > min then min <- xj
                 min
             )
@@ -608,9 +608,9 @@ let stats =
         }
 
         test "max_min_single" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let max = Array.zeroCreate<single> vars
             let min = Array.zeroCreate<single> vars
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -621,7 +621,7 @@ let stats =
             let expectedMax = Array.init vars (fun i ->
                 let mutable max = -infinityf
                 for j = i*obvs to (i+1)*obvs-1 do
-                    let xj = x.[j]
+                    let xj = x[j]
                     if xj > max then max <- xj
                 max
             )
@@ -629,7 +629,7 @@ let stats =
             let expectedMin = Array.init vars (fun i ->
                 let mutable min = infinityf
                 for j = i*obvs to (i+1)*obvs-1 do
-                    let xj = x.[j]
+                    let xj = x[j]
                     if xj > min then min <- xj
                 min
             )
@@ -637,9 +637,9 @@ let stats =
         }
 
         test "skewness_double" {
-            let! obvs = Gen.Int.[10,15]
-            and! vars = Gen.Int.[1,5]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[10,15]
+            and! vars = Gen.Int[1,5]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate vars
             let mom2r = Array.zeroCreate vars
             let mom3r = Array.zeroCreate vars
@@ -654,15 +654,15 @@ let stats =
             let mean = Array.init vars (fun i ->
                 let mutable total = 0.0
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total / double obvs
             )
             let expected = Array.init vars (fun i ->
-                let m = mean.[i]
+                let m = mean[i]
                 let mutable total2 = 0.0
                 let mutable total3 = 0.0
                 for j = 0 to obvs - 1 do
-                    let xm = x.[i * obvs + j] - m
+                    let xm = x[i * obvs + j] - m
                     total2 <- total2 + xm * xm
                     total3 <- total3 + xm * xm * xm
                 total3 / double obvs / Math.Pow(total2 / double(obvs-1), 1.5)
@@ -671,9 +671,9 @@ let stats =
         }
 
         test "quantiles_double" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[1,4]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[1,4]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let quantiles = [| 0.9; 0.95; 0.99 |]
             let quants = Array.zeroCreate (vars*quantiles.Length)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -685,19 +685,19 @@ let stats =
                 let si = double ss + double(se-ss-1)*p
                 if si <= double ss then Array.get s ss
                 elif si >= double(se-1) then Array.get s (se-1)
-                else linear2 (floor si,s.[int si]) (floor si + 1.0,s.[int si + 1]) si
+                else linear2 (floor si,s[int si]) (floor si + 1.0,s[int si + 1]) si
             let expected = Array.init (vars*quantiles.Length) (fun i ->
                 let var, qi = Math.DivRem(i,quantiles.Length)
                 Array.Sort(x, var*obvs, obvs)
-                percentile x (var*obvs) (var*obvs+obvs) quantiles.[qi]
+                percentile x (var*obvs) (var*obvs+obvs) quantiles[qi]
             )
             Check.close High expected quants
         }
 
         test "quantiles_single" {
-            let! obvs = Gen.Int.[1,10]
-            and! vars = Gen.Int.[1,4]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[1,10]
+            and! vars = Gen.Int[1,4]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let quantiles = [| 0.9f; 0.95f; 0.99f |]
             let quants = Array.zeroCreate (vars*quantiles.Length)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -709,19 +709,19 @@ let stats =
                 let si = single ss + single(se-ss-1)*p
                 if si <= single ss then Array.get s ss
                 elif si >= single(se-1) then Array.get s (se-1)
-                else linear2 (floor si,s.[int si]) (floor si + 1.0f,s.[int si + 1]) si
+                else linear2 (floor si,s[int si]) (floor si + 1.0f,s[int si + 1]) si
             let expected = Array.init (vars*quantiles.Length) (fun i ->
                 let var, qi = Math.DivRem(i,quantiles.Length)
                 Array.Sort(x, var*obvs, obvs)
-                percentile x (var*obvs) (var*obvs+obvs) quantiles.[qi]
+                percentile x (var*obvs) (var*obvs+obvs) quantiles[qi]
             )
             Check.close Medium expected quants
         }
 
         test "cov_double" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[2,5]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[2,5]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let cov = Array.zeroCreate<double> (vars*vars)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -731,14 +731,14 @@ let stats =
             let expectedMean = Array.init vars (fun i ->
                 let mutable total = 0.0
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total / double obvs
             )
             let expectedCov = Array.init (vars*vars) (fun ij ->
                 let i,j = Math.DivRem(ij,vars)
                 let mutable total = 0.0
                 for k = 0 to obvs - 1 do
-                    total <- total + (x.[k + obvs * i]-mean.[i]) * (x.[k + obvs * j]-mean.[j])
+                    total <- total + (x[k + obvs * i]-mean[i]) * (x[k + obvs * j]-mean[j])
                 total / double(obvs-1)
             )
             Check.close High expectedMean mean
@@ -746,9 +746,9 @@ let stats =
         }
 
         test "cov_single" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[2,5]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[2,5]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let cov = Array.zeroCreate<single> (vars*vars)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -758,14 +758,14 @@ let stats =
             let expectedMean = Array.init vars (fun i ->
                 let mutable total = 0.0f
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total / single obvs
             )
             let expectedCov = Array.init (vars*vars) (fun ij ->
                 let i,j = Math.DivRem(ij,vars)
                 let mutable total = 0.0f
                 for k = 0 to obvs - 1 do
-                    total <- total + (x.[k + obvs * i]-mean.[i]) * (x.[k + obvs * j]-mean.[j])
+                    total <- total + (x[k + obvs * i]-mean[i]) * (x[k + obvs * j]-mean[j])
                 total / single(obvs-1)
             )
             Check.close High expectedMean mean
@@ -773,9 +773,9 @@ let stats =
         }
 
         test "cor_double" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[2,5]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[2,5]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<double> vars
             let cor = Array.zeroCreate<double> (vars*vars)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -785,29 +785,29 @@ let stats =
             let expectedMean = Array.init vars (fun i ->
                 let mutable total = 0.0
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total / double obvs
             )
             let cov = Array.init (vars*vars) (fun ij ->
                 let i,j = Math.DivRem(ij,vars)
                 let mutable total = 0.0
                 for k = 0 to obvs - 1 do
-                    total <- total + (x.[k + obvs * i]-mean.[i]) * (x.[k + obvs * j]-mean.[j])
+                    total <- total + (x[k + obvs * i]-mean[i]) * (x[k + obvs * j]-mean[j])
                 total / double(obvs-1)
             )
             let expectedCor = Array.init (vars*vars) (fun ij ->
                 let i,j = Math.DivRem(ij,vars)
-                if i=j then cov.[ij]
-                else cov.[ij] / sqrt(cov.[i + i * vars] * cov.[j + j *vars])
+                if i=j then cov[ij]
+                else cov[ij] / sqrt(cov[i + i * vars] * cov[j + j *vars])
             )
             Check.close High expectedMean mean
             Check.close High expectedCor cor
         }
 
         test "cor_single" {
-            let! obvs = Gen.Int.[5,10]
-            and! vars = Gen.Int.[2,5]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[5,10]
+            and! vars = Gen.Int[2,5]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let mean = Array.zeroCreate<single> vars
             let cor = Array.zeroCreate<single> (vars*vars)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -817,35 +817,35 @@ let stats =
             let expectedMean = Array.init vars (fun i ->
                 let mutable total = 0.0f
                 for j = 0 to obvs - 1 do
-                    total <- total + x.[i * obvs + j]
+                    total <- total + x[i * obvs + j]
                 total / single obvs
             )
             let cov = Array.init (vars*vars) (fun ij ->
                 let i,j = Math.DivRem(ij,vars)
                 let mutable total = 0.0f
                 for k = 0 to obvs - 1 do
-                    total <- total + (x.[k + obvs * i]-mean.[i]) * (x.[k + obvs * j]-mean.[j])
+                    total <- total + (x[k + obvs * i]-mean[i]) * (x[k + obvs * j]-mean[j])
                 total / single(obvs-1)
             )
             let expectedCor = Array.init (vars*vars) (fun ij ->
                 let i,j = Math.DivRem(ij,vars)
-                if i=j then cov.[ij]
-                else cov.[ij] / sqrt(cov.[i + i * vars]) / sqrt(cov.[j + j *vars])
+                if i=j then cov[ij]
+                else cov[ij] / sqrt(cov[i + i * vars]) / sqrt(cov[j + j *vars])
             )
             Check.close High expectedMean mean
             Check.close Low expectedCor cor
         }
 
         test "missing_data_double" {
-            let! obvs = Gen.Int.[8,10]
-            and! vars = Gen.Int.[3,4]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[8,10]
+            and! vars = Gen.Int[3,4]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let em_iter_num       = 3
             let da_iter_num       = 2
             let em_accuracy       = 0.001
             let copy_num          = 10
             let missing_value_num = 3
-            x.[1] <- nan; x.[obvs] <- nan; x.[obvs+2] <- nan
+            x[1] <- nan; x[obvs] <- nan; x[obvs+2] <- nan
             let param = [| double em_iter_num; double da_iter_num; em_accuracy; double copy_num; double missing_value_num |]
             let simul_missing_vals = Array.zeroCreate<double> (missing_value_num*copy_num)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -856,15 +856,15 @@ let stats =
         }
 
         test "missing_data_single" {
-            let! obvs = Gen.Int.[8,10]
-            and! vars = Gen.Int.[3,4]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[8,10]
+            and! vars = Gen.Int[3,4]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let em_iter_num       = 3
             let da_iter_num       = 2
             let em_accuracy       = 0.001f
             let copy_num          = 10
             let missing_value_num = 3
-            x.[1] <- nanf; x.[obvs] <- nanf; x.[obvs+2] <- nanf
+            x[1] <- nanf; x[obvs] <- nanf; x[obvs+2] <- nanf
             let param = [| single em_iter_num; single da_iter_num; em_accuracy; single copy_num; single missing_value_num |]
             let simul_missing_vals = Array.zeroCreate<single> (missing_value_num*copy_num)
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -875,13 +875,13 @@ let stats =
         }
 
         test "outliers_double" {
-            let! obvs = Gen.Int.[20,25]
-            and! vars = Gen.Int.[3,4]
-            let! x = Gen.Double.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[20,25]
+            and! vars = Gen.Int[3,4]
+            let! x = Gen.Double.OneTwo.Array[obvs*vars]
             let init_method = double VslBaconInit.MEDIAN
             let alpha       = 0.005
             let beta        = 0.005
-            x.[1] <- 100.0; x.[2+obvs*2] <- -100.0
+            x[1] <- 100.0; x[2+obvs*2] <- -100.0
             let param = [| init_method; alpha; beta |]
             let baconWeights = Array.zeroCreate<double> obvs
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -893,13 +893,13 @@ let stats =
         }
 
         test "outliers_single" {
-            let! obvs = Gen.Int.[20,25]
-            and! vars = Gen.Int.[3,4]
-            let! x = Gen.Single.OneTwo.Array.[obvs*vars]
+            let! obvs = Gen.Int[20,25]
+            and! vars = Gen.Int[3,4]
+            let! x = Gen.Single.OneTwo.Array[obvs*vars]
             let init_method = single VslBaconInit.MEDIAN
             let alpha       = 0.005f
             let beta        = 0.005f
-            x.[1] <- 100.0f; x.[2+obvs*2] <- -100.0f
+            x[1] <- 100.0f; x[2+obvs*2] <- -100.0f
             let param = [| init_method; alpha; beta |]
             let baconWeights = Array.zeroCreate<single> obvs
             let task = Vsl.SSNewTask(vars, obvs, VslStorage.ROWS, x)
@@ -915,9 +915,9 @@ let conv_corr =
     test "conv_corr" {
 
         test "corr_double" {
-            let! x = Gen.Double.[0.0,100.0].Array.[1,100]
-            let! y = Gen.Double.[0.0,100.0].Array.[1,100]
-            let! lz = Gen.Int.[1,min x.Length y.Length]
+            let! x = Gen.Double[0.0,100.0].Array[1,100]
+            let! y = Gen.Double[0.0,100.0].Array[1,100]
+            let! lz = Gen.Int[1,min x.Length y.Length]
             let z = Array.zeroCreate lz
             let mutable task = Unchecked.defaultof<VsldCorrTask>
             Vsl.CorrNewTask1D(&task, VslMode.DIRECT, x.Length, y.Length, lz) |> Check.equal 0
@@ -927,9 +927,9 @@ let conv_corr =
         }
 
         test "corr_single" {
-            let! x = Gen.Single.[0.0f,100.0f].Array.[1,100]
-            let! y = Gen.Single.[0.0f,100.0f].Array.[1,100]
-            let! lz = Gen.Int.[1,min x.Length y.Length]
+            let! x = Gen.Single[0.0f,100.0f].Array[1,100]
+            let! y = Gen.Single[0.0f,100.0f].Array[1,100]
+            let! lz = Gen.Int[1,min x.Length y.Length]
             let z = Array.zeroCreate lz
             let mutable task = Unchecked.defaultof<VslsCorrTask>
             Vsl.CorrNewTask1D(&task, VslMode.DIRECT, x.Length, y.Length, lz) |> Check.equal 0
@@ -939,9 +939,9 @@ let conv_corr =
         }
 
         test "conv_single" {
-            let! x = Gen.Single.[0.0f,100.0f].Array.[1,100]
-            let! y = Gen.Single.[0.0f,100.0f].Array.[1,100]
-            let! lz = Gen.Int.[1,min x.Length y.Length]
+            let! x = Gen.Single[0.0f,100.0f].Array[1,100]
+            let! y = Gen.Single[0.0f,100.0f].Array[1,100]
+            let! lz = Gen.Int[1,min x.Length y.Length]
             let z = Array.zeroCreate lz
             let mutable task = Unchecked.defaultof<VslsConvTask>
             Vsl.ConvNewTask1D(&task, VslMode.DIRECT, x.Length, y.Length, lz) |> Check.equal 0

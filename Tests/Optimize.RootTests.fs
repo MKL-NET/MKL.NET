@@ -31,10 +31,10 @@ let all =
         }
 
         test "root_linear_correct" {
-            let! root = Gen.Double.[1.0, 10.0]
+            let! root = Gen.Double[1.0, 10.0]
             let f x = x - root
             let! x =
-                let genD = Gen.Double.[root * -3.0, root * 3.0]
+                let genD = Gen.Double[root * -3.0, root * 3.0]
                 Gen.Select(genD, genD)
                     .Select(fun struct (a, b) -> a, f(a), b, f(b))
                     .Where(fun (a, fa, b, fb) -> a < b && Optimize.Root_Is_Bracketed(fa, fb))
@@ -52,11 +52,11 @@ let all =
         }
 
         test "root_quadratic_correct" {
-            let! root1 = Gen.Double.[-10.0, -1.0]
-            let! root2 = Gen.Double.[1.0, 10.0]
+            let! root1 = Gen.Double[-10.0, -1.0]
+            let! root2 = Gen.Double[1.0, 10.0]
             let f x = (x - root1) * (x - root2)
             let! x =
-                let genD = Gen.Double.[root1 * 3.0, root2 * 3.0]
+                let genD = Gen.Double[root1 * 3.0, root2 * 3.0]
                 Gen.Select(genD, genD, genD)
                     .Select(fun struct (a, b, c) -> a, f(a), b, f(b), c, f(c))
                     .Where(fun (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Is_Bracketed(fa, fb))
@@ -84,11 +84,11 @@ let all =
         }
 
         test "root_cubic_correct_1" {
-            let! root1 = Gen.Double.[-10.0, -4.0]
-            let! notRoot = Gen.Double.[4.0, 10.0]
+            let! root1 = Gen.Double[-10.0, -4.0]
+            let! notRoot = Gen.Double[4.0, 10.0]
             let f x = (x - root1) * (x*x + notRoot)
             let! x =
-                let genD = Gen.Double.[root1 * 3.0, notRoot * 3.0]
+                let genD = Gen.Double[root1 * 3.0, notRoot * 3.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
                     .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
@@ -97,11 +97,11 @@ let all =
         }
 
         test "root_cubic_correct_2" {
-            let! root1 = Gen.Double.[-10.0, -4.0]
-            let! root2 = Gen.Double.[4.0, 10.0]
+            let! root1 = Gen.Double[-10.0, -4.0]
+            let! root2 = Gen.Double[4.0, 10.0]
             let f x = (x - root1) * (x - root2) * (x - root2)
             let! x =
-                let genD = Gen.Double.[root1 * 3.0, root2 * 3.0]
+                let genD = Gen.Double[root1 * 3.0, root2 * 3.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
                     .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
@@ -110,12 +110,12 @@ let all =
         }
 
         test "root_cubic_correct_3" {
-            let! root1 = Gen.Double.[-10.0, -4.0]
-            let! root2 = Gen.Double.[-3.0, 3.0]
-            let! root3 = Gen.Double.[4.0, 10.0]
+            let! root1 = Gen.Double[-10.0, -4.0]
+            let! root2 = Gen.Double[-3.0, 3.0]
+            let! root3 = Gen.Double[4.0, 10.0]
             let f x = (x - root1) * (x - root2) * (x - root3)
             let! x =
-                let genD = Gen.Double.[root1 * 3.0, root3 * 3.0]
+                let genD = Gen.Double[root1 * 3.0, root3 * 3.0]
                 Gen.Select(genD, genD, genD, genD)
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
                     .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
@@ -130,7 +130,7 @@ let all =
                     Check.equal 154 problems.Length
                     let mutable count = 0
                     for i = 0 to problems.Length - 1 do
-                        let struct (F, _, _, min, max) = problems.[i]
+                        let struct (F, _, _, min, max) = problems[i]
                         Check.isTrue (Optimize.Root_Is_Bracketed(F.Invoke(min), F.Invoke(max)))
                         let x = solver(tol, 0.0, Func<_,_>(fun x -> count <- count + 1; F.Invoke(x)), min, max)
                         Check.isTrue (Optimize.Root_Is_Bracketed(F.Invoke(x - tol), F.Invoke(x + tol)) || F.Invoke(x) = 0.0)
@@ -154,7 +154,7 @@ let all =
                 let problems = Optimization.RootTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
-                    let struct (F, G, _, Min, Max) = problems.[i]
+                    let struct (F, G, _, Min, Max) = problems[i]
                     let f x =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x))
@@ -168,7 +168,7 @@ let all =
                 let problems = Optimization.RootTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
-                    let struct (F, G, _, Min, Max) = problems.[i]
+                    let struct (F, G, _, Min, Max) = problems[i]
                     let f x =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x))
@@ -182,7 +182,7 @@ let all =
             //    let problems = Optimization.RootTestProblems
             //    let mutable count = 0
             //    for i = 0 to problems.Length - 1 do
-            //        let struct (F, G, _, Min, Max) = problems.[i]
+            //        let struct (F, G, _, Min, Max) = problems[i]
             //        let f x = count <- count + 1; F.Invoke(x)
             //        let g x = count <- count + 1; G.Invoke(x)
             //        let x = MathNet.Numerics.RootFinding.RobustNewtonRaphson.FindRoot(Func<_,_> f, Func<_,_> g, Min, Max, 1e-11, 1000)
@@ -195,7 +195,7 @@ let all =
                 let problems = Optimization.RootTestProblems
                 let mutable count = 0
                 for i = 0 to problems.Length - 1 do
-                    let struct (F, G, H, Min, Max) = problems.[i]
+                    let struct (F, G, H, Min, Max) = problems[i]
                     let f x =
                         count <- count + 1
                         struct (F.Invoke(x), G.Invoke(x), H.Invoke(x))

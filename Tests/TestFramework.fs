@@ -109,8 +109,8 @@ type ListSlim<'k> =
     member m.Count = m.count
 
     member m.Item
-        with get i = m.entries.[i]
-        and set i v = m.entries.[i] <- v
+        with get i = m.entries[i]
+        and set i v = m.entries[i] <- v
 
     member m.Add(key:'k) =
         let i = m.count
@@ -121,7 +121,7 @@ type ListSlim<'k> =
                 let newEntries = i * 2 |> Array.zeroCreate
                 Array.Copy(m.entries, 0, newEntries, 0, i)
                 m.entries <- newEntries
-        m.entries.[i] <- key
+        m.entries[i] <- key
         m.count <- i+1
         i
 
@@ -165,11 +165,11 @@ type MapSlim<'k,'v when 'k : equality and 'k :> IEquatable<'k>> =
         let oldEntries = m.entries
         let entries = Array.zeroCreate<Entry<_,_>> (oldEntries.Length*2)
         for i = oldEntries.Length-1 downto 0 do
-            entries.[i].value <- oldEntries.[i].value
-            entries.[i].key <- oldEntries.[i].key
-            let bi = entries.[i].key.GetHashCode() &&& (entries.Length-1)
-            entries.[i].next <- entries.[bi].bucket-1
-            entries.[bi].bucket <- i+1
+            entries[i].value <- oldEntries[i].value
+            entries[i].key <- oldEntries[i].key
+            let bi = entries[i].key.GetHashCode() &&& (entries.Length-1)
+            entries[i].next <- entries[bi].bucket-1
+            entries[bi].bucket <- i+1
         m.entries <- entries
 
     [<MethodImpl(MethodImplOptions.NoInlining)>]
@@ -179,20 +179,20 @@ type MapSlim<'k,'v when 'k : equality and 'k :> IEquatable<'k>> =
             m.entries <- Array.zeroCreate 2
         elif i = m.entries.Length then m.Resize()
         let entries = m.entries
-        entries.[i].key <- key
+        entries[i].key <- key
         let bucketIndex = hashCode &&& (entries.Length-1)
-        entries.[i].next <- entries.[bucketIndex].bucket-1
-        entries.[bucketIndex].bucket <- i+1
+        entries[i].next <- entries[bucketIndex].bucket-1
+        entries[bucketIndex].bucket <- i+1
         m.count <- i+1
-        &entries.[i].value
+        &entries[i].value
 
     member m.Set(key:'k, value:'v) =
         let entries = m.entries
         let hashCode = key.GetHashCode()
-        let mutable i = entries.[hashCode &&& (entries.Length-1)].bucket-1
-        while i >= 0 && not(key.Equals(entries.[i].key)) do
-            i <- entries.[i].next
-        if i >= 0 then entries.[i].value <- value
+        let mutable i = entries[hashCode &&& (entries.Length-1)].bucket-1
+        while i >= 0 && not(key.Equals(entries[i].key)) do
+            i <- entries[i].next
+        if i >= 0 then entries[i].value <- value
         else
             let v = &m.AddKey(key, hashCode)
             v <- value
@@ -200,39 +200,39 @@ type MapSlim<'k,'v when 'k : equality and 'k :> IEquatable<'k>> =
     member m.GetRef(key:'k) : 'v byref =
         let entries = m.entries
         let hashCode = key.GetHashCode()
-        let mutable i = entries.[hashCode &&& (entries.Length-1)].bucket-1
-        while i >= 0 && not(key.Equals(entries.[i].key)) do // check >= in IL
-            i <- entries.[i].next
-        if i >= 0 then &entries.[i].value
+        let mutable i = entries[hashCode &&& (entries.Length-1)].bucket-1
+        while i >= 0 && not(key.Equals(entries[i].key)) do // check >= in IL
+            i <- entries[i].next
+        if i >= 0 then &entries[i].value
         else &m.AddKey(key, hashCode)
 
     member m.GetRef(key:'k, added: bool outref) : 'v byref =
         let entries = m.entries
         let hashCode = key.GetHashCode()
-        let mutable i = entries.[hashCode &&& (entries.Length-1)].bucket-1
-        while i >= 0 && not(key.Equals(entries.[i].key)) do
-            i <- entries.[i].next
+        let mutable i = entries[hashCode &&& (entries.Length-1)].bucket-1
+        while i >= 0 && not(key.Equals(entries[i].key)) do
+            i <- entries[i].next
         if i >= 0 then
             added <- false
-            &entries.[i].value
+            &entries[i].value
         else
             added <- true
             &m.AddKey(key, hashCode)
 
     member m.GetOption (key:'k) : 'v voption =
         let entries = m.entries
-        let mutable i = entries.[key.GetHashCode() &&& (entries.Length-1)].bucket-1
-        while i >= 0 && not(key.Equals(entries.[i].key)) do
-            i <- entries.[i].next
-        if i >= 0 then ValueSome entries.[i].value
+        let mutable i = entries[key.GetHashCode() &&& (entries.Length-1)].bucket-1
+        while i >= 0 && not(key.Equals(entries[i].key)) do
+            i <- entries[i].next
+        if i >= 0 then ValueSome entries[i].value
         else ValueNone
 
     member m.Item i : 'k * 'v =
-        let entries = m.entries.[i]
+        let entries = m.entries[i]
         entries.key, entries.value
 
     member m.Key i : 'k =
-        m.entries.[i].key
+        m.entries[i].key
 
 type TestText =
     | Normal of string
@@ -380,7 +380,7 @@ type TestBuilder(name:string) =
             let mutable running = true
             let mutable l = []
             for i = 0 to ts.Count-1 do
-                ts.[i] p (function | None -> running <- false | Some r -> l <- l @ r)
+                ts[i] p (function | None -> running <- false | Some r -> l <- l @ r)
             c(if running then Some l else None)
         )
     member m.For(s:seq<'a>,body:'a->Test) =
@@ -428,7 +428,7 @@ module Config =
 
     let inline private string case : Parser<_> =
         fun (ss,i,l) ->
-            if l>0 then Ok(case ss.[i]), l-1
+            if l>0 then Ok(case ss[i]), l-1
             else Error "requires a parameter", 0
 
     let inline private list (parser:_->Parser<_>) case : Parser<_> =
@@ -443,14 +443,14 @@ module Config =
         fun (args, i, l) ->
             if l = 0 then Error "requires a parameter", 0
             else
-                match tryParseFn args.[i] with
+                match tryParseFn args[i] with
                 | Some i -> Ok(case i), l-1
-                | None -> Error("Cannot parse parameter '" + args.[i] + "'"), l-1
+                | None -> Error("Cannot parse parameter '" + args[i] + "'"), l-1
 
     let inline private parseExact parseFn case : Parser<'a> =
         fun (args, i, l) ->
             if l = 0 then Error "requires a parameter", 0
-            else parseFn args.[i] |> case |> Ok, l-1
+            else parseFn args[i] |> case |> Ok, l-1
 
     let inline tryParse (s: string) =
         let mutable r = Unchecked.defaultof<_>
@@ -482,14 +482,14 @@ module Config =
     ]
 
     let parse (strings:string[]) =
-        let strings = if strings.Length > 0 && strings.[0].StartsWith("--") then strings
+        let strings = if strings.Length > 0 && strings[0].StartsWith("--") then strings
                       else Array.append [|"--filt"|] strings
         let rec updateUnknown unknown last length =
             if length = 0 then unknown
-            else updateUnknown (strings.[last]::unknown) (last-1) (length-1)
+            else updateUnknown (strings[last]::unknown) (last-1) (length-1)
         let rec collect isHelp unknown args paramCount i =
             if i>=0 then
-                let currentArg = strings.[i]
+                let currentArg = strings[i]
                 if currentArg = "--help" || currentArg = "-h" || currentArg = "-?" || currentArg = "/?" then
                     collect true (updateUnknown unknown (i+paramCount) paramCount) args 0 (i-1)
                 else
@@ -604,7 +604,7 @@ module Tests =
     let private filterTests config tests =
         let includes,excludes =
             List.collect (function | Filt f -> f | _ -> []) config
-            |> List.fold (fun (i,e) s -> if s.[0]='-' then i,s.Substring 1::e else s::i,e) ([],[])
+            |> List.fold (fun (i,e) s -> if s[0]='-' then i,s.Substring 1::e else s::i,e) ([],[])
         let ts =
             if List.isEmpty includes then tests
             else List.collect (fun (f:string) -> List.where (fun (Test(n,_)) -> String.Join(".",n).Contains f) tests) includes
@@ -682,7 +682,7 @@ module Tests =
                     let mes = Array.zeroCreate tests.Length
                     Array.iteri (fun i t ->
                         let me = MedianEstimator()
-                        mes.[i] <- me
+                        mes[i] <- me
                         let f = t.Method
                         t.Method <- fun p c ->
                                         let t = Stopwatch.GetTimestamp()
@@ -722,7 +722,7 @@ module Tests =
                     let rec loop i t =
                         if i = tests.Length then None
                         else
-                            let valid = tests.[i].Skip=0
+                            let valid = tests[i].Skip=0
                             if t=0 && valid then Some i
                             else loop (i+1) (if valid then t-1 else t)
                     match loop 0 (int(pcg.Next(uint32 c))) with
@@ -768,10 +768,10 @@ module Tests =
                                         match randomTest PCG.ThreadPCG with
                                         | None -> None
                                         | Some t ->
-                                            let n = Interlocked.Increment &testRunCount.[t]
-                                            if n <= iters then Some tests.[t]
+                                            let n = Interlocked.Increment &testRunCount[t]
+                                            if n <= iters then Some tests[t]
                                             else
-                                                if n=iters+1 && Interlocked.Increment &tests.[t].Skip = 1 then
+                                                if n=iters+1 && Interlocked.Increment &tests[t].Skip = 1 then
                                                     Interlocked.Decrement &counts.Tests |> ignore
                                                 nextTest()
                                      nextTest() ),
@@ -839,6 +839,6 @@ type GenMatrixExtension() =
             let a = m.Array
             let mutable si = Unchecked.defaultof<_>
             for i = 0 to rows * cols - 1 do
-                a.[i] <- gen.Generate(pcg, null, &si)
+                a[i] <- gen.Generate(pcg, null, &si)
             m
         ))
