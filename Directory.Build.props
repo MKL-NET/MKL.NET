@@ -14,7 +14,7 @@ Reference the MKL.NET package and required runtime packages and use the static M
 
 Exposing functions from MKL keeping the syntax as close to the c developer reference as possible:
 
-https://software.intel.com/content/www/us/en/develop/documentation/mkl-developer-reference-c/top.html
+https://www.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top.html
         </Description>
     </PropertyGroup>
 </Project>
