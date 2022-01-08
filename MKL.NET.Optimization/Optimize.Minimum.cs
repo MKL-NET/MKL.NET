@@ -13,7 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace MKLNET
 {
@@ -488,6 +490,65 @@ namespace MKLNET
                 return outside == 0.0 ? f(x) : penalty * (Math.Sqrt(outside) + 1.0);
             };
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <param name="penalty"></param>
+        /// <returns></returns>
+        public static IEnumerable<(double, double[])> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper, double penalty = 1e20)
+        {
+            f = Bounded(f, lower, upper, penalty);
+            var xmin = new double[lower.Length];
+            for (int i = 0; i < xmin.Length; i++)
+                xmin[i] = (lower[i] + upper[i]) * 0.5;
+            var fmin = Minimum(atol, rtol, f, xmin);
+            yield return (fmin, xmin);
+            // 2n   n  n*n
+            //  2   1    1
+            //  4   2    4
+            //  8   4   16
+            // 16   8   64
+            // 32  16  256
+            // 64  32 1024
+            int n = 2;
+            while (true)
+            {
+                Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => (fmin, new double[xmin.Length]), (i, _, lmin) =>
+                {
+                    var x = lmin.Item2;
+                    for (int j = 0; j < x.Length; j++)
+                    {
+                        i = Math.DivRem(i, n, out int r);
+                        x[j] = (lower[i] + upper[i]) * 0.5 * (r + 1) / n;
+                    }
+                    var fmin = Minimum(atol, rtol, f, x);
+                    return (fmin < lmin.fmin ? fmin : lmin.fmin, x);
+                },
+                x =>
+                {
+                    lock (xmin)
+                    {
+                        if (x.fmin < fmin)
+                        {
+                            fmin = x.fmin;
+                            for (int j = 0; j < xmin.Length; j++)
+                                xmin[j] = x.Item2[j];
+                        }
+                    }
+                });
+                yield return (fmin, xmin);
+                n *= 2;
+            }
+        }
+
+        // TODO
+        // Boundary keep in.
 
         /// <summary>
         /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
