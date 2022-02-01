@@ -7,7 +7,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Update="FSharp.Core" Version="6.0.1" />
-        <PackageReference Include="CsCheck" Version="2.4.1" />
+        <PackageReference Include="CsCheck" Version="2.4.2" />
         <!--<PackageReference Include="MKL.NET" Version="1.1.0" />-->
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
         <ProjectReference Include="../MKL.NET.Matrix/MKL.NET.Matrix.csproj" />
@@ -36,6 +36,7 @@
         <Compile Include="Optimize.CalculusTests.fs" />
         <Compile Include="Optimize.RootTests.fs" />
         <Compile Include="Optimize.MinimumTests.fs" />
+        <Compile Include="Optimize.GlobalTests.fs" />
         <Compile Include="Stats.SummaryTests.fs" />
         <Compile Include="Stats.EstimatorTests.fs" />
         <Compile Include="Main.fs" />

@@ -17,6 +17,7 @@ let all =
         Optimize.CalculusTests.all
         Optimize.RootTests.all
         Optimize.MinimumTests.all
+        //Optimize.GlobalTests.all
         Stats.SummaryTests.all
         Stats.EstimatorTests.all
     }

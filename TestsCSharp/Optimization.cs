@@ -413,9 +413,9 @@ public static class Optimization
 
     // https://en.wikipedia.org/wiki/Test_functions_for_optimization
 
-    public static double Rastrigin(double n, double[] x)
+    public static double Rastrigin(double[] x)
     {
-        double sum = 10.0 * n;
+        double sum = 10 * x.Length;
         for (int i = 0; i < x.Length; i++)
         {
             sum += x[i] * x[i] - 10.0 * Cos(x[i] * PI * 2.0);
@@ -453,7 +453,8 @@ public static class Optimization
 
     public static double Eggholder(double x, double y)
     {
-        return -(y + 47) * Sin(Sqrt(Abs(x * 0.5 + y + 47))) - x * Sqrt(Abs(x - y - 47));
+        y += 47;
+        return -y * Sin(Sqrt(Abs(x * 0.5 + y))) - x * Sin(Sqrt(Abs(x - y)));
     }
 
     public static double Schaffer2(double x, double y)

@@ -16,6 +16,7 @@ using System;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MKLNET
 {
@@ -494,6 +495,43 @@ namespace MKLNET
         /// <summary>
         /// 
         /// </summary>
+        public class MinimumIteration
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="xmin"></param>
+            /// <param name="fmin"></param>
+            /// <param name="timeSpan"></param>
+            /// <param name="nextTimeSpan"></param>
+            public MinimumIteration(double[] xmin, double fmin, TimeSpan timeSpan, TimeSpan nextTimeSpan)
+            {
+                Xmin = xmin;
+                Fmin = fmin;
+                TimeSpan = timeSpan;
+                NextTimeSpan = nextTimeSpan;
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            public double[] Xmin { get; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public double Fmin { get; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public TimeSpan TimeSpan { get; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public TimeSpan NextTimeSpan { get; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="atol"></param>
         /// <param name="rtol"></param>
         /// <param name="f"></param>
@@ -501,14 +539,8 @@ namespace MKLNET
         /// <param name="upper"></param>
         /// <param name="penalty"></param>
         /// <returns></returns>
-        public static IEnumerable<(double, double[])> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper, double penalty = 1e20)
+        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper, double penalty = 10)
         {
-            f = Bounded(f, lower, upper, penalty);
-            var xmin = new double[lower.Length];
-            for (int i = 0; i < xmin.Length; i++)
-                xmin[i] = (lower[i] + upper[i]) * 0.5;
-            var fmin = Minimum(atol, rtol, f, xmin);
-            yield return (fmin, xmin);
             // 2n   n  n*n
             //  2   1    1
             //  4   2    4
@@ -516,19 +548,24 @@ namespace MKLNET
             // 16   8   64
             // 32  16  256
             // 64  32 1024
-            int n = 2;
+            f = Bounded(f, lower, upper, penalty);
+            var xmin = new double[lower.Length];
+            var fmin = double.MaxValue;
+            var stopwatch = new Stopwatch();
+            int n = 1;
             while (true)
             {
-                Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => (fmin, new double[xmin.Length]), (i, _, lmin) =>
+                stopwatch.Restart();
+                Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
                 {
-                    var x = lmin.Item2;
-                    for (int j = 0; j < x.Length; j++)
+                    var x = lmin.Item3;
+                    for (int i = 0; i < x.Length; i++)
                     {
-                        i = Math.DivRem(i, n, out int r);
-                        x[j] = (lower[i] + upper[i]) * 0.5 * (r + 1) / n;
+                        index = Math.DivRem(index, n, out int r);
+                        x[i] = lower[i] + (upper[i] - lower[i]) * (0.5 + r) / n;
                     }
                     var fmin = Minimum(atol, rtol, f, x);
-                    return (fmin < lmin.fmin ? fmin : lmin.fmin, x);
+                    return fmin < lmin.fmin ? (x, fmin, lmin.Item1) : lmin;
                 },
                 x =>
                 {
@@ -537,18 +574,18 @@ namespace MKLNET
                         if (x.fmin < fmin)
                         {
                             fmin = x.fmin;
-                            for (int j = 0; j < xmin.Length; j++)
-                                xmin[j] = x.Item2[j];
+                            x.Item1.CopyTo(xmin, 0);
                         }
                     }
                 });
-                yield return (fmin, xmin);
+                var timeSpan = stopwatch.Elapsed;
+                var nextTicks = timeSpan.Ticks
+                    / Math.Ceiling(Math.Pow(n, xmin.Length) / Environment.ProcessorCount)
+                    * Math.Ceiling(Math.Pow(n * 2, xmin.Length) / Environment.ProcessorCount);
+                yield return new((double[])xmin.Clone(), fmin, timeSpan, new((long)nextTicks));
                 n *= 2;
             }
         }
-
-        // TODO
-        // Boundary keep in.
 
         /// <summary>
         /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
