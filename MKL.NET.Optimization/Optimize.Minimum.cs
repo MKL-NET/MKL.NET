@@ -539,7 +539,7 @@ namespace MKLNET
         /// <param name="upper"></param>
         /// <param name="penalty"></param>
         /// <returns></returns>
-        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper, double penalty = 10)
+        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper, double penalty = 1e6)
         {
             // 2n   n  n*n
             //  2   1    1
@@ -610,6 +610,7 @@ namespace MKLNET
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
+            double dxPrev = double.MaxValue;
             y.Set(df1 - df2);
             double sTy = s.T * y;
             // H = I + (sTy + y.T * y) / sTy / sTy * s * s.T - (y * s.T + s * y.T) / sTy;
@@ -627,10 +628,20 @@ namespace MKLNET
                 if (!endGame)
                 {
                     s.Set(x2 - x1);
+                    dxPrev = dx;
                     dx = Vector.Nrm2(s);
-                    y.Set(df1 - df2);
-                    sTy = s.T * y;
-                    if (sTy == 0) endGame = true;
+                    var tol = Tol(atol, rtol, Vector.Nrm2(x2));
+                    if (dx < tol && dxPrev < tol)
+                    {
+                        dxPrev = double.MinValue;
+                        endGame = true;
+                    }
+                    else
+                    {
+                        y.Set(df1 - df2);
+                        sTy = s.T * y;
+                        if (sTy == 0) endGame = true;
+                    }
                 }
                 if (endGame)
                 {
@@ -640,7 +651,10 @@ namespace MKLNET
                         Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2);
                         if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return fx;
                         s.Set(x2 - x1);
+                        dxPrev = dx;
                         dx = Vector.Nrm2(s);
+                        var tol = Tol(atol, rtol, Vector.Nrm2(x2));
+                        if (dx < tol && dxPrev < tol) return fx;
                     }
                 }
                 Matrix.Symmetric_Multiply_Update(H, y, Hy); // Hy = H * y
