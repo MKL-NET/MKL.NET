@@ -127,7 +127,7 @@ namespace MKLNET
         }
 
         static void Minimum_Bracket_Fa(double atol, double rtol, Func<double, double> f, ref double a, ref double fa, ref double b, out double fb,
-    out double c, out double fc, out double d, out double fd)
+            out double c, out double fc, out double d, out double fd)
         {
             fb = f(b);
             if (fa < fb)
@@ -288,7 +288,7 @@ namespace MKLNET
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
-        static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b)
+        static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double[]? lower, double[]? upper)
         {
             Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
@@ -387,7 +387,8 @@ namespace MKLNET
             throw new Exception("Too many iterations in brent");
         }
 
-        static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2, out double fx2)
+        static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2, out double fx2,
+            double[]? lower, double[]? upper)
         {
             if(double.IsNaN(p.Array[0])) Debugger.Break();
             var tol = Tol(atol, rtol, Vector.Nrm2(x));
@@ -397,7 +398,7 @@ namespace MKLNET
             {
                 x2.Set(x + a / norm * p);
                 return f(x2.Array);
-            }, 0, fx, Math.Max(dx, tol) * 0.25);
+            }, 0, fx, Math.Max(dx, tol) * 0.25, lower, upper);
             x2.Set(x + a / norm * p);
             fx2 = f(x2.Array);
             if(fx2 > fx)
@@ -407,7 +408,8 @@ namespace MKLNET
             }
         }
 
-        static bool WithinTol_CalcNegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double fx, double[] df, ref bool endGame)
+        static bool WithinTol_CalcNegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double fx, double[] df,
+            ref bool gradientDescent, double[]? lower, double[]? upper)
         {
             int nonMinimum = -1;
             double dfi_tol = 0;
@@ -416,41 +418,53 @@ namespace MKLNET
                 var x_i = x[i];
                 var tol = Tol(atol, rtol, x_i);
                 x[i] = x_i - tol;
-                dfi_tol = f(x);
-                if (dfi_tol < fx)
+                if (lower is null || x[i] >= lower[i])
                 {
-                    x[i] = x_i;
-                    dfi_tol = (dfi_tol - fx) / tol;
-                    nonMinimum = i;
-                    break;
+                    dfi_tol = f(x);
+                    if (dfi_tol < fx)
+                    {
+                        x[i] = x_i;
+                        dfi_tol = (dfi_tol - fx) / tol;
+                        nonMinimum = i;
+                        break;
+                    }
                 }
                 x[i] = x_i + tol;
-                dfi_tol = f(x);
-                x[i] = x_i;
-                if (dfi_tol < fx)
+                if (upper is null || x[i] <= upper[i])
                 {
-                    dfi_tol = (fx - dfi_tol) / tol;
-                    nonMinimum = i;
-                    break;
+                    dfi_tol = f(x);
+                    if (dfi_tol < fx)
+                    {
+                        x[i] = x_i;
+                        dfi_tol = (fx - dfi_tol) / tol;
+                        nonMinimum = i;
+                        break;
+                    }
                 }
+                x[i] = x_i;
             }
             if (nonMinimum == -1) return true;
-            if (!endGame)
+            if (!gradientDescent)
             {
                 bool allZero = true;
                 for (int i = 0; i < x.Length; i++)
                 {
                     var x_i = x[i];
-                    var x_i_d = x_i + Tol(atol, rtol, x_i) * 0.05;
+                    var dx = Tol(atol, rtol, x_i) * 0.05;
+                    var x_i_d = x_i + dx;
+                    if (upper is not null && x_i_d > upper[i])
+                    {
+                        x_i_d = x_i - dx;
+                    }
                     x[i] = x_i_d;
                     var df_i = (fx - f(x)) / (x_i_d - x_i);
                     df[i] = df_i;
                     if (df_i != 0) allZero = false;
                     x[i] = x_i;
                 }
-                if (allZero) endGame = true;
+                if (allZero) gradientDescent = true;
             }
-            if (endGame)
+            if (gradientDescent)
             {
                 for (int i = 0; i < x.Length; i++) df[i] = 0;
                 df[nonMinimum] = dfi_tol;
@@ -459,43 +473,27 @@ namespace MKLNET
                     var x_i = x[i];
                     var tol = Tol(atol, rtol, x_i);
                     x[i] = x_i - tol;
-                    dfi_tol = f(x);
-                    if (dfi_tol < fx)
+                    if (lower is null || x[i] >= lower[i])
                     {
-                        x[i] = x_i;
-                        df[i] = (dfi_tol - fx) / tol;
-                        continue;
+                        dfi_tol = f(x);
+                        if (dfi_tol < fx)
+                        {
+                            x[i] = x_i;
+                            df[i] = (dfi_tol - fx) / tol;
+                            continue;
+                        }
                     }
                     x[i] = x_i + tol;
-                    dfi_tol = f(x);
+                    if (upper is null || x[i] <= upper[i])
+                    {
+                        dfi_tol = f(x);
+                        if (dfi_tol < fx)
+                            df[i] = (fx - dfi_tol) / tol;
+                    }
                     x[i] = x_i;
-                    if (dfi_tol < fx)
-                        df[i] = (fx - dfi_tol) / tol;
                 }
             }
             return false;
-        }
-
-        /// <summary>
-        /// Bounds an n dimensional function for optimisation by applying a penalty beyond the boundary.
-        /// </summary>
-        /// <param name="f">The n dimensional function to bound.</param>
-        /// <param name="lower">The lower boundary value.</param>
-        /// <param name="upper">The lower boundary value.</param>
-        /// <param name="penalty">The initial penalty value at the boundary.</param>
-        /// <returns>The bounded n dimensional function.</returns>
-        public static Func<double[], double> Bounded(Func<double[], double> f, double[] lower, double[] upper, double penalty = 1e20)
-        {
-            return x =>
-            {
-                double outside = 0.0;
-                for (int i = 0; i < x.Length; i++)
-                {
-                    if (x[i] < lower[i]) outside += Sqr(lower[i] - x[i]);
-                    else if (x[i] > upper[i]) outside += Sqr(x[i] - upper[i]);
-                }
-                return outside == 0.0 ? f(x) : penalty * (Math.Sqrt(outside) + 1.0);
-            };
         }
 
         /// <summary>
@@ -543,9 +541,8 @@ namespace MKLNET
         /// <param name="f"></param>
         /// <param name="lower"></param>
         /// <param name="upper"></param>
-        /// <param name="penalty"></param>
         /// <returns></returns>
-        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper, double penalty = 1e6)
+        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper)
         {
             // 2n   n  n*n
             //  2   1    1
@@ -554,7 +551,6 @@ namespace MKLNET
             // 16   8   64
             // 32  16  256
             // 64  32 1024
-            f = Bounded(f, lower, upper, penalty);
             var xmin = new double[lower.Length];
             var fmin = double.MaxValue;
             var stopwatch = new Stopwatch();
@@ -600,20 +596,22 @@ namespace MKLNET
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The n dimensional function to find the minimum of.</param>
         /// <param name="x">The starting position and the minimum position found.</param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
         /// <returns>f(x) at the minimum position found.</returns>
-        public static double Minimum(double atol, double rtol, Func<double[], double> f, double[] x)
+        public static double Minimum(double atol, double rtol, Func<double[], double> f, double[] x, double[]? lower = null, double[]? upper = null)
         {
             using vector df1 = new(x.Length);
-            bool endGame = false;
+            bool gradientDescent = false;
             var fx = f(x);
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x, fx, df1.Array, ref endGame)) return fx;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x, fx, df1.Array, ref gradientDescent, lower, upper)) return fx;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
-            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2, out fx);
+            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2, out fx, lower, upper);
             using vector df2 = new(x.Length);
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref endGame)) return fx;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper)) return fx;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -630,9 +628,9 @@ namespace MKLNET
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
-                Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2, out fx);
-                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref endGame)) return fx;
-                if (!endGame)
+                Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2, out fx, lower, upper);
+                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper)) return fx;
+                if (!gradientDescent)
                 {
                     s.Set(x2 - x1);
                     dxPrev = dx;
@@ -641,22 +639,22 @@ namespace MKLNET
                     if (dx < tol && dxPrev < tol)
                     {
                         dxPrev = double.MinValue;
-                        endGame = true;
+                        gradientDescent = true;
                     }
                     else
                     {
                         y.Set(df1 - df2);
                         sTy = s.T * y;
-                        if (sTy == 0) endGame = true;
+                        if (sTy == 0) gradientDescent = true;
                     }
                 }
-                if (endGame)
+                if (gradientDescent)
                 {
                     while (true)
                     {
                         Vector.Copy(x2, x1);
-                        Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2, out fx);
-                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref endGame)) return fx;
+                        Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2, out fx, lower, upper);
+                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper)) return fx;
                         s.Set(x2 - x1);
                         dxPrev = dx;
                         dx = Vector.Nrm2(s);
