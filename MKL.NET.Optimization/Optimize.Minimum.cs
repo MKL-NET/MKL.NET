@@ -127,8 +127,22 @@ namespace MKLNET
         }
 
         static void Minimum_Bracket_Fa(double atol, double rtol, Func<double, double> f, ref double a, ref double fa, ref double b, out double fb,
-            out double c, out double fc, out double d, out double fd)
+            out double c, out double fc, out double d, out double fd, double? lower, double? upper)
         {
+            if (lower is not null && upper is not null)
+            {
+                f = x => x < lower ? double.PositiveInfinity
+                       : x > upper ? double.PositiveInfinity
+                       : f(x);
+            }
+            else if (lower is not null)
+            {
+                f = x => x < lower ? double.PositiveInfinity : f(x);
+            }
+            else if (upper is not null)
+            {
+                f = x => x > upper ? double.PositiveInfinity : f(x);
+            }
             fb = f(b);
             if (fa < fb)
             {
@@ -186,6 +200,16 @@ namespace MKLNET
                     }
                 }
             }
+            if (lower is not null && a < lower)
+            {
+                a = lower.Value;
+                fa = f(a);
+            }
+            else if (upper is not null && c > upper)
+            {
+                c = upper.Value;
+                fc = f(c);
+            }
         }
 
 
@@ -203,11 +227,13 @@ namespace MKLNET
         /// <param name="fc">f(c) output.</param>
         /// <param name="d">Additonal outer point d &lt; a or d &gt; c. Can be infinity if no more than three function evaluations are needed.</param>
         /// <param name="fd">f(d) output. Can be zero if no more than three function evaluations are needed.</param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
         public static void Minimum_Bracket(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
-            out double c, out double fc, out double d, out double fd)
+            out double c, out double fc, out double d, out double fd, double? lower = null, double? upper = null)
         {
             fa = f(a);
-            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out fb, out c, out fc, out d, out fd);
+            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out fb, out c, out fc, out d, out fd, lower, upper);
         }
 
         /// <summary>
@@ -288,9 +314,9 @@ namespace MKLNET
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
-        static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double[]? lower, double[]? upper)
+        static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double? lower, double? upper)
         {
-            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out var fb, out var c, out var fc, out var d, out var fd);
+            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out var fb, out var c, out var fc, out var d, out var fd, lower, upper);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
@@ -394,11 +420,41 @@ namespace MKLNET
             var tol = Tol(atol, rtol, Vector.Nrm2(x));
             if (dx > tol * 1e5) { atol *= 1e3; rtol *= 1e3; }
             var norm = Vector.Nrm2(p);
+            double? lowera;
+            if (lower is null) lowera = null;
+            else
+            {
+                var low = double.MinValue;
+                for (int i = 0; i < lower.Length; i++)
+                {
+                    if (p[i] != 0.0)
+                    {
+                        var l = (lower[i] - x[i]) / p[i] * norm;
+                        if (l > low) low = l;
+                    }
+                }
+                lowera = low;
+            }
+            double? uppera;
+            if (upper is null) uppera = null;
+            else
+            {
+                var high = double.MaxValue;
+                for (int i = 0; i < upper.Length; i++)
+                {
+                    if (p[i] != 0.0)
+                    {
+                        var h = (upper[i] - x[i]) / p[i] * norm;
+                        if (h < high) high = h;
+                    }
+                }
+                uppera = high;
+            }
             var a = Minimum_Fa(atol, rtol, a =>
             {
                 x2.Set(x + a / norm * p);
                 return f(x2.Array);
-            }, 0, fx, Math.Max(dx, tol) * 0.25, lower, upper);
+            }, 0, fx, Math.Max(dx, tol) * 0.25, lowera, uppera);
             x2.Set(x + a / norm * p);
             fx2 = f(x2.Array);
             if(fx2 > fx)
