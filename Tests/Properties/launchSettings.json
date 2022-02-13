@@ -2,7 +2,7 @@
   "profiles": {
     "Tests": {
       "commandName": "Project",
-      "commandLineArgs": "stats_estimator.quartile.vs_p2 --seed 55iTz8Rxvnz8 --iter 1 --wait 100000"
+      "commandLineArgs": "schaffer4 --iter 1 --wait 100000"
     }
   }
 }

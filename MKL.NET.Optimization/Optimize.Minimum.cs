@@ -387,8 +387,9 @@ namespace MKLNET
             throw new Exception("Too many iterations in brent");
         }
 
-        static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2)
+        static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2, out double fx2)
         {
+            if(double.IsNaN(p.Array[0])) Debugger.Break();
             var tol = Tol(atol, rtol, Vector.Nrm2(x));
             if (dx > tol * 1e5) { atol *= 1e3; rtol *= 1e3; }
             var norm = Vector.Nrm2(p);
@@ -398,11 +399,16 @@ namespace MKLNET
                 return f(x2.Array);
             }, 0, fx, Math.Max(dx, tol) * 0.25);
             x2.Set(x + a / norm * p);
+            fx2 = f(x2.Array);
+            if(fx2 > fx)
+            {
+                Vector.Copy(x, x2);
+                fx2 = fx;
+            }
         }
 
-        static bool WithinTol_CalcNegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double[] df, ref bool endGame, out double fx)
+        static bool WithinTol_CalcNegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double fx, double[] df, ref bool endGame)
         {
-            fx = f(x);
             int nonMinimum = -1;
             double dfi_tol = 0;
             for (int i = 0; i < x.Length; i++)
@@ -555,8 +561,8 @@ namespace MKLNET
             int n = 1;
             while (true)
             {
-                stopwatch.Restart();
-                Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
+                stopwatch.Restart(); // TODO: Take out the single threading!!!!!!!
+                Parallel.For(0, (int)Math.Pow(n, xmin.Length), new ParallelOptions { MaxDegreeOfParallelism = 1 }, () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
                 {
                     var x = lmin.Item3;
                     for (int i = 0; i < x.Length; i++)
@@ -599,14 +605,15 @@ namespace MKLNET
         {
             using vector df1 = new(x.Length);
             bool endGame = false;
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x, df1.Array, ref endGame, out var fx)) return fx;
+            var fx = f(x);
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x, fx, df1.Array, ref endGame)) return fx;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
-            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2);
+            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2, out fx);
             using vector df2 = new(x.Length);
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return fx;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref endGame)) return fx;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -623,8 +630,8 @@ namespace MKLNET
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
-                Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2);
-                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return fx;
+                Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2, out fx);
+                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref endGame)) return fx;
                 if (!endGame)
                 {
                     s.Set(x2 - x1);
@@ -648,8 +655,8 @@ namespace MKLNET
                     while (true)
                     {
                         Vector.Copy(x2, x1);
-                        Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2);
-                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, df2.Array, ref endGame, out fx)) return fx;
+                        Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2, out fx);
+                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref endGame)) return fx;
                         s.Set(x2 - x1);
                         dxPrev = dx;
                         dx = Vector.Nrm2(s);

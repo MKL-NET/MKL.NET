@@ -98,12 +98,12 @@ let all =
         //        Check.info "time = %0.1f next = %0.1f fmin = %+2.5f xmin = %s" i.TimeSpan.TotalSeconds i.NextTimeSpan.TotalSeconds i.Fmin (Check.Print i.Xmin)
         //}
 
-        //test "schaffer4" {
-        //    let globalMin = Optimize.Minimum_Global(1e-7, 0.0, Func<_,_>(fun x -> Optimization.Schaffer4(x[0], x[1])), [|-40.0; -50.0|], [|50.0; 40.0|])
-        //                    |> Seq.take 9
-        //    for i in globalMin do
-        //        Check.info "time = %0.1f next = %0.1f fmin = %+2.5f xmin = %s" i.TimeSpan.TotalSeconds i.NextTimeSpan.TotalSeconds i.Fmin (Check.Print i.Xmin)
-        //}
+        test "schaffer4" {
+            let globalMin = Optimize.Minimum_Global(1e-7, 0.0, Func<_,_>(fun x -> Optimization.Schaffer4(x[0], x[1])), [|-40.0; -50.0|], [|50.0; 40.0|])
+                            |> Seq.take 9
+            for i in globalMin do
+                Check.info "time = %0.1f next = %0.1f fmin = %+2.5f xmin = %s" i.TimeSpan.TotalSeconds i.NextTimeSpan.TotalSeconds i.Fmin (Check.Print i.Xmin)
+        }
 
         test "styblinski_tang" {
             let globalMin = Optimize.Minimum_Global(1e-7, 0.0, Func<_,_>(fun x -> Optimization.StyblinskiTang(x)), [|-5; -5|], [|5; 5|])
