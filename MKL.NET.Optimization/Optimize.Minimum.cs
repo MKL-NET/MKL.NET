@@ -1,4 +1,4 @@
-﻿// Copyright 2021 Anthony Lloyd
+﻿// Copyright 2022 Anthony Lloyd
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -275,12 +275,19 @@ namespace MKLNET
                         c = b; b = x;
                         fc = fb; fb = fx;
                     }
-                    else
+                    else if (Minimum_Is_Bracketed(fx, fb, fc) || fa > fc)
                     {
                         level = b - a < levelFactor * (c - a) ? level + 1 : 0;
                         if (d < a || d - c > x - a) { d = a; fd = fa; }
                         a = x;
                         fa = fx;
+                    }
+                    else
+                    {
+                        level = c - b < levelFactor * (c - a) ? level + 1 : 0;
+                        if (d > c || a - d > c - b) { d = c; fd = fc; }
+                        c = b; b = x;
+                        fc = fb; fb = fx;
                     }
                 }
                 else
@@ -292,12 +299,19 @@ namespace MKLNET
                         a = b; b = x;
                         fa = fb; fb = fx;
                     }
-                    else
+                    else if (Minimum_Is_Bracketed(fa, fb, fx) || fc > fa)
                     {
                         level = c - b < levelFactor * (c - a) ? level + 1 : 0;
                         if (d > c || a - d > c - x) { d = c; fd = fc; }
                         c = x;
                         fc = fx;
+                    }
+                    else
+                    {
+                        level = b - a < levelFactor * (c - a) ? level + 1 : 0;
+                        if (d < a || d - c > b - a) { d = c; fd = fc; }
+                        a = b; b = x;
+                        fa = fb; fb = fx;
                     }
                 }
             }
@@ -319,6 +333,8 @@ namespace MKLNET
 
         static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double? lower, double? upper)
         {
+            if (lower is not null && b < lower.Value) b = lower.Value;
+            else if (upper is not null && b > upper.Value) b = upper.Value;
             Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out var fb, out var c, out var fc, out var d, out var fd, lower, upper);
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
@@ -419,7 +435,6 @@ namespace MKLNET
         static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2, out double fx2,
             double[]? lower, double[]? upper)
         {
-            if(double.IsNaN(p.Array[0])) Debugger.Break();
             var tol = Tol(atol, rtol, Vector.Nrm2(x));
             if (dx > tol * 1e5) { atol *= 1e3; rtol *= 1e3; }
             var norm = Vector.Nrm2(p);
@@ -625,7 +640,7 @@ namespace MKLNET
             while (true)
             {
                 stopwatch.Restart(); // TODO: Take out the single threading!!!!!!!
-                Parallel.For(0, (int)Math.Pow(n, xmin.Length), new ParallelOptions { MaxDegreeOfParallelism = 1 }, () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
+                Parallel.For(0, (int)Math.Pow(n, xmin.Length), new ParallelOptions { MaxDegreeOfParallelism = 16 }, () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
                 {
                     var x = lmin.Item3;
                     for (int i = 0; i < x.Length; i++)
