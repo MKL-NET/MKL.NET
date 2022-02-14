@@ -131,17 +131,20 @@ namespace MKLNET
         {
             if (lower is not null && upper is not null)
             {
-                f = x => x < lower ? double.PositiveInfinity
-                       : x > upper ? double.PositiveInfinity
-                       : f(x);
+                var g = f;
+                f = x => x < lower.Value ? double.PositiveInfinity
+                       : x > upper.Value ? double.PositiveInfinity
+                       : g(x);
             }
             else if (lower is not null)
             {
-                f = x => x < lower ? double.PositiveInfinity : f(x);
+                var g = f;
+                f = x => x < lower.Value ? double.PositiveInfinity : g(x);
             }
             else if (upper is not null)
             {
-                f = x => x > upper ? double.PositiveInfinity : f(x);
+                var g = f;
+                f = (double x) => x > upper.Value ? double.PositiveInfinity : g(x);
             }
             fb = f(b);
             if (fa < fb)
@@ -200,12 +203,12 @@ namespace MKLNET
                     }
                 }
             }
-            if (lower is not null && a < lower)
+            if (lower is not null && a < lower.Value)
             {
                 a = lower.Value;
                 fa = f(a);
             }
-            else if (upper is not null && c > upper)
+            else if (upper is not null && c > upper.Value)
             {
                 c = upper.Value;
                 fc = f(c);
@@ -420,35 +423,43 @@ namespace MKLNET
             var tol = Tol(atol, rtol, Vector.Nrm2(x));
             if (dx > tol * 1e5) { atol *= 1e3; rtol *= 1e3; }
             var norm = Vector.Nrm2(p);
-            double? lowera;
-            if (lower is null) lowera = null;
-            else
+            double? lowera = null;
+            double? uppera = null;
+            if (lower is not null)
             {
-                var low = double.MinValue;
                 for (int i = 0; i < lower.Length; i++)
                 {
                     if (p[i] != 0.0)
                     {
-                        var l = (lower[i] - x[i]) / p[i] * norm;
-                        if (l > low) low = l;
+                        var aa = (lower[i] - x[i]) / p[i] * norm;
+                        if (p[i] > 0.0)
+                        {
+                            if (lowera is null || lowera.Value < aa) lowera = aa;
+                        }
+                        else
+                        {
+                            if (uppera is null || uppera.Value > aa) uppera = aa;
+                        }
                     }
                 }
-                lowera = low;
             }
-            double? uppera;
-            if (upper is null) uppera = null;
-            else
+            if (upper is not null)
             {
-                var high = double.MaxValue;
                 for (int i = 0; i < upper.Length; i++)
                 {
                     if (p[i] != 0.0)
                     {
-                        var h = (upper[i] - x[i]) / p[i] * norm;
-                        if (h < high) high = h;
+                        var aa = (upper[i] - x[i]) / p[i] * norm;
+                        if (p[i] > 0.0)
+                        {
+                            if (uppera is null || uppera.Value > aa) uppera = aa;
+                        }
+                        else
+                        {
+                            if (lowera is null || lowera.Value < aa) lowera = aa;
+                        }
                     }
                 }
-                uppera = high;
             }
             var a = Minimum_Fa(atol, rtol, a =>
             {
@@ -622,7 +633,7 @@ namespace MKLNET
                         index = Math.DivRem(index, n, out int r);
                         x[i] = lower[i] + (upper[i] - lower[i]) * (0.5 + r) / n;
                     }
-                    var fmin = Minimum(atol, rtol, f, x);
+                    var fmin = Minimum(atol, rtol, f, x, lower, upper);
                     return fmin < lmin.fmin ? (x, fmin, lmin.Item1) : lmin;
                 },
                 x =>
