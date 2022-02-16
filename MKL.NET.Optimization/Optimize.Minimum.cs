@@ -277,7 +277,7 @@ namespace MKLNET
                     }
                     else if (Minimum_Is_Bracketed(fx, fb, fc) || fa > fc)
                     {
-                        level = b - a < levelFactor * (c - a) ? level + 1 : 0;
+                        level = x - a < levelFactor * (c - a) ? level + 1 : 0;
                         if (d < a || d - c > x - a) { d = a; fd = fa; }
                         a = x;
                         fa = fx;
@@ -301,7 +301,7 @@ namespace MKLNET
                     }
                     else if (Minimum_Is_Bracketed(fa, fb, fx) || fc > fa)
                     {
-                        level = c - b < levelFactor * (c - a) ? level + 1 : 0;
+                        level = c - x < levelFactor * (c - a) ? level + 1 : 0;
                         if (d > c || a - d > c - x) { d = c; fd = fc; }
                         c = x;
                         fc = fx;
@@ -639,8 +639,8 @@ namespace MKLNET
             int n = 1;
             while (true)
             {
-                stopwatch.Restart(); // TODO: Take out the single threading!!!!!!!
-                Parallel.For(0, (int)Math.Pow(n, xmin.Length), new ParallelOptions { MaxDegreeOfParallelism = 16 }, () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
+                stopwatch.Restart();
+                Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
                 {
                     var x = lmin.Item3;
                     for (int i = 0; i < x.Length; i++)
