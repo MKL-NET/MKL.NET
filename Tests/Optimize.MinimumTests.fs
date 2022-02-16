@@ -90,14 +90,14 @@ let all =
         let minimum_bracketed (atol, rtol, f:Func<_,_>, a, b, c) =
             Optimize.Minimum_Bracketed(atol, rtol, f, a, f.Invoke(a), b, f.Invoke(b), c, f.Invoke(c), Double.PositiveInfinity, 0.0)
 
-        test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2722)
+        test_solver "hybrid_bracketed_7" 1e-7 minimum_bracketed (Check.between 2721 2723)
         test_solver "hybrid_bracketed_9" 1e-9 minimum_bracketed (Check.between 3215 3238)
-        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4105 4187)
+        test_solver "hybrid_bracketed_11" 1e-11 minimum_bracketed (Check.between 4087 4187)
 
         let minimum (atol, rtol, f:Func<float,float>, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
 
-        test_solver "hybrid_7" 1e-7 minimum (Check.between 2260 2273)
-        test_solver "hybrid_9" 1e-9 minimum (Check.between 2850 2863)
+        test_solver "hybrid_7" 1e-7 minimum (Check.between 2250 2273)
+        test_solver "hybrid_9" 1e-9 minimum (Check.between 2848 2863)
         test_solver "hybrid_11" 1e-11 minimum (Check.between 3867 3963)
 
         let MathNet_Minimum tol func (x:float[]) =
