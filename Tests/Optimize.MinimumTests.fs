@@ -97,7 +97,7 @@ let all =
         let minimum (atol, rtol, f:Func<float,float>, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
 
         test_solver "hybrid_7" 1e-7 minimum (Check.between 2250 2273)
-        test_solver "hybrid_9" 1e-9 minimum (Check.between 2848 2863)
+        test_solver "hybrid_9" 1e-9 minimum (Check.between 2846 2863)
         test_solver "hybrid_11" 1e-11 minimum (Check.between 3867 3963)
 
         let MathNet_Minimum tol func (x:float[]) =
