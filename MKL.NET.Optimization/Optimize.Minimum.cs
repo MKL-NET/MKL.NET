@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace MKLNET
 {
@@ -127,7 +128,7 @@ namespace MKLNET
         }
 
         static void Minimum_Bracket_Fa(double atol, double rtol, Func<double, double> f, ref double a, ref double fa, ref double b, out double fb,
-            out double c, out double fc, out double d, out double fd, double? lower, double? upper)
+            out double c, out double fc, out double d, out double fd, double? lower, double? upper, CancellationToken cancellationToken)
         {
             if (lower is not null && upper is not null)
             {
@@ -161,7 +162,7 @@ namespace MKLNET
             }
             d = double.PositiveInfinity;
             fd = 0;
-            while (!Minimum_Is_Bracketed(fa, fb, fc))
+            while (!Minimum_Is_Bracketed(fa, fb, fc) && !cancellationToken.IsCancellationRequested)
             {
                 var x = Minimum_Quadratic(a, fa, b, fb, c, fc);
                 if (fa <= fb)
@@ -232,11 +233,12 @@ namespace MKLNET
         /// <param name="fd">f(d) output. Can be zero if no more than three function evaluations are needed.</param>
         /// <param name="lower"></param>
         /// <param name="upper"></param>
+        /// <param name="cancellationToken"></param>
         public static void Minimum_Bracket(double atol, double rtol, Func<double, double> f, ref double a, out double fa, ref double b, out double fb,
-            out double c, out double fc, out double d, out double fd, double? lower = null, double? upper = null)
+            out double c, out double fc, out double d, out double fd, double? lower = null, double? upper = null, CancellationToken cancellationToken = default)
         {
             fa = f(a);
-            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out fb, out c, out fc, out d, out fd, lower, upper);
+            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out fb, out c, out fc, out d, out fd, lower, upper, cancellationToken);
         }
 
         /// <summary>
@@ -253,12 +255,14 @@ namespace MKLNET
         /// <param name="fc">f(c) input.</param>
         /// <param name="d">Additonal outer point d &lt; a or d &gt; c.</param>
         /// <param name="fd">f(d) input.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
         public static double Minimum_Bracketed(double atol, double rtol, Func<double, double> f,
-            double a, double fa, double b, double fb, double c, double fc, double d = double.PositiveInfinity, double fd = 0)
+            double a, double fa, double b, double fb, double c, double fc, double d = double.PositiveInfinity, double fd = 0,
+            CancellationToken cancellationToken = default)
         {
             int level = 0;
-            while (Tol_Average_Not_Within(atol, rtol, a, c))
+            while (Tol_Average_Not_Within(atol, rtol, a, c) && !cancellationToken.IsCancellationRequested)
             {
                 var x = Tol_Average_Within_2(atol, rtol, a, c) ? Minimum_BiSection(atol, rtol, a, b, c)
                       : level == 0 ? Tol_Not_Too_Close(atol, rtol, a, b, c, Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
@@ -331,12 +335,13 @@ namespace MKLNET
             return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
         }
 
-        static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double? lower, double? upper)
+        static double Minimum_Fa(double atol, double rtol, Func<double, double> f, double a, double fa, double b, double? lower, double? upper,
+            CancellationToken cancellationToken)
         {
             if (lower is not null && b < lower.Value) b = lower.Value;
             else if (upper is not null && b > upper.Value) b = upper.Value;
-            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out var fb, out var c, out var fc, out var d, out var fd, lower, upper);
-            return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd);
+            Minimum_Bracket_Fa(atol, rtol, f, ref a, ref fa, ref b, out var fb, out var c, out var fc, out var d, out var fd, lower, upper, cancellationToken);
+            return Minimum_Bracketed(atol, rtol, f, a, fa, b, fb, c, fc, d, fd, cancellationToken);
         }
 
         /// <summary>Finds the minimum of f accurate to tol = atol + rtol * x given a starting function input.</summary>
@@ -433,7 +438,7 @@ namespace MKLNET
         }
 
         static void Minimum_LineSearch(double atol, double rtol, Func<double[], double> f, vector x, double fx, vector p, double dx, vector x2, out double fx2,
-            double[]? lower, double[]? upper)
+            double[]? lower, double[]? upper, CancellationToken cancellationToken)
         {
             var tol = Tol(atol, rtol, Vector.Nrm2(x));
             if (dx > tol * 1e5) { atol *= 1e3; rtol *= 1e3; }
@@ -480,7 +485,7 @@ namespace MKLNET
             {
                 x2.Set(x + a / norm * p);
                 return f(x2.Array);
-            }, 0, fx, Math.Max(dx, tol) * 0.25, lowera, uppera);
+            }, 0, fx, Math.Max(dx, tol) * 0.25, lowera, uppera, cancellationToken);
             x2.Set(x + a / norm * p);
             fx2 = f(x2.Array);
             if(fx2 > fx)
@@ -491,7 +496,7 @@ namespace MKLNET
         }
 
         static bool WithinTol_CalcNegGrad(double atol, double rtol, Func<double[], double> f, double[] x, double fx, double[] df,
-            ref bool gradientDescent, double[]? lower, double[]? upper)
+            ref bool gradientDescent, double[]? lower, double[]? upper, Action<double[], double[]>? fdf)
         {
             int nonMinimum = -1;
             double dfi_tol = 0;
@@ -528,103 +533,108 @@ namespace MKLNET
             if (nonMinimum == -1) return true;
             if (!gradientDescent)
             {
-                bool allZero = true;
-                for (int i = 0; i < x.Length; i++)
+                if (fdf is null)
                 {
-                    var x_i = x[i];
-                    var dx = Tol(atol, rtol, x_i) * 0.05;
-                    var x_i_d = x_i + dx;
-                    if (upper is not null && x_i_d > upper[i])
+                    bool allZero = true;
+                    for (int i = 0; i < x.Length; i++)
                     {
-                        x_i_d = x_i - dx;
+                        var x_i = x[i];
+                        var dx = Tol(atol, rtol, x_i) * 0.05;
+                        var x_i_d = x_i + dx;
+                        if (upper is not null && x_i_d > upper[i])
+                        {
+                            x_i_d = x_i - dx;
+                        }
+                        x[i] = x_i_d;
+                        var df_i = (fx - f(x)) / (x_i_d - x_i);
+                        df[i] = df_i;
+                        if (df_i != 0) allZero = false;
+                        x[i] = x_i;
                     }
-                    x[i] = x_i_d;
-                    var df_i = (fx - f(x)) / (x_i_d - x_i);
-                    df[i] = df_i;
-                    if (df_i != 0) allZero = false;
-                    x[i] = x_i;
+                    if (allZero) gradientDescent = true;
                 }
-                if (allZero) gradientDescent = true;
+                else
+                {
+                    fdf(x, df);
+                    for (int i = 0; i < x.Length; i++)
+                        df[i] = -df[i];
+                }
             }
             if (gradientDescent)
             {
-                for (int i = 0; i < x.Length; i++) df[i] = 0;
-                df[nonMinimum] = dfi_tol;
-                for (int i = nonMinimum + 1; i < x.Length; i++)
+                if (fdf is null)
                 {
-                    var x_i = x[i];
-                    var tol = Tol(atol, rtol, x_i);
-                    x[i] = x_i - tol;
-                    if (lower is null || x[i] >= lower[i])
+                    for (int i = 0; i < x.Length; i++) df[i] = 0;
+                    df[nonMinimum] = dfi_tol;
+                    for (int i = nonMinimum + 1; i < x.Length; i++)
                     {
-                        dfi_tol = f(x);
-                        if (dfi_tol < fx)
+                        var x_i = x[i];
+                        var tol = Tol(atol, rtol, x_i);
+                        x[i] = x_i - tol;
+                        if (lower is null || x[i] >= lower[i])
                         {
-                            x[i] = x_i;
-                            df[i] = (dfi_tol - fx) / tol;
-                            continue;
+                            dfi_tol = f(x);
+                            if (dfi_tol < fx || (upper is not null && x_i + tol > upper[i]))
+                            {
+                                x[i] = x_i;
+                                df[i] = (dfi_tol - fx) / tol;
+                                continue;
+                            }
                         }
+                        x[i] = x_i + tol;
+                        if (upper is null || x[i] <= upper[i])
+                        {
+                            dfi_tol = f(x);
+                            if (dfi_tol < fx)
+                                df[i] = (fx - dfi_tol) / tol;
+                        }
+                        x[i] = x_i;
                     }
-                    x[i] = x_i + tol;
-                    if (upper is null || x[i] <= upper[i])
-                    {
-                        dfi_tol = f(x);
-                        if (dfi_tol < fx)
-                            df[i] = (fx - dfi_tol) / tol;
-                    }
-                    x[i] = x_i;
+                }
+                else
+                {
+                    fdf(x, df);
+                    for (int i = 0; i < x.Length; i++)
+                        df[i] = -df[i];
                 }
             }
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Minimum grid search iteration results.</summary>
         public class MinimumIteration
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="xmin"></param>
-            /// <param name="fmin"></param>
-            /// <param name="timeSpan"></param>
-            /// <param name="nextTimeSpan"></param>
-            public MinimumIteration(double[] xmin, double fmin, TimeSpan timeSpan, TimeSpan nextTimeSpan)
+            internal MinimumIteration(double[] xmin, double fmin, TimeSpan timeSpan, TimeSpan nextTimeSpan)
             {
                 Xmin = xmin;
                 Fmin = fmin;
                 TimeSpan = timeSpan;
                 NextTimeSpan = nextTimeSpan;
             }
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary>The x values of the global minimum so far over all minimum iterations.</summary>
             public double[] Xmin { get; }
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary>The f(x) of the global minimum so far over all minimum iterations.</summary>
             public double Fmin { get; }
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary>The elapsed time taken for this minimum iteration.</summary>
             public TimeSpan TimeSpan { get; }
-            /// <summary>
-            /// 
-            /// </summary>
+            /// <summary>The estimated time taken for the next minimum iteration.</summary>
             public TimeSpan NextTimeSpan { get; }
         }
 
         /// <summary>
-        /// 
+        /// Finds the global minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see>
+        /// in a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <returns></returns>
-        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper)
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="lower">The lower x boundary values (optional).</param>
+        /// <param name="upper">The upper x boundary values (optional).</param>
+        /// <param name="df">The derivative function (optional).</param>
+        /// <param name="cancellationToken">Cancellation token (optional).</param>
+        /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
+        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+            Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
         {
             // 2n   n  n*n
             //  2   1    1
@@ -640,15 +650,17 @@ namespace MKLNET
             while (true)
             {
                 stopwatch.Restart();
-                Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]), (index, _, lmin) =>
+                Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]),
+                (index, _, lmin) =>
                 {
+                    if (cancellationToken.IsCancellationRequested) return lmin;
                     var x = lmin.Item3;
                     for (int i = 0; i < x.Length; i++)
                     {
                         index = Math.DivRem(index, n, out int r);
                         x[i] = lower[i] + (upper[i] - lower[i]) * (0.5 + r) / n;
                     }
-                    var fmin = Minimum(atol, rtol, f, x, lower, upper);
+                    var fmin = Minimum(atol, rtol, f, x, lower, upper, df, cancellationToken);
                     return fmin < lmin.fmin ? (x, fmin, lmin.Item1) : lmin;
                 },
                 x =>
@@ -672,28 +684,106 @@ namespace MKLNET
         }
 
         /// <summary>
+        /// Finds the global minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see>
+        /// in a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Accurate to tol x_i = atol + rtol * x_i.
+        /// </summary>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="lower">The lower x boundary values (optional).</param>
+        /// <param name="upper">The upper x boundary values (optional).</param>
+        /// <param name="df">The derivative function (optional).</param>
+        /// <param name="cancellationToken">Cancellation token (optional).</param>
+        /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
+        public static IEnumerable<Func<Task<MinimumIteration>>> Minimum_GlobalAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+            Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
+        {
+            // 2n   n  n*n
+            //  2   1    1
+            //  4   2    4
+            //  8   4   16
+            // 16   8   64
+            // 32  16  256
+            // 64  32 1024
+            var xmin = new double[lower.Length];
+            var fmin = double.MaxValue;
+            int n = 1;
+            while (true)
+            {
+                yield return () => Task.Run(async () =>
+                {
+                    var stopwatch = Stopwatch.StartNew();
+                    var points = (int)Math.Pow(n, xmin.Length);
+                    var threads = Environment.ProcessorCount;
+                    var tasks = new Task[threads];
+                    while (threads-- > 0)
+                        tasks[threads] = Task.Run(() =>
+                        {
+                            var x = new double[xmin.Length];
+                            var txmin = new double[xmin.Length];
+                            var tfmin = double.MaxValue;
+                            while (true)
+                            {
+                                var index = Interlocked.Decrement(ref points);
+                                if (index < 0 || cancellationToken.IsCancellationRequested) break;
+                                for (int i = 0; i < x.Length; i++)
+                                {
+                                    index = Math.DivRem(index, n, out int r);
+                                    x[i] = lower[i] + (upper[i] - lower[i]) * (0.5 + r) / n;
+                                }
+                                var fmin = Minimum(atol, rtol, f, x, lower, upper, df, cancellationToken);
+                                if (fmin < tfmin)
+                                {
+                                    tfmin = fmin;
+                                    (txmin, x) = (x, txmin);
+                                }
+                            }
+                            lock (f)
+                            {
+                                if (tfmin < fmin)
+                                {
+                                    fmin = tfmin;
+                                    xmin = txmin;
+                                }
+                            }
+                        });
+                    await Task.WhenAll(tasks);
+                    var timeSpan = stopwatch.Elapsed;
+                    var nextTicks = timeSpan.Ticks
+                        / Math.Ceiling(Math.Pow(n, xmin.Length) / Environment.ProcessorCount)
+                        * Math.Ceiling(Math.Pow(n * 2, xmin.Length) / Environment.ProcessorCount);
+                    return new MinimumIteration((double[])xmin.Clone(), fmin, timeSpan, new((long)nextTicks));
+                });
+                n *= 2;
+            }
+        }
+
+        /// <summary>
         /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
         /// <param name="atol">The absolute tolerance of the minimum position required.</param>
         /// <param name="rtol">The relative tolerance of the minimum position required.</param>
         /// <param name="f">The n dimensional function to find the minimum of.</param>
         /// <param name="x">The starting position and the minimum position found.</param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
+        /// <param name="lower">The lower x boundary values (optional).</param>
+        /// <param name="upper">The upper x boundary values (optional).</param>
+        /// <param name="df">The derivative function (optional).</param>
+        /// <param name="cancellationToken">Cancellation token (optional).</param>
         /// <returns>f(x) at the minimum position found.</returns>
-        public static double Minimum(double atol, double rtol, Func<double[], double> f, double[] x, double[]? lower = null, double[]? upper = null)
+        public static double Minimum(double atol, double rtol, Func<double[], double> f, double[] x, double[]? lower = null, double[]? upper = null,
+            Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
         {
             using vector df1 = new(x.Length);
             bool gradientDescent = false;
             var fx = f(x);
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x, fx, df1.Array, ref gradientDescent, lower, upper)) return fx;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x, fx, df1.Array, ref gradientDescent, lower, upper, df)) return fx;
             vector x2 = new(x.Length, x);
             x2.ReuseArray(); // x2 finalized could cause x to be put in the pool
             using vector x1 = Vector.Copy(x2);
             using vector p = Vector.Copy(df1);
-            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2, out fx, lower, upper);
+            Minimum_LineSearch(atol, rtol, f, x1, fx, p, Tol(atol, rtol, Vector.Nrm2(x1)) * 1000, x2, out fx, lower, upper, cancellationToken);
             using vector df2 = new(x.Length);
-            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper)) return fx;
+            if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper, df)) return fx;
             vector s = x1, y = df1; // Alias for the formula below so no need to use using
             s.Set(x2 - x1);
             double dx = Vector.Nrm2(s);
@@ -705,50 +795,46 @@ namespace MKLNET
             Matrix.Symmetric_Rank_k_Update((sTy + y.T * y) / sTy / sTy, s, 1, H);
             Matrix.Symmetric_Rank_2k_Update(-1 / sTy, y, s, 1, H);
             using vector Hy = new(x.Length);
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 Vector.Copy(x2, x1);
                 Vector.Copy(df2, df1);
                 Matrix.Symmetric_Multiply_Update(H, df1, p); // p = H * df1
-                Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2, out fx, lower, upper);
-                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper)) return fx;
-                if (!gradientDescent)
+                Minimum_LineSearch(atol, rtol, f, x1, fx, p, dx, x2, out fx, lower, upper, cancellationToken);
+                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper, df)) return fx;
+                if (gradientDescent) break;
+                s.Set(x2 - x1);
+                dxPrev = dx;
+                dx = Vector.Nrm2(s);
+                var tol = Tol(atol, rtol, Vector.Nrm2(x2));
+                if (dx < tol && dxPrev < tol)
                 {
-                    s.Set(x2 - x1);
-                    dxPrev = dx;
-                    dx = Vector.Nrm2(s);
-                    var tol = Tol(atol, rtol, Vector.Nrm2(x2));
-                    if (dx < tol && dxPrev < tol)
-                    {
-                        dxPrev = double.MinValue;
-                        gradientDescent = true;
-                    }
-                    else
-                    {
-                        y.Set(df1 - df2);
-                        sTy = s.T * y;
-                        if (sTy == 0) gradientDescent = true;
-                    }
+                    dxPrev = double.MinValue;
+                    break;
                 }
-                if (gradientDescent)
+                else
                 {
-                    while (true)
-                    {
-                        Vector.Copy(x2, x1);
-                        Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2, out fx, lower, upper);
-                        if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper)) return fx;
-                        s.Set(x2 - x1);
-                        dxPrev = dx;
-                        dx = Vector.Nrm2(s);
-                        var tol = Tol(atol, rtol, Vector.Nrm2(x2));
-                        if (dx < tol && dxPrev < tol) return fx;
-                    }
+                    y.Set(df1 - df2);
+                    sTy = s.T * y;
+                    if (sTy == 0) break;
                 }
                 Matrix.Symmetric_Multiply_Update(H, y, Hy); // Hy = H * y
                 //H = H + ((sTy + y.T * Hy) / sTy / sTy * s * s.T) - (Hy * s.T + s * Hy.T) / sTy;
                 Matrix.Symmetric_Rank_k_Update((sTy + y.T * Hy) / sTy / sTy, s, 1, H);
                 Matrix.Symmetric_Rank_2k_Update(-1 / sTy, Hy, s, 1, H);
             }
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                Vector.Copy(x2, x1);
+                Minimum_LineSearch(atol, rtol, f, x1, fx, df2, dx, x2, out fx, lower, upper, cancellationToken);
+                if (WithinTol_CalcNegGrad(atol, rtol, f, x2.Array, fx, df2.Array, ref gradientDescent, lower, upper, df)) return fx;
+                s.Set(x2 - x1);
+                dxPrev = dx;
+                dx = Vector.Nrm2(s);
+                var tol = Tol(atol, rtol, Vector.Nrm2(x2));
+                if (dx < tol && dxPrev < tol) return fx;
+            }
+            return fx;
         }
 
         /// <summary>

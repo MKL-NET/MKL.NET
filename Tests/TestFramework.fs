@@ -2,6 +2,7 @@
 
 open System
 open System.Threading
+open System.Threading.Tasks
 open System.Diagnostics
 open System.Globalization
 open System.Runtime.CompilerServices
@@ -368,6 +369,28 @@ type TestBuilder(name:string) =
                                 //) |> c
                             else c(Some r)
                 )
+        )
+    member _.Bind(t:Task<'a>,f:'a->Test) : Test =
+        Test(nameList, fun p c ->
+            t.ContinueWith(fun (t:Task<'a>) ->
+                let (Test(_,tf)) = f t.Result
+                tf p (fun r -> c r)
+            ).Wait()
+        )
+    member _.Bind(t:Task,f:unit->Test) : Test =
+        Test(nameList, fun p c ->
+            t.ContinueWith(fun (t:Task) ->
+                let (Test(_,tf)) = f()
+                tf p (fun r -> c r)
+            ).Wait()
+        )
+    member _.Bind(vt:ValueTask<'a>,f:'a->Test) : Test =
+        let t = vt.AsTask()
+        Test(nameList, fun p c ->
+            t.ContinueWith(fun (t:Task<'a>) ->
+                let (Test(_,tf)) = f t.Result
+                tf p (fun r -> c r)
+            ).Wait()
         )
     member _.MergeSources(g1:#Gen<'a>, g2:#Gen<'b>) =
         Gen.Select(g1,g2)

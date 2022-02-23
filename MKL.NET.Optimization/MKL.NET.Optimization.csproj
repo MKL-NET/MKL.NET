@@ -17,9 +17,11 @@
 Optimization and root finding based on cross platform MKL.NET.
         </Description>
         <PackageReleaseNotes>
-Changes for MKL.NET.Statistics.
+Added Minimum_Global algorithm returning a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches.
+Added upper and lower boundary condition parameters to Minimum.
+Removed Bounded penalty function.
         </PackageReleaseNotes>
-        <Version>0.4.2</Version>
+        <Version>1.0.0-rc1</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />

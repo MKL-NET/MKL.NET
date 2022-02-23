@@ -1,6 +1,8 @@
 ﻿module Optimize.GlobalTests
 
 open System
+open System.Linq
+open FSharp.Control
 open MKLNET
 open CsCheck
 
@@ -89,20 +91,26 @@ let all =
                             |> Seq.take 7
             for i in globalMin do
                 Check.info "time = %0.1f next = %0.1f fmin = %+2.5f xmin = %s" i.TimeSpan.TotalSeconds i.NextTimeSpan.TotalSeconds i.Fmin (Check.Print i.Xmin)
+            Dbg.Output(fun s -> Console.WriteLine s)
         }
 
         test "schaffer2" {
-            let globalMin = Optimize.Minimum_Global(1e-5, 0.0, Func<_,_>(fun x -> Optimization.Schaffer2(x[0], x[1])), [|-50.0; -70.0|], [|90.0; 80.0|])
-                            |> Seq.take 5
+            let globalMin = Optimize.Minimum_Global(1e-6, 0.0, Func<_,_>(fun x -> Optimization.Schaffer2(x[0], x[1])), [|-50.0; -70.0|], [|90.0; 80.0|])
+                            |> Seq.take 2
             for i in globalMin do
                 Check.info "time = %0.1f next = %0.1f fmin = %+2.5f xmin = %s" i.TimeSpan.TotalSeconds i.NextTimeSpan.TotalSeconds i.Fmin (Check.Print i.Xmin)
+                let l = new ResizeArray<string>()
+                Dbg.Output(fun s -> l.Add s)
+                for s in l do
+                    Check.info "%s" s
         }
 
         test "schaffer4" {
-            let globalMin = Optimize.Minimum_Global(1e-5, 0.0, Func<_,_>(fun x -> Optimization.Schaffer4(x[0], x[1])), [|-40.0; -50.0|], [|50.0; 40.0|])
-                            |> Seq.take 5
+            let globalMin = Optimize.Minimum_Global(1e-7, 0.0, Func<_,_>(fun x -> Optimization.Schaffer4(x[0], x[1])), [|-40.0; -50.0|], [|50.0; 40.0|])
+                            |> Seq.take 6
             for i in globalMin do
                 Check.info "time = %0.1f next = %0.1f fmin = %+2.5f xmin = %s" i.TimeSpan.TotalSeconds i.NextTimeSpan.TotalSeconds i.Fmin (Check.Print i.Xmin)
+            Dbg.Output(fun s -> Console.WriteLine s)
         }
 
         test "styblinski_tang" {
