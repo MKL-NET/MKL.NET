@@ -22,9 +22,9 @@ Performance and memory optimised matrix algebra library based on cross platform 
 - Uses the Pinned Object Heap for net5.0.
         </Description>
         <PackageReleaseNotes>
-Changes for MKL.NET.Statistics.
+Version updating to 1.0.0 with MKL.NET.Optimization.
         </PackageReleaseNotes>
-        <Version>0.7.2</Version>
+        <Version>1.0.0-rc1</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
