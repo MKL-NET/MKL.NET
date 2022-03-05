@@ -647,7 +647,7 @@ namespace MKLNET
             var fmin = double.MaxValue;
             var stopwatch = new Stopwatch();
             int n = 1;
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 stopwatch.Restart();
                 Parallel.For(0, (int)Math.Pow(n, xmin.Length), () => ((double[])xmin.Clone(), fmin, new double[xmin.Length]),
@@ -675,9 +675,10 @@ namespace MKLNET
                     }
                 });
                 var timeSpan = stopwatch.Elapsed;
-                var nextTicks = timeSpan.Ticks
-                    / Math.Ceiling(Math.Pow(n, xmin.Length) / Environment.ProcessorCount)
-                    * Math.Ceiling(Math.Pow(n * 2, xmin.Length) / Environment.ProcessorCount);
+                var nextTicks = cancellationToken.IsCancellationRequested ? 0
+                    : timeSpan.Ticks
+                        / Math.Ceiling(Math.Pow(n, xmin.Length) / Environment.ProcessorCount)
+                        * Math.Ceiling(Math.Pow(n * 2, xmin.Length) / Environment.ProcessorCount);
                 yield return new((double[])xmin.Clone(), fmin, timeSpan, new((long)nextTicks));
                 n *= 2;
             }
@@ -708,7 +709,7 @@ namespace MKLNET
             var xmin = new double[lower.Length];
             var fmin = double.MaxValue;
             int n = 1;
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 yield return () => Task.Run(async () =>
                 {
@@ -749,13 +750,38 @@ namespace MKLNET
                         });
                     await Task.WhenAll(tasks);
                     var timeSpan = stopwatch.Elapsed;
-                    var nextTicks = timeSpan.Ticks
-                        / Math.Ceiling(Math.Pow(n, xmin.Length) / Environment.ProcessorCount)
-                        * Math.Ceiling(Math.Pow(n * 2, xmin.Length) / Environment.ProcessorCount);
+
+                    var nextTicks = cancellationToken.IsCancellationRequested ? 0
+                        : timeSpan.Ticks
+                            / Math.Ceiling(Math.Pow(n, xmin.Length) / Environment.ProcessorCount)
+                            * Math.Ceiling(Math.Pow(n * 2, xmin.Length) / Environment.ProcessorCount);
                     return new MinimumIteration((double[])xmin.Clone(), fmin, timeSpan, new((long)nextTicks));
                 });
                 n *= 2;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <param name="time"></param>
+        /// <param name="df"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static async Task<List<MinimumIteration>> Minimum_GlobalAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+            TimeSpan time, Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
+        {
+            var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            _ = Task.Delay(time).ContinueWith(_ => cts.Cancel());
+            var iterations = new List<MinimumIteration>();
+            foreach(var iteration in Minimum_GlobalAsync(atol, rtol, f, lower, upper, df, cts.Token))
+                iterations.Add(await iteration());
+            return iterations;
         }
 
         /// <summary>

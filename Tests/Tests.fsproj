@@ -7,7 +7,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Update="FSharp.Core" Version="6.0.1" />
-        <PackageReference Include="CsCheck" Version="2.5.0" />
+        <PackageReference Include="CsCheck" Version="2.6.0" />
         <!--<PackageReference Include="MKL.NET" Version="1.1.0" />-->
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
         <ProjectReference Include="../MKL.NET.Matrix/MKL.NET.Matrix.csproj" />
