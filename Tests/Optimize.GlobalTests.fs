@@ -9,7 +9,7 @@ let all =
 
         let test_global name f min max =
             test name {
-                let! globalMin = Optimize.Minimum_GlobalAsync(1e-7, 0.0, Func<_,_> f, min, max, TimeSpan.FromMinutes 5)
+                let globalMin = Optimize.Minimum_Global(1e-7, 0.0, Func<_,_> f, min, max, 3, 1e-5, 0, TimeSpan.FromMinutes 5)
                 for (i:Optimize.MinimumIteration) in globalMin do
                     Check.info "time = %0.1f next = %0.1f fmin = %+2.5f xmin = %s" i.TimeSpan.TotalSeconds i.NextTimeSpan.TotalSeconds i.Fmin (Check.Print i.Xmin)
             }

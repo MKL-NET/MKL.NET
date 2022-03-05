@@ -633,16 +633,9 @@ namespace MKLNET
         /// <param name="df">The derivative function (optional).</param>
         /// <param name="cancellationToken">Cancellation token (optional).</param>
         /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
-        public static IEnumerable<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+        public static IEnumerable<MinimumIteration> Minimum_Global_Enumerable(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
             Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
         {
-            // 2n   n  n*n
-            //  2   1    1
-            //  4   2    4
-            //  8   4   16
-            // 16   8   64
-            // 32  16  256
-            // 64  32 1024
             var xmin = new double[lower.Length];
             var fmin = double.MaxValue;
             var stopwatch = new Stopwatch();
@@ -685,6 +678,59 @@ namespace MKLNET
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <param name="time"></param>
+        /// <param name="same"></param>
+        /// <param name="fatol"></param>
+        /// <param name="frtol"></param>
+        /// <param name="df"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static List<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+            int same = 0, double fatol = 0.0, double frtol = 0.0, TimeSpan time = default,
+            Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
+        {
+            var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            if (time != default) _ = Task.Delay(time, cancellationToken).ContinueWith(_ => cts.Cancel(), cancellationToken);
+            var iterations = new List<MinimumIteration>();
+            int nSame = 1;
+            double pF = double.PositiveInfinity;
+            foreach (var i in Minimum_Global_Enumerable(atol, rtol, f, lower, upper, df, cts.Token))
+            {
+                iterations.Add(i);
+                if (Math.Abs(i.Fmin - pF) < Tol(fatol, frtol, i.Fmin))
+                {
+                    if (++nSame == same) return iterations;
+                }
+                else nSame = 1;
+                pF = i.Fmin;
+            }
+            return iterations;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <param name="time"></param>
+        /// <param name="df"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static List<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+            TimeSpan time = default, Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
+            => Minimum_Global(atol, rtol, f, lower, upper, time: time, df: df, cancellationToken: cancellationToken);
+
+        /// <summary>
         /// Finds the global minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see>
         /// in a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
@@ -696,16 +742,9 @@ namespace MKLNET
         /// <param name="df">The derivative function (optional).</param>
         /// <param name="cancellationToken">Cancellation token (optional).</param>
         /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
-        public static IEnumerable<Func<Task<MinimumIteration>>> Minimum_GlobalAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+        public static IEnumerable<Func<Task<MinimumIteration>>> Minimum_Global_EnumerableAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
             Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
         {
-            // 2n   n  n*n
-            //  2   1    1
-            //  4   2    4
-            //  8   4   16
-            // 16   8   64
-            // 32  16  256
-            // 64  32 1024
             var xmin = new double[lower.Length];
             var fmin = double.MaxValue;
             int n = 1;
@@ -770,19 +809,50 @@ namespace MKLNET
         /// <param name="lower"></param>
         /// <param name="upper"></param>
         /// <param name="time"></param>
+        /// <param name="same"></param>
+        /// <param name="fatol"></param>
+        /// <param name="frtol"></param>
         /// <param name="df"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public static async Task<List<MinimumIteration>> Minimum_GlobalAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
-            TimeSpan time, Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
+            int same = 0, double fatol = 0.0, double frtol = 0.0, TimeSpan time = default,
+            Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
         {
             var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            _ = Task.Delay(time).ContinueWith(_ => cts.Cancel());
+            if(time != default) _ = Task.Delay(time, cancellationToken).ContinueWith(_ => cts.Cancel(), cancellationToken);
             var iterations = new List<MinimumIteration>();
-            foreach(var iteration in Minimum_GlobalAsync(atol, rtol, f, lower, upper, df, cts.Token))
-                iterations.Add(await iteration());
+            int nSame = 1;
+            double pF = double.PositiveInfinity;
+            foreach (var iteration in Minimum_Global_EnumerableAsync(atol, rtol, f, lower, upper, df, cts.Token))
+            {
+                var i = await iteration();
+                iterations.Add(i);
+                if (Math.Abs(i.Fmin - pF) < Tol(fatol, frtol, i.Fmin))
+                {
+                    if (++nSame == same) return iterations;
+                }
+                else nSame = 1;
+                pF = i.Fmin;
+            }
             return iterations;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="atol"></param>
+        /// <param name="rtol"></param>
+        /// <param name="f"></param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <param name="time"></param>
+        /// <param name="df"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<List<MinimumIteration>> Minimum_GlobalAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
+            TimeSpan time = default, Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
+            => Minimum_GlobalAsync(atol, rtol, f, lower, upper, time: time, df: df, cancellationToken: cancellationToken);
 
         /// <summary>
         /// Finds the minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see> accurate to tol x_i = atol + rtol * x_i.
