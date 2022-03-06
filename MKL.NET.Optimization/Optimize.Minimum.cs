@@ -678,20 +678,21 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// 
+        /// Finds the global minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see>
+        /// in a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <param name="time"></param>
-        /// <param name="same"></param>
-        /// <param name="fatol"></param>
-        /// <param name="frtol"></param>
-        /// <param name="df"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="lower">The lower x boundary values (optional).</param>
+        /// <param name="upper">The upper x boundary values (optional).</param>
+        /// <param name="fatol">The absolute tolerance of the function value used to check if the minimum is the same.</param>
+        /// <param name="frtol">The relative tolerance of the function value used to check if the minimum is the same.</param>
+        /// <param name="same">Stop after this number of same function values.</param>
+        /// <param name="time">Stop after this time.</param>
+        /// <param name="df">The derivative function (optional).</param>
+        /// <param name="cancellationToken">Cancellation token (optional).</param>
+        /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
         public static List<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
             int same = 0, double fatol = 0.0, double frtol = 0.0, TimeSpan time = default,
             Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
@@ -715,17 +716,18 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// 
+        /// Finds the global minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see>
+        /// in a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <param name="time"></param>
-        /// <param name="df"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="lower">The lower x boundary values (optional).</param>
+        /// <param name="upper">The upper x boundary values (optional).</param>
+        /// <param name="time">Stop after this time.</param>
+        /// <param name="df">The derivative function (optional).</param>
+        /// <param name="cancellationToken">Cancellation token (optional).</param>
+        /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
         public static List<MinimumIteration> Minimum_Global(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
             TimeSpan time = default, Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
             => Minimum_Global(atol, rtol, f, lower, upper, time: time, df: df, cancellationToken: cancellationToken);
@@ -801,20 +803,21 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// 
+        /// Finds the global minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see>
+        /// in a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <param name="time"></param>
-        /// <param name="same"></param>
-        /// <param name="fatol"></param>
-        /// <param name="frtol"></param>
-        /// <param name="df"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="lower">The lower x boundary values (optional).</param>
+        /// <param name="upper">The upper x boundary values (optional).</param>
+        /// <param name="fatol">The absolute tolerance of the function value used to check if the minimum is the same.</param>
+        /// <param name="frtol">The relative tolerance of the function value used to check if the minimum is the same.</param>
+        /// <param name="same">Stop after this number of same function values.</param>
+        /// <param name="time">Stop after this time.</param>
+        /// <param name="df">The derivative function (optional).</param>
+        /// <param name="cancellationToken">Cancellation token (optional).</param>
+        /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
         public static async Task<List<MinimumIteration>> Minimum_GlobalAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
             int same = 0, double fatol = 0.0, double frtol = 0.0, TimeSpan time = default,
             Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
@@ -839,17 +842,18 @@ namespace MKLNET
         }
 
         /// <summary>
-        /// 
+        /// Finds the global minimum of n dimensional function f using <see href="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</see>
+        /// in a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Accurate to tol x_i = atol + rtol * x_i.
         /// </summary>
-        /// <param name="atol"></param>
-        /// <param name="rtol"></param>
-        /// <param name="f"></param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <param name="time"></param>
-        /// <param name="df"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="atol">The absolute tolerance of the minimum position required.</param>
+        /// <param name="rtol">The relative tolerance of the minimum position required.</param>
+        /// <param name="f">The n dimensional function to find the minimum of.</param>
+        /// <param name="lower">The lower x boundary values (optional).</param>
+        /// <param name="upper">The upper x boundary values (optional).</param>
+        /// <param name="time">Stop after this time.</param>
+        /// <param name="df">The derivative function (optional).</param>
+        /// <param name="cancellationToken">Cancellation token (optional).</param>
+        /// <returns>A sequence of grid search calculations with ever reducing spacing.</returns>
         public static Task<List<MinimumIteration>> Minimum_GlobalAsync(double atol, double rtol, Func<double[], double> f, double[] lower, double[] upper,
             TimeSpan time = default, Action<double[], double[]>? df = null, CancellationToken cancellationToken = default)
             => Minimum_GlobalAsync(atol, rtol, f, lower, upper, time: time, df: df, cancellationToken: cancellationToken);

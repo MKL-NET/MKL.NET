@@ -21,7 +21,7 @@ Added Minimum_Global algorithm returning a sequence of parallel grid BFGS search
 Added upper and lower boundary condition parameters to Minimum.
 Removed Bounded penalty function.
         </PackageReleaseNotes>
-        <Version>1.0.0-rc1</Version>
+        <Version>1.0.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MKL.NET\MKL.NET.csproj" />
