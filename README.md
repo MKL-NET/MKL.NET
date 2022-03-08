@@ -81,7 +81,7 @@ Full use of MKL.NET will be made to improve performance. Algorithms will be perf
 - Minimum - in N dimensions. Intuative tolerance parameters. Optimised no array allocation in main loop using in place symmetric MKL rank-k, rank-2k functions.  
             Should scale well with the number of dimensions. ~ 50-70% fewer function calls than other BFGS algorithms.  
 - CurveFit and non-linear LeastSquares - helper functions based on Minimum.  
-- Minimum_Global - global minimum algorithm in N dimensions returning a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches.
+- Minimum_Global - global minimum algorithm in N dimensions returning a sequence of parallel grid BFGS searches ever reducing the spacing between prior searches. Further details [here](https://anthonylloyd.github.io/blog/2022/03/08/minimum-global). 
 
 ## MKL.NET.Statistics
 
