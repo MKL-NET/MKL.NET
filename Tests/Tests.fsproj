@@ -6,8 +6,8 @@
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Update="FSharp.Core" Version="6.0.1" />
-        <PackageReference Include="CsCheck" Version="2.6.0" />
+        <PackageReference Update="FSharp.Core" Version="6.0.5" />
+        <PackageReference Include="CsCheck" Version="2.9.1" />
         <!--<PackageReference Include="MKL.NET" Version="1.1.0" />-->
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />
         <ProjectReference Include="../MKL.NET.Matrix/MKL.NET.Matrix.csproj" />
@@ -21,7 +21,7 @@
         <PackageReference Include="MKL.NET.linux-x64" Version="2022.0.1.117" />
         <PackageReference Include="MKL.NET.linux-x86" Version="2022.0.1.117" />
         <PackageReference Include="MKL.NET.osx-x64" Version="2022.0.0.105" />
-        <PackageReference Include="MathNet.Numerics" Version="5.0.0-alpha02" />
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
         <Compile Include="TestFramework.fs" />
         <Compile Include="Check.fs" />
         <Compile Include="Math.fs" />

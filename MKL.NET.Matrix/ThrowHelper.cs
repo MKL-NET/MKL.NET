@@ -12,23 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+namespace MKLNET;
+
 using System;
 using System.Runtime.CompilerServices;
 
-namespace MKLNET
+public static class ThrowHelper
 {
-    public static class ThrowHelper
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void ThrowIncorrectDimensionsForOperation()
     {
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowIncorrectDimensionsForOperation()
-        {
-            throw new Exception("Incorrect Dimensions For Operation");
-        }
+        throw new Exception("Incorrect Dimensions For Operation");
+    }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void Check(int i)
-        {
-            if (i != 0) throw new Exception("MKL Error code: " + i);
-        }
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void Check(int i)
+    {
+        if (i != 0) throw new Exception("MKL Error code: " + i);
     }
 }
