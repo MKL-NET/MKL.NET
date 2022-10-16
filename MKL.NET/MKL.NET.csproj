@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>10.0</LangVersion>
         <Nullable>enable</Nullable>
@@ -42,5 +43,12 @@ Bug fix for MKL.NET.Native dynamic linking.
         <Content Condition="Exists('../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll') And $(RuntimeIdentifier)=='win-x86'" Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" />
         <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so') And $(RuntimeIdentifier)=='linux-x64'" Include="../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so" Pack="false" CopyToOutputDirectory="PreserveNewest" />
         <Content Condition="Exists('../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib') And $(RuntimeIdentifier)=='osx-x64'" Include="../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib" Pack="false" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="System.Memory" Version="4.5.5" />
+
+      <ProjectReference Include="..\MKL.NET.WrapperGenerator\MKL.NET.WrapperGenerator.csproj"
+                          ReferenceOutputAssembly="false"
+                          OutputItemType="Analyzer" />
     </ItemGroup>
 </Project>

@@ -45,6 +45,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4AE7
 		Scripts\Package-Native.ps1 = Scripts\Package-Native.ps1
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKL.NET.WrapperGenerator", "MKL.NET.WrapperGenerator\MKL.NET.WrapperGenerator.csproj", "{D3A94D53-17FF-4D74-A27B-75627597D72E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKL.NET.WrapperGenerator.Tests", "MKL.NET.WrapperGenerator.Tests\MKL.NET.WrapperGenerator.Tests.csproj", "{6D67EBAD-786B-4CE5-B228-23C6AA7E6E23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +103,14 @@ Global
 		{B71288EC-41DF-439D-B814-8F5F029E702C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B71288EC-41DF-439D-B814-8F5F029E702C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B71288EC-41DF-439D-B814-8F5F029E702C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3A94D53-17FF-4D74-A27B-75627597D72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3A94D53-17FF-4D74-A27B-75627597D72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3A94D53-17FF-4D74-A27B-75627597D72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3A94D53-17FF-4D74-A27B-75627597D72E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D67EBAD-786B-4CE5-B228-23C6AA7E6E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D67EBAD-786B-4CE5-B228-23C6AA7E6E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D67EBAD-786B-4CE5-B228-23C6AA7E6E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D67EBAD-786B-4CE5-B228-23C6AA7E6E23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

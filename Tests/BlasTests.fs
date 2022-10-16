@@ -1163,7 +1163,7 @@ let blas_like =
                 let col, row = Math.DivRem(i,rows)
                 a * x[col+row*cols]
             )
-            Blas.imatcopy(LayoutChar.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
+            Blas.imatcopy(LayoutChar.RowMajor,TransChar.Yes, (rows : nativeint), (cols : nativeint), a, x, (cols : nativeint), (rows : nativeint))
             Check.close High expected x
         }
 
@@ -1176,7 +1176,7 @@ let blas_like =
                 let col, row = Math.DivRem(i,rows)
                 a * x[col+row*cols]
             )
-            Blas.imatcopy(LayoutChar.RowMajor,TransChar.Yes,rows,cols,a,x,cols,rows)
+            Blas.imatcopy(LayoutChar.RowMajor,TransChar.Yes, (rows : nativeint), (cols:nativeint), a, x, (cols : nativeint), (rows : nativeint))
             Check.close High expected x
         }
 
