@@ -37,7 +37,7 @@ The correct native libraries will be included and loaded at runtime.
 - Operations such as scale, transpose, +, * are combined into single MKL calls.
 - Intermediate matrices are disposed (or reused) automatically.
 - ArrayPool underlying memory model using IDisposable and Finalizers.
-- Uses the Pinned Object Heap for net5.0.
+- Uses the Pinned Object Heap for net6.0.
 - All these combined result in it being much faster than other matrix libraries.
 
 The following example only results in one new matrix r (using ArrayPool) without mutating inputs.

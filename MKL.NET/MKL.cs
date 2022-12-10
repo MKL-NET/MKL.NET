@@ -113,9 +113,4 @@ public static class MKL
 #else
     internal const string NATIVE_DLL = "MKL.NET.Native.dll";
 #endif
-
-    [DllImport(NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    static extern int test(int i);
-
-    public static int Test(int i) => test(i);
 }

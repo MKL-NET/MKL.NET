@@ -766,8 +766,8 @@ public static partial class Optimize
 
         if (fa * fb > 0.0)
         {
-            string str = "Invalid starting bracket. Function must be above target on one end and below target on other end.";
-            string msg = string.Format("{0} Target: {1}. f(left) = {2}. f(right) = {3}", str, 0, fa + 0, fb + 0);
+            const string str = "Invalid starting bracket. Function must be above target on one end and below target on other end.";
+            string msg = $"{str} Target: {0}. f(left) = {fa}. f(right) = {fb}";
             throw new ArgumentException(msg);
         }
 
@@ -830,7 +830,9 @@ public static partial class Optimize
                 goto label_ext;
         }
         else
+        {
             return xmax;
+        }
     }
 
     /// <summary>
@@ -1004,7 +1006,9 @@ public static partial class Optimize
             c = u - 2 * fu / (fb - fa) * (b - a);
 
             if (Math.Abs(c - u) > 0.5 * (b - a))
+            {
                 c = Bisect(a, b);
+            }
             else
             {
                 if (IsClose(c, u, EPS, 0))

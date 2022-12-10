@@ -216,7 +216,6 @@ public static partial class Optimize
         }
     }
 
-
     /// <summary>
     /// Brackets a minimum for f given two starting points a and b so that f(a) &lt;= f(b) &gt;= f(c).
     /// </summary>
@@ -686,9 +685,9 @@ public static partial class Optimize
     /// <param name="f">The n dimensional function to find the minimum of.</param>
     /// <param name="lower">The lower x boundary values (optional).</param>
     /// <param name="upper">The upper x boundary values (optional).</param>
+    /// <param name="same">Stop after this number of same function values.</param>
     /// <param name="fatol">The absolute tolerance of the function value used to check if the minimum is the same.</param>
     /// <param name="frtol">The relative tolerance of the function value used to check if the minimum is the same.</param>
-    /// <param name="same">Stop after this number of same function values.</param>
     /// <param name="time">Stop after this time.</param>
     /// <param name="df">The derivative function (optional).</param>
     /// <param name="cancellationToken">Cancellation token (optional).</param>
@@ -709,7 +708,11 @@ public static partial class Optimize
             {
                 if (++nSame == same) return iterations;
             }
-            else nSame = 1;
+            else
+            {
+                nSame = 1;
+            }
+
             pF = i.Fmin;
         }
         return iterations;
@@ -811,9 +814,9 @@ public static partial class Optimize
     /// <param name="f">The n dimensional function to find the minimum of.</param>
     /// <param name="lower">The lower x boundary values (optional).</param>
     /// <param name="upper">The upper x boundary values (optional).</param>
+    /// <param name="same">Stop after this number of same function values.</param>
     /// <param name="fatol">The absolute tolerance of the function value used to check if the minimum is the same.</param>
     /// <param name="frtol">The relative tolerance of the function value used to check if the minimum is the same.</param>
-    /// <param name="same">Stop after this number of same function values.</param>
     /// <param name="time">Stop after this time.</param>
     /// <param name="df">The derivative function (optional).</param>
     /// <param name="cancellationToken">Cancellation token (optional).</param>
@@ -835,7 +838,11 @@ public static partial class Optimize
             {
                 if (++nSame == same) return iterations;
             }
-            else nSame = 1;
+            else
+            {
+                nSame = 1;
+            }
+
             pF = i.Fmin;
         }
         return iterations;

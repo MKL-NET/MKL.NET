@@ -106,7 +106,6 @@ public class MatrixScale : MatrixExpression
     }
     public override matrix Evaluate()
     {
-
         if (E is MatrixTranspose mt)
         {
             var a = mt.E.Evaluate();
@@ -169,7 +168,7 @@ public class MatrixTranspose : MatrixExpression
 public abstract class MatrixUnary : MatrixExpression
 {
     readonly MatrixExpression E;
-    public MatrixUnary(MatrixExpression a) => E = a;
+    protected MatrixUnary(MatrixExpression a) => E = a;
     protected abstract void Evaluate(matrix a, matrix r);
     public override matrix Evaluate()
     {
@@ -183,7 +182,7 @@ public abstract class MatrixUnary : MatrixExpression
 public abstract class MatrixBinary : MatrixExpression
 {
     readonly MatrixExpression Ea, Eb;
-    public MatrixBinary(MatrixExpression a, MatrixExpression b)
+    protected MatrixBinary(MatrixExpression a, MatrixExpression b)
     {
         Ea = a;
         Eb = b;

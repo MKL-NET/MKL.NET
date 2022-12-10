@@ -1384,7 +1384,6 @@ public static partial class Vml
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "vdFmaxI")]
         public static extern void FmaxI(int n, double* a, int inca, double* b, int incb, double* r, int incr);
 
-
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "vmsFmaxI")]
         public static extern void FmaxI(int n, float* a, int inca, float* b, int incb, float* r, int incr, VmlMode mode);
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "vmdFmaxI")]

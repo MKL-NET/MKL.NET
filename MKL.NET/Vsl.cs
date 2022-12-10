@@ -701,7 +701,6 @@ public unsafe static class Vsl
         return new VsldSSTask { Ptr = task, Allocated = pp, Pinned = pinned };
     }
 
-
     [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     static extern int vslsSSNewTask(IntPtr* task, IntPtr p, IntPtr n, IntPtr xstorage, IntPtr x, IntPtr w, IntPtr indices);
 

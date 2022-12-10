@@ -4,14 +4,14 @@ using System.Reflection;
 using Xunit;
 using FluentAssertions;
 
-namespace MKLNET.WrapperGenerator.Tests
+namespace MKLNET.WrapperGenerator.Tests;
+
+public class GeneratorTest
 {
-    public class GeneratorTest
+    [Fact]
+    public void GeneratorShouldAcceptPinvokeStatementAndNotProduceErrors()
     {
-        [Fact]
-        public void GeneratorShouldAcceptPinvokeStatementAndNotProduceErrors()
-        {
-            var inputCompilation = CreateCompilation(@"
+        var inputCompilation = CreateCompilation(@"
 using System.Runtime.InteropServices;
 
 namespace MKLNET;
@@ -31,32 +31,31 @@ public static partial class BlasOption2
 }
 ");
 
-            var generator = new MKLNET.WrapperGenerator.WrapperGenerator();
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
+        var generator = new WrapperGenerator();
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
-            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
 
-            diagnostics.Should().BeEmpty();
-            outputCompilation.SyntaxTrees.Should().HaveCount(2); // input and generated
-            outputCompilation.GetDiagnostics().Should().BeEmpty();
+        diagnostics.Should().BeEmpty();
+        outputCompilation.SyntaxTrees.Should().HaveCount(2); // input and generated
+        outputCompilation.GetDiagnostics().Should().BeEmpty();
 
-            var runResult = driver.GetRunResult();
+        var runResult = driver.GetRunResult();
 
-            runResult.GeneratedTrees.Should().HaveCount(1);
-            runResult.Diagnostics.Should().BeEmpty();
+        runResult.GeneratedTrees.Should().HaveCount(1);
+        runResult.Diagnostics.Should().BeEmpty();
 
-            var generatorResult = runResult.Results[0];
+        var generatorResult = runResult.Results[0];
 
-            generatorResult.Generator.Should().BeSameAs(generator);
-            generatorResult.Diagnostics.Should().BeEmpty();
-            generatorResult.GeneratedSources.Should().HaveCount(1);
-            generatorResult.Exception.Should().BeNull();
-        }
-
-        private static Compilation CreateCompilation(string source)
-            => CSharpCompilation.Create("compilation",
-                new[] { CSharpSyntaxTree.ParseText(source) },
-                new[] { MetadataReference.CreateFromFile(typeof(Binder).GetTypeInfo().Assembly.Location) },
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, allowUnsafe: true, warningLevel: 0));
+        generatorResult.Generator.Should().BeSameAs(generator);
+        generatorResult.Diagnostics.Should().BeEmpty();
+        generatorResult.GeneratedSources.Should().HaveCount(1);
+        generatorResult.Exception.Should().BeNull();
     }
+
+    private static Compilation CreateCompilation(string source)
+        => CSharpCompilation.Create("compilation",
+            new[] { CSharpSyntaxTree.ParseText(source) },
+            new[] { MetadataReference.CreateFromFile(typeof(Binder).GetTypeInfo().Assembly.Location) },
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, allowUnsafe: true, warningLevel: 0));
 }

@@ -54,7 +54,7 @@ jobs:
           name: win-x86
           path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
       - name: Test
-        run: dotnet run --project Tests -c Release -f net5.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net6.0 -r win-x86 -- -perf --info --nost --time 60 --wait 10 --skip
   windows_framework_64:
       runs-on: windows-latest
       env:

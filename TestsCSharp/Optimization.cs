@@ -88,7 +88,7 @@ public static class Optimization
             yield return (
                 x => (1 + Sqr(1 - n)) * x - Sqr(1 - n * x),
                 x => Sqr(n) * (1 - 2 * x) + 2,
-                x => Sqr(n) * -2,
+                _ => Sqr(n) * -2,
                 0,
                 1
             );
@@ -103,7 +103,7 @@ public static class Optimization
         foreach (var n in new[] { 1, 2, 4, 5, 8, 15, 20 })
             yield return (
                 x => (1 + Pow(1 - n, 4)) * x - Pow(1 - n * x, 4),
-                x => (1 + Pow(1 - n, 4)) + 4 * n * Pow(1 - n * x, 3),
+                x => 1 + Pow(1 - n, 4) + 4 * n * Pow(1 - n * x, 3),
                 x => -12 * Sqr(n) * Pow(1 - n * x, 2),
                 0,
                 1

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
         <LangVersion>10.0</LangVersion>
         <Nullable>enable</Nullable>
         <WarningLevel>5</WarningLevel>
@@ -19,7 +19,7 @@ Performance and memory optimised matrix algebra library based on cross platform 
 - Operations such as scale, transpose, +, * are combined into single MKL calls.
 - Intermediate matrices are disposed (or reused) automatically.
 - ArrayPool underlying memory model using IDisposable and Finalizers.
-- Uses the Pinned Object Heap for net5.0.
+- Uses the Pinned Object Heap for net6.0.
         </Description>
         <PackageReleaseNotes>
 Version updating to 1.0.0 with MKL.NET.Optimization.

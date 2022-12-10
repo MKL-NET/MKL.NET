@@ -96,8 +96,8 @@ public class P2QuantileEstimatorOriginal
 
     private double Parabolic(int i, double d)
     {
-        if(d == 1.0)
-            return q[i] +  (
+        if (d == 1.0)
+            return q[i] + (
                 (n[i] - n[i - 1] + 1) * (q[i + 1] - q[i]) / (n[i + 1] - n[i]) +
                 (n[i + 1] - n[i] - 1) * (q[i] - q[i - 1]) / (n[i] - n[i - 1])
             ) / (n[i + 1] - n[i - 1]);

@@ -91,8 +91,6 @@ public static partial class Blas
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssctr")]
         public static extern void sctr(int N, float* X, int* indx, float* Y);
 
-
-
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dswap")]
         public static extern void swap(int N, double* X, int incX, double* Y, int incY);
 
@@ -116,8 +114,6 @@ public static partial class Blas
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsctr")]
         public static extern void sctr(int N, double* X, int* indx, double* Y);
-
-
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_srotmg")]
         public static extern void rotmg(ref float d1, ref float d2, ref float x1, float y1, float* param);

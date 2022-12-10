@@ -16,9 +16,6 @@ namespace MKLNET;
 
 using System.Security;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-
-#pragma warning disable IDE1006 // Naming Styles
 
 [SuppressUnmanagedCodeSecurity]
 public static partial class Feast

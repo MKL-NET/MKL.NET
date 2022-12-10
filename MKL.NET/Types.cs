@@ -135,27 +135,27 @@ public enum VmlStatus
 }
 
 #pragma warning disable IDE0051 // Remove unused private members
-public struct VslStream
+public readonly struct VslStream
 {
     readonly IntPtr Ptr;
 }
 
-public struct VsldConvTask
+public readonly struct VsldConvTask
 {
     readonly IntPtr Ptr;
 }
 
-public struct VslsConvTask
+public readonly struct VslsConvTask
 {
     readonly IntPtr Ptr;
 }
 
-public struct VsldCorrTask
+public readonly struct VsldCorrTask
 {
     readonly IntPtr Ptr;
 }
 
-public struct VslsCorrTask
+public readonly struct VslsCorrTask
 {
     readonly IntPtr Ptr;
 }

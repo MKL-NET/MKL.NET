@@ -86,7 +86,7 @@ internal class ArrayPool<T>
 
             // The pool was exhausted for this buffer size.  Allocate a new buffer with a size corresponding
             // to the appropriate bucket.
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
             buffer = GC.AllocateArray<T>(_buckets[index]._bufferLength, true);
 #else
             buffer = new T[_buckets[index]._bufferLength];
@@ -96,7 +96,7 @@ internal class ArrayPool<T>
         {
             // The request was for a size too large for the pool.  Allocate an array of exactly the requested length.
             // When it's returned to the pool, we'll simply throw it away.
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
             buffer = GC.AllocateArray<T>(minimumLength, true);
 #else
             buffer = new T[minimumLength];
@@ -181,7 +181,7 @@ internal class ArrayPool<T>
             // for that slot, in which case we should do so now.
             if (allocateBuffer)
             {
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
                 buffer = GC.AllocateArray<T>(_bufferLength, true);
 #else
                 buffer = new T[_bufferLength];
@@ -220,7 +220,7 @@ internal class ArrayPool<T>
     }
 }
 
-internal class Pool
+internal static class Pool
 {
     internal static ArrayPool<int> Int = new(1024, 3);
 }

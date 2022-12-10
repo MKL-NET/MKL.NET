@@ -90,12 +90,11 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
+    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0, double jeps = 1e-12)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -106,7 +105,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -146,11 +145,10 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -159,7 +157,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
@@ -212,12 +210,11 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
+    public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0, double jeps = 1e-12)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -226,7 +223,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -258,11 +255,10 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+    public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -271,7 +267,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = dtrnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
@@ -326,12 +322,11 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
+    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0, double jeps = 1e-12)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -342,7 +337,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -384,11 +379,10 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+    public static SolveResult NonLinearLeastSquares(Action<double[], double[]> F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -397,7 +391,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
@@ -456,12 +450,11 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0, double jeps = 1e-12)
+    public static SolveResult NonLinearLeastSquares(SolveFn F, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0, double jeps = 1e-12)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -472,7 +465,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -506,11 +499,10 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter1 = 1000, int iter2 = 100, double rs = 0.0)
+    public static SolveResult NonLinearLeastSquares(SolveFn F, Action<double[], double[]> J, double[] x, double[] lower, double[] upper, double[] Fx, double[] eps, int iter = 1000, double rs = 0.0)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -521,7 +513,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = dtrnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = dtrnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
@@ -578,12 +570,11 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
+    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f, float jeps = 1e-7f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -594,7 +585,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -634,11 +625,10 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -647,7 +637,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
@@ -700,12 +690,11 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
+    public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f, float jeps = 1e-7f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -714,7 +703,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -746,11 +735,10 @@ public unsafe static class Solve
     /// <param name="x">input values, initial guess to start, solution on exit</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+    public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -759,7 +747,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter1, &iter1, &rs);
+            var status = strnlsp_init(&handle, &n, &m, xp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = strnlsp_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
@@ -814,12 +802,11 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
+    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f, float jeps = 1e-7f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -830,7 +817,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -872,11 +859,10 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+    public static SolveResult NonLinearLeastSquares(Action<float[], float[]> F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -885,7 +871,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
@@ -944,12 +930,11 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <param name="jeps">precision of the Jacobian matrix calculation</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f, float jeps = 1e-7f)
+    public static SolveResult NonLinearLeastSquares(SolveFnF F, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f, float jeps = 1e-7f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -960,7 +945,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             while (status == SUCCESS && (status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
             {
                 if (request == CALCULATE_FUNCTION)
@@ -994,11 +979,10 @@ public unsafe static class Solve
     /// <param name="upper">x upper bound</param>
     /// <param name="Fx">function values, just zero to start, solution on exit</param>
     /// <param name="eps">precisions for stop-criteria, defaults to all 1e-9</param>
-    /// <param name="iter1">maximum number of iterations, defaults of 1000</param>
-    /// <param name="iter2">maximum number of iterations of calculation of trial-step, default of 100</param>
+    /// <param name="iter">maximum number of iterations, defaults of 1000</param>
     /// <param name="rs">initial step bound (0.1 - 100.0 recommended), default of 0.0 which MKL defaults as 100.0</param>
     /// <returns>stop criterion</returns>
-    public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter1 = 1000, int iter2 = 100, float rs = 0.0f)
+    public static SolveResult NonLinearLeastSquares(SolveFnF F, Action<float[], float[]> J, float[] x, float[] lower, float[] upper, float[] Fx, float[] eps, int iter = 1000, float rs = 0.0f)
     {
         int n = x.Length;
         int m = Fx.Length;
@@ -1007,7 +991,7 @@ public unsafe static class Solve
         {
             IntPtr handle;
             int request;
-            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter1, &iter1, &rs);
+            var status = strnlspbc_init(&handle, &n, &m, xp, lowerp, upperp, epsp, &iter, &iter, &rs);
             if (status == SUCCESS)
                 while ((status = strnlspbc_solve(&handle, Fxp, jacp, &request)) == SUCCESS)
                 {
