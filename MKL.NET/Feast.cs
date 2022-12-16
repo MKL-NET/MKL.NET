@@ -26,9 +26,9 @@ public static partial class Feast
         public static extern void init(int* fpm);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dfeast_syev")]
-        public static extern void syev(ref char uplo, ref int n, double* a, ref int lda, int* fpm, ref double epsout, ref int loop, ref double emin, ref double emax, ref int m0, double* e, double* x, ref int m, double* res, ref int info);
+        public static extern void syev(ref char uplo, ref int n, /* const */ [In] double* a, ref int lda, int* fpm, ref double epsout, ref int loop, ref double emin, ref double emax, ref int m0, double* e, double* x, ref int m, double* res, ref int info);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "sfeast_syev")]
-        public static extern void syev(ref char uplo, ref int n, float* a, ref int lda, int* fpm, ref float epsout, ref int loop, ref float emin, ref float emax, ref int m0, float* e, float* x, ref int m, float* res, ref int info);
+        public static extern void syev(ref char uplo, ref int n, /* const */ [In] float* a, ref int lda, int* fpm, ref float epsout, ref int loop, ref float emin, ref float emax, ref int m0, float* e, float* x, ref int m, float* res, ref int info);
     }
 }

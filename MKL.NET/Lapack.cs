@@ -48,61 +48,61 @@ public static partial class Lapack
     {
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlange")]
         public static extern double lange(Layout layout, Norm norm, int m,
-            int n, double* a, int lda);
+            int n, /* const */ [In] double* a, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlange_work")]
         public static extern double lange(Layout layout, Norm norm, int m,
-            int n, double* a, int lda,
+            int n, /* const */ [In] double* a, int lda,
             double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlansy")]
         public static extern double lansy(Layout layout, Norm norm, UpLoChar uplo, int n,
-            double* a, int lda);
+            /* const */ [In] double* a, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlansy_work")]
         public static extern double lansy(Layout layout, Norm norm, UpLoChar uplo,
-            int n, double* a, int lda,
+            int n, /* const */ [In] double* a, int lda,
             double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlantr")]
         public static extern double lantr(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int m, int n, double* a,
+            int m, int n, /* const */ [In] double* a,
             int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlantr_work")]
         public static extern double lantr(Layout layout, Norm norm, UpLoChar uplo,
             DiagChar diag, int m, int n,
-            double* a, int lda, double* work);
+            /* const */ [In] double* a, int lda, double* work);
 
         
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slange")]
         public static extern float lange(Layout layout, Norm norm, int m,
-            int n, float* a, int lda);
+            int n, /* const */ [In] float* a, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slange_work")]
         public static extern float lange(Layout layout, Norm norm, int m,
-            int n, float* a, int lda,
+            int n, /* const */ [In] float* a, int lda,
             float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slansy")]
         public static extern float lansy(Layout layout, Norm norm, UpLoChar uplo, int n,
-            float* a, int lda);
+            /* const */ [In] float* a, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slansy_work")]
         public static extern float lansy(Layout layout, Norm norm, UpLoChar uplo,
-            int n, float* a, int lda,
+            int n, /* const */ [In] float* a, int lda,
             float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slantr")]
         public static extern float lantr(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int m, int n, float* a,
+            int m, int n, /* const */ [In] float* a,
             int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slantr_work")]
         public static extern float lantr(Layout layout, Norm norm, UpLoChar uplo,
             DiagChar diag, int m, int n,
-            float* a, int lda, float* work);
+            /* const */ [In] float* a, int lda, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dbbcsd")]
         public static extern int bbcsd(Layout layout, char jobu1, char jobu2,
@@ -172,7 +172,7 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ddisna")]
         public static extern int disna(char job, int m, int n,
-            double* d, double* sep);
+            /* const */ [In] double* d, double* sep);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbbrd")]
         public static extern int gbbrd(Layout layout, char vect, int m,
@@ -192,43 +192,43 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbcon")]
         public static extern int gbcon(Layout layout, Norm norm, int n,
-            int kl, int ku, double* ab,
+            int kl, int ku, /* const */ [In] double* ab,
             int ldab, int* ipiv,
             double anorm, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbcon_work")]
         public static extern int gbcon(Layout layout, Norm norm, int n,
-            int kl, int ku, double* ab,
+            int kl, int ku, /* const */ [In] double* ab,
             int ldab, int* ipiv,
             double anorm, double* rcond, double* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbequ")]
         public static extern int gbequ(Layout layout, int m, int n,
-            int kl, int ku, double* ab,
+            int kl, int ku, /* const */ [In] double* ab,
             int ldab, double* r, double* c,
             double* rowcnd, double* colcnd, double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbequb")]
         public static extern int gbequb(Layout layout, int m, int n,
-            int kl, int ku, double* ab,
+            int kl, int ku, /* const */ [In] double* ab,
             int ldab, double* r, double* c,
             double* rowcnd, double* colcnd, double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbrfs")]
         public static extern int gbrfs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
-            double* ab, int ldab, double* afb,
+            /* const */ [In] double* ab, int ldab, /* const */ [In] double* afb,
             int ldafb, int* ipiv,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbrfs_work")]
         public static extern int gbrfs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
-            double* ab, int ldab,
-            double* afb, int ldafb,
-            int* ipiv, double* b,
+            /* const */ [In] double* ab, int ldab,
+            /* const */ [In] double* afb, int ldafb,
+            int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr, double* work,
             int* iwork);
@@ -236,10 +236,10 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbrfsx")]
         public static extern int gbrfsx(Layout layout, TransChar trans, char equed,
             int n, int kl, int ku,
-            int nrhs, double* ab, int ldab,
-            double* afb, int ldafb,
-            int* ipiv, double* r,
-            double* c, double* b, int ldb,
+            int nrhs, /* const */ [In] double* ab, int ldab,
+            /* const */ [In] double* afb, int ldafb,
+            int* ipiv, /* const */ [In] double* r,
+            /* const */ [In] double* c, /* const */ [In] double* b, int ldb,
             double* x, int ldx, double* rcond,
             double* berr, int n_err_bnds,
             double* err_bnds_norm, double* err_bnds_comp,
@@ -248,11 +248,11 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbrfsx_work")]
         public static extern int gbrfsx(Layout layout, TransChar trans, char equed,
             int n, int kl, int ku,
-            int nrhs, double* ab,
-            int ldab, double* afb,
+            int nrhs, /* const */ [In] double* ab,
+            int ldab, /* const */ [In] double* afb,
             int ldafb, int* ipiv,
-            double* r, double* c,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* r, /* const */ [In] double* c,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* rcond, double* berr,
             int n_err_bnds, double* err_bnds_norm,
             double* err_bnds_comp, int nparams,
@@ -319,12 +319,12 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgbtrs")]
         public static extern int gbtrs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
-            double* ab, int ldab,
+            /* const */ [In] double* ab, int ldab,
             int* ipiv, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgebak")]
         public static extern int gebak(Layout layout, char job, char side, int n,
-            int ilo, int ihi, double* scale,
+            int ilo, int ihi, /* const */ [In] double* scale,
             int m, double* v, int ldv);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgebal")]
@@ -345,23 +345,23 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgecon")]
         public static extern int gecon(Layout layout, Norm norm, int n,
-            double* a, int lda, double anorm,
+            /* const */ [In] double* a, int lda, double anorm,
             double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgecon_work")]
         public static extern int gecon(Layout layout, Norm norm, int n,
-            double* a, int lda, double anorm,
+            /* const */ [In] double* a, int lda, double anorm,
             double* rcond, double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgeequ")]
         public static extern int geequ(Layout layout, int m, int n,
-            double* a, int lda, double* r,
+            /* const */ [In] double* a, int lda, double* r,
             double* c, double* rowcnd, double* colcnd,
             double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgeequb")]
         public static extern int geequb(Layout layout, int m, int n,
-            double* a, int lda, double* r,
+            /* const */ [In] double* a, int lda, double* r,
             double* c, double* rowcnd, double* colcnd,
             double* amax);
 
@@ -493,15 +493,15 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgemqrt")]
         public static extern int gemqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int nb, double* v, int ldv,
-            double* t, int ldt, double* c,
+            int nb, /* const */ [In] double* v, int ldv,
+            /* const */ [In] double* t, int ldt, double* c,
             int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgemqrt_work")]
         public static extern int gemqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int nb, double* v, int ldv,
-            double* t, int ldt, double* c,
+            int nb, /* const */ [In] double* v, int ldv,
+            /* const */ [In] double* t, int ldt, double* c,
             int ldc, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgeqlf")]
@@ -582,27 +582,27 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgerfs")]
         public static extern int gerfs(Layout layout, TransChar trans, int n,
-            int nrhs, double* a, int lda,
-            double* af, int ldaf,
-            int* ipiv, double* b,
+            int nrhs, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* af, int ldaf,
+            int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgerfs_work")]
         public static extern int gerfs(Layout layout, TransChar trans, int n,
-            int nrhs, double* a,
-            int lda, double* af,
+            int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af,
             int ldaf, int* ipiv,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr,
             double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgerfsx")]
         public static extern int gerfsx(Layout layout, TransChar trans, char equed,
-            int n, int nrhs, double* a,
-            int lda, double* af, int ldaf,
-            int* ipiv, double* r,
-            double* c, double* b, int ldb,
+            int n, int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af, int ldaf,
+            int* ipiv, /* const */ [In] double* r,
+            /* const */ [In] double* c, /* const */ [In] double* b, int ldb,
             double* x, int ldx, double* rcond,
             double* berr, int n_err_bnds,
             double* err_bnds_norm, double* err_bnds_comp,
@@ -610,11 +610,11 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgerfsx_work")]
         public static extern int gerfsx(Layout layout, TransChar trans, char equed,
-            int n, int nrhs, double* a,
-            int lda, double* af,
+            int n, int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af,
             int ldaf, int* ipiv,
-            double* r, double* c,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* r, /* const */ [In] double* c,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* rcond, double* berr,
             int n_err_bnds, double* err_bnds_norm,
             double* err_bnds_comp, int nparams,
@@ -757,13 +757,13 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgetrs")]
         public static extern int getrs(Layout layout, TransChar trans, int n,
-            int nrhs, double* a, int lda,
+            int nrhs, /* const */ [In] double* a, int lda,
             int* ipiv, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dggbak")]
         public static extern int ggbak(Layout layout, char job, char side, int n,
-            int ilo, int ihi, double* lscale,
-            double* rscale, int m, double* v,
+            int ilo, int ihi, /* const */ [In] double* lscale,
+            /* const */ [In] double* rscale, int m, double* v,
             int ldv);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dggbal")]
@@ -979,33 +979,33 @@ public static partial class Lapack
             int* iwork, double* tau, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgtcon")]
-        public static extern int gtcon(Norm norm, int n, double* dl,
-            double* d, double* du, double* du2,
+        public static extern int gtcon(Norm norm, int n, /* const */ [In] double* dl,
+            /* const */ [In] double* d, /* const */ [In] double* du, /* const */ [In] double* du2,
             int* ipiv, double anorm, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgtcon_work")]
-        public static extern int gtcon(Norm norm, int n, double* dl,
-            double* d, double* du,
-            double* du2, int* ipiv,
+        public static extern int gtcon(Norm norm, int n, /* const */ [In] double* dl,
+            /* const */ [In] double* d, /* const */ [In] double* du,
+            /* const */ [In] double* du2, int* ipiv,
             double anorm, double* rcond, double* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgtrfs")]
         public static extern int gtrfs(Layout layout, TransChar trans, int n,
-            int nrhs, double* dl, double* d,
-            double* du, double* dlf,
-            double* df, double* duf,
-            double* du2, int* ipiv,
-            double* b, int ldb, double* x,
+            int nrhs, /* const */ [In] double* dl, /* const */ [In] double* d,
+            /* const */ [In] double* du, /* const */ [In] double* dlf,
+            /* const */ [In] double* df, /* const */ [In] double* duf,
+            /* const */ [In] double* du2, int* ipiv,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgtrfs_work")]
         public static extern int gtrfs(Layout layout, TransChar trans, int n,
-            int nrhs, double* dl,
-            double* d, double* du,
-            double* dlf, double* df,
-            double* duf, double* du2,
-            int* ipiv, double* b,
+            int nrhs, /* const */ [In] double* dl,
+            /* const */ [In] double* d, /* const */ [In] double* du,
+            /* const */ [In] double* dlf, /* const */ [In] double* df,
+            /* const */ [In] double* duf, /* const */ [In] double* du2,
+            int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr, double* work,
             int* iwork);
@@ -1017,19 +1017,19 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgtsvx")]
         public static extern int gtsvx(Layout layout, char fact, TransChar trans,
-            int n, int nrhs, double* dl,
-            double* d, double* du, double* dlf,
+            int n, int nrhs, /* const */ [In] double* dl,
+            /* const */ [In] double* d, /* const */ [In] double* du, double* dlf,
             double* df, double* duf, double* du2,
-            int* ipiv, double* b, int ldb,
+            int* ipiv, /* const */ [In] double* b, int ldb,
             double* x, int ldx, double* rcond,
             double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgtsvx_work")]
         public static extern int gtsvx(Layout layout, char fact, TransChar trans,
-            int n, int nrhs, double* dl,
-            double* d, double* du, double* dlf,
+            int n, int nrhs, /* const */ [In] double* dl,
+            /* const */ [In] double* d, /* const */ [In] double* du, double* dlf,
             double* df, double* duf, double* du2,
-            int* ipiv, double* b,
+            int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* rcond, double* ferr, double* berr,
             double* work, int* iwork);
@@ -1040,8 +1040,8 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgttrs")]
         public static extern int gttrs(Layout layout, TransChar trans, int n,
-            int nrhs, double* dl, double* d,
-            double* du, double* du2,
+            int nrhs, /* const */ [In] double* dl, /* const */ [In] double* d,
+            /* const */ [In] double* du, /* const */ [In] double* du2,
             int* ipiv, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dhgeqz")]
@@ -1064,8 +1064,8 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dhsein")]
         public static extern int hsein(Layout layout, char job, char eigsrc, char initv,
             int* select, int n,
-            double* h, int ldh, double* wr,
-            double* wi, double* vl, int ldvl,
+            /* const */ [In] double* h, int ldh, double* wr,
+            /* const */ [In] double* wi, double* vl, int ldvl,
             double* vr, int ldvr, int mm,
             int* m, int* ifaill,
             int* ifailr);
@@ -1073,8 +1073,8 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dhsein_work")]
         public static extern int hsein(Layout layout, char job, char eigsrc,
             char initv, int* select,
-            int n, double* h, int ldh,
-            double* wr, double* wi, double* vl,
+            int n, /* const */ [In] double* h, int ldh,
+            double* wr, /* const */ [In] double* wi, double* vl,
             int ldvl, double* vr, int ldvr,
             int mm, int* m, double* work,
             int* ifaill, int* ifailr);
@@ -1098,33 +1098,33 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlacpy")]
         public static extern int lacpy(Layout layout, UpLoChar uplo, int m,
-            int n, double* a, int lda,
+            int n, /* const */ [In] double* a, int lda,
             double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlag2s")]
         public static extern int lag2s(Layout layout, int m, int n,
-            double* a, int lda, float* sa,
+            /* const */ [In] double* a, int lda, float* sa,
             int ldsa);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlagge")]
         public static extern int lagge(Layout layout, int m, int n,
-            int kl, int ku, double* d,
+            int kl, int ku, /* const */ [In] double* d,
             double* a, int lda, int* iseed);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlagge_work")]
         public static extern int lagge(Layout layout, int m, int n,
-            int kl, int ku, double* d,
+            int kl, int ku, /* const */ [In] double* d,
             double* a, int lda, int* iseed,
             double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlagsy")]
         public static extern int lagsy(Layout layout, int n, int k,
-            double* d, double* a, int lda,
+            /* const */ [In] double* d, double* a, int lda,
             int* iseed);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlagsy_work")]
         public static extern int lagsy(Layout layout, int n, int k,
-            double* d, double* a, int lda,
+            /* const */ [In] double* d, double* a, int lda,
             int* iseed, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlapmr")]
@@ -1140,15 +1140,15 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlarfb")]
         public static extern int larfb(Layout layout, char side, TransChar trans, char direct,
             char storev, int m, int n,
-            int k, double* v, int ldv,
-            double* t, int ldt, double* c,
+            int k, /* const */ [In] double* v, int ldv,
+            /* const */ [In] double* t, int ldt, double* c,
             int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlarfb_work")]
         public static extern int larfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
-            int n, int k, double* v,
-            int ldv, double* t, int ldt,
+            int n, int k, /* const */ [In] double* v,
+            int ldv, /* const */ [In] double* t, int ldt,
             double* c, int ldc, double* work,
             int ldwork);
 
@@ -1158,13 +1158,13 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlarft")]
         public static extern int larft(Layout layout, char direct, char storev,
-            int n, int k, double* v,
-            int ldv, double* tau, double* t,
+            int n, int k, /* const */ [In] double* v,
+            int ldv, /* const */ [In] double* tau, double* t,
             int ldt);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlarfx")]
         public static extern int larfx(Layout layout, char side, int m,
-            int n, double* v, double tau, double* c,
+            int n, /* const */ [In] double* v, double tau, double* c,
             int ldc, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dlarnv")]
@@ -1219,23 +1219,23 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dopgtr")]
         public static extern int opgtr(Layout layout, UpLoChar uplo, int n,
-            double* ap, double* tau, double* q,
+            /* const */ [In] double* ap, /* const */ [In] double* tau, double* q,
             int ldq);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dopgtr_work")]
         public static extern int opgtr(Layout layout, UpLoChar uplo, int n,
-            double* ap, double* tau, double* q,
+            /* const */ [In] double* ap, /* const */ [In] double* tau, double* q,
             int ldq, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dopmtr")]
         public static extern int opmtr(Layout layout, char side, UpLoChar uplo, TransChar trans,
-            int m, int n, double* ap,
-            double* tau, double* c, int ldc);
+            int m, int n, /* const */ [In] double* ap,
+            /* const */ [In] double* tau, double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dopmtr_work")]
         public static extern int opmtr(Layout layout, char side, UpLoChar uplo,
             TransChar trans, int m, int n,
-            double* ap, double* tau, double* c,
+            /* const */ [In] double* ap, /* const */ [In] double* tau, double* c,
             int ldc, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorbdb")]
@@ -1306,7 +1306,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgbr_work")]
         public static extern int orgbr(Layout layout, char vect, int m,
             int n, int k, double* a,
-            int lda, double* tau, double* work,
+            int lda, /* const */ [In] double* tau, double* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorghr")]
@@ -1317,7 +1317,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorghr_work")]
         public static extern int orghr(Layout layout, int n, int ilo,
             int ihi, double* a, int lda,
-            double* tau, double* work,
+            /* const */ [In] double* tau, double* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorglq")]
@@ -1328,7 +1328,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorglq_work")]
         public static extern int orglq(Layout layout, int m, int n,
             int k, double* a, int lda,
-            double* tau, double* work,
+            /* const */ [In] double* tau, double* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgql")]
@@ -1339,7 +1339,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgql_work")]
         public static extern int orgql(Layout layout, int m, int n,
             int k, double* a, int lda,
-            double* tau, double* work,
+            /* const */ [In] double* tau, double* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgqr")]
@@ -1350,7 +1350,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgqr_work")]
         public static extern int orgqr(Layout layout, int m, int n,
             int k, double* a, int lda,
-            double* tau, double* work,
+            /* const */ [In] double* tau, double* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgrq")]
@@ -1361,7 +1361,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgrq_work")]
         public static extern int orgrq(Layout layout, int m, int n,
             int k, double* a, int lda,
-            double* tau, double* work,
+            /* const */ [In] double* tau, double* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgtr")]
@@ -1370,142 +1370,142 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dorgtr_work")]
         public static extern int orgtr(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda, double* tau,
+            double* a, int lda, /* const */ [In] double* tau,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormbr")]
         public static extern int ormbr(Layout layout, char vect, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda, double* tau,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* tau,
             double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormbr_work")]
         public static extern int ormbr(Layout layout, char vect, char side,
             TransChar trans, int m, int n,
-            int k, double* a, int lda,
-            double* tau, double* c, int ldc,
+            int k, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormhr")]
         public static extern int ormhr(Layout layout, char side, TransChar trans,
             int m, int n, int ilo,
-            int ihi, double* a, int lda,
-            double* tau, double* c, int ldc);
+            int ihi, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormhr_work")]
         public static extern int ormhr(Layout layout, char side, TransChar trans,
             int m, int n, int ilo,
-            int ihi, double* a, int lda,
-            double* tau, double* c, int ldc,
+            int ihi, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormlq")]
         public static extern int ormlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda, double* tau,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* tau,
             double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormlq_work")]
         public static extern int ormlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda,
-            double* tau, double* c, int ldc,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormql")]
         public static extern int ormql(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda, double* tau,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* tau,
             double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormql_work")]
         public static extern int ormql(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda,
-            double* tau, double* c, int ldc,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormqr")]
         public static extern int ormqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda, double* tau,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* tau,
             double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormqr_work")]
         public static extern int ormqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda,
-            double* tau, double* c, int ldc,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormrq")]
         public static extern int ormrq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda, double* tau,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* tau,
             double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormrq_work")]
         public static extern int ormrq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda,
-            double* tau, double* c, int ldc,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormrz")]
         public static extern int ormrz(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, double* a, int lda,
-            double* tau, double* c, int ldc);
+            int l, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormrz_work")]
         public static extern int ormrz(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, double* a, int lda,
-            double* tau, double* c, int ldc,
+            int l, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormtr")]
         public static extern int ormtr(Layout layout, char side, UpLoChar uplo, TransChar trans,
-            int m, int n, double* a,
-            int lda, double* tau, double* c,
+            int m, int n, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* tau, double* c,
             int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dormtr_work")]
         public static extern int ormtr(Layout layout, char side, UpLoChar uplo,
             TransChar trans, int m, int n,
-            double* a, int lda,
-            double* tau, double* c, int ldc,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* tau, double* c, int ldc,
             double* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpbcon")]
         public static extern int pbcon(Layout layout, UpLoChar uplo, int n,
-            int kd, double* ab, int ldab,
+            int kd, /* const */ [In] double* ab, int ldab,
             double anorm, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpbcon_work")]
         public static extern int pbcon(Layout layout, UpLoChar uplo, int n,
-            int kd, double* ab,
+            int kd, /* const */ [In] double* ab,
             int ldab, double anorm, double* rcond,
             double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpbequ")]
         public static extern int pbequ(Layout layout, UpLoChar uplo, int n,
-            int kd, double* ab, int ldab,
+            int kd, /* const */ [In] double* ab, int ldab,
             double* s, double* scond, double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpbrfs")]
         public static extern int pbrfs(Layout layout, UpLoChar uplo, int n,
-            int kd, int nrhs, double* ab,
-            int ldab, double* afb, int ldafb,
-            double* b, int ldb, double* x,
+            int kd, int nrhs, /* const */ [In] double* ab,
+            int ldab, /* const */ [In] double* afb, int ldafb,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpbrfs_work")]
         public static extern int pbrfs(Layout layout, UpLoChar uplo, int n,
             int kd, int nrhs,
-            double* ab, int ldab,
-            double* afb, int ldafb,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* ab, int ldab,
+            /* const */ [In] double* afb, int ldafb,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr,
             double* work, int* iwork);
 
@@ -1541,7 +1541,7 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpbtrs")]
         public static extern int pbtrs(Layout layout, UpLoChar uplo, int n,
-            int kd, int nrhs, double* ab,
+            int kd, int nrhs, /* const */ [In] double* ab,
             int ldab, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpftrf")]
@@ -1554,50 +1554,50 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpftrs")]
         public static extern int pftrs(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, int nrhs, double* a,
+            int n, int nrhs, /* const */ [In] double* a,
             double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpocon")]
         public static extern int pocon(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda, double anorm,
+            /* const */ [In] double* a, int lda, double anorm,
             double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpocon_work")]
         public static extern int pocon(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda, double anorm,
+            /* const */ [In] double* a, int lda, double anorm,
             double* rcond, double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpoequ")]
-        public static extern int poequ(Layout layout, int n, double* a,
+        public static extern int poequ(Layout layout, int n, /* const */ [In] double* a,
             int lda, double* s, double* scond,
             double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpoequb")]
-        public static extern int poequb(Layout layout, int n, double* a,
+        public static extern int poequb(Layout layout, int n, /* const */ [In] double* a,
             int lda, double* s, double* scond,
             double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dporfs")]
         public static extern int porfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
-            double* af, int ldaf, double* b,
+            int nrhs, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* af, int ldaf, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dporfs_work")]
         public static extern int porfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a,
-            int lda, double* af,
-            int ldaf, double* b,
+            int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af,
+            int ldaf, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr, double* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dporfsx")]
         public static extern int porfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, double* a,
-            int lda, double* af, int ldaf,
-            double* s, double* b, int ldb,
+            int n, int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af, int ldaf,
+            /* const */ [In] double* s, /* const */ [In] double* b, int ldb,
             double* x, int ldx, double* rcond,
             double* berr, int n_err_bnds,
             double* err_bnds_norm, double* err_bnds_comp,
@@ -1605,10 +1605,10 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dporfsx_work")]
         public static extern int porfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, double* a,
-            int lda, double* af,
-            int ldaf, double* s,
-            double* b, int ldb, double* x,
+            int n, int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af,
+            int ldaf, /* const */ [In] double* s,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* rcond, double* berr,
             int n_err_bnds, double* err_bnds_norm,
             double* err_bnds_comp, int nparams,
@@ -1672,33 +1672,33 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpotrs")]
         public static extern int potrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
+            int nrhs, /* const */ [In] double* a, int lda,
             double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dppcon")]
         public static extern int ppcon(Layout layout, UpLoChar uplo, int n,
-            double* ap, double anorm, double* rcond);
+            /* const */ [In] double* ap, double anorm, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dppcon_work")]
         public static extern int ppcon(Layout layout, UpLoChar uplo, int n,
-            double* ap, double anorm, double* rcond,
+            /* const */ [In] double* ap, double anorm, double* rcond,
             double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dppequ")]
         public static extern int ppequ(Layout layout, UpLoChar uplo, int n,
-            double* ap, double* s, double* scond,
+            /* const */ [In] double* ap, double* s, double* scond,
             double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpprfs")]
         public static extern int pprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* ap, double* afp,
-            double* b, int ldb, double* x,
+            int nrhs, /* const */ [In] double* ap, /* const */ [In] double* afp,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpprfs_work")]
         public static extern int pprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* ap,
-            double* afp, double* b,
+            int nrhs, /* const */ [In] double* ap,
+            /* const */ [In] double* afp, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr, double* work,
             int* iwork);
@@ -1733,7 +1733,7 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpptrs")]
         public static extern int pptrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* ap, double* b,
+            int nrhs, /* const */ [In] double* ap, double* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpstrf")]
@@ -1747,11 +1747,11 @@ public static partial class Lapack
             ref int rank, double tol, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dptcon")]
-        public static extern int ptcon(int n, double* d, double* e,
+        public static extern int ptcon(int n, /* const */ [In] double* d, /* const */ [In] double* e,
             double anorm, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dptcon_work")]
-        public static extern int ptcon(int n, double* d, double* e,
+        public static extern int ptcon(int n, /* const */ [In] double* d, /* const */ [In] double* e,
             double anorm, double* rcond, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpteqr")]
@@ -1765,16 +1765,16 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dptrfs")]
         public static extern int ptrfs(Layout layout, int n, int nrhs,
-            double* d, double* e, double* df,
-            double* ef, double* b, int ldb,
+            /* const */ [In] double* d, /* const */ [In] double* e, /* const */ [In] double* df,
+            /* const */ [In] double* ef, /* const */ [In] double* b, int ldb,
             double* x, int ldx, double* ferr,
             double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dptrfs_work")]
         public static extern int ptrfs(Layout layout, int n, int nrhs,
-            double* d, double* e,
-            double* df, double* ef,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* d, /* const */ [In] double* e,
+            /* const */ [In] double* df, /* const */ [In] double* ef,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr,
             double* work);
 
@@ -1784,16 +1784,16 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dptsvx")]
         public static extern int ptsvx(Layout layout, char fact, int n,
-            int nrhs, double* d, double* e,
-            double* df, double* ef, double* b,
+            int nrhs, /* const */ [In] double* d, /* const */ [In] double* e,
+            double* df, double* ef, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* rcond, double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dptsvx_work")]
         public static extern int ptsvx(Layout layout, char fact, int n,
-            int nrhs, double* d,
-            double* e, double* df, double* ef,
-            double* b, int ldb, double* x,
+            int nrhs, /* const */ [In] double* d,
+            /* const */ [In] double* e, double* df, double* ef,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* rcond, double* ferr,
             double* berr, double* work);
 
@@ -1802,7 +1802,7 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dpttrs")]
         public static extern int pttrs(Layout layout, int n, int nrhs,
-            double* d, double* e, double* b,
+            /* const */ [In] double* d, /* const */ [In] double* e, double* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsbev")]
@@ -1849,13 +1849,13 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsbgst")]
         public static extern int sbgst(Layout layout, char vect, UpLoChar uplo, int n,
             int ka, int kb, double* ab,
-            int ldab, double* bb, int ldbb,
+            int ldab, /* const */ [In] double* bb, int ldbb,
             double* x, int ldx);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsbgst_work")]
         public static extern int sbgst(Layout layout, char vect, UpLoChar uplo,
             int n, int ka, int kb,
-            double* ab, int ldab, double* bb,
+            double* ab, int ldab, /* const */ [In] double* bb,
             int ldbb, double* x, int ldx,
             double* work);
 
@@ -1920,7 +1920,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsfrk")]
         public static extern int sfrk(Layout layout, TransChar transr, UpLoChar uplo, TransChar trans,
             int n, int k, double alpha,
-            double* a, int lda, double beta,
+            /* const */ [In] double* a, int lda, double beta,
             double* c);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsgesv")]
@@ -1938,12 +1938,12 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dspcon")]
         public static extern int spcon(Layout layout, UpLoChar uplo, int n,
-            double* ap, int* ipiv,
+            /* const */ [In] double* ap, int* ipiv,
             double anorm, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dspcon_work")]
         public static extern int spcon(Layout layout, UpLoChar uplo, int n,
-            double* ap, int* ipiv,
+            /* const */ [In] double* ap, int* ipiv,
             double anorm, double* rcond, double* work,
             int* iwork);
 
@@ -2040,16 +2040,16 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsprfs")]
         public static extern int sprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* ap, double* afp,
-            int* ipiv, double* b,
+            int nrhs, /* const */ [In] double* ap, /* const */ [In] double* afp,
+            int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsprfs_work")]
         public static extern int sprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* ap,
-            double* afp, int* ipiv,
-            double* b, int ldb, double* x,
+            int nrhs, /* const */ [In] double* ap,
+            /* const */ [In] double* afp, int* ipiv,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr,
             double* work, int* iwork);
 
@@ -2060,15 +2060,15 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dspsvx")]
         public static extern int spsvx(Layout layout, char fact, UpLoChar uplo, int n,
-            int nrhs, double* ap, double* afp,
-            int* ipiv, double* b, int ldb,
+            int nrhs, /* const */ [In] double* ap, double* afp,
+            int* ipiv, /* const */ [In] double* b, int ldb,
             double* x, int ldx, double* rcond,
             double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dspsvx_work")]
         public static extern int spsvx(Layout layout, char fact, UpLoChar uplo,
-            int n, int nrhs, double* ap,
-            double* afp, int* ipiv, double* b,
+            int n, int nrhs, /* const */ [In] double* ap,
+            double* afp, int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* rcond, double* ferr, double* berr,
             double* work, int* iwork);
@@ -2092,20 +2092,20 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsptrs")]
         public static extern int sptrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* ap,
+            int nrhs, /* const */ [In] double* ap,
             int* ipiv, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dstebz")]
         public static extern int stebz(char range, char order, int n, double vl,
             double vu, int il, int iu,
-            double abstol, double* d, double* e,
+            double abstol, /* const */ [In] double* d, /* const */ [In] double* e,
             int* m, int* nsplit, double* w,
             int* iblock, int* isplit);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dstebz_work")]
         public static extern int stebz(char range, char order, int n, double vl,
             double vu, int il, int iu,
-            double abstol, double* d, double* e,
+            double abstol, /* const */ [In] double* d, /* const */ [In] double* e,
             int* m, int* nsplit, double* w,
             int* iblock, int* isplit,
             double* work, int* iwork);
@@ -2137,14 +2137,14 @@ public static partial class Lapack
             int* iwork, int liwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dstein")]
-        public static extern int stein(Layout layout, int n, double* d,
-            double* e, int m, double* w,
+        public static extern int stein(Layout layout, int n, /* const */ [In] double* d,
+            /* const */ [In] double* e, int m, /* const */ [In] double* w,
             int* iblock, int* isplit,
             double* z, int ldz, int* ifailv);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dstein_work")]
-        public static extern int stein(Layout layout, int n, double* d,
-            double* e, int m, double* w,
+        public static extern int stein(Layout layout, int n, /* const */ [In] double* d,
+            /* const */ [In] double* e, int m, /* const */ [In] double* w,
             int* iblock,
             int* isplit, double* z,
             int ldz, double* work, int* iwork,
@@ -2232,12 +2232,12 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsycon")]
         public static extern int sycon(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda,
+            /* const */ [In] double* a, int lda,
             int* ipiv, double anorm, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsycon_work")]
         public static extern int sycon(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda,
+            /* const */ [In] double* a, int lda,
             int* ipiv, double anorm,
             double* rcond, double* work, int* iwork);
 
@@ -2248,12 +2248,12 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsyequb")]
         public static extern int syequb(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda, double* s,
+            /* const */ [In] double* a, int lda, double* s,
             double* scond, double* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsyequb_work")]
         public static extern int syequb(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda, double* s,
+            /* const */ [In] double* a, int lda, double* s,
             double* scond, double* amax, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsyev")]
@@ -2311,7 +2311,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsygst")]
         public static extern int sygst(Layout layout, int itype, UpLoChar uplo,
             int n, double* a, int lda,
-            double* b, int ldb);
+            /* const */ [In] double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsygv")]
         public static extern int sygv(Layout layout, int itype, char jobz,
@@ -2356,27 +2356,27 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsyrfs")]
         public static extern int syrfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
-            double* af, int ldaf,
-            int* ipiv, double* b,
+            int nrhs, /* const */ [In] double* a, int lda,
+            /* const */ [In] double* af, int ldaf,
+            int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsyrfs_work")]
         public static extern int syrfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a,
-            int lda, double* af,
+            int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af,
             int ldaf, int* ipiv,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* ferr, double* berr,
             double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsyrfsx")]
         public static extern int syrfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, double* a,
-            int lda, double* af, int ldaf,
-            int* ipiv, double* s,
-            double* b, int ldb, double* x,
+            int n, int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af, int ldaf,
+            int* ipiv, /* const */ [In] double* s,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* rcond, double* berr,
             int n_err_bnds, double* err_bnds_norm,
             double* err_bnds_comp, int nparams,
@@ -2384,10 +2384,10 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsyrfsx_work")]
         public static extern int syrfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, double* a,
-            int lda, double* af,
+            int n, int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* af,
             int ldaf, int* ipiv,
-            double* s, double* b,
+            /* const */ [In] double* s, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* rcond, double* berr,
             int n_err_bnds, double* err_bnds_norm,
@@ -2419,17 +2419,17 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsysvx")]
         public static extern int sysvx(Layout layout, char fact, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
+            int nrhs, /* const */ [In] double* a, int lda,
             double* af, int ldaf, int* ipiv,
-            double* b, int ldb, double* x,
+            /* const */ [In] double* b, int ldb, double* x,
             int ldx, double* rcond, double* ferr,
             double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsysvx_work")]
         public static extern int sysvx(Layout layout, char fact, UpLoChar uplo,
-            int n, int nrhs, double* a,
+            int n, int nrhs, /* const */ [In] double* a,
             int lda, double* af, int ldaf,
-            int* ipiv, double* b,
+            int* ipiv, /* const */ [In] double* b,
             int ldb, double* x, int ldx,
             double* rcond, double* ferr, double* berr,
             double* work, int lwork,
@@ -2521,62 +2521,62 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsytrs")]
         public static extern int sytrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
+            int nrhs, /* const */ [In] double* a, int lda,
             int* ipiv, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsytrs2")]
         public static extern int sytrs2(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
+            int nrhs, /* const */ [In] double* a, int lda,
             int* ipiv, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsytrs2_work")]
         public static extern int sytrs2(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a,
+            int nrhs, /* const */ [In] double* a,
             int lda, int* ipiv,
             double* b, int ldb, double* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsytrs_rook")]
         public static extern int sytrs_rook(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
+            int nrhs, /* const */ [In] double* a, int lda,
             int* ipiv, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtbcon")]
         public static extern int tbcon(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int n, int kd, double* ab,
+            int n, int kd, /* const */ [In] double* ab,
             int ldab, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtbcon_work")]
         public static extern int tbcon(Layout layout, Norm norm, UpLoChar uplo,
             DiagChar diag, int n, int kd,
-            double* ab, int ldab,
+            /* const */ [In] double* ab, int ldab,
             double* rcond, double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtbrfs")]
         public static extern int tbrfs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
             int n, int kd, int nrhs,
-            double* ab, int ldab, double* b,
-            int ldb, double* x, int ldx,
+            /* const */ [In] double* ab, int ldab, /* const */ [In] double* b,
+            int ldb, /* const */ [In] double* x, int ldx,
             double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtbrfs_work")]
         public static extern int tbrfs(Layout layout, UpLoChar uplo, TransChar trans,
             DiagChar diag, int n, int kd,
-            int nrhs, double* ab,
-            int ldab, double* b,
-            int ldb, double* x, int ldx,
+            int nrhs, /* const */ [In] double* ab,
+            int ldab, /* const */ [In] double* b,
+            int ldb, /* const */ [In] double* x, int ldx,
             double* ferr, double* berr, double* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtbtrs")]
         public static extern int tbtrs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
             int n, int kd, int nrhs,
-            double* ab, int ldab, double* b,
+            /* const */ [In] double* ab, int ldab, double* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtfsm")]
         public static extern int tfsm(Layout layout, TransChar transr, char side, UpLoChar uplo,
             TransChar trans, DiagChar diag, int m, int n,
-            double alpha, double* a, double* b,
+            double alpha, /* const */ [In] double* a, double* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtftri")]
@@ -2585,17 +2585,17 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtfttp")]
         public static extern int tfttp(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, double* arf, double* ap);
+            int n, /* const */ [In] double* arf, double* ap);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtfttr")]
         public static extern int tfttr(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, double* arf, double* a,
+            int n, /* const */ [In] double* arf, double* a,
             int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtgevc")]
         public static extern int tgevc(Layout layout, char side, char howmny,
             int* select, int n,
-            double* s, int lds, double* p,
+            /* const */ [In] double* s, int lds, /* const */ [In] double* p,
             int ldp, double* vl, int ldvl,
             double* vr, int ldvr, int mm,
             int* m);
@@ -2603,8 +2603,8 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtgevc_work")]
         public static extern int tgevc(Layout layout, char side, char howmny,
             int* select, int n,
-            double* s, int lds,
-            double* p, int ldp, double* vl,
+            /* const */ [In] double* s, int lds,
+            /* const */ [In] double* p, int ldp, double* vl,
             int ldvl, double* vr, int ldvr,
             int mm, int* m, double* work);
 
@@ -2669,63 +2669,63 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtgsna")]
         public static extern int tgsna(Layout layout, char job, char howmny,
             int* select, int n,
-            double* a, int lda, double* b,
-            int ldb, double* vl, int ldvl,
-            double* vr, int ldvr, double* s,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* b,
+            int ldb, /* const */ [In] double* vl, int ldvl,
+            /* const */ [In] double* vr, int ldvr, double* s,
             double* dif, int mm, int* m);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtgsna_work")]
         public static extern int tgsna(Layout layout, char job, char howmny,
             int* select, int n,
-            double* a, int lda,
-            double* b, int ldb,
-            double* vl, int ldvl,
-            double* vr, int ldvr, double* s,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* b, int ldb,
+            /* const */ [In] double* vl, int ldvl,
+            /* const */ [In] double* vr, int ldvr, double* s,
             double* dif, int mm, int* m,
             double* work, int lwork,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtgsyl")]
         public static extern int tgsyl(Layout layout, TransChar trans, int ijob,
-            int m, int n, double* a,
-            int lda, double* b, int ldb,
-            double* c, int ldc, double* d,
-            int ldd, double* e, int lde,
+            int m, int n, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* b, int ldb,
+            double* c, int ldc, /* const */ [In] double* d,
+            int ldd, /* const */ [In] double* e, int lde,
             double* f, int ldf, double* scale,
             double* dif);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtgsyl_work")]
         public static extern int tgsyl(Layout layout, TransChar trans, int ijob,
-            int m, int n, double* a,
-            int lda, double* b, int ldb,
-            double* c, int ldc, double* d,
-            int ldd, double* e, int lde,
+            int m, int n, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* b, int ldb,
+            double* c, int ldc, /* const */ [In] double* d,
+            int ldd, /* const */ [In] double* e, int lde,
             double* f, int ldf, double* scale,
             double* dif, double* work, int lwork,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtpcon")]
         public static extern int tpcon(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int n, double* ap, double* rcond);
+            int n, /* const */ [In] double* ap, double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtpcon_work")]
         public static extern int tpcon(Layout layout, Norm norm, UpLoChar uplo,
-            DiagChar diag, int n, double* ap,
+            DiagChar diag, int n, /* const */ [In] double* ap,
             double* rcond, double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtpmqrt")]
         public static extern int tpmqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, int nb, double* v,
-            int ldv, double* t, int ldt,
+            int l, int nb, /* const */ [In] double* v,
+            int ldv, /* const */ [In] double* t, int ldt,
             double* a, int lda, double* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtpmqrt_work")]
         public static extern int tpmqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, int nb, double* v,
-            int ldv, double* t,
+            int l, int nb, /* const */ [In] double* v,
+            int ldv, /* const */ [In] double* t,
             int ldt, double* a, int lda,
             double* b, int ldb, double* work);
 
@@ -2749,30 +2749,30 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtprfb")]
         public static extern int tprfb(Layout layout, char side, TransChar trans, char direct,
             char storev, int m, int n,
-            int k, int l, double* v,
-            int ldv, double* t, int ldt,
+            int k, int l, /* const */ [In] double* v,
+            int ldv, /* const */ [In] double* t, int ldt,
             double* a, int lda, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtprfb_work")]
         public static extern int tprfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
             int n, int k, int l,
-            double* v, int ldv,
-            double* t, int ldt, double* a,
+            /* const */ [In] double* v, int ldv,
+            /* const */ [In] double* t, int ldt, double* a,
             int lda, double* b, int ldb,
             double* work, int ldwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtprfs")]
         public static extern int tprfs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, double* ap,
-            double* b, int ldb, double* x,
+            int n, int nrhs, /* const */ [In] double* ap,
+            /* const */ [In] double* b, int ldb, /* const */ [In] double* x,
             int ldx, double* ferr, double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtprfs_work")]
         public static extern int tprfs(Layout layout, UpLoChar uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
-            double* ap, double* b,
-            int ldb, double* x, int ldx,
+            /* const */ [In] double* ap, /* const */ [In] double* b,
+            int ldb, /* const */ [In] double* x, int ldx,
             double* ferr, double* berr, double* work,
             int* iwork);
 
@@ -2782,39 +2782,39 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtptrs")]
         public static extern int tptrs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, double* ap,
+            int n, int nrhs, /* const */ [In] double* ap,
             double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtpttf")]
         public static extern int tpttf(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, double* ap, double* arf);
+            int n, /* const */ [In] double* ap, double* arf);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtpttr")]
         public static extern int tpttr(Layout layout, UpLoChar uplo, int n,
-            double* ap, double* a, int lda);
+            /* const */ [In] double* ap, double* a, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrcon")]
         public static extern int trcon(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int n, double* a, int lda,
+            int n, /* const */ [In] double* a, int lda,
             double* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrcon_work")]
         public static extern int trcon(Layout layout, Norm norm, UpLoChar uplo,
-            DiagChar diag, int n, double* a,
+            DiagChar diag, int n, /* const */ [In] double* a,
             int lda, double* rcond, double* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrevc")]
         public static extern int trevc(Layout layout, char side, char howmny,
             int* select, int n,
-            double* t, int ldt, double* vl,
+            /* const */ [In] double* t, int ldt, double* vl,
             int ldvl, double* vr, int ldvr,
             int mm, int* m);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrevc_work")]
         public static extern int trevc(Layout layout, char side, char howmny,
             int* select, int n,
-            double* t, int ldt, double* vl,
+            /* const */ [In] double* t, int ldt, double* vl,
             int ldvl, double* vr, int ldvr,
             int mm, int* m, double* work);
 
@@ -2831,17 +2831,17 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrrfs")]
         public static extern int trrfs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, double* a,
-            int lda, double* b, int ldb,
-            double* x, int ldx, double* ferr,
+            int n, int nrhs, /* const */ [In] double* a,
+            int lda, /* const */ [In] double* b, int ldb,
+            /* const */ [In] double* x, int ldx, double* ferr,
             double* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrrfs_work")]
         public static extern int trrfs(Layout layout, UpLoChar uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
-            double* a, int lda,
-            double* b, int ldb,
-            double* x, int ldx, double* ferr,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* b, int ldb,
+            /* const */ [In] double* x, int ldx, double* ferr,
             double* berr, double* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrsen")]
@@ -2863,17 +2863,17 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrsna")]
         public static extern int trsna(Layout layout, char job, char howmny,
             int* select, int n,
-            double* t, int ldt, double* vl,
-            int ldvl, double* vr, int ldvr,
+            /* const */ [In] double* t, int ldt, /* const */ [In] double* vl,
+            int ldvl, /* const */ [In] double* vr, int ldvr,
             double* s, double* sep, int mm,
             int* m);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrsna_work")]
         public static extern int trsna(Layout layout, char job, char howmny,
             int* select, int n,
-            double* t, int ldt,
-            double* vl, int ldvl,
-            double* vr, int ldvr, double* s,
+            /* const */ [In] double* t, int ldt,
+            /* const */ [In] double* vl, int ldvl,
+            /* const */ [In] double* vr, int ldvr, double* s,
             double* sep, int mm, int* m,
             double* work, int ldwork,
             int* iwork);
@@ -2881,7 +2881,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrsyl")]
         public static extern int trsyl(Layout layout, char trana, char tranb,
             int isgn, int m, int n,
-            double* a, int lda, double* b,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* b,
             int ldb, double* c, int ldc,
             double* scale);
 
@@ -2891,17 +2891,17 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrtrs")]
         public static extern int trtrs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, double* a,
+            int n, int nrhs, /* const */ [In] double* a,
             int lda, double* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrttf")]
         public static extern int trttf(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, double* a, int lda,
+            int n, /* const */ [In] double* a, int lda,
             double* arf);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtrttp")]
         public static extern int trttp(Layout layout, UpLoChar uplo, int n,
-            double* a, int lda, double* ap);
+            /* const */ [In] double* a, int lda, double* ap);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dtzrzf")]
         public static extern int tzrzf(Layout layout, int m, int n,
@@ -3005,7 +3005,7 @@ public static partial class Lapack
             float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sdisna")]
-        public static extern int disna(char job, int m, int n, float* d,
+        public static extern int disna(char job, int m, int n, /* const */ [In] float* d,
             float* sep);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbbrd")]
@@ -3025,43 +3025,43 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbcon")]
         public static extern int gbcon(Layout layout, Norm norm, int n,
-            int kl, int ku, float* ab,
+            int kl, int ku, /* const */ [In] float* ab,
             int ldab, int* ipiv, float anorm,
             float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbcon_work")]
         public static extern int gbcon(Layout layout, Norm norm, int n,
-            int kl, int ku, float* ab,
+            int kl, int ku, /* const */ [In] float* ab,
             int ldab, int* ipiv,
             float anorm, float* rcond, float* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbequ")]
         public static extern int gbequ(Layout layout, int m, int n,
-            int kl, int ku, float* ab,
+            int kl, int ku, /* const */ [In] float* ab,
             int ldab, float* r, float* c, float* rowcnd,
             float* colcnd, float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbequb")]
         public static extern int gbequb(Layout layout, int m, int n,
-            int kl, int ku, float* ab,
+            int kl, int ku, /* const */ [In] float* ab,
             int ldab, float* r, float* c, float* rowcnd,
             float* colcnd, float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbrfs")]
         public static extern int gbrfs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
-            float* ab, int ldab, float* afb,
+            /* const */ [In] float* ab, int ldab, /* const */ [In] float* afb,
             int ldafb, int* ipiv,
-            float* b, int ldb, float* x,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbrfs_work")]
         public static extern int gbrfs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
-            float* ab, int ldab,
-            float* afb, int ldafb,
-            int* ipiv, float* b,
+            /* const */ [In] float* ab, int ldab,
+            /* const */ [In] float* afb, int ldafb,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
@@ -3069,10 +3069,10 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbrfsx")]
         public static extern int gbrfsx(Layout layout, TransChar trans, char equed,
             int n, int kl, int ku,
-            int nrhs, float* ab, int ldab,
-            float* afb, int ldafb,
-            int* ipiv, float* r,
-            float* c, float* b, int ldb,
+            int nrhs, /* const */ [In] float* ab, int ldab,
+            /* const */ [In] float* afb, int ldafb,
+            int* ipiv, /* const */ [In] float* r,
+            /* const */ [In] float* c, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* rcond, float* berr,
             int n_err_bnds, float* err_bnds_norm,
             float* err_bnds_comp, int nparams,
@@ -3081,10 +3081,10 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbrfsx_work")]
         public static extern int gbrfsx(Layout layout, TransChar trans, char equed,
             int n, int kl, int ku,
-            int nrhs, float* ab,
-            int ldab, float* afb,
+            int nrhs, /* const */ [In] float* ab,
+            int ldab, /* const */ [In] float* afb,
             int ldafb, int* ipiv,
-            float* r, float* c, float* b,
+            /* const */ [In] float* r, /* const */ [In] float* c, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* rcond, float* berr,
             int n_err_bnds, float* err_bnds_norm,
@@ -3149,12 +3149,12 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgbtrs")]
         public static extern int gbtrs(Layout layout, TransChar trans, int n,
             int kl, int ku, int nrhs,
-            float* ab, int ldab,
+            /* const */ [In] float* ab, int ldab,
             int* ipiv, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgebak")]
         public static extern int gebak(Layout layout, char job, char side, int n,
-            int ilo, int ihi, float* scale,
+            int ilo, int ihi, /* const */ [In] float* scale,
             int m, float* v, int ldv);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgebal")]
@@ -3175,22 +3175,22 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgecon")]
         public static extern int gecon(Layout layout, Norm norm, int n,
-            float* a, int lda, float anorm,
+            /* const */ [In] float* a, int lda, float anorm,
             float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgecon_work")]
         public static extern int gecon(Layout layout, Norm norm, int n,
-            float* a, int lda, float anorm,
+            /* const */ [In] float* a, int lda, float anorm,
             float* rcond, float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgeequ")]
         public static extern int geequ(Layout layout, int m, int n,
-            float* a, int lda, float* r, float* c,
+            /* const */ [In] float* a, int lda, float* r, float* c,
             float* rowcnd, float* colcnd, float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgeequb")]
         public static extern int geequb(Layout layout, int m, int n,
-            float* a, int lda, float* r, float* c,
+            /* const */ [In] float* a, int lda, float* r, float* c,
             float* rowcnd, float* colcnd, float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgeev")]
@@ -3321,15 +3321,15 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgemqrt")]
         public static extern int gemqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int nb, float* v, int ldv,
-            float* t, int ldt, float* c,
+            int nb, /* const */ [In] float* v, int ldv,
+            /* const */ [In] float* t, int ldt, float* c,
             int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgemqrt_work")]
         public static extern int gemqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int nb, float* v, int ldv,
-            float* t, int ldt, float* c,
+            int nb, /* const */ [In] float* v, int ldv,
+            /* const */ [In] float* t, int ldt, float* c,
             int ldc, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgeqlf")]
@@ -3408,27 +3408,27 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgerfs")]
         public static extern int gerfs(Layout layout, TransChar trans, int n,
-            int nrhs, float* a, int lda,
-            float* af, int ldaf,
-            int* ipiv, float* b,
+            int nrhs, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* af, int ldaf,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgerfs_work")]
         public static extern int gerfs(Layout layout, TransChar trans, int n,
-            int nrhs, float* a, int lda,
-            float* af, int ldaf,
-            int* ipiv, float* b,
+            int nrhs, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* af, int ldaf,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgerfsx")]
         public static extern int gerfsx(Layout layout, TransChar trans, char equed,
-            int n, int nrhs, float* a,
-            int lda, float* af, int ldaf,
-            int* ipiv, float* r,
-            float* c, float* b, int ldb,
+            int n, int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* af, int ldaf,
+            int* ipiv, /* const */ [In] float* r,
+            /* const */ [In] float* c, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* rcond, float* berr,
             int n_err_bnds, float* err_bnds_norm,
             float* err_bnds_comp, int nparams,
@@ -3436,10 +3436,10 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgerfsx_work")]
         public static extern int gerfsx(Layout layout, TransChar trans, char equed,
-            int n, int nrhs, float* a,
-            int lda, float* af,
+            int n, int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* af,
             int ldaf, int* ipiv,
-            float* r, float* c, float* b,
+            /* const */ [In] float* r, /* const */ [In] float* c, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* rcond, float* berr,
             int n_err_bnds, float* err_bnds_norm,
@@ -3581,13 +3581,13 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgetrs")]
         public static extern int getrs(Layout layout, TransChar trans, int n,
-            int nrhs, float* a, int lda,
+            int nrhs, /* const */ [In] float* a, int lda,
             int* ipiv, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sggbak")]
         public static extern int ggbak(Layout layout, char job, char side, int n,
-            int ilo, int ihi, float* lscale,
-            float* rscale, int m, float* v,
+            int ilo, int ihi, /* const */ [In] float* lscale,
+            /* const */ [In] float* rscale, int m, float* v,
             int ldv);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sggbal")]
@@ -3798,33 +3798,33 @@ public static partial class Lapack
             int* iwork, float* tau, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgtcon")]
-        public static extern int gtcon(Norm norm, int n, float* dl,
-            float* d, float* du, float* du2,
+        public static extern int gtcon(Norm norm, int n, /* const */ [In] float* dl,
+            /* const */ [In] float* d, /* const */ [In] float* du, /* const */ [In] float* du2,
             int* ipiv, float anorm, float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgtcon_work")]
-        public static extern int gtcon(Norm norm, int n, float* dl,
-            float* d, float* du,
-            float* du2, int* ipiv,
+        public static extern int gtcon(Norm norm, int n, /* const */ [In] float* dl,
+            /* const */ [In] float* d, /* const */ [In] float* du,
+            /* const */ [In] float* du2, int* ipiv,
             float anorm, float* rcond, float* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgtrfs")]
         public static extern int gtrfs(Layout layout, TransChar trans, int n,
-            int nrhs, float* dl, float* d,
-            float* du, float* dlf, float* df,
-            float* duf, float* du2,
-            int* ipiv, float* b,
+            int nrhs, /* const */ [In] float* dl, /* const */ [In] float* d,
+            /* const */ [In] float* du, /* const */ [In] float* dlf, /* const */ [In] float* df,
+            /* const */ [In] float* duf, /* const */ [In] float* du2,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgtrfs_work")]
         public static extern int gtrfs(Layout layout, TransChar trans, int n,
-            int nrhs, float* dl,
-            float* d, float* du,
-            float* dlf, float* df,
-            float* duf, float* du2,
-            int* ipiv, float* b,
+            int nrhs, /* const */ [In] float* dl,
+            /* const */ [In] float* d, /* const */ [In] float* du,
+            /* const */ [In] float* dlf, /* const */ [In] float* df,
+            /* const */ [In] float* duf, /* const */ [In] float* du2,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
@@ -3836,19 +3836,19 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgtsvx")]
         public static extern int gtsvx(Layout layout, char fact, TransChar trans,
-            int n, int nrhs, float* dl,
-            float* d, float* du, float* dlf,
+            int n, int nrhs, /* const */ [In] float* dl,
+            /* const */ [In] float* d, /* const */ [In] float* du, float* dlf,
             float* df, float* duf, float* du2, int* ipiv,
-            float* b, int ldb, float* x,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* rcond, float* ferr,
             float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgtsvx_work")]
         public static extern int gtsvx(Layout layout, char fact, TransChar trans,
-            int n, int nrhs, float* dl,
-            float* d, float* du, float* dlf,
+            int n, int nrhs, /* const */ [In] float* dl,
+            /* const */ [In] float* d, /* const */ [In] float* du, float* dlf,
             float* df, float* duf, float* du2,
-            int* ipiv, float* b,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* rcond, float* ferr, float* berr,
             float* work, int* iwork);
@@ -3859,8 +3859,8 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgttrs")]
         public static extern int gttrs(Layout layout, TransChar trans, int n,
-            int nrhs, float* dl, float* d,
-            float* du, float* du2,
+            int nrhs, /* const */ [In] float* dl, /* const */ [In] float* d,
+            /* const */ [In] float* du, /* const */ [In] float* du2,
             int* ipiv, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_shgeqz")]
@@ -3881,8 +3881,8 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_shsein")]
         public static extern int hsein(Layout layout, char job, char eigsrc, char initv,
-            int* select, int n, float* h,
-            int ldh, float* wr, float* wi,
+            int* select, int n, /* const */ [In] float* h,
+            int ldh, float* wr, /* const */ [In] float* wi,
             float* vl, int ldvl, float* vr,
             int ldvr, int mm, int* m,
             int* ifaill, int* ifailr);
@@ -3890,8 +3890,8 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_shsein_work")]
         public static extern int hsein(Layout layout, char job, char eigsrc,
             char initv, int* select,
-            int n, float* h, int ldh,
-            float* wr, float* wi, float* vl,
+            int n, /* const */ [In] float* h, int ldh,
+            float* wr, /* const */ [In] float* wi, float* vl,
             int ldvl, float* vr, int ldvr,
             int mm, int* m, float* work,
             int* ifaill, int* ifailr);
@@ -3915,33 +3915,33 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slacpy")]
         public static extern int lacpy(Layout layout, UpLoChar uplo, int m,
-            int n, float* a, int lda,
+            int n, /* const */ [In] float* a, int lda,
             float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slag2d")]
         public static extern int lag2d(Layout layout, int m, int n,
-            float* sa, int ldsa, double* a,
+            /* const */ [In] float* sa, int ldsa, double* a,
             int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slagge")]
         public static extern int lagge(Layout layout, int m, int n,
-            int kl, int ku, float* d,
+            int kl, int ku, /* const */ [In] float* d,
             float* a, int lda, int* iseed);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slagge_work")]
         public static extern int lagge(Layout layout, int m, int n,
-            int kl, int ku, float* d,
+            int kl, int ku, /* const */ [In] float* d,
             float* a, int lda, int* iseed,
             float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slagsy")]
         public static extern int lagsy(Layout layout, int n, int k,
-            float* d, float* a, int lda,
+            /* const */ [In] float* d, float* a, int lda,
             int* iseed);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slagsy_work")]
         public static extern int lagsy(Layout layout, int n, int k,
-            float* d, float* a, int lda,
+            /* const */ [In] float* d, float* a, int lda,
             int* iseed, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slapmr")]
@@ -3957,15 +3957,15 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slarfb")]
         public static extern int larfb(Layout layout, char side, TransChar trans, char direct,
             char storev, int m, int n,
-            int k, float* v, int ldv,
-            float* t, int ldt, float* c,
+            int k, /* const */ [In] float* v, int ldv,
+            /* const */ [In] float* t, int ldt, float* c,
             int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slarfb_work")]
         public static extern int larfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
-            int n, int k, float* v,
-            int ldv, float* t, int ldt,
+            int n, int k, /* const */ [In] float* v,
+            int ldv, /* const */ [In] float* t, int ldt,
             float* c, int ldc, float* work,
             int ldwork);
 
@@ -3975,13 +3975,13 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slarft")]
         public static extern int larft(Layout layout, char direct, char storev,
-            int n, int k, float* v,
-            int ldv, float* tau, float* t,
+            int n, int k, /* const */ [In] float* v,
+            int ldv, /* const */ [In] float* tau, float* t,
             int ldt);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slarfx")]
         public static extern int larfx(Layout layout, char side, int m,
-            int n, float* v, float tau, float* c,
+            int n, /* const */ [In] float* v, float tau, float* c,
             int ldc, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_slarnv")]
@@ -4035,23 +4035,23 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sopgtr")]
         public static extern int opgtr(Layout layout, UpLoChar uplo, int n,
-            float* ap, float* tau, float* q,
+            /* const */ [In] float* ap, /* const */ [In] float* tau, float* q,
             int ldq);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sopgtr_work")]
         public static extern int opgtr(Layout layout, UpLoChar uplo, int n,
-            float* ap, float* tau, float* q,
+            /* const */ [In] float* ap, /* const */ [In] float* tau, float* q,
             int ldq, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sopmtr")]
         public static extern int opmtr(Layout layout, char side, UpLoChar uplo, TransChar trans,
-            int m, int n, float* ap,
-            float* tau, float* c, int ldc);
+            int m, int n, /* const */ [In] float* ap,
+            /* const */ [In] float* tau, float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sopmtr_work")]
         public static extern int opmtr(Layout layout, char side, UpLoChar uplo,
             TransChar trans, int m, int n,
-            float* ap, float* tau, float* c,
+            /* const */ [In] float* ap, /* const */ [In] float* tau, float* c,
             int ldc, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorbdb")]
@@ -4122,7 +4122,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgbr_work")]
         public static extern int orgbr(Layout layout, char vect, int m,
             int n, int k, float* a,
-            int lda, float* tau, float* work,
+            int lda, /* const */ [In] float* tau, float* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorghr")]
@@ -4133,7 +4133,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorghr_work")]
         public static extern int orghr(Layout layout, int n, int ilo,
             int ihi, float* a, int lda,
-            float* tau, float* work,
+            /* const */ [In] float* tau, float* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorglq")]
@@ -4144,7 +4144,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorglq_work")]
         public static extern int orglq(Layout layout, int m, int n,
             int k, float* a, int lda,
-            float* tau, float* work,
+            /* const */ [In] float* tau, float* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgql")]
@@ -4155,7 +4155,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgql_work")]
         public static extern int orgql(Layout layout, int m, int n,
             int k, float* a, int lda,
-            float* tau, float* work,
+            /* const */ [In] float* tau, float* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgqr")]
@@ -4166,7 +4166,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgqr_work")]
         public static extern int orgqr(Layout layout, int m, int n,
             int k, float* a, int lda,
-            float* tau, float* work,
+            /* const */ [In] float* tau, float* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgrq")]
@@ -4177,7 +4177,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgrq_work")]
         public static extern int orgrq(Layout layout, int m, int n,
             int k, float* a, int lda,
-            float* tau, float* work,
+            /* const */ [In] float* tau, float* work,
             int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgtr")]
@@ -4186,141 +4186,141 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sorgtr_work")]
         public static extern int orgtr(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda, float* tau,
+            float* a, int lda, /* const */ [In] float* tau,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormbr")]
         public static extern int ormbr(Layout layout, char vect, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* tau,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* tau,
             float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormbr_work")]
         public static extern int ormbr(Layout layout, char vect, char side,
             TransChar trans, int m, int n,
-            int k, float* a, int lda,
-            float* tau, float* c, int ldc,
+            int k, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormhr")]
         public static extern int ormhr(Layout layout, char side, TransChar trans,
             int m, int n, int ilo,
-            int ihi, float* a, int lda,
-            float* tau, float* c, int ldc);
+            int ihi, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormhr_work")]
         public static extern int ormhr(Layout layout, char side, TransChar trans,
             int m, int n, int ilo,
-            int ihi, float* a, int lda,
-            float* tau, float* c, int ldc,
+            int ihi, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormlq")]
         public static extern int ormlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* tau,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* tau,
             float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormlq_work")]
         public static extern int ormlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda,
-            float* tau, float* c, int ldc,
+            /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormql")]
         public static extern int ormql(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* tau,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* tau,
             float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormql_work")]
         public static extern int ormql(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda,
-            float* tau, float* c, int ldc,
+            /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormqr")]
         public static extern int ormqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* tau,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* tau,
             float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormqr_work")]
         public static extern int ormqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda,
-            float* tau, float* c, int ldc,
+            /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormrq")]
         public static extern int ormrq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* tau,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* tau,
             float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormrq_work")]
         public static extern int ormrq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda,
-            float* tau, float* c, int ldc,
+            /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormrz")]
         public static extern int ormrz(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, float* a, int lda,
-            float* tau, float* c, int ldc);
+            int l, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormrz_work")]
         public static extern int ormrz(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, float* a, int lda,
-            float* tau, float* c, int ldc,
+            int l, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormtr")]
         public static extern int ormtr(Layout layout, char side, UpLoChar uplo, TransChar trans,
-            int m, int n, float* a,
-            int lda, float* tau, float* c,
+            int m, int n, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* tau, float* c,
             int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sormtr_work")]
         public static extern int ormtr(Layout layout, char side, UpLoChar uplo,
             TransChar trans, int m, int n,
-            float* a, int lda,
-            float* tau, float* c, int ldc,
+            /* const */ [In] float* a, int lda,
+            /* const */ [In] float* tau, float* c, int ldc,
             float* work, int lwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spbcon")]
         public static extern int pbcon(Layout layout, UpLoChar uplo, int n,
-            int kd, float* ab, int ldab,
+            int kd, /* const */ [In] float* ab, int ldab,
             float anorm, float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spbcon_work")]
         public static extern int pbcon(Layout layout, UpLoChar uplo, int n,
-            int kd, float* ab, int ldab,
+            int kd, /* const */ [In] float* ab, int ldab,
             float anorm, float* rcond, float* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spbequ")]
         public static extern int pbequ(Layout layout, UpLoChar uplo, int n,
-            int kd, float* ab, int ldab,
+            int kd, /* const */ [In] float* ab, int ldab,
             float* s, float* scond, float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spbrfs")]
         public static extern int pbrfs(Layout layout, UpLoChar uplo, int n,
-            int kd, int nrhs, float* ab,
-            int ldab, float* afb, int ldafb,
-            float* b, int ldb, float* x,
+            int kd, int nrhs, /* const */ [In] float* ab,
+            int ldab, /* const */ [In] float* afb, int ldafb,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spbrfs_work")]
         public static extern int pbrfs(Layout layout, UpLoChar uplo, int n,
-            int kd, int nrhs, float* ab,
-            int ldab, float* afb,
-            int ldafb, float* b,
+            int kd, int nrhs, /* const */ [In] float* ab,
+            int ldab, /* const */ [In] float* afb,
+            int ldafb, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
@@ -4357,7 +4357,7 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spbtrs")]
         public static extern int pbtrs(Layout layout, UpLoChar uplo, int n,
-            int kd, int nrhs, float* ab,
+            int kd, int nrhs, /* const */ [In] float* ab,
             int ldab, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spftrf")]
@@ -4370,49 +4370,49 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spftrs")]
         public static extern int pftrs(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, int nrhs, float* a,
+            int n, int nrhs, /* const */ [In] float* a,
             float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spocon")]
         public static extern int pocon(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda, float anorm,
+            /* const */ [In] float* a, int lda, float anorm,
             float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spocon_work")]
         public static extern int pocon(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda, float anorm,
+            /* const */ [In] float* a, int lda, float anorm,
             float* rcond, float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spoequ")]
-        public static extern int poequ(Layout layout, int n, float* a,
+        public static extern int poequ(Layout layout, int n, /* const */ [In] float* a,
             int lda, float* s, float* scond, float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spoequb")]
-        public static extern int poequb(Layout layout, int n, float* a,
+        public static extern int poequb(Layout layout, int n, /* const */ [In] float* a,
             int lda, float* s, float* scond,
             float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sporfs")]
         public static extern int porfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
-            float* af, int ldaf, float* b,
+            int nrhs, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* af, int ldaf, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sporfs_work")]
         public static extern int porfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a,
-            int lda, float* af,
-            int ldaf, float* b,
+            int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* af,
+            int ldaf, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sporfsx")]
         public static extern int porfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, float* a,
-            int lda, float* af, int ldaf,
-            float* s, float* b, int ldb,
+            int n, int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* af, int ldaf,
+            /* const */ [In] float* s, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* rcond, float* berr,
             int n_err_bnds, float* err_bnds_norm,
             float* err_bnds_comp, int nparams,
@@ -4420,10 +4420,10 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sporfsx_work")]
         public static extern int porfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, float* a,
-            int lda, float* af,
-            int ldaf, float* s,
-            float* b, int ldb, float* x,
+            int n, int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* af,
+            int ldaf, /* const */ [In] float* s,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* rcond, float* berr,
             int n_err_bnds, float* err_bnds_norm,
             float* err_bnds_comp, int nparams,
@@ -4487,33 +4487,33 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spotrs")]
         public static extern int potrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
+            int nrhs, /* const */ [In] float* a, int lda,
             float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sppcon")]
         public static extern int ppcon(Layout layout, UpLoChar uplo, int n,
-            float* ap, float anorm, float* rcond);
+            /* const */ [In] float* ap, float anorm, float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sppcon_work")]
         public static extern int ppcon(Layout layout, UpLoChar uplo, int n,
-            float* ap, float anorm, float* rcond,
+            /* const */ [In] float* ap, float anorm, float* rcond,
             float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sppequ")]
         public static extern int ppequ(Layout layout, UpLoChar uplo, int n,
-            float* ap, float* s, float* scond,
+            /* const */ [In] float* ap, float* s, float* scond,
             float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spprfs")]
         public static extern int pprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* ap, float* afp,
-            float* b, int ldb, float* x,
+            int nrhs, /* const */ [In] float* ap, /* const */ [In] float* afp,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spprfs_work")]
         public static extern int pprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* ap,
-            float* afp, float* b,
+            int nrhs, /* const */ [In] float* ap,
+            /* const */ [In] float* afp, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
@@ -4547,7 +4547,7 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spptrs")]
         public static extern int pptrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* ap, float* b,
+            int nrhs, /* const */ [In] float* ap, float* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spstrf")]
@@ -4561,11 +4561,11 @@ public static partial class Lapack
             ref int rank, float tol, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sptcon")]
-        public static extern int ptcon(int n, float* d, float* e,
+        public static extern int ptcon(int n, /* const */ [In] float* d, /* const */ [In] float* e,
             float anorm, float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sptcon_work")]
-        public static extern int ptcon(int n, float* d, float* e,
+        public static extern int ptcon(int n, /* const */ [In] float* d, /* const */ [In] float* e,
             float anorm, float* rcond, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spteqr")]
@@ -4579,14 +4579,14 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sptrfs")]
         public static extern int ptrfs(Layout layout, int n, int nrhs,
-            float* d, float* e, float* df,
-            float* ef, float* b, int ldb,
+            /* const */ [In] float* d, /* const */ [In] float* e, /* const */ [In] float* df,
+            /* const */ [In] float* ef, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sptrfs_work")]
         public static extern int ptrfs(Layout layout, int n, int nrhs,
-            float* d, float* e, float* df,
-            float* ef, float* b, int ldb,
+            /* const */ [In] float* d, /* const */ [In] float* e, /* const */ [In] float* df,
+            /* const */ [In] float* ef, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* ferr,
             float* berr, float* work);
 
@@ -4596,15 +4596,15 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sptsvx")]
         public static extern int ptsvx(Layout layout, char fact, int n,
-            int nrhs, float* d, float* e,
-            float* df, float* ef, float* b, int ldb,
+            int nrhs, /* const */ [In] float* d, /* const */ [In] float* e,
+            float* df, float* ef, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* rcond, float* ferr,
             float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sptsvx_work")]
         public static extern int ptsvx(Layout layout, char fact, int n,
-            int nrhs, float* d, float* e,
-            float* df, float* ef, float* b,
+            int nrhs, /* const */ [In] float* d, /* const */ [In] float* e,
+            float* df, float* ef, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* rcond, float* ferr, float* berr,
             float* work);
@@ -4614,7 +4614,7 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_spttrs")]
         public static extern int pttrs(Layout layout, int n, int nrhs,
-            float* d, float* e, float* b,
+            /* const */ [In] float* d, /* const */ [In] float* e, float* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssbev")]
@@ -4661,13 +4661,13 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssbgst")]
         public static extern int sbgst(Layout layout, char vect, UpLoChar uplo, int n,
             int ka, int kb, float* ab,
-            int ldab, float* bb, int ldbb,
+            int ldab, /* const */ [In] float* bb, int ldbb,
             float* x, int ldx);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssbgst_work")]
         public static extern int sbgst(Layout layout, char vect, UpLoChar uplo,
             int n, int ka, int kb,
-            float* ab, int ldab, float* bb,
+            float* ab, int ldab, /* const */ [In] float* bb,
             int ldbb, float* x, int ldx,
             float* work);
 
@@ -4732,16 +4732,16 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssfrk")]
         public static extern int sfrk(Layout layout, TransChar transr, UpLoChar uplo, TransChar trans,
             int n, int k, float alpha,
-            float* a, int lda, float beta, float* c);
+            /* const */ [In] float* a, int lda, float beta, float* c);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sspcon")]
         public static extern int spcon(Layout layout, UpLoChar uplo, int n,
-            float* ap, int* ipiv, float anorm,
+            /* const */ [In] float* ap, int* ipiv, float anorm,
             float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sspcon_work")]
         public static extern int spcon(Layout layout, UpLoChar uplo, int n,
-            float* ap, int* ipiv,
+            /* const */ [In] float* ap, int* ipiv,
             float anorm, float* rcond, float* work,
             int* iwork);
 
@@ -4822,16 +4822,16 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssprfs")]
         public static extern int sprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* ap, float* afp,
-            int* ipiv, float* b,
+            int nrhs, /* const */ [In] float* ap, /* const */ [In] float* afp,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssprfs_work")]
         public static extern int sprfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* ap,
-            float* afp, int* ipiv,
-            float* b, int ldb, float* x,
+            int nrhs, /* const */ [In] float* ap,
+            /* const */ [In] float* afp, int* ipiv,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* ferr, float* berr,
             float* work, int* iwork);
 
@@ -4842,15 +4842,15 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sspsvx")]
         public static extern int spsvx(Layout layout, char fact, UpLoChar uplo, int n,
-            int nrhs, float* ap, float* afp,
-            int* ipiv, float* b, int ldb,
+            int nrhs, /* const */ [In] float* ap, float* afp,
+            int* ipiv, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* rcond, float* ferr,
             float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sspsvx_work")]
         public static extern int spsvx(Layout layout, char fact, UpLoChar uplo,
-            int n, int nrhs, float* ap,
-            float* afp, int* ipiv, float* b,
+            int n, int nrhs, /* const */ [In] float* ap,
+            float* afp, int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* rcond, float* ferr, float* berr,
             float* work, int* iwork);
@@ -4873,20 +4873,20 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssptrs")]
         public static extern int sptrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* ap,
+            int nrhs, /* const */ [In] float* ap,
             int* ipiv, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sstebz")]
         public static extern int stebz(char range, char order, int n, float vl,
             float vu, int il, int iu, float abstol,
-            float* d, float* e, int* m,
+            /* const */ [In] float* d, /* const */ [In] float* e, int* m,
             int* nsplit, float* w, int* iblock,
             int* isplit);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sstebz_work")]
         public static extern int stebz(char range, char order, int n, float vl,
             float vu, int il, int iu,
-            float abstol, float* d, float* e,
+            float abstol, /* const */ [In] float* d, /* const */ [In] float* e,
             int* m, int* nsplit, float* w,
             int* iblock, int* isplit,
             float* work, int* iwork);
@@ -4918,14 +4918,14 @@ public static partial class Lapack
             int liwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sstein")]
-        public static extern int stein(Layout layout, int n, float* d,
-            float* e, int m, float* w,
+        public static extern int stein(Layout layout, int n, /* const */ [In] float* d,
+            /* const */ [In] float* e, int m, /* const */ [In] float* w,
             int* iblock, int* isplit,
             float* z, int ldz, int* ifailv);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sstein_work")]
-        public static extern int stein(Layout layout, int n, float* d,
-            float* e, int m, float* w,
+        public static extern int stein(Layout layout, int n, /* const */ [In] float* d,
+            /* const */ [In] float* e, int m, /* const */ [In] float* w,
             int* iblock,
             int* isplit, float* z,
             int ldz, float* work, int* iwork,
@@ -5012,12 +5012,12 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssycon")]
         public static extern int sycon(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda,
+            /* const */ [In] float* a, int lda,
             int* ipiv, float anorm, float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssycon_work")]
         public static extern int sycon(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda,
+            /* const */ [In] float* a, int lda,
             int* ipiv, float anorm,
             float* rcond, float* work, int* iwork);
 
@@ -5028,12 +5028,12 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssyequb")]
         public static extern int syequb(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda, float* s,
+            /* const */ [In] float* a, int lda, float* s,
             float* scond, float* amax);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssyequb_work")]
         public static extern int syequb(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda, float* s,
+            /* const */ [In] float* a, int lda, float* s,
             float* scond, float* amax, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssyev")]
@@ -5091,7 +5091,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssygst")]
         public static extern int sygst(Layout layout, int itype, UpLoChar uplo,
             int n, float* a, int lda,
-            float* b, int ldb);
+            /* const */ [In] float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssygv")]
         public static extern int sygv(Layout layout, int itype, char jobz,
@@ -5136,27 +5136,27 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssyrfs")]
         public static extern int syrfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
-            float* af, int ldaf,
-            int* ipiv, float* b,
+            int nrhs, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* af, int ldaf,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssyrfs_work")]
         public static extern int syrfs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
-            float* af, int ldaf,
-            int* ipiv, float* b,
+            int nrhs, /* const */ [In] float* a, int lda,
+            /* const */ [In] float* af, int ldaf,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssyrfsx")]
         public static extern int syrfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, float* a,
-            int lda, float* af, int ldaf,
-            int* ipiv, float* s,
-            float* b, int ldb, float* x,
+            int n, int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* af, int ldaf,
+            int* ipiv, /* const */ [In] float* s,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* rcond, float* berr,
             int n_err_bnds, float* err_bnds_norm,
             float* err_bnds_comp, int nparams,
@@ -5164,10 +5164,10 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssyrfsx_work")]
         public static extern int syrfsx(Layout layout, UpLoChar uplo, char equed,
-            int n, int nrhs, float* a,
-            int lda, float* af,
+            int n, int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* af,
             int ldaf, int* ipiv,
-            float* s, float* b, int ldb,
+            /* const */ [In] float* s, /* const */ [In] float* b, int ldb,
             float* x, int ldx, float* rcond,
             float* berr, int n_err_bnds,
             float* err_bnds_norm, float* err_bnds_comp,
@@ -5198,17 +5198,17 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssysvx")]
         public static extern int sysvx(Layout layout, char fact, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
+            int nrhs, /* const */ [In] float* a, int lda,
             float* af, int ldaf, int* ipiv,
-            float* b, int ldb, float* x,
+            /* const */ [In] float* b, int ldb, float* x,
             int ldx, float* rcond, float* ferr,
             float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssysvx_work")]
         public static extern int sysvx(Layout layout, char fact, UpLoChar uplo,
-            int n, int nrhs, float* a,
+            int n, int nrhs, /* const */ [In] float* a,
             int lda, float* af, int ldaf,
-            int* ipiv, float* b,
+            int* ipiv, /* const */ [In] float* b,
             int ldb, float* x, int ldx,
             float* rcond, float* ferr, float* berr,
             float* work, int lwork,
@@ -5300,61 +5300,61 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssytrs")]
         public static extern int sytrs(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
+            int nrhs, /* const */ [In] float* a, int lda,
             int* ipiv, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssytrs2")]
         public static extern int sytrs2(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
+            int nrhs, /* const */ [In] float* a, int lda,
             int* ipiv, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssytrs2_work")]
         public static extern int sytrs2(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a,
+            int nrhs, /* const */ [In] float* a,
             int lda, int* ipiv,
             float* b, int ldb, float* work);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssytrs_rook")]
         public static extern int sytrs_rook(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
+            int nrhs, /* const */ [In] float* a, int lda,
             int* ipiv, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stbcon")]
         public static extern int tbcon(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int n, int kd, float* ab,
+            int n, int kd, /* const */ [In] float* ab,
             int ldab, float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stbcon_work")]
         public static extern int tbcon(Layout layout, Norm norm, UpLoChar uplo,
             DiagChar diag, int n, int kd,
-            float* ab, int ldab, float* rcond,
+            /* const */ [In] float* ab, int ldab, float* rcond,
             float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stbrfs")]
         public static extern int tbrfs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
             int n, int kd, int nrhs,
-            float* ab, int ldab, float* b,
-            int ldb, float* x, int ldx,
+            /* const */ [In] float* ab, int ldab, /* const */ [In] float* b,
+            int ldb, /* const */ [In] float* x, int ldx,
             float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stbrfs_work")]
         public static extern int tbrfs(Layout layout, UpLoChar uplo, TransChar trans,
             DiagChar diag, int n, int kd,
-            int nrhs, float* ab,
-            int ldab, float* b, int ldb,
-            float* x, int ldx, float* ferr,
+            int nrhs, /* const */ [In] float* ab,
+            int ldab, /* const */ [In] float* b, int ldb,
+            /* const */ [In] float* x, int ldx, float* ferr,
             float* berr, float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stbtrs")]
         public static extern int tbtrs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
             int n, int kd, int nrhs,
-            float* ab, int ldab, float* b,
+            /* const */ [In] float* ab, int ldab, float* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stfsm")]
         public static extern int tfsm(Layout layout, TransChar transr, char side, UpLoChar uplo,
             TransChar trans, DiagChar diag, int m, int n,
-            float alpha, float* a, float* b,
+            float alpha, /* const */ [In] float* a, float* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stftri")]
@@ -5363,17 +5363,17 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stfttp")]
         public static extern int tfttp(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, float* arf, float* ap);
+            int n, /* const */ [In] float* arf, float* ap);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stfttr")]
         public static extern int tfttr(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, float* arf, float* a,
+            int n, /* const */ [In] float* arf, float* a,
             int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stgevc")]
         public static extern int tgevc(Layout layout, char side, char howmny,
             int* select, int n,
-            float* s, int lds, float* p,
+            /* const */ [In] float* s, int lds, /* const */ [In] float* p,
             int ldp, float* vl, int ldvl,
             float* vr, int ldvr, int mm,
             int* m);
@@ -5381,7 +5381,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stgevc_work")]
         public static extern int tgevc(Layout layout, char side, char howmny,
             int* select, int n,
-            float* s, int lds, float* p,
+            /* const */ [In] float* s, int lds, /* const */ [In] float* p,
             int ldp, float* vl, int ldvl,
             float* vr, int ldvr, int mm,
             int* m, float* work);
@@ -5446,60 +5446,60 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stgsna")]
         public static extern int tgsna(Layout layout, char job, char howmny,
             int* select, int n,
-            float* a, int lda, float* b,
-            int ldb, float* vl, int ldvl,
-            float* vr, int ldvr, float* s,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* b,
+            int ldb, /* const */ [In] float* vl, int ldvl,
+            /* const */ [In] float* vr, int ldvr, float* s,
             float* dif, int mm, int* m);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stgsna_work")]
         public static extern int tgsna(Layout layout, char job, char howmny,
             int* select, int n,
-            float* a, int lda, float* b,
-            int ldb, float* vl,
-            int ldvl, float* vr,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* b,
+            int ldb, /* const */ [In] float* vl,
+            int ldvl, /* const */ [In] float* vr,
             int ldvr, float* s, float* dif,
             int mm, int* m, float* work,
             int lwork, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stgsyl")]
         public static extern int tgsyl(Layout layout, TransChar trans, int ijob,
-            int m, int n, float* a,
-            int lda, float* b, int ldb,
-            float* c, int ldc, float* d,
-            int ldd, float* e, int lde,
+            int m, int n, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* b, int ldb,
+            float* c, int ldc, /* const */ [In] float* d,
+            int ldd, /* const */ [In] float* e, int lde,
             float* f, int ldf, float* scale, float* dif);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stgsyl_work")]
         public static extern int tgsyl(Layout layout, TransChar trans, int ijob,
-            int m, int n, float* a,
-            int lda, float* b, int ldb,
-            float* c, int ldc, float* d,
-            int ldd, float* e, int lde,
+            int m, int n, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* b, int ldb,
+            float* c, int ldc, /* const */ [In] float* d,
+            int ldd, /* const */ [In] float* e, int lde,
             float* f, int ldf, float* scale,
             float* dif, float* work, int lwork,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stpcon")]
         public static extern int tpcon(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int n, float* ap, float* rcond);
+            int n, /* const */ [In] float* ap, float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stpcon_work")]
         public static extern int tpcon(Layout layout, Norm norm, UpLoChar uplo,
-            DiagChar diag, int n, float* ap,
+            DiagChar diag, int n, /* const */ [In] float* ap,
             float* rcond, float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stpmqrt")]
         public static extern int tpmqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, int nb, float* v,
-            int ldv, float* t, int ldt,
+            int l, int nb, /* const */ [In] float* v,
+            int ldv, /* const */ [In] float* t, int ldt,
             float* a, int lda, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stpmqrt_work")]
         public static extern int tpmqrt(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            int l, int nb, float* v,
-            int ldv, float* t, int ldt,
+            int l, int nb, /* const */ [In] float* v,
+            int ldv, /* const */ [In] float* t, int ldt,
             float* a, int lda, float* b,
             int ldb, float* work);
 
@@ -5524,30 +5524,30 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stprfb")]
         public static extern int tprfb(Layout layout, char side, TransChar trans, char direct,
             char storev, int m, int n,
-            int k, int l, float* v,
-            int ldv, float* t, int ldt,
+            int k, int l, /* const */ [In] float* v,
+            int ldv, /* const */ [In] float* t, int ldt,
             float* a, int lda, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stprfb_work")]
         public static extern int tprfb(Layout layout, char side, TransChar trans,
             char direct, char storev, int m,
             int n, int k, int l,
-            float* v, int ldv, float* t,
+            /* const */ [In] float* v, int ldv, /* const */ [In] float* t,
             int ldt, float* a, int lda,
             float* b, int ldb, float* work,
             int ldwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stprfs")]
         public static extern int tprfs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, float* ap,
-            float* b, int ldb, float* x,
+            int n, int nrhs, /* const */ [In] float* ap,
+            /* const */ [In] float* b, int ldb, /* const */ [In] float* x,
             int ldx, float* ferr, float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stprfs_work")]
         public static extern int tprfs(Layout layout, UpLoChar uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
-            float* ap, float* b, int ldb,
-            float* x, int ldx, float* ferr,
+            /* const */ [In] float* ap, /* const */ [In] float* b, int ldb,
+            /* const */ [In] float* x, int ldx, float* ferr,
             float* berr, float* work, int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stptri")]
@@ -5556,31 +5556,31 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stptrs")]
         public static extern int tptrs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, float* ap,
+            int n, int nrhs, /* const */ [In] float* ap,
             float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stpttf")]
         public static extern int tpttf(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, float* ap, float* arf);
+            int n, /* const */ [In] float* ap, float* arf);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stpttr")]
         public static extern int tpttr(Layout layout, UpLoChar uplo, int n,
-            float* ap, float* a, int lda);
+            /* const */ [In] float* ap, float* a, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strcon")]
         public static extern int trcon(Layout layout, Norm norm, UpLoChar uplo, DiagChar diag,
-            int n, float* a, int lda,
+            int n, /* const */ [In] float* a, int lda,
             float* rcond);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strcon_work")]
         public static extern int trcon(Layout layout, Norm norm, UpLoChar uplo,
-            DiagChar diag, int n, float* a,
+            DiagChar diag, int n, /* const */ [In] float* a,
             int lda, float* rcond, float* work,
             int* iwork);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strevc")]
         public static extern int trevc(Layout layout, char side, char howmny,
-            int* select, int n, float* t,
+            int* select, int n, /* const */ [In] float* t,
             int ldt, float* vl, int ldvl,
             float* vr, int ldvr, int mm,
             int* m);
@@ -5588,7 +5588,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strevc_work")]
         public static extern int trevc(Layout layout, char side, char howmny,
             int* select, int n,
-            float* t, int ldt, float* vl,
+            /* const */ [In] float* t, int ldt, float* vl,
             int ldvl, float* vr, int ldvr,
             int mm, int* m, float* work);
 
@@ -5605,16 +5605,16 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strrfs")]
         public static extern int trrfs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, float* a,
-            int lda, float* b, int ldb,
-            float* x, int ldx, float* ferr,
+            int n, int nrhs, /* const */ [In] float* a,
+            int lda, /* const */ [In] float* b, int ldb,
+            /* const */ [In] float* x, int ldx, float* ferr,
             float* berr);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strrfs_work")]
         public static extern int trrfs(Layout layout, UpLoChar uplo, TransChar trans,
             DiagChar diag, int n, int nrhs,
-            float* a, int lda, float* b,
-            int ldb, float* x, int ldx,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* b,
+            int ldb, /* const */ [In] float* x, int ldx,
             float* ferr, float* berr, float* work,
             int* iwork);
 
@@ -5636,15 +5636,15 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strsna")]
         public static extern int trsna(Layout layout, char job, char howmny,
             int* select, int n,
-            float* t, int ldt, float* vl,
-            int ldvl, float* vr, int ldvr,
+            /* const */ [In] float* t, int ldt, /* const */ [In] float* vl,
+            int ldvl, /* const */ [In] float* vr, int ldvr,
             float* s, float* sep, int mm, int* m);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strsna_work")]
         public static extern int trsna(Layout layout, char job, char howmny,
             int* select, int n,
-            float* t, int ldt, float* vl,
-            int ldvl, float* vr,
+            /* const */ [In] float* t, int ldt, /* const */ [In] float* vl,
+            int ldvl, /* const */ [In] float* vr,
             int ldvr, float* s, float* sep,
             int mm, int* m, float* work,
             int ldwork, int* iwork);
@@ -5652,7 +5652,7 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strsyl")]
         public static extern int trsyl(Layout layout, char trana, char tranb,
             int isgn, int m, int n,
-            float* a, int lda, float* b,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* b,
             int ldb, float* c, int ldc,
             float* scale);
 
@@ -5662,17 +5662,17 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strtrs")]
         public static extern int trtrs(Layout layout, UpLoChar uplo, TransChar trans, DiagChar diag,
-            int n, int nrhs, float* a,
+            int n, int nrhs, /* const */ [In] float* a,
             int lda, float* b, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strttf")]
         public static extern int trttf(Layout layout, TransChar transr, UpLoChar uplo,
-            int n, float* a, int lda,
+            int n, /* const */ [In] float* a, int lda,
             float* arf);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_strttp")]
         public static extern int trttp(Layout layout, UpLoChar uplo, int n,
-            float* a, int lda, float* ap);
+            /* const */ [In] float* a, int lda, float* ap);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_stzrzf")]
         public static extern int tzrzf(Layout layout, int m, int n,
@@ -5705,13 +5705,13 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsytrs_aa")]
         public static extern int sytrs_aa(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a, int lda,
+            int nrhs, /* const */ [In] double* a, int lda,
             int* ipiv, double* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dsytrs_aa_work")]
         public static extern int sytrs_aa(Layout layout, UpLoChar uplo, int n,
-            int nrhs, double* a,
+            int nrhs, /* const */ [In] double* a,
             int lda, int* ipiv,
             double* b, int ldb, double* work,
             int lwork);
@@ -5738,13 +5738,13 @@ public static partial class Lapack
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssytrs_aa")]
         public static extern int sytrs_aa(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a, int lda,
+            int nrhs, /* const */ [In] float* a, int lda,
             int* ipiv, float* b,
             int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_ssytrs_aa_work")]
         public static extern int sytrs_aa(Layout layout, UpLoChar uplo, int n,
-            int nrhs, float* a,
+            int nrhs, /* const */ [In] float* a,
             int lda, int* ipiv,
             float* b, int ldb, float* work,
             int lwork);
@@ -5752,15 +5752,15 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgemqr")]
         public static extern int gemqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda,
-            double* t, int tsize, double* c,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* t, int tsize, double* c,
             int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgemqr_work")]
         public static extern int gemqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda,
-            double* t, int tsize,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* t, int tsize,
             double* c, int ldc, double* work,
             int lwork);
 
@@ -5778,14 +5778,14 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgemqr")]
         public static extern int gemqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* t,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* t,
             int tsize, float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgemqr_work")]
         public static extern int gemqr(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda,
-            float* t, int tsize,
+            /* const */ [In] float* a, int lda,
+            /* const */ [In] float* t, int tsize,
             float* c, int ldc, float* work,
             int lwork);
 
@@ -5814,14 +5814,14 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgemlq")]
         public static extern int gemlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda, double* t,
+            /* const */ [In] double* a, int lda, /* const */ [In] double* t,
             int tsize, double* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_dgemlq_work")]
         public static extern int gemlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            double* a, int lda,
-            double* t, int tsize, double* c,
+            /* const */ [In] double* a, int lda,
+            /* const */ [In] double* t, int tsize, double* c,
             int ldc, double* work,
             int lwork);
 
@@ -5839,13 +5839,13 @@ public static partial class Lapack
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgemlq")]
         public static extern int gemlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* t,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* t,
             int tsize, float* c, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "LAPACKE_sgemlq_work")]
         public static extern int gemlq(Layout layout, char side, TransChar trans,
             int m, int n, int k,
-            float* a, int lda, float* t,
+            /* const */ [In] float* a, int lda, /* const */ [In] float* t,
             int tsize, float* c, int ldc,
             float* work, int lwork);
 
