@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,6 +14,8 @@ namespace MKLNET.WrapperGenerator;
 [Generator]
 public class WrapperGenerator : ISourceGenerator
 {
+    private static readonly string _version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "na";
+
     public void Initialize(GeneratorInitializationContext context)
     {
         context.RegisterForSyntaxNotifications(() => new UnsafeClassSyntaxReceiver());
@@ -104,7 +107,7 @@ public class WrapperGenerator : ISourceGenerator
         }
 
         sb.Append("\t\t///<summary>Calls the MKL function <c>").Append(mds.Identifier.Text).AppendLine("</c> by pinning the given data during the computation.</summary>");
-        sb.AppendLine("\t\t[global::System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
+        sb.AppendLine("\t\t[global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
         sb.Append("\t\tpublic static ")
             .Append(mds.ReturnType)
             .Append(' ')
@@ -172,7 +175,7 @@ public class WrapperGenerator : ISourceGenerator
 
         sb.Append("namespace ").Append(parentClassSymbol.ContainingNamespace).AppendLine();
         sb.AppendLine("{");
-        sb.AppendLine("\t[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"MKL.NET\", \"1.0\")]");
+        sb.AppendLine($"\t[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"MKL.NET\", \"{_version}\")]");
         sb.Append("\tpartial class ").AppendLine(parentClassSymbol.Name);
         sb.AppendLine("\t{");
 
