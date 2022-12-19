@@ -26,94 +26,94 @@ public static partial class Blas
     public unsafe static class Unsafe
     {
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sdot")]
-        public static extern float dot(int N, float* X, int incX, float* Y, int incY);
+        public static extern float dot(int N, /* const */ [In] float* X, int incX, /* const */ [In] float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sdoti")]
-        public static extern float doti(int N, float* X, int* indx, float* Y);
+        public static extern float doti(int N, /* const */ [In] float* X, int* indx, /* const */ [In] float* Y);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ddot")]
-        public static extern double dot(int N, double* X, int incX, double* Y, int incY);
+        public static extern double dot(int N, /* const */ [In] double* X, int incX, /* const */ [In] double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ddoti")]
-        public static extern double doti(int N, double* X, int* indx, double* Y);
+        public static extern double doti(int N, /* const */ [In] double* X, int* indx, /* const */ [In] double* Y);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsdot")]
-        public static extern double sdot(int N, float* X, int incX, float* Y, int incY);
+        public static extern double sdot(int N, /* const */ [In] float* X, int incX, /* const */ [In] float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sdsdot")]
-        public static extern float sdot(int N, float sb, float* X, int incX, float* Y, int incY);
+        public static extern float sdot(int N, float sb, /* const */ [In] float* X, int incX, /* const */ [In] float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_snrm2")]
-        public static extern float nrm2(int N, float* X, int incX);
+        public static extern float nrm2(int N, /* const */ [In] float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sasum")]
-        public static extern float asum(int N, float* X, int incX);
+        public static extern float asum(int N, /* const */ [In] float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dnrm2")]
-        public static extern double nrm2(int N, double* X, int incX);
+        public static extern double nrm2(int N, /* const */ [In] double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dasum")]
-        public static extern double asum(int N, double* X, int incX);
+        public static extern double asum(int N, /* const */ [In] double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_isamax")]
-        public static extern int iamax(int N, float* X, int incX);
+        public static extern int iamax(int N, /* const */ [In] float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_idamax")]
-        public static extern int iamax(int N, double* X, int incX);
+        public static extern int iamax(int N, /* const */ [In] double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_isamin")]
-        public static extern int iamin(int N, float* X, int incX);
+        public static extern int iamin(int N, /* const */ [In] float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_idamin")]
-        public static extern int iamin(int N, double* X, int incX);
+        public static extern int iamin(int N, /* const */ [In] double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sswap")]
         public static extern void swap(int N, float* X, int incX, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_scopy")]
-        public static extern void copy(int N, float* X, int incX, float* Y, int incY);
+        public static extern void copy(int N, /* const */ [In] float* X, int incX, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_saxpy")]
-        public static extern void axpy(int N, float a, float* X, int incX, float* Y, int incY);
+        public static extern void axpy(int N, float a, /* const */ [In] float* X, int incX, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_saxpby")]
-        public static extern void axpby(int N, float alpha, float* X, int incX, float beta, float* Y, int incY);
+        public static extern void axpby(int N, float alpha, /* const */ [In] float* X, int incX, float beta, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_saxpyi")]
-        public static extern void axpyi(int N, float alpha, float* X, int* indx, float* Y);
+        public static extern void axpyi(int N, float alpha, /* const */ [In] float* X, int* indx, float* Y);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sgthr")]
-        public static extern void gthr(int N, float* Y, float* X, int* indx);
+        public static extern void gthr(int N, /* const */ [In] float* Y, float* X, int* indx);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sgthrz")]
         public static extern void gthrz(int N, float* Y, float* X, int* indx);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssctr")]
-        public static extern void sctr(int N, float* X, int* indx, float* Y);
+        public static extern void sctr(int N, /* const */ [In] float* X, int* indx, float* Y);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dswap")]
         public static extern void swap(int N, double* X, int incX, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dcopy")]
-        public static extern void copy(int N, double* X, int incX, double* Y, int incY);
+        public static extern void copy(int N, /* const */ [In] double* X, int incX, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_daxpy")]
-        public static extern void axpy(int N, double a, double* X, int incX, double* Y, int incY);
+        public static extern void axpy(int N, double a, /* const */ [In] double* X, int incX, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_daxpby")]
-        public static extern void axpby(int N, double alpha, double* X, int incX, double beta, double* Y, int incY);
+        public static extern void axpby(int N, double alpha, /* const */ [In] double* X, int incX, double beta, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_daxpyi")]
-        public static extern void axpyi(int N, double alpha, double* X, int* indx, double* Y);
+        public static extern void axpyi(int N, double alpha, /* const */ [In] double* X, int* indx, double* Y);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dgthr")]
-        public static extern void gthr(int N, double* Y, double* X, int* indx);
+        public static extern void gthr(int N, /* const */ [In] double* Y, double* X, int* indx);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dgthrz")]
         public static extern void gthrz(int N, double* Y, double* X, int* indx);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsctr")]
-        public static extern void sctr(int N, double* X, int* indx, double* Y);
+        public static extern void sctr(int N, /* const */ [In] double* X, int* indx, double* Y);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_srotmg")]
         public static extern void rotmg(ref float d1, ref float d2, ref float x1, float y1, float* param);
@@ -148,283 +148,283 @@ public static partial class Blas
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sgemv")]
         public static extern void gemv(Layout Layout,
                     Trans TransA, int M, int N,
-                    float alpha, float* A, int lda,
-                    float* X, int incX, float beta,
+                    float alpha, /* const */ [In] float* A, int lda,
+                     /* const */ [In] float* X, int incX, float beta,
                     float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sgbmv")]
         public static extern void gbmv(Layout Layout,
                     Trans TransA, int M, int N,
                     int KL, int KU, float alpha,
-                    float* A, int lda, float* X,
+                     /* const */ [In] float* A, int lda, /* const */ [In] float* X,
                     int incX, float beta, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_strmv")]
         public static extern void trmv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, float* A, int lda,
+                    int N, /* const */ [In] float* A, int lda,
                     float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_stbmv")]
         public static extern void tbmv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, int K, float* A, int lda,
+                    int N, int K, /* const */ [In] float* A, int lda,
                     float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_stpmv")]
         public static extern void tpmv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, float* Ap, float* X, int incX);
+                    int N, /* const */ [In] float* Ap, float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_strsv")]
         public static extern void trsv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, float* A, int lda, float* X,
+                    int N, /* const */ [In] float* A, int lda, float* X,
                     int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_stbsv")]
         public static extern void tbsv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, int K, float* A, int lda,
+                    int N, int K, /* const */ [In] float* A, int lda,
                     float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_stpsv")]
         public static extern void tpsv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, float* Ap, float* X, int incX);
+                    int N, /* const */ [In] float* Ap, float* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dgemv")]
         public static extern void gemv(Layout Layout,
                     Trans TransA, int M, int N,
-                    double alpha, double* A, int lda,
-                    double* X, int incX, double beta,
+                    double alpha, /* const */ [In] double* A, int lda,
+                     /* const */ [In] double* X, int incX, double beta,
                     double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dgbmv")]
         public static extern void gbmv(Layout Layout,
                     Trans TransA, int M, int N,
                     int KL, int KU, double alpha,
-                    double* A, int lda, double* X,
+                     /* const */ [In] double* A, int lda, /* const */ [In] double* X,
                     int incX, double beta, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtrmv")]
         public static extern void trmv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, double* A, int lda,
+                    int N, /* const */ [In] double* A, int lda,
                     double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtbmv")]
         public static extern void tbmv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, int K, double* A, int lda,
+                    int N, int K, /* const */ [In] double* A, int lda,
                     double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtpmv")]
         public static extern void tpmv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, double* Ap, double* X, int incX);
+                    int N, /* const */ [In] double* Ap, double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtrsv")]
         public static extern void trsv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, double* A, int lda, double* X,
+                    int N, /* const */ [In] double* A, int lda, double* X,
                     int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtbsv")]
         public static extern void tbsv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, int K, double* A, int lda,
+                    int N, int K, /* const */ [In] double* A, int lda,
                     double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtpsv")]
         public static extern void tpsv(Layout Layout, UpLo UPLO,
                     Trans TransA, Diag Diag,
-                    int N, double* Ap, double* X, int incX);
+                    int N, /* const */ [In] double* Ap, double* X, int incX);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssymv")]
         public static extern void symv(Layout Layout, UpLo UPLO,
-                    int N, float alpha, float* A,
-                    int lda, float* X, int incX,
+                    int N, float alpha, /* const */ [In] float* A,
+                    int lda, /* const */ [In] float* X, int incX,
                     float beta, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssbmv")]
         public static extern void sbmv(Layout Layout, UpLo UPLO,
-                    int N, int K, float alpha, float* A,
-                    int lda, float* X, int incX,
+                    int N, int K, float alpha, /* const */ [In] float* A,
+                    int lda, /* const */ [In] float* X, int incX,
                     float beta, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sspmv")]
         public static extern void spmv(Layout Layout, UpLo UPLO,
-                    int N, float alpha, float* Ap,
-                    float* X, int incX,
+                    int N, float alpha, /* const */ [In] float* Ap,
+                     /* const */ [In] float* X, int incX,
                     float beta, float* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sger")]
         public static extern void ger(Layout Layout, int M, int N,
-                    float alpha, float* X, int incX,
-                    float* Y, int incY, float* A, int lda);
+                    float alpha, /* const */ [In] float* X, int incX,
+                     /* const */ [In] float* Y, int incY, float* A, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssyr")]
         public static extern void syr(Layout Layout, UpLo UPLO,
-                    int N, float alpha, float* X,
+                    int N, float alpha, /* const */ [In] float* X,
                     int incX, float* A, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sspr")]
         public static extern void spr(Layout Layout, UpLo UPLO,
-                    int N, float alpha, float* X,
+                    int N, float alpha, /* const */ [In] float* X,
                     int incX, float* Ap);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssyr2")]
         public static extern void syr2(Layout Layout, UpLo UPLO,
-                    int N, float alpha, float* X,
-                    int incX, float* Y, int incY, float* A,
+                    int N, float alpha, /* const */ [In] float* X,
+                    int incX, /* const */ [In] float* Y, int incY, float* A,
                     int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sspr2")]
         public static extern void spr2(Layout Layout, UpLo UPLO,
-                    int N, float alpha, float* X,
-                    int incX, float* Y, int incY, float* A);
+                    int N, float alpha, /* const */ [In] float* X,
+                    int incX, /* const */ [In] float* Y, int incY, float* A);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsymv")]
         public static extern void symv(Layout Layout, UpLo UPLO,
-                    int N, double alpha, double* A,
-                    int lda, double* X, int incX,
+                    int N, double alpha, /* const */ [In] double* A,
+                    int lda, /* const */ [In] double* X, int incX,
                     double beta, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsbmv")]
         public static extern void sbmv(Layout Layout, UpLo UPLO,
-                    int N, int K, double alpha, double* A,
-                    int lda, double* X, int incX,
+                    int N, int K, double alpha, /* const */ [In] double* A,
+                    int lda, /* const */ [In] double* X, int incX,
                     double beta, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dspmv")]
         public static extern void spmv(Layout Layout, UpLo UPLO,
-                    int N, double alpha, double* Ap,
-                    double* X, int incX,
+                    int N, double alpha, /* const */ [In] double* Ap,
+                     /* const */ [In] double* X, int incX,
                     double beta, double* Y, int incY);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dger")]
         public static extern void ger(Layout Layout, int M, int N,
-                    double alpha, double* X, int incX,
-                    double* Y, int incY, double* A, int lda);
+                    double alpha, /* const */ [In] double* X, int incX,
+                     /* const */ [In] double* Y, int incY, double* A, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsyr")]
         public static extern void syr(Layout Layout, UpLo UPLO,
-                        int N, double alpha, double* X,
+                        int N, double alpha, /* const */ [In] double* X,
                         int incX, double* A, int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dspr")]
         public static extern void spr(Layout Layout, UpLo UPLO,
-                    int N, double alpha, double* X,
+                    int N, double alpha, /* const */ [In] double* X,
                     int incX, double* Ap);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsyr2")]
         public static extern void syr2(Layout Layout, UpLo UPLO,
-                    int N, double alpha, double* X,
-                    int incX, double* Y, int incY, double* A,
+                    int N, double alpha, /* const */ [In] double* X,
+                    int incX, /* const */ [In] double* Y, int incY, double* A,
                     int lda);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dspr2")]
         public static extern void spr2(Layout Layout, UpLo UPLO,
-                    int N, double alpha, double* X,
-                    int incX, double* Y, int incY, double* A);
+                    int N, double alpha, /* const */ [In] double* X,
+                    int incX, /* const */ [In] double* Y, int incY, double* A);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sgemm")]
         public static extern void gemm(Layout Layout, Trans TransA,
                     Trans TransB, int M, int N,
-                    int K, float alpha, float* A,
-                    int lda, float* B, int ldb,
+                    int K, float alpha, /* const */ [In] float* A,
+                    int lda, /* const */ [In] float* B, int ldb,
                     float beta, float* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_sgemmt")]
         public static extern void gemmt(Layout Layout, UpLo UPLO,
                     Trans TransA, Trans TransB,
                     int N, int K,
-                    float alpha, float* A, int lda,
-                    float* B, int ldb, float beta,
+                    float alpha, /* const */ [In] float* A, int lda,
+                     /* const */ [In] float* B, int ldb, float beta,
                     float* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssymm")]
         public static extern void symm(Layout Layout, Side Side,
                     UpLo UPLO, int M, int N,
-                    float alpha, float* A, int lda,
-                    float* B, int ldb, float beta,
+                    float alpha, /* const */ [In] float* A, int lda,
+                     /* const */ [In] float* B, int ldb, float beta,
                     float* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssyrk")]
         public static extern void syrk(Layout Layout, UpLo UPLO,
                     Trans Trans, int N, int K,
-                    float alpha, float* A, int lda,
+                    float alpha, /* const */ [In] float* A, int lda,
                     float beta, float* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_ssyr2k")]
         public static extern void syr2k(Layout Layout, UpLo UPLO,
                     Trans Trans, int N, int K,
-                    float alpha, float* A, int lda,
-                    float* B, int ldb, float beta,
+                    float alpha, /* const */ [In] float* A, int lda,
+                     /* const */ [In] float* B, int ldb, float beta,
                     float* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_strmm")]
         public static extern void trmm(Layout Layout, Side Side,
                     UpLo UPLO, Trans TransA,
                     Diag Diag, int M, int N,
-                    float alpha, float* A, int lda,
+                    float alpha, /* const */ [In] float* A, int lda,
                     float* B, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_strsm")]
         public static extern void trsm(Layout Layout, Side Side,
                     UpLo UPLO, Trans TransA,
                     Diag Diag, int M, int N,
-                    float alpha, float* A, int lda,
+                    float alpha, /* const */ [In] float* A, int lda,
                     float* B, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dgemm")]
         public static extern void gemm(Layout Layout, Trans TransA,
                     Trans TransB, int M, int N,
-                    int K, double alpha, double* A,
-                    int lda, double* B, int ldb,
+                    int K, double alpha, /* const */ [In] double* A,
+                    int lda, /* const */ [In] double* B, int ldb,
                     double beta, double* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dgemmt")]
         public static extern void gemmt(Layout Layout, UpLo UPLO,
                     Trans TransA, Trans TransB,
                     int N, int K,
-                    double alpha, double* A, int lda,
-                    double* B, int ldb, double beta,
+                    double alpha, /* const */ [In] double* A, int lda,
+                     /* const */ [In] double* B, int ldb, double beta,
                     double* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsymm")]
         public static extern void symm(Layout Layout, Side Side,
                     UpLo UPLO, int M, int N,
-                    double alpha, double* A, int lda,
-                    double* B, int ldb, double beta,
+                    double alpha, /* const */ [In] double* A, int lda,
+                     /* const */ [In] double* B, int ldb, double beta,
                     double* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsyrk")]
         public static extern void syrk(Layout Layout, UpLo UPLO,
                     Trans Trans, int N, int K,
-                    double alpha, double* A, int lda,
+                    double alpha, /* const */ [In] double* A, int lda,
                     double beta, double* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dsyr2k")]
         public static extern void syr2k(Layout Layout, UpLo UPLO,
                     Trans Trans, int N, int K,
-                    double alpha, double* A, int lda,
-                    double* B, int ldb, double beta,
+                    double alpha, /* const */ [In] double* A, int lda,
+                     /* const */ [In] double* B, int ldb, double beta,
                     double* C, int ldc);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtrmm")]
         public static extern void trmm(Layout Layout, Side Side,
                     UpLo UPLO, Trans TransA,
                     Diag Diag, int M, int N,
-                    double alpha, double* A, int lda,
+                    double alpha, /* const */ [In] double* A, int lda,
                     double* B, int ldb);
 
         [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_dtrsm")]
         public static extern void trsm(Layout Layout, Side Side,
                     UpLo UPLO, Trans TransA,
                     Diag Diag, int M, int N,
-                    double alpha, double* A, int lda,
+                    double alpha, /* const */ [In] double* A, int lda,
                     double* B, int ldb);
     }
 
