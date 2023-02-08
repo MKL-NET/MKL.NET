@@ -2,7 +2,7 @@
     <PropertyGroup>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>10.0</LangVersion>
+        <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <WarningLevel>5</WarningLevel>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -10,21 +10,20 @@
         <NoWarn>IDE1006</NoWarn>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <IncludeBuildOutput>false</IncludeBuildOutput>
-        <NoWarn>NU5128;NU5131;IDE1006</NoWarn>
+        <NoWarn>NU5128;NU5131;IDE1006;NU5131;CS1591</NoWarn>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <DefineConstants Condition="$(RuntimeIdentifier)=='linux-x64'">$(DefineConstants);LINUX</DefineConstants>
         <DefineConstants Condition="$(RuntimeIdentifier)=='osx-x64'">$(DefineConstants);OSX</DefineConstants>
         <ProduceOnlyReferenceAssembly Condition="$(RuntimeIdentifier)=='osx-x86'">true</ProduceOnlyReferenceAssembly>
         <GenerateDocumentationFile Condition="$(RuntimeIdentifier)!='osx-x86'">true</GenerateDocumentationFile>
-        <NoWarn Condition="$(RuntimeIdentifier)!='osx-x86'">CS1591</NoWarn>
         <SignAssembly>true</SignAssembly>
         <DelaySign>false</DelaySign>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
         <PackageReleaseNotes>
-Bug fix for MKL.NET.Native dynamic linking.
+Expose ReadOnlySpan APIs.
         </PackageReleaseNotes>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Version>1.3.2</Version>
+        <Version>1.4.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <None Include="../matrix.png" Pack="true" PackagePath="" Visible="False" />

@@ -175,7 +175,7 @@ public class WrapperGenerator : ISourceGenerator
 
         sb.Append("namespace ").Append(parentClassSymbol.ContainingNamespace).AppendLine();
         sb.AppendLine("{");
-        sb.AppendLine($"\t[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"MKL.NET\", \"{_version}\")]");
+        sb.Append("\t[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"MKL.NET\", \"").Append(_version).AppendLine("\")]");
         sb.Append("\tpartial class ").AppendLine(parentClassSymbol.Name);
         sb.AppendLine("\t{");
 
@@ -210,7 +210,7 @@ public class WrapperGenerator : ISourceGenerator
                     var attributeTypes = originalParam.AttributeLists
                         .SelectMany(al => al.Attributes)
                         .Select(a => semantics.GetTypeInfo(a).Type)
-                        .ToImmutableHashSet();
+                        .ToImmutableHashSet(SymbolEqualityComparer.Default);
 
                     return originalParam
                         .WithType(
