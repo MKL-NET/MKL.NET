@@ -1616,6 +1616,18 @@ public static partial class Vml
         }
     }
 
+    // Special versions that take a scalar b
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Fmax(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr)
+    {
+        unsafe
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
+                Unsafe.FmaxI(n, ap, inca, &b, 0, rp, incr);
+        }
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Fmin(int n, double[] a, int inia, int inca, double b, double[] r, int inir, int incr)
     {
@@ -1623,6 +1635,17 @@ public static partial class Vml
         {
             fixed (double* ap = &a[inia])
             fixed (double* rp = &r[inir])
+                Unsafe.FminI(n, ap, inca, &b, 0, rp, incr);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Fmin(int n, float[] a, int inia, int inca, float b, float[] r, int inir, int incr)
+    {
+        unsafe
+        {
+            fixed (float* ap = &a[inia])
+            fixed (float* rp = &r[inir])
                 Unsafe.FminI(n, ap, inca, &b, 0, rp, incr);
         }
     }
