@@ -426,48 +426,78 @@ public static partial class Blas
                     Diag Diag, int M, int N,
                     double alpha, /* const */ [In] double* A, int lda,
                     double* B, int ldb);
+
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint="MKL_Dimatcopy")]
+        public static extern void imatcopy(LayoutChar ordering, TransChar trans,
+                    nuint rows, nuint cols,
+                    double alpha, double* A, nuint lda,
+                    nuint ldb);
+
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "MKL_Simatcopy")]
+        public static extern void imatcopy(LayoutChar ordering, TransChar trans,
+                    nuint rows, nuint cols,
+                    float alpha, float* A, nuint lda,
+                    nuint ldb);
+
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "MKL_Domatcopy")]
+        public static extern void omatcopy(LayoutChar ordering, TransChar trans,
+                    nuint rows, nuint cols,
+                    double alpha, /* const */ [In] double* A, nuint lda,
+                    double* B, nuint ldb);
+
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "MKL_Somatcopy")]
+        public static extern void omatcopy(LayoutChar ordering, TransChar trans,
+                    nuint rows, nuint cols,
+                    float alpha, /* const */ [In] float* A, nuint lda,
+                    float* B, nuint ldb);
+
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "MKL_Domatadd")]
+        public static extern void omatadd(LayoutChar ordering,
+                    TransChar transa, TransChar transb,
+                    nuint rows, nuint cols,
+                    double alpha, /* const */ [In] double* A, nuint lda,
+                    double beta, /* const */ [In] double* B, nuint ldb,
+                    double* C, nuint ldc);
+
+        [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "MKL_Somatadd")]
+        public static extern void omatadd(LayoutChar ordering,
+                    TransChar transa, TransChar transb,
+                    nuint rows, nuint cols,
+                    float alpha, /* const */ [In] float* A, nuint lda,
+                    float beta, /* const */ [In] float* B, nuint ldb,
+                    float* C, nuint ldc);
     }
 
-    // Keeping BLAS-like functions with int arguments around
-    [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    static extern void MKL_Dimatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, int ldb);
+    // Keeping BLAS-like functions with int arguments around:
+    //   The BLAS-like functions seem to be the only ones using size_t instead of MKL_INT
+    //   cf. <https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-c/2023-0/mkl-omatadd.html>
+    //   P/Invoke definitions with pointer arguments seem to require the correct nuint for size_t
+    //   The previous definitions with array arguments used int for size_t, but it still worked
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void imatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, int ldb)
-        => MKL_Dimatcopy(ordering, trans, rows, cols, alpha, A, lda, ldb);
+        => imatcopy(ordering, trans, (nuint)rows, (nuint)cols, alpha, A, (nuint)lda, (nuint)ldb);
 
-    [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    static extern void MKL_Simatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, int ldb);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void imatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, int ldb)
-        => MKL_Simatcopy(ordering, trans, rows, cols, alpha, A, lda, ldb);
+        => imatcopy(ordering, trans, (nuint)rows, (nuint)cols, alpha, A, (nuint)lda, (nuint)ldb);
 
-    [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    static extern void MKL_Domatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, double[] B, int ldb);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void omatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, double alpha, double[] A, int lda, double[] B, int ldb)
-        => MKL_Domatcopy(ordering, trans, rows, cols, alpha, A, lda, B, ldb);
+        => omatcopy(ordering, trans, (nuint)rows, (nuint)cols, alpha, A, (nuint)lda, B, (nuint)ldb);
 
-    [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    static extern void MKL_Somatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, float[] B, int ldb);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void omatcopy(LayoutChar ordering, TransChar trans, int rows, int cols, float alpha, float[] A, int lda, float[] B, int ldb)
-        => MKL_Somatcopy(ordering, trans, rows, cols, alpha, A, lda, B, ldb);
-
-    [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    static extern void MKL_Domatadd(LayoutChar ordering, TransChar transa, TransChar transb, int rows, int cols, double alpha, double[] A,
-        int lda, double beta, double[] B, int ldb, double[] C, int ldc);
+        => omatcopy(ordering, trans, (nuint)rows, (nuint)cols, alpha, A, (nuint)lda, B, (nuint)ldb);
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void omatadd(LayoutChar ordering, TransChar transa, TransChar transb, int rows, int cols, double alpha, double[] A,
         int lda, double beta, double[] B, int ldb, double[] C, int ldc)
-        => MKL_Domatadd(ordering, transa, transb, rows, cols, alpha, A, lda, beta, B, ldb, C, ldc);
-
-    [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    static extern void MKL_Somatadd(LayoutChar ordering, TransChar transa, TransChar transb, int rows, int cols, float alpha, float[] A,
-        int lda, float beta, float[] B, int ldb, float[] C, int ldc);
+        => omatadd(ordering, transa, transb, (nuint)rows, (nuint)cols, alpha, A, (nuint)lda, beta, B, (nuint)ldb, C, (nuint)ldc);
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void omatadd(LayoutChar ordering, TransChar transa, TransChar transb, int rows, int cols, float alpha, float[] A,
         int lda, float beta, float[] B, int ldb, float[] C, int ldc)
-        => MKL_Somatadd(ordering, transa, transb, rows, cols, alpha, A, lda, beta, B, ldb, C, ldc);
+        => omatadd(ordering, transa, transb, (nuint)rows, (nuint)cols, alpha, A, (nuint)lda, beta, B, (nuint)ldb, C, (nuint)ldc);
 
     //  Not unsafe
     [DllImport(MKL.DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "cblas_srotg")]
