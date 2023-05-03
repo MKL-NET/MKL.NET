@@ -9,6 +9,8 @@ Exposing functions from MKL keeping the syntax as close to the
 Reference the MKL.NET package and required runtime packages and use the static MKL functions.
 The correct native libraries will be included and loaded at runtime.
 
+If you use _your own copy of MKL native libraries_ please make sure that `mkl_rt.dll`/`libmkl_rt.so`/`libmkl_rt.dylib` is on the path. Newer MKL builds include a version number in the library name, so you will have to create a link or rename it. The names are already adjusted in the MKL.NET packages which work out of the box.
+
 | MKL.NET | [![MKL.NET](https://buildstats.info/nuget/MKL.NET?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET) |
 | :--- | :--- |
 | runtimes: | |
