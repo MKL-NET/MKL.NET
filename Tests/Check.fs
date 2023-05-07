@@ -133,6 +133,19 @@ let close accuracy (expected:'a) (actual:'a) =
                     | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
                     | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
                 check 0
+        | (:? Single.vector as e), (:? Single.vector as a) ->
+            if e.Length <> a.Length then Failure(Normal "Vector size differs. expected: "
+                                            + Numeric e.Length + " actual: "
+                                            + Numeric a.Length)
+            else
+                let rec check i =
+                    match close e[i] a[i] with
+                    | Success ->
+                        if i+1=e.Length then Success
+                        else check (i+1)
+                    | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
+                    | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
+                check 0
         | (:? vectorT as e), (:? vectorT as a) ->
             if e.Length <> a.Length then Failure(Normal "VectorT size differs. expected: "
                                             + Numeric e.Length + " actual: "
@@ -146,7 +159,34 @@ let close accuracy (expected:'a) (actual:'a) =
                     | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
                     | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
                 check 0
+        | (:? Single.vectorT as e), (:? Single.vectorT as a) ->
+            if e.Length <> a.Length then Failure(Normal "VectorT size differs. expected: "
+                                            + Numeric e.Length + " actual: "
+                                            + Numeric a.Length)
+            else
+                let rec check i =
+                    match close e[i] a[i] with
+                    | Success ->
+                        if i+1=e.Length then Success
+                        else check (i+1)
+                    | Failure t -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + t)
+                    | f -> Failure(Normal "At " + Numeric i + " Size " + Numeric e.Length + ". " + f.ToString())
+                check 0
         | (:? matrix as e), (:? matrix as a) ->
+            if e.Rows <> a.Rows || e.Cols <> a.Cols then Failure(Normal "Matrix size differs. expected: ("
+                                                         + Numeric e.Rows + "," + Numeric e.Cols + ") actual: ("
+                                                         + Numeric a.Rows + "," + Numeric a.Cols + ")")
+            else
+                let rec check r c =
+                    match close e[r,c] a[r,c] with
+                    | Success ->
+                        let nr, nc = if r+1<e.Rows then r+1,c else 0,c+1
+                        if nr=0 && nc=e.Cols then Success
+                        else check nr nc
+                    | Failure t -> Failure(Normal "At (" + Numeric r + "," + Numeric c + ") Size (" + Numeric e.Rows + "," + Numeric e.Cols + "). " + t)
+                    | f -> Failure(Normal "At (" + Numeric r + "," + Numeric c + ") Size (" + Numeric e.Rows + "," + Numeric e.Cols + "). " + f.ToString())
+                check 0 0
+        | (:? Single.matrix as e), (:? Single.matrix as a) ->
             if e.Rows <> a.Rows || e.Cols <> a.Cols then Failure(Normal "Matrix size differs. expected: ("
                                                          + Numeric e.Rows + "," + Numeric e.Cols + ") actual: ("
                                                          + Numeric a.Rows + "," + Numeric a.Cols + ")")

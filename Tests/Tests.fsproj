@@ -32,7 +32,9 @@
         <Compile Include="MKLTests.fs" />
         <Compile Include="DftiTests.fs" />
         <Compile Include="VectorTests.fs" />
+        <Compile Include="SingleVectorTests.fs" />
         <Compile Include="MatrixTests.fs" />
+        <Compile Include="SingleMatrixTests.fs" />
         <Compile Include="SolveTests.fs" />
         <Compile Include="PerfTests.fs" />
         <Compile Include="Optimize.CalculusTests.fs" />
