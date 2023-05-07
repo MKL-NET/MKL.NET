@@ -547,27 +547,6 @@ public class MatrixAtan : MatrixUnary
         => Vml.Atan(a.Length, a.Array, r.Array);
 }
 
-public class MatrixAcospi : MatrixUnary
-{
-    public MatrixAcospi(MatrixExpression a) : base(a) { }
-    protected override void Evaluate(Single.matrix a, Single.matrix r)
-        => Vml.Acospi(a.Length, a.Array, r.Array);
-}
-
-public class MatrixAsinpi : MatrixUnary
-{
-    public MatrixAsinpi(MatrixExpression a) : base(a) { }
-    protected override void Evaluate(Single.matrix a, Single.matrix r)
-        => Vml.Asinpi(a.Length, a.Array, r.Array);
-}
-
-public class MatrixAtanpi : MatrixUnary
-{
-    public MatrixAtanpi(MatrixExpression a) : base(a) { }
-    protected override void Evaluate(Single.matrix a, Single.matrix r)
-        => Vml.Atanpi(a.Length, a.Array, r.Array);
-}
-
 public class MatrixCosh : MatrixUnary
 {
     public MatrixCosh(MatrixExpression a) : base(a) { }

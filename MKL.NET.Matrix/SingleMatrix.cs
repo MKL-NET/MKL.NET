@@ -122,9 +122,6 @@ public static class Matrix
     public static MatrixExpression Acos(MatrixExpression m) => new MatrixAcos(m);
     public static MatrixExpression Asin(MatrixExpression m) => new MatrixAsin(m);
     public static MatrixExpression Atan(MatrixExpression m) => new MatrixAtan(m);
-    public static MatrixExpression Acospi(MatrixExpression m) => new MatrixAcospi(m);
-    public static MatrixExpression Asinpi(MatrixExpression m) => new MatrixAsinpi(m);
-    public static MatrixExpression Atanpi(MatrixExpression m) => new MatrixAtanpi(m);
     public static MatrixExpression Cosh(MatrixExpression m) => new MatrixCosh(m);
     public static MatrixExpression Sinh(MatrixExpression m) => new MatrixSinh(m);
     public static MatrixExpression Tanh(MatrixExpression m) => new MatrixTanh(m);

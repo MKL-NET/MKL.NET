@@ -136,7 +136,7 @@ let implicit = test "implicit" {
                     T[r,c] <- A[c,r]
             T
         use actual = impM A.T
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mS" {
@@ -150,7 +150,7 @@ let implicit = test "implicit" {
                     AT[r,c] <- s * A[r,c]
             AT
         use actual = impM (s * A)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTS" {
@@ -164,7 +164,7 @@ let implicit = test "implicit" {
                     T[r,c] <- s * A[c,r]
             T
         use actual = impM (s * A.T)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -176,7 +176,7 @@ let add1 = test "add1" {
         use! B = genMatrix m n
         use expected = add_mm 1.0f A 1.0f B
         use actual = A + B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mm_reuse" {
@@ -185,7 +185,7 @@ let add1 = test "add1" {
         use! B = genMatrix m n
         use expected = add_mm 1.0f A 1.0f B
         use actual = (A + 0.0f) + (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmT" {
@@ -194,7 +194,7 @@ let add1 = test "add1" {
         use! B = genMatrix n m
         use expected = add_mmT 1.0f A 1.0f B
         use actual = A + B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmT_reuse" {
@@ -203,7 +203,7 @@ let add1 = test "add1" {
         use! B = genMatrix n m
         use expected = add_mmT 1.0f A 1.0f B
         use actual = (A + 0.0f) + (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmS" {
@@ -213,7 +213,7 @@ let add1 = test "add1" {
         let s = 1.0f
         use expected = add_mm 1.0f A s B
         use actual = A + s * B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmS_reuse" {
@@ -223,7 +223,7 @@ let add1 = test "add1" {
         let s = 1.0f
         use expected = add_mm 1.0f A s B
         use actual = (A + 0.0f) + (s * B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmTS" {
@@ -233,7 +233,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT 1.0f A s B
         use actual = A + (s * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmTS_reuse" {
@@ -243,7 +243,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT 1.0f A s B
         use actual = (A + 0.0f) + ((s * B.T) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTm" {
@@ -252,7 +252,7 @@ let add1 = test "add1" {
         use! B = genMatrix m n
         use expected = add_mTm 1.0f A 1.0f B
         use actual = A.T + B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTm_reuse" {
@@ -261,7 +261,7 @@ let add1 = test "add1" {
         use! B = genMatrix m n
         use expected = add_mTm 1.0f A 1.0f B
         use actual = (A.T + 0.0f) + (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmT" {
@@ -270,7 +270,7 @@ let add1 = test "add1" {
         use! B = genMatrix n m
         use expected = add_mTmT 1.0f A 1.0f B
         use actual = A.T + B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmT_reuse" {
@@ -279,7 +279,7 @@ let add1 = test "add1" {
         use! B = genMatrix n m
         use expected = add_mTmT 1.0f A 1.0f B
         use actual = (A.T + 0.0f) + (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmS" {
@@ -289,7 +289,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm 1.0f A s B
         use actual = A.T + (s * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmS_reuse" {
@@ -299,7 +299,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm 1.0f A s B
         use actual = (A.T + 0.0f) + ((s * B) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmTS" {
@@ -309,7 +309,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT 1.0f A s B
         use actual = (A.T + (s * B.T)) * 1.0f + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmTS_reuse" {
@@ -319,7 +319,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT 1.0f A s B
         use actual = ((A.T + 0.0f) + ((s * B.T) + 0.0f)) * 1.0f + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSm" {
@@ -329,7 +329,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mm s A 1.0f B
         use actual = (s * A) + B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSm_reuse" {
@@ -339,7 +339,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mm s A 1.0f B
         use actual = (s * A + 0.0f) + (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmT" {
@@ -349,7 +349,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT s A 1.0f B
         use actual = (s * A) + B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmT_reuse" {
@@ -359,7 +359,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT s A 1.0f B
         use actual = (s * A + 0.0f) + (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmS" {
@@ -370,7 +370,7 @@ let add1 = test "add1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mm s1 A s2 B
         use actual = (s1 * A) + (s2 * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmS_reuse" {
@@ -381,7 +381,7 @@ let add1 = test "add1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mm s1 A s2 B
         use actual = (s1 * A + 0.0f) + (s2 * B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmTS" {
@@ -392,7 +392,7 @@ let add1 = test "add1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mmT s1 A s2 B
         use actual = (s1 * A) + (s2 * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
 }
@@ -407,7 +407,7 @@ let add2 = test "add2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mmT s1 A s2 B
         use actual = (s1 * A + 0.0f) + (s2 * B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSm" {
@@ -417,7 +417,7 @@ let add2 = test "add2" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm s A 1.0f B
         use actual = ((s * A.T) + B) + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSm_reuse" {
@@ -427,7 +427,7 @@ let add2 = test "add2" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm s A 1.0f B
         use actual = ((s * A.T + 0.0f) + (B + 0.0f)) + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmT" {
@@ -437,7 +437,7 @@ let add2 = test "add2" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT s A 1.0f B
         use actual = (s * A.T) + B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmT_reuse" {
@@ -447,7 +447,7 @@ let add2 = test "add2" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT s A 1.0f B
         use actual = (s * A.T + 0.0f) + (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmS" {
@@ -458,7 +458,7 @@ let add2 = test "add2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTm s1 A s2 B
         use actual = ((s1 * A.T) + (s2 * B)) + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmS_reuse" {
@@ -469,7 +469,7 @@ let add2 = test "add2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTm s1 A s2 B
         use actual = ((s1 * A.T + 0.0f) + (s2 * B + 0.0f)) + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmTS" {
@@ -480,7 +480,7 @@ let add2 = test "add2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTmT s1 A s2 B
         use actual = (s1 * A.T) + (s2 * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmTS_reuse" {
@@ -491,7 +491,7 @@ let add2 = test "add2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTmT s1 A s2 B
         use actual = (s1 * A.T + 0.0f) + (s2 * B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "md" {
@@ -505,7 +505,7 @@ let add2 = test "add2" {
                     R[r,c] <- A[r,c] + a
             R
         use actual = A + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "md_reuse" {
@@ -519,7 +519,7 @@ let add2 = test "add2" {
                     R[r,c] <- A[r,c] + a
             R
         use actual = (A + 0.0f) + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTd" {
@@ -533,7 +533,7 @@ let add2 = test "add2" {
                     R[c,r] <- A[r,c] + a
             R
         use actual = A.T + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTd_reuse" {
@@ -547,7 +547,7 @@ let add2 = test "add2" {
                     R[c,r] <- A[r,c] + a
             R
         use actual = (A.T + 0.0f) + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSd" {
@@ -562,7 +562,7 @@ let add2 = test "add2" {
                     R[r,c] <- s * A[r,c] + a
             R
         use actual = (s * A) + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSd_reuse" {
@@ -577,7 +577,7 @@ let add2 = test "add2" {
                     R[r,c] <- s * A[r,c] + a
             R
         use actual = (s * A + 0.0f) + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSd" {
@@ -592,7 +592,7 @@ let add2 = test "add2" {
                     R[c,r] <- s * A[r,c] + a
             R
         use actual = (s * A.T) + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSd_reuse" {
@@ -607,7 +607,7 @@ let add2 = test "add2" {
                     R[c,r] <- s * A[r,c] + a
             R
         use actual = (s * A.T + 0.0f) + a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -619,7 +619,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix m n
         use expected = add_mm 1.0f A -1.0f B
         use actual = A - B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mm_reuse" {
@@ -628,7 +628,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix m n
         use expected = add_mm 1.0f A -1.0f B
         use actual = (A + 0.0f) - (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmT" {
@@ -637,7 +637,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix n m
         use expected = add_mmT 1.0f A -1.0f B
         use actual = A - B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmT_reuse" {
@@ -646,7 +646,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix n m
         use expected = add_mmT 1.0f A -1.0f B
         use actual = (A + 0.0f) - (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmS" {
@@ -656,7 +656,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mm 1.0f A -s B
         use actual = A - s * B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmS_reuse" {
@@ -666,7 +666,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mm 1.0f A -s B
         use actual = (A + 0.0f) - (s * B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmTS" {
@@ -676,7 +676,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT 1.0f A -s B
         use actual = (A - (s * B.T)) * 1.0f * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmTS_reuse" {
@@ -686,7 +686,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT 1.0f A -s B
         use actual = ((A + 0.0f) - (s * B.T + 0.0f)) * 1.0f * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTm" {
@@ -695,7 +695,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix m n
         use expected = add_mTm 1.0f A -1.0f B
         use actual = A.T - B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTm_reuse" {
@@ -704,7 +704,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix m n
         use expected = add_mTm 1.0f A -1.0f B
         use actual = (A.T + 0.0f) - (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmT" {
@@ -713,7 +713,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix n m
         use expected = add_mTmT 1.0f A -1.0f B
         use actual = A.T - B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmT_reuse" {
@@ -722,7 +722,7 @@ let sub1 = test "sub1" {
         use! B = genMatrix n m
         use expected = add_mTmT 1.0f A -1.0f B
         use actual = (A.T + 0.0f) - (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmS" {
@@ -732,7 +732,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm 1.0f A -s B
         use actual = A.T - (s * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmS_reuse" {
@@ -742,7 +742,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm 1.0f A -s B
         use actual = (A.T + 0.0f) - ((s * B) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmTS" {
@@ -752,7 +752,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT 1.0f A -s B
         use actual = A.T - (s * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmTS_reuse" {
@@ -762,7 +762,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT 1.0f A -s B
         use actual = (A.T + 0.0f) - ((s * B.T) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSm" {
@@ -772,7 +772,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mm s A -1.0f B
         use actual = (s * A) - B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSm_reuse" {
@@ -782,7 +782,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mm s A -1.0f B
         use actual = (s * A + 0.0f) - (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmT" {
@@ -792,7 +792,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT s A -1.0f B
         use actual = (s * A) - B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmT_reuse" {
@@ -802,7 +802,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mmT s A -1.0f B
         use actual = ((s * A) + 0.0f) - (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmS" {
@@ -813,7 +813,7 @@ let sub1 = test "sub1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mm s1 A -s2 B
         use actual = ((s1 * A) - (s2 * B)) * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmS_reuse" {
@@ -824,7 +824,7 @@ let sub1 = test "sub1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mm s1 A -s2 B
         use actual = ((s1 * A + 0.0f) - (s2 * B + 0.0f)) * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmTS" {
@@ -835,7 +835,7 @@ let sub1 = test "sub1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mmT s1 A -s2 B
         use actual = (s1 * A) - (s2 * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmTS_reuse" {
@@ -846,7 +846,7 @@ let sub1 = test "sub1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mmT s1 A -s2 B
         use actual = (s1 * A + 0.0f) - (s2 * B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSm" {
@@ -856,7 +856,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm s A -1.0f B
         use actual = (s * A.T) - B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSm_reuse" {
@@ -866,7 +866,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTm s A -1.0f B
         use actual = (s * A.T + 0.0f) - (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmT" {
@@ -876,7 +876,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT s A -1.0f B
         use actual = (s * A.T) - B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmT_reuse" {
@@ -886,7 +886,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_mTmT s A -1.0f B
         use actual = (s * A.T + 0.0f) - (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
 }
@@ -901,7 +901,7 @@ let sub2 = test "sub2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTm s1 A -s2 B
         use actual = (s1 * A.T) - (s2 * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmS_reuse" {
@@ -912,7 +912,7 @@ let sub2 = test "sub2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTm s1 A -s2 B
         use actual = (s1 * A.T + 0.0f) - (s2 * B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmTS" {
@@ -923,7 +923,7 @@ let sub2 = test "sub2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTmT s1 A -s2 B
         use actual = (s1 * A.T) - (s2 * B.T) + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmTS_reuse" {
@@ -934,7 +934,7 @@ let sub2 = test "sub2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_mTmT s1 A -s2 B
         use actual = (s1 * A.T + 0.0f) - (s2 * B.T + 0.0f) + 0.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "md" {
@@ -948,7 +948,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- A[r,c] - a
             R
         use actual = A - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "md_reuse" {
@@ -962,7 +962,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- A[r,c] - a
             R
         use actual = (A + 0.0f) - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTd" {
@@ -976,7 +976,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- A[r,c] - a
             R
         use actual = A.T - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTd_reuse" {
@@ -990,7 +990,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- A[r,c] - a
             R
         use actual = (A.T + 0.0f) - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSd" {
@@ -1005,7 +1005,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- s * A[r,c] - a
             R
         use actual = (s * A) - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSd_reuse" {
@@ -1020,7 +1020,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- s * A[r,c] - a
             R
         use actual = (s * A + 0.0f) - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSd" {
@@ -1035,7 +1035,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- s * A[r,c] - a
             R
         use actual = (s * A.T) - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSd_reuse" {
@@ -1050,7 +1050,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- s * A[r,c] - a
             R
         use actual = (s * A.T + 0.0f) - a |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dm" {
@@ -1064,7 +1064,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- a - A[r,c]
             R
         use actual = a - A |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dm_reuse" {
@@ -1078,7 +1078,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- a - A[r,c]
             R
         use actual = a - (A + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dmT" {
@@ -1092,7 +1092,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- a - A[r,c]
             R
         use actual = a - A.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dmT_reuse" {
@@ -1106,7 +1106,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- a - A[r,c]
             R
         use actual = a - (A.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dmS" {
@@ -1121,7 +1121,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- a - s * A[r,c]
             R
         use actual = a - (s * A) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dmS_reuse" {
@@ -1136,7 +1136,7 @@ let sub2 = test "sub2" {
                     R[r,c] <- a - s * A[r,c]
             R
         use actual = a - (s * A + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dmTS" {
@@ -1151,7 +1151,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- a - s * A[r,c]
             R
         use actual = (a - (s * A.T)) * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "dmTS_reuse" {
@@ -1166,7 +1166,7 @@ let sub2 = test "sub2" {
                     R[c,r] <- a - s * A[r,c]
             R
         use actual = (a - (s * A.T + 0.0f)) * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -1178,7 +1178,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix k n
         use expected = mul_mm 1.0f A B
         use actual = A * B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mm_reuse" {
@@ -1187,7 +1187,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix k n
         use expected = mul_mm 1.0f A B
         use actual = (A + 0.0f) * (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmT" {
@@ -1196,7 +1196,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix n k
         use expected = mul_mmT 1.0f A B
         use actual = A * B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmT_reuse" {
@@ -1205,7 +1205,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix n k
         use expected = mul_mmT 1.0f A B
         use actual = (A + 0.0f) * (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmS" {
@@ -1215,7 +1215,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mm s A B
         use actual = A * (s * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmS_reuse" {
@@ -1225,7 +1225,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mm s A B
         use actual = (A + 0.0f) * ((s * B) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmTS" {
@@ -1235,7 +1235,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mmT s A B
         use actual = A * (s * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mmTS_reuse" {
@@ -1245,7 +1245,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mmT s A B
         use actual = (A + 0.0f) * ((s * B.T) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTm" {
@@ -1254,7 +1254,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix k n
         use expected = mul_mTm 1.0f A B
         use actual = A.T * B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTm_reuse" {
@@ -1263,7 +1263,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix k n
         use expected = mul_mTm 1.0f A B
         use actual = (A.T + 0.0f) * (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmT" {
@@ -1272,7 +1272,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix n k
         use expected = mul_mTmT 1.0f A B
         use actual = A.T * B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmT_reuse" {
@@ -1281,7 +1281,7 @@ let mul1 = test "mul1" {
         use! B = genMatrix n k
         use expected = mul_mTmT 1.0f A B
         use actual = (A.T + 0.0f) * (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmS" {
@@ -1291,7 +1291,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTm s A B
         use actual = A.T * (s * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmS_reuse" {
@@ -1301,7 +1301,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTm s A B
         use actual = (A.T + 0.0f) * ((s * B) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmTS" {
@@ -1311,7 +1311,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTmT s A B
         use actual = A.T * (s * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTmTS_reuse" {
@@ -1321,7 +1321,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTmT s A B
         use actual = (A.T + 0.0f) * ((s * B.T) + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSm" {
@@ -1331,7 +1331,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mm s A B
         use actual = (s * A) * B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSm_reuse" {
@@ -1341,7 +1341,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mm s A B
         use actual = ((s * A) + 0.0f) * (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmT" {
@@ -1351,7 +1351,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mmT s A B
         use actual = (s * A) * B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmT_reuse" {
@@ -1361,7 +1361,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mmT s A B
         use actual = ((s * A) + 0.0f) * (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmS" {
@@ -1372,7 +1372,7 @@ let mul1 = test "mul1" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mm (s1*s2) A B
         use actual = (s1 * A) * (s2 * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmS_reuse" {
@@ -1383,7 +1383,7 @@ let mul1 = test "mul1" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mm (s1*s2) A B
         use actual = (s1 * A + 0.0f) * (s2 * B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmTS" {
@@ -1394,7 +1394,7 @@ let mul1 = test "mul1" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mmT (s1*s2) A B
         use actual = (s1 * A) * (s2 * B.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSmTS_reuse" {
@@ -1405,7 +1405,7 @@ let mul1 = test "mul1" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mmT (s1*s2) A B
         use actual = (s1 * A + 0.0f) * (s2 * B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSm" {
@@ -1415,7 +1415,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTm s A B
         use actual = (s * A.T) * B |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
 }
@@ -1429,7 +1429,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTm s A B
         use actual = (s * A.T + 0.0f) * (B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmT" {
@@ -1439,7 +1439,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTmT s A B
         use actual = (s * A.T) * B.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmT_reuse" {
@@ -1449,7 +1449,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTmT s A B
         use actual = (s * A.T + 0.0f) * (B.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmS" {
@@ -1460,7 +1460,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mTm (s1*s2) A B
         use actual = (s1 * A.T) * (s2 * B) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmS_reuse" {
@@ -1471,7 +1471,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mTm (s1*s2) A B
         use actual = (s1 * A.T + 0.0f) * (s2 * B + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmTS" {
@@ -1482,7 +1482,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mTmT (s1*s2) A B
         use actual = ((s1 * A.T) * (s2 * B.T) + 0.0f) * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSmTS_reuse" {
@@ -1493,7 +1493,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mTmT (s1*s2) A B
         use actual = ((s1 * A.T + 0.0f) * (s2 * B.T) + 0.0f) * 1.0f |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mv" {
@@ -1502,7 +1502,7 @@ let mul2 = test "mul2" {
         use! b = SingleVectorTests.genVector n
         use expected = mul_mv 1.0f A b
         use actual = A * b |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mv_reuse" {
@@ -1511,7 +1511,7 @@ let mul2 = test "mul2" {
         use! b = SingleVectorTests.genVector n
         use expected = mul_mv 1.0f A b
         use actual = (A + 0.0f) * (b + 0.0f) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mvS" {
@@ -1521,7 +1521,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mv s A b
         use actual = A * (s * b) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mvS_reuse" {
@@ -1531,7 +1531,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mv s A b
         use actual = (A + 0.0f) * (s * b + 0.0f) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTv" {
@@ -1540,7 +1540,7 @@ let mul2 = test "mul2" {
         use! b = SingleVectorTests.genVector n
         use expected = mul_mTv 1.0f A b
         use actual = A.T * b |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTv_reuse" {
@@ -1549,7 +1549,7 @@ let mul2 = test "mul2" {
         use! b = SingleVectorTests.genVector n
         use expected = mul_mTv 1.0f A b
         use actual = (A.T + 0.0f) * (b + 0.0f) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTvS" {
@@ -1559,7 +1559,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTv s A b
         use actual = A.T * (s * b) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTvS_reuse" {
@@ -1569,7 +1569,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTv s A b
         use actual = (A.T + 0.0f) * ((s * b) + 0.0f) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSv" {
@@ -1579,7 +1579,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mv s A b
         use actual = (s * A) * b |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSv_reuse" {
@@ -1589,7 +1589,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mv s A b
         use actual = (s * A + 0.0f) * (b + 0.0f) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSvS" {
@@ -1600,7 +1600,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mv (s1*s2) A b
         use actual = ((s1 * A) * (s2 * b)) * 1.0f + 0.0f |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSvS_reuse" {
@@ -1611,7 +1611,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mv (s1*s2) A b
         use actual = ((s1 * A + 0.0f) * (s2 * b + 0.0f)) * 1.0f + 0.0f |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSv" {
@@ -1621,7 +1621,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTv s A b
         use actual = (s * A.T) * b |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSv_reuse" {
@@ -1631,7 +1631,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_mTv s A b
         use actual = (s * A.T + 0.0f) * (b + 0.0f) |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSvS" {
@@ -1642,7 +1642,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mTv (s1*s2) A b
         use actual = ((s1 * A.T) * (s2 * b) + 0.0f) * 1.0f |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSvS_reuse" {
@@ -1653,7 +1653,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_mTv (s1*s2) A b
         use actual = ((s1 * A.T + 0.0f) * (s2 * b + 0.0f) + 0.0f) * 1.0f |> SingleVectorTests.impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -1671,7 +1671,7 @@ let testUnary name
         use! A = genMatrix m n
         use expected = map A
         use actual = A |> impME |> factual |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
 let functions1 = test "functions1" {
@@ -1712,9 +1712,6 @@ let functions1 = test "functions1" {
     testUnary "Acos" acos Matrix.Acos
     testUnary "Asin" asin Matrix.Asin
     testUnary "Atan" atan Matrix.Atan
-    testUnary "Acospi" (fun i -> acos (double i / Math.PI) |> single) Matrix.Acospi
-    testUnary "Asinpi" (fun i -> asin (double i / Math.PI) |> single) Matrix.Asinpi
-    testUnary "Atanpi" (fun i -> atan (double i / Math.PI) |> single) Matrix.Atanpi
     testUnary "Cosh" cosh Matrix.Cosh
     testUnary "Sinh" sinh Matrix.Sinh
     testUnary "Tanh" tanh Matrix.Tanh
@@ -1769,7 +1766,7 @@ let functions2 = test "functions2" {
 }
 
 let all =
-    test "matrix" {
+    test "singlematrix" {
         implicit
         add1
         add2

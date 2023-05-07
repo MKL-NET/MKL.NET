@@ -11,7 +11,9 @@ let all =
         MKLTests.all
         DftiTests.all
         VectorTests.all
+        SingleVectorTests.all
         MatrixTests.all
+        SingleMatrixTests.all
         if Environment.Is64BitProcess then SolveTests.all else []
         PerfTests.all
         Optimize.CalculusTests.all

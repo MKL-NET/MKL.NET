@@ -205,12 +205,6 @@ public static class Vector
     public static VectorTExpression Asin(VectorTExpression v) => new MatrixToVectorT(new MatrixAsin(v.ToMatrix()));
     public static VectorExpression Atan(VectorExpression v) => new MatrixToVector(new MatrixAtan(v.ToMatrix()));
     public static VectorTExpression Atan(VectorTExpression v) => new MatrixToVectorT(new MatrixAtan(v.ToMatrix()));
-    public static VectorExpression Acospi(VectorExpression v) => new MatrixToVector(new MatrixAcospi(v.ToMatrix()));
-    public static VectorTExpression Acospi(VectorTExpression v) => new MatrixToVectorT(new MatrixAcospi(v.ToMatrix()));
-    public static VectorExpression Asinpi(VectorExpression v) => new MatrixToVector(new MatrixAsinpi(v.ToMatrix()));
-    public static VectorTExpression Asinpi(VectorTExpression v) => new MatrixToVectorT(new MatrixAsinpi(v.ToMatrix()));
-    public static VectorExpression Atanpi(VectorExpression v) => new MatrixToVector(new MatrixAtanpi(v.ToMatrix()));
-    public static VectorTExpression Atanpi(VectorTExpression v) => new MatrixToVectorT(new MatrixAtanpi(v.ToMatrix()));
     public static VectorExpression Cosh(VectorExpression v) => new MatrixToVector(new MatrixCosh(v.ToMatrix()));
     public static VectorTExpression Cosh(VectorTExpression v) => new MatrixToVectorT(new MatrixCosh(v.ToMatrix()));
     public static VectorExpression Sinh(VectorExpression v) => new MatrixToVector(new MatrixSinh(v.ToMatrix()));

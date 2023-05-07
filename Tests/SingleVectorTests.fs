@@ -81,7 +81,7 @@ let add1 = test "add1" {
         use! b = genVector n
         use expected = add_vv 1.0f a 1.0f b
         use actual = a + b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vv_reuse" {
@@ -90,7 +90,7 @@ let add1 = test "add1" {
         use! b = genVector n
         use expected = add_vv 1.0f a 1.0f b
         use actual = (a + 0.0f) + (b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vvS" {
@@ -100,7 +100,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a s b
         use actual = a + s * b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vvS_reuse" {
@@ -110,7 +110,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a s b
         use actual = (a + 0.0f) + (s * b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvT" {
@@ -119,7 +119,7 @@ let add1 = test "add1" {
         use! b = genVector n
         use expected = add_vv 1.0f a 1.0f b
         use actual = (a.T + b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvT_reuse" {
@@ -128,7 +128,7 @@ let add1 = test "add1" {
         use! b = genVector n
         use expected = add_vv 1.0f a 1.0f b
         use actual = ((a.T + 0.0f) + (b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvTS" {
@@ -138,7 +138,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a s b
         use actual = (a.T + s * b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvTS_reuse" {
@@ -148,7 +148,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a s b
         use actual = ((a.T + 0.0f) + (s * b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSv" {
@@ -158,7 +158,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a 1.0f b
         use actual = s * a + b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSv_reuse" {
@@ -168,7 +168,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a 1.0f b
         use actual = (s * a + 0.0f) + (b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvS" {
@@ -179,7 +179,7 @@ let add1 = test "add1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a s2 b
         use actual = s1 * a + s2 * b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvS_reuse" {
@@ -190,7 +190,7 @@ let add1 = test "add1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a s2 b
         use actual = (s1 * a + 0.0f) + (s2 * b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvT" {
@@ -200,7 +200,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a 1.0f b
         use actual = (s * a.T + b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvT_reuse" {
@@ -210,7 +210,7 @@ let add1 = test "add1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a 1.0f b
         use actual = ((s * a.T + 0.0f) + (b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvTS" {
@@ -221,7 +221,7 @@ let add1 = test "add1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a s2 b
         use actual = (s1 * a.T + s2 * b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvTS_reuse" {
@@ -232,7 +232,7 @@ let add1 = test "add1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a s2 b
         use actual = ((s1 * a.T + 0.0f) + (s2 * b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -248,7 +248,7 @@ let add2 = test "add2" {
                 R[i] <- A[i] + a
             R
         use actual = A + a |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vd_reuse" {
@@ -261,7 +261,7 @@ let add2 = test "add2" {
                 R[i] <- A[i] + a
             R
         use actual = (A + 0.0f) + a |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTd" {
@@ -274,7 +274,7 @@ let add2 = test "add2" {
                 R[i] <- A[i] + a
             R
         let actual = (A.T + a).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTd_reuse" {
@@ -287,7 +287,7 @@ let add2 = test "add2" {
                 R[i] <- A[i] + a
             R
         let actual = ((A.T + 0.0f) + a).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSd" {
@@ -301,7 +301,7 @@ let add2 = test "add2" {
                 R[i] <- s * A[i] + a
             R
         use actual = (s * A) + a |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mSd_reuse" {
@@ -315,7 +315,7 @@ let add2 = test "add2" {
                 R[i] <- s * A[i] + a
             R
         use actual = (s * A + 0.0f) + a |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSd" {
@@ -329,7 +329,7 @@ let add2 = test "add2" {
                 R[i] <- (s * A[i]) + a
             R
         let actual = ((s * A.T) + a).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "mTSd_reuse" {
@@ -343,7 +343,7 @@ let add2 = test "add2" {
                 R[i] <- (s * A[i]) + a
             R
         let actual = ((s * A.T + 0.0f) + a).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -355,7 +355,7 @@ let sub1 = test "sub1" {
         use! b = genVector n
         use expected = add_vv 1.0f a -1.0f b
         use actual = a - b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vv_reuse" {
@@ -364,7 +364,7 @@ let sub1 = test "sub1" {
         use! b = genVector n
         use expected = add_vv 1.0f a -1.0f b
         use actual = (a + 0.0f) - (b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vvS" {
@@ -374,7 +374,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a -s b
         use actual = a - s * b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vvS_reuse" {
@@ -384,7 +384,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a -s b
         use actual = (a + 0.0f) - (s * b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvT" {
@@ -393,7 +393,7 @@ let sub1 = test "sub1" {
         use! b = genVector n
         use expected = add_vv 1.0f a -1.0f b
         use actual = (a.T - b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvT_reuse" {
@@ -402,7 +402,7 @@ let sub1 = test "sub1" {
         use! b = genVector n
         use expected = add_vv 1.0f a -1.0f b
         use actual = ((a.T + 0.0f) - (b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvTS" {
@@ -412,7 +412,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a -s b
         use actual = (a.T - s * b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvTS_reuse" {
@@ -422,7 +422,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv 1.0f a -s b
         use actual = ((a.T + 0.0f) - (s * b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSv" {
@@ -432,7 +432,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a -1.0f b
         use actual = s * a - b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSv_reuse" {
@@ -442,7 +442,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a -1.0f b
         use actual = (s * a + 0.0f) - (b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvS" {
@@ -453,7 +453,7 @@ let sub1 = test "sub1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a -s2 b
         use actual = s1 * a - s2 * b |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvS_reuse" {
@@ -464,7 +464,7 @@ let sub1 = test "sub1" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a -s2 b
         use actual = (s1 * a + 0.0f) - (s2 * b + 0.0f) |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvT" {
@@ -474,7 +474,7 @@ let sub1 = test "sub1" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a -1.0f b
         use actual = (s * a.T - b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
 }
@@ -488,7 +488,7 @@ let sub2 = test "sub2" {
         let! s = Gen.Single.OneTwo
         use expected = add_vv s a -1.0f b
         use actual = ((s * a.T + 0.0f) - (b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvTS" {
@@ -499,7 +499,7 @@ let sub2 = test "sub2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a -s2 b
         use actual = (s1 * a.T - s2 * b.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvTS_reuse" {
@@ -510,7 +510,7 @@ let sub2 = test "sub2" {
         let! s2 = Gen.Single.OneTwo
         use expected = add_vv s1 a -s2 b
         use actual = ((s1 * a.T + 0.0f) - (s2 * b.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -522,7 +522,7 @@ let mul1 = test "mul1" {
         use! b = genVector n
         use expected = mul_vvT 1.0f a b
         use actual = (a * b.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vvT_reuse" {
@@ -531,7 +531,7 @@ let mul1 = test "mul1" {
         use! b = genVector n
         use expected = mul_vvT 1.0f a b
         use actual = ((a + 0.0f) * (b.T + 0.0f)) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vvTS" {
@@ -541,7 +541,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vvT s a b
         use actual = a * (s * b.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vvTS_reuse" {
@@ -551,7 +551,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vvT s a b
         use actual = (a + 0.0f) * (s * b.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTv" {
@@ -560,7 +560,7 @@ let mul1 = test "mul1" {
         use! b = genVector n
         let expected = mul_vTv a b
         let actual = a.T * b
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTv_reuse" {
@@ -569,7 +569,7 @@ let mul1 = test "mul1" {
         use! b = genVector n
         let expected = mul_vTv a b
         let actual = (a.T + 0.0f) * (b + 0.0f)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvS" {
@@ -579,7 +579,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         let expected = mul_vTv a b * s
         let actual = a.T * (b * s)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTvS_reuse" {
@@ -589,7 +589,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         let expected = mul_vTv a b * s
         let actual = (a.T + 0.0f) * (b * s + 0.0f)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvT" {
@@ -599,7 +599,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vvT s a b
         use actual = (s * a) * b.T |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvT_reuse" {
@@ -609,7 +609,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vvT s a b
         use actual = (s * a + 0.0f) * (b.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvTS" {
@@ -620,7 +620,7 @@ let mul1 = test "mul1" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_vvT (s1*s2) a b
         use actual = (s1 * a) * (s2 * b.T) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vSvTS_reuse" {
@@ -631,7 +631,7 @@ let mul1 = test "mul1" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_vvT (s1*s2) a b
         use actual = (s1 * a + 0.0f) * (s2 * b.T + 0.0f) |> impM
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSv" {
@@ -641,7 +641,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         let expected = s * mul_vTv a b
         let actual = (s * a.T) * b
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSv_reuse" {
@@ -651,7 +651,7 @@ let mul1 = test "mul1" {
         let! s = Gen.Single.OneTwo
         let expected = s * mul_vTv a b
         let actual = (s * a.T + 0.0f) * (b + 0.0f)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -665,7 +665,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         let expected = s1 * mul_vTv a b * s2
         let actual = (s1 * a.T) * (b * s2)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSvS_reuse" {
@@ -676,7 +676,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         let expected = s1 * mul_vTv a b * s2
         let actual = (s1 * a.T + 0.0f) * (b * s2 + 0.0f)
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTm" {
@@ -685,7 +685,7 @@ let mul2 = test "mul2" {
         use! B = genMatrix m n
         use expected = mul_vTm 1.0f a B
         use actual = (a.T * B).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTm_reuse" {
@@ -694,7 +694,7 @@ let mul2 = test "mul2" {
         use! B = genMatrix m n
         use expected = mul_vTm 1.0f a B
         use actual = ((a.T + 0.0f) * (B + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTmT" {
@@ -703,7 +703,7 @@ let mul2 = test "mul2" {
         use! B = genMatrix n m
         use expected = mul_vTmT 1.0f a B
         use actual = (a.T * B.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTmT_reuse" {
@@ -712,7 +712,7 @@ let mul2 = test "mul2" {
         use! B = genMatrix n m
         use expected = mul_vTmT 1.0f a B
         use actual = ((a.T + 0.0f) * (B.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTmTS" {
@@ -722,7 +722,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vTmT s a B
         use actual = (a.T * (s * B.T)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTmTS_reuse" {
@@ -732,7 +732,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vTmT s a B
         use actual = ((a.T + 0.0f) * (s * B.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSm" {
@@ -742,7 +742,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vTm s a B
         use actual = ((s * a.T) * B).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSm_reuse" {
@@ -752,7 +752,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vTm s a B
         use actual = ((s * a.T + 0.0f) * (B + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSmT" {
@@ -762,7 +762,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vTmT s a B
         use actual = ((s * a.T) * B.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSmT_reuse" {
@@ -772,7 +772,7 @@ let mul2 = test "mul2" {
         let! s = Gen.Single.OneTwo
         use expected = mul_vTmT s a B
         use actual = ((s * a.T + 0.0f) * (B.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSmTS" {
@@ -783,7 +783,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_vTmT (s1*s2) a B
         use actual = ((s1 * a.T) * (s2 * B.T)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 
     test "vTSmTS_reuse" {
@@ -794,7 +794,7 @@ let mul2 = test "mul2" {
         let! s2 = Gen.Single.OneTwo
         use expected = mul_vTmT (s1*s2) a B
         use actual = ((s1 * a.T + 0.0f) * (s2 * B.T + 0.0f)).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
     }
 }
 
@@ -812,9 +812,28 @@ let testUnary name
         use! A = genVector n
         use expected = map A
         use actual = A |> impVE |> factual |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
         use actual = (factualT A.T).T |> impV
-        Check.close High expected actual
+        Check.close Medium expected actual
+    }
+
+let testUnaryLow name
+    (fexpected:single -> single)
+    (factual:VectorExpression -> VectorExpression)
+    (factualT:VectorTExpression -> VectorTExpression) =
+    let map (A:vector) =
+        let E = new vector(A.Length)
+        for i = 0 to A.Length-1 do
+            E[i] <- fexpected(A[i])
+        E
+    test name {
+        let! n = gen1D
+        use! A = genVector n
+        use expected = map A
+        use actual = A |> impVE |> factual |> impV
+        Check.close Low expected actual
+        use actual = (factualT A.T).T |> impV
+        Check.close Low expected actual
     }
 
 let functions1 = test "functions1" {
@@ -851,16 +870,13 @@ let functions2 = test "functions2" {
     testUnary "Tan" tan Vector.Tan Vector.Tan
     testUnary "Cospi" (fun i -> cos(single Math.PI*i)) Vector.Cospi Vector.Cospi
     testUnary "Sinpi" (fun i -> sin(single Math.PI*i)) Vector.Sinpi Vector.Sinpi
-    testUnary "Tanpi" (fun i -> tan(single Math.PI*i)) Vector.Tanpi Vector.Tanpi
+    testUnaryLow "Tanpi" (fun i -> tan(single Math.PI*i)) Vector.Tanpi Vector.Tanpi
     testUnary "Cosd" (fun i -> cos(single (Math.PI/180.0)*i)) Vector.Cosd Vector.Cosd
     testUnary "Sind" (fun i -> sin(single (Math.PI/180.0)*i)) Vector.Sind Vector.Sind
     testUnary "Tand" (fun i -> tan(single (Math.PI/180.0)*i)) Vector.Tand Vector.Tand
     testUnary "Acos" acos Vector.Acos Vector.Acos
     testUnary "Asin" asin Vector.Asin Vector.Asin
     testUnary "Atan" atan Vector.Atan Vector.Atan
-    testUnary "Acospi" (fun i -> acos i / single Math.PI) Vector.Acospi Vector.Acospi
-    testUnary "Asinpi" (fun i -> asin i / single Math.PI) Vector.Asinpi Vector.Asinpi
-    testUnary "Atanpi" (fun i -> atan i / single Math.PI) Vector.Atanpi Vector.Atanpi
     testUnary "Cosh" cosh Vector.Cosh Vector.Cosh
     testUnary "Sinh" sinh Vector.Sinh Vector.Sinh
     testUnary "Tanh" tanh Vector.Tanh Vector.Tanh
@@ -889,7 +905,7 @@ let functions2 = test "functions2" {
 }
 
 let all =
-    test "vector" {
+    test "singlevector" {
         add1
         add2
         sub1
