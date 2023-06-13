@@ -1610,8 +1610,7 @@ public static partial class Vml
     {
         unsafe
         {
-            fixed (double* ap = &a[inia])
-            fixed (double* rp = &r[inir])
+            fixed (double* ap = &a[inia], rp = &r[inir])
                 Unsafe.FmaxI(n, ap, inca, &b, 0, rp, incr);
         }
     }
@@ -1622,8 +1621,7 @@ public static partial class Vml
     {
         unsafe
         {
-            fixed (float* ap = &a[inia])
-            fixed (float* rp = &r[inir])
+            fixed (float* ap = &a[inia], rp = &r[inir])
                 Unsafe.FmaxI(n, ap, inca, &b, 0, rp, incr);
         }
     }
@@ -1633,8 +1631,7 @@ public static partial class Vml
     {
         unsafe
         {
-            fixed (double* ap = &a[inia])
-            fixed (double* rp = &r[inir])
+            fixed (double* ap = &a[inia], rp = &r[inir])
                 Unsafe.FminI(n, ap, inca, &b, 0, rp, incr);
         }
     }
@@ -1644,8 +1641,7 @@ public static partial class Vml
     {
         unsafe
         {
-            fixed (float* ap = &a[inia])
-            fixed (float* rp = &r[inir])
+            fixed (float* ap = &a[inia], rp = &r[inir])
                 Unsafe.FminI(n, ap, inca, &b, 0, rp, incr);
         }
     }

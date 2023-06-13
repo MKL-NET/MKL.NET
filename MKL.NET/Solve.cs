@@ -101,7 +101,7 @@ public unsafe static class Solve
         var jac = new double[n * m];
         var f1 = new double[m];
         var f2 = new double[m];
-        fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+        fixed (double* xp = x, epsp = eps, Fxp = Fx, jacp = jac, f1p = f1, f2p = f2)
         {
             IntPtr handle;
             int request;
@@ -153,7 +153,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new double[n * m];
-        fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (double* xp = x, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -219,7 +219,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new double[n * m];
-        fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (double* xp = x, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -263,7 +263,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new double[n * m];
-        fixed (double* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (double* xp = x, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -333,7 +333,7 @@ public unsafe static class Solve
         var jac = new double[n * m];
         var f1 = new double[m];
         var f2 = new double[m];
-        fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+        fixed (double* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac, f1p = f1, f2p = f2)
         {
             IntPtr handle;
             int request;
@@ -387,7 +387,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new double[n * m];
-        fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (double* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -461,7 +461,7 @@ public unsafe static class Solve
         var jac = new double[n * m];
         var f1 = new double[m];
         var f2 = new double[m];
-        fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+        fixed (double* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac, f1p = f1, f2p = f2)
         {
             IntPtr handle;
             int request;
@@ -509,7 +509,7 @@ public unsafe static class Solve
         var jac = new double[n * m];
         var f1 = new double[m];
         var f2 = new double[m];
-        fixed (double* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+        fixed (double* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac, f1p = f1, f2p = f2)
         {
             IntPtr handle;
             int request;
@@ -581,7 +581,7 @@ public unsafe static class Solve
         var jac = new float[n * m];
         var f1 = new float[m];
         var f2 = new float[m];
-        fixed (float* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+        fixed (float* xp = x, epsp = eps, Fxp = Fx, jacp = jac, f1p = f1, f2p = f2)
         {
             IntPtr handle;
             int request;
@@ -633,7 +633,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new float[n * m];
-        fixed (float* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (float* xp = x, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -699,7 +699,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new float[n * m];
-        fixed (float* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (float* xp = x, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -743,7 +743,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new float[n * m];
-        fixed (float* xp = &x[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (float* xp = x, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -813,7 +813,7 @@ public unsafe static class Solve
         var jac = new float[n * m];
         var f1 = new float[m];
         var f2 = new float[m];
-        fixed (float* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+        fixed (float* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac, f1p = f1, f2p = f2)
         {
             IntPtr handle;
             int request;
@@ -867,7 +867,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new float[n * m];
-        fixed (float* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (float* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
@@ -941,7 +941,7 @@ public unsafe static class Solve
         var jac = new float[n * m];
         var f1 = new float[m];
         var f2 = new float[m];
-        fixed (float* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0], f1p = &f1[0], f2p = &f2[0])
+        fixed (float* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac, f1p = f1, f2p = f2)
         {
             IntPtr handle;
             int request;
@@ -987,7 +987,7 @@ public unsafe static class Solve
         int n = x.Length;
         int m = Fx.Length;
         var jac = new float[n * m];
-        fixed (float* xp = &x[0], lowerp = &lower[0], upperp = &upper[0], epsp = &eps[0], Fxp = &Fx[0], jacp = &jac[0])
+        fixed (float* xp = x, lowerp = lower, upperp = upper, epsp = eps, Fxp = Fx, jacp = jac)
         {
             IntPtr handle;
             int request;
