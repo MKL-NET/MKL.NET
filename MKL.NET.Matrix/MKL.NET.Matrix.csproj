@@ -22,9 +22,9 @@ Performance and memory optimised matrix algebra library based on cross platform 
 - Uses the Pinned Object Heap for net6.0.
         </Description>
         <PackageReleaseNotes>
-Added single precision vector and matrix. Thanks atlemann.
+Fixed MatrixSolve Dispose logic.
         </PackageReleaseNotes>
-        <Version>1.1.0</Version>
+        <Version>1.1.1</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../MKL.NET/MKL.NET.csproj" />

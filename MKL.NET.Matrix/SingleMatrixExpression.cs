@@ -200,7 +200,8 @@ public abstract class MatrixBinary : MatrixExpression
               : Eb is not MatrixInput ? b
               : new Single.matrix(a.Rows, a.Cols);
         Evaluate(a, b, r);
-        if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
+        if (r != a && Ea is not MatrixInput) a.Dispose();
+        if (r != b && Eb is not MatrixInput) b.Dispose();
         return r;
     }
 }
@@ -225,7 +226,8 @@ public class MatrixAddSimple : MatrixExpression
               : Eb is not MatrixInput ? b
               : new Single.matrix(a.Rows, a.Cols);
         Vml.Add(a.Length, a.Array, b.Array, r.Array);
-        if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
+        if (r != a && Ea is not MatrixInput) a.Dispose();
+        if (r != b && Eb is not MatrixInput) b.Dispose();
         return r;
     }
 }
@@ -250,7 +252,8 @@ public class MatrixSubSimple : MatrixExpression
               : Eb is not MatrixInput ? b
               : new Single.matrix(a.Rows, a.Cols);
         Vml.Sub(a.Length, a.Array, b.Array, r.Array);
-        if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
+        if (r != a && Ea is not MatrixInput) a.Dispose();
+        if (r != b && Eb is not MatrixInput) b.Dispose();
         return r;
     }
 }
@@ -283,7 +286,15 @@ public class MatrixAdd : MatrixExpression
               : Transa ? new Single.matrix(a.Cols, a.Rows) : new Single.matrix(a.Rows, a.Cols);
         Blas.omatadd(LayoutChar.ColMajor, Transa ? TransChar.Yes : TransChar.No, Transb ? TransChar.Yes : TransChar.No,
                         r.Rows, r.Cols, Sa, a.Array, a.Rows, Sb, b.Array, b.Rows, r.Array, r.Rows);
-        if (Ea is not MatrixInput && Eb is not MatrixInput) b.Dispose();
+        if (R is not null)
+        {
+            if (Ea is not MatrixInput) a.Dispose();
+            if (Eb is not MatrixInput) b.Dispose();
+        }
+        else if (Ea is not MatrixInput && Eb is not MatrixInput)
+        {
+            b.Dispose();
+        }
         return r;
     }
 }
@@ -922,7 +933,7 @@ public class MatrixSolve : MatrixExpression
         var ipiv = Pool.Int.Rent(a.Rows);
         ThrowHelper.Check(Lapack.gesv(Layout.ColMajor, a.Rows, b.Cols, a.Array, a.Rows, ipiv, b.Array, a.Rows));
         Pool.Int.Return(ipiv);
-        if (Ea is not MatrixInput) a.Dispose();
+        a.Dispose();
         return b;
     }
 }
@@ -943,7 +954,7 @@ public class MatrixLeastSquares : MatrixExpression
         if (Ea is MatrixInput) a = Single.Matrix.Copy(a);
         if (Eb is MatrixInput) b = Single.Matrix.Copy(b);
         Lapack.gels(Layout.RowMajor, TransChar.No, a.Rows, a.Cols, b.Cols, a.Array, a.Cols, b.Array, b.Cols);
-        if (Ea is not MatrixInput) a.Dispose();
+        a.Dispose();
         return b;
     }
 }
