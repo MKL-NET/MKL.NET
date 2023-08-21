@@ -20,10 +20,10 @@
         <DelaySign>false</DelaySign>
         <AssemblyOriginatorKeyFile>../SigningKey.snk</AssemblyOriginatorKeyFile>
         <PackageReleaseNotes>
-Fix MKL.NET.Native.dll being missing from package for win-x64.
+Added wrappers for the BLAS-like functions. Thanks delreluca.
         </PackageReleaseNotes>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Version>1.4.1</Version>
+        <Version>1.5.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <None Include="../matrix.png" Pack="true" PackagePath="" Visible="False" />
@@ -34,14 +34,14 @@ Fix MKL.NET.Native.dll being missing from package for win-x64.
         <None Include="bin/Release/netstandard2.0/win-x86/MKL.NET.dll" Pack="true" PackagePath="runtimes/win-x86/lib/netstandard2.0" />
         <None Include="bin/Release/netstandard2.0/linux-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/linux-x64/lib/netstandard2.0" />
         <None Include="bin/Release/netstandard2.0/osx-x64/MKL.NET.dll" Pack="true" PackagePath="runtimes/osx-x64/lib/netstandard2.0" />
-        <None Include="../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x64/native" Visible="False" />
-        <None Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x86/native" Visible="False" />
-        <None Include="../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so" Pack="true" PreserveNewest="runtimes/linux-x64/native" Visible="False" />
-        <None Include="../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" Visible="False" />
-        <Content Condition="Exists('../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll') And $(RuntimeIdentifier)=='win-x64'" Include="../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" Visible="False" />
-        <Content Condition="Exists('../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll') And $(RuntimeIdentifier)=='win-x86'" Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" Visible="False" />
-        <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so') And $(RuntimeIdentifier)=='linux-x64'" Include="../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so" Pack="false" CopyToOutputDirectory="PreserveNewest" Visible="False" />
-        <Content Condition="Exists('../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib') And $(RuntimeIdentifier)=='osx-x64'" Include="../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib" Pack="false" CopyToOutputDirectory="PreserveNewest" Visible="False" />
+        <None Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
+        <None Include="../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll" Pack="true" PackagePath="runtimes/win-x64/native"  />
+        <None Include="../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
+        <None Include="../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" />
+        <Content Condition="Exists('../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll') And $(RuntimeIdentifier)=='win-x86' And $(NOCONT)!='true'" Include="../MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="Exists('../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll') And $(RuntimeIdentifier)=='win-x64' And $(NOCONT)!='true'" Include="../MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll" Pack="false" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="Exists('../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so') And $(RuntimeIdentifier)=='linux-x64' And $(NOCONT)!='true'" Include="../MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so" Pack="false" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="Exists('../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib') And $(RuntimeIdentifier)=='osx-x64' And $(NOCONT)!='true'" Include="../MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib" Pack="false" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="System.Memory" Version="4.5.5" />
