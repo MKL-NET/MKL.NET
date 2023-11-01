@@ -79,7 +79,7 @@ let quartile = test "quartile" {
     //    //Check.close VeryLow expected.q[4] actual.Q4
     //}
 
-    test "faster" {
+    test "perf" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
             (fun () ->
@@ -168,7 +168,7 @@ let quantile = test "quantile" {
     //    //Check.close VeryLow expected.q[4] actual.Q4
     //}
 
-    test "faster" {
+    test "perf" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
             (fun () ->
@@ -355,7 +355,7 @@ let moment4 = test "moment4" {
         Check.close VeryHigh expected.Kurtosis actual.Kurtosis
     }
 
-    test "faster" {
+    test "perf" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
             (fun () ->
@@ -420,7 +420,7 @@ let moment3 = test "moment3" {
         Check.close VeryHigh expected.Skewness actual.Skewness
     }
 
-    test "faster" {
+    test "perf" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
             (fun () ->
@@ -482,7 +482,7 @@ let moment2 = test "moment2" {
         Check.close VeryHigh expected.StandardDeviation actual.StandardDeviation
     }
 
-    test "faster" {
+    test "perf" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
             (fun () ->
@@ -540,7 +540,7 @@ let moment1 = test "moment1" {
         Check.close VeryHigh expected.Mean actual.Mean
     }
 
-    test "faster" {
+    test "perf" {
         let! xs = Gen.Double.OneTwo.Array
         Check.faster
             (fun () ->
