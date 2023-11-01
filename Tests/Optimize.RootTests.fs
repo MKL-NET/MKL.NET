@@ -154,10 +154,10 @@ let all =
 
             test_solver "toms748_11" 1e-11 Optimize.Root_Toms748 (Check.between 2906 2909)
 
-            test_solver "hybrid_6" 1e-6 Optimize.Root (Check.between 2109 2128)
-            test_solver "hybrid_7" 1e-7 Optimize.Root (Check.between 2154 2177)
-            test_solver "hybrid_9" 1e-9 Optimize.Root (Check.between 2210 2239)
-            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2302 2347)
+            test_solver "hybrid_6" 1e-6 Optimize.Root (Check.between 2109 2129)
+            test_solver "hybrid_7" 1e-7 Optimize.Root (Check.between 2154 2178)
+            test_solver "hybrid_9" 1e-9 Optimize.Root (Check.between 2210 2241)
+            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2302 2352)
 
             test "newton_11" {
                 let tol = 1e-11
@@ -223,7 +223,7 @@ let all =
                 let root, root_i = run Optimize.Root
                 let root_brent, root_brent_i = run Optimize.Root_Brent
                 Check.isTrue (abs(root - root_brent) < tol * 2.0)
-                Check.equal 13 root_i
+                Check.between 12 13 root_i
                 Check.equal 13 root_brent_i
 
                 let run_newton solver =

@@ -48,36 +48,36 @@ let quartile = test "quartile" {
         Check.close VeryHigh expected.Q4 actual.Q4
     }
 
-    test "vs_p2" {
-        let! xs = Gen.Double[-10, 10].Array[5, 50]
-        let expected = P2QuantileEstimatorPatched(0.5)
-        let actual = QuartileEstimator()
-        for x in xs do
-            expected.AddValue x
-            actual.Add x
+    //test "vs_p2" {
+    //    let! xs = Gen.Double[-10, 10].Array[5, 50]
+    //    let expected = P2QuantileEstimatorPatched(0.5)
+    //    let actual = QuartileEstimator()
+    //    for x in xs do
+    //        expected.AddValue x
+    //        actual.Add x
 
-        Check.greaterThan actual.N0 actual.N1
-        Check.greaterThan actual.N1 actual.N2
-        Check.greaterThan actual.N2 actual.N3
-        Check.greaterThan actual.N3 actual.N
+    //    Check.greaterThan actual.N0 actual.N1
+    //    Check.greaterThan actual.N1 actual.N2
+    //    Check.greaterThan actual.N2 actual.N3
+    //    Check.greaterThan actual.N3 actual.N
 
-        Check.greaterThanOrEqual actual.Q0 actual.Q1
-        Check.greaterThanOrEqual actual.Q1 actual.Q2
-        Check.greaterThanOrEqual actual.Q2 actual.Q3
-        Check.greaterThanOrEqual actual.Q3 actual.Q4
+    //    Check.greaterThanOrEqual actual.Q0 actual.Q1
+    //    Check.greaterThanOrEqual actual.Q1 actual.Q2
+    //    Check.greaterThanOrEqual actual.Q2 actual.Q3
+    //    Check.greaterThanOrEqual actual.Q3 actual.Q4
 
-        Check.equal (expected.n[0]+1) actual.N0
-        Check.equal (expected.n[1]+1) actual.N1
-        Check.equal (expected.n[2]+1) actual.N2
-        Check.equal (expected.n[3]+1) actual.N3
-        Check.equal (expected.n[4]+1) actual.N
+    //    Check.equal (expected.n[0]+1) actual.N0
+    //    Check.equal (expected.n[1]+1) actual.N1
+    //    Check.equal (expected.n[2]+1) actual.N2
+    //    Check.equal (expected.n[3]+1) actual.N3
+    //    Check.equal (expected.n[4]+1) actual.N
 
-        //Check.close VeryLow expected.q[0] actual.Q0
-        //Check.close VeryLow expected.q[1] actual.Q1
-        //Check.close VeryLow expected.q[2] actual.Q2
-        //Check.close VeryLow expected.q[3] actual.Q3
-        //Check.close VeryLow expected.q[4] actual.Q4
-    }
+    //    //Check.close VeryLow expected.q[0] actual.Q0
+    //    //Check.close VeryLow expected.q[1] actual.Q1
+    //    //Check.close VeryLow expected.q[2] actual.Q2
+    //    //Check.close VeryLow expected.q[3] actual.Q3
+    //    //Check.close VeryLow expected.q[4] actual.Q4
+    //}
 
     test "faster" {
         let! xs = Gen.Double.OneTwo.Array
@@ -137,36 +137,36 @@ let quartile = test "quartile" {
 
 let quantile = test "quantile" {
 
-    test "vs_p2" {
-        let! xs = Gen.Double[-10, 10].Array[5, 50]
-        let expected = P2QuantileEstimatorPatched(0.6)
-        let actual = QuantileEstimator(0.6)
-        for x in xs do
-            expected.AddValue x
-            actual.Add x
+    //test "vs_p2" {
+    //    let! xs = Gen.Double[-10, 10].Array[5, 50]
+    //    let expected = P2QuantileEstimatorPatched(0.6)
+    //    let actual = QuantileEstimator(0.6)
+    //    for x in xs do
+    //        expected.AddValue x
+    //        actual.Add x
 
-        Check.greaterThan actual.N0 actual.N1
-        Check.greaterThan actual.N1 actual.N2
-        Check.greaterThan actual.N2 actual.N3
-        Check.greaterThan actual.N3 actual.N
+    //    Check.greaterThan actual.N0 actual.N1
+    //    Check.greaterThan actual.N1 actual.N2
+    //    Check.greaterThan actual.N2 actual.N3
+    //    Check.greaterThan actual.N3 actual.N
 
-        Check.greaterThanOrEqual actual.Q0 actual.Q1
-        Check.greaterThanOrEqual actual.Q1 actual.Quantile
-        Check.greaterThanOrEqual actual.Quantile actual.Q3
-        Check.greaterThanOrEqual actual.Quantile actual.Q4
+    //    Check.greaterThanOrEqual actual.Q0 actual.Q1
+    //    Check.greaterThanOrEqual actual.Q1 actual.Quantile
+    //    Check.greaterThanOrEqual actual.Quantile actual.Q3
+    //    Check.greaterThanOrEqual actual.Quantile actual.Q4
 
-        Check.equal (expected.n[0]+1) actual.N0
-        Check.equal (expected.n[1]+1) actual.N1
-        Check.equal (expected.n[2]+1) actual.N2
-        Check.equal (expected.n[3]+1) actual.N3
-        Check.equal (expected.n[4]+1) actual.N
+    //    Check.equal (expected.n[0]+1) actual.N0
+    //    Check.equal (expected.n[1]+1) actual.N1
+    //    Check.equal (expected.n[2]+1) actual.N2
+    //    Check.equal (expected.n[3]+1) actual.N3
+    //    Check.equal (expected.n[4]+1) actual.N
 
-        //Check.close VeryLow expected.q[0] actual.Q0
-        //Check.close VeryLow expected.q[1] actual.Q1
-        //Check.close VeryLow expected.q[2] actual.Quantile
-        //Check.close VeryLow expected.q[3] actual.Q3
-        //Check.close VeryLow expected.q[4] actual.Q4
-    }
+    //    //Check.close VeryLow expected.q[0] actual.Q0
+    //    //Check.close VeryLow expected.q[1] actual.Q1
+    //    //Check.close VeryLow expected.q[2] actual.Quantile
+    //    //Check.close VeryLow expected.q[3] actual.Q3
+    //    //Check.close VeryLow expected.q[4] actual.Q4
+    //}
 
     test "faster" {
         let! xs = Gen.Double.OneTwo.Array

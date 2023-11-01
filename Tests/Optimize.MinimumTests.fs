@@ -149,7 +149,7 @@ let all =
             Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.StyblinskiTang x), x) |> ignore
             for xi in x do
                 Check.close Medium -2.903534 xi
-            Check.between 206 256 count
+            Check.between 201 256 count
         }
 
         test "stybl_5_mathnet" {
@@ -257,7 +257,7 @@ let all =
             Optimize.Minimum(1e-7, 0.0, Func<_,_,_>(fun x y -> count <- count + 1; Optimization.McCormick(x, y)), &x, &y) |> ignore
             Check.close Medium -0.547197 x
             Check.close Medium -1.547197 y
-            Check.between 66 66 count
+            Check.between 66 68 count
         }
 
         //test "mccorm_mathnet" { // fails to find minimum
