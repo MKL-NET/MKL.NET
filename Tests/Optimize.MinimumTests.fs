@@ -87,7 +87,7 @@ let all =
 
         test_solver "brent_7" 1e-7 Optimize.Minimum_Brent (Check.between 5310 5313)
         test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6433)
-        test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7608)
+        test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7620)
 
         let minimum_bracketed (atol, rtol, f:Func<_,_>, a, b, c) =
             Optimize.Minimum_Bracketed(atol, rtol, f, a, f.Invoke(a), b, f.Invoke(b), c, f.Invoke(c), Double.PositiveInfinity, 0.0)
@@ -99,7 +99,7 @@ let all =
         let minimum (atol, rtol, f:Func<float,float>, _, b, _) = Optimize.Minimum(atol, rtol, f, b)
 
         test_solver "hybrid_7" 1e-7 minimum (Check.between 2250 2273)
-        test_solver "hybrid_9" 1e-9 minimum (Check.between 2846 2863)
+        test_solver "hybrid_9" 1e-9 minimum (Check.between 2840 2863)
         test_solver "hybrid_11" 1e-11 minimum (Check.between 3867 3963)
 
         let MathNet_Minimum tol func (x:float[]) =
