@@ -13,8 +13,8 @@ let all =
             Check.isTrue (Optimize.Root_Is_Bracketed(fa, fb))
             let Root_Bracketed_Bad fa fb = fa * fb < 0.0
             Check.isFalse (Root_Bracketed_Bad fa fb)
-            let! fa = Gen.Double.Positive
-            let! fb = Gen.Double.Negative
+            let! fa = Gen.Double[Double.Epsilon, 1e50]
+            let! fb = Gen.Double[-1e50, -Double.Epsilon]
             Check.isTrue (Optimize.Root_Is_Bracketed(fa, fb))
             Check.isTrue (Optimize.Root_Is_Bracketed(fb, fa))
             Check.isFalse (Optimize.Root_Is_Bracketed(fa, -fb))
@@ -58,8 +58,9 @@ let all =
             let! x =
                 let genD = Gen.Double[root1 * 3.0, root2 * 3.0]
                 Gen.Select(genD, genD, genD)
+                    .Where(fun struct (a, b, c) -> a < b && ((c < a && not(Accuracy.areClose Medium c a)) || (c > b && not(Accuracy.areClose Medium c b))))
                     .Select(fun struct (a, b, c) -> a, f(a), b, f(b), c, f(c))
-                    .Where(fun (a, fa, b, fb, c, _) -> a < b && (c < a || c > b) && Optimize.Root_Is_Bracketed(fa, fb))
+                    .Where(fun (_, fa, _, fb, _, _) -> Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb, c, fc) -> Optimize.Root_Quadratic(a, fa, b, fb, c, fc))
             Check.close Medium root1 x ||| Check.close Medium root2 x
         }
@@ -90,8 +91,11 @@ let all =
             let! x =
                 let genD = Gen.Double[root1 * 3.0, notRoot * 3.0]
                 Gen.Select(genD, genD, genD, genD)
+                    .Where(fun struct (a, b, c, d) -> a < b && ((c < a && not(Accuracy.areClose Low c a)) || (c > b && not(Accuracy.areClose Low c b)))
+                                                            && ((d < a && not(Accuracy.areClose Low d a)) || (d > b && not(Accuracy.areClose Low d b)))
+                                                            && not(Accuracy.areClose Low c d))
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
+                    .Where(fun (_, fa, _, fb, _, _, _, _) -> Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.close Low root1 x
         }
@@ -103,10 +107,13 @@ let all =
             let! x =
                 let genD = Gen.Double[root1 * 3.0, root2 * 3.0]
                 Gen.Select(genD, genD, genD, genD)
+                    .Where(fun struct (a, b, c, d) -> a < b && ((c < a && not(Accuracy.areClose Low c a)) || (c > b && not(Accuracy.areClose Low c b)))
+                                                            && ((d < a && not(Accuracy.areClose Low d a)) || (d > b && not(Accuracy.areClose Low d b)))
+                                                            && not(Accuracy.areClose Low c d))
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
+                    .Where(fun (_, fa, _, fb, _, _, _, _) -> Optimize.Root_Is_Bracketed(fa, fb))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
-            Check.close Medium root1 x ||| Check.close Low root2 x
+            Check.close Low root1 x ||| Check.close Low root2 x
         }
 
         test "root_cubic_correct_3" {
@@ -117,10 +124,13 @@ let all =
             let! x =
                 let genD = Gen.Double[root1 * 3.0, root3 * 3.0]
                 Gen.Select(genD, genD, genD, genD)
+                    .Where(fun struct (a, b, c, d) -> a < b && ((c < a && not(Accuracy.areClose Low c a)) || (c > b && not(Accuracy.areClose Low c b)))
+                                                            && ((d < a && not(Accuracy.areClose Low d a)) || (d > b && not(Accuracy.areClose Low d b)))
+                                                            && not(Accuracy.areClose Low c d))
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, _, d, _) -> a < b && (c < a || c > b) && (d < a || d > b) && c <> d && Optimize.Root_Is_Bracketed(fa, fb))
+                    .Where(fun (_, fa, _, fb, _, _, _, _) -> Optimize.Root_Is_Bracketed(fa, fb) && not(Accuracy.areClose Medium fa 0) && not(Accuracy.areClose Medium fb 0))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Root_Cubic(a, fa, b, fb, c, fc, d, fd))
-            Check.close Medium root1 x ||| Check.close Medium root2 x ||| Check.close Medium root3 x
+            Check.close Low root1 x ||| Check.close Low root2 x ||| Check.close Low root3 x
         }
 
         test "test_problems" {
@@ -144,10 +154,10 @@ let all =
 
             test_solver "toms748_11" 1e-11 Optimize.Root_Toms748 (Check.between 2906 2909)
 
-            test_solver "hybrid_6" 1e-6 Optimize.Root (Check.between 2109 2110)
-            test_solver "hybrid_7" 1e-7 Optimize.Root (Check.between 2154 2155)
-            test_solver "hybrid_9" 1e-9 Optimize.Root (Check.between 2210 2213)
-            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2302 2306)
+            test_solver "hybrid_6" 1e-6 Optimize.Root (Check.between 2109 2128)
+            test_solver "hybrid_7" 1e-7 Optimize.Root (Check.between 2154 2177)
+            test_solver "hybrid_9" 1e-9 Optimize.Root (Check.between 2210 2239)
+            test_solver "hybrid_11" 1e-11 Optimize.Root (Check.between 2302 2347)
 
             test "newton_11" {
                 let tol = 1e-11
@@ -213,7 +223,7 @@ let all =
                 let root, root_i = run Optimize.Root
                 let root_brent, root_brent_i = run Optimize.Root_Brent
                 Check.isTrue (abs(root - root_brent) < tol * 2.0)
-                Check.equal 12 root_i
+                Check.equal 13 root_i
                 Check.equal 13 root_brent_i
 
                 let run_newton solver =

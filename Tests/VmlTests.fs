@@ -148,19 +148,19 @@ let arithmetic =
 
         testBinary "Fmod_double" Gen.Double[0.01,10000]
             Vml.Fmod Vml.Fmod Vml.Fmod Vml.Fmod
-            (fun a b -> a - Math.Truncate(a/b) * b)
+            (%)
 
         testBinary "Fmod_single" Gen.Single[0.01f,10000f]
             Vml.Fmod Vml.Fmod Vml.Fmod Vml.Fmod
-            (fun a b -> double a - Math.Truncate(double a/double b) * double b |> single)
+            (%)
 
         testBinary "Remainder_double" Gen.Double[0.01,10000]
             Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
-            (fun a b -> a - Math.Round(a/b) * b)
+            (fun a b -> Math.IEEERemainder(a, b))
 
         testBinary "Remainder_single" Gen.Single[0.01f,10000f]
             Vml.Remainder Vml.Remainder Vml.Remainder Vml.Remainder
-            (fun a b -> double a - Math.Round(double a/double b) * double b |> single)
+            (fun a b -> Math.IEEERemainder(double a, double b) |> single)
     }
 
 let power =
@@ -186,7 +186,7 @@ let power =
             Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt
             ((/) 1.0 >> sqrt)
 
-        testUnary "InvSqrt_single" Gen.Single
+        testUnary "InvSqrt_single" (Gen.Single.Where(fun s -> not(s = 0f)))
             Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt Vml.InvSqrt
             (double >> (/) 1.0 >> sqrt >> single)
 
@@ -234,11 +234,11 @@ let power =
             (fun a -> Math.Cbrt(double a*double a) |> single)
 #endif
 
-        testUnary "Pow3o2_double" Gen.Double.NonNegative
+        testUnary "Pow3o2_double" Gen.Double[0, 1e50]
             Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2
             (fun a -> sqrt(a*a*a))
 
-        testUnary "Pow3o2_single" Gen.Single.NonNegative
+        testUnary "Pow3o2_single" Gen.Single[0f, 1e25f]
             Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2 Vml.Pow3o2
             (fun a -> sqrt(a*a*a))
 
@@ -329,11 +329,11 @@ let exponential =
             (fun i -> log(double i+1.0) |> single)
 
 #if NETCOREAPP
-        testUnary "Logb_double" Gen.Double.NormalNonNegative
+        testUnary "Logb_double" Gen.Double[0, 1e50]
             Vml.Logb Vml.Logb Vml.Logb Vml.Logb
             (fun i -> Math.ILogB(i) |> double)
 
-        testUnary "Logb_single" Gen.Single.NormalNonNegative
+        testUnary "Logb_single" Gen.Single[0f, 1e25f]
             Vml.Logb Vml.Logb Vml.Logb Vml.Logb
             (fun i -> Math.ILogB(double i) |> single)
 #endif
@@ -681,61 +681,61 @@ let miscellaneous =
             (fun a b -> Math.CopySign(double a, double b) |> single)
 #endif
 
-        testBinary "Fmax_double" Gen.Double.Normal
+        testBinary "Fmax_double" Gen.Double
             Vml.Fmax Vml.Fmax Vml.Fmax Vml.Fmax
             (fun a b -> Math.Max(a,b))
 
-        testBinary "Fmax_single" Gen.Single.Normal
+        testBinary "Fmax_single" Gen.Single
             Vml.Fmax Vml.Fmax Vml.Fmax Vml.Fmax
             (fun a b -> Math.Max(a,b))
 
-        testBinary "Fmin_double" Gen.Double.Normal
+        testBinary "Fmin_double" Gen.Double
             Vml.Fmin Vml.Fmin Vml.Fmin Vml.Fmin
             (fun a b -> Math.Min(a,b))
 
-        testBinary "Fmin_single" Gen.Single.Normal
+        testBinary "Fmin_single" Gen.Single
             Vml.Fmin Vml.Fmin Vml.Fmin Vml.Fmin
             (fun a b -> Math.Min(a,b))
 
-        testBinary "Fdim_double" Gen.Double.Normal
+        testBinary "Fdim_double" Gen.Double
             Vml.Fdim Vml.Fdim Vml.Fdim Vml.Fdim
             (fun a b -> max (a-b) 0.0)
 
-        testBinary "Fdim_single" Gen.Single.Normal
+        testBinary "Fdim_single" Gen.Single
             Vml.Fdim Vml.Fdim Vml.Fdim Vml.Fdim
             (fun a b -> max (a-b) 0.0f)
 
-        testBinary "MaxMag_double" Gen.Double.Normal
+        testBinary "MaxMag_double" Gen.Double
             Vml.MaxMag Vml.MaxMag Vml.MaxMag Vml.MaxMag
             (fun a b -> if abs a > abs b then a
                         elif abs a < abs b then b
                         else max a b)
 
-        testBinary "MaxMag_single" Gen.Single.Normal
+        testBinary "MaxMag_single" Gen.Single
             Vml.MaxMag Vml.MaxMag Vml.MaxMag Vml.MaxMag
             (fun a b -> if abs a > abs b then a
                         elif abs a < abs b then b
                         else max a b)
 
-        testBinary "MinMag_double" Gen.Double.Normal
+        testBinary "MinMag_double" Gen.Double
             Vml.MinMag Vml.MinMag Vml.MinMag Vml.MinMag
             (fun a b -> if abs a < abs b then a
                         elif abs a > abs b then b
                         else min a b)
 
-        testBinary "MinMag_single" Gen.Single.Normal
+        testBinary "MinMag_single" Gen.Single
             Vml.MinMag Vml.MinMag Vml.MinMag Vml.MinMag
             (fun a b -> if abs a < abs b then a
                         elif abs a > abs b then b
                         else min a b)
 
 #if NETCOREAPP
-        testBinary "NextAfter_double" Gen.Double.Normal
+        testBinary "NextAfter_double" Gen.Double
             Vml.NextAfter Vml.NextAfter Vml.NextAfter Vml.NextAfter
             (fun a b -> if b > 0.0 then Math.BitIncrement(a)
                                    else Math.BitDecrement(a))
 
-        testBinary "NextAfter_single" Gen.Single.Normal
+        testBinary "NextAfter_single" Gen.Single
             Vml.NextAfter Vml.NextAfter Vml.NextAfter Vml.NextAfter
             (fun a b -> if b > 0.0f then Math.BitIncrement(double a) |> single
                                     else Math.BitDecrement(double a) |> single)
@@ -746,8 +746,8 @@ let bespoke =
     test "bespoke" {
 
         test "MaxScalar_double" {
-            let! a = Gen.Double.Normal.Array[1,ROWS_MAX]
-            let! b = Gen.Double.Normal
+            let! a = Gen.Double.Array[1,ROWS_MAX]
+            let! b = Gen.Double
             let expected = Array.map (fun a -> Math.Max(a,b)) a
             let actual = Array.zeroCreate a.Length
             Vml.Fmax(a.Length,a,0,1,b,actual,0,1)
@@ -757,8 +757,8 @@ let bespoke =
         }
 
         test "MinScalar_double" {
-            let! a = Gen.Double.Normal.Array[1,ROWS_MAX]
-            let! b = Gen.Double.Normal
+            let! a = Gen.Double.Array[1,ROWS_MAX]
+            let! b = Gen.Double
             let expected = Array.map (fun a -> Math.Min(a,b)) a
             let actual = Array.zeroCreate a.Length
             Vml.Fmin(a.Length,a,0,1,b,actual,0,1)
@@ -785,7 +785,7 @@ let bespoke =
         }
 
         test "Powx_single" {
-            let! a = Gen.Single.NonNegative.Array[1,ROWS_MAX]
+            let! a = Gen.Single[0f, 1e25f].Array[1,ROWS_MAX]
             let! b = Gen.Single
             let expected = Array.map (fun a -> Math.Pow(double a,double b) |> single) a
             let actual = Array.zeroCreate a.Length

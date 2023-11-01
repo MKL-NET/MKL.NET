@@ -57,8 +57,8 @@ let blas_1a =
         test "axpy_single" {
             let! rows = Gen.Int[1,ROWS_MAX]
             let! a = Gen.Single
-            let! x = Gen.Single.NonNegative.Array[rows]
-            let! y = Gen.Single.NonNegative.Array[rows]
+            let! x = Gen.Single[0f, 1e25f].Array[rows]
+            let! y = Gen.Single[0f, 1e25f].Array[rows]
             let expected = Array.map2 (fun x y -> a*x + y) x y
             Blas.axpy(a,x,y)
             Check.close Low expected y
@@ -82,8 +82,8 @@ let blas_1a =
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
             let! a = Gen.Single
-            let! x = Gen.Single.NonNegative.Array[rows*cols]
-            let! y = Gen.Single.NonNegative.Array[rows*cols]
+            let! x = Gen.Single[0f, 1e25f].Array[rows*cols]
+            let! y = Gen.Single[0f, 1e25f].Array[rows*cols]
             let expected = Array.init rows (fun r -> a*x[r*cols+ini] + y[r*cols+ini])
             Blas.axpy(rows,a,x,ini,cols,y,ini,cols)
             for i = 0 to rows-1 do
@@ -128,8 +128,8 @@ let blas_1a =
 
         test "dot_double" {
             let! rows = Gen.Int[1,ROWS_MAX]
-            let! x = Gen.Double.NonNegative.Array[rows]
-            let! y = Gen.Double.NonNegative.Array[rows]
+            let! x = Gen.Double[0., 1e25].Array[rows]
+            let! y = Gen.Double[0., 1e25].Array[rows]
             let expected = Array.fold2 (fun s x y -> s + x*y) 0.0 x y
             Blas.dot(x,y)
             |> Check.close High expected
@@ -137,8 +137,8 @@ let blas_1a =
 
         test "dot_single" {
             let! rows = Gen.Int[1,ROWS_MAX]
-            let! x = Gen.Single.NonNegative.Array[rows]
-            let! y = Gen.Single.NonNegative.Array[rows]
+            let! x = Gen.Single[0f, 1e25f].Array[rows]
+            let! y = Gen.Single[0f, 1e25f].Array[rows]
             let expected = Array.fold2 (fun s x y -> s + x*y) 0.0f x y
             Blas.dot(x,y)
             |> Check.close High expected
@@ -148,8 +148,8 @@ let blas_1a =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! x = Gen.Double.NonNegative.Array[rows*cols]
-            let! y = Gen.Double.NonNegative.Array[rows*cols]
+            let! x = Gen.Double[0., 1e25].Array[rows*cols]
+            let! y = Gen.Double[0., 1e25].Array[rows*cols]
             let mutable expected = 0.0
             for i = 0 to rows-1 do
                 expected <- expected + x[i*cols+ini]*y[i*cols+ini]
@@ -161,8 +161,8 @@ let blas_1a =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! x = Gen.Single.NonNegative.Array[rows*cols]
-            let! y = Gen.Single.NonNegative.Array[rows*cols]
+            let! x = Gen.Single[0f, 1e25f].Array[rows*cols]
+            let! y = Gen.Single[0f, 1e25f].Array[rows*cols]
             let mutable expected = 0.0f
             for i = 0 to rows-1 do
                 expected <- expected + x[i*cols+ini]*y[i*cols+ini]
@@ -172,8 +172,8 @@ let blas_1a =
 
         test "sdot" {
             let! rows = Gen.Int[1,ROWS_MAX]
-            let! x = Gen.Single.NonNegative.Array[rows]
-            let! y = Gen.Single.NonNegative.Array[rows]
+            let! x = Gen.Single[0f, 1e25f].Array[rows]
+            let! y = Gen.Single[0f, 1e25f].Array[rows]
             let expected = Array.fold2 (fun s x y -> s + double x * double y) 0.0 x y
             Blas.sdot(x,y)
             |> Check.close High expected
@@ -181,9 +181,9 @@ let blas_1a =
 
         test "sdot_sb" {
             let! rows = Gen.Int[1,ROWS_MAX]
-            let! sb = Gen.Single.NonNegative
-            let! x = Gen.Single.NonNegative.Array[rows]
-            let! y = Gen.Single.NonNegative.Array[rows]
+            let! sb = Gen.Single[0f, 1e25f]
+            let! x = Gen.Single[0f, 1e25f].Array[rows]
+            let! y = Gen.Single[0f, 1e25f].Array[rows]
             let expected = Array.fold2 (fun s x y -> s + double x * double y) (double sb) x y
             Blas.sdot(sb,x,y)
             |> Check.close High (single expected)
@@ -193,8 +193,8 @@ let blas_1a =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! x = Gen.Single.NonNegative.Array[rows*cols]
-            let! y = Gen.Single.NonNegative.Array[rows*cols]
+            let! x = Gen.Single[0f, 1e25f].Array[rows*cols]
+            let! y = Gen.Single[0f, 1e25f].Array[rows*cols]
             let mutable expected = 0.0
             for i = 0 to rows-1 do
                 expected <- expected + double x[i*cols+ini] * double y[i*cols+ini]
@@ -206,9 +206,9 @@ let blas_1a =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! sb = Gen.Single.NonNegative
-            let! x = Gen.Single.NonNegative.Array[rows*cols]
-            let! y = Gen.Single.NonNegative.Array[rows*cols]
+            let! sb = Gen.Single[0f, 1e25f]
+            let! x = Gen.Single[0f, 1e25f].Array[rows*cols]
+            let! y = Gen.Single[0f, 1e25f].Array[rows*cols]
             let mutable expected = double sb
             for i = 0 to rows-1 do
                 expected <- expected + (double x[i*cols+ini] * double y[i*cols+ini])
@@ -545,7 +545,7 @@ let blas_1b =
         }
 
         test "iamax_double" {
-            let! x = Gen.Double.Normal.Array[1,ROWS_MAX]
+            let! x = Gen.Double.Array[1,ROWS_MAX]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if abs x > a then i+1,abs x,i else i+1,a,j)
                     (0,-1.0,0) x
@@ -554,7 +554,7 @@ let blas_1b =
         }
 
         test "iamax_single" {
-            let! x = Gen.Single.Normal.Array[1,ROWS_MAX]
+            let! x = Gen.Single.Array[1,ROWS_MAX]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if abs x > a then i+1,abs x,i else i+1,a,j)
                     (0,-1.0f,0) x
@@ -566,7 +566,7 @@ let blas_1b =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! x = Gen.Double.Normal.Array[rows*cols]
+            let! x = Gen.Double.Array[rows*cols]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x > a then i+1,abs x,i/cols else i+1,a,j)
                     (0,-1.0,0) x
@@ -578,7 +578,7 @@ let blas_1b =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! x = Gen.Single.Normal.Array[rows*cols]
+            let! x = Gen.Single.Array[rows*cols]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x > a then i+1,abs x,i/cols else i+1,a,j)
                     (0,-1.0f,0) x
@@ -587,7 +587,7 @@ let blas_1b =
         }
 
         test "iamin_double" {
-            let! x = Gen.Double.Normal.Array[1,ROWS_MAX]
+            let! x = Gen.Double.Array[1,ROWS_MAX]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if abs x < a then i+1,abs x,i else i+1,a,j)
                     (0,infinity,0) x
@@ -596,7 +596,7 @@ let blas_1b =
         }
 
         test "iamin_single" {
-            let! x = Gen.Single.Normal.Array[1,ROWS_MAX]
+            let! x = Gen.Single.Array[1,ROWS_MAX]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if abs x < a then i+1,abs x,i else i+1,a,j)
                     (0,infinityf,0) x
@@ -608,7 +608,7 @@ let blas_1b =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! x = Gen.Double.Normal.Array[rows*cols]
+            let! x = Gen.Double.Array[rows*cols]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x < a then i+1,abs x,i/cols else i+1,a,j)
                     (0,infinity,0) x
@@ -620,7 +620,7 @@ let blas_1b =
             let! rows = Gen.Int[1,ROWS_MAX]
             and! cols = Gen.Int[1,COLS_MAX]
             let! ini = Gen.Int[0,cols-1]
-            let! x = Gen.Single.Normal.Array[rows*cols]
+            let! x = Gen.Single.Array[rows*cols]
             let _,_,expected =
                 Array.fold (fun (i,a,j) x -> if i % cols = ini && abs x < a then i+1,abs x,i/cols else i+1,a,j)
                     (0,infinityf,0) x

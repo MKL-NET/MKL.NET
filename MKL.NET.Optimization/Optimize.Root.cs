@@ -15,6 +15,7 @@
 namespace MKLNET;
 
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 /// <summary>Optimization and root finding algorithms.</summary>
@@ -35,7 +36,7 @@ public static partial class Optimize
     static double Bisect(double a, double b)
         => (a + b) * 0.5;
 
-    /// <summary>Root estmate using linear interpolation. Also called false position or regula falsi.</summary>
+    /// <summary>Root estimate using linear interpolation. Also called false position or regula falsi.</summary>
     /// <param name="a">First function input.</param>
     /// <param name="fa">First function output.</param>
     /// <param name="b">Second function input.</param>
@@ -48,7 +49,7 @@ public static partial class Optimize
     }
 
     /// <summary>
-    /// Root estmate between a and b using quadratic interpolation, falling back to linear interpolation.
+    /// Root estimate between a and b using quadratic interpolation, falling back to linear interpolation.
     /// See <see href="https://en.wikipedia.org/wiki/Muller%27s_method">Muller's method</see>.
     /// </summary>
     /// <param name="a">First function input.</param>
@@ -60,18 +61,25 @@ public static partial class Optimize
     /// <returns>The root estimate between a and b.</returns>
     public static double Root_Quadratic(double a, double fa, double b, double fb, double c, double fc)
     {
+        Debug.Assert(fa * fb < 0, "fa and fb must bound a root");
+        if (Math.Abs(fb) < Math.Abs(fa))
+            (a, fa, b, fb) = (b, fb, a, fa);
         var r = (fb - fa) / (b - a) - (fc - fb) / (c - b);
         var w = (fc - fa) / (c - a) + r;
-        r = Math.Sqrt(w * w - 4 * fa * r / (a - c));
-        var x = a - 2 * fa / (w + r);
-        if (a < x && x < b) return x;
-        x = a - 2 * fa / (w - r);
-        if (a < x && x < b) return x;
+        r = w * w - fa * 4 * r / (a - c);
+        if (r >= 0)
+        {
+            r = Math.Sqrt(r);
+            var x = a - fa * 2 / (w + r);
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
+            x = a - fa * 2 / (w - r);
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
+        }
         return Root_Linear(a, fa, b, fb); // Rounding errors, it must be near a or b, Root_Linear will work.
     }
 
     /// <summary>
-    /// Root estmate between a and b using inverse quadratic interpolation, falling back to quadratic then linear interpolation.
+    /// Root estimate between a and b using inverse quadratic interpolation, falling back to quadratic then linear interpolation.
     /// See <see href="https://en.wikipedia.org/wiki/Inverse_quadratic_interpolation">Inverse quadratic interpolation</see>.
     /// </summary>
     /// <param name="a">First function input.</param>
@@ -98,7 +106,7 @@ public static partial class Optimize
 #endif
 
     /// <summary>
-    /// Root estmate between a and b using cubic interpolation, falling back to quadratic then linear interpolation.
+    /// Root estimate between a and b using cubic interpolation, falling back to quadratic then linear interpolation.
     /// See <see href="https://en.wikipedia.org/wiki/Lagrange_polynomial">Lagrange polynomial</see> and
     /// <see href="https://mathworld.wolfram.com/CubicFormula.html">Cubic formula</see>.
     /// </summary>
@@ -113,6 +121,7 @@ public static partial class Optimize
     /// <returns>The root estimate between a and b.</returns>
     public static double Root_Cubic(double a, double fa, double b, double fb, double c, double fc, double d, double fd)
     {
+        Debug.Assert(fa * fb < 0, "fa and fb must bound a root");
         // https://en.wikipedia.org/wiki/Lagrange_polynomial
         var a0 = -fa * (b * c * d) / ((a - b) * (a - c) * (a - d)) - fb * (a * c * d) / ((b - a) * (b - c) * (b - d)) - fc * (a * b * d) / ((c - a) * (c - b) * (c - d)) - fd * (a * b * c) / ((d - a) * (d - b) * (d - c));
         var a1 = fa * (b * c + b * d + c * d) / ((a - b) * (a - c) * (a - d)) + fb * (a * c + a * d + c * d) / ((b - a) * (b - c) * (b - d)) + fc * (a * b + a * d + b * d) / ((c - a) * (c - b) * (c - d)) + fd * (a * b + a * c + b * c) / ((d - a) * (d - b) * (d - c));
@@ -121,40 +130,43 @@ public static partial class Optimize
         a0 /= a3; a1 /= a3; a2 /= a3;
 
         // https://mathworld.wolfram.com/CubicFormula.html
-        var Q = (3 * a1 - a2 * a2) / 9;
-        var R = (9 * a2 * a1 - 27 * a0 - 2 * a2 * a2 * a2) / 54;
+        var Q = (a1 * 3 - a2 * a2) / 9;
+        var R = (a2 * a1 * 9 - a0 * 27 - a2 * a2 * a2 * 2) / 54;
         var Q3 = Q * Q * Q;
         var D = Q3 + R * R;
         var shift = a2 / -3;
         if (D < 0)
         {
             var theta = Math.Acos(R / Math.Sqrt(-Q3));
-            var x = 2 * Math.Sqrt(-Q) * Math.Cos(theta / 3) + shift;
-            if (a < x && x < b) return x;
-            x = 2 * Math.Sqrt(-Q) * Math.Cos((theta + Math.PI * 2) / 3) + shift;
-            if (a < x && x < b) return x;
-            x = 2 * Math.Sqrt(-Q) * Math.Cos((theta - Math.PI * 2) / 3) + shift;
-            if (a < x && x < b) return x;
+            var x = Math.Sqrt(-Q) * Math.Cos(theta / 3) * 2 + shift;
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
+            x = Math.Sqrt(-Q) * Math.Cos((theta + Math.PI * 2) / 3) * 2 + shift;
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
+            x = Math.Sqrt(-Q) * Math.Cos((theta - Math.PI * 2) / 3) * 2 + shift;
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
         }
         else if (D == 0)
         {
             var S = Cbrt(R);
-            var x = shift + 2 * S;
-            if (a < x && x < b) return x;
+            var x = shift + S * 2;
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
             x = shift - S;
-            if (a < x && x < b) return x;
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
         }
         else
         {
             var sqrtD = Math.Sqrt(D);
             var x = Cbrt(R + sqrtD) + Cbrt(R - sqrtD) + shift;
-            if (a < x && x < b) return x;
+            if (a < b && a < x && x < b || a > b && a > x && x > b) return x;
         }
-        return Root_Quadratic(a, fa, b, fb, c, fc);
-    }
+
+        return Math.Min(Math.Abs(c - a), Math.Abs(c - b)) <= Math.Min(Math.Abs(d - a), Math.Abs(d - b))
+            ? Root_Quadratic(a, fa, b, fb, c, fc)
+            : Root_Quadratic(a, fa, b, fb, d, fd);
+    } // TODO: Possibly a Hermite spline is better especially when a cubic overshoots and has a max and a min
 
     /// <summary>
-    /// Root estmate between a and b using inverse cubic interpolation, falling back to inverse quadratic, quadratic then linear interpolation.
+    /// Root estimate between a and b using inverse cubic interpolation, falling back to inverse quadratic, quadratic then linear interpolation.
     /// </summary>
     /// <param name="a">First function input.</param>
     /// <param name="fa">First function output.</param>
@@ -199,11 +211,11 @@ public static partial class Optimize
         => x - fx / (df_dx - 0.5 * fx / df_dx * d2f_dx2);
 
     /// <summary>
-    /// The tolarance calculated at a point.
+    /// The tolerance calculated at a point.
     /// </summary>
     /// <param name="atol">The absolute tolerance.</param>
     /// <param name="rtol">The relative tolerance.</param>
-    /// <param name="x">The point at which to calcuate the tolerance.</param>
+    /// <param name="x">The point at which to calculate the tolerance.</param>
     /// <returns>tol = atol + rtol * x</returns>
     public static double Tol(double atol, double rtol, double x)
         => atol + rtol * Math.Abs(x);

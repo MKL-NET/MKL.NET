@@ -23,17 +23,7 @@ module BothPrecisions =
 
     let f = mf * vf
 
-let genMatrix rows cols =
-    Gen.Create(fun (pcg:PCG) (_:Size) (size:Size byref) ->
-        size <- Size 0UL
-        let m = new matrix(rows,cols)
-        let gen = Gen.Single.OneTwo
-        for r =0 to rows-1 do
-            for c=0 to cols-1 do
-                let d,_ = gen.Generate(pcg, null)
-                m[r,c] <- d
-        m
-    )
+let genMatrix (rows:int) (cols:int) = Gen.Single.OneTwo.Matrix(rows, cols)
 
 let add_mm (aS:single) (A:matrix) (bS:single) (B:matrix) =
     let C = new matrix(A.Rows,A.Cols)
@@ -1726,7 +1716,7 @@ let functions2 = test "functions2" {
 
     testUnary "Erf" (double >> erf >> single) Matrix.Erf
     testUnary "Erfc" (double >> erfc >> single) Matrix.Erfc
-    testUnary "ErfInv" (double >> erfinv >> single) Matrix.ErfInv
+    testUnary "ErfInv" (double >> (fun x -> if x = 1 then nan else erfinv(x)) >> single) Matrix.ErfInv
     testUnary "ErfcInv" (double >> erfcinv >> single) Matrix.ErfcInv
     testUnary "CdfNorm" (double >> normcdf >> single) Matrix.CdfNorm
     testUnary "CdfNormInv" (double >> normcdfinv >> single) Matrix.CdfNormInv

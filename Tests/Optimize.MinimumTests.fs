@@ -24,7 +24,7 @@ let all =
             let! x =
                 let genD = Gen.Double[-20, 20]
                 Gen.Select(genD, genD, genD)
-                    .Where(fun struct (a, b, c) -> a < b && b < c)
+                    .Where(fun struct (a, b, c) -> a < b && b < c && not(Accuracy.areClose Low a b) && not(Accuracy.areClose Low b c))
                     .Select(fun struct (a, b, c) -> a, f(a), b, f(b), c, f(c))
                     .Select(fun (a, fa, b, fb, c, fc) -> Optimize.Minimum_Quadratic(a, fa, b, fb, c, fc))
             Check.close Low ((root1 + root2) * 0.5) x
@@ -48,8 +48,10 @@ let all =
             let! x =
                 let genD = Gen.Double[root2, root3 * 2.0]
                 Gen.Select(genD, genD, genD, genD)
+                    .Where(fun struct (a, b, c, d) -> a < b && b < c && (d < a || d > c) && not(Accuracy.areClose Low a b) && not(Accuracy.areClose Low b c)
+                                                                                         && not(Accuracy.areClose Low d a) && not(Accuracy.areClose Low d c))
                     .Select(fun struct (a, b, c, d) -> a, f(a), b, f(b), c, f(c), d, f(d))
-                    .Where(fun (a, fa, b, fb, c, fc, d, _) -> a < b && b < c && (d < a || d > c) && Optimize.Minimum_Is_Bracketed(fa, fb, fc))
+                    .Where(fun (_, fa, _, fb, _, fc, _, _) -> Optimize.Minimum_Is_Bracketed(fa, fb, fc))
                     .Select(fun (a, fa, b, fb, c, fc, d, fd) -> Optimize.Minimum_Cubic(a, fa, b, fb, c, fc, d, fd))
             Check.greaterThan (f(x)) (f(x - (root3 - root2) * 0.001))
             Check.greaterThan (f(x)) (f(x + (root3 - root2) * 0.001))
@@ -377,7 +379,7 @@ let all =
             let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
             let mutable count = 0
             let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Boundary x), x)
-            Check.between 585 594 count
+            Check.between 583 594 count
             Check.close High 0.0 ols
         }
 

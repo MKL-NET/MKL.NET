@@ -1,6 +1,7 @@
 ﻿module Main
 
 open System
+open CsCheck
 
 let all =
     test null {
@@ -27,7 +28,9 @@ let all =
 [<EntryPoint>]
 let main args =
     match Config.parse args with
-    | Ok config -> Tests.run config all
+    | Ok config ->
+        Check.WhereLimit <- 100000
+        Tests.run config all
     | Error errors ->
         if List.isEmpty errors |> not then
             String.Join(" ",errors) |> sprintf "ERROR: %s\n" |> Alert

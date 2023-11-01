@@ -23,18 +23,21 @@ module Auto =
         Math.Round(double n/double d) |> int64
 
 type Accuracy =
+    | VeryLow
     | Low
     | Medium
     | High
     | VeryHigh
     static member ($) (m:Accuracy,_:double) =
         match m with
+        | VeryLow -> fun a b -> 1e-4 + 1e-1 * max (abs a) (abs b)
         | Low -> fun a b -> 1e-6 + 1e-3 * max (abs a) (abs b)
         | Medium -> fun a b -> 1e-8 + 1e-5 * max (abs a) (abs b)
         | High -> fun a b -> 1e-10 + 1e-7 * max (abs a) (abs b)
         | VeryHigh -> fun a b -> 1e-12 + 1e-9 * max (abs a) (abs b)
     static member ($) (m:Accuracy,_:single) =
         match m with
+        | VeryLow -> fun a b -> 1e-1f + 0.5f * max (abs a) (abs b)
         | Low -> fun a b -> 1e-3f + 1e-1f * max (abs a) (abs b)
         | Medium -> fun a b -> 1e-6f + 1e-3f * max (abs a) (abs b)
         | High -> fun a b -> 1e-8f + 1e-5f * max (abs a) (abs b)
@@ -269,7 +272,7 @@ type FasterAggregation =
     val Message : string
     val Result : FasterResult
     val mutable Error : bool
-    new(message:string) = {Message=message;Result=FasterResult(Median=MedianEstimator());Error=false}
+    new(message:string) = {Message=message;Result=FasterResult(10.0);Error=false}
 
 type TestResult =
     | Success
@@ -307,8 +310,7 @@ type TestBuilder(name:string) =
                 let fa = &faster.GetRef line
                 if isNull fa then fa <- FasterAggregation m
                 if fa.Error |> not then
-                    fa.Result.Add(f,s)
-                    if fa.Result.Faster < fa.Result.Slower && fa.Result.SigmaSquared > 100.0f then fa.Error <- true
+                    if fa.Result.Add(f,s) then fa.Error <- true
                 let r = Some [FasterAgg fa]
                 Test(nameList, fun _ c -> c r)
             )
@@ -856,12 +858,48 @@ module Tests =
 [<Extension>]
 type GenMatrixExtension() =
     [<Extension>]
-    static member Matrix (gen:Gen<double>, rows, cols) =
-        Gen.Create(GenDelegate(fun pcg min size ->
-            let m = new matrix(rows, cols)
-            let a = m.Array
-            let mutable si = Unchecked.defaultof<_>
-            for i = 0 to rows * cols - 1 do
-                a[i] <- gen.Generate(pcg, null, &si)
-            m
-        ))
+    static member Vector (gen:Gen<double>, length:int) =
+        { new Gen<vector>() with
+            override _.Generate(pcg:PCG, _:Size, size:Size byref) =
+                size <- Size 0UL
+                let v = new vector(length)
+                for i = 0 to length-1 do
+                    let d,_ = gen.Generate(pcg, null)
+                    v[i] <- d
+                v
+        }
+    [<Extension>]
+    static member Matrix (gen:Gen<double>, rows:int, cols:int) =
+        { new Gen<matrix>() with
+            override _.Generate(pcg:PCG, _:Size, size:Size byref) =
+                size <- Size 0UL
+                let m = new matrix(rows,cols)
+                for r = 0 to rows-1 do
+                    for c = 0 to cols-1 do
+                        let d,_ = gen.Generate(pcg, null)
+                        m[r,c] <- d
+                m
+        }
+    [<Extension>]
+    static member Vector (gen:Gen<single>, length:int) =
+        { new Gen<Single.vector>() with
+            override _.Generate(pcg:PCG, _:Size, size:Size byref) =
+                size <- Size 0UL
+                let v = new Single.vector(length)
+                for i = 0 to length-1 do
+                    let d,_ = gen.Generate(pcg, null)
+                    v[i] <- d
+                v
+        }
+    [<Extension>]
+    static member Matrix (gen:Gen<single>, rows:int, cols:int) =
+        { new Gen<Single.matrix>() with
+            override _.Generate(pcg:PCG, _:Size, size:Size byref) =
+                size <- Size 0UL
+                let m = new Single.matrix(rows,cols)
+                for r = 0 to rows-1 do
+                    for c = 0 to cols-1 do
+                        let d,_ = gen.Generate(pcg, null)
+                        m[r,c] <- d
+                m
+        }

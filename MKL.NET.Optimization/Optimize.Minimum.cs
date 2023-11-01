@@ -44,7 +44,7 @@ public static partial class Optimize
 
     const double GOLD = 0.381966011250105;
 
-    /// <summary>Minmimum estimate using golden section a &lt; b &lt; c.</summary>
+    /// <summary>Minimum estimate using golden section a &lt; b &lt; c.</summary>
     /// <param name="a">First input.</param>
     /// <param name="b">Middle input.</param>
     /// <param name="c">Third input.</param>
@@ -52,7 +52,7 @@ public static partial class Optimize
     public static double Minimum_GoldenSection(double a, double b, double c)
         => b - a >= c - b ? b + (a - b) * GOLD : b + (c - b) * GOLD;
 
-    /// <summary>Minmimum estimate using factor section a &lt; b &lt; c.</summary>
+    /// <summary>Minimum estimate using factor section a &lt; b &lt; c.</summary>
     /// <param name="a">First input.</param>
     /// <param name="b">Middle input.</param>
     /// <param name="c">Third input.</param>
@@ -62,7 +62,7 @@ public static partial class Optimize
         => b - a >= c - b ? b + (a - b) * factor : b + (c - b) * factor;
 
     /// <summary>
-    /// Minimum estmate using quadratic interpolation, falling back to golden section.
+    /// Minimum estimate using quadratic interpolation, falling back to golden section.
     /// </summary>
     /// <param name="a">First function input.</param>
     /// <param name="fa">First function output.</param>
@@ -73,12 +73,12 @@ public static partial class Optimize
     /// <returns>The minimum estimate.</returns>
     public static double Minimum_Quadratic(double a, double fa, double b, double fb, double c, double fc)
     {
-        var x = b - 0.5 * (Sqr(b - a) * (fb - fc) - Sqr(b - c) * (fb - fa)) / ((b - a) * (fb - fc) - (b - c) * (fb - fa));
+        var x = b - (Sqr(b - a) * (fb - fc) - Sqr(b - c) * (fb - fa)) * 0.5 / ((b - a) * (fb - fc) - (b - c) * (fb - fa));
         return double.IsNaN(x) ? Minimum_GoldenSection(a, b, c) : x;
     }
 
     /// <summary>
-    /// Minimum estmate between a and c using cubic interpolation, falling back to quadratic then golden interpolation a &lt; b &lt; c.
+    /// Minimum estimate between a and c using cubic interpolation, falling back to quadratic then golden interpolation a &lt; b &lt; c.
     /// See <see href="https://en.wikipedia.org/wiki/Lagrange_polynomial">Lagrange polynomial</see> and
     /// <see href="https://www.themathdoctors.org/max-and-min-of-a-cubic-without-calculus/">Cubic max and min</see>.
     /// </summary>
@@ -228,7 +228,7 @@ public static partial class Optimize
     /// <param name="fb">f(b) output.</param>
     /// <param name="c">c output.</param>
     /// <param name="fc">f(c) output.</param>
-    /// <param name="d">Additonal outer point d &lt; a or d &gt; c. Can be infinity if no more than three function evaluations are needed.</param>
+    /// <param name="d">Additional outer point d &lt; a or d &gt; c. Can be infinity if no more than three function evaluations are needed.</param>
     /// <param name="fd">f(d) output. Can be zero if no more than three function evaluations are needed.</param>
     /// <param name="lower"></param>
     /// <param name="upper"></param>
@@ -248,11 +248,11 @@ public static partial class Optimize
     /// <param name="f">The function to find the minimum of.</param>
     /// <param name="a">The first function input.</param>
     /// <param name="fa">f(a) input.</param>
-    /// <param name="b">The second funtion input and also the minimum.</param>
+    /// <param name="b">The second function input and also the minimum.</param>
     /// <param name="fb">f(b) input.</param>
     /// <param name="c">The third function input.</param>
     /// <param name="fc">f(c) input.</param>
-    /// <param name="d">Additonal outer point d &lt; a or d &gt; c.</param>
+    /// <param name="d">Additional outer point d &lt; a or d &gt; c.</param>
     /// <param name="fd">f(d) input.</param>
     /// <param name="cancellationToken"></param>
     /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
@@ -363,7 +363,7 @@ public static partial class Optimize
     /// <param name="rtol">The relative tolerance of the minimum position required.</param>
     /// <param name="f">The function to find the minimum of.</param>
     /// <param name="a">The first function input.</param>
-    /// <param name="b">The second funtion input and also the minimum.</param>
+    /// <param name="b">The second function input and also the minimum.</param>
     /// <param name="c">The third function input.</param>
     /// <returns>The minimum input point accurate to tol = atol + rtol * x.</returns>
     public static double Minimum_Brent(double atol, double rtol, Func<double, double> f, double a, double b, double c)

@@ -2,7 +2,7 @@
   "profiles": {
     "Tests": {
       "commandName": "Project",
-      "commandLineArgs": "optimize_global.schaffer4 --iter 1 --wait 1000 --info"
+      "commandLineArgs": "singlematrix.functions2.ErfInv --seed 3KkambW4W7Eb --iter 1 --wait 1000 --info"
     }
   }
 }

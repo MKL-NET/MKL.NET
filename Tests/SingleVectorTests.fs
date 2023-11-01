@@ -9,28 +9,8 @@ let MAX_DIM = 5
 let gen1D = Gen.Int[1,MAX_DIM]
 let gen2D = Gen.Select(gen1D,gen1D)
 
-let genVector length =
-    Gen.Create(fun (pcg:PCG) (_:Size) (size:Size byref) ->
-        size <- Size 0UL
-        let v = new vector(length)
-        let gen = Gen.Single.OneTwo
-        for i =0 to length-1 do
-            let d,_ = gen.Generate(pcg, null)
-            v[i] <- d
-        v
-    )
-
-let genMatrix rows cols =
-    Gen.Create(fun (pcg:PCG) (_:Size) (size:Size byref) ->
-        size <- Size 0UL
-        let m = new matrix(rows,cols)
-        let gen = Gen.Single.OneTwo
-        for r =0 to rows-1 do
-            for c=0 to cols-1 do
-                let d,_ = gen.Generate(pcg, null)
-                m[r,c] <- d
-        m
-    )
+let genVector (length:int) = Gen.Single.OneTwo.Vector(length)
+let genMatrix (rows:int) (cols:int) = Gen.Single.OneTwo.Matrix(rows, cols)
 
 let add_vv (aS:single) (a:vector) (bS:single) (b:vector) =
     let c = new vector(a.Length)
@@ -41,7 +21,7 @@ let add_vv (aS:single) (a:vector) (bS:single) (b:vector) =
 let mul_vvT (s:single) (a:vector) (b:vector) =
     let C = new matrix(a.Length, b.Length)
     for r = 0 to C.Rows-1 do
-        for c=0 to C.Cols-1 do
+        for c = 0 to C.Cols-1 do
             C[r,c] <- s * a[r] * b[c]
     C
 
