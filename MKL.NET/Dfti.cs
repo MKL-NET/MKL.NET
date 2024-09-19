@@ -50,6 +50,34 @@ public static class Dfti
         => ComputeForward(x_in.Length, x_in, y_out);
 
     [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    static extern unsafe long ComputeForward2D(int n, int m, Complex* x_in, Complex* y_out);
+
+    public static unsafe long ComputeForward(Complex[,] x_in, Complex[,] y_out)
+    {
+        fixed (Complex* fixed_in = x_in)
+        {
+            fixed (Complex* fixed_out = y_out)
+            {
+                return ComputeForward2D(x_in.GetLength(0), x_in.GetLength(1), fixed_in, fixed_out);
+            }
+        }
+    }
+
+    [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    static extern unsafe long ComputeBackward2D(int n, int m, Complex* x_in, Complex* y_out);
+
+    public static unsafe long ComputeBackward(Complex[,] x_in, Complex[,] y_out)
+    {
+        fixed (Complex* fixed_in = x_in)
+        {
+            fixed (Complex* fixed_out = y_out)
+            {
+                return ComputeBackward2D(x_in.GetLength(0), x_in.GetLength(1), fixed_in, fixed_out);
+            }
+        }
+    }
+
+    [DllImport(MKL.NATIVE_DLL, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     static extern long ComputeForwardScaleInplace(int n, [In, Out] Complex[] x_inout, double scale);
     public static long ComputeForward(Complex[] x_inout, double scale)
         => ComputeForwardScaleInplace(x_inout.Length, x_inout, scale);
