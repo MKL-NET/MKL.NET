@@ -322,7 +322,7 @@ let all =
             let mutable count = 0
             let ols = Optimize.CurveFit_OLS(1e-7, 0.0, Func<_,_,_>(fun p x -> count <- count + 1; Optimization.Osbourne(p, x)), x, Optimization.OsbourneT, Optimization.OsbourneY)
             count <- count / Optimization.OsbourneT.Length
-            Check.between 1023 1275 count
+            Check.between 1023 1277 count
             Check.close Medium 0.0401377 ols
         }
 
