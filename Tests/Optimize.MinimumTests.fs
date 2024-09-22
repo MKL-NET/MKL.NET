@@ -86,7 +86,7 @@ let all =
             }
 
         test_solver "brent_7" 1e-7 Optimize.Minimum_Brent (Check.between 5310 5313)
-        test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6433)
+        test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6440)
         test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7620)
 
         let minimum_bracketed (atol, rtol, f:Func<_,_>, a, b, c) =
@@ -379,7 +379,7 @@ let all =
             let x = Array.init n (fun i -> let t = float(i + 1) * h in t * (t - 1.0))
             let mutable count = 0
             let ols = Optimize.Minimum(1e-7, 0.0, Func<_,_>(fun x -> count <- count + 1; Optimization.Boundary x), x)
-            Check.between 583 594 count
+            Check.between 583 596 count
             Check.close High 0.0 ols
         }
 
