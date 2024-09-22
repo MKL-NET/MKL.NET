@@ -5,31 +5,6 @@ on:
   pull_request:
 
 jobs:
-  windows_core_86:
-      runs-on: windows-latest
-      env:
-        DOTNET_NOLOGO: true
-        DOTNET_CLI_TELEMETRY_OPTOUT: true
-      steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
-      - name: Download Native
-        run: ./Scripts/Download-Devel win-x86
-      - name: Build Native
-        run: |
-             cmake --version
-             cmake -A x86 -S MKL.NET.Native -B MKL.NET.Native/bin/build/win-x86
-             cmake --build MKL.NET.Native/bin/build/win-x86 --config Release --verbose
-      - name: Upload Native
-        uses: actions/upload-artifact@v4
-        with:
-          name: win-x86
-          path: MKL.NET.Native/bin/build/win-x86/Release/MKL.NET.Native.dll
-      - name: Test
-        run: dotnet run --project Tests -c Release -f net6.0 -r win-x86 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --skip
   windows_core_64:
       runs-on: windows-latest
       env:

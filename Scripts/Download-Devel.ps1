@@ -13,6 +13,5 @@ if(Test-Path $dir) { Remove-Item $dir -Force -Recurse }
 if(!(Test-Path $dir)) { New-Item $dir -ItemType Directory | Out-Null }
 
 if($args.count -eq 0 -or $args[0] -eq 'win-x64') { GetPackage intelmkl.devel.win-x64 2020.4.311 }
-if($args.count -eq 0 -or $args[0] -eq 'win-x86') { GetPackage intelmkl.devel.win-x86 2020.4.311 }
 if($args.count -eq 0 -or $args[0] -eq 'linux-x64') { GetPackage intelmkl.devel.linux-x64 2020.4.304 }
 if($args.count -eq 0 -or $args[0] -eq 'osx-x64') { GetPackage intelmkl.devel.osx-x64 2020.4.301 }
