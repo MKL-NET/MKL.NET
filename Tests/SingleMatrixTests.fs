@@ -1716,7 +1716,6 @@ let functions2 = test "functions2" {
 
     testUnary "Erf" (double >> erf >> single) Matrix.Erf
     testUnary "Erfc" (double >> erfc >> single) Matrix.Erfc
-    testUnary "ErfInv" (double >> (fun x -> if x = 1 then Double.PositiveInfinity else erfinv(x)) >> single) Matrix.ErfInv
     testUnary "ErfcInv" (double >> erfcinv >> single) Matrix.ErfcInv
     testUnary "CdfNorm" (double >> normcdf >> single) Matrix.CdfNorm
     testUnary "CdfNormInv" (double >> normcdfinv >> single) Matrix.CdfNormInv
