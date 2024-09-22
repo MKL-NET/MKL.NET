@@ -57,7 +57,7 @@ jobs:
       - name: Test
         run: dotnet run --project Tests -c Release -f net6.0 -r linux-x64 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
   osx_core_64:
-      runs-on: macos-14
+      runs-on: macos-13
       env:
         DOTNET_NOLOGO: true
         DOTNET_CLI_TELEMETRY_OPTOUT: true
