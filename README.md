@@ -14,15 +14,15 @@ If you use _your own copy of MKL native libraries_ please make sure that `mkl_rt
 | MKL.NET | [![MKL.NET](https://buildstats.info/nuget/MKL.NET?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET) |
 | :--- | :--- |
 | runtimes: | |
-| MKL.NET.win-x64 | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.win-x64?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.win-x64) |
-| MKL.NET.win-x86 | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.win-x86?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.win-x86) |
-| MKL.NET.linux-x64 | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.linux-x64?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.linux-x64) |
-| MKL.NET.linux-x86 | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.linux-x86?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.linux-x86) |
-| MKL.NET.osx-x64 | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.osx-x64?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.osx-x64) |
+| MKL.NET.win-x64 | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.win-x64.svg)](https://www.nuget.org/packages/MKL.NET.win-x64) |
+| MKL.NET.win-x86 | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.win-x86.svg)](https://www.nuget.org/packages/MKL.NET.win-x86) |
+| MKL.NET.linux-x64 | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.linux-x64.svg)](https://www.nuget.org/packages/MKL.NET.linux-x64) |
+| MKL.NET.linux-x86 | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.linux-x86.svg)](https://www.nuget.org/packages/MKL.NET.linux-x86) |
+| MKL.NET.osx-x64 | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.osx-x64.svg)](https://www.nuget.org/packages/MKL.NET.osx-x64) |
 | libraries: | |
-| MKL.NET.Matrix | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.Matrix?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.Matrix) |
-| MKL.NET.Optimization  | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.Optimization?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.Optimization) |
-| MKL.NET.Statistics | [![MKL.NET](https://buildstats.info/nuget/MKL.NET.Statistics?includePreReleases=true)](https://www.nuget.org/packages/MKL.NET.Statistics) |
+| MKL.NET.Matrix | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.Matrix.svg)](https://www.nuget.org/packages/MKL.NET.Matrix) |
+| MKL.NET.Optimization  | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.Optimization.svg)](https://www.nuget.org/packages/MKL.NET.Optimization) |
+| MKL.NET.Statistics | [![MKL.NET](https://img.shields.io/nuget/v/MKL.NET.Statistics.svg)](https://www.nuget.org/packages/MKL.NET.Statistics) |
 
 ## Rationale
 
