@@ -36,10 +36,10 @@ public class WrapperGenerator : ISourceGenerator
         return candidates[0];
     }
 
-    private static (ISet<ParameterSyntax> changed, ParameterListSyntax newList)
+    private static (IList<ParameterSyntax> changed, ParameterListSyntax newList)
     TransformParameters(MethodDeclarationSyntax mds, Func<ParameterSyntax, ParameterSyntax?> f)
     {
-        var changed = mds.ParameterList.Parameters.Select(ps => f(ps) is null ? null : ps).Where(ps => ps != null).ToImmutableHashSet();
+        var changed = mds.ParameterList.Parameters.Select(ps => f(ps) is null ? null : ps).Where(ps => ps != null).ToImmutableList();
         var newList = SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(mds.ParameterList.Parameters.Select(ps => f(ps) ?? ps)));
 
         return (changed!, newList);
@@ -57,7 +57,7 @@ public class WrapperGenerator : ISourceGenerator
 
     void WriterTransformedMethod(
         MethodDeclarationSyntax mds, ClassDeclarationSyntax nativeCds,
-        (ISet<ParameterSyntax> changed, ParameterListSyntax newList) transformation, StringBuilder sb,
+        (IList<ParameterSyntax> changed, ParameterListSyntax newList) transformation, StringBuilder sb,
         AdditionalTransformation trafo)
     {
         (ParameterSyntax lengthParam, string takeLengthFrom)? lengthOptions = null;
