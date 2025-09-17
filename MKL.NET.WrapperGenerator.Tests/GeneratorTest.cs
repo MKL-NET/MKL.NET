@@ -49,7 +49,10 @@ public static partial class BlasOption2
 
         generatorResult.Generator.Should().BeSameAs(generator);
         generatorResult.Diagnostics.Should().BeEmpty();
-        generatorResult.GeneratedSources.Should().HaveCount(1);
+        generatorResult.GeneratedSources.Should().ContainSingle()
+            .Which.SourceText.ToString().Should().Contain(
+                "///<remarks>" +
+                "This version infers the length parameter <c>N</c> from <paramref name=\"A\" />'s length.</remarks>");
         generatorResult.Exception.Should().BeNull();
     }
 
