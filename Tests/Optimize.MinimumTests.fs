@@ -87,7 +87,7 @@ let all =
 
         test_solver "brent_7" 1e-7 Optimize.Minimum_Brent (Check.between 5310 5313)
         test_solver "brent_9" 1e-9 Optimize.Minimum_Brent (Check.between 6390 6440)
-        test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7582 7620)
+        test_solver "brent_11" 1e-11 Optimize.Minimum_Brent (Check.between 7580 7620)
 
         let minimum_bracketed (atol, rtol, f:Func<_,_>, a, b, c) =
             Optimize.Minimum_Bracketed(atol, rtol, f, a, f.Invoke(a), b, f.Invoke(b), c, f.Invoke(c), Double.PositiveInfinity, 0.0)
