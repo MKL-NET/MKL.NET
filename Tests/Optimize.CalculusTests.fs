@@ -109,10 +109,10 @@ let all =
                 let struct (F, G, H, Min, Max) = problems[i]
                 let check1 = Seq.forall (fun r ->
                                 Optimize.Derivative_Check(1e-8, 1e-5, F, G, Min * r + Max * (1.0 - r), 0.1)
-                             ) {0.01..0.01..0.99}
+                             ) (seq {0.01..0.01..0.99})
                 let check2 = Seq.forall (fun r ->
                                 Optimize.Derivative_Check(1e-8, 1e-5, G, H, Min * r + Max * (1.0 - r), 0.1)
-                             ) {0.01..0.01..0.99}
+                             ) (seq {0.01..0.01..0.99})
                 Check.isTrue (check1 && check2) |> Check.message "%i %f %f" i Min Max
         }
     }

@@ -272,7 +272,7 @@ type FasterAggregation =
     val Message : string
     val Result : FasterResult
     val mutable Error : bool
-    new(message:string) = {Message=message;Result=FasterResult(10.0);Error=false}
+    new(message:string) = {Message=message;Result=FasterResult(10.0,1);Error=false}
 
 type TestResult =
     | Success
