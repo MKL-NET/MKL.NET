@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
           include-prerelease: true
       - name: Download Native
         run: ./Scripts/Download-Devel win-x64
@@ -29,7 +29,7 @@ jobs:
           name: win-x64
           path: MKL.NET.Native/bin/build/win-x64/Release/MKL.NET.Native.dll
       - name: Test
-        run: dotnet run --project Tests -c Release -f net6.0 -r win-x64 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net8.0 -r win-x64 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --skip
   linux_core_64:
       runs-on: ubuntu-latest
       env:
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
           include-prerelease: true
       - name: Download Native
         shell: pwsh
@@ -55,7 +55,7 @@ jobs:
           name: linux-x64
           path: MKL.NET.Native/bin/build/linux-x64/MKL.NET.Native.so
       - name: Test
-        run: dotnet run --project Tests -c Release -f net6.0 -r linux-x64 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
+        run: dotnet run --project Tests -c Release -f net8.0 -r linux-x64 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --memo 130 --skip
   osx_core_64:
       runs-on: macos-13
       env:
@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
           include-prerelease: true
       - name: Download Native
         shell: pwsh
@@ -81,4 +81,4 @@ jobs:
           name: osx-x64
           path: MKL.NET.Native/bin/build/osx-x64/MKL.NET.Native.dylib
       - name: Test
-        run: dotnet run --project Tests -c Release -f net6.0 -r osx-x64 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --skip
+        run: dotnet run --project Tests -c Release -f net8.0 -r osx-x64 --no-self-contained -- -perf --info --nost --time 60 --wait 10 --skip
